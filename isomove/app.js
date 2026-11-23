@@ -103,7 +103,7 @@ function viewSplash() {
     <img src="logo.svg" alt="Logo ISOMOVE" width="150" height="150">
     <h1>ISO<span>MOVE</span></h1>
     <p class="slogan"><span style="color:var(--tr)">Gerak.</span> <span style="color:var(--pa)">Pantul.</span> <span style="color:var(--pu)">Putar!</span></p>
-    <p class="sub">Transformasi Isometri · Matematik Tingkatan 2 · Bab 11</p>
+    <p class="sub">Bab 11 : Transformasi Isometri</p>
     <a class="btn pri big" href="#/nota">Jom Mula! ${IC.arrow}</a>
   </main>`;
 }
