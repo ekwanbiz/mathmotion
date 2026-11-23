@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#0B0C18">
+<meta name="description" content="MATHMOTION – himpunan simulasi Matematik Tingkatan 1 dan 2.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MATHMOTION">
+<title>MATHMOTION – Simulasi Matematik</title>
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/icons/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<style>
+:root{--bg:#0B0C18;--card:#15162A;--card2:#1B1C33;--bd:#2B2C4A;--tx:#F1F0FF;--mu:#A9A8CF;--ghost:#6F6E96;--acc:#7C7CFF;--accTx:#7C7CFF;--star:#FFC93C;--starBg:#FFC93C1f;--starBd:#FFC93C66;--orange:#FFB27A;--link:#C9C7F0;--shadow:none;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+html.light{--bg:#F4F5FB;--card:#FFFFFF;--card2:#E6E7F2;--bd:#DCDDEB;--tx:#14152B;--mu:#55567A;--ghost:#8A8BA8;--accTx:#4B4BD6;--star:#8A5A00;--starBg:#FFC93C2e;--starBd:#E0A800;--orange:#B4500C;--link:#3F3FB8;--shadow:0 2px 8px #14152B12}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--tx);min-height:100vh;min-height:100dvh;-webkit-font-smoothing:antialiased}
+button,input{font:inherit;color:inherit}
+button,a{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+a{color:var(--link)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.logoM path{stroke-linecap:round}
+/* ---------- Muka depan ---------- */
+.splash{height:100vh;height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:calc(24px + env(safe-area-inset-top)) 22px calc(24px + env(safe-area-inset-bottom));background-image:linear-gradient(#80808010 1px,transparent 1px),linear-gradient(90deg,#80808010 1px,transparent 1px);background-size:32px 32px;text-align:center}
+.biglogo{width:132px;height:132px;border-radius:34px;background:var(--card);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;box-shadow:0 0 70px #7C7CFF33}
+.splash h1{margin:0;font-size:42px;font-weight:900;letter-spacing:-1px}
+.splash h1 span{color:var(--accTx)}
+.tag{margin:6px 0 0;font-size:19px;font-weight:800}
+.sub{margin:6px 0 0;font-size:14px;color:var(--mu)}
+.dots{display:flex;gap:8px}.dots i{width:12px;height:12px;border-radius:6px;display:block}
+.btns{width:100%;max-width:420px;display:flex;flex-direction:column;gap:12px;margin-top:6px}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;height:56px;border-radius:16px;font-size:18px;font-weight:900;text-decoration:none;border:0;cursor:pointer}
+.btn.pri{background:var(--acc);color:#0B0C18;box-shadow:0 10px 30px #7C7CFF44}
+.btn.sec{background:var(--card);border:1px solid var(--bd);color:var(--tx);font-size:17px;font-weight:800}
+.off{margin:0;font-size:12px;color:var(--mu);display:flex;align-items:center;gap:6px}
+/* ---------- Utama ---------- */
+.home{height:100vh;height:100dvh;display:flex;flex-direction:column;gap:12px;padding:calc(14px + env(safe-area-inset-top)) 16px calc(14px + env(safe-area-inset-bottom));max-width:1240px;margin:0 auto}
+.top{display:flex;align-items:center;gap:8px;min-height:44px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--tx);margin-right:auto;min-width:0}
+.brand b{font-size:19px;font-weight:900;letter-spacing:-.4px;white-space:nowrap}.brand b span{color:var(--accTx)}
+.pill{display:flex;align-items:center;gap:6px;height:40px;padding:0 12px;border-radius:20px;background:var(--starBg);border:1px solid var(--starBd);font-weight:900;color:var(--star)}
+.ib{width:42px;height:42px;flex:none;border-radius:21px;border:1px solid var(--bd);background:var(--card);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--tx);text-decoration:none}
+.search{display:flex;align-items:center;gap:10px;height:46px;padding:0 14px;border-radius:14px;background:var(--card);border:1px solid var(--bd);box-shadow:var(--shadow)}
+.search input{flex:1;min-width:0;border:0;background:none;color:var(--tx);font-weight:600;font-size:16px;outline:none}
+.search input::placeholder{color:var(--mu)}
+.clear{border:0;background:none;color:var(--mu);font-size:20px;width:34px;height:34px;cursor:pointer}
+.cont{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:18px;text-decoration:none;color:var(--tx);border:1.5px solid}
+.cont .g{width:44px;height:44px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;flex:none;color:#0B0C18}
+.cont .t{flex:1;display:flex;flex-direction:column;gap:1px;min-width:0}.cont .t small{font-size:11px;font-weight:800;letter-spacing:1px}.cont .t b{font-size:16px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;padding:5px;border-radius:16px;background:var(--card);border:1px solid var(--bd);box-shadow:var(--shadow)}
+.tabs button{height:40px;border:0;border-radius:12px;background:none;color:var(--mu);font-weight:800;font-size:15px;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--acc);color:#0B0C18;font-weight:900}
+.grid{flex:1;min-height:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:minmax(0,1fr);gap:8px}
+.card{position:relative;display:flex;flex-direction:column;gap:5px;padding:10px;border-radius:16px;text-decoration:none;color:var(--tx);background:var(--card);border:1.5px solid var(--bd);box-shadow:var(--shadow);min-height:0;overflow:hidden;text-align:left;cursor:pointer;font:inherit}
+.card:active{transform:scale(.97)}
+.card .gl{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px;color:#0B0C18;flex:none}
+.card .bb{font-size:10.5px;font-weight:800;color:var(--mu);letter-spacing:.5px}
+.card .nm{font-size:12.5px;font-weight:900;line-height:1.15}
+.card .tp{font-size:12px;color:var(--mu);line-height:1.35;display:none}
+.card .st{position:absolute;top:8px;right:8px;font-size:11px;font-weight:900;color:var(--star)}
+.card.soon{background:transparent;border-style:dashed;color:var(--ghost);box-shadow:none;cursor:default}
+.card.soon .gl{background:var(--card2);color:var(--ghost)}
+.card.soon .nm{font-weight:800}
+.empty{grid-column:1/-1;display:flex;align-items:center;justify-content:center;color:var(--mu);font-weight:700;text-align:center;padding:20px}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);background:var(--tx);color:var(--bg);padding:12px 18px;border-radius:14px;font-weight:800;opacity:0;transition:.25s;pointer-events:none;z-index:9}
+.toast.on{opacity:1;transform:translateX(-50%)}
+@media(max-height:760px){
+ .home{gap:9px}
+ .grid{gap:6px}
+ .card{padding:7px;gap:3px;border-radius:13px}
+ .card .gl{width:30px;height:30px;font-size:13px;border-radius:9px}
+ .card .nm{font-size:11px}.card .bb{font-size:9.5px}
+ .search{height:42px}.tabs button{height:36px}.cont{padding:7px 12px}.cont .g{width:38px;height:38px}
+}
+@media(max-height:760px) and (min-width:500px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-height:700px) and (max-width:499px){.card{flex-direction:row;flex-wrap:wrap;align-content:flex-start;column-gap:6px}.card .gl{width:26px;height:26px;font-size:12px}.card .bb{align-self:center}.card .nm{flex-basis:100%}}
+@media(max-width:370px){.brand b{font-size:16px}.pill{padding:0 9px}.ib{width:38px;height:38px}}
+@media(min-width:900px){
+ .home{padding:26px 36px 30px;gap:16px}
+ .brand b{font-size:22px}
+ .search{max-width:520px}
+ .grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+ .card{padding:16px;gap:7px;border-radius:18px}
+ .card .gl{width:46px;height:46px;font-size:18px;border-radius:13px}
+ .card .nm{font-size:17px}.card .bb{font-size:12px}.card .tp{display:block}
+ .tabs{max-width:420px}
+ .cont .g{width:52px;height:52px;font-size:24px}.cont .t b{font-size:19px}
+}
+@media(min-width:900px) and (max-height:760px){.card .tp{display:none}.card{padding:12px}}
+/* ---------- Cara Pasang ---------- */
+.pg{max-width:760px;margin:0 auto;min-height:100vh;min-height:100dvh;padding:calc(16px + env(safe-area-inset-top)) 18px calc(20px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:14px}
+.back{align-self:flex-start;display:flex;align-items:center;gap:8px;height:48px;padding:0 18px;border-radius:14px;background:var(--acc);color:#0B0C18;font-weight:900;text-decoration:none}
+.pg h1{margin:0;font-size:26px}
+.how{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.how section{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:16px;box-shadow:var(--shadow)}
+.how h2{margin:0 0 8px;font-size:18px}
+.how ol{margin:0;padding-left:20px;line-height:1.7}
+.note{color:var(--mu);font-size:14px;line-height:1.5;margin:0}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+<script>
+(function(){try{var m=localStorage.getItem('mathmotion-mode');if(m==='cerah'||(!m&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches))document.documentElement.classList.add('light')}catch(e){}})();
+</script>
+</head>
+<body>
+<div id="app"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+'use strict';
+/* =================== Senarai app (tambah app baharu di sini) =================== */
+const APPS=[
+ {id:'algebralab',name:'ALGEBRALAB',path:'/algebralab/',key:'algebralab-v1',col:'#2EE6A6',glyph:'x²',topic:'Ungkapan, kembangan & persamaan',kw:'algebra ungkapan sebutan kembangan pemfaktoran persamaan linear jubin',where:[[1,5],[1,6],[2,2]]},
+ {id:'circmotion',name:'CIRCMOTION',path:'/circmotion/',key:'circmotion-v1',col:'#FF8A3D',glyph:'π',topic:'Bulatan: lilitan, luas & sektor',kw:'bulatan lilitan luas jejari diameter perentas lengkok sektor pi',where:[[2,5]]},
+ {id:'bentuk3d',name:'BENTUK3D',path:'/bentuk3d/',key:'bentuk3d-v1',col:'#2DD4BF',glyph:'3D',topic:'Bentangan, luas permukaan & isi padu',kw:'bentuk 3d tiga dimensi kubus kuboid prisma piramid silinder kon sfera bentangan isi padu luas permukaan',where:[[2,6]]},
+ {id:'graphx',name:'GRAPHX',path:'/graphx/',key:'graphx-v1',col:'#B57BFF',glyph:'f(x)',topic:'Fungsi & graf fungsi',kw:'graf fungsi linear kuadratik kubik salingan jadual nilai',where:[[2,8]]},
+ {id:'pecut',name:'PECUT',path:'/pecut/',key:'pecut-v1',col:'#FF4D5A',glyph:'v',topic:'Laju, laju purata & pecutan',kw:'laju pecutan nyahpecutan laju purata jarak masa unit',where:[[2,9]]},
+ {id:'gradien',name:'GRADIEN',path:'/gradien/',key:'gradien-v1',col:'#FFC93C',glyph:'m',topic:'Kecerunan garis lurus',kw:'kecerunan garis lurus mencancang mengufuk pintasan cerun',where:[[2,10]]},
+ {id:'isomove',name:'ISOMOVE',path:'/ISOMOVE/',key:'',col:'#4FA3FF',glyph:'↻',topic:'Transformasi isometri',kw:'transformasi isometri translasi pantulan putaran kongruen',where:[[2,11]]},
+ {id:'probalyt',name:'PROBALYT',path:'/probalyt/',key:'probalyt-v1',col:'#7C7CFF',glyph:'P',topic:'Kebarangkalian mudah',kw:'kebarangkalian peluang dadu syiling ruang sampel peristiwa pelengkap',where:[[2,13]]}];
+const BAB={
+ 1:['Nombor Nisbah','Faktor & Gandaan','Kuasa Dua & Kuasa Tiga','Nisbah, Kadar & Kadaran','Ungkapan Algebra','Persamaan Linear','Ketaksamaan Linear','Garis & Sudut','Poligon Asas','Perimeter & Luas','Pengenalan Set','Pengendalian Data','Teorem Pythagoras'],
+ 2:['Pola & Jujukan','Pemfaktoran & Pecahan Algebra','Rumus Algebra','Poligon','Bulatan','Bentuk Geometri 3D','Koordinat','Graf Fungsi','Laju & Pecutan','Kecerunan Garis Lurus','Transformasi Isometri','Kecenderungan Memusat','Kebarangkalian Mudah']};
+/* =================== Simpanan =================== */
+const LS={get(k,d){try{const v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+function starsOf(a){if(!a.key)return 0;try{const o=JSON.parse(localStorage.getItem(a.key)||'null');return o&&+o.stars||0}catch(e){return 0}}
+const totalStars=()=>APPS.reduce((s,a)=>s+starsOf(a),0);
+let tab=+LS.get('mathmotion-tab','2')===1?1:2,query='';
+/* =================== Ikon =================== */
+const LOGO=(s=34,w=11)=>`<svg class="logoM" width="${s}" height="${s}" viewBox="0 0 96 96" aria-hidden="true"><path d="M14 74 L26 26" stroke="#2EE6A6" stroke-width="${w}"/><path d="M26 26 L48 58" stroke="#FF8A3D" stroke-width="${w}"/><path d="M48 58 L70 26" stroke="#B57BFF" stroke-width="${w}"/><path d="M70 26 L82 74" stroke="#FFC93C" stroke-width="${w}"/>${s>60?'<circle cx="48" cy="58" r="7" fill="currentColor"/>':''}</svg>`;
+const I={
+ star:'<svg width="16" height="16" viewBox="0 0 24 24" fill="#FFC93C" aria-hidden="true"><path d="M12 2l3 6.5 7 .9-5.2 4.8 1.4 7L12 17.8 5.8 21.2l1.4-7L2 9.4l7-.9z"/></svg>',
+ sun:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFC93C" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>',
+ moon:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4B4BD6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>',
+ phone:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>',
+ search:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>',
+ arrow:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+ wifi:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M2 9a15 15 0 0 1 20 0M5 13a10 10 0 0 1 14 0M8.5 16.5a5 5 0 0 1 7 0"/><circle cx="12" cy="20" r="1"/></svg>',
+ left:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>'};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+/* =================== Data kad =================== */
+function chapters(t){return BAB[t].map((nm,i)=>{const bab=i+1,app=APPS.find(a=>a.where.some(([tt,b])=>tt===t&&b===bab));return{t,bab,nm,app}})}
+function cardHTML(c){
+ if(!c.app)return`<div class="card soon" aria-disabled="true" data-soon="${c.bab}"><span class="gl">${c.bab}</span><span class="bb">BAB ${c.bab}</span><span class="nm">${esc(c.nm)}</span><span class="tp">Akan datang</span></div>`;
+ const a=c.app,s=starsOf(a);
+ return`<a class="card" href="${a.path}" data-app="${a.id}" aria-label="${esc(a.name)}, Tingkatan ${c.t} Bab ${c.bab}, ${esc(c.nm)}"><span class="gl" style="background:${a.col}">${a.glyph}</span><span class="bb">BAB ${c.bab}</span><span class="nm">${a.name}</span><span class="tp">${esc(c.nm)}</span>${s?`<span class="st">★ ${s}</span>`:''}</a>`}
+function gridHTML(){
+ const q=query.trim().toLowerCase();
+ if(q){const res=[];[1,2].forEach(t=>chapters(t).forEach(c=>{const hay=(c.nm+' '+(c.app?c.app.name+' '+c.app.topic+' '+c.app.kw:'')).toLowerCase();if(q.split(/\s+/).every(w=>hay.includes(w)))res.push(c)}));
+  return res.length?res.map(cardHTML).join(''):`<div class="empty">Tiada bab ditemui untuk “${esc(query)}”.</div>`}
+ return chapters(tab).map(cardHTML).join('')}
+/* =================== Paparan =================== */
+const app=document.getElementById('app');
+function splash(){const n=APPS.length,bab=APPS.reduce((s,a)=>s+a.where.length,0);
+ return`<main class="splash"><div class="biglogo">${LOGO(96,9)}</div>
+ <div><h1>MATH<span>MOTION</span></h1><p class="tag"><span style="color:#2EE6A6">Lihat.</span> <span style="color:#FF8A3D">Gerak.</span> <span style="color:#E0A800">Faham!</span></p><p class="sub">Simulasi Matematik Tingkatan 1 &amp; 2</p></div>
+ <div class="dots" aria-hidden="true">${APPS.map(a=>`<i style="background:${a.col}"></i>`).join('')}</div>
+ <p class="sub" style="margin:0">${n} app · ${bab} bab</p>
+ <div class="btns"><a class="btn pri" href="#/utama">Jom Mula! ${I.arrow}</a><a class="btn sec" href="#/pasang">${I.phone} Cara Pasang di Telefon</a></div>
+ <p class="off">${I.wifi} Boleh digunakan tanpa internet</p></main>`}
+function contHTML(){const last=LS.get('mathmotion-last','');const a=APPS.find(x=>x.id===last);if(!a)return'';
+ const w=a.where.find(x=>x[0]===2)||a.where[0];
+ return`<a class="cont" href="${a.path}" data-app="${a.id}" style="background:${a.col}1a;border-color:${a.col}"><span class="g" style="background:${a.col}">${a.glyph}</span><span class="t"><small style="color:var(--orange)">TERUSKAN</small><b>${a.name} · ${esc(BAB[w[0]][w[1]-1])}</b></span><span style="color:${a.col}">${I.arrow}</span></a>`}
+function home(){const light=document.documentElement.classList.contains('light');
+ return`<main class="home">
+ <header class="top"><a class="brand" href="#/">${LOGO(34,11)}<b>MATH<span>MOTION</span></b></a>
+  <span class="pill" title="Jumlah bintang daripada semua app">${I.star}<span id="tot">${totalStars()}</span><span class="sr"> bintang</span></span>
+  <a class="ib" href="#/pasang" aria-label="Cara pasang di telefon">${I.phone}</a>
+  <button class="ib" id="mode" aria-label="${light?'Tukar ke mod gelap':'Tukar ke mod cerah'}">${light?I.moon:I.sun}</button></header>
+ <label class="search"><span style="color:var(--mu);display:flex">${I.search}</span><span class="sr">Cari topik</span><input id="q" type="search" placeholder="Cari topik… (cth: pecutan)" value="${esc(query)}" autocomplete="off" enterkeyhint="search">${query?'<button class="clear" id="clr" aria-label="Kosongkan carian">×</button>':''}</label>
+ ${query?'':contHTML()}
+ ${query?'':`<div class="tabs" role="tablist" aria-label="Tingkatan"><button role="tab" data-t="1" aria-selected="${tab===1}">Tingkatan 1</button><button role="tab" data-t="2" aria-selected="${tab===2}">Tingkatan 2</button></div>`}
+ <div class="grid" id="grid">${gridHTML()}</div></main>`}
+function pasang(){return`<main class="pg"><a class="back" href="#/utama">${I.left} Kembali</a><h1>Cara Pasang MATHMOTION</h1>
+ <p class="note">Pasang sekali sahaja. Semua app (ALGEBRALAB, CIRCMOTION, GRAPHX dan lain-lain) boleh dibuka dari dalam MATHMOTION, termasuk tanpa internet.</p>
+ <div class="how"><section><h2>Android (Chrome)</h2><ol><li>Buka <b>ekwanbiz.github.io</b> dalam Chrome.</li><li>Tekan menu <b>⋮</b> di atas kanan.</li><li>Pilih <b>Tambah ke skrin utama</b> / <b>Pasang aplikasi</b>.</li><li>Tekan <b>Pasang</b>.</li></ol></section>
+ <section><h2>iPhone / iPad (Safari)</h2><ol><li>Buka <b>ekwanbiz.github.io</b> dalam Safari.</li><li>Tekan butang <b>Kongsi</b> (petak dengan anak panah ke atas).</li><li>Pilih <b>Add to Home Screen</b>.</li><li>Tekan <b>Add</b>.</li></ol></section>
+ <section><h2>Komputer (Chrome / Edge)</h2><ol><li>Buka <b>ekwanbiz.github.io</b>.</li><li>Tekan ikon <b>Pasang</b> di hujung bar alamat.</li><li>Tekan <b>Pasang</b>.</li></ol></section></div>
+ <p class="note">Selepas dibuka sekali dengan internet, semua app dimuat turun dan boleh digunakan tanpa internet.</p></main>`}
+function bindHome(){
+ document.getElementById('mode').onclick=()=>{const h=document.documentElement,l=!h.classList.contains('light');h.classList.toggle('light',l);LS.set('mathmotion-mode',l?'cerah':'gelap');setTheme();render()};
+ document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{tab=+b.dataset.t;LS.set('mathmotion-tab',String(tab));render()});
+ const q=document.getElementById('q');q.oninput=()=>{const pos=q.selectionStart;query=q.value;render();const n=document.getElementById('q');n.focus();try{n.setSelectionRange(pos,pos)}catch(e){}};
+ const c=document.getElementById('clr');if(c)c.onclick=()=>{query='';render()};
+ document.querySelectorAll('[data-app]').forEach(a=>a.addEventListener('click',()=>LS.set('mathmotion-last',a.dataset.app)));
+ document.querySelectorAll('[data-soon]').forEach(d=>d.onclick=()=>toast('Bab '+d.dataset.soon+' akan datang. Nantikan!'))}
+let tt;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),1800)}
+function setTheme(){const m=document.querySelector('meta[name="theme-color"]');if(m)m.content=document.documentElement.classList.contains('light')?'#F4F5FB':'#0B0C18'}
+function render(){const h=location.hash.replace(/^#/,'')||'/';
+ if(h.startsWith('/utama')){app.innerHTML=home();bindHome();document.title='Utama · MATHMOTION'}
+ else if(h.startsWith('/pasang')){app.innerHTML=pasang();document.title='Cara Pasang · MATHMOTION'}
+ else{app.innerHTML=splash();document.title='MATHMOTION – Simulasi Matematik'}}
+window.addEventListener('hashchange',()=>{query='';render();scrollTo(0,0)});
+window.addEventListener('pageshow',()=>{if(location.hash.startsWith('#/utama'))render()});
+setTheme();render();
+if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js',{scope:'/'}).catch(()=>{}));
+</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>
