@@ -10,9 +10,9 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="MATHMOTION">
 <title>MATHMOTION – Simulasi Matematik</title>
-<link rel="manifest" href="/manifest.webmanifest">
-<link rel="icon" href="/icons/logo.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
 <style>
 :root{--bg:#0B0C18;--card:#15162A;--card2:#1B1C33;--bd:#2B2C4A;--tx:#F1F0FF;--mu:#A9A8CF;--ghost:#6F6E96;--acc:#7C7CFF;--accTx:#7C7CFF;--star:#FFC93C;--starBg:#FFC93C1f;--starBd:#FFC93C66;--orange:#FFB27A;--link:#C9C7F0;--shadow:none;
  font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
@@ -119,9 +119,9 @@ const APPS=[
  {id:'bentuk3d',name:'BENTUK3D',path:'/bentuk3d/',key:'bentuk3d-v1',col:'#2DD4BF',glyph:'3D',topic:'Bentangan, luas permukaan & isi padu',kw:'bentuk 3d tiga dimensi kubus kuboid prisma piramid silinder kon sfera bentangan isi padu luas permukaan',where:[[2,6]]},
  {id:'graphx',name:'GRAPHX',path:'/graphx/',key:'graphx-v1',col:'#B57BFF',glyph:'f(x)',topic:'Fungsi & graf fungsi',kw:'graf fungsi linear kuadratik kubik salingan jadual nilai',where:[[2,8]]},
  {id:'pecut',name:'PECUT',path:'/pecut/',key:'pecut-v1',col:'#FF4D5A',glyph:'v',topic:'Laju, laju purata & pecutan',kw:'laju pecutan nyahpecutan laju purata jarak masa unit',where:[[2,9]]},
- {id:'gradien',name:'GRADIEN',path:'/gradien/',key:'gradien-v1',col:'#FFC93C',glyph:'m',topic:'Kecerunan garis lurus',kw:'kecerunan garis lurus mencancang mengufuk pintasan cerun',where:[[2,10]]},
+ {id:'gradien',name:'GRADIEN',path:'/GRADIEN/',key:'gradien-v1',col:'#FFC93C',glyph:'m',topic:'Kecerunan garis lurus',kw:'kecerunan garis lurus mencancang mengufuk pintasan cerun',where:[[2,10]]},
  {id:'isomove',name:'ISOMOVE',path:'/ISOMOVE/',key:'',col:'#4FA3FF',glyph:'↻',topic:'Transformasi isometri',kw:'transformasi isometri translasi pantulan putaran kongruen',where:[[2,11]]},
- {id:'probalyt',name:'PROBALYT',path:'/probalyt/',key:'probalyt-v1',col:'#7C7CFF',glyph:'P',topic:'Kebarangkalian mudah',kw:'kebarangkalian peluang dadu syiling ruang sampel peristiwa pelengkap',where:[[2,13]]}];
+ {id:'probalyt',name:'PROBALYT',path:'/PROBALYT/',key:'probalyt-v1',col:'#7C7CFF',glyph:'P',topic:'Kebarangkalian mudah',kw:'kebarangkalian peluang dadu syiling ruang sampel peristiwa pelengkap',where:[[2,13]]}];
 const BAB={
  1:['Nombor Nisbah','Faktor & Gandaan','Kuasa Dua & Kuasa Tiga','Nisbah, Kadar & Kadaran','Ungkapan Algebra','Persamaan Linear','Ketaksamaan Linear','Garis & Sudut','Poligon Asas','Perimeter & Luas','Pengenalan Set','Pengendalian Data','Teorem Pythagoras'],
  2:['Pola & Jujukan','Pemfaktoran & Pecahan Algebra','Rumus Algebra','Poligon','Bulatan','Bentuk Geometri 3D','Koordinat','Graf Fungsi','Laju & Pecutan','Kecerunan Garis Lurus','Transformasi Isometri','Kecenderungan Memusat','Kebarangkalian Mudah']};
@@ -177,9 +177,9 @@ function home(){const light=document.documentElement.classList.contains('light')
  <div class="grid" id="grid">${gridHTML()}</div></main>`}
 function pasang(){return`<main class="pg"><a class="back" href="#/utama">${I.left} Kembali</a><h1>Cara Pasang MATHMOTION</h1>
  <p class="note">Pasang sekali sahaja. Semua app (ALGEBRALAB, CIRCMOTION, GRAPHX dan lain-lain) boleh dibuka dari dalam MATHMOTION, termasuk tanpa internet.</p>
- <div class="how"><section><h2>Android (Chrome)</h2><ol><li>Buka <b>ekwanbiz.github.io</b> dalam Chrome.</li><li>Tekan menu <b>⋮</b> di atas kanan.</li><li>Pilih <b>Tambah ke skrin utama</b> / <b>Pasang aplikasi</b>.</li><li>Tekan <b>Pasang</b>.</li></ol></section>
- <section><h2>iPhone / iPad (Safari)</h2><ol><li>Buka <b>ekwanbiz.github.io</b> dalam Safari.</li><li>Tekan butang <b>Kongsi</b> (petak dengan anak panah ke atas).</li><li>Pilih <b>Add to Home Screen</b>.</li><li>Tekan <b>Add</b>.</li></ol></section>
- <section><h2>Komputer (Chrome / Edge)</h2><ol><li>Buka <b>ekwanbiz.github.io</b>.</li><li>Tekan ikon <b>Pasang</b> di hujung bar alamat.</li><li>Tekan <b>Pasang</b>.</li></ol></section></div>
+ <div class="how"><section><h2>Android (Chrome)</h2><ol><li>Buka <b>ekwanbiz.github.io/mathmotion</b> dalam Chrome.</li><li>Tekan menu <b>⋮</b> di atas kanan.</li><li>Pilih <b>Tambah ke skrin utama</b> / <b>Pasang aplikasi</b>.</li><li>Tekan <b>Pasang</b>.</li></ol></section>
+ <section><h2>iPhone / iPad (Safari)</h2><ol><li>Buka <b>ekwanbiz.github.io/mathmotion</b> dalam Safari.</li><li>Tekan butang <b>Kongsi</b> (petak dengan anak panah ke atas).</li><li>Pilih <b>Add to Home Screen</b>.</li><li>Tekan <b>Add</b>.</li></ol></section>
+ <section><h2>Komputer (Chrome / Edge)</h2><ol><li>Buka <b>ekwanbiz.github.io/mathmotion</b>.</li><li>Tekan ikon <b>Pasang</b> di hujung bar alamat.</li><li>Tekan <b>Pasang</b>.</li></ol></section></div>
  <p class="note">Selepas dibuka sekali dengan internet, semua app dimuat turun dan boleh digunakan tanpa internet.</p></main>`}
 function bindHome(){
  document.getElementById('mode').onclick=()=>{const h=document.documentElement,l=!h.classList.contains('light');h.classList.toggle('light',l);LS.set('mathmotion-mode',l?'cerah':'gelap');setTheme();render()};
@@ -197,7 +197,7 @@ function render(){const h=location.hash.replace(/^#/,'')||'/';
 window.addEventListener('hashchange',()=>{query='';render();scrollTo(0,0)});
 window.addEventListener('pageshow',()=>{if(location.hash.startsWith('#/utama'))render()});
 setTheme();render();
-if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js',{scope:'/'}).catch(()=>{}));
+if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 </script>
 <script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
 </body>
