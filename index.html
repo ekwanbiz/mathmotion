@@ -62,11 +62,15 @@ a{color:var(--link)}
 .card .bb{font-size:10.5px;font-weight:800;color:var(--mu);letter-spacing:.5px}
 .card .nm{font-size:12.5px;font-weight:900;line-height:1.15}
 .card .tp{font-size:12px;color:var(--mu);line-height:1.35;display:none}
-.card .lrow{display:flex;align-items:center;gap:8px}
+.card .lrow{display:flex;align-items:center;gap:10px}
+.card .lcol{display:flex;flex-direction:column;align-items:center;gap:4px;flex:none}
+.card .lname{font-family:"Space Grotesk",Inter,system-ui,sans-serif;font-size:11px;font-weight:800;letter-spacing:.06em;line-height:1;color:var(--tx)}
+.card .lname span{color:var(--m1)}
+html.light .card .lname span{color:var(--m2)}
 .card .lgimg{width:38px;height:38px;border-radius:10px;flex:none}
 .card .lbab{font-size:11px;font-weight:800;line-height:1.25;color:var(--tx)}
-@media(max-width:899px){.card .lrow{flex-direction:column;align-items:flex-start;gap:3px}.card .lgimg{width:30px;height:30px;border-radius:8px}}
-@media(max-height:700px) and (max-width:499px){.card.lg{gap:2px}.card .lrow{flex-direction:row;align-items:flex-start;gap:4px;flex-basis:100%}.card .lgimg{width:20px;height:20px;border-radius:5px}.card .lbab{font-size:8.5px;line-height:1.15}.card.lg .nm{font-size:10px}}
+@media(max-width:899px){.card .lrow{flex-direction:column;align-items:flex-start;gap:5px}.card .lgimg{width:30px;height:30px;border-radius:8px}.card .lname{font-size:10px}}
+@media(max-height:700px) and (max-width:499px){.card.lg{gap:2px}.card .lrow{flex-direction:column;align-items:flex-start;gap:2px;flex-basis:100%}.card .lgimg{width:18px;height:18px;border-radius:5px}.card .lbab{font-size:8.5px;line-height:1.1}.card .lcol{flex-direction:row;gap:4px}.card .lname{font-size:8px}}
 .cont .g img{width:100%;height:100%;border-radius:inherit}
 .card .st{position:absolute;top:8px;right:8px;font-size:11px;font-weight:900;color:var(--star)}
 .card.soon{background:transparent;border-style:dashed;color:var(--ghost);box-shadow:none;cursor:default}
@@ -95,7 +99,7 @@ a{color:var(--link)}
  .card{padding:16px;gap:7px;border-radius:18px}
  .card .gl{width:46px;height:46px;font-size:18px;border-radius:13px}
  .card .nm{font-size:17px}.card .bb{font-size:12px}.card .tp{display:block}
- .card .lgimg{width:46px;height:46px;border-radius:13px}.card .lbab{font-size:14px}
+ .card .lgimg{width:54px;height:54px;border-radius:14px}.card .lbab{font-size:15px}.card .lname{font-size:14px}.card .lcol{gap:6px}
  .tabs{max-width:420px}
  .cont .g{width:52px;height:52px;font-size:24px}.cont .t b{font-size:19px}
 }
@@ -128,7 +132,7 @@ const APPS=[
  {id:'graphx',name:'GRAPHX',path:'/graphx/',key:'graphx-v1',col:'#B57BFF',glyph:'f(x)',topic:'Fungsi & graf fungsi',kw:'graf fungsi linear kuadratik kubik salingan jadual nilai',where:[[2,8]]},
  {id:'pecut',name:'PECUT',path:'/pecut/',key:'pecut-v1',col:'#FF4D5A',glyph:'v',topic:'Laju, laju purata & pecutan',kw:'laju pecutan nyahpecutan laju purata jarak masa unit',where:[[2,9]]},
  {id:'gradien',name:'GRADIEN',path:'/GRADIEN/',key:'gradien-v1',col:'#FFC93C',glyph:'m',topic:'Kecerunan garis lurus',kw:'kecerunan garis lurus mencancang mengufuk pintasan cerun',where:[[2,10]]},
- {id:'isomove',name:'ISOMOVE',path:'/mathmotion/isomove/',logo:'/mathmotion/isomove/logo.svg',key:'isomove-v2',col:'#4FA3FF',glyph:'↻',topic:'Transformasi isometri',kw:'transformasi isometri translasi pantulan putaran kongruen',where:[[2,11]]},
+ {id:'isomove',name:'ISOMOVE',path:'/mathmotion/isomove/',logo:'/mathmotion/isomove/logo.svg',mark:['ISO','MOVE','#38BDF8','#0284C7'],key:'isomove-v2',col:'#4FA3FF',glyph:'↻',topic:'Transformasi isometri',kw:'transformasi isometri translasi pantulan putaran kongruen',where:[[2,11]]},
  {id:'probalyt',name:'PROBALYT',path:'/PROBALYT/',key:'probalyt-v1',col:'#7C7CFF',glyph:'P',topic:'Kebarangkalian mudah',kw:'kebarangkalian peluang dadu syiling ruang sampel peristiwa pelengkap',where:[[2,13]]}];
 const BAB={
  1:['Nombor Nisbah','Faktor & Gandaan','Kuasa Dua & Kuasa Tiga','Nisbah, Kadar & Kadaran','Ungkapan Algebra','Persamaan Linear','Ketaksamaan Linear','Garis & Sudut','Poligon Asas','Perimeter & Luas','Pengenalan Set','Pengendalian Data','Teorem Pythagoras'],
@@ -155,7 +159,7 @@ function chapters(t){return BAB[t].map((nm,i)=>{const bab=i+1,app=APPS.find(a=>a
 function cardHTML(c){
  if(!c.app)return`<div class="card soon" aria-disabled="true" data-soon="${c.bab}"><span class="gl">${c.bab}</span><span class="bb">BAB ${c.bab}</span><span class="nm">${esc(c.nm)}</span><span class="tp">Akan datang</span></div>`;
  const a=c.app,s=starsOf(a);
- if(a.logo)return`<a class="card lg" href="${a.path}" data-app="${a.id}" aria-label="${esc(a.name)}, Tingkatan ${c.t} Bab ${c.bab}, ${esc(c.nm)}"><span class="lrow"><img class="lgimg" src="${a.logo}" alt="" width="46" height="46"><span class="lbab">Bab ${c.bab} : ${esc(c.nm)}</span></span><span class="nm">${a.name}</span>${s?`<span class="st">★ ${s}</span>`:''}</a>`;
+ if(a.logo)return`<a class="card lg" href="${a.path}" data-app="${a.id}" aria-label="${esc(a.name)}, Tingkatan ${c.t} Bab ${c.bab}, ${esc(c.nm)}"><span class="lrow"><span class="lcol"><img class="lgimg" src="${a.logo}" alt="" width="46" height="46"><span class="lname" style="--m1:${a.mark[2]};--m2:${a.mark[3]}">${a.mark[0]}<span>${a.mark[1]}</span></span></span><span class="lbab">Bab ${c.bab} : ${esc(c.nm)}</span></span>${s?`<span class="st">★ ${s}</span>`:''}</a>`;
  return`<a class="card" href="${a.path}" data-app="${a.id}" aria-label="${esc(a.name)}, Tingkatan ${c.t} Bab ${c.bab}, ${esc(c.nm)}"><span class="gl" style="background:${a.col}">${a.glyph}</span><span class="bb">BAB ${c.bab}</span><span class="nm">${a.name}</span><span class="tp">${esc(c.nm)}</span>${s?`<span class="st">★ ${s}</span>`:''}</a>`}
 function gridHTML(){
  const q=query.trim().toLowerCase();
