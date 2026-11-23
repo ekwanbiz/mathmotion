@@ -195,7 +195,9 @@ g.rv.hid{visibility:hidden}
 .tbar .bar{flex:1;height:14px;border-radius:7px;background:var(--dim);overflow:hidden}
 .tbar .bar i{display:block;height:100%;border-radius:7px;background:var(--gr);transition:width .25s linear}
 .tbar b{font-family:var(--head);font-size:22px;min-width:48px;text-align:right}
-.gq{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,440px) minmax(0,1fr);gap:24px}
+.gq{flex:1;min-height:0;display:grid;grid-template-columns:min(460px,44%) minmax(0,1fr);gap:24px;align-items:start}
+.gfig{width:100%}
+.gfig svg{display:block;max-height:calc(100dvh - 230px);margin:0 auto}
 .gq.nofig{grid-template-columns:minmax(0,1fr)}
 .gfig svg{width:100%;height:auto;background:var(--diag);border:1px solid var(--bd);border-radius:22px}
 .gopts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
@@ -211,6 +213,12 @@ g.rv.hid{visibility:hidden}
 .rules{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
 .rules li{display:flex;gap:12px;align-items:flex-start;font-size:18px;line-height:1.45}
 .rules svg{flex:none;width:26px;height:26px;color:var(--tr);margin-top:1px}
+
+.gfig.tap svg{cursor:crosshair;touch-action:none}
+.spark{position:fixed;width:12px;height:12px;pointer-events:none;z-index:60;clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)}
+.combo.hot{animation:glow 1s ease-in-out infinite}
+@keyframes glow{50%{box-shadow:0 0 0 3px color-mix(in srgb,var(--pa) 35%,transparent),0 0 22px color-mix(in srgb,var(--pa) 60%,transparent)}}
+@media (prefers-reduced-motion:reduce){.combo.hot{animation:none}}
 
 /* ---------- Telefon / skrin kecil ---------- */
 @media (max-width:900px){
@@ -241,7 +249,7 @@ g.rv.hid{visibility:hidden}
  .qhead{padding:10px 14px}
  .qfoot{padding:10px 14px}
  .gq{grid-template-columns:minmax(0,1fr);gap:14px}
- .gfig{max-width:420px;width:100%;align-self:center;margin:0 auto}
+ .gfig{max-width:min(420px,48dvh);width:100%;align-self:center;margin:0 auto}
  .gopt{min-height:62px}
 }
 @media (max-width:520px){

@@ -483,104 +483,216 @@ function bindLatMain() {
 }
 
 /* =================== GAMES: Cabaran 60 Saat =================== */
+const REDUCE = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* ---------- bunyi (dijana, tiada fail) ---------- */
+const SND = { ctx: null };
+function snd(kind) {
+  if (store().mute) return;
+  try {
+    const C = SND.ctx || (SND.ctx = new (window.AudioContext || window.webkitAudioContext)());
+    if (C.state === 'suspended') C.resume();
+    const t = C.currentTime;
+    const tone = (f, st, d, type = 'sine', g = .16, f2) => {
+      const o = C.createOscillator(), v = C.createGain(); o.type = type;
+      o.frequency.setValueAtTime(f, t + st); if (f2) o.frequency.exponentialRampToValueAtTime(f2, t + st + d);
+      v.gain.setValueAtTime(0, t + st); v.gain.linearRampToValueAtTime(g, t + st + .01); v.gain.exponentialRampToValueAtTime(.001, t + st + d);
+      o.connect(v); v.connect(C.destination); o.start(t + st); o.stop(t + st + d + .05);
+    };
+    if (kind === 'ok') { tone(880, 0, .12); tone(1320, .09, .24); }
+    else if (kind === 'combo') { tone(660, 0, .1); tone(990, .08, .1); tone(1320, .16, .28); }
+    else if (kind === 'no') tone(220, 0, .3, 'square', .07, 140);
+    else if (kind === 'tap') tone(620, 0, .05, 'triangle', .07);
+    else if (kind === 'end') { tone(523, 0, .16); tone(659, .15, .16); tone(784, .3, .34); }
+  } catch (e) {}
+}
+/* ---------- kesan ---------- */
+function burst(el, col) {
+  if (REDUCE || !el || !el.getBoundingClientRect) return;
+  const r = el.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+  for (let i = 0; i < 18; i++) {
+    const s = document.createElement('span'); s.className = 'spark';
+    s.style.left = cx + 'px'; s.style.top = cy + 'px'; s.style.background = col || 'var(--am)';
+    document.body.appendChild(s);
+    const a = Math.random() * Math.PI * 2, d = 70 + Math.random() * 110;
+    const an = s.animate([{ transform: 'translate(-50%,-50%) scale(1) rotate(0deg)', opacity: 1 }, { transform: `translate(calc(-50% + ${(Math.cos(a) * d).toFixed(0)}px), calc(-50% + ${(Math.sin(a) * d).toFixed(0)}px)) scale(.2) rotate(200deg)`, opacity: 0 }], { duration: 700 + Math.random() * 300, easing: 'cubic-bezier(.2,.7,.3,1)' });
+    an.onfinish = () => s.remove();
+  }
+}
+function shake(el) { if (!REDUCE && el && el.animate) el.animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-12px)' }, { transform: 'translateX(10px)' }, { transform: 'translateX(-6px)' }, { transform: 'translateX(4px)' }, { transform: 'translateX(0)' }], { duration: 440 }); }
+
+/* ---------- rajah games (unit dunia, y ke atas) ---------- */
+const NS = 'http://www.w3.org/2000/svg';
+const pstr = p => p.map(([x, y]) => `${+x.toFixed(3)},${+(-y).toFixed(3)}`).join(' ');
+function gSvg(R, inner, label, axes = true) {
+  let s = '';
+  for (let i = -R; i <= R; i++) s += `<line x1="${i}" y1="${-R}" x2="${i}" y2="${R}" style="stroke:var(--grid)" stroke-width=".05"/><line x1="${-R}" y1="${i}" x2="${R}" y2="${i}" style="stroke:var(--grid)" stroke-width=".05"/>`;
+  if (axes) {
+    s += `<line x1="${-R}" y1="0" x2="${R}" y2="0" style="stroke:var(--mu)" stroke-width=".08"/><line x1="0" y1="${-R}" x2="0" y2="${R}" style="stroke:var(--mu)" stroke-width=".08"/>`;
+    for (let i = -R + 1; i < R; i++) if (i && i % 2 === 0) s += `<text x="${i}" y=".62" font-size=".42" text-anchor="middle" style="fill:var(--mu)">${fmt(i)}</text><text x="-.22" y="${-i + .15}" font-size=".42" text-anchor="end" style="fill:var(--mu)">${fmt(i)}</text>`;
+  }
+  return `<svg id="gsvg" viewBox="${-R - .6} ${-R - .6} ${2 * R + 1.2} ${2 * R + 1.2}" role="img" aria-label="${esc(label)}" font-family="Inter, sans-serif">${s}${inner}</svg>`;
+}
+const gPoly = (p, c, dash, id) => `<polygon${id ? ` id="${id}"` : ''} points="${pstr(p)}" style="fill:var(--${c});fill-opacity:.22;stroke:var(--${c})" stroke-width=".12" stroke-linejoin="round"${dash ? ' stroke-dasharray=".35 .22"' : ''}/>`;
+const gPt = (x, y, c, lab, dy = -.45) => `<circle cx="${x}" cy="${-y}" r=".3" style="fill:var(--${c})"/>${lab ? `<text x="${x + .4}" y="${-y + dy}" font-size=".6" font-weight="700" font-family="Space Grotesk, sans-serif" style="fill:var(--${c})">${lab}</text>` : ''}`;
+const gLine = (a, b, c, w = .1, dash) => `<line x1="${a[0]}" y1="${-a[1]}" x2="${b[0]}" y2="${-b[1]}" style="stroke:var(--${c})" stroke-width="${w}"${dash ? ' stroke-dasharray=".3 .2"' : ''}/>`;
+
+/* animasi: gerakkan salinan objek ke kedudukan imej */
+function playAnim(an, done) {
+  const svg = document.getElementById('gsvg');
+  if (!svg || !an) { if (done) done(); return; }
+  const single = an.from.length === 1, col = an.col || 'gr';
+  const trail = document.createElementNS(NS, 'polyline');
+  trail.setAttribute('fill', 'none'); trail.setAttribute('stroke-width', '.08'); trail.setAttribute('stroke-dasharray', '.25 .18'); trail.setAttribute('style', `stroke:var(--${col})`);
+  const el = document.createElementNS(NS, single ? 'circle' : 'polygon');
+  if (single) { el.setAttribute('r', '.36'); el.setAttribute('style', `fill:var(--${col});stroke:var(--tx)`); el.setAttribute('stroke-width', '.07'); }
+  else { el.setAttribute('style', `fill:var(--${col});fill-opacity:.3;stroke:var(--${col})`); el.setAttribute('stroke-width', '.14'); el.setAttribute('stroke-linejoin', 'round'); }
+  svg.appendChild(trail); svg.appendChild(el);
+  const at = t => an.from.map((p, i) => {
+    const q = an.to[i];
+    if (an.kind === 'pu') { const th = an.th * t * Math.PI / 180, dx = p[0] - an.cx, dy = p[1] - an.cy; return [an.cx + dx * Math.cos(th) - dy * Math.sin(th), an.cy + dx * Math.sin(th) + dy * Math.cos(th)]; }
+    if (an.kind === 'L') { if (t < .5) { const u = t * 2; return [p[0] + (q[0] - p[0]) * u, p[1]]; } const u = (t - .5) * 2; return [q[0], p[1] + (q[1] - p[1]) * u]; }
+    return [p[0] + (q[0] - p[0]) * t, p[1] + (q[1] - p[1]) * t];
+  });
+  const path = [], D = REDUCE ? 250 : 1100, t0 = performance.now();
+  if (an.cx != null) { const c = document.createElementNS(NS, 'circle'); c.setAttribute('cx', an.cx); c.setAttribute('cy', -an.cy); c.setAttribute('r', '.25'); c.setAttribute('style', 'fill:var(--am)'); svg.appendChild(c); }
+  const frame = now => {
+    const k = Math.min(1, (now - t0) / D), e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+    const p = at(e);
+    if (single) { el.setAttribute('cx', p[0][0]); el.setAttribute('cy', -p[0][1]); path.push(p[0]); trail.setAttribute('points', pstr(path)); }
+    else { el.setAttribute('points', pstr(p)); path.push(p[0]); trail.setAttribute('points', pstr(path)); }
+    if (k < 1) requestAnimationFrame(frame); else if (done) done();
+  };
+  requestAnimationFrame(frame);
+}
+function rotAnim(angle, done) {
+  const g = document.getElementById('gRot');
+  if (!g) { if (done) done(); return; }
+  const D = REDUCE ? 250 : 1200, t0 = performance.now();
+  const frame = now => { const k = Math.min(1, (now - t0) / D), e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2; g.setAttribute('transform', `rotate(${(angle * e).toFixed(2)} 150 150)`); if (k < 1) requestAnimationFrame(frame); else if (done) done(); };
+  requestAnimationFrame(frame);
+}
+
+/* ---------- penjana soalan games ---------- */
 const SHAPE = [[0, 0], [2, 0], [2, 1], [1, 1], [1, 3], [0, 3]]; // bentuk L (tidak simetri)
 function tfm(kind) {
   for (let t = 0; t < 80; t++) {
     const ox = ri(-6, 1), oy = ri(-6, 1), o = SHAPE.map(([x, y]) => [x + ox, y + oy]);
-    let im;
+    let im, an = { kind: 'lin' }, extra = '';
     if (kind === 'Translasi') { const a = nz(-6, 6), b = nz(-6, 6); im = o.map(([x, y]) => [x + a, y + b]); }
-    else if (kind === 'Pantulan') { if (Math.random() < .5) { const h = ri(-2, 3); im = o.map(([x, y]) => [2 * h - x, y]); } else { const k = ri(-2, 3); im = o.map(([x, y]) => [x, 2 * k - y]); } }
-    else if (kind === 'Putaran') { const cx = ri(-2, 2), cy = ri(-2, 2), r = pick([90, 180, 270]); im = o.map(([x, y]) => { const dx = x - cx, dy = y - cy; return r === 90 ? [cx - dy, cy + dx] : r === 180 ? [cx - dx, cy - dy] : [cx + dy, cy - dx]; }); }
-    else { const cx = o[0][0], cy = o[0][1]; im = o.map(([x, y]) => [cx + 2 * (x - cx) + ri(0, 0), cy + 2 * (y - cy)]).map(([x, y]) => [x + 3, y + 1]); }
+    else if (kind === 'Pantulan') {
+      if (Math.random() < .5) { const h = ri(-2, 3); im = o.map(([x, y]) => [2 * h - x, y]); extra = gLine([h, -7], [h, 7], 'pa', .1, true); }
+      else { const k = ri(-2, 3); im = o.map(([x, y]) => [x, 2 * k - y]); extra = gLine([-7, k], [7, k], 'pa', .1, true); }
+    } else if (kind === 'Putaran') {
+      const cx = ri(-2, 2), cy = ri(-2, 2), r = pick([90, 180, 270]);
+      im = o.map(([x, y]) => { const dx = x - cx, dy = y - cy; return r === 90 ? [cx - dy, cy + dx] : r === 180 ? [cx - dx, cy - dy] : [cx + dy, cy - dx]; });
+      an = { kind: 'pu', cx, cy, th: r === 270 ? -90 : r };
+    } else { const cx = o[0][0], cy = o[0][1]; im = o.map(([x, y]) => [cx + 2 * (x - cx) + 3, cy + 2 * (y - cy) + 1]); }
     const all = o.concat(im);
     if (all.every(([x, y]) => x >= -7 && x <= 7 && y >= -7 && y <= 7)) {
       const bb = p => [Math.min(...p.map(q => q[0])), Math.max(...p.map(q => q[0])), Math.min(...p.map(q => q[1])), Math.max(...p.map(q => q[1]))];
-      const A = bb(o), B = bb(im);
-      const overlap = !(A[1] < B[0] || B[1] < A[0] || A[3] < B[2] || B[3] < A[2]);
-      if (!overlap || t > 60) return { o, im };
+      const A = bb(o), B = bb(im), overlap = !(A[1] < B[0] || B[1] < A[0] || A[3] < B[2] || B[3] < A[2]);
+      if (!overlap || t > 60) return { o, im, an: Object.assign(an, { from: o, to: im, col: 'gr' }), extra };
     }
   }
   return null;
 }
 const GOPT4 = ['Translasi', 'Pantulan', 'Putaran', 'Bukan isometri'];
+function gTap(level) {
+  // soalan ketik: cari kedudukan imej titik A
+  const pool = level === 0 ? ['tr', 'px', 'py'] : level === 1 ? ['tr', 'px', 'py', 'r180', 'xh', 'yk'] : ['tr', 'xh', 'yk', 'r90', 'r270', 'r180'];
+  for (let k = 0; k < 60; k++) {
+    const t = pick(pool), x = nz(-5, 5), y = nz(-5, 5);
+    let q, T, extra = '', an = { kind: 'lin' };
+    if (t === 'tr') { const a = nz(-4, 4), b = nz(-4, 4); T = [x + a, y + b]; q = `A ditranslasikan oleh ${vec(a, b)}. Ketik kedudukan imej A′.`; an = { kind: 'L' }; }
+    if (t === 'px') { T = [x, -y]; q = 'A dipantulkan pada <b>paksi-x</b>. Ketik kedudukan imej A′.'; extra = gLine([-6, 0], [6, 0], 'pa', .14); }
+    if (t === 'py') { T = [-x, y]; q = 'A dipantulkan pada <b>paksi-y</b>. Ketik kedudukan imej A′.'; extra = gLine([0, -6], [0, 6], 'pa', .14); }
+    if (t === 'xh') { const h = nz(-3, 3); T = [2 * h - x, y]; q = `A dipantulkan pada garis <b>x = ${fmt(h)}</b>. Ketik kedudukan imej A′.`; extra = gLine([h, -6], [h, 6], 'pa', .14) + `<text x="${h + .2}" y="-5.4" font-size=".5" font-weight="700" style="fill:var(--pa)">x = ${fmt(h)}</text>`; }
+    if (t === 'yk') { const kk = nz(-3, 3); T = [x, 2 * kk - y]; q = `A dipantulkan pada garis <b>y = ${fmt(kk)}</b>. Ketik kedudukan imej A′.`; extra = gLine([-6, kk], [6, kk], 'pa', .14) + `<text x="-5.8" y="${-kk - .25}" font-size=".5" font-weight="700" style="fill:var(--pa)">y = ${fmt(kk)}</text>`; }
+    if (t === 'r180') { T = [-x, -y]; q = 'A diputar <b>180°</b> pada asalan O. Ketik kedudukan imej A′.'; an = { kind: 'pu', cx: 0, cy: 0, th: 180 }; }
+    if (t === 'r90') { T = [y, -x]; q = 'A diputar <b>90° ikut arah jam</b> pada asalan O. Ketik kedudukan imej A′.'; an = { kind: 'pu', cx: 0, cy: 0, th: -90 }; }
+    if (t === 'r270') { T = [-y, x]; q = 'A diputar <b>90° lawan arah jam</b> pada asalan O. Ketik kedudukan imej A′.'; an = { kind: 'pu', cx: 0, cy: 0, th: 90 }; }
+    if (Math.abs(T[0]) > 6 || Math.abs(T[1]) > 6 || (T[0] === x && T[1] === y)) continue;
+    const fig = gSvg(6, extra + gPt(x, y, 'tr', `A${P(x, y)}`) + `<g id="gTap" visibility="hidden"><circle r=".42" style="fill:none;stroke:var(--am)" stroke-width=".12"/><path d="M-.6 0H.6M0 -.6V.6" style="stroke:var(--am)" stroke-width=".1"/></g>`, 'Satah Cartes dengan titik A. Ketik untuk meletakkan imej.');
+    return { type: 'tap', q, fig, target: T, anim: Object.assign(an, { from: [[x, y]], to: [T], col: 'gr' }) };
+  }
+  return gTap(0);
+}
 function gq(level) {
-  const types = level === 0 ? ['kenal', 'kenal', 'imej', 'simetri'] : level === 1 ? ['kenal', 'imej', 'imej', 'vektor', 'simetri'] : ['kenal', 'imej', 'imej', 'vektor', 'simetri'];
+  const types = level === 0 ? ['kenal', 'tap', 'tap', 'simetri'] : level === 1 ? ['kenal', 'tap', 'tap', 'vektor', 'simetri'] : ['kenal', 'tap', 'tap', 'vektor', 'simetri'];
   const ty = pick(types);
+  if (ty === 'tap') return gTap(level);
   if (ty === 'kenal') {
     const kinds = level === 0 ? ['Translasi', 'Pantulan', 'Putaran'] : GOPT4;
     const k = pick(kinds), r = tfm(k);
     if (!r) return gq(level);
-    return { q: 'Transformasi apakah yang memetakan objek kepada imej?', fig: plot({ x0: -7, x1: 7, y0: -7, y1: 7, u: 26, axes: false, items: [{ t: 'poly', pts: r.o, c: 'tr' }, { t: 'poly', pts: r.im, c: 'pa', dash: true }], label: 'Objek biru, imej oren' }), opts: GOPT4, c: GOPT4.indexOf(k), legend: true };
-  }
-  if (ty === 'imej') {
-    const x = nz(-5, 5), y = nz(-5, 5);
-    let q, ans;
-    const pool = level === 0 ? ['tr', 'px', 'py'] : level === 1 ? ['tr', 'px', 'py', 'r180', 'xh'] : ['r90', 'r270', 'xh', 'yk', 'tr'];
-    const t = pick(pool);
-    if (t === 'tr') { const a = nz(-4, 4), b = nz(-4, 4); q = `Imej bagi ${P(x, y)} di bawah translasi ${vec(a, b)}?`; ans = [x + a, y + b]; }
-    if (t === 'px') { q = `Imej bagi ${P(x, y)} apabila dipantulkan pada paksi-x?`; ans = [x, -y]; }
-    if (t === 'py') { q = `Imej bagi ${P(x, y)} apabila dipantulkan pada paksi-y?`; ans = [-x, y]; }
-    if (t === 'r180') { q = `Imej bagi ${P(x, y)} apabila diputar 180° pada asalan?`; ans = [-x, -y]; }
-    if (t === 'r90') { q = `Imej bagi ${P(x, y)} apabila diputar 90° ikut arah jam pada asalan?`; ans = [y, -x]; }
-    if (t === 'r270') { q = `Imej bagi ${P(x, y)} apabila diputar 90° lawan arah jam pada asalan?`; ans = [-y, x]; }
-    if (t === 'xh') { const h = nz(-3, 3); q = `Imej bagi ${P(x, y)} apabila dipantulkan pada garis x = ${fmt(h)}?`; ans = [2 * h - x, y]; }
-    if (t === 'yk') { const k = nz(-3, 3); q = `Imej bagi ${P(x, y)} apabila dipantulkan pada garis y = ${fmt(k)}?`; ans = [x, 2 * k - y]; }
-    const cands = [[-ans[0], ans[1]], [ans[0], -ans[1]], [-ans[0], -ans[1]], [ans[1], ans[0]], [-ans[1], ans[0]], [ans[1], -ans[0]], [ans[0] + 1, ans[1]], [ans[0], ans[1] - 1], [x, y]];
-    const key = p => p.join(','), seen = new Set([key(ans)]), wrong = [];
-    for (const c of shuffle(cands)) { if (!seen.has(key(c))) { seen.add(key(c)); wrong.push(c); } if (wrong.length === 3) break; }
-    const opts = shuffle([ans, ...wrong]);
-    return { q, opts: opts.map(p => P(p[0], p[1])), c: opts.indexOf(ans) };
+    return { type: 'mcq', q: 'Transformasi apakah yang memetakan objek kepada imej?', fig: gSvg(7, gPoly(r.o, 'tr', false) + gPoly(r.im, 'pa', true), 'Objek biru, imej oren', false), opts: GOPT4, c: GOPT4.indexOf(k), legend: true, anim: r.an, reveal: r.extra };
   }
   if (ty === 'vektor') {
-    const x = ri(-4, 4), y = ri(-4, 4), a = nz(-5, 5), b = nz(-5, 5);
-    let cands = [[-a, -b], [b, a], [a, -b], [-a, b], [a + 1, b]];
+    let x, y, a, b; do { x = ri(-5, 3); y = ri(-5, 3); a = nz(-5, 5); b = nz(-5, 5); } while (Math.abs(x + a) > 6 || Math.abs(y + b) > 6);
+    const cands = [[-a, -b], [b, a], [a, -b], [-a, b], [a + 1, b]];
     const seen = new Set([a + ',' + b]), wrong = [];
     for (const c of shuffle(cands)) { if (!seen.has(c.join(','))) { seen.add(c.join(',')); wrong.push(c); } if (wrong.length === 3) break; }
     const right = [a, b], opts = shuffle([right, ...wrong]);
-    return { q: `Vektor translasi yang memetakan ${P(x, y)} kepada ${P(x + a, y + b)}?`, opts: opts.map(p => vec(p[0], p[1])), c: opts.indexOf(right) };
+    return { type: 'mcq', q: 'Vektor translasi yang memetakan P kepada P′?', fig: gSvg(6, gPt(x, y, 'tr', `P${P(x, y)}`) + gPt(x + a, y + b, 'pa', `P′${P(x + a, y + b)}`), 'Titik P dan P′'), opts: opts.map(p => vec(p[0], p[1])), c: opts.indexOf(right), anim: { kind: 'L', from: [[x, y]], to: [[x + a, y + b]], col: 'gr' } };
   }
-  const o = pick([['poly', 3, 3], ['poly', 4, 4], ['poly', 5, 5], ['poly', 6, 6], ['rect', 0, 2], ['letter', 'S', 2], ['letter', 'Z', 2], ['letter', 'H', 2], ['letter', 'L', 1], ['letter', 'T', 1]]);
+  const o = pick([['poly', 3, 3], ['poly', 4, 4], ['poly', 5, 5], ['poly', 6, 6], ['rect', 0, 2], ['letter', 'S', 2], ['letter', 'Z', 2], ['letter', 'H', 2], ['letter', 'N', 2], ['letter', 'L', 1], ['letter', 'T', 1]]);
   const nums = shuffle([1, 2, 3, 4, 5, 6].filter(n => n !== o[2])).slice(0, 3).concat(o[2]).sort((p, q) => p - q);
-  return { q: 'Apakah peringkat simetri putaran bagi bentuk ini?', fig: shapeSVG(o[0], o[1]), opts: nums.map(String), c: nums.indexOf(o[2]) };
+  return { type: 'mcq', q: 'Apakah peringkat simetri putaran bagi bentuk ini?', fig: shapeSVG(o[0], o[1]).replace(/(<svg[^>]*>)([\s\S]*)<\/svg>$/, '$1<g id="gRot">$2</g></svg>'), opts: nums.map(String), c: nums.indexOf(o[2]), rot: 360 / o[2] };
 }
-const G = { st: 'intro', score: 0, lives: 3, combo: 0, right: 0, q: null, pick: -1, end: 0, timer: 0, newBest: false };
+
+/* ---------- keadaan & paparan ---------- */
+const G = { st: 'intro', score: 0, lives: 3, combo: 0, right: 0, q: null, pick: -1, tap: null, ok: null, end: 0, pausedAt: 0, timer: 0, newBest: false, gain: 0 };
 function gLevel() { return G.score < 100 ? 0 : G.score < 250 ? 1 : 2; }
+const answered = () => G.ok !== null;
 function viewGames() {
-  const best = store().best || 0;
+  const best = store().best || 0, mute = !!store().mute;
+  const muteBtn = `<button type="button" class="ib" id="gMute" aria-label="${mute ? 'Hidupkan bunyi' : 'Senyapkan bunyi'}" aria-pressed="${mute}">${mute ? sv('<path d="M11 5L6 9H2v6h4l5 4zM23 9l-6 6M17 9l6 6"/>', 20) : sv('<path d="M11 5L6 9H2v6h4l5 4zM15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/>', 20)}</button>`;
   if (G.st === 'intro') return `<div class="wrap" style="max-width:880px">
-    <div><p class="eyebrow">GAMES</p><h1 class="h1">Cabaran 60 Saat</h1><p class="lead">Jawab seberapa banyak soalan dalam masa 60 saat.</p></div>
+    <div class="headrow"><div><p class="eyebrow">GAMES</p><h1 class="h1">Cabaran 60 Saat</h1><p class="lead">Jawab seberapa banyak soalan dalam masa 60 saat.</p></div>${muteBtn}</div>
     <div class="pbox" style="padding:22px"><ul class="rules">
-      <li>${IC.clock}<span>Masa <b>60 saat</b>. Tekan jawapan yang betul.</span></li>
+      <li>${IC.clock}<span>Masa <b>60 saat</b>. Ada soalan <b>pilih jawapan</b> dan soalan <b>ketik pada grid</b>.</span></li>
       <li><span style="color:var(--rd);display:flex">${IC.heart.replace('<svg ', '<svg width="26" height="26" fill="currentColor" ')}</span><span>Ada <b>3 nyawa</b>. Jawapan salah menolak satu nyawa.</span></li>
       <li><span style="color:var(--pa);display:flex">${IC.fire}</span><span>Betul berturut-turut untuk <b>combo</b>: markah berganda sehingga ×5.</span></li>
-      <li><span style="color:var(--am);display:flex">${IC.star}</span><span>Soalan makin sukar apabila skor meningkat.</span></li>
+      <li><span style="color:var(--am);display:flex">${IC.star}</span><span>Selepas menjawab, lihat animasi transformasi yang betul.</span></li>
     </ul></div>
     <div class="prow" style="align-items:center;flex-wrap:wrap;gap:14px"><span class="chip" style="height:44px;font-size:16px;background:color-mix(in srgb,var(--am) 14%,transparent);color:var(--am)">${IC.star} Rekod: ${best}</span>
     <button type="button" class="btn pri big" id="gStart" style="margin-left:auto">Mula ${IC.arrow}</button></div></div>`;
-  if (G.st === 'end') return `<div class="gend"><p class="eyebrow">${G.lives <= 0 ? 'NYAWA HABIS' : 'MASA TAMAT'}</p><div class="score">${G.score}</div><p class="lead" style="margin:0">markah · ${G.right} jawapan betul</p>
+  if (G.st === 'end') return `<div class="gend" id="gEnd"><p class="eyebrow">${G.lives <= 0 ? 'NYAWA HABIS' : 'MASA TAMAT'}</p><div class="score">${G.score}</div><p class="lead" style="margin:0">markah · ${G.right} jawapan betul</p>
     ${G.newBest ? `<span class="chip" style="height:42px;font-size:16px;background:color-mix(in srgb,var(--am) 16%,transparent);color:var(--am)">${IC.star} Rekod baharu!</span>` : `<span class="chip" style="height:42px;font-size:16px;background:var(--surf);border:1px solid var(--bd);color:var(--mu)">Rekod: ${best}</span>`}
     <div class="prow" style="width:100%;flex-direction:column;margin-top:8px"><button type="button" class="btn pri big" id="gStart">Main lagi</button><a class="btn sec big" href="#/nota">Ulang kaji nota</a></div></div>`;
-  const q = G.q, left = Math.max(0, G.end - Date.now()), sec = Math.ceil(left / 1000);
+  const q = G.q, left = Math.max(0, G.end - (G.pausedAt || Date.now())), sec = Math.ceil(left / 1000);
   const hearts = [0, 1, 2].map(i => i < G.lives ? IC.heart.replace('<svg ', '<svg style="fill:var(--rd)" ') : IC.heart.replace('<svg ', '<svg style="fill:none;stroke:var(--dim);stroke-width:2" ')).join('');
   const mult = Math.min(G.combo, 5);
   let fb = '';
-  if (G.pick >= 0) fb = G.pick === q.c ? `<div class="gfb ok">${IC.check} Betul! +${10 * Math.max(1, mult)}${mult > 1 ? ` (combo ×${mult})` : ''}</div>` : `<div class="gfb no">${IC.x} Salah. Jawapan: <span style="color:var(--tx)">${q.opts[q.c]}</span></div>`;
-  return `<div class="wrap" style="gap:16px">
+  if (answered()) fb = G.ok ? `<div class="gfb ok" id="gFb">${IC.check} Betul! +${G.gain}${mult > 1 ? ` (combo ×${mult})` : ''}</div>`
+    : `<div class="gfb no" id="gFb">${IC.x} Salah. Jawapan: <span style="color:var(--tx)">${q.type === 'tap' ? 'A′' + P(q.target[0], q.target[1]) : q.opts[q.c]}</span></div>`;
+  let side;
+  if (q.type === 'tap') side = `<p style="margin:0;font-size:17px;color:var(--mu)">${answered() ? '' : 'Ketik pada titik persilangan grid.'} Pilihan anda: <b id="gTapTxt" style="color:var(--tx)">${G.tap ? 'A′' + P(G.tap[0], G.tap[1]) : '–'}</b></p>
+      <button type="button" class="btn pri big" id="gCheck"${G.tap && !answered() ? '' : ' disabled'}>${IC.check} Semak</button>`;
+  else side = `<div class="gopts">${q.opts.map((t, i) => `<button type="button" class="gopt${answered() ? (i === q.c ? ' right' : (i === G.pick ? ' wrong' : '')) : ''}" data-o="${i}"${answered() ? ' disabled' : ''}><span class="k">${'ABCD'[i]}</span><span>${t}</span></button>`).join('')}</div>`;
+  let fig = q.fig;
+  if (q.type === 'tap' && G.tap) fig = fig.replace('<g id="gTap" visibility="hidden">', `<g id="gTap" transform="translate(${G.tap[0]} ${-G.tap[1]})"${answered() && !G.ok ? ' style="--am:var(--rd)"' : ''}>`);
+  if (answered() && q.reveal) fig = fig.replace('</svg>', q.reveal + '</svg>');
+  return `<div class="wrap" style="gap:14px">
     <div class="ghud"><div class="hearts" role="img" aria-label="${G.lives} nyawa">${hearts}</div>
       <div class="tbar" role="timer" aria-label="${sec} saat lagi"><div class="bar"><i id="tfill" style="width:${left / 600}%;background:${sec <= 10 ? 'var(--rd)' : 'var(--gr)'}"></i></div><b id="tsec">${sec}s</b></div>
-      ${G.combo > 1 ? `<span class="chip" style="height:42px;font-size:16px;background:color-mix(in srgb,var(--pa) 15%,transparent);color:var(--pa)">${IC.fire} Combo ×${mult}</span>` : ''}
-      <span class="chip" style="height:42px;font-size:16px;background:var(--surf);border:1px solid var(--bd);color:var(--mu)">Skor <b style="font-family:var(--head);font-size:22px;color:var(--tx)">${G.score}</b></span></div>
-    <div class="gq${q.fig ? '' : ' nofig'}">
-      ${q.fig ? `<div class="gfig">${q.fig}${q.legend ? '<p style="margin:6px 0 0;text-align:center;font-size:14px;color:var(--mu)"><b style="color:var(--tr)">Biru</b>: objek · <b style="color:var(--pa)">Oren</b>: imej</p>' : ''}</div>` : ''}
+      ${G.combo > 1 ? `<span class="chip combo${G.combo >= 3 ? ' hot' : ''}" id="gCombo" style="height:42px;font-size:16px;background:color-mix(in srgb,var(--pa) 15%,transparent);color:var(--pa)">${IC.fire} Combo ×${mult}</span>` : ''}
+      <span class="chip" style="height:42px;font-size:16px;background:var(--surf);border:1px solid var(--bd);color:var(--mu)">Skor <b id="gScore" style="font-family:var(--head);font-size:22px;color:var(--tx)">${G.score}</b></span>${muteBtn}</div>
+    <div class="gq" id="gq">
+      <div class="gfig${q.type === 'tap' ? ' tap' : ''}">${fig}${q.legend ? '<p style="margin:6px 0 0;text-align:center;font-size:14px;color:var(--mu)"><b style="color:var(--tr)">Biru</b>: objek · <b style="color:var(--pa)">Oren</b>: imej</p>' : ''}</div>
       <div style="display:flex;flex-direction:column;gap:14px;min-width:0">
-        <h1 class="qtext" style="font-size:clamp(22px,2.4vw,32px)">${q.q}</h1>
-        <div class="gopts">${q.opts.map((t, i) => `<button type="button" class="gopt${G.pick >= 0 ? (i === q.c ? ' right' : (i === G.pick ? ' wrong' : '')) : ''}" data-o="${i}"${G.pick >= 0 ? ' disabled' : ''}><span class="k">${'ABCD'[i]}</span><span>${t}</span></button>`).join('')}</div>
+        <h1 class="qtext" style="font-size:clamp(21px,2.3vw,30px)">${q.q}</h1>
+        ${side}
         ${fb}
       </div></div></div>`;
 }
-function gStart() { G.st = 'play'; G.score = 0; G.lives = 3; G.combo = 0; G.right = 0; G.pick = -1; G.newBest = false; G.q = gq(0); G.end = Date.now() + 60000; clearInterval(G.timer); G.timer = setInterval(gTick, 200); render(true); }
+function gStart() {
+  G.st = 'play'; G.score = 0; G.lives = 3; G.combo = 0; G.right = 0; G.pick = -1; G.tap = null; G.ok = null; G.newBest = false; G.pausedAt = 0;
+  G.q = gq(0); G.end = Date.now() + 60000; clearInterval(G.timer); G.timer = setInterval(gTick, 200); render(true);
+}
 function gTick() {
   if (!location.hash.startsWith('#/games')) { clearInterval(G.timer); G.st = 'intro'; return; }
+  if (G.pausedAt) return;
   const left = G.end - Date.now();
   if (left <= 0) return gOver();
   const f = document.getElementById('tfill'), s = document.getElementById('tsec');
@@ -589,25 +701,53 @@ function gTick() {
 }
 function gOver() {
   clearInterval(G.timer); G.st = 'end';
-  const s = store(), best = s.best || 0;
+  const best = store().best || 0;
   G.newBest = G.score > best;
   if (G.newBest) save({ best: G.score, stars: Math.min(5, Math.floor(G.score / 60)) });
+  render(true); snd('end');
+  if (G.newBest) setTimeout(() => burst(document.querySelector('.gend .score'), 'var(--am)'), 150);
+}
+function gAnswer(ok) {
+  G.ok = ok; G.pausedAt = Date.now();
+  if (ok) { G.combo++; G.right++; G.gain = 10 * Math.min(Math.max(G.combo, 1), 5); G.score += G.gain; }
+  else { G.combo = 0; G.lives--; G.gain = 0; }
   render(true);
+  snd(ok ? (G.combo >= 3 ? 'combo' : 'ok') : 'no');
+  if (ok) { burst(G.q.type === 'tap' ? document.getElementById('gCheck') : document.querySelector('.gopt.right'), 'var(--am)'); const sc = document.getElementById('gScore'); if (sc && sc.animate && !REDUCE) sc.animate([{ transform: 'scale(1.6)' }, { transform: 'scale(1)' }], { duration: 400 }); }
+  else shake(document.getElementById('gq'));
+  const q = G.q, next = () => setTimeout(() => {
+    if (G.st !== 'play') return;
+    G.end += Date.now() - G.pausedAt; G.pausedAt = 0;
+    if (G.lives <= 0 || Date.now() >= G.end) return gOver();
+    G.pick = -1; G.tap = null; G.ok = null; G.q = gq(gLevel()); render(true);
+  }, ok ? 500 : 1100);
+  setTimeout(() => {
+    if (q.rot) rotAnim(q.rot, next);
+    else playAnim(q.anim, () => {
+      if (q.type === 'tap') { const svg = document.getElementById('gsvg'); if (svg) svg.insertAdjacentHTML('beforeend', `<text x="${q.target[0] + .45}" y="${-q.target[1] + .75}" font-size=".6" font-weight="700" font-family="Space Grotesk, sans-serif" style="fill:var(--gr)">A′</text>`); }
+      next();
+    });
+  }, 250);
 }
 function bindGames() {
-  const st = document.getElementById('gStart'); if (st) st.onclick = gStart;
-  document.querySelectorAll('[data-o]').forEach(b => b.onclick = () => {
-    if (G.pick >= 0 || G.st !== 'play') return;
-    G.pick = +b.dataset.o;
-    if (G.pick === G.q.c) { G.combo++; G.right++; G.score += 10 * Math.min(Math.max(G.combo, 1), 5); }
-    else { G.combo = 0; G.lives--; }
-    render(true);
-    setTimeout(() => {
-      if (G.st !== 'play') return;
-      if (G.lives <= 0 || Date.now() >= G.end) return gOver();
-      G.pick = -1; G.q = gq(gLevel()); render(true);
-    }, G.pick === G.q.c ? 700 : 1500);
-  });
+  const st = document.getElementById('gStart'); if (st) st.onclick = () => { snd('tap'); gStart(); };
+  const mu = document.getElementById('gMute'); if (mu) mu.onclick = () => { save({ mute: !store().mute }); render(true); };
+  if (G.st !== 'play') return;
+  document.querySelectorAll('[data-o]').forEach(b => b.onclick = () => { if (answered()) return; G.pick = +b.dataset.o; gAnswer(G.pick === G.q.c); });
+  const svg = document.getElementById('gsvg');
+  if (G.q.type === 'tap' && svg && !answered()) {
+    svg.addEventListener('pointerup', e => {
+      if (answered()) return;
+      const pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY; const m = svg.getScreenCTM(); if (!m) return;
+      const w = pt.matrixTransform(m.inverse()), x = Math.max(-6, Math.min(6, Math.round(w.x))), y = Math.max(-6, Math.min(6, Math.round(-w.y)));
+      G.tap = [x, y]; snd('tap');
+      const g = document.getElementById('gTap'); g.removeAttribute('visibility'); g.setAttribute('transform', `translate(${x} ${-y})`);
+      document.getElementById('gTapTxt').textContent = 'A′' + P(x, y);
+      document.getElementById('gCheck').disabled = false;
+    });
+  }
+  const ck = document.getElementById('gCheck');
+  if (ck) ck.onclick = () => { if (!G.tap || answered()) return; gAnswer(G.tap[0] === G.q.target[0] && G.tap[1] === G.q.target[1]); };
 }
 
 /* =================== Penghala =================== */
