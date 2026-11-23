@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>Simulasi Pantulan · ISOMOVE</title>
+<meta name="theme-color" content="#0B1220">
+<link rel="manifest" href="../../manifest.webmanifest">
+<link rel="icon" href="../logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../icons/icon-192.png">
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:600;font-display:swap;src:url('../fonts/inter-latin-600-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../fonts/inter-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:'Space Grotesk';font-weight:700;font-display:swap;src:url('../fonts/space-grotesk-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--surface:#131C2E;--border:#22304A;--text:#E6EDF7;--muted:#94A3B8;--accent:#FB923C;--green:#34D399;--orange:#FB923C;--pink:#F472B6;--amber:#FBBF24;--head:'Space Grotesk',system-ui,sans-serif}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background-color:var(--bg);background-image:linear-gradient(rgba(148,163,184,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(148,163,184,.06) 1px,transparent 1px);background-size:24px 24px;color:var(--text);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1120px;margin:0 auto;padding:20px 16px calc(28px + env(safe-area-inset-bottom,0px))}
+.top{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.back{flex:none;width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:var(--surface);border:1px solid var(--border);color:var(--text)}
+.back:hover{border-color:var(--muted)}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.top h1{margin:2px 0 0;font-family:var(--head);font-size:28px;line-height:1.1}
+.top p{margin:2px 0 0;font-size:13px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:minmax(0,1fr);grid-template-areas:"controls" "canvas" "player";gap:14px}
+.a-controls{grid-area:controls}.a-canvas{grid-area:canvas}.a-player{grid-area:player}
+.panel{border:1px solid var(--border);background:var(--surface);padding:16px;border-radius:20px}
+.row{display:flex;align-items:center;gap:9px}
+label,.muted{font-size:12px;color:var(--muted)}
+.title{font-size:14px;font-weight:700;color:var(--text)}
+select,input[type=number]{background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:12px;padding:10px 12px;font:inherit;font-size:15px}
+select{width:100%;margin-top:6px;min-height:46px}
+input[type=number]{width:78px;min-height:44px;font-family:var(--head);font-weight:700;font-size:17px;text-align:center}
+select:focus,input:focus{border-color:var(--accent);outline:none}
+button{border:1px solid var(--border);border-radius:12px;padding:10px 12px;min-height:46px;background:var(--bg);color:var(--text);font:inherit;font-weight:600;font-size:14px;cursor:pointer}
+button:hover:not(:disabled){border-color:var(--muted)}
+button:disabled{opacity:.4;cursor:not-allowed}
+.bracket{height:100px;width:12px;border:3px solid var(--accent)}
+.bl{border-right:0;border-radius:8px 0 0 8px}.br{border-left:0;border-radius:0 8px 8px 0}
+.hint{font-size:13px;font-weight:600;margin:0 0 8px}
+svg{display:block;width:100%;height:auto;touch-action:none;font-family:'Inter',sans-serif}#rays{transition:opacity .6s ease}.canvasbox{border:1px solid var(--border);border-radius:18px;overflow:hidden;background:var(--bg)}
+canvas{width:100%;height:auto;display:block;touch-action:none;cursor:crosshair}
+.legend{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;font-size:12px;font-weight:600}
+.legend span{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;background:var(--surface);border:1px solid var(--border)}
+.legend i{width:10px;height:10px;border-radius:999px;display:inline-block}
+.canvasbox{position:relative}.warning{position:absolute;top:12px;left:50%;transform:translateX(-50%);z-index:2;width:max-content;max-width:calc(100% - 24px);padding:10px 16px;border-radius:14px;background:#FBBF24;color:#0B1220;font-size:14px;font-weight:700;line-height:1.35;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.45);pointer-events:none;animation:pop .25s ease-out}.warning:empty{display:none}@keyframes pop{from{opacity:0;transform:translate(-50%,-8px)}to{opacity:1;transform:translate(-50%,0)}}@media(min-width:900px){.warning{font-size:15px;top:16px}}@media(prefers-reduced-motion:reduce){.warning{animation:none}}
+.barbg{height:8px;background:var(--border);border-radius:999px;overflow:hidden;margin:12px 0}
+.bar{height:100%;width:0%;background:var(--accent);border-radius:999px}
+.primary{flex:1;background:var(--accent);border-color:var(--accent);color:var(--bg);font-family:var(--head);font-weight:700;font-size:16px}
+.primary:hover:not(:disabled){background:#FDBA74;border-color:#FDBA74}
+.set{background:var(--green);border-color:var(--green);color:var(--bg);font-weight:700;margin-left:8px}
+.set:hover:not(:disabled){background:#6EE7B7;border-color:#6EE7B7}
+input[type=range]{accent-color:var(--accent)}
+@media(max-width:440px){.wrap{padding:14px 10px 24px}.panel{padding:12px}.row{gap:6px}.set{margin-left:0}button{padding:9px 8px}.top h1{font-size:24px}}
+@media(min-width:900px){
+ .wrap{padding:32px 32px 40px}
+ .top h1{font-size:36px}
+ .grid{grid-template-columns:minmax(0,1fr) 340px;grid-template-rows:auto 1fr;grid-template-areas:"canvas controls" "canvas player";align-items:start;gap:20px}
+ .a-canvas{grid-row:1 / span 2}
+}
+.field+.field{margin-top:14px}.axisrow{display:flex;align-items:center;gap:9px}.axisrow>select{flex:1;min-width:0;margin-top:0}.axisvalue{display:flex;align-items:center;gap:8px}.axisvalue input{width:72px;min-width:0}.axisvalue .set{margin-left:0;white-space:nowrap}.valuestatus{font-size:12px;color:var(--muted);margin-top:8px;font-weight:600}#randomize{display:none;width:100%;margin-top:12px}label{display:block;margin-bottom:6px}.note{background:var(--bg);border:1px solid var(--border);border-left:3px solid var(--accent);padding:12px 14px;margin-top:12px;border-radius:12px;font-size:13px;line-height:1.6;color:var(--text)}.note strong{color:#FDBA74}.statusline{font-size:13px;margin-top:12px;line-height:1.7;color:var(--text)}.statusline strong{color:var(--muted);font-weight:600}@media(max-width:380px){.axisvalue input{width:56px}.axisvalue .set{padding:9px 8px;font-size:12px}}
+
+/* Butang kembali mudah ditekan di iPhone: elak kawasan jam/notch, header melekat di atas */
+.wrap{padding-top:0}
+.top{position:sticky;top:0;z-index:20;margin:0 -16px 16px;padding:calc(12px + env(safe-area-inset-top,0px)) 16px 12px;background:rgba(11,18,32,.94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+.back{width:auto;height:48px;padding:0 16px 0 12px;gap:6px;font-weight:700;font-size:15px;text-decoration:none;touch-action:manipulation}
+.back span{line-height:1}
+@media(max-width:440px){.top{margin:0 -10px 14px;padding-left:10px;padding-right:10px}.wrap{padding-top:0}}
+@media(max-width:420px){.top h1{font-size:22px}.top p{display:none}}
+.top-snd{margin-left:auto;flex:none}
+/* Amaran: satu baris kecil di luar grid, kiri atas (ganti teks petunjuk) */
+.a-canvas .warning{position:static;display:block;transform:none;width:max-content;max-width:100%;margin:0 0 8px;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700;line-height:1.4;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:none;opacity:1;animation:none}
+.a-canvas .warning:empty{display:none}
+.a-canvas:has(.warning:not(:empty)) .hint{display:none}
+/* ===== Kawalan padat + satu skrin di telefon ===== */
+.back svg{width:22px;height:22px;flex:none}
+.back:active{transform:scale(.94);background:var(--border)}
+.crow{display:flex;align-items:center;gap:8px}
+.crow+.crow{margin-top:10px}
+.cl{flex:none;width:60px;margin:0;font-size:12px;font-weight:700;color:var(--muted)}
+.crow select{flex:1;min-width:0;margin-top:0}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.rnd{width:100%;margin-top:8px}
+.vec{display:flex;align-items:stretch;gap:6px}
+.vec .bracket{height:auto}
+.vcol{display:flex;flex-direction:column;gap:6px}
+.vcol .row{gap:6px}.vcol .muted{width:10px}
+.crow .set{margin-left:4px;white-space:nowrap}
+.crow .coord{flex:1;flex-wrap:nowrap;gap:6px}
+.crow .axisvalue{flex:none}
+.cl{width:48px}.crow .coord input,.crow .axisvalue input{width:52px}.crow .set{padding-left:10px;padding-right:10px}
+.pbtns #prev,.pbtns #next{flex:none;width:48px;padding:0;font-size:18px}
+.pbtns button{white-space:nowrap}.pbtns .primary{min-width:0}
+.pspeed{margin-top:12px}
+.a-controls .note{margin-top:10px}
+@media(max-width:699px){
+ .wrap{height:100svh;display:flex;flex-direction:column;padding-bottom:calc(8px + env(safe-area-inset-bottom,0px))}
+ .top{margin-bottom:8px;padding-top:calc(6px + env(safe-area-inset-top,0px));padding-bottom:6px;gap:10px}
+ .top .eyebrow{display:none}
+ .top h1{font-size:20px;margin:0}
+ .back{height:40px;padding:0 12px 0 10px;font-size:14px}
+ .top .snd-btn{width:40px;height:40px;min-height:40px;border-radius:12px}
+ .grid{flex:1;min-height:0;display:flex;flex-direction:column;gap:8px}
+ .panel{padding:10px 12px;border-radius:16px}
+ select,input[type=number]{min-height:38px;padding:5px 8px;font-size:16px}
+ input[type=number]{width:54px}
+ .coord input,.axisvalue input{width:52px}
+ button{min-height:40px;padding:6px 10px}
+ .crow+.crow{margin-top:8px}
+ .cl{width:52px;font-size:11.5px}
+ .vcol{gap:4px}
+ .a-controls .note{margin-top:8px;padding:6px 10px;font-size:12px;line-height:1.4}
+ .valuestatus{font-size:11px;margin-top:4px}
+ .a-canvas{flex:1;min-height:170px;display:flex;flex-direction:column}
+ .hint,.sub{display:none}
+ .a-canvas .warning{margin:0 0 4px}
+ .canvasbox{flex:1;min-height:0;container-type:size;display:flex;align-items:center;justify-content:center;border:0;border-radius:0;background:none;overflow:visible}
+ .canvasbox>canvas,.canvasbox>svg{width:min(100cqw,calc(100cqh * 600 / 440));height:auto;aspect-ratio:600/440;border:1px solid var(--border);border-radius:14px}
+ .barbg{margin:8px 0}
+ .pspeed{margin-top:8px}
+ .primary{font-size:15px}
+}
+</style>
+<style>.inframe #backbtn{display:none}</style>
+<script>if(window.top!==window.self)document.documentElement.classList.add('inframe');</script>
+</head>
+<body>
+<main class="wrap">
+<header class="top">
+<a class="back" id="backbtn" href="../#/teroka" aria-label="Kembali ke Simulasi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/></svg><span>Kembali</span></a>
+<div><span class="eyebrow">ISOMOVE · Simulasi</span><h1>Pantulan</h1><p>Pantulkan objek pada satu garis pantulan</p></div>
+<span class="top-snd" id="sndslot"></span></header>
+<div class="grid">
+<section class="panel a-controls">
+<div class="crow"><label class="cl" for="shape">Bentuk</label><select id="shape"><option value="triangle">Segi tiga</option><option value="square">Segi empat</option><option value="pentagon">Pentagon</option><option value="hexagon">Heksagon</option><option value="trapezium">Trapezium</option><option value="random">Random</option></select></div>
+<button id="randomize" class="rnd">⚄ Jana Bentuk Baharu</button>
+<div class="crow"><label class="cl" for="axis">Garis</label><select id="axis"><option value="x">x = a</option><option value="y">y = b</option><option value="d">y = x</option><option value="n">y = −x</option></select><div id="valuebox" class="axisvalue"><input id="value" type="number" min="-5" max="5" step="1" value="1" aria-label="Nilai a"><button id="apply" type="button" class="set">✓ Tetapkan</button></div></div>
+<div id="valuestatus" class="valuestatus">Nilai a = 1</div><div id="explain" class="note" hidden></div>
+</section>
+<div class="a-canvas">
+<p class="hint">Klik grid atau seret bentuk biru — bucu terkunci pada grid</p>
+<div id="movewarning" class="warning" role="alert" aria-live="assertive"></div><div class="canvasbox"><svg id="svg" viewBox="0 0 600 440" aria-label="Grid Cartes dan animasi pantulan"><rect width="600" height="440" fill="#0B1220"/><g id="grid"></g><g id="refaxis"></g><g id="original"></g><g id="rays"></g><g id="image"></g><g id="effects"></g><rect id="hit" width="600" height="440" fill="transparent" style="cursor:crosshair;touch-action:none"/></svg></div>
+</div>
+<section class="panel a-player">
+<div class="row" style="justify-content:space-between"><span id="stage" class="muted">Langkah 0 / 9</span><span id="status" class="muted">Sedia</span></div>
+<div class="barbg"><div id="progress" class="bar"></div></div>
+<div class="row pbtns"><button id="prev" aria-label="Langkah sebelum">←</button><button id="play" class="primary">▶ Mainkan</button><button id="next" aria-label="Langkah seterusnya">→</button><button id="reset">↺ Reset</button></div>
+<div class="row pspeed"><label for="speed" style="margin:0">Kelajuan</label><input id="speed" type="range" min=".2" max="1" step=".1" value=".6" style="flex:1;min-width:0"><span id="speedlabel" class="muted">0.6×</span></div>
+<div id="coordinates" class="statusline" hidden></div>
+</section>
+</div>
+</main>
+<script>
+(()=>{
+const $=id=>document.getElementById(id),NS='http://www.w3.org/2000/svg',S=30,OX=300,OY=220,L='ABCDEF';
+const presets={triangle:[[0,0],[2,0],[1,2]],square:[[0,0],[3,0],[3,2],[0,2]],pentagon:[[0,0],[2,0],[3,1],[1,3],[-1,1]],hexagon:[[0,0],[2,0],[3,1],[2,3],[0,3],[-1,1]],trapezium:[[0,0],[4,0],[3,2],[1,2]]};
+const g={grid:$('grid'),axis:$('refaxis'),original:$('original'),rays:$('rays'),image:$('image'),fx:$('effects')},P=p=>[OX+p[0]*S,OY-p[1]*S];
+function make(tag,attrs,parent){let e=document.createElementNS(NS,tag);Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v));parent.appendChild(e);return e}
+function textAt(parent,p,str,color,dx=8,dy=-11){let q=P(p),e=make('text',{x:q[0]+dx,y:q[1]+dy,fill:color,'font-size':13,'font-weight':700,'pointer-events':'none'},parent);e.textContent=str}
+for(let x=-10;x<=10;x++)make('line',{x1:OX+x*S,y1:0,x2:OX+x*S,y2:440,stroke:x?'#1C2A42':'#64748B','stroke-width':x?1:1.5},g.grid);
+for(let y=-7;y<=7;y++)make('line',{x1:0,y1:OY-y*S,x2:600,y2:OY-y*S,stroke:y?'#1C2A42':'#64748B','stroke-width':y?1:1.5},g.grid);
+for(let x=-8;x<=8;x+=2)make('text',{x:OX+x*S,y:OY+16,fill:'#94A3B8','font-size':10,'text-anchor':'middle'},g.grid).textContent=x;
+for(let y=-6;y<=6;y+=2)if(y)make('text',{x:OX+7,y:OY-y*S-5,fill:'#94A3B8','font-size':10},g.grid).textContent=y;
+let anchor=[-4,1],kind='x',a=1,template=presets.triangle,pts=[],imgs=[],steps=[],index=0,progress=0,mode='idle',wait=0,playing=false,frame=0,last=null,valid=true,ring,glow,blink,tip,num,vertices=[];
+function reflect(p){return kind==='x'?[2*a-p[0],p[1]]:kind==='y'?[p[0],2*a-p[1]]:kind==='d'?[p[1],p[0]]:[-p[1],-p[0]]}
+function foot(p){return kind==='x'?[a,p[1]]:kind==='y'?[p[0],a]:kind==='d'?[(p[0]+p[1])/2,(p[0]+p[1])/2]:[(p[0]-p[1])/2,(p[1]-p[0])/2]}
+function fits(pos){let ps=template.map(p=>[p[0]+pos[0],p[1]+pos[1]]);return [...ps,...ps.map(reflect)].every(p=>p[0]>=-9&&p[0]<=9&&p[1]>=-6&&p[1]<=6)}
+function convexHull(points){
+ const sorted=points.slice().sort((a,b)=>a[0]-b[0]||a[1]-b[1]);
+ const cross=(o,a,b)=>(a[0]-o[0])*(b[1]-o[1])-(a[1]-o[1])*(b[0]-o[0]);
+ const low=[],high=[];
+ for(const p of sorted){while(low.length>=2&&cross(low[low.length-2],low[low.length-1],p)<=0)low.pop();low.push(p)}
+ for(const p of sorted.slice().reverse()){while(high.length>=2&&cross(high[high.length-2],high[high.length-1],p)<=0)high.pop();high.push(p)}
+ return low.slice(0,-1).concat(high.slice(0,-1));
+}
+function randomShape(){
+ const previous=JSON.stringify(template);
+ for(let attempt=0;attempt<350;attempt++){
+  const desired=3+Math.floor(Math.random()*4);
+  const cloud=Array.from({length:desired+3},()=>[Math.floor(Math.random()*6),Math.floor(Math.random()*5)]);
+  const unique=[...new Map(cloud.map(p=>[p.join(','),p])).values()];
+  const hull=convexHull(unique);
+  if(hull.length!==desired)continue;
+  const minX=Math.min(...hull.map(p=>p[0])),minY=Math.min(...hull.map(p=>p[1]));
+  const candidate=hull.map(p=>[p[0]-minX,p[1]-minY]);
+  if(JSON.stringify(candidate)===previous)continue;
+  const old=template;template=candidate;
+  let ok=false;
+  for(let y=-5;y<=5&&!ok;y++)for(let x=-8;x<=7&&!ok;x++)if(fits([x,y]))ok=true;
+  template=old;
+  if(ok)return candidate;
+ }
+ // Bentuk sandaran yang kecil dan mempunyai bucu berbeza.
+ return [[0,0],[2,0],[2,2],[0,2]];
+}
+function updateButtons(){$('play').textContent=playing?'⏸ Pause':index>=steps.length?'↻ Ulang':'▶ Mainkan';$('prev').disabled=index===0&&progress===0;$('next').disabled=index>=steps.length}
+function stop(){playing=false;cancelAnimationFrame(frame);last=null;updateButtons()}
+function dist(p){return kind==='x'?Math.abs(p[0]-a):kind==='y'?Math.abs(p[1]-a):kind==='d'?Math.abs(p[0]-p[1])/Math.SQRT2:Math.abs(p[0]+p[1])/Math.SQRT2}function nearestIdx(){let k=0;pts.forEach((p,i)=>{if(dist(p)<dist(pts[k])-1e-9)k=i});return k}let order=[];function info(){const na=String(a).replace('-','−'),name=kind==='x'?'x = '+na:kind==='y'?'y = '+na:kind==='d'?'y = x':'y = −x',type=kind==='x'?'garis menegak':kind==='y'?'garis mengufuk':'garis condong';
+$('explain').innerHTML='Pantulkan pada garis <strong>'+name+'</strong> ('+type+').<br>Laluan hijau: bucu ke garis pantulan. Laluan oren: garis ke imej, dengan jarak yang sama.';
+const k=nearestIdx();const A=pts[k],B=imgs[k],N=L[k],f=v=>String(v).replace('-','−');let html='<strong>Bucu terdekat dengan garis:</strong> '+N+'<br><strong>Koordinat:</strong> '+N+'('+A.map(f).join(', ')+') → '+N+'′('+B.map(f).join(', ')+')';
+if(kind==='x'||kind==='y'){const d=dist(A);html+='<br><strong>Jarak '+N+' ke garis:</strong> '+d+' petak · <strong>Jarak garis ke '+N+'′:</strong> '+d+' petak'}else html+='<br><strong>Garis pantulan:</strong> '+name;
+if(dist(A)<1e-9)html+='<br>'+N+' berada pada garis pantulan, jadi kedudukannya tidak berubah.';$('coordinates').innerHTML=html}
+function setup(){
+stop();kind=$('axis').value;index=0;progress=0;mode='idle';wait=0;
+$('valuebox').style.display=kind==='x'||kind==='y'?'flex':'none';$('valuestatus').style.display=kind==='x'||kind==='y'?'block':'none';$('valuestatus').textContent='Nilai '+(kind==='x'?'a':'b')+' = '+a;$('valuestatus').style.color='#94A3B8';$('value').setAttribute('aria-label',kind==='x'?'Nilai a':'Nilai b');$('randomize').style.display=$('shape').value==='random'?'block':'none';
+valid=true;
+if(!valid){$('play').disabled=true;$('status').textContent='Masukkan nilai integer antara −5 hingga 5';return}
+if(!fits(anchor)){let found=false;for(let y=-5;y<=5&&!found;y++)for(let x=-8;x<=7&&!found;x++)if(fits([x,y])){anchor=[x,y];found=true}if(!found){valid=false;$('play').disabled=true;$('status').textContent='Bentuk tidak muat pada grid';return}}
+$('play').disabled=false;[g.axis,g.original,g.rays,g.image,g.fx].forEach(group=>group.replaceChildren());
+const path=kind==='x'?`M${OX+a*S} 0 V440`:kind==='y'?`M0 ${OY-a*S} H600`:kind==='d'?'M80 440 L520 0':'M80 0 L520 440';
+make('path',{d:path,stroke:'#c084fc','stroke-width':3,'stroke-dasharray':'9 7',fill:'none'},g.axis);
+textAt(g.axis,kind==='x'?[a,6]:kind==='y'?[-8,a]:kind==='d'?[5,5]:[5,-5],kind==='x'?`x = ${a}`:kind==='y'?`y = ${a}`:kind==='d'?'y = x':'y = −x','#e9b8ff');
+pts=template.map(p=>[p[0]+anchor[0],p[1]+anchor[1]]);imgs=pts.map(reflect);info();
+make('polygon',{points:pts.map(P).map(q=>q.join(',')).join(' '),fill:'#0284c7','fill-opacity':'.22',stroke:'#38bdf8','stroke-width':3},g.original);
+pts.forEach((p,i)=>{let q=P(p);make('circle',{cx:q[0],cy:q[1],r:4,fill:'#7dd3fc'},g.original);textAt(g.original,p,L[i],'#e0f2fe',i===0?-14:8,i<2?18:-11)});
+steps=[];
+const k0=nearestIdx();order=pts.map((_,j)=>(k0+j)%pts.length);order.forEach(i=>{const p=pts[i];[[p,foot(p)],[foot(p),imgs[i]]].forEach(([from,to],half)=>{let start=P(from),end=P(to),units=Math.max(Math.abs(to[0]-from[0]),Math.abs(to[1]-from[1]));let line=make('line',{x1:start[0],y1:start[1],x2:start[0],y2:start[1],stroke:half?'#fb923c':'#34d399','stroke-width':3,'stroke-linecap':'round'},g.rays);if(half)line.setAttribute('stroke-dasharray','7 6');steps.push({type:'ray',index:i,half,a:start,b:end,units,line})})});
+vertices=imgs.map((p,i)=>{let group=make('g',{},g.image),q=P(p);make('circle',{cx:q[0],cy:q[1],r:4,fill:'#f472b6'},group);textAt(group,p,L[i]+'′','#fbcfe8',i===0?-14:8,i<2?18:-11);return group});
+order.forEach(i=>{const p=imgs[i];let start=P(p),end=P(imgs[(i+1)%imgs.length]),line=make('line',{x1:start[0],y1:start[1],x2:start[0],y2:start[1],stroke:'#f472b6','stroke-width':3.8,'stroke-linecap':'round'},g.image);steps.push({type:'edge',index:i,a:start,b:end,units:Math.hypot(end[0]-start[0],end[1]-start[1])/S,line})});
+glow=make('circle',{r:20,fill:'#facc15','fill-opacity':'.16'},g.fx);ring=make('circle',{r:15,fill:'none',stroke:'#facc15','stroke-width':3.5},g.fx);blink=make('circle',{r:12,fill:'#facc15','fill-opacity':'.3',stroke:'#facc15','stroke-width':3},g.fx);tip=make('circle',{r:5,fill:'#facc15',stroke:'white','stroke-width':1},g.fx);num=make('text',{fill:'#fde68a','font-size':17,'font-weight':700,'font-family':'Space Grotesk, sans-serif','text-anchor':'middle',stroke:'#0B1220','stroke-width':3.5,'paint-order':'stroke','pointer-events':'none'},g.fx);draw();
+}
+function draw(){
+if(!valid)return;
+steps.forEach((s,i)=>{let t=i<index?1:i===index?progress:0;s.line.setAttribute('x2',s.a[0]+(s.b[0]-s.a[0])*t);s.line.setAttribute('y2',s.a[1]+(s.b[1]-s.a[1])*t);s.line.style.opacity=t>0?1:0});
+let s=steps[index],ray=s&&s.type==='ray';
+if(ray&&s.half===0&&mode==='highlight'){let p=P(pts[s.index]),v=Math.abs(Math.sin(wait/170));[ring,glow].forEach(e=>{e.setAttribute('cx',p[0]);e.setAttribute('cy',p[1]);e.setAttribute('r',14+8*v);e.style.opacity=.35+.65*v})}else{ring.style.opacity=0;glow.style.opacity=0}
+if(ray&&mode==='axisHold'){let v=Math.abs(Math.sin(wait/140));blink.setAttribute('cx',s.a[0]);blink.setAttribute('cy',s.a[1]);blink.setAttribute('r',10+8*v);blink.style.opacity=.15+.85*v}else blink.style.opacity=0;
+if(s&&mode==='move'){let x=s.a[0]+(s.b[0]-s.a[0])*progress,y=s.a[1]+(s.b[1]-s.a[1])*progress;tip.setAttribute('cx',x);tip.setAttribute('cy',y);tip.style.opacity=progress>0?1:0;if(ray&&progress>0&&s.units>0){let count=Math.min(Math.max(1,Math.ceil(s.units)),Math.floor(progress*s.units+1e-6)+1);num.setAttribute('x',x+15);num.setAttribute('y',y-13);num.textContent=String(count);num.style.opacity=1}else num.style.opacity=0}else{tip.style.opacity=0;num.style.opacity=0}
+vertices.forEach((v,i)=>v.style.opacity=index>=2*order.indexOf(i)+2?1:0);g.rays.style.opacity=index>=steps.length?0:1;
+$('stage').textContent=`Langkah ${index} / ${steps.length}`;
+$('status').textContent=mode==='idle'?'Sedia':!s?'Selesai':s.type==='edge'?`Bina sisi ${L[s.index]}′–${L[(s.index+1)%pts.length]}′`:L[s.index]+(s.half?' → '+L[s.index]+'′':' → garis');
+$('progress').style.width=(steps.length?(index+progress)/steps.length*100:0)+'%';updateButtons();
+}
+function nextMode(){if(index>=steps.length)return 'done';let s=steps[index];return s.type==='edge'?'move':s.half===0?'highlight':'axisHold'}
+function advance(){index=Math.min(steps.length,index+1);progress=0;wait=0;mode=nextMode();if(index===steps.length)stop()}
+function tick(now){if(!playing)return;if(last===null)last=now;let dt=Math.min(now-last,60)*Number($('speed').value);last=now;
+if(mode==='highlight'){wait+=dt;if(wait>=850){wait=0;mode='move'}}else if(mode==='axisHold'){wait+=dt;if(wait>=810){wait=0;mode='move'}}else if(mode==='move'){let s=steps[index];if(s){progress+=dt/(s.type==='edge'?480:Math.max(550,s.units*360));if(progress>=1)advance()}else stop()}draw();if(playing)frame=requestAnimationFrame(tick)}
+$('play').onclick=()=>{if(!valid)return;if(playing){stop();draw();return}if(index>=steps.length){index=0;progress=0;mode='idle';wait=0}if(mode==='idle'){mode='highlight';wait=0}playing=true;last=null;updateButtons();draw();frame=requestAnimationFrame(tick)};
+function jump(dir){if(!valid)return;stop();if(dir>0){if(index>=steps.length)return;index++}else{if(index===0){progress=0;mode='idle';draw();return}index--}progress=0;wait=0;mode=index===0?'idle':index>=steps.length?'done':'move';draw()}
+$('next').onclick=()=>jump(1);$('prev').onclick=()=>jump(-1);$('reset').onclick=()=>{anchor=[-4,1];setup()};
+$('speed').oninput=()=>{$('speedlabel').textContent=Number($('speed').value).toFixed(1)+'×'};
+$('shape').onchange=()=>{template=$('shape').value==='random'?randomShape():presets[$('shape').value];anchor=[-4,1];setup()};
+$('randomize').onclick=()=>{template=randomShape();anchor=[-4,1];setup()};$('axis').onchange=setup;
+function applyValue(){const raw=$('value').value.trim(),v=Number(raw);if(raw===''||!Number.isInteger(v)||v< -5||v>5){$('valuestatus').textContent='Masukkan integer −5 hingga 5';$('valuestatus').style.color='#FBBF24';return}a=v;setup()}
+$('apply').onclick=applyValue;$('value').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();applyValue()}};$('value').oninput=()=>{$('valuestatus').textContent='Belum ditetapkan';$('valuestatus').style.color='#94A3B8'};
+const hit=$('hit'),svg=$('svg'),warning=$('movewarning');
+let dragging=false,offset=[0,0],activePointer=null;
+function centroid(){let sx=0,sy=0;template.forEach(p=>{sx+=p[0];sy+=p[1]});return [sx/template.length,sy/template.length]}
+function coords(e){let r=svg.getBoundingClientRect();return [((e.clientX-r.left)/r.width*600-OX)/S,(OY-(e.clientY-r.top)/r.height*440)/S]}
+function insideShape(pos){let poly=template.map(p=>[p[0]+anchor[0],p[1]+anchor[1]]),inside=false;for(let i=0,j=poly.length-1;i<poly.length;j=i++){let u=poly[i],v=poly[j];if((u[1]>pos[1])!==(v[1]>pos[1])&&pos[0]<(v[0]-u[0])*(pos[1]-u[1])/(v[1]-u[1])+u[0])inside=!inside}return inside}
+function placeAt(pos){let q=[Math.round(pos[0]),Math.round(pos[1])];if(fits(q)){warning.textContent='';if(q[0]!==anchor[0]||q[1]!==anchor[1]){anchor=q;setup()}}else warning.textContent='⚠ Di luar grid'}
+hit.addEventListener('pointerdown',e=>{if(!valid)return;let pos=coords(e);dragging=true;activePointer=e.pointerId;if(insideShape(pos)){offset=[anchor[0]-pos[0],anchor[1]-pos[1]]}else{let c=centroid();offset=[-c[0],-c[1]];placeAt([pos[0]+offset[0],pos[1]+offset[1]])}try{hit.setPointerCapture(e.pointerId)}catch(err){}e.preventDefault()});
+hit.addEventListener('pointermove',e=>{if(!dragging||e.pointerId!==activePointer)return;let p=coords(e);placeAt([p[0]+offset[0],p[1]+offset[1]])});
+function endDrag(e){if(e.pointerId===activePointer){dragging=false;activePointer=null}}
+hit.addEventListener('pointerup',endDrag);hit.addEventListener('pointercancel',endDrag);
+setup();
+})();
+</script>
+<script>(function(){var b=document.getElementById('backbtn');b.addEventListener('click',function(e){try{var r=document.referrer?new URL(document.referrer):null;if(r&&r.origin===location.origin&&history.length>1){e.preventDefault();history.back()}}catch(x){}})})();</script>
+<script src="../js/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button();FX.watchSim('status',document.querySelector('.canvasbox'))}</script>
+</body>
+</html>

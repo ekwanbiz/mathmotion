@@ -243,149 +243,19 @@ function shapeSVG(kind, n) {
   return `<svg viewBox="0 0 ${W} 300" role="img" aria-label="Bentuk">${s}</svg>`;
 }
 
-/* =================== TEROKA (simulasi) =================== */
-const SIMDEF = { translasi: ['Translasi', 'tr', 'am'], pantulan: ['Pantulan', 'tr', 'pa'], putaran: ['Putaran', 'tr', 'pu'] };
-const SIM0 = () => ({ pts: [[1, 1], [4, 1], [1, 3]], a: 4, b: 2, ax: 'y', h: 0, k: 0, ang: 90, dir: 'ikut', cx: 0, cy: 0, show: { img: true, line: true, coord: false }, t: 1 });
-let SIM = SIM0(), simType = 'translasi', simAnim = 0;
-const LAB = ['A', 'B', 'C'];
-function simImg(p, t = 1) {
-  const [x, y] = p;
-  if (simType === 'translasi') return [x + SIM.a * t, y + SIM.b * t];
-  if (simType === 'pantulan') {
-    let q;
-    if (SIM.ax === 'x') q = [x, -y]; else if (SIM.ax === 'y') q = [-x, y];
-    else if (SIM.ax === 'v') q = [2 * SIM.h - x, y]; else if (SIM.ax === 'h') q = [x, 2 * SIM.k - y]; else q = [y, x];
-    return [x + (q[0] - x) * t, y + (q[1] - y) * t];
-  }
-  const sign = SIM.ang === 180 ? 1 : (SIM.dir === 'ikut' ? -1 : 1);
-  const th = sign * SIM.ang * Math.PI / 180 * t, dx = x - SIM.cx, dy = y - SIM.cy;
-  const r = v => Math.round(v * 1e6) / 1e6;
-  return [r(SIM.cx + dx * Math.cos(th) - dy * Math.sin(th)), r(SIM.cy + dx * Math.sin(th) + dy * Math.cos(th))];
-}
-function simRule() {
-  if (simType === 'translasi') return `(x, y) → (x ${SIM.a < 0 ? '−' : '+'} ${Math.abs(SIM.a)}, y ${SIM.b < 0 ? '−' : '+'} ${Math.abs(SIM.b)})`;
-  if (simType === 'pantulan') return { x: 'Paksi-x: (x, y) → (x, −y)', y: 'Paksi-y: (x, y) → (−x, y)', v: `Garis x = ${fmt(SIM.h)}`, h: `Garis y = ${fmt(SIM.k)}`, yx: 'Garis y = x: (x, y) → (y, x)' }[SIM.ax];
-  return `${SIM.ang}°${SIM.ang === 180 ? '' : (SIM.dir === 'ikut' ? ' ikut arah jam' : ' lawan arah jam')} pada ${P(SIM.cx, SIM.cy)}`;
-}
-function simSVG() {
-  const R = 8, Y = y => -y, [, oc, ic] = SIMDEF[simType];
-  let s = '';
-  for (let i = -R; i <= R; i++) s += `<line x1="${i}" y1="${-R}" x2="${i}" y2="${R}" style="stroke:var(--grid)" stroke-width=".05"/><line x1="${-R}" y1="${i}" x2="${R}" y2="${i}" style="stroke:var(--grid)" stroke-width=".05"/>`;
-  s += `<line x1="${-R}" y1="0" x2="${R}" y2="0" style="stroke:var(--mu)" stroke-width=".08"/><line x1="0" y1="${-R}" x2="0" y2="${R}" style="stroke:var(--mu)" stroke-width=".08"/>`;
-  for (let i = -R + 2; i < R; i += 2) if (i) s += `<text x="${i}" y=".62" font-size=".42" text-anchor="middle" style="fill:var(--mu)">${fmt(i)}</text><text x="-.22" y="${Y(i) + .15}" font-size=".42" text-anchor="end" style="fill:var(--mu)">${fmt(i)}</text>`;
-  s += `<text x="${R - .15}" y="-.25" font-size=".5" font-style="italic" text-anchor="end" style="fill:var(--mu)">x</text><text x=".25" y="${-R + .5}" font-size=".5" font-style="italic" style="fill:var(--mu)">y</text>`;
-  // paksi pantulan
-  if (simType === 'pantulan') {
-    const L = { x: [[-R, 0], [R, 0]], y: [[0, -R], [0, R]], v: [[SIM.h, -R], [SIM.h, R]], h: [[-R, SIM.k], [R, SIM.k]], yx: [[-R, -R], [R, R]] }[SIM.ax];
-    s += `<line x1="${L[0][0]}" y1="${Y(L[0][1])}" x2="${L[1][0]}" y2="${Y(L[1][1])}" style="stroke:var(--pa)" stroke-width=".14" stroke-linecap="round"/>`;
-  }
-  const img = SIM.pts.map(p => simImg(p, SIM.t));
-  const fin = SIM.pts.map(p => simImg(p, 1));
-  // garis penyambung
-  if (SIM.show.line && SIM.show.img) {
-    if (simType === 'putaran') SIM.pts.forEach((p, i) => { s += `<line x1="${SIM.cx}" y1="${Y(SIM.cy)}" x2="${p[0]}" y2="${Y(p[1])}" style="stroke:var(--tx)" stroke-width=".05" stroke-dasharray=".2 .16" opacity=".6"/><line x1="${SIM.cx}" y1="${Y(SIM.cy)}" x2="${fin[i][0]}" y2="${Y(fin[i][1])}" style="stroke:var(--tx)" stroke-width=".05" stroke-dasharray=".2 .16" opacity=".6"/>`; });
-    else SIM.pts.forEach((p, i) => {
-      const q = fin[i]; if (q[0] === p[0] && q[1] === p[1]) return;
-      s += `<line x1="${p[0]}" y1="${Y(p[1])}" x2="${q[0]}" y2="${Y(q[1])}" style="stroke:var(--tx)" stroke-width=".06" stroke-dasharray=".22 .16" opacity=".7"${simType === 'translasi' ? ' marker-end="url(#ah)"' : ''}/>`;
-    });
-  }
-  s += `<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--tx)"/></marker></defs>`;
-  const poly = (pts, c, dash) => `<polygon points="${pts.map(p => p[0] + ',' + Y(p[1])).join(' ')}" style="fill:var(--${c});fill-opacity:.22;stroke:var(--${c})" stroke-width=".12" stroke-linejoin="round"${dash ? ' stroke-dasharray=".35 .22"' : ''}/>`;
-  s += poly(SIM.pts, oc, false);
-  if (SIM.show.img) s += poly(img, ic, true);
-  // label
-  const cen = pts => [pts.reduce((a, p) => a + p[0], 0) / 3, pts.reduce((a, p) => a + p[1], 0) / 3];
-  const lab = (pts, suf, c, coord) => {
-    const g = cen(pts); let o = '';
-    pts.forEach((p, i) => {
-      let dx = p[0] - g[0], dy = p[1] - g[1]; const L = Math.hypot(dx, dy) || 1; dx /= L; dy /= L;
-      const tx = p[0] + dx * .62, ty = p[1] + dy * .62;
-      o += `<text x="${tx.toFixed(2)}" y="${(Y(ty) + .2).toFixed(2)}" font-size=".62" font-weight="700" text-anchor="middle" font-family="Space Grotesk, sans-serif" style="fill:var(--${c})">${LAB[i]}${suf}</text>`;
-      if (coord && SIM.t === 1) o += `<text x="${tx.toFixed(2)}" y="${(Y(ty) + .75).toFixed(2)}" font-size=".4" font-weight="700" text-anchor="middle" style="fill:var(--${c})">${P(Math.round(p[0] * 100) / 100, Math.round(p[1] * 100) / 100)}</text>`;
-    });
-    return o;
-  };
-  s += lab(SIM.pts, '', oc, SIM.show.coord);
-  if (SIM.show.img) s += lab(img, '′', ic, SIM.show.coord);
-  // pemegang
-  SIM.pts.forEach((p, i) => { s += `<circle class="drag" data-v="${i}" cx="${p[0]}" cy="${Y(p[1])}" r=".34" style="fill:var(--${oc});stroke:var(--tx)" stroke-width=".08"/>`; });
-  if (simType === 'putaran') s += `<circle class="drag" data-v="c" cx="${SIM.cx}" cy="${Y(SIM.cy)}" r=".36" style="fill:var(--am);stroke:var(--tx)" stroke-width=".08"/><text x="${SIM.cx - .45}" y="${Y(SIM.cy) + .85}" font-size=".5" font-weight="700" text-anchor="end" style="fill:var(--am)">pusat</text>`;
-  return `<svg id="simsvg" viewBox="${-R - .7} ${-R - .7} ${2 * R + 1.4} ${2 * R + 1.4}" role="img" aria-label="Satah Cartes: objek ABC dan imej A′B′C′. ${esc(simRule())}" font-family="Inter, sans-serif">${s}</svg>`;
-}
-function stepper(id, label, val) { return `<div class="step"><span>${label}</span><button type="button" data-st="${id}" data-d="-1" aria-label="Kurangkan ${label}">−</button><b>${fmt(val)}</b><button type="button" data-st="${id}" data-d="1" aria-label="Tambah ${label}">+</button></div>`; }
+/* =================== TEROKA: simulasi asal ISOMOVE =================== */
+const SIMLIST = [['translasi', 'Translasi', 'tr'], ['pantulan', 'Pantulan', 'pa'], ['putaran', 'Putaran', 'pu']];
+let simLast = 'translasi';
 function viewTeroka(type) {
-  simType = SIMDEF[type] ? type : 'translasi';
-  const [name, oc, ic] = SIMDEF[simType], c = `var(--${ic})`;
-  let ctl = '';
-  if (simType === 'translasi') ctl = `<div class="pbox"><h3>VEKTOR TRANSLASI ${vec(SIM.a, SIM.b, 'am')}</h3>${stepper('a', 'Mengufuk (a)', SIM.a)}${stepper('b', 'Mencancang (b)', SIM.b)}</div>`;
-  if (simType === 'pantulan') ctl = `<div class="pbox" style="--c:${c}"><h3>PAKSI PANTULAN</h3><div class="opts">${[['x', 'Paksi-x'], ['y', 'Paksi-y'], ['v', 'x = h'], ['h', 'y = k'], ['yx', 'y = x']].map(([k, t]) => `<button type="button" class="opt" data-ax="${k}" aria-pressed="${SIM.ax === k}">${t}</button>`).join('')}</div>${SIM.ax === 'v' ? stepper('h', 'h', SIM.h) : ''}${SIM.ax === 'h' ? stepper('k', 'k', SIM.k) : ''}</div>`;
-  if (simType === 'putaran') ctl = `<div class="pbox" style="--c:${c}"><h3>SUDUT</h3><div class="opts" style="grid-template-columns:repeat(3,minmax(0,1fr))">${[90, 180, 270].map(a => `<button type="button" class="opt" data-ang="${a}" aria-pressed="${SIM.ang === a}">${a}°</button>`).join('')}</div>
-    <h3>ARAH</h3><div class="opts">${[['ikut', 'Ikut arah jam'], ['lawan', 'Lawan arah jam']].map(([k, t]) => `<button type="button" class="opt" data-dir="${k}" aria-pressed="${SIM.ang !== 180 && SIM.dir === k}"${SIM.ang === 180 ? ' disabled' : ''} style="font-size:14px">${t}</button>`).join('')}</div>
-    <h3>PUSAT PUTARAN</h3>${stepper('cx', 'x', SIM.cx)}${stepper('cy', 'y', SIM.cy)}</div>`;
-  const fin = SIM.pts.map(p => simImg(p, 1));
-  const rows = SIM.pts.map((p, i) => `<tr><td><b style="color:var(--${oc})">${LAB[i]}</b> ${P(p[0], p[1])}</td><td>→</td><td><b style="color:${c}">${LAB[i]}′</b> ${P(fin[i][0], fin[i][1])}</td></tr>`).join('');
-  const tips = { translasi: 'sorok imej, kemudian minta murid teka kedudukan A′ jika vektor ialah ' + vec(SIM.a, SIM.b, 'am') + '.', pantulan: 'sorok imej, pilih paksi, kemudian minta murid lukis imej di buku sebelum ditunjukkan.', putaran: 'gerakkan pusat putaran dan tanya: adakah jarak A ke pusat sama dengan A′ ke pusat?' };
-  return `<div class="sim">
-    <div class="simbox">${simSVG()}</div>
-    <aside class="panel">
-      <div class="seg" role="group" aria-label="Pilih simulasi">${Object.keys(SIMDEF).map(k => `<button type="button" data-sim="${k}" aria-pressed="${k === simType}" style="--c:var(--${SIMDEF[k][2]})">${SIMDEF[k][0]}</button>`).join('')}</div>
-      ${ctl}
-      <div class="pbox"><div class="rule" style="color:${c}">${simRule()}</div><table class="ctab"><tbody>${rows}</tbody></table></div>
-      <div class="pbox" style="--c:${c};gap:2px">
-        <label class="tg">Imej <input type="checkbox" data-show="img"${SIM.show.img ? ' checked' : ''}></label>
-        <label class="tg">Garis penyambung <input type="checkbox" data-show="line"${SIM.show.line ? ' checked' : ''}></label>
-        <label class="tg">Koordinat pada rajah <input type="checkbox" data-show="coord"${SIM.show.coord ? ' checked' : ''}></label>
-      </div>
-      <div class="tip"><b>Tanya kelas:</b> ${tips[simType]}</div>
-      <div class="prow"><button type="button" class="btn pri" id="simPlay" style="flex:1;background:${c}">${IC.play} Mainkan ${name.toLowerCase()}</button><button type="button" class="ib" id="simReset" aria-label="Set semula" style="width:52px;height:52px">${IC.reset}</button></div>
-      <p style="margin:0;font-size:13px;color:var(--mu)">Seret bucu A, B atau C${simType === 'putaran' ? ' dan titik pusat' : ''} pada rajah.</p>
-    </aside></div>`;
+  if (!SIMLIST.some(x => x[0] === type)) type = simLast;
+  simLast = type;
+  const name = SIMLIST.find(x => x[0] === type)[1];
+  return `<div class="tero">
+    <nav class="seg terseg" aria-label="Pilih simulasi">${SIMLIST.map(([k, t, c]) => `<a href="#/teroka/${k}"${k === type ? ' aria-current="page"' : ''} style="--c:var(--${c})">${t}</a>`).join('')}</nav>
+    <iframe class="simframe" src="simulasi/${type}.html" title="Simulasi ${name}"></iframe>
+  </div>`;
 }
-function bindTeroka() {
-  const main = document.getElementById('main');
-  const rer = () => { render(true); };
-  main.querySelectorAll('[data-sim]').forEach(b => b.onclick = () => { location.hash = '#/teroka/' + b.dataset.sim; });
-  main.querySelectorAll('[data-st]').forEach(b => b.onclick = () => {
-    const k = b.dataset.st, d = +b.dataset.d; SIM[k] = Math.max(-8, Math.min(8, SIM[k] + d)); SIM.t = 1; rer();
-  });
-  main.querySelectorAll('[data-ax]').forEach(b => b.onclick = () => { SIM.ax = b.dataset.ax; SIM.t = 1; rer(); });
-  main.querySelectorAll('[data-ang]').forEach(b => b.onclick = () => { SIM.ang = +b.dataset.ang; SIM.t = 1; rer(); });
-  main.querySelectorAll('[data-dir]').forEach(b => b.onclick = () => { SIM.dir = b.dataset.dir; SIM.t = 1; rer(); });
-  main.querySelectorAll('[data-show]').forEach(c => c.onchange = () => { SIM.show[c.dataset.show] = c.checked; rer(); });
-  document.getElementById('simReset').onclick = () => { cancelAnimationFrame(simAnim); SIM = SIM0(); rer(); };
-  document.getElementById('simPlay').onclick = () => {
-    cancelAnimationFrame(simAnim); SIM.show.img = true; const t0 = performance.now(), D = 1400;
-    const step = now => {
-      const k = Math.min(1, (now - t0) / D); SIM.t = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
-      const box = document.querySelector('.simbox'); if (!box) return;
-      box.innerHTML = simSVG();
-      if (k < 1) simAnim = requestAnimationFrame(step); else { SIM.t = 1; rer(); }
-    };
-    SIM.t = 0; simAnim = requestAnimationFrame(step);
-  };
-  bindDrag();
-}
-let simDrag = null;
-function bindDrag() {
-  const box = document.querySelector('.simbox'); if (!box || box._b) return; box._b = 1;
-  const toW = e => {
-    const svg = box.querySelector('svg'); if (!svg) return null;
-    const pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY; const m = svg.getScreenCTM(); if (!m) return null;
-    const q = pt.matrixTransform(m.inverse()); return [Math.max(-8, Math.min(8, Math.round(q.x))), Math.max(-8, Math.min(8, Math.round(-q.y)))];
-  };
-  box.addEventListener('pointerdown', e => {
-    const t = e.target.closest('[data-v]'); if (!t) return;
-    simDrag = t.dataset.v; try { box.setPointerCapture(e.pointerId); } catch (er) {} e.preventDefault();
-  });
-  box.addEventListener('pointermove', e => {
-    if (simDrag == null) return; const w = toW(e); if (!w) return;
-    if (simDrag === 'c') { if (SIM.cx === w[0] && SIM.cy === w[1]) return; SIM.cx = w[0]; SIM.cy = w[1]; }
-    else { const i = +simDrag; if (SIM.pts.some((p, j) => j !== i && p[0] === w[0] && p[1] === w[1])) return; if (SIM.pts[i][0] === w[0] && SIM.pts[i][1] === w[1]) return; SIM.pts[i] = w; }
-    SIM.t = 1; box.innerHTML = simSVG();
-  });
-  const end = () => { if (simDrag != null) { simDrag = null; render(true); } };
-  box.addEventListener('pointerup', end); box.addEventListener('pointercancel', end);
-}
+function bindTeroka() {}
 
 /* =================== Penjana soalan =================== */
 // setiap fungsi: {q, fig?, figAns?, ans, work[]}
@@ -739,7 +609,7 @@ function render(keepScroll) {
   let inner = '', bind = () => {};
   if (tab === 'nota' && p[1]) { inner = viewSlide(p[1], +p[2] || 1); bind = bindSlide; document.title = `${p[1]} Nota · ISOMOVE`; }
   else if (tab === 'nota') { inner = viewNotaList(); bind = bindNotaList; document.title = 'Nota · ISOMOVE'; }
-  else if (tab === 'teroka') { inner = viewTeroka(p[1] || simType); bind = bindTeroka; document.title = 'Teroka · ISOMOVE'; }
+  else if (tab === 'teroka') { inner = viewTeroka(p[1]); bind = bindTeroka; document.title = 'Teroka · ISOMOVE'; }
   else if (tab === 'latihan' && p[1] === 'main') { inner = viewLatMain(); bind = bindLatMain; document.title = 'Latihan · ISOMOVE'; }
   else if (tab === 'latihan') { inner = viewLatihan(); bind = bindLatihan; document.title = 'Latihan · ISOMOVE'; }
   else if (tab === 'games') { inner = viewGames(); bind = bindGames; document.title = 'Games · ISOMOVE'; }

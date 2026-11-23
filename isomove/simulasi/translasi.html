@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>Simulasi Translasi · ISOMOVE</title>
+<meta name="theme-color" content="#0B1220">
+<link rel="manifest" href="../../manifest.webmanifest">
+<link rel="icon" href="../logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../icons/icon-192.png">
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:600;font-display:swap;src:url('../fonts/inter-latin-600-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../fonts/inter-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:'Space Grotesk';font-weight:700;font-display:swap;src:url('../fonts/space-grotesk-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--surface:#131C2E;--border:#22304A;--text:#E6EDF7;--muted:#94A3B8;--accent:#38BDF8;--green:#34D399;--orange:#FB923C;--pink:#F472B6;--amber:#FBBF24;--head:'Space Grotesk',system-ui,sans-serif}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background-color:var(--bg);background-image:linear-gradient(rgba(148,163,184,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(148,163,184,.06) 1px,transparent 1px);background-size:24px 24px;color:var(--text);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1120px;margin:0 auto;padding:20px 16px calc(28px + env(safe-area-inset-bottom,0px))}
+.top{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.back{flex:none;width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:var(--surface);border:1px solid var(--border);color:var(--text)}
+.back:hover{border-color:var(--muted)}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.top h1{margin:2px 0 0;font-family:var(--head);font-size:28px;line-height:1.1}
+.top p{margin:2px 0 0;font-size:13px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:minmax(0,1fr);grid-template-areas:"controls" "canvas" "player";gap:14px}
+.a-controls{grid-area:controls}.a-canvas{grid-area:canvas}.a-player{grid-area:player}
+.panel{border:1px solid var(--border);background:var(--surface);padding:16px;border-radius:20px}
+.row{display:flex;align-items:center;gap:9px}
+label,.muted{font-size:12px;color:var(--muted)}
+.title{font-size:14px;font-weight:700;color:var(--text)}
+select,input[type=number]{background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:12px;padding:10px 12px;font:inherit;font-size:15px}
+select{width:100%;margin-top:6px;min-height:46px}
+input[type=number]{width:78px;min-height:44px;font-family:var(--head);font-weight:700;font-size:17px;text-align:center}
+select:focus,input:focus{border-color:var(--accent);outline:none}
+button{border:1px solid var(--border);border-radius:12px;padding:10px 12px;min-height:46px;background:var(--bg);color:var(--text);font:inherit;font-weight:600;font-size:14px;cursor:pointer}
+button:hover:not(:disabled){border-color:var(--muted)}
+button:disabled{opacity:.4;cursor:not-allowed}
+.bracket{height:100px;width:12px;border:3px solid var(--accent)}
+.bl{border-right:0;border-radius:8px 0 0 8px}.br{border-left:0;border-radius:0 8px 8px 0}
+.hint{font-size:13px;font-weight:600;margin:0 0 8px}
+.canvasbox{border:1px solid var(--border);border-radius:18px;overflow:hidden;background:var(--bg)}
+canvas{width:100%;height:auto;display:block;touch-action:none;cursor:crosshair}
+.legend{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;font-size:12px;font-weight:600}
+.legend span{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;background:var(--surface);border:1px solid var(--border)}
+.legend i{width:10px;height:10px;border-radius:999px;display:inline-block}
+.canvasbox{position:relative}.warning{position:absolute;top:12px;left:50%;transform:translateX(-50%);z-index:2;width:max-content;max-width:calc(100% - 24px);padding:10px 16px;border-radius:14px;background:#FBBF24;color:#0B1220;font-size:14px;font-weight:700;line-height:1.35;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.45);pointer-events:none;animation:pop .25s ease-out}.warning:empty{display:none}@keyframes pop{from{opacity:0;transform:translate(-50%,-8px)}to{opacity:1;transform:translate(-50%,0)}}@media(min-width:900px){.warning{font-size:15px;top:16px}}@media(prefers-reduced-motion:reduce){.warning{animation:none}}
+.barbg{height:8px;background:var(--border);border-radius:999px;overflow:hidden;margin:12px 0}
+.bar{height:100%;width:0%;background:var(--accent);border-radius:999px}
+.primary{flex:1;background:var(--accent);border-color:var(--accent);color:var(--bg);font-family:var(--head);font-weight:700;font-size:16px}
+.primary:hover:not(:disabled){background:#7DD3FC;border-color:#7DD3FC}
+.set{background:var(--green);border-color:var(--green);color:var(--bg);font-weight:700;margin-left:8px}
+.set:hover:not(:disabled){background:#6EE7B7;border-color:#6EE7B7}
+input[type=range]{accent-color:var(--accent)}.note{background:var(--bg);border:1px solid var(--border);border-left:3px solid var(--accent);padding:12px 14px;margin-top:12px;border-radius:12px;font-size:13px;line-height:1.6;color:var(--text)}.note strong{color:#7DD3FC}.statusline{font-size:13px;margin-top:12px;line-height:1.7;color:var(--text)}.statusline strong{color:var(--muted);font-weight:600}
+@media(max-width:440px){.wrap{padding:14px 10px 24px}.panel{padding:12px}.row{gap:6px}.set{margin-left:0}button{padding:9px 8px}.top h1{font-size:24px}}
+@media(min-width:900px){
+ .wrap{padding:32px 32px 40px}
+ .top h1{font-size:36px}
+ .grid{grid-template-columns:minmax(0,1fr) 340px;grid-template-rows:auto 1fr;grid-template-areas:"canvas controls" "canvas player";align-items:start;gap:20px}
+ .a-canvas{grid-row:1 / span 2}
+}
+
+/* Butang kembali mudah ditekan di iPhone: elak kawasan jam/notch, header melekat di atas */
+.wrap{padding-top:0}
+.top{position:sticky;top:0;z-index:20;margin:0 -16px 16px;padding:calc(12px + env(safe-area-inset-top,0px)) 16px 12px;background:rgba(11,18,32,.94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+.back{width:auto;height:48px;padding:0 16px 0 12px;gap:6px;font-weight:700;font-size:15px;text-decoration:none;touch-action:manipulation}
+.back span{line-height:1}
+@media(max-width:440px){.top{margin:0 -10px 14px;padding-left:10px;padding-right:10px}.wrap{padding-top:0}}
+@media(max-width:420px){.top h1{font-size:22px}.top p{display:none}}
+.top-snd{margin-left:auto;flex:none}
+/* Amaran: satu baris kecil di luar grid, kiri atas (ganti teks petunjuk) */
+.a-canvas .warning{position:static;display:block;transform:none;width:max-content;max-width:100%;margin:0 0 8px;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700;line-height:1.4;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:none;opacity:1;animation:none}
+.a-canvas .warning:empty{display:none}
+.a-canvas:has(.warning:not(:empty)) .hint{display:none}
+/* ===== Kawalan padat + satu skrin di telefon ===== */
+.back svg{width:22px;height:22px;flex:none}
+.back:active{transform:scale(.94);background:var(--border)}
+.crow{display:flex;align-items:center;gap:8px}
+.crow+.crow{margin-top:10px}
+.cl{flex:none;width:60px;margin:0;font-size:12px;font-weight:700;color:var(--muted)}
+.crow select{flex:1;min-width:0;margin-top:0}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.rnd{width:100%;margin-top:8px}
+.vec{display:flex;align-items:stretch;gap:6px}
+.vec .bracket{height:auto}
+.vcol{display:flex;flex-direction:column;gap:6px}
+.vcol .row{gap:6px}.vcol .muted{width:10px}
+.crow .set{margin-left:4px;white-space:nowrap}
+.crow .coord{flex:1;flex-wrap:nowrap;gap:6px}
+.crow .axisvalue{flex:none}
+.cl{width:48px}.crow .coord input,.crow .axisvalue input{width:52px}.crow .set{padding-left:10px;padding-right:10px}
+.pbtns #prev,.pbtns #next{flex:none;width:48px;padding:0;font-size:18px}
+.pbtns button{white-space:nowrap}.pbtns .primary{min-width:0}
+.pspeed{margin-top:12px}
+.a-controls .note{margin-top:10px}
+@media(max-width:699px){
+ .wrap{height:100svh;display:flex;flex-direction:column;padding-bottom:calc(8px + env(safe-area-inset-bottom,0px))}
+ .top{margin-bottom:8px;padding-top:calc(6px + env(safe-area-inset-top,0px));padding-bottom:6px;gap:10px}
+ .top .eyebrow{display:none}
+ .top h1{font-size:20px;margin:0}
+ .back{height:40px;padding:0 12px 0 10px;font-size:14px}
+ .top .snd-btn{width:40px;height:40px;min-height:40px;border-radius:12px}
+ .grid{flex:1;min-height:0;display:flex;flex-direction:column;gap:8px}
+ .panel{padding:10px 12px;border-radius:16px}
+ select,input[type=number]{min-height:38px;padding:5px 8px;font-size:16px}
+ input[type=number]{width:54px}
+ .coord input,.axisvalue input{width:52px}
+ button{min-height:40px;padding:6px 10px}
+ .crow+.crow{margin-top:8px}
+ .cl{width:52px;font-size:11.5px}
+ .vcol{gap:4px}
+ .a-controls .note{margin-top:8px;padding:6px 10px;font-size:12px;line-height:1.4}
+ .valuestatus{font-size:11px;margin-top:4px}
+ .a-canvas{flex:1;min-height:170px;display:flex;flex-direction:column}
+ .hint,.sub{display:none}
+ .a-canvas .warning{margin:0 0 4px}
+ .canvasbox{flex:1;min-height:0;container-type:size;display:flex;align-items:center;justify-content:center;border:0;border-radius:0;background:none;overflow:visible}
+ .canvasbox>canvas,.canvasbox>svg{width:min(100cqw,calc(100cqh * 600 / 440));height:auto;aspect-ratio:600/440;border:1px solid var(--border);border-radius:14px}
+ .barbg{margin:8px 0}
+ .pspeed{margin-top:8px}
+ .primary{font-size:15px}
+}
+</style>
+<style>.inframe #backbtn{display:none}</style>
+<script>if(window.top!==window.self)document.documentElement.classList.add('inframe');</script>
+</head>
+<body>
+<main class="wrap">
+<header class="top">
+<a class="back" id="backbtn" href="../#/teroka" aria-label="Kembali ke Simulasi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/></svg><span>Kembali</span></a>
+<div><span class="eyebrow">ISOMOVE · Simulasi</span><h1>Translasi</h1><p>Gerakkan objek mengikut vektor translasi</p></div>
+<span class="top-snd" id="sndslot"></span></header>
+<div class="grid">
+<section class="panel a-controls">
+<div class="crow"><label class="cl" for="shape">Bentuk</label><select id="shape"><option value="triangle">Segi tiga</option><option value="quad">Segi empat</option><option value="pentagon">Pentagon</option><option value="hexagon">Heksagon</option><option value="trapezium">Trapezium</option><option value="random">Random</option></select></div>
+<button id="random" class="rnd" style="display:none">⚄ Jana Bentuk Baharu</button>
+<div class="crow"><span class="cl">Vektor</span><div class="vec"><div class="bracket bl"></div><div class="vcol"><div class="row"><span class="muted">x</span><input id="dx" type="number" value="4" min="-8" max="8" step="1" aria-label="Nilai x"></div><div class="row"><span class="muted">y</span><input id="dy" type="number" value="2" min="-6" max="6" step="1" aria-label="Nilai y"></div></div><div class="bracket br"></div></div><button id="apply" class="set">✓ Tetapkan</button></div>
+<div id="desc" class="note">Bentuk bergerak <strong>4 petak ke kanan</strong> dan <strong>2 petak ke atas</strong>.</div>
+</section>
+<div class="a-canvas">
+<p class="hint">Klik grid atau seret bentuk biru — bucu terkunci pada grid</p>
+<div id="warning" class="warning" role="alert" aria-live="assertive"></div><div class="canvasbox"><canvas id="canvas" width="600" height="440"></canvas></div>
+</div>
+<section class="panel a-player">
+<div class="row" style="justify-content:space-between"><span id="step" class="muted">Langkah 0 / 2</span><span id="status" class="muted">Sedia</span></div>
+<div class="barbg"><div id="bar" class="bar"></div></div>
+<div class="row pbtns"><button id="prev" aria-label="Langkah sebelum">←</button><button id="play" class="primary">▶ Mainkan</button><button id="next" aria-label="Langkah seterusnya">→</button><button id="reset">↺ Reset</button></div>
+<div class="row pspeed"><label for="speed">Kelajuan</label><input id="speed" type="range" min=".2" max="1" step=".1" value=".6" style="flex:1;min-width:0"><span id="speedtext" class="muted">0.6×</span></div>
+<div id="coordinates" class="statusline" hidden></div>
+</section>
+</div>
+</main>
+<script>
+
+(function(){'use strict';function E(s){return document.getElementById(s)}var cv=E('canvas'),g=cv.getContext('2d');var S=30,OX=300,OY=220,ABC='ABCDEF';var presets={triangle:[[0,0],[2,0],[1,2]],quad:[[0,0],[3,0],[3,2],[0,2]],pentagon:[[0,0],[2,0],[3,1],[1,3],[-1,1]],hexagon:[[0,0],[2,0],[3,1],[2,3],[0,3],[-1,1]],trapezium:[[0,0],[4,0],[3,2],[1,2]]};var shape=presets.triangle,anchor=[-5,-2],dx=4,dy=2,step=0,t=0,phase='idle',elapsed=0,playing=false,raf=0,last=0,drag=false,offset=[0,0],valid=true;
+function centroid(){var x=0,y=0;shape.forEach(function(p){x+=p[0];y+=p[1]});return[x/shape.length,y/shape.length]}function pts(a){return shape.map(function(p){return[p[0]+a[0],p[1]+a[1]]})}function shift(p){return[p[0]+dx,p[1]+dy]}function fits(a){return pts(a).every(function(p){var q=shift(p);return p[0]>=-9&&p[0]<=9&&p[1]>=-6&&p[1]<=6&&q[0]>=-9&&q[0]<=9&&q[1]>=-6&&q[1]<=6})}function xy(p){return[OX+p[0]*S,OY-p[1]*S]}function line(a,b,c,w){g.beginPath();g.moveTo(a[0],a[1]);g.lineTo(b[0],b[1]);g.strokeStyle=c;g.lineWidth=w;g.stroke()}function dot(p,r,c){g.beginPath();g.arc(p[0],p[1],r,0,Math.PI*2);g.fillStyle=c;g.fill()}function label(p,s,c){g.font='700 13px Inter, sans-serif';g.textAlign='left';g.fillStyle=c;g.fillText(s,p[0]+9,p[1]-10)}function stop(){playing=false;if(raf)cancelAnimationFrame(raf);raf=0;last=0}function resetAnim(){stop();step=0;t=0;phase='idle';elapsed=0;draw()}function warn(s){E('warning').textContent=s}function findValid(){if(fits(anchor))return true;for(var y=-5;y<=5;y++)for(var x=-8;x<=8;x++)if(fits([x,y])){anchor=[x,y];return true}return false}function describe(n,v){return n===0?'0 petak':Math.abs(n)+' petak ke '+(v?(n>0?'atas':'bawah'):(n>0?'kanan':'kiri'))}function randomShape(){var n=3+Math.floor(Math.random()*4),a=[];for(var i=0;i<n;i++){var ang=2*Math.PI*i/n-Math.PI/2,r=2+Math.random()*.4;a.push([Math.round(Math.cos(ang)*r),Math.round(Math.sin(ang)*r)])}return a}function explain(x,y){if(x===undefined){x=dx;y=dy}var h=x===0?'':'<strong>'+describe(x,false)+'</strong>',v=y===0?'':'<strong>'+describe(y,true)+'</strong>';if(!h&&!v)return 'Vektor (0, 0): bentuk tidak bergerak.';return 'Bentuk bergerak '+(h&&v?h+' dan '+v:(h||v))+'.'}function preview(){var a=E('dx').value.trim(),b=E('dy').value.trim(),x=Number(a),y=Number(b);if(a&&b&&Number.isInteger(x)&&Number.isInteger(y)&&Math.abs(x)<=8&&Math.abs(y)<=6)E('desc').innerHTML=explain(x,y)}E('dx').addEventListener('input',preview);E('dy').addEventListener('input',preview);function rebuild(){valid=findValid();resetAnim();E('random').style.display=E('shape').value==='random'?'block':'none';E('desc').innerHTML=explain();E('play').disabled=!valid;warn(valid?'':'⚠ Imej tidak muat dalam grid')}
+function grid(){g.fillStyle='#0B1220';g.fillRect(0,0,600,440);g.font='600 10px Inter, sans-serif';g.textAlign='center';for(var x=-10;x<=10;x++){line([OX+x*S,0],[OX+x*S,440],x?'#1C2A42':'#64748B',x?1:1.6);if(x%2===0&&Math.abs(x)<=8){g.fillStyle='#94A3B8';g.fillText(String(x),OX+x*S,OY+16)}}g.textAlign='left';for(var y=-7;y<=7;y++){line([0,OY-y*S],[600,OY-y*S],y?'#1C2A42':'#64748B',y?1:1.6);if(y!==0&&y%2===0&&Math.abs(y)<=6){g.fillStyle='#94A3B8';g.fillText(String(y),OX+7,OY-y*S-5)}}}
+function hop(start,u){var nx=Math.abs(dx),ny=Math.abs(dy),total=nx+ny,v=Math.max(0,Math.min(total,u)),done=Math.floor(v),f=v-done;var x=start[0]+Math.min(done,nx)*Math.sign(dx)*S,y=start[1]-Math.max(0,done-nx)*Math.sign(dy)*S;if(done<total){if(done<nx){x+=Math.sign(dx)*S*f;y-=17*Math.sin(Math.PI*f)}else{y-=Math.sign(dy)*S*f;x+=17*Math.sin(Math.PI*f)}}return[x,y]}function arc(start,a,b,c){if(b<=a)return;var n=Math.max(2,Math.ceil((b-a)*18));g.beginPath();for(var i=0;i<=n;i++){var p=hop(start,a+(b-a)*i/n);if(!i)g.moveTo(p[0],p[1]);else g.lineTo(p[0],p[1])}g.strokeStyle=c;g.lineWidth=3;g.lineCap='round';g.lineJoin='round';g.setLineDash([7,4]);g.stroke();g.setLineDash([])}function drawImage(ps,f){if(f<=0)return;var q=ps.map(shift),n=q.length;for(var i=0;i<n;i++){var v=Math.max(0,Math.min(1,f*n-i));if(v<=0)continue;var a=xy(q[i]),b=xy(q[(i+1)%n]);line(a,[a[0]+(b[0]-a[0])*v,a[1]+(b[1]-a[1])*v],'#f472b6',3.8)}q.forEach(function(p,i){if(f*n>=i){var a=xy(p);dot(a,4,'#f472b6');label(a,ABC[i]+'′','#fbcfe8')}})}
+function draw(){grid();var ps=pts(anchor);g.beginPath();ps.forEach(function(p,i){var q=xy(p);if(i===0)g.moveTo(q[0],q[1]);else g.lineTo(q[0],q[1])});g.closePath();g.fillStyle='rgba(2,132,199,.22)';g.fill();g.strokeStyle='#38bdf8';g.lineWidth=3;g.stroke();ps.forEach(function(p,i){var q=xy(p);dot(q,4,'#7dd3fc');label(q,ABC[i],'#e0f2fe')});if(valid){var start=xy(ps[0]),nx=Math.abs(dx),ny=Math.abs(dy),total=nx+ny,u=step>0?total:t*total;arc(start,0,Math.min(nx,u),'#34d399');arc(start,nx,Math.min(total,u),'#fb923c');if(step>0)drawImage(ps,step>=2?1:t);if(step===0){if(phase==='highlight'||phase==='blink'){var p=phase==='blink'?hop(start,nx):start,visible=phase==='highlight'||Math.floor(elapsed/135)%2===0;if(visible){g.beginPath();g.arc(p[0],p[1],phase==='highlight'?16+5*Math.abs(Math.sin(elapsed/140)):19,0,Math.PI*2);g.strokeStyle='#facc15';g.lineWidth=4;g.stroke()}}if((phase==='moving'&&t>0)||phase==='blink'){var d=phase==='blink'?nx:u,p=hop(start,d);if(phase!=='blink'||Math.floor(elapsed/135)%2===0)dot(p,6,'#facc15');g.font='700 17px "Space Grotesk", sans-serif';g.fillStyle='#fde68a';g.fillText(String(Math.min(total,Math.ceil(d-.00001))),p[0]+16,p[1]-14)}}}E('step').textContent='Langkah '+step+' / 2';E('status').textContent=!valid?'Kawasan tidak mencukupi':phase==='idle'?'Sedia':step>=2?'Selesai':phase==='blink'?'Tukar arah • Kelip 3×':step===0?'Gerakkan A → A′':'Lukis keseluruhan imej';E('bar').style.width=((step+t)/2*100)+'%';E('play').textContent=playing?'⏸ Pause':step>=2?'↻ Ulang':'▶ Mainkan';E('prev').disabled=step===0&&t===0;E('next').disabled=step>=2;var a0=pts(anchor)[0],a1=shift(a0);E('coordinates').innerHTML='<strong>Bucu ditunjukkan:</strong> A<br><strong>Koordinat:</strong> A('+a0.join(', ')+') → A′('+a1.join(', ')+')<br><strong>Vektor:</strong> ('+dx+', '+dy+')'}
+function advance(){step++;t=0;elapsed=0;phase=step>=2?'done':'moving';if(step>=2)stop()}function tick(now){if(!playing)return;if(!last)last=now;var dt=Math.min(60,now-last)*Number(E('speed').value);last=now;if(phase==='highlight'){elapsed+=dt;if(elapsed>=850){elapsed=0;phase='moving'}}else if(phase==='blink'){elapsed+=dt;if(elapsed>=810){elapsed=0;phase='moving'}}else if(phase==='moving'){var total=Math.abs(dx)+Math.abs(dy),duration=step===0?Math.max(550,total*360):Math.max(900,shape.length*480),next=t+dt/duration,boundary=step===0&&Math.abs(dx)>0&&Math.abs(dy)>0?Math.abs(dx)/total:-1;if(boundary>0&&t<boundary&&next>=boundary){t=boundary;phase='blink';elapsed=0}else{t=next;if(t>=1)advance()}}draw();if(playing)raf=requestAnimationFrame(tick)}
+E('play').onclick=function(){if(!valid)return;if(playing){stop();draw();return}if(step>=2){step=0;t=0;phase='idle'}if(phase==='idle')phase='highlight';playing=true;last=0;draw();raf=requestAnimationFrame(tick)};function jump(d){stop();step=Math.max(0,Math.min(2,step+d));t=0;elapsed=0;phase=step===0?'idle':step===2?'done':'moving';draw()}E('prev').onclick=function(){jump(-1)};E('next').onclick=function(){jump(1)};E('reset').onclick=function(){anchor=[-5,-2];rebuild()};E('speed').oninput=function(){E('speedtext').textContent=Number(E('speed').value).toFixed(1)+'×'};E('shape').onchange=function(){var s=E('shape').value;shape=s==='random'?randomShape():presets[s];rebuild()};E('random').onclick=function(){shape=randomShape();rebuild()};function apply(){var a=E('dx').value.trim(),b=E('dy').value.trim(),x=Number(a),y=Number(b);if(!a||!b||!Number.isInteger(x)||!Number.isInteger(y)||Math.abs(x)>8||Math.abs(y)>6){warn('⚠ Nombor bulat sahaja: x −8 hingga 8, y −6 hingga 6');return}var ox=dx,oy=dy,oa=anchor.slice();dx=x;dy=y;if(!findValid()){dx=ox;dy=oy;anchor=oa;warn('⚠ Imej tidak muat dalam grid');return}rebuild()}E('apply').onclick=apply;['dx','dy'].forEach(function(id){E(id).onkeydown=function(e){if(e.key==='Enter'){e.preventDefault();apply()}}});function pointer(e){var r=cv.getBoundingClientRect();return[(e.clientX-r.left)/r.width*600,(e.clientY-r.top)/r.height*440]}function gridPoint(p){return[(p[0]-OX)/S,(OY-p[1])/S]}function inside(p){var ps=pts(anchor).map(xy),hit=false;for(var i=0,j=ps.length-1;i<ps.length;j=i++){var a=ps[i],b=ps[j];if((a[1]>p[1])!==(b[1]>p[1])&&p[0]<(b[0]-a[0])*(p[1]-a[1])/(b[1]-a[1])+a[0])hit=!hit}return hit}function place(a){var q=[Math.round(a[0]),Math.round(a[1])];if(fits(q)){if(q[0]!==anchor[0]||q[1]!==anchor[1]){anchor=q;resetAnim()}warn('')}else warn('⚠ Di luar grid')}cv.addEventListener('pointerdown',function(e){var p=pointer(e),v=gridPoint(p),c=centroid();drag=true;if(inside(p)){offset=[anchor[0]-v[0],anchor[1]-v[1]]}else{offset=[-c[0],-c[1]];place([v[0]+offset[0],v[1]+offset[1]])}try{cv.setPointerCapture(e.pointerId)}catch(err){}});cv.addEventListener('pointermove',function(e){if(!drag)return;var v=gridPoint(pointer(e));place([v[0]+offset[0],v[1]+offset[1]])});cv.addEventListener('pointerup',function(){drag=false});cv.addEventListener('pointercancel',function(){drag=false});rebuild();})();
+
+</script>
+<script>(function(){var b=document.getElementById('backbtn');b.addEventListener('click',function(e){try{var r=document.referrer?new URL(document.referrer):null;if(r&&r.origin===location.origin&&history.length>1){e.preventDefault();history.back()}}catch(x){}})})();</script>
+<script src="../js/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button();FX.watchSim('status',document.querySelector('.canvasbox'))}</script>
+</body>
+</html>
