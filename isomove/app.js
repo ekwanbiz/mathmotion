@@ -466,7 +466,7 @@ function viewLatMain() {
       <div style="display:flex;flex-direction:column;gap:18px">
         <h1 class="qtext">${q.q}</h1>
         ${LAT.show ? `<div class="ansbox"><span class="ok">${IC.check}</span><div><small>JAWAPAN</small><b>${q.ans}</b></div></div>
-        <div class="work"><h3>JALAN KERJA</h3><ol>${q.work.map(w => `<li>${w}</li>`).join('')}</ol></div>` : `<p style="margin:0;color:var(--mu);font-size:17px">Beri masa kelas berfikir, kemudian tekan <b style="color:var(--tx)">Tunjuk jawapan</b>.</p>`}
+        <div class="work"><h3>JALAN KERJA</h3><ol>${q.work.map(w => `<li>${w}</li>`).join('')}</ol></div>` : ''}
       </div>
       ${fig ? `<div class="qfig">${fig}</div>` : ''}
     </div></div>
