@@ -190,12 +190,22 @@ document.addEventListener('keydown', e => {
   } else if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key)) { e.preventDefault(); prevStep(); }
 });
 
+let printing = false;
+window.addEventListener('beforeprint', () => {
+  if (printing) return;
+  const pr = document.getElementById('print');
+  const m = location.hash.match(/^#\/nota\/([\d.]+)/);
+  const list = m ? SLIDES.filter(x => x.sub === m[1]) : SLIDES;
+  pr.innerHTML = list.map(s => `<section class="ps"><div class="pshead"><span>ISOMOVE · ${s.sub} ${subOf(s.sub).name}</span><span>Slaid ${s.n} / ${s.N}</span></div>${slideHTML(s, true)}</section>`).join('');
+  window.addEventListener('afterprint', () => { if (!printing) pr.innerHTML = ''; }, { once: true });
+});
 function printSlides(list) {
+  printing = true;
   const pr = document.getElementById('print');
   pr.innerHTML = list.map(s => `<section class="ps"><div class="pshead"><span>ISOMOVE · ${s.sub} ${subOf(s.sub).name}</span><span>Slaid ${s.n} / ${s.N}</span></div>${slideHTML(s, true)}</section>`).join('');
   const wasDark = !isLight();
   if (wasDark) document.documentElement.classList.add('light');
-  const done = () => { if (wasDark) document.documentElement.classList.remove('light'); pr.innerHTML = ''; window.removeEventListener('afterprint', done); };
+  const done = () => { if (wasDark) document.documentElement.classList.remove('light'); pr.innerHTML = ''; printing = false; window.removeEventListener('afterprint', done); };
   window.addEventListener('afterprint', done);
   setTimeout(() => { window.print(); if (!('onafterprint' in window)) setTimeout(done, 500); }, 60);
 }

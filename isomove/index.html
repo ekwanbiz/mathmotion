@@ -264,15 +264,22 @@ g.rv.hid{visibility:hidden}
 /* ---------- Cetak ---------- */
 @media print{
  @page{size:A4 landscape;margin:10mm}
- html,body{height:auto;background:#fff}
+ html,body{height:auto!important;background:#fff!important}
  .app,.toast{display:none!important}
  #print{display:block}
- .ps{break-after:page;page-break-after:always;height:186mm;display:flex;flex-direction:column;gap:4mm;color:#14152B;font-family:Inter,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ .ps{--tx:#14152B;--mu:#55607A;--surf:#FFFFFF;--surf2:#F4F6FB;--diag:#FAFBFE;--bd:#D5DCE8;--grid:#E3E8F1;--dim:#C3CBDA;--tr:#0284C7;--pa:#EA580C;--pu:#7C3AED;--am:#B45309;--gr:#059669;--pk:#DB2777;--rd:#DC2626;--on:#FFFFFF;display:block;break-inside:avoid;page-break-inside:avoid;break-after:page;page-break-after:always;color:#14152B;font-family:Inter,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}
  .ps:last-child{break-after:auto;page-break-after:auto}
- .ps .pshead{display:flex;justify-content:space-between;font-size:11pt;color:#55607A;border-bottom:1px solid #D5DCE8;padding-bottom:2mm}
- .ps .slide{padding:0;--fs:15pt;max-width:none;align-items:flex-start}
- .ps .sl-svg{max-height:150mm}
- .ps .sl-fig{flex:0 0 44%}
+ .ps .pshead{display:flex;justify-content:space-between;font-size:9pt;color:#55607A;border-bottom:1px solid #D5DCE8;padding-bottom:2mm;margin-bottom:4mm}
+ .ps .slide{display:grid;grid-template-columns:minmax(0,1fr) 42%;gap:8mm;align-items:start;padding:0;margin:0;max-width:none;width:auto;--fs:13pt}
+ .ps .slide.full{display:block}
+ .ps .slide.full>div:first-child{margin-bottom:4mm}
+ .ps .sl-text{gap:3mm}
+ .ps .sl-title{font-size:20pt}
+ .ps .sl-fig{display:block;flex:none;width:auto}
+ .ps .sl-svg{display:block;width:100%;height:auto;max-height:120mm}
+ .ps .sl-table{overflow:visible}
+ .ps .sl-table table{min-width:0!important}
+ .ps .sl-steps li,.ps .sl-def,.ps .sl-ans,.ps .sl-note{break-inside:avoid}
  .ps .rv.hid{visibility:visible}
 }
 </style>
