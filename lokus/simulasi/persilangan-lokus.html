@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Persilangan Lokus · Bab 8</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0E0B18;--sf:#181329;--sf2:#211A38;--sf3:#120E1F;--bd:#2D2550;--bd2:#3D3268;--tx:#F1EDFF;--mu:#B9AEE6;--mu2:#857AB5;--c1:#A78BFA;--c2:#FFB547;--c3:#FF7AB6;--c4:#5EEAD4;--ok:#3DDC84;--bad:#FF6B7A;
+ --surface:#181329;--border:#3D3268;--text:#F1EDFF;--muted:#B9AEE6;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:8px;padding:10px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:10px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#1d0f45}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.stage svg{width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:10px 14px;line-height:1.45;font-size:15px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:2px}
+.info .l1{color:var(--c3);font-weight:800}.info .l2{color:var(--c4);font-weight:800}
+.info .res{margin-top:5px;padding:7px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:800}
+.info .res b{color:var(--ok)}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.ctrl{display:flex;flex-direction:column;gap:7px}
+.chips{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.chip{background:var(--sf);border:2px solid var(--bd2);border-radius:12px;padding:8px 4px;font-weight:800;font-size:13.5px;line-height:1.2;min-height:44px}
+.chip.s1{background:#FF7AB622;border-color:var(--c3);color:#FFD3E6}
+.chip.s2{background:#5EEAD422;border-color:var(--c4);color:#CFFAF3}
+.line{display:flex;gap:10px;align-items:center}
+.line label{font-weight:800;color:var(--mu);font-size:14px;white-space:nowrap;min-width:84px}
+.line output{font-weight:900;color:var(--c2);min-width:58px;text-align:right}
+.line input[type=range]{flex:1;accent-color:var(--c1);height:26px;min-width:0}
+.line.off{opacity:.35}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.big{background:var(--c1);border:0;color:#1d0f45;border-radius:13px;padding:12px 4px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.big:disabled{opacity:.45;cursor:not-allowed}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:23px}.chip{font-size:14.5px;padding:10px 6px}
+}
+@media(max-height:700px){.wrap{gap:6px;padding-top:6px}.modes button{padding:7px 4px;font-size:14px}.info{padding:8px 11px;font-size:14px}.info b.t{font-size:16px}.big{padding:9px 4px}.chip{padding:6px 3px;min-height:40px;font-size:13px}}
+@media(max-width:420px){.chip{font-size:12.5px}.line label{min-width:70px;font-size:13px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(12px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#8F9BFF;color:#10133a;border-radius:14px;padding:11px 20px;font:900 16px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #8f9bff44">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mod">
+   <button data-m="teroka" class="on" role="tab">Pilih Dua Syarat</button>
+   <button data-m="cabaran" role="tab">Cabaran</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" viewBox="0 0 400 330" aria-label="Segi empat tepat ABCD pada grid"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const U=38,SX=x=>10+(x+1)*U,SY=y=>320-(y+1)*U;
+const C1='#A78BFA',C2='#FFB547',C3='#FF7AB6',C4='#5EEAD4',TX='#F1EDFF',MU='#B9AEE6',GRID='#231C3D',OK='#3DDC84',BAD='#FF6B7A';
+const W=8,H=6; // ABCD: A(0,0) B(8,0) C(8,6) D(0,6)
+const snd=n=>{if(window.FX)FX.play(n)};
+const f1=v=>{const r=Math.round(v*10)/10;return String(Object.is(r,-0)?0:r)};
+const PT=p=>`(${f1(p[0])}, ${f1(p[1])})`;
+// syarat: prims = [{t:'L',L:[a,b,c]}] (ax+by=c) atau {t:'C',x,y,r}
+const COND={
+ AB2:{chip:'Sama jarak dari A dan B',txt:'X sama jarak dari A dan B',lok:'pembahagi dua sama serenjang AB',prims:()=>[{t:'L',L:[1,0,4]}]},
+ BD2:{chip:'Sama jarak dari B dan D',txt:'X sama jarak dari B dan D',lok:'pembahagi dua sama serenjang BD',prims:()=>[{t:'L',L:[8,-6,14]}]},
+ ABDC:{chip:'Sama jarak dari AB dan DC',txt:'X sama jarak dari AB dan DC',lok:'garis selari di tengah AB dan DC',prims:()=>[{t:'L',L:[0,1,3]}]},
+ ABAD:{chip:'Sama jarak dari AB dan AD',txt:'X sama jarak dari AB dan AD',lok:'pembahagi dua sama sudut DAB',prims:()=>[{t:'L',L:[1,-1,0]}]},
+ rA:{chip:'XA = r unit',txt:'XA = r unit',lok:'lengkok bulatan berpusat A, jejari r',prims:()=>[{t:'C',x:0,y:0,r:S.r}]},
+ dAB:{chip:'d unit dari AB',txt:'X berjarak d unit dari AB',lok:'garis selari dengan AB, d unit darinya',prims:()=>[{t:'L',L:[0,1,S.d]}]}
+};
+const KEYS=Object.keys(COND);
+const S={m:'teroka',sel:['AB2','rA'],r:5,d:2,q:null,taps:[],done:false,score:0,tot:0};
+const txt=(k,o)=>COND[k].txt.replace(/\br\b/,(o||S).r).replace(/\bd\b/,(o||S).d);
+const lok=(k,o)=>COND[k].lok.replace(/jejari r/,'jejari '+(o||S).r).replace(/, d unit/,', '+(o||S).d+' unit');
+/* ---------- geometri persilangan ---------- */
+function meet(p,q){const E=1e-9;
+ if(p.t==='C'&&q.t==='L')return meet(q,p);
+ if(p.t==='L'&&q.t==='L'){const[a1,b1,c1]=p.L,[a2,b2,c2]=q.L,det=a1*b2-a2*b1;if(Math.abs(det)<E)return[];return[[(c1*b2-c2*b1)/det,(a1*c2-a2*c1)/det]]}
+ const[a,b,c]=p.L,n=Math.hypot(a,b),d=(a*q.x+b*q.y-c)/n;if(Math.abs(d)>q.r+E)return[];
+ const fx=q.x-a*d/n,fy=q.y-b*d/n,h2=q.r*q.r-d*d;if(h2<E)return[[fx,fy]];const h=Math.sqrt(h2),ux=-b/n,uy=a/n;return[[fx+ux*h,fy+uy*h],[fx-ux*h,fy-uy*h]]}
+function inter(k1,k2,o){let out=[];for(const p of COND[k1].prims(o))for(const q of COND[k2].prims(o))out=out.concat(meet(p,q));
+ const u=[];out.forEach(([x,y])=>{if(x<-1e-7||y<-1e-7||x>W+1e-7||y>H+1e-7)return;if(!u.some(v=>Math.abs(v[0]-x)<1e-6&&Math.abs(v[1]-y)<1e-6))u.push([x,y])});
+ return u.map(([x,y])=>[Math.abs(x-Math.round(x))<1e-9?Math.round(x):x,Math.abs(y-Math.round(y))<1e-9?Math.round(y):y]).sort((a,b)=>a[0]-b[0]||a[1]-b[1])}
+function same(k1,k2){return(k1==='AB2'&&k2==='AB2')} // tiada syarat bertindih dalam senarai
+/* ---------- lukisan ---------- */
+function lbl(x,y,t,c=TX,s=17,a='middle'){return `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" fill="${c}" font-size="${s}" font-weight="900" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="#120E1F" stroke-width="5" stroke-linejoin="round">${t}</text>`}
+function primSVG(p,col){
+ if(p.t==='C')return `<circle cx="${SX(p.x)}" cy="${SY(p.y)}" r="${p.r*U}" fill="none" stroke="${col}" stroke-width="4" stroke-dasharray="10 7"/>`;
+ const[a,b,c]=p.L;let P1,P2;if(Math.abs(b)>1e-9){P1=[-5,(c+5*a)/b];P2=[15,(c-15*a)/b]}else{P1=[c/a,-5];P2=[c/a,15]}
+ return `<line x1="${SX(P1[0])}" y1="${SY(P1[1])}" x2="${SX(P2[0])}" y2="${SY(P2[1])}" stroke="${col}" stroke-width="4" stroke-dasharray="10 7"/>`}
+function base(){
+ let g=`<defs><clipPath id="cp"><rect x="${SX(0)}" y="${SY(H)}" width="${W*U}" height="${H*U}"/></clipPath></defs>`;
+ for(let x=-1;x<=9;x++)g+=`<line x1="${SX(x)}" y1="${SY(-1)}" x2="${SX(x)}" y2="${SY(7)}" stroke="${GRID}" stroke-width="1.5"/>`;
+ for(let y=-1;y<=7;y++)g+=`<line x1="${SX(-1)}" y1="${SY(y)}" x2="${SX(9)}" y2="${SY(y)}" stroke="${GRID}" stroke-width="1.5"/>`;
+ g+=`<rect x="${SX(0)}" y="${SY(H)}" width="${W*U}" height="${H*U}" fill="${C1}12" stroke="${C1}" stroke-width="4" stroke-linejoin="round"/>`;
+ for(let x=1;x<W;x++)g+=lbl(SX(x),SY(0)+15,x,MU,12);
+ for(let y=1;y<H;y++)g+=lbl(SX(0)-11,SY(y),y,MU,12);
+ g+=lbl(SX(0)-12,SY(0)+14,'A',C1,19)+lbl(SX(W)+12,SY(0)+14,'B',C1,19)+lbl(SX(W)+12,SY(H)-12,'C',C1,19)+lbl(SX(0)-12,SY(H)-12,'D',C1,19);
+ return g}
+function lociSVG(k1,k2,o){let g='<g clip-path="url(#cp)">';if(k1)COND[k1].prims(o).forEach(p=>g+=primSVG(p,C3));if(k2)COND[k2].prims(o).forEach(p=>g+=primSVG(p,C4));return g+'</g>'}
+function ring(p,c=OK){return `<circle cx="${SX(p[0])}" cy="${SY(p[1])}" r="13" fill="none" stroke="${c}" stroke-width="3.5"/><circle cx="${SX(p[0])}" cy="${SY(p[1])}" r="6" fill="${c}"/>`}
+/* ---------- Mod teroka ---------- */
+function terokaRender(){
+ const[k1,k2]=S.sel;let g=base()+lociSVG(k1,k2);
+ const X=k1&&k2?inter(k1,k2):[];
+ X.forEach(p=>{g+=ring(p);const up=p[1]>H-1;g+=lbl(SX(p[0])+(p[0]>W-1.5?-16:16),SY(p[1])+(up?18:-18),PT(p),OK,15,p[0]>W-1.5?'end':'start')});
+ svg.innerHTML=g;
+ let h=`<b class="t">Titik yang memenuhi dua syarat</b>`;
+ h+=k1?`<div><span class="l1">● ${txt(k1)}</span> → ${lok(k1)}</div>`:'';
+ h+=k2?`<div><span class="l2">● ${txt(k2)}</span> → ${lok(k2)}</div>`:'<div class="tip">Pilih satu lagi syarat.</div>';
+ if(k1&&k2)h+=`<div class="res">${X.length?`Persilangan di dalam ABCD: <b>${X.map(PT).join(', ')}</b> (${X.length} titik)`:'<span class="no">Tiada titik persilangan di dalam ABCD.</span>'}</div>`;
+ h+=`<div class="tip">Koordinat diukur dari A. Ubah nilai r dan d untuk melihat titik persilangan bergerak.</div>`;
+ info.innerHTML=h}
+function terokaCtrl(){
+ ctrl.innerHTML=`<div class="chips">${KEYS.map(k=>`<button class="chip ${S.sel[0]===k?'s1':S.sel[1]===k?'s2':''}" data-k="${k}">${COND[k].chip}</button>`).join('')}</div>
+ <div class="line ${S.sel.includes('rA')?'':'off'}"><label for="rr">Jejari r</label><input type="range" id="rr" min="1" max="10" step="1" value="${S.r}"><output id="ro">${S.r} unit</output></div>
+ <div class="line ${S.sel.includes('dAB')?'':'off'}"><label for="dd">Jarak d</label><input type="range" id="dd" min="1" max="5" step="1" value="${S.d}"><output id="do">${S.d} unit</output></div>`;
+ ctrl.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{const k=b.dataset.k,i=S.sel.indexOf(k);
+  if(i>=0)S.sel.splice(i,1);else{S.sel.push(k);if(S.sel.length>2)S.sel.shift()}
+  if(window.FX)snd('ketik');terokaCtrl();terokaRender()});
+ const rr=document.getElementById('rr'),dd=document.getElementById('dd');
+ rr.oninput=()=>{S.r=+rr.value;document.getElementById('ro').textContent=S.r+' unit';terokaRender()};
+ dd.oninput=()=>{S.d=+dd.value;document.getElementById('do').textContent=S.d+' unit';terokaRender()}}
+/* ---------- Mod cabaran ---------- */
+const rnd=n=>Math.floor(Math.random()*n);
+function newQ(){
+ let q,t=0;
+ do{const a=KEYS[rnd(6)];let b;do b=KEYS[rnd(6)];while(b===a);const o={r:1+rnd(10),d:1+rnd(5)};const X=inter(a,b,o);
+  q={k1:a,k2:b,o,X};t++}while((q.X.length<1||q.X.length>2||!q.X.every(p=>Number.isInteger(p[0])&&Number.isInteger(p[1])))&&t<500);
+ S.q=q;S.taps=[];S.done=false;cabCtrl();cabRender()}
+function cabRender(){
+ const q=S.q;let g=base();
+ for(let x=0;x<=W;x++)for(let y=0;y<=H;y++)g+=`<circle cx="${SX(x)}" cy="${SY(y)}" r="3" fill="${MU}55"/>`;
+ if(S.done){g+=lociSVG(q.k1,q.k2,q.o);q.X.forEach(p=>g+=ring(p))}
+ S.taps.forEach(p=>{const ok=q.X.some(v=>v[0]===p[0]&&v[1]===p[1]);const c=S.done?(ok?OK:BAD):C2;g+=`<circle cx="${SX(p[0])}" cy="${SY(p[1])}" r="9" fill="${c}" stroke="#fff" stroke-width="2.5"/>`});
+ svg.innerHTML=g;
+ let h=`<b class="t">Cari semua kedudukan X</b><div><span class="l1">● ${txt(q.k1,q.o)}</span></div><div><span class="l2">● ${txt(q.k2,q.o)}</span></div>`;
+ if(!S.done)h+=`<div class="tip">Ketik titik grid di dalam ABCD untuk menanda kedudukan X (ketik lagi untuk padam). Tanda: <b>${S.taps.length}</b> · Skor: ${S.score}/${S.tot}</div>`;
+ else{const ok=S.lastOk;h+=`<div class="res">${ok?'<span class="ok">✓ Betul!</span>':'<span class="no">✗ Belum tepat.</span>'} Jawapan: <b>${q.X.map(PT).join(', ')}</b></div><div class="tip">Lokus: ${lok(q.k1,q.o)} dan ${lok(q.k2,q.o)}. Skor: ${S.score}/${S.tot}</div>`}
+ info.innerHTML=h}
+function cabCtrl(){
+ ctrl.innerHTML=`<div class="btns"><button class="big" id="chk" ${S.done||!S.taps.length?'disabled':''}>Semak ✓</button><button class="big alt" id="nx">Soalan baharu ▶</button></div>`;
+ document.getElementById('chk').onclick=()=>{if(S.done||!S.taps.length)return;S.done=true;S.tot++;
+  const q=S.q,ok=S.taps.length===q.X.length&&S.taps.every(p=>q.X.some(v=>v[0]===p[0]&&v[1]===p[1]));S.lastOk=ok;
+  if(ok){S.score++;snd('betul');if(window.FX)FX.stars(document.getElementById('stage'),12)}else snd('salah');cabCtrl();cabRender()};
+ document.getElementById('nx').onclick=newQ}
+/* ---------- ketik pada grid ---------- */
+svg.addEventListener('pointerdown',e=>{
+ if(S.m!=='cabaran'||S.done)return;e.preventDefault();
+ const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;const q=p.matrixTransform(svg.getScreenCTM().inverse());
+ const x=Math.round((q.x-10)/U-1),y=Math.round((320-q.y)/U-1);if(x<0||y<0||x>W||y>H)return;
+ const i=S.taps.findIndex(v=>v[0]===x&&v[1]===y);if(i>=0)S.taps.splice(i,1);else S.taps.push([x,y]);
+ snd('ketik');cabCtrl();cabRender()});
+function render(){if(S.m==='teroka'){terokaCtrl();terokaRender()}else newQ()}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));S.m=b.dataset.m;render()});
+render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

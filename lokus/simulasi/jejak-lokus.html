@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Jejak Lokus · Bab 8</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#071310;--sf:#0E1F1A;--sf2:#132A23;--sf3:#0A1814;--bd:#1D3A31;--bd2:#285044;--tx:#E9FFF7;--mu:#9CCFBF;--mu2:#6E9C8E;--c1:#3DDC97;--c2:#FFB547;--c3:#FF7AB6;--c4:#8F9BFF;--ok:#3DDC84;--bad:#FF6B7A;
+ --surface:#0E1F1A;--border:#285044;--text:#E9FFF7;--muted:#9CCFBF;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:9px;padding:10px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:grid;grid-template-columns:repeat(5,1fr);gap:4px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:4px}
+.modes button{border:0;background:none;color:var(--mu);font-weight:800;font-size:14px;padding:9px 2px;border-radius:12px;line-height:1.15}
+.modes button.on{background:var(--c1);color:#03261a}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.stage svg{width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:10px 14px;line-height:1.45;font-size:15px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:2px}
+.info .row{display:flex;flex-wrap:wrap;gap:4px 14px;font-weight:700}
+.info .row b{color:var(--c2)}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--mu2);font-weight:700}
+.ctrl{display:flex;flex-direction:column;gap:8px}
+.line{display:flex;gap:10px;align-items:center}
+.line label{font-weight:800;color:var(--mu);font-size:14px;white-space:nowrap;min-width:92px}
+.line output{font-weight:900;color:var(--c2);min-width:58px;text-align:right}
+.line input[type=range]{flex:1;accent-color:var(--c1);height:28px;min-width:0}
+.btns{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.big{background:var(--c1);border:0;color:#03261a;border-radius:13px;padding:12px 4px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.big.on{background:var(--c3);border-color:var(--c3);color:#3a0720}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.35fr) minmax(330px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:23px}
+ .modes button{font-size:15px;padding:11px 4px}
+}
+@media(max-height:700px){.wrap{gap:7px;padding-top:6px}.modes button{padding:7px 2px;font-size:13px}.info{padding:8px 11px;font-size:14px}.info b.t{font-size:16px}.big{padding:10px 4px}}
+@media(max-width:420px){.modes button{font-size:12px}.big{font-size:14px}.line label{min-width:78px;font-size:13px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(12px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#8F9BFF;color:#10133a;border-radius:14px;padding:11px 20px;font:900 16px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #8f9bff44">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Jenis lokus">
+   <button data-m="titik" class="on" role="tab">Jarak dari titik</button>
+   <button data-m="dua" role="tab">Dua titik</button>
+   <button data-m="garis" role="tab">Jarak dari garis</button>
+   <button data-m="selari" role="tab">Dua garis selari</button>
+   <button data-m="silang" role="tab">Garis bersilang</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" viewBox="0 0 400 400" aria-label="Grid untuk menjejak lokus"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl">
+  <div class="line" id="sl"><label for="rng" id="rlab">Jarak</label><input type="range" id="rng"><output id="rout"></output></div>
+  <div class="btns"><button class="big alt" id="show">Tunjuk lokus</button><button class="big" id="auto">Jejak automatik ▶</button><button class="big alt" id="clr">Padam jejak</button></div>
+ </div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),info=document.getElementById('info'),rng=document.getElementById('rng'),rout=document.getElementById('rout'),rlab=document.getElementById('rlab');
+const U=36,O0=20,TOL=0.13;
+const C1='#3DDC97',C2='#FFB547',C3='#FF7AB6',C4='#8F9BFF',TX='#E9FFF7',MU='#9CCFBF',GRID='#16302A',OK='#3DDC84';
+const SX=x=>O0+x*U,SY=y=>400-O0-y*U;
+const f1=n=>{const v=Math.round(n*10)/10;return (Object.is(v,-0)?0:v).toFixed(1)};
+const snd=n=>{if(window.FX)FX.play(n)};
+// keadaan setiap mod
+const D={
+ titik:{P:[5,5],X:[8,6],v:3,min:1,max:4.5,step:.5,lab:'Jarak XP'},
+ dua:{P:[3,4],Q:[7,6],X:[5,8],v:0},
+ garis:{A:[1,5],B:[9,5],X:[6,8],v:2,min:1,max:4,step:.5,lab:'Jarak d'},
+ selari:{y1:2,X:[3,7],v:6,min:2,max:8,step:2,lab:'Jarak antara garis'},
+ silang:{O:[5,5],X:[8,6],v:60,min:30,max:150,step:10,lab:'Sudut antara garis'}
+};
+let M='titik',show=false,trace=[],anim=null,drag=null,wasOn=false;
+const S=()=>D[M];
+/* ---------- geometri ---------- */
+const dist=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1]);
+function distLine(p,a,b){const dx=b[0]-a[0],dy=b[1]-a[1],L=Math.hypot(dx,dy)||1;return Math.abs((p[0]-a[0])*dy-(p[1]-a[1])*dx)/L}
+function silangLines(){const s=D.silang,t=s.v*Math.PI/180;return [[1,0],[Math.cos(t),Math.sin(t)]]} // arah dua garis melalui O
+function vals(){
+ const s=S(),X=s.X;
+ if(M==='titik'){const d=dist(X,s.P);return{on:Math.abs(d-s.v)<TOL,row:`<span>XP = <b>${f1(d)}</b> unit</span><span>Syarat: XP = <b>${f1(s.v)}</b></span>`}}
+ if(M==='dua'){const a=dist(X,s.P),b=dist(X,s.Q);return{on:Math.abs(a-b)<TOL,row:`<span>XP = <b>${f1(a)}</b></span><span>XQ = <b>${f1(b)}</b></span>`}}
+ if(M==='garis'){const d=distLine(X,s.A,s.B);return{on:Math.abs(d-s.v)<TOL,row:`<span>Jarak X ke AB = <b>${f1(d)}</b> unit</span><span>Syarat: <b>${f1(s.v)}</b></span>`}}
+ if(M==='selari'){const y2=s.y1+s.v,a=Math.abs(X[1]-s.y1),b=Math.abs(X[1]-y2);return{on:Math.abs(a-b)<TOL,row:`<span>Ke garis 1 = <b>${f1(a)}</b></span><span>Ke garis 2 = <b>${f1(b)}</b></span>`}}
+ const [u,w]=silangLines(),O=s.O,p=[X[0]-O[0],X[1]-O[1]],a=Math.abs(p[0]*u[1]-p[1]*u[0]),b=Math.abs(p[0]*w[1]-p[1]*w[0]);
+ return{on:Math.abs(a-b)<TOL,row:`<span>Ke garis 1 = <b>${f1(a)}</b></span><span>Ke garis 2 = <b>${f1(b)}</b></span>`}}
+/* ---------- lukisan ---------- */
+function ln(p,q,c,w=3,dash=''){return `<line x1="${SX(p[0]).toFixed(1)}" y1="${SY(p[1]).toFixed(1)}" x2="${SX(q[0]).toFixed(1)}" y2="${SY(q[1]).toFixed(1)}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"${dash?` stroke-dasharray="${dash}"`:''}/>`}
+function lbl(x,y,t,c=TX,s=18,a='middle'){return `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" fill="${c}" font-size="${s}" font-weight="900" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="#0A1814" stroke-width="5" stroke-linejoin="round">${t}</text>`}
+function handle(id,p,name,col,r=12){return `<g class="h" data-h="${id}" style="cursor:grab"><circle cx="${SX(p[0])}" cy="${SY(p[1])}" r="26" fill="transparent"/><circle cx="${SX(p[0])}" cy="${SY(p[1])}" r="${r}" fill="${col}" stroke="#fff" stroke-width="3"/></g>`+(name?lbl(SX(p[0])+16,SY(p[1])-16,name,col,18,'start'):'')}
+function fullLine(p,dir,c,w,dash){const k=30;return ln([p[0]-dir[0]*k,p[1]-dir[1]*k],[p[0]+dir[0]*k,p[1]+dir[1]*k],c,w,dash)}
+function grid(){let g='';for(let i=0;i<=10;i++){g+=`<line x1="${SX(i)}" y1="${SY(0)}" x2="${SX(i)}" y2="${SY(10)}" stroke="${GRID}" stroke-width="1.5"/><line x1="${SX(0)}" y1="${SY(i)}" x2="${SX(10)}" y2="${SY(i)}" stroke="${GRID}" stroke-width="1.5"/>`}return g}
+function locusSVG(){
+ const s=S(),c=C3,w=4,dh='10 7';
+ if(M==='titik')return `<circle cx="${SX(s.P[0])}" cy="${SY(s.P[1])}" r="${s.v*U}" fill="none" stroke="${c}" stroke-width="${w}" stroke-dasharray="${dh}"/>`;
+ if(M==='dua'){const m=[(s.P[0]+s.Q[0])/2,(s.P[1]+s.Q[1])/2],dx=s.Q[0]-s.P[0],dy=s.Q[1]-s.P[1],L=Math.hypot(dx,dy)||1;return fullLine(m,[-dy/L,dx/L],c,w,dh)}
+ if(M==='garis'){const dx=s.B[0]-s.A[0],dy=s.B[1]-s.A[1],L=Math.hypot(dx,dy)||1,n=[-dy/L*s.v,dx/L*s.v];return fullLine([s.A[0]+n[0],s.A[1]+n[1]],[dx/L,dy/L],c,w,dh)+fullLine([s.A[0]-n[0],s.A[1]-n[1]],[dx/L,dy/L],c,w,dh)}
+ if(M==='selari')return fullLine([0,s.y1+s.v/2],[1,0],c,w,dh);
+ const [u,v]=silangLines(),b1=[u[0]+v[0],u[1]+v[1]],b2=[u[0]-v[0],u[1]-v[1]],n=a=>{const L=Math.hypot(a[0],a[1]);return[a[0]/L,a[1]/L]};
+ return fullLine(s.O,n(b1),c,w,dh)+fullLine(s.O,n(b2),C4,w,dh)}
+function render(){
+ const s=S();let g=`<defs><clipPath id="cp"><rect x="${SX(0)}" y="${SY(10)}" width="${10*U}" height="${10*U}"/></clipPath></defs>`+grid();
+ let objs='';
+ if(M==='titik')objs+=handle('P',s.P,'P',C2,10);
+ if(M==='dua')objs+=ln(s.P,s.Q,MU,2,'5 6')+handle('P',s.P,'P',C2,10)+handle('Q',s.Q,'Q',C2,10);
+ if(M==='garis')objs+=ln(s.A,s.B,C2,5)+handle('A',s.A,'A',C2,9)+handle('B',s.B,'B',C2,9);
+ if(M==='selari'){const y2=s.y1+s.v;objs+=ln([0,s.y1],[10,s.y1],C2,5)+ln([0,y2],[10,y2],C2,5)+handle('Y',[0.6,s.y1],'',C2,9)+lbl(SX(1.1),SY(s.y1)+18,'garis 1',C2,14,'start')+lbl(SX(1.1),SY(y2)-16,'garis 2',C2,14,'start')}
+ if(M==='silang'){const [u,v]=silangLines();objs+=`<g clip-path="url(#cp)">${fullLine(s.O,u,C2,5)+fullLine(s.O,v,C2,5)}</g>`+handle('O',s.O,'O',C2,9)}
+ let loc=show?`<g clip-path="url(#cp)" opacity=".9">${locusSVG()}</g>`:'';
+ let tr=trace.map(p=>`<circle cx="${SX(p[0]).toFixed(1)}" cy="${SY(p[1]).toFixed(1)}" r="4" fill="${C3}"/>`).join('');
+ // garis bantu dari X
+ const X=s.X,vv=vals();let help='';
+ if(M==='titik')help=ln(s.P,X,vv.on?OK:MU,2.5,'6 5');
+ if(M==='dua')help=ln(s.P,X,vv.on?OK:MU,2.5,'6 5')+ln(s.Q,X,vv.on?OK:MU,2.5,'6 5');
+ if(M==='garis'){const dx=s.B[0]-s.A[0],dy=s.B[1]-s.A[1],L2=dx*dx+dy*dy,t=((X[0]-s.A[0])*dx+(X[1]-s.A[1])*dy)/L2,F=[s.A[0]+t*dx,s.A[1]+t*dy];help=`<g clip-path="url(#cp)">${fullLine(s.A,[dx/Math.sqrt(L2),dy/Math.sqrt(L2)],C2,2,'3 6')}</g>`+ln(F,X,vv.on?OK:MU,2.5,'6 5')}
+ if(M==='selari'){const y2=s.y1+s.v;help=ln([X[0],s.y1],X,vv.on?OK:MU,2.5,'6 5')+ln([X[0],y2],X,vv.on?OK:MU,2.5,'6 5')}
+ if(M==='silang'){const [u,v]=silangLines(),O=s.O,f=d=>{const t=(X[0]-O[0])*d[0]+(X[1]-O[1])*d[1];return[O[0]+t*d[0],O[1]+t*d[1]]};help=ln(f(u),X,vv.on?OK:MU,2.5,'6 5')+ln(f(v),X,vv.on?OK:MU,2.5,'6 5')}
+ const xr=vv.on?`<circle cx="${SX(X[0])}" cy="${SY(X[1])}" r="20" fill="none" stroke="${OK}" stroke-width="3"/>`:'';
+ g+=loc+tr+help+objs+xr+handle('X',X,'X',C3,13);
+ svg.innerHTML=g;
+ const T={titik:'Jarak tetap dari satu titik',dua:'Sama jarak dari dua titik',garis:'Jarak tetap dari garis lurus',selari:'Sama jarak dari dua garis selari',silang:'Sama jarak dari dua garis bersilang'}[M];
+ const L={titik:`Bulatan berpusat P, jejari ${f1(s.v)} unit`,dua:'Pembahagi dua sama serenjang bagi PQ',garis:`Sepasang garis selari ${f1(s.v)} unit dari AB`,selari:`Garis selari di tengah-tengah (${f1(s.v/2)} unit dari setiap garis)`,silang:'Sepasang pembahagi dua sama sudut (berserenjang)'}[M];
+ info.innerHTML=`<b class="t">${T}</b><div class="row">${vv.row}</div>`+
+  (vv.on?'<div class="ok">✓ X memenuhi syarat: titik dijejak!</div>':'<div class="no">Seret titik X sehingga syarat dipenuhi.</div>')+
+  `<div class="tip">Jejak: <b style="color:${C3}">${trace.length}</b> titik${show?` · Lokus: <b style="color:${C3}">${L}</b>`:' · Cuba teka bentuk lokus sebelum menekan "Tunjuk lokus".'}</div>`;
+ if(vv.on&&!wasOn&&!anim)snd('langkah');wasOn=vv.on}
+function addTrace(){const X=S().X;if(!vals().on)return;if(trace.every(p=>dist(p,X)>0.22))trace.push([X[0],X[1]])}
+/* ---------- kawalan ---------- */
+function setSlider(){
+ const s=S(),el=document.getElementById('sl');
+ if(s.lab==null){el.style.visibility='hidden';return}
+ el.style.visibility='visible';rlab.textContent=s.lab;rng.min=s.min;rng.max=s.max;rng.step=s.step;rng.value=s.v;
+ rout.textContent=M==='silang'?s.v+'°':f1(s.v)+' unit'}
+rng.oninput=()=>{S().v=+rng.value;rout.textContent=M==='silang'?S().v+'°':f1(S().v)+' unit';if(M==='selari')S().y1=Math.min(S().y1,10-S().v);trace=[];render()};
+document.getElementById('show').onclick=e=>{show=!show;e.currentTarget.classList.toggle('on',show);e.currentTarget.textContent=show?'Sembunyi lokus':'Tunjuk lokus';snd('ketik');render()};
+document.getElementById('clr').onclick=()=>{trace=[];stopAnim();render()};
+function stopAnim(){if(anim){cancelAnimationFrame(anim.id);anim=null;document.getElementById('auto').textContent='Jejak automatik ▶'}}
+// laluan parametrik lokus (t: 0..1)
+function pathAt(t){
+ const s=S();
+ if(M==='titik'){const a=t*2*Math.PI;return[s.P[0]+s.v*Math.cos(a),s.P[1]+s.v*Math.sin(a)]}
+ if(M==='dua'){const m=[(s.P[0]+s.Q[0])/2,(s.P[1]+s.Q[1])/2],dx=s.Q[0]-s.P[0],dy=s.Q[1]-s.P[1],L=Math.hypot(dx,dy)||1,k=(t-.5)*16;return[m[0]-dy/L*k,m[1]+dx/L*k]}
+ if(M==='garis'){const dx=s.B[0]-s.A[0],dy=s.B[1]-s.A[1],L=Math.hypot(dx,dy)||1,sg=t<.5?1:-1,k=((t<.5?t*2:(t-.5)*2)-.5)*16;return[s.A[0]+dx/L*(5+k)-sg*dy/L*s.v,s.A[1]+dy/L*(5+k)+sg*dx/L*s.v]}
+ if(M==='selari')return[t*10,s.y1+s.v/2];
+ const [u,v]=silangLines(),n=a=>{const L=Math.hypot(a[0],a[1]);return[a[0]/L,a[1]/L]},b=t<.5?n([u[0]+v[0],u[1]+v[1]]):n([u[0]-v[0],u[1]-v[1]]),k=((t<.5?t*2:(t-.5)*2)-.5)*16;
+ return[s.O[0]+b[0]*k,s.O[1]+b[1]*k]}
+document.getElementById('auto').onclick=e=>{
+ if(anim){stopAnim();return}
+ e.currentTarget.textContent='Henti ■';const t0=performance.now(),Dur=4200;
+ const step=now=>{const t=Math.min(1,(now-t0)/Dur),p=pathAt(t),s=S();
+  if(p[0]>=-.01&&p[0]<=10.01&&p[1]>=-.01&&p[1]<=10.01){s.X=[p[0],p[1]];addTrace()}
+  render();if(t<1)anim.id=requestAnimationFrame(step);else{stopAnim();snd('menang');if(window.FX)FX.stars(document.getElementById('stage'),12);render()}};
+ anim={id:requestAnimationFrame(step)}};
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));stopAnim();M=b.dataset.m;trace=[];wasOn=false;setSlider();render()});
+/* ---------- seret (tetikus + sentuh) ---------- */
+function svgPt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;const q=p.matrixTransform(svg.getScreenCTM().inverse());return[(q.x-O0)/U,(400-O0-q.y)/U]}
+const cl=(v,a,b)=>Math.max(a,Math.min(b,v));
+svg.addEventListener('pointerdown',e=>{const h=e.target.closest('.h');if(!h)return;e.preventDefault();stopAnim();drag=h.dataset.h;svg.setPointerCapture(e.pointerId)});
+svg.addEventListener('pointermove',e=>{
+ if(!drag)return;e.preventDefault();const s=S();let [x,y]=svgPt(e);x=cl(x,0,10);y=cl(y,0,10);
+ if(drag==='X'){s.X=[x,y];addTrace()}
+ else if(drag==='Y'){s.y1=cl(Math.round(y),0,10-s.v);trace=[]}
+ else{ // objek tetap dipindah ke titik grid
+  const p=[Math.round(x),Math.round(y)];
+  if(M==='dua'&&((drag==='P'&&p+''===s.Q+'')||(drag==='Q'&&p+''===s.P+'')))return;
+  if(M==='garis'&&((drag==='A'&&p+''===s.B+'')||(drag==='B'&&p+''===s.A+'')))return;
+  if(s[drag]+''!==p+''){s[drag]=p;trace=[]}}
+ render()});
+const end=()=>{drag=null};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+svg.addEventListener('dragstart',e=>e.preventDefault());
+setSlider();render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>
