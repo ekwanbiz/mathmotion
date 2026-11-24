@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Main a, b, c · Bab 1</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--sf:#131C2E;--sf2:#1A2540;--sf3:#0E1626;--bd:#22304A;--bd2:#2E3F5E;--tx:#E6EDF7;--mu:#94A3B8;--mu2:#64748B;--ca:#F472B6;--cb:#38BDF8;--cc:#A78BFA;--gold:#FBBF24;--ok:#34D399;--bad:#F87171;
+ --surface:#131C2E;--border:#2E3F5E;--text:#E6EDF7;--muted:#94A3B8;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff06 1px,transparent 1px),linear-gradient(90deg,#ffffff06 1px,transparent 1px);background-size:32px 32px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--cb);color:#03202e}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:11px 14px;line-height:1.5;font-size:15px}
+.info b.t{display:block;font-size:18px;color:var(--cb);margin-bottom:2px}
+.info .eq{font-weight:800;font-size:22px;letter-spacing:.01em}
+.info .row{display:flex;flex-wrap:wrap;gap:2px 14px;font-weight:700}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.05;font-size:.8em;margin:0 2px}.fr>span:first-child{border-bottom:2px solid currentColor;padding:0 3px}
+.ca{color:var(--ca)}.cb{color:var(--cb)}.cc{color:var(--cc)}.cg{color:var(--gold)}
+.ctrl{display:flex;flex-direction:column;gap:8px}
+.sl{display:grid;grid-template-columns:auto 44px minmax(0,1fr) 44px 62px;gap:6px;align-items:center}
+.sl label{font-weight:900;font-size:18px;min-width:22px;font-style:italic}
+.sl input[type=range]{width:100%;height:30px;margin:0}
+.sl .v{font-weight:900;font-size:17px;text-align:center;background:var(--sf);border:1px solid var(--bd2);border-radius:10px;padding:6px 2px}
+.pm{background:var(--sf);border:2px solid var(--bd2);border-radius:12px;height:40px;font-weight:900;font-size:20px;padding:0}
+.btns{display:flex;gap:8px}
+.big{flex:1;background:var(--gold);border:0;color:#2a1f00;border-radius:13px;padding:12px 6px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.4fr) minmax(340px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:22px}.info .eq{font-size:28px}
+}
+@media(max-height:700px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.info{padding:8px 11px;font-size:14px}.info .eq{font-size:19px}.info b.t{font-size:16px}.big{padding:9px 4px}.sl input[type=range]{height:26px}.pm{height:36px}.sl .v{padding:4px 2px}}
+@media(max-width:420px){.modes button{font-size:13px;padding:10px 3px}.info{font-size:14px}.info .eq{font-size:20px}.info .tip{font-size:12px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#38BDF8;color:#03202e;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #38bdf844">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mod">
+   <button data-m="teroka" class="on" role="tab">📈 Teroka</button>
+   <button data-m="banding" role="tab">👥 Banding</button>
+   <button data-m="padan" role="tab">🎯 Padankan</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" aria-label="Graf fungsi kuadratik pada satah Cartes"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl">
+  <div class="sl"><label class="ca" for="ra">a</label><button class="pm" data-d="a-" aria-label="Kurangkan a">−</button><input type="range" id="ra" min="0" max="11" step="1" aria-label="Pekali a"><button class="pm" data-d="a+" aria-label="Tambah a">+</button><span class="v ca" id="va"></span></div>
+  <div class="sl"><label class="cb" for="rb">b</label><button class="pm" data-d="b-" aria-label="Kurangkan b">−</button><input type="range" id="rb" min="-8" max="8" step="1" aria-label="Pekali b"><button class="pm" data-d="b+" aria-label="Tambah b">+</button><span class="v cb" id="vb"></span></div>
+  <div class="sl"><label class="cc" for="rc">c</label><button class="pm" data-d="c-" aria-label="Kurangkan c">−</button><input type="range" id="rc" min="-6" max="6" step="1" aria-label="Pemalar c"><button class="pm" data-d="c+" aria-label="Tambah c">+</button><span class="v cc" id="vc"></span></div>
+  <div class="btns" id="btns"></div>
+ </div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),stage=document.getElementById('stage'),info=document.getElementById('info'),btns=document.getElementById('btns');
+const ra=document.getElementById('ra'),rb=document.getElementById('rb'),rc=document.getElementById('rc');
+// nilai a yang dibenarkan (a ≠ 0), disimpan sebagai pecahan [n, d]
+const AS=[[-3,1],[-2,1],[-3,2],[-1,1],[-1,2],[-1,4],[1,4],[1,2],[1,1],[3,2],[2,1],[3,1]];
+const R=8,MI='−';
+const gcd=(a,b)=>{a=Math.abs(a);b=Math.abs(b);while(b)[a,b]=[b,a%b];return a};
+const N=v=>v<0?MI+(-v):String(v);
+const q=(n,d=1)=>{if(d<0){n=-n;d=-d}const g=gcd(n,d)||1;n/=g;d/=g;return[n===0?0:n,d]};
+const qt=a=>a[1]===1?N(a[0]):(a[0]<0?MI:'')+Math.abs(a[0])+'/'+a[1];
+const qh=a=>a[1]===1?N(a[0]):(a[0]<0?MI:'')+`<span class="fr"><span>${Math.abs(a[0])}</span><span>${a[1]}</span></span>`;
+const qv=a=>a[0]/a[1];
+// ungkapan ax² + bx + c (HTML berwarna)
+function eqH(A,b,c,plain){const parts=[];const ac=A[0]===A[1]?'':A[0]===-A[1]?MI:(plain?(A[1]>1?'('+qt(A)+')':qt(A)):qh(A));
+ parts.push(plain?`${ac}x²`:`<span class="ca">${ac}x²</span>`);
+ if(b)parts.push((b<0?` ${MI} `:' + ')+(plain?`${Math.abs(b)===1?'':Math.abs(b)}x`:`<span class="cb">${Math.abs(b)===1?'':Math.abs(b)}x</span>`));
+ if(c)parts.push((c<0?` ${MI} `:' + ')+(plain?Math.abs(c):`<span class="cc">${Math.abs(c)}</span>`));
+ return parts.join('')}
+function eqT(A,b,c){return eqH(A,b,c,true).replace(/<[^>]+>/g,'')}
+let mode='teroka',ai=8,b=-2,c=-3,ghost=null,drag=null,G=null,T=null,score=0,tot=0,done=false;
+const snd=n=>{if(window.FX)FX.play(n)};
+const A=()=>AS[ai];
+const f=(A,b,c)=>x=>qv(A)*x*x+b*x+c;
+// paksi simetri h = −b/(2a), nilai pusingan k = c − b²/(4a)
+const axisQ=(A,b)=>q(-b*A[1],2*A[0]);
+const kQ=(A,b,c)=>q(c*4*A[0]-b*b*A[1],4*A[0]);
+const TX=(x,y,t,col='#E6EDF7',s=14,a='middle',w=800)=>`<text x="${x}" y="${y}" fill="${col}" font-size="${s}" font-weight="${w}" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="#0E1626" stroke-width="4" stroke-linejoin="round">${t}</text>`;
+function frame(){const w=stage.clientWidth||300,h=stage.clientHeight||300;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+ const u=Math.min((w-20)/(2*R+1),(h-20)/(2*R+1)),cx=w/2,cy=h/2;G={u,cx,cy,X:x=>cx+x*u,Y:y=>cy-y*u};
+ let g=`<clipPath id="cl"><rect x="${cx-(R+.5)*u}" y="${cy-(R+.5)*u}" width="${(2*R+1)*u}" height="${(2*R+1)*u}"/></clipPath>`;
+ for(let i=-R;i<=R;i++){g+=`<line x1="${G.X(i)}" y1="${G.Y(-R-.5)}" x2="${G.X(i)}" y2="${G.Y(R+.5)}" stroke="#ffffff12"/><line x1="${G.X(-R-.5)}" y1="${G.Y(i)}" x2="${G.X(R+.5)}" y2="${G.Y(i)}" stroke="#ffffff12"/>`}
+ g+=`<line x1="${G.X(-R-.5)}" y1="${cy}" x2="${G.X(R+.5)}" y2="${cy}" stroke="#94A3B8" stroke-width="2"/><line x1="${cx}" y1="${G.Y(-R-.5)}" x2="${cx}" y2="${G.Y(R+.5)}" stroke="#94A3B8" stroke-width="2"/>`;
+ const fs=Math.max(10,Math.min(13,u*.42));
+ for(let i=-R+1;i<R;i++)if(i&&i%2===0)g+=TX(G.X(i),cy+fs*.95,N(i),'#64748B',fs,'middle',700)+TX(cx-fs*.6,G.Y(i),N(i),'#64748B',fs,'end',700);
+ return g+TX(G.X(R+.25),cy-12,'x','#94A3B8',14,'middle',900)+TX(cx+11,G.Y(R+.2),'y','#94A3B8',14,'middle',900)}
+function curve(fn,col,w=5,dash=''){const {X,Y}=G;let d='',pen=false;
+ for(let k=0;k<=320;k++){const x=-R-.5+(2*R+1)*k/320,y=fn(x);if(Math.abs(y)>R+3){pen=false;continue}d+=(pen?'L':'M')+X(x).toFixed(1)+' '+Y(y).toFixed(1);pen=true}
+ return`<path d="${d}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#cl)"${dash?` stroke-dasharray="${dash}"`:''}/>`}
+function handle(id,x,y,col,r=10){const {X,Y}=G;return`<g class="h" data-h="${id}" style="cursor:grab"><circle cx="${X(x)}" cy="${Y(y)}" r="24" fill="transparent"/><circle cx="${X(x)}" cy="${Y(y)}" r="${r}" fill="${col}" stroke="#fff" stroke-width="3"/></g>`}
+function draw(){let g=frame();const {X,Y}=G,a=A(),h=axisQ(a,b),k=kQ(a,b,c),hv=qv(h),kv=qv(k);
+ if(mode==='banding'&&ghost)g+=curve(f(ghost.A,ghost.b,ghost.c),'#94A3B8',3.5,'9 7');
+ if(mode==='padan'&&T)g+=curve(f(T.A,T.b,T.c),'#F472B6',5,'10 8');
+ // paksi simetri
+ if(mode!=='padan'&&Math.abs(hv)<=R+.4)g+=`<line x1="${X(hv)}" y1="${Y(R+.5)}" x2="${X(hv)}" y2="${Y(-R-.5)}" stroke="#A78BFA" stroke-width="2.5" stroke-dasharray="8 7"/>`+TX(X(hv)+(hv>=0?6:-6),Y(R-.2),'x = '+qt(h),'#A78BFA',13,hv>=0?'start':'end');
+ g+=curve(f(a,b,c),'#38BDF8',5);
+ // titik pusingan & pintasan-y
+ const vin=Math.abs(hv)<=R+.3&&Math.abs(kv)<=R+.3;
+ if(vin){g+=handle('v',hv,kv,'#FBBF24',10);if(mode!=='padan')g+=TX(X(hv),Y(kv)+(a[0]>0?24:-24),'('+qt(h)+', '+qt(k)+')','#FBBF24',13)}
+ g+=handle('c',0,c,'#A78BFA',9);
+ if(mode!=='padan'&&!(Math.abs(hv)<.6&&Math.abs(kv-c)<1.2))g+=TX(X(0)-14,Y(c),'(0, '+N(c)+')','#A78BFA',13,'end');
+ svg.innerHTML=g;showInfo()}
+function shape(a){return a[0]>0?'∪ (terbuka ke atas)':'∩ (terbuka ke bawah)'}
+function width(a){const m=Math.abs(qv(a));return m>=2?'sempit':m<=.5?'lebar':'sederhana'}
+function showInfo(){const a=A(),h=axisQ(a,b),k=kQ(a,b,c);
+ document.getElementById('va').textContent=qt(a);document.getElementById('vb').textContent=N(b);document.getElementById('vc').textContent=N(c);
+ ra.value=ai;rb.value=b;rc.value=c;
+ const tp=a[0]>0?'minimum':'maksimum';
+ const side=b===0?'pada paksi-y':(a[0]>0)===(b>0)?'di kiri paksi-y (a, b sama tanda)':'di kanan paksi-y (a, b berlainan tanda)';
+ if(mode==='teroka'){info.innerHTML=`<b class="t">Fungsi kuadratik</b><div class="eq">f(x) = ${eqH(a,b,c)}</div>
+  <div class="row"><span>Bentuk: <span class="ca">${shape(a)}</span>, ${width(a)}</span></div>
+  <div class="row"><span>Paksi simetri: <span class="cc">x = ${qh(h)}</span></span><span>Pintasan-y: <span class="cc">${N(c)}</span></span></div>
+  <div class="row"><span>Titik ${tp}: <span class="cg">(${qh(h)}, ${qh(k)})</span></span></div>
+  <div class="tip">x = −b ÷ 2a = −(${N(b)}) ÷ (2 × ${qt(a)}) = ${qt(h)}; paksi simetri ${side}. Seret ● kuning (ubah b) atau ● ungu (ubah c).</div>`}
+ if(mode==='banding'){const g0=ghost;let ch='Tekan <b>Simpan graf</b>, kemudian ubah <b>satu</b> pekali sahaja dan lihat perbezaannya.';
+  if(g0){const da=g0.A[0]!==a[0]||g0.A[1]!==a[1],db=g0.b!==b,dc=g0.c!==c,n=da+db+dc;const out=[];
+   if(n===0)out.push('Graf sama. Ubah satu pekali.');
+   else if(n>1)out.push('Lebih daripada satu pekali berubah. Ubah satu sahaja supaya kesannya jelas.');
+   else if(da){if((g0.A[0]>0)!==(a[0]>0))out.push('Tanda a bertukar: bentuk graf bertukar '+(a[0]>0?'∩ → ∪':'∪ → ∩')+'.');
+    const m0=Math.abs(qv(g0.A)),m1=Math.abs(qv(a));if(m1>m0)out.push('|a| bertambah: graf menjadi lebih <b>sempit</b>.');else if(m1<m0)out.push('|a| berkurang: graf menjadi lebih <b>lebar</b>.');
+    out.push('Pintasan-y tetap '+N(c)+'.')}
+   else if(db)out.push(`b berubah ${N(g0.b)} → ${N(b)}: paksi simetri beralih daripada x = ${qh(axisQ(g0.A,g0.b))} ke x = ${qh(h)}. Bentuk dan pintasan-y tidak berubah.`);
+   else if(dc)out.push(`c berubah ${N(g0.c)} → ${N(c)}: graf bergerak ${Math.abs(c-g0.c)} unit ke ${c>g0.c?'atas':'bawah'}. Bentuk dan paksi simetri tidak berubah.`);
+   ch=out.join(' ')}
+  info.innerHTML=`<b class="t">Banding sebelum &amp; selepas</b><div class="row">${g0?`<span style="color:#94A3B8">Asal (putus-putus): ${eqT(g0.A,g0.b,g0.c)}</span>`:''}</div><div class="eq" style="font-size:20px">Baharu: f(x) = ${eqH(a,b,c)}</div><div class="tip" style="color:var(--tx);font-size:14px">${ch}</div>`}
+ if(mode==='padan'){const okA=T&&a[0]===T.A[0]&&a[1]===T.A[1],okB=T&&b===T.b,okC=T&&c===T.c,win=okA&&okB&&okC;
+  if(win&&!done){done=true;score++;tot++;snd('betul');if(window.FX)FX.stars(stage,12)}
+  let hh=`<b class="t">Padankan graf putus-putus</b><div class="tip" style="margin-top:0">Laraskan a, b dan c sehingga graf biru bertindih dengan graf <b class="ca">merah jambu</b>.</div><div class="row" style="margin-top:4px"><span>Graf anda: f(x) = ${eqH(a,b,c)}</span></div><div class="row"><span class="${okA?'ok':'no'}">${okA?'✓':'✗'} a</span><span class="${okB?'ok':'no'}">${okB?'✓':'✗'} b</span><span class="${okC?'ok':'no'}">${okC?'✓':'✗'} c</span><span style="color:var(--mu)">Skor: ${score}/${tot}</span></div>`;
+  if(win)hh+=`<div class="ok" style="margin-top:4px">Tepat! Fungsinya ialah f(x) = ${eqT(T.A,T.b,T.c)}.</div>`;
+  info.innerHTML=hh}}
+function newT(){let t;do{const A2=[[-2,1],[-1,1],[-1,2],[1,2],[1,1],[2,1]][Math.floor(Math.random()*6)];const h=Math.floor(Math.random()*7)-3;
+  const bb=Math.round(-2*qv(A2)*h),cc=Math.floor(Math.random()*9)-4;t={A:A2,b:bb,c:cc}}
+ while((t.A[0]===A()[0]&&t.A[1]===A()[1]&&t.b===b&&t.c===c)||Math.abs(t.b)>8||Math.abs(qv(kQ(t.A,t.b,t.c)))>R-1);T=t;done=false;draw()}
+function setBtns(){
+ if(mode==='padan'){btns.innerHTML=`<button class="big" id="nx">Graf baharu ▶</button><button class="big alt" id="hint">Petunjuk</button>`;
+  document.getElementById('nx').onclick=()=>{if(!done)tot++;newT()};
+  document.getElementById('hint').onclick=()=>{const t=T;info.querySelector('.tip').innerHTML=`Graf sasaran berbentuk ${shape(t.A)}, pintasan-y <b class="cc">${N(t.c)}</b>, paksi simetri <b class="cc">x = ${qt(axisQ(t.A,t.b))}</b>.`}}
+ else if(mode==='banding'){btns.innerHTML=`<button class="big" id="sv">Simpan graf</button><button class="big alt" id="rs">Set semula</button>`;
+  document.getElementById('sv').onclick=()=>{ghost={A:A(),b,c};draw()};
+  document.getElementById('rs').onclick=()=>{ai=8;b=0;c=0;ghost={A:A(),b,c};draw()}}
+ else{btns.innerHTML=`<button class="big alt" id="neg">Tukar tanda a</button><button class="big alt" id="b0">b = 0</button><button class="big" id="rw">Rawak</button>`;
+  document.getElementById('neg').onclick=()=>{const a=A();const k=AS.findIndex(v=>v[0]===-a[0]&&v[1]===a[1]);if(k>=0)ai=k;draw()};
+  document.getElementById('b0').onclick=()=>{b=0;draw()};
+  document.getElementById('rw').onclick=()=>{ai=Math.floor(Math.random()*AS.length);b=Math.floor(Math.random()*9)-4;c=Math.floor(Math.random()*9)-4;draw()}}}
+document.querySelectorAll('.modes button').forEach(bt=>bt.onclick=()=>{document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===bt));mode=bt.dataset.m;
+ if(mode==='banding'&&!ghost)ghost={A:A(),b,c};setBtns();if(mode==='padan')newT();else draw()});
+ra.oninput=()=>{ai=+ra.value;draw()};rb.oninput=()=>{b=+rb.value;draw()};rc.oninput=()=>{c=+rc.value;draw()};
+document.querySelectorAll('.pm').forEach(bt=>bt.onclick=()=>{const d=bt.dataset.d;
+ if(d==='a-')ai=Math.max(0,ai-1);if(d==='a+')ai=Math.min(AS.length-1,ai+1);
+ if(d==='b-')b=Math.max(-8,b-1);if(d==='b+')b=Math.min(8,b+1);if(d==='c-')c=Math.max(-6,c-1);if(d==='c+')c=Math.min(6,c+1);draw()});
+function pt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;const r=p.matrixTransform(svg.getScreenCTM().inverse());return{x:(r.x-G.cx)/G.u,y:(G.cy-r.y)/G.u}}
+svg.addEventListener('pointerdown',e=>{const h=e.target.closest('.h');if(!h)return;e.preventDefault();drag=h.dataset.h;svg.setPointerCapture(e.pointerId)});
+svg.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();const p=pt(e);
+ if(drag==='c'){const v=Math.max(-6,Math.min(6,Math.round(p.y)));if(v!==c){c=v;draw()}}
+ if(drag==='v'){// seret titik pusingan mendatar: b = −2a·h (dibundarkan)
+  const v=Math.max(-8,Math.min(8,Math.round(-2*qv(A())*p.x)));if(v!==b){b=v;draw()}}});
+const end=()=>{drag=null};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+new ResizeObserver(()=>draw()).observe(stage);setBtns();draw();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

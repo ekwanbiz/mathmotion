@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Punca &amp; Pintasan-x · Bab 1</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--sf:#131C2E;--sf2:#1A2540;--sf3:#0E1626;--bd:#22304A;--bd2:#2E3F5E;--tx:#E6EDF7;--mu:#94A3B8;--mu2:#64748B;--c1:#F472B6;--c2:#38BDF8;--c3:#A78BFA;--gold:#FBBF24;--ok:#34D399;--bad:#F87171;
+ --surface:#131C2E;--border:#2E3F5E;--text:#E6EDF7;--muted:#94A3B8;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff06 1px,transparent 1px),linear-gradient(90deg,#ffffff06 1px,transparent 1px);background-size:32px 32px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#2b0718}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:11px 14px;line-height:1.5;font-size:15px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:2px}
+.info .eq{font-weight:800;font-size:21px;letter-spacing:.01em}
+.info .row{display:flex;flex-wrap:wrap;gap:2px 14px;font-weight:700}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.c1{color:var(--c1)}.c2{color:var(--c2)}.c3{color:var(--c3)}.cg{color:var(--gold)}
+.ctrl{display:flex;flex-direction:column;gap:8px}
+.sl{display:grid;grid-template-columns:auto 44px minmax(0,1fr) 44px 62px;gap:6px;align-items:center}
+.sl label{font-weight:900;font-size:17px;min-width:22px}
+.sl input[type=range]{width:100%;height:30px;margin:0}
+.sl .v{font-weight:900;font-size:17px;text-align:center;background:var(--sf);border:1px solid var(--bd2);border-radius:10px;padding:6px 2px}
+.pm{background:var(--sf);border:2px solid var(--bd2);border-radius:12px;height:40px;font-weight:900;font-size:20px;padding:0}
+.btns{display:flex;gap:8px}
+.big{flex:1;background:var(--gold);border:0;color:#2a1f00;border-radius:13px;padding:12px 6px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.hide{display:none!important}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.4fr) minmax(340px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:22px}.info .eq{font-size:26px}
+}
+@media(max-height:700px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.info{padding:8px 11px;font-size:14px}.info .eq{font-size:18px}.info b.t{font-size:16px}.big{padding:9px 4px}.sl input[type=range]{height:26px}.pm{height:36px}.sl .v{padding:4px 2px}}
+@media(max-width:420px){.modes button{font-size:13px;padding:10px 3px}.info{font-size:14px}.info .eq{font-size:18px}.info .tip{font-size:12px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#F472B6;color:#2b0718;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #f472b644">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mod">
+   <button data-m="bina" class="on" role="tab">🧩 Bina</button>
+   <button data-m="uji" role="tab">🔍 Uji x</button>
+   <button data-m="cari" role="tab">🎯 Cari Punca</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" aria-label="Graf fungsi kuadratik dan pintasan-x"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl">
+  <div class="sl" id="slP"><label class="c1" for="rp">p</label><button class="pm" data-d="p-" aria-label="Kurangkan p">−</button><input type="range" id="rp" min="-6" max="6" step="1" aria-label="Punca p"><button class="pm" data-d="p+" aria-label="Tambah p">+</button><span class="v c1" id="vp"></span></div>
+  <div class="sl" id="slQ"><label class="c1" for="rq">q</label><button class="pm" data-d="q-" aria-label="Kurangkan q">−</button><input type="range" id="rq" min="-6" max="6" step="1" aria-label="Punca q"><button class="pm" data-d="q+" aria-label="Tambah q">+</button><span class="v c1" id="vq"></span></div>
+  <div class="sl hide" id="slX"><label class="c2" for="rx">x</label><button class="pm" data-d="x-" aria-label="Kurangkan x">−</button><input type="range" id="rx" min="-7" max="7" step="1" aria-label="Nilai x"><button class="pm" data-d="x+" aria-label="Tambah x">+</button><span class="v c2" id="vx"></span></div>
+  <div class="btns" id="btns"></div>
+ </div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),stage=document.getElementById('stage'),info=document.getElementById('info'),btns=document.getElementById('btns');
+const rp=document.getElementById('rp'),rq=document.getElementById('rq'),rx=document.getElementById('rx');
+const RX=7,MI='−';
+const N=v=>v<0?MI+(-v):String(v);
+const gcd=(x,y)=>{x=Math.abs(x);y=Math.abs(y);while(y)[x,y]=[y,x%y];return x};
+const qf=v=>{const n=Math.round(v*4),g=gcd(n,4)||1,d=4/g;return d===1?N(n/g):N(n/g)+'/'+d}; // nilai berpenyebut 2 atau 4
+const half=qf;
+let lastZ=null,mode='bina',a=1,p=-1,q=3,xv=0,drag=null,G=null,T=null,score=0,tot=0,done=false;
+const snd=n=>{if(window.FX)FX.play(n)};
+const fx=(a,p,q)=>x=>a*(x-p)*(x-q);
+// bentuk am: a x² − a(p+q) x + a p q
+const coefs=(a,p,q)=>[a,-a*(p+q),a*p*q];
+function polyH(A,B,C){const ps=[];ps.push((A===1?'':A===-1?MI:N(A))+'x²');
+ if(B)ps.push((B<0?` ${MI} `:' + ')+(Math.abs(B)===1?'':Math.abs(B))+'x');if(C)ps.push((C<0?` ${MI} `:' + ')+Math.abs(C));return ps.join('')}
+const fac=r=>r===0?'x':`(x ${r>0?MI:'+'} ${Math.abs(r)})`;
+function factH(a,p,q){const pre=a===1?'':a===-1?MI:N(a);if(p===q)return pre+(p===0?'x²':fac(p)+'²');
+ const [u,v]=p===0?[p,q]:q===0?[q,p]:[p,q];return pre+(u===0?'x':fac(u))+fac(v)}
+const TX=(x,y,t,col='#E6EDF7',s=14,an='middle',w=800)=>`<text x="${x}" y="${y}" fill="${col}" font-size="${s}" font-weight="${w}" text-anchor="${an}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="#0E1626" stroke-width="4" stroke-linejoin="round">${t}</text>`;
+const NICE=[1,2,4,5,10,20,25,50];
+// skala-y menyesuaikan supaya titik pusingan kelihatan
+function frame(ky){const w=stage.clientWidth||300,h=stage.clientHeight||300;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+ const ux=(w-24)/(2*RX+1),rows=Math.max(8,(h-24)/ux/2-.5);
+ const need=Math.max(6,Math.abs(ky)+1.5);let st=NICE.find(s=>need/s<=rows-.5)||50;
+ const uy=ux/st,cx=w/2,cy=h/2;
+ G={ux,uy,cx,cy,st,rows,X:x=>cx+x*ux,Y:y=>cy-y*uy,top:cy-(h/2-6),bot:cy+(h/2-6)};
+ let g=`<clipPath id="cl"><rect x="${cx-(RX+.5)*ux}" y="0" width="${(2*RX+1)*ux}" height="${h}"/></clipPath>`;
+ for(let i=-RX;i<=RX;i++)g+=`<line x1="${G.X(i)}" y1="0" x2="${G.X(i)}" y2="${h}" stroke="#ffffff12"/>`;
+ const jm=Math.floor(h/2/ux);for(let j=-jm;j<=jm;j++)g+=`<line x1="${G.X(-RX-.5)}" y1="${cy-j*ux}" x2="${G.X(RX+.5)}" y2="${cy-j*ux}" stroke="#ffffff12"/>`;
+ g+=`<line x1="${G.X(-RX-.5)}" y1="${cy}" x2="${G.X(RX+.5)}" y2="${cy}" stroke="#94A3B8" stroke-width="2"/><line x1="${cx}" y1="4" x2="${cx}" y2="${h-4}" stroke="#94A3B8" stroke-width="2"/>`;
+ const fs=Math.max(10,Math.min(13,ux*.42));
+ for(let i=-RX+1;i<RX;i++)if(i)g+=TX(G.X(i),cy+fs*.95,N(i),'#64748B',fs,'middle',700);
+ for(let j=-jm+1;j<jm;j++)if(j&&j%2===0)g+=TX(cx-fs*.6,cy-j*ux,N(j*st),'#64748B',fs,'end',700);
+ return g+TX(G.X(RX+.2),cy-12,'x','#94A3B8',14,'middle',900)+TX(cx+11,10,'y','#94A3B8',14,'middle',900)}
+function curve(fn,col,w=5,dash=''){const {X,Y}=G,h=stage.clientHeight||300;let d='',pen=false;
+ for(let k=0;k<=300;k++){const x=-RX-.5+(2*RX+1)*k/300,Yy=Y(fn(x));if(Yy<-40||Yy>h+40){pen=false;continue}d+=(pen?'L':'M')+X(x).toFixed(1)+' '+Yy.toFixed(1);pen=true}
+ return`<path d="${d}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#cl)"${dash?` stroke-dasharray="${dash}"`:''}/>`}
+function handle(id,x,y,col,r=10){const {X,Y}=G;return`<g class="h" data-h="${id}" style="cursor:grab"><circle cx="${X(x)}" cy="${Y(y)}" r="24" fill="transparent"/><circle cx="${X(x)}" cy="${Y(y)}" r="${r}" fill="${col}" stroke="#fff" stroke-width="3"/></g>`}
+function draw(){
+ const fA=mode==='cari'?1:a,f=fx(fA,p,q),h=(p+q)/2,k=f(h);
+ let g=frame(mode==='cari'&&T&&!done?Math.max(Math.abs(k),Math.abs(T.k)):k);const {X,Y}=G;
+ if(mode==='cari'&&T&&done)g+=curve(fx(1,T.p,T.q),'#34D399',8);
+ g+=curve(f,'#38BDF8',5);
+ if(mode==='bina'){g+=`<line x1="${X(h)}" y1="4" x2="${X(h)}" y2="${(stage.clientHeight||300)-4}" stroke="#A78BFA" stroke-width="2.5" stroke-dasharray="8 7"/>`;
+  g+=`<circle cx="${X(h)}" cy="${Y(k)}" r="7" fill="#FBBF24" stroke="#0E1626" stroke-width="2"/>`}
+ if(mode==='uji'){const y=f(xv),zero=y===0;
+  g+=`<line x1="${X(xv)}" y1="${Y(0)}" x2="${X(xv)}" y2="${Y(y)}" stroke="${zero?'#34D399':'#FBBF24'}" stroke-width="3" stroke-dasharray="6 5"/>`;
+  g+=handle('x',xv,y,zero?'#34D399':'#FBBF24',10)+TX(X(xv)+(xv>=0?16:-16),Y(y)+(y>=0?-16:16),'('+N(xv)+', '+N(y)+')',zero?'#34D399':'#FBBF24',14,xv>=0?'start':'end')}
+ // pemegang punca pada paksi-x
+ const lab=(r,id)=>TX(X(r),Y(0)+(fA>0?-24:24),'x = '+N(r),'#F472B6',14);
+ if(mode!=='uji'){g+=handle('p',p,0,'#F472B6',10)+handle('q',q,0,'#F472B6',10);if(p!==q)g+=lab(p)+lab(q);else g+=lab(p)}
+ else{g+=`<circle cx="${X(p)}" cy="${Y(0)}" r="6" fill="#F472B6"/><circle cx="${X(q)}" cy="${Y(0)}" r="6" fill="#F472B6"/>`}
+ svg.innerHTML=g;showInfo()}
+function showInfo(){
+ document.getElementById('vp').textContent=N(p);document.getElementById('vq').textContent=N(q);document.getElementById('vx').textContent=N(xv);rp.value=p;rq.value=q;rx.value=xv;
+ const [A,B,C]=coefs(a,p,q);
+ if(mode==='bina'){const h=(p+q)/2,k=fx(a,p,q)(h);
+  info.innerHTML=`<b class="t">Punca = pintasan-x</b><div class="eq">${factH(a,p,q)} = 0</div><div class="row"><span>Bentuk am: <span class="c2">${polyH(A,B,C)} = 0</span></span></div>
+  <div class="row"><span>Punca: <span class="c1">x = ${N(p)}${p!==q?` dan x = ${N(q)}`:' (dua punca sama)'}</span></span></div>
+  <div class="row"><span>Paksi simetri: <span class="c3">x = ${p!==q?`(${N(p)} + ${N(q)}) ÷ 2 = `:''}${half(h)}</span></span><span>Titik ${a>0?'minimum':'maksimum'}: <span class="cg">(${half(h)}, ${qf(k)})</span></span></div>
+  <div class="tip">${p===q?'Graf hanya <b>menyentuh</b> paksi-x pada satu titik.':'Graf memotong paksi-x pada dua titik.'} Seret ● merah jambu di paksi-x atau guna gelangsar. Pintasan-y = ${N(C)}.</div>`}
+ if(mode==='uji'){const y=fx(a,p,q)(xv),zero=y===0;
+  info.innerHTML=`<b class="t">Uji nilai x</b><div class="eq">f(x) = ${polyH(A,B,C)}</div>
+  <div class="row"><span>f(${N(xv)}) = ${A===1?'':A===-1?MI:N(A)}(${N(xv)})² ${B<0?MI:'+'} ${Math.abs(B)}(${N(xv)}) ${C<0?MI:'+'} ${Math.abs(C)} = <span class="${zero?'ok':'cg'}">${N(y)}</span></span></div>
+  <div class="row"><span class="${zero?'ok':'no'}">${zero?`✓ x = ${N(xv)} ialah punca kerana f(${N(xv)}) = 0`:`✗ x = ${N(xv)} bukan punca kerana f(${N(xv)}) ≠ 0`}</span></div>
+  <div class="tip">Seret ● pada graf atau guna gelangsar x. Punca ialah nilai x yang menjadikan f(x) = 0, iaitu titik graf pada paksi-x.</div>`;
+  if(zero&&xv!==lastZ)snd('betul');lastZ=zero?xv:null}
+ if(mode==='cari'&&T){const okS=p+q===T.p+T.q,okP=p*q===T.p*T.q,win=okS&&okP;
+  if(win&&!done){done=true;score++;tot++;snd('betul');if(window.FX)FX.stars(stage,12);setTimeout(draw,0)}
+  let hh=`<b class="t">Cari punca dengan pemfaktoran</b><div class="eq">${polyH(1,T.B,T.C)} = 0</div>
+  <div class="row"><span>Cubaan anda: <span class="c1">${factH(1,p,q)} = 0</span> → <span class="c2">${polyH(1,-(p+q),p*q)} = 0</span></span></div>
+  <div class="row"><span class="${okS?'ok':'no'}">${okS?'✓':'✗'} pekali x: ${N(-(p+q))}</span><span class="${okP?'ok':'no'}">${okP?'✓':'✗'} pemalar: ${N(p*q)}</span><span style="color:var(--mu)">Skor: ${score}/${tot}</span></div>`;
+  hh+=win?`<div class="ok" style="margin-top:4px">Tepat! Punca: x = ${N(Math.min(p,q))}${p!==q?` dan x = ${N(Math.max(p,q))}`:''}. Graf hijau memotong paksi-x di situ.</div>`:`<div class="tip">Gerakkan dua punca ● supaya hasil darab (−p)(−q) = ${N(T.C)} dan hasil tambah (−p) + (−q) = ${N(T.B)}.</div>`;
+  info.innerHTML=hh}}
+function newT(){let t;do{const P=Math.floor(Math.random()*11)-5,Q=Math.floor(Math.random()*11)-5;t={p:P,q:Q,B:-(P+Q),C:P*Q,k:-((P-Q)**2)/4}}
+ while(t.p===t.q||(t.B===-(p+q)&&t.C===p*q)||Math.abs(t.k)>16);T=t;done=false;p=0;q=0;draw()}
+function setUI(){document.getElementById('slP').classList.toggle('hide',mode==='uji');document.getElementById('slQ').classList.toggle('hide',mode==='uji');document.getElementById('slX').classList.toggle('hide',mode!=='uji');
+ if(mode==='cari'){btns.innerHTML=`<button class="big" id="nx">Soalan baharu ▶</button><button class="big alt" id="hint">Petunjuk</button>`;
+  document.getElementById('nx').onclick=()=>{if(!done)tot++;newT()};
+  document.getElementById('hint').onclick=()=>{const t=T,pr=[];for(let i=-12;i<=12;i++)for(let j=i;j<=12;j++)if(i*j===t.C&&Math.abs(i)<=12)pr.push(`${N(i)} × ${N(j)}`);
+   info.querySelector('.tip')&&(info.querySelector('.tip').innerHTML=`Pasangan faktor bagi ${N(t.C)}: ${pr.slice(0,6).join(', ')}. Pilih pasangan yang hasil tambahnya ${N(t.B)}.`)}}
+ else{btns.innerHTML=`<button class="big alt" id="neg">Tukar tanda a</button><button class="big alt" id="a2">a = ${N(Math.abs(a)===2?Math.sign(a):2*Math.sign(a))}</button><button class="big" id="rw">Rawak</button>`;
+  document.getElementById('neg').onclick=()=>{a=a>0?-1:1;setUI();draw()};
+  document.getElementById('a2').onclick=()=>{a=Math.abs(a)===2?Math.sign(a):2*Math.sign(a);setUI();draw()};
+  document.getElementById('rw').onclick=()=>{p=Math.floor(Math.random()*11)-5;q=Math.floor(Math.random()*11)-5;xv=Math.floor(Math.random()*11)-5;draw()}}}
+document.querySelectorAll('.modes button').forEach(bt=>bt.onclick=()=>{document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===bt));mode=bt.dataset.m;
+ if(mode!=='cari'&&T){T=null;p=-1;q=3}setUI();if(mode==='cari')newT();else draw()});
+rp.oninput=()=>{p=+rp.value;draw()};rq.oninput=()=>{q=+rq.value;draw()};rx.oninput=()=>{xv=+rx.value;draw()};
+document.querySelectorAll('.pm').forEach(bt=>bt.onclick=()=>{const d=bt.dataset.d,cl=v=>Math.max(-6,Math.min(6,v));
+ if(d==='p-')p=cl(p-1);if(d==='p+')p=cl(p+1);if(d==='q-')q=cl(q-1);if(d==='q+')q=cl(q+1);if(d==='x-')xv=Math.max(-7,xv-1);if(d==='x+')xv=Math.min(7,xv+1);draw()});
+function pt(e){const P=svg.createSVGPoint();P.x=e.clientX;P.y=e.clientY;const r=P.matrixTransform(svg.getScreenCTM().inverse());return{x:(r.x-G.cx)/G.ux,y:(G.cy-r.y)/G.uy}}
+svg.addEventListener('pointerdown',e=>{const h=e.target.closest('.h');if(!h)return;e.preventDefault();drag=h.dataset.h;svg.setPointerCapture(e.pointerId)});
+svg.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();const P=pt(e);
+ if(drag==='x'){const v=Math.max(-7,Math.min(7,Math.round(P.x)));if(v!==xv){xv=v;draw()}return}
+ const v=Math.max(-6,Math.min(6,Math.round(P.x)));if(drag==='p'&&v!==p){p=v;draw()}if(drag==='q'&&v!==q){q=v;draw()}});
+const end=()=>{const was=drag;drag=null;if(was==='x'&&mode==='uji')showInfo()};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+new ResizeObserver(()=>draw()).observe(stage);setUI();draw();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Nilai Maksimum Harian · Bab 1</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--sf:#131C2E;--sf2:#1A2540;--sf3:#0E1626;--bd:#22304A;--bd2:#2E3F5E;--tx:#E6EDF7;--mu:#94A3B8;--mu2:#64748B;--c1:#FBBF24;--c2:#38BDF8;--c3:#A78BFA;--c4:#F472B6;--ok:#34D399;--bad:#F87171;
+ --surface:#131C2E;--border:#2E3F5E;--text:#E6EDF7;--muted:#94A3B8;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff06 1px,transparent 1px),linear-gradient(90deg,#ffffff06 1px,transparent 1px);background-size:32px 32px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#2a1f00}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:11px 14px;line-height:1.5;font-size:15px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:2px}
+.info .eq{font-weight:800;font-size:21px;letter-spacing:.01em}
+.info .row{display:flex;flex-wrap:wrap;gap:2px 14px;font-weight:700}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.c1{color:var(--c1)}.c2{color:var(--c2)}.c3{color:var(--c3)}.c4{color:var(--c4)}
+.ctrl{display:flex;flex-direction:column;gap:8px}
+.sl{display:grid;grid-template-columns:76px 44px minmax(0,1fr) 44px 70px;gap:6px;align-items:center}
+.sl label{font-weight:900;font-size:15px;line-height:1.1}
+.sl input[type=range]{width:100%;height:30px;margin:0}
+.sl .v{font-weight:900;font-size:16px;text-align:center;background:var(--sf);border:1px solid var(--bd2);border-radius:10px;padding:6px 2px}
+.pm{background:var(--sf);border:2px solid var(--bd2);border-radius:12px;height:40px;font-weight:900;font-size:20px;padding:0}
+.btns{display:flex;gap:8px}
+.big{flex:1;background:var(--c1);border:0;color:#2a1f00;border-radius:13px;padding:12px 6px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.4fr) minmax(360px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:22px}.info .eq{font-size:25px}
+}
+@media(max-height:700px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.info{padding:8px 11px;font-size:14px}.info .eq{font-size:18px}.info b.t{font-size:16px}.big{padding:9px 4px}.sl input[type=range]{height:26px}.pm{height:36px}.sl .v{padding:4px 2px}}
+@media(max-width:420px){.modes button{font-size:13px;padding:10px 3px}.info{font-size:14px}.info .eq{font-size:18px}.info .tip{font-size:12px}.sl{grid-template-columns:62px 40px minmax(0,1fr) 40px 62px}.sl label{font-size:13px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#FBBF24;color:#2a1f00;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #fbbf2444">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mod">
+   <button data-m="bola" class="on" role="tab">⚽ Lontaran Bola</button>
+   <button data-m="pagar" role="tab">🌱 Pagar Kebun</button>
+   <button data-m="cabar" role="tab">🎯 Cabaran</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" aria-label="Graf situasi harian fungsi kuadratik"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl">
+  <div class="sl"><label id="l1" for="r1"></label><button class="pm" data-d="1-" aria-label="Kurangkan">−</button><input type="range" id="r1"><button class="pm" data-d="1+" aria-label="Tambah">+</button><span class="v c2" id="v1"></span></div>
+  <div class="sl"><label id="l2" for="r2"></label><button class="pm" data-d="2-" aria-label="Kurangkan">−</button><input type="range" id="r2"><button class="pm" data-d="2+" aria-label="Tambah">+</button><span class="v c1" id="v2"></span></div>
+  <div class="btns" id="btns"></div>
+ </div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),stage=document.getElementById('stage'),info=document.getElementById('info'),btns=document.getElementById('btns');
+const r1=document.getElementById('r1'),r2=document.getElementById('r2'),l1=document.getElementById('l1'),l2=document.getElementById('l2'),v1=document.getElementById('v1'),v2=document.getElementById('v2');
+const MI='−';
+// nombor kemas: bundar 2 t.p., buang sifar di hujung, tanda tolak sebenar
+const D=(v,dp=2)=>{let s=(Math.round(v*10**dp)/10**dp).toFixed(dp).replace(/\.?0+$/,'');if(s==='-0')s='0';return s.replace('-',MI)};
+let mode='bola',cab=null,drag=null,G=null,anim=null,score=0,tot=0;
+const S={u:20,h0:0,t:1,P:24,x:3};           // bola: u (m/s), h0 (m), t (s); pagar: P (m), x (m)
+const snd=n=>{if(window.FX)FX.play(n)};
+const TX=(x,y,t,col='#E6EDF7',s=14,an='middle',w=800)=>`<text x="${x}" y="${y}" fill="${col}" font-size="${s}" font-weight="${w}" text-anchor="${an}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="#0E1626" stroke-width="4" stroke-linejoin="round">${t}</text>`;
+const NICE=[.5,1,2,5,10,20,25,50,100];
+const step=(span,n)=>NICE.find(s=>span/s<=n)||200;
+/* ---------- model ---------- */
+const H=(t,u=S.u,h0=S.h0)=>-5*t*t+u*t+h0;                      // h(t) = −5t² + ut + h0
+const tMax=(u=S.u)=>u/10, hMax=(u=S.u,h0=S.h0)=>h0+u*u/20;          // t = −b/2a = −u/(2·(−5))
+const tLand=(u=S.u,h0=S.h0)=>(u+Math.sqrt(u*u+20*h0))/10;          // punca positif −5t² + ut + h0 = 0
+const A=(x,P=S.P)=>x*(P-2*x);                                     // luas = x(P − 2x) = −2x² + Px
+const xMax=(P=S.P)=>P/4, aMax=(P=S.P)=>P*P/8;
+/* ---------- graf generik dalam kotak ---------- */
+function axes(bx,xr,yr,xl,yl){const [L,T,R,B]=bx,sx=(R-L)/xr,sy=(B-T)/yr;const g={L,T,R,B,X:x=>L+x*sx,Y:y=>B-y*sy,sx,sy,xr,yr};
+ let s=`<rect x="${L}" y="${T}" width="${R-L}" height="${B-T}" fill="#ffffff05"/>`;const xs=step(xr,8),ys=step(yr,6);
+ for(let x=0;x<=xr+1e-9;x+=xs)s+=`<line x1="${g.X(x)}" y1="${T}" x2="${g.X(x)}" y2="${B}" stroke="#ffffff12"/>`+TX(g.X(x),B+14,D(x),'#64748B',12,'middle',700);
+ for(let y=0;y<=yr+1e-9;y+=ys)s+=`<line x1="${L}" y1="${g.Y(y)}" x2="${R}" y2="${g.Y(y)}" stroke="#ffffff12"/>`+TX(L-6,g.Y(y),D(y),'#64748B',12,'end',700);
+ s+=`<line x1="${L}" y1="${B}" x2="${R+6}" y2="${B}" stroke="#94A3B8" stroke-width="2"/><line x1="${L}" y1="${B}" x2="${L}" y2="${T-6}" stroke="#94A3B8" stroke-width="2"/>`;
+ s+=TX(R,B-28,xl,'#94A3B8',13,'end',800)+TX(L+8,T+4,yl,'#94A3B8',13,'start',800);g.s=s;return g}
+function curve(g,fn,a,b,col,w=5){let d='';for(let k=0;k<=200;k++){const x=a+(b-a)*k/200,y=fn(x);d+=(k?'L':'M')+g.X(x).toFixed(1)+' '+g.Y(Math.max(0,y)).toFixed(1)}
+ return`<path d="${d}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`}
+function handle(id,x,y,col,r=11){return`<g class="h" data-h="${id}" style="cursor:grab"><circle cx="${x}" cy="${y}" r="26" fill="transparent"/><circle cx="${x}" cy="${y}" r="${r}" fill="${col}" stroke="#fff" stroke-width="3"/></g>`}
+/* ---------- lukis ---------- */
+function drawBola(showMax){const w=stage.clientWidth||300,h=stage.clientHeight||300;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+ const tl=tLand(),xr=Math.ceil(tl*2)/2+.5,yr=Math.max(10,Math.ceil(hMax()*1.15/5)*5);
+ const g=axes([44,26,w-18,h-34],xr,yr,'t (saat)','h (m)');G=g;let s=g.s;
+ s+=curve(g,t=>H(t),0,tl,'#38BDF8',5);
+ if(showMax){const tm=tMax(),hm=hMax();s+=`<line x1="${g.X(tm)}" y1="${g.Y(0)}" x2="${g.X(tm)}" y2="${g.Y(hm)}" stroke="#A78BFA" stroke-width="2.5" stroke-dasharray="7 6"/><circle cx="${g.X(tm)}" cy="${g.Y(hm)}" r="8" fill="#34D399" stroke="#0E1626" stroke-width="2"/>`+TX(g.X(tm),g.Y(hm)-18,`maks (${D(tm)}, ${D(hm)})`,'#34D399',13)}
+ s+=`<circle cx="${g.X(tl)}" cy="${g.Y(0)}" r="6" fill="#F472B6"/>`;
+ const t=Math.min(S.t,tl),y=H(t);
+ s+=`<line x1="${g.L}" y1="${g.Y(y)}" x2="${g.X(t)}" y2="${g.Y(y)}" stroke="#FBBF24" stroke-width="2" stroke-dasharray="5 5"/><line x1="${g.X(t)}" y1="${g.Y(0)}" x2="${g.X(t)}" y2="${g.Y(y)}" stroke="#FBBF24" stroke-width="2" stroke-dasharray="5 5"/>`;
+ s+=handle('t',g.X(t),g.Y(y),'#FBBF24',12)+`<text x="${g.X(t)}" y="${g.Y(y)+1}" font-size="14" text-anchor="middle" dominant-baseline="middle" pointer-events="none">⚽</text>`;
+ s+=TX(g.X(t)+(t<xr/2?18:-18),g.Y(y)+(y>yr*.8?20:-18),`(${D(t)}, ${D(y)})`,'#FBBF24',13,t<xr/2?'start':'end');
+ svg.innerHTML=s}
+function drawPagar(showMax){const w=stage.clientWidth||300,h=stage.clientHeight||300;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+ const side=w>h*1.15,P=S.P,x=S.x,len=P-2*x;
+ const gb=side?[w*.5+40,26,w-18,h-34]:[44,h*.42+20,w-18,h-34],kb=side?[14,14,w*.5-10,h-14]:[14,10,w-14,h*.42];
+ let s='';
+ // kebun: dinding di atas, pagar tiga sisi
+ const [L,T,R,B]=kb,bw=R-L,bh=B-T,sc=Math.min((bw-60)/P*1.0,(bh-60)/(P/2));const gw=len*sc,gh=x*sc,ox=L+(bw-Math.max(gw,4))/2,oy=T+28;
+ s+=`<rect x="${L+10}" y="${oy-16}" width="${bw-20}" height="14" rx="3" fill="#64748B"/>`+TX(L+bw/2,oy-24,'dinding','#94A3B8',12,'middle',700);
+ s+=`<rect x="${ox}" y="${oy}" width="${Math.max(gw,0)}" height="${Math.max(gh,0)}" fill="#34D39926"/>`;
+ s+=`<path d="M${ox} ${oy} V${oy+gh} H${ox+gw} V${oy}" fill="none" stroke="#FBBF24" stroke-width="5" stroke-linejoin="round"/>`;
+ if(gh>26&&gw>60)s+=TX(ox+gw/2,oy+gh/2,`${D(A(x))} m²`,'#34D399',15);
+ s+=TX(ox-8,oy+gh/2,`${D(x)} m`,'#38BDF8',13,'end')+TX(ox+gw/2,oy+gh+16,`${D(len)} m`,'#F472B6',13);
+ // graf luas
+ const xr=P/2,yr=Math.ceil(aMax()*1.2/10)*10,g=axes(gb,xr,yr,'x (m)','L (m²)');G=g;s+=g.s;
+ s+=curve(g,v=>A(v),0,P/2,'#38BDF8',5);
+ if(showMax){const xm=xMax(),am=aMax();s+=`<line x1="${g.X(xm)}" y1="${g.Y(0)}" x2="${g.X(xm)}" y2="${g.Y(am)}" stroke="#A78BFA" stroke-width="2.5" stroke-dasharray="7 6"/><circle cx="${g.X(xm)}" cy="${g.Y(am)}" r="8" fill="#34D399" stroke="#0E1626" stroke-width="2"/>`+TX(g.X(xm),g.Y(am)-18,`maks (${D(xm)}, ${D(am)})`,'#34D399',13)}
+ s+=handle('x',g.X(x),g.Y(A(x)),'#FBBF24',11)+TX(g.X(x)+(x<xr/2?16:-16),g.Y(A(x))+16,`(${D(x)}, ${D(A(x))})`,'#FBBF24',13,x<xr/2?'start':'end');
+ svg.innerHTML=s}
+function kind(){return mode==='cabar'?cab.k:mode}
+function draw(){const k=kind(),sm=mode!=='cabar'||cab.done;if(k==='bola')drawBola(sm&&S.showB);else drawPagar(sm&&S.showP);showInfo()}
+function setSliders(){const k=kind();
+ if(k==='bola'){l1.innerHTML='Laju awal<br><span class="c2">u</span>';r1.min=6;r1.max=24;r1.step=2;r1.value=S.u;l2.innerHTML='Masa<br><span class="c1">t</span>';r2.min=0;r2.max=Math.floor(tLand()*10);r2.step=1;r2.value=Math.round(S.t*10)}
+ else{l1.innerHTML='Panjang<br>pagar <span class="c2">P</span>';r1.min=12;r1.max=40;r1.step=4;r1.value=S.P;l2.innerHTML='Lebar<br><span class="c1">x</span>';r2.min=1;r2.max=S.P-1;r2.step=1;r2.value=Math.round(S.x*2)}
+ r1.disabled=mode==='cabar';document.querySelectorAll('[data-d^="1"]').forEach(b=>b.disabled=mode==='cabar');
+ v1.textContent=k==='bola'?`${S.u} m/s`:`${S.P} m`;v2.textContent=k==='bola'?`${D(S.t,1)} s`:`${D(S.x)} m`}
+function showInfo(){const k=kind();setSliders();
+ if(mode==='cabar'){const c=cab;let h=`<b class="t">Cabaran: cari nilai maksimum</b><div class="tip" style="margin-top:0;color:var(--tx);font-size:14px">${c.q}</div>`;
+  h+=k==='bola'?`<div class="row" style="margin-top:4px"><span>Pilihan anda: t = <span class="c1">${D(S.t,1)} s</span>, h = <span class="c1">${D(H(S.t))} m</span></span></div>`:`<div class="row" style="margin-top:4px"><span>Pilihan anda: x = <span class="c1">${D(S.x)} m</span>, luas = <span class="c1">${D(A(S.x))} m²</span></span></div>`;
+  if(c.done)h+=`<div class="${c.ok?'ok':'no'}" style="margin-top:4px">${c.ok?'✓ Betul!':'✗ Belum tepat.'} ${c.sol}</div>`;
+  h+=`<div class="tip">Skor: ${score}/${tot}. Seret ● kuning atau guna gelangsar, kemudian tekan <b>Semak</b>.</div>`;info.innerHTML=h;return}
+ if(k==='bola'){const tm=tMax(),hm=hMax(),tl=tLand(),y=H(S.t);
+  info.innerHTML=`<b class="t">Tinggi bola</b><div class="eq">h(t) = −5t² + <span class="c2">${S.u}</span>t${S.h0?` + ${S.h0}`:''}</div>
+  <div class="row"><span>Pada t = ${D(S.t,1)} s: h = <span class="c1">${D(y)} m</span></span></div>
+  ${S.showB?`<div class="row"><span>Paksi simetri: t = −${FRT('b','2a')} = −${FRT(S.u,'2(−5)')} = <span class="c3">${D(tm)} s</span></span></div><div class="row"><span>Tinggi maksimum: h(${D(tm)}) = <span class="ok">${D(hm)} m</span></span><span>Jatuh ke tanah: t ≈ <span class="c4">${D(tl)} s</span></span></div>`:'<div class="tip">Seret bola di sepanjang graf. Di manakah bola paling tinggi? Tekan <b>Tunjuk maksimum</b> untuk menyemak.</div>'}
+  <div class="tip">a = −5 &lt; 0, graf berbentuk ∩, jadi ada titik maksimum.</div>`}
+ else{const xm=xMax(),am=aMax(),x=S.x;
+  info.innerHTML=`<b class="t">Pagar kebun di tepi dinding</b><div class="eq">L(x) = x(<span class="c2">${S.P}</span> − 2x) = −2x² + ${S.P}x</div>
+  <div class="row"><span>Lebar <span class="c2">${D(x)} m</span>, panjang <span class="c4">${D(S.P-2*x)} m</span>, luas <span class="c1">${D(A(x))} m²</span></span></div>
+  ${S.showP?`<div class="row"><span>Paksi simetri: x = −${FRT(S.P,'2(−2)')} = <span class="c3">${D(xm)} m</span></span><span>Luas maksimum: <span class="ok">${D(am)} m²</span></span></div>`:'<div class="tip">Pagar sepanjang P m dibina pada tiga sisi. Ubah lebar x: bilakah luas paling besar? Tekan <b>Tunjuk maksimum</b>.</div>'}
+  <div class="tip">Punca L(x) = 0 ialah x = 0 dan x = ${D(S.P/2)}; paksi simetri di tengah-tengah kedua-dua punca.</div>`}}
+const FRT=(a,b)=>`<span style="display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.05;font-size:.8em;margin:0 2px"><span style="border-bottom:2px solid currentColor;padding:0 3px">${a}</span><span>${b}</span></span>`;
+function stopAnim(){if(anim){cancelAnimationFrame(anim);anim=null}}
+function lontar(){stopAnim();const tl=tLand(),t0=performance.now(),dur=Math.min(4000,tl*700);
+ const fr=now=>{const k=Math.min(1,(now-t0)/dur);S.t=Math.round(k*tl*10)/10;if(k>=1)S.t=Math.floor(tl*10)/10;draw();if(k<1)anim=requestAnimationFrame(fr);else{anim=null;snd('langkah')}};anim=requestAnimationFrame(fr)}
+function newCab(){stopAnim();const k=Math.random()<.5?'bola':'pagar';
+ if(k==='bola'){S.u=[10,12,14,16,18,20,24][Math.floor(Math.random()*7)];S.h0=[0,0,1,2,5][Math.floor(Math.random()*5)];S.t=0;
+  cab={k,done:false,q:`Sebiji bola dilontar ke atas. Tingginya h(t) = −5t² + ${S.u}t${S.h0?` + ${S.h0}`:''}. Pada masa t berapakah bola mencapai tinggi maksimum?`,
+   sol:`Paksi simetri t = −${S.u} ÷ 2(−5) = ${D(tMax())} s; tinggi maksimum = ${D(hMax())} m.`}}
+ else{S.P=[12,16,20,24,28,32,36,40][Math.floor(Math.random()*8)];S.x=1;
+  cab={k,done:false,q:`Seorang petani mempunyai pagar sepanjang ${S.P} m untuk memagar tiga sisi kebun di tepi dinding. Berapakah lebar x yang memberi luas maksimum?`,
+   sol:`L(x) = −2x² + ${S.P}x, paksi simetri x = −${S.P} ÷ 2(−2) = ${D(xMax())} m; luas maksimum = ${D(aMax())} m².`}}
+ setBtns();draw()}
+function semak(){if(!cab||cab.done)return;cab.done=true;tot++;
+ cab.ok=cab.k==='bola'?Math.abs(S.t-tMax())<.051:Math.abs(S.x-xMax())<.01;if(cab.ok){score++;snd('betul');if(window.FX)FX.stars(stage,12)}else snd('salah');
+ if(cab.k==='bola')S.showB=true;else S.showP=true;draw()}
+function setBtns(){
+ if(mode==='cabar'){btns.innerHTML=`<button class="big" id="sk">Semak</button><button class="big alt" id="nx">Cabaran baharu ▶</button>`;document.getElementById('sk').onclick=semak;document.getElementById('nx').onclick=()=>{if(cab&&!cab.done)tot++;S.showB=S.showP=false;newCab()}}
+ else if(mode==='bola'){btns.innerHTML=`<button class="big" id="go">Lontar ▶</button><button class="big alt" id="mx">${S.showB?'Sembunyi':'Tunjuk'} maksimum</button><button class="big alt" id="h0">Tinggi awal: ${S.h0} m</button>`;
+  document.getElementById('go').onclick=lontar;document.getElementById('mx').onclick=()=>{S.showB=!S.showB;setBtns();draw()};
+  document.getElementById('h0').onclick=()=>{S.h0=[0,2,5,10][([0,2,5,10].indexOf(S.h0)+1)%4];S.t=Math.min(S.t,Math.floor(tLand()*10)/10);setBtns();draw()}}
+ else{btns.innerHTML=`<button class="big alt" id="mx">${S.showP?'Sembunyi':'Tunjuk'} maksimum</button><button class="big" id="rw">Pagar rawak</button>`;
+  document.getElementById('mx').onclick=()=>{S.showP=!S.showP;setBtns();draw()};
+  document.getElementById('rw').onclick=()=>{S.P=[12,16,20,24,28,32,36,40][Math.floor(Math.random()*8)];S.x=Math.min(S.x,S.P/2-.5);draw()}}}
+document.querySelectorAll('.modes button').forEach(bt=>bt.onclick=()=>{document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===bt));stopAnim();mode=bt.dataset.m;
+ if(mode==='cabar'){S.showB=S.showP=false;newCab()}else{if(mode==='bola'){S.h0=0;S.u=20;S.t=1;S.showB=false}else{S.P=24;S.x=3;S.showP=false}setBtns();draw()}});
+r1.oninput=()=>{stopAnim();if(kind()==='bola'){S.u=+r1.value;S.t=Math.min(S.t,Math.floor(tLand()*10)/10)}else{S.P=+r1.value;S.x=Math.min(S.x,S.P/2-.5)}draw()};
+r2.oninput=()=>{stopAnim();if(kind()==='bola')S.t=+r2.value/10;else S.x=+r2.value/2;draw()};
+document.querySelectorAll('.pm').forEach(bt=>bt.onclick=()=>{const d=bt.dataset.d,r=d[0]==='1'?r1:r2,st=+r.step||1;r.value=Math.max(+r.min,Math.min(+r.max,+r.value+(d[1]==='+'?st:-st)));r.oninput()});
+function pt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+svg.addEventListener('pointerdown',e=>{const h=e.target.closest('.h');if(!h)return;e.preventDefault();stopAnim();drag=h.dataset.h;svg.setPointerCapture(e.pointerId)});
+svg.addEventListener('pointermove',e=>{if(!drag||!G)return;e.preventDefault();const p=pt(e),v=(p.x-G.L)/G.sx;
+ if(drag==='t'){const t=Math.max(0,Math.min(Math.floor(tLand()*10)/10,Math.round(v*10)/10));if(t!==S.t){S.t=t;draw()}}
+ if(drag==='x'){const x=Math.max(.5,Math.min(S.P/2-.5,Math.round(v*2)/2));if(x!==S.x){S.x=x;draw()}}});
+const end=()=>{drag=null};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+S.showB=false;S.showP=false;new ResizeObserver(()=>draw()).observe(stage);setBtns();draw();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>
