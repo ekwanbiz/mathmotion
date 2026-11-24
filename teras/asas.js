@@ -24,6 +24,7 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;',
 const DARK = { bg: '#0B1220', surf: '#131C2E', nav: '#0E1626', bd: '#22304A', tx: '#E6EDF7', mu: '#94A3B8', grid: '#1E2A40', dim: '#334155', mu2: '#64748B', mu3: '#B6C2D3', tr: '#38BDF8', pa: '#FB923C', pu: '#A78BFA', am: '#FBBF24', gr: '#34D399', pk: '#F472B6', rd: '#F87171' };
 const LIGHT = { bg: '#F4F6FB', surf: '#FFFFFF', nav: '#FAFBFE', bd: '#D5DCE8', tx: '#14152B', mu: '#55607A', grid: '#E3E8F1', dim: '#C3CBDA', mu2: '#6B7590', mu3: '#4A5568', tr: '#0284C7', pa: '#EA580C', pu: '#7C3AED', am: '#B45309', gr: '#059669', pk: '#DB2777', rd: '#DC2626' };
 const D2L = {}; Object.keys(DARK).forEach(k => { D2L[DARK[k].toLowerCase()] = LIGHT[k]; });
+Object.assign(D2L, { '#2dd4bf': '#0D9488', '#818cf8': '#4F46E5' }); // warna subtopik tambahan (teal, indigo)
 const themed = (s, light) => (light ? s.replace(/#[0-9a-fA-F]{6}/g, h => D2L[h.toLowerCase()] || h) : s);
 
 /* ---------- ikon ---------- */
