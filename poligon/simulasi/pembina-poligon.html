@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Pembina Poligon · Bab 4</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#07111B;--sf:#0E1B29;--sf2:#132436;--sf3:#0A1622;--bd:#1C3247;--bd2:#284661;--tx:#EAF6FF;--mu:#9DB8CC;--mu2:#6F8CA3;--c1:#4FD1FF;--c2:#FFB547;--c3:#FF6FA8;--c4:#B69CFF;--gold:#FFD166;--ok:#3DDC84;--bad:#FF6B7A;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:9px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:10px 4px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#03202c}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.stage svg{width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:10px 14px;line-height:1.45;font-size:15px}
+.info b.t{display:block;font-size:19px;color:var(--c1);margin-bottom:3px}
+.info .tip{color:var(--mu);font-size:13px;margin-top:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:3px 12px;font-weight:700}
+.grid2 span b{color:var(--gold)}
+.grid2 span b.p{color:var(--c2)}.grid2 span b.k{color:var(--c3)}.grid2 span b.u{color:var(--c4)}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.info .eq{margin-top:6px;padding:7px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:700}
+.ctrl{display:flex;flex-direction:column;gap:8px}
+.line{display:flex;gap:8px;align-items:center}
+.line label{font-weight:800;color:var(--mu);font-size:14px;white-space:nowrap}
+.line input[type=range]{flex:1;accent-color:var(--c1);height:28px;min-width:0}
+.pm{width:44px;height:44px;border-radius:12px;background:var(--sf);border:2px solid var(--bd2);font-weight:900;font-size:20px}
+.chips{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.chips.two{grid-template-columns:1fr 1fr}
+.chip{background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:10px 3px;font-weight:800;font-size:14px}
+.chip.on{background:var(--c1);border-color:var(--c1);color:#03202c}
+.chip.ok{border-color:var(--ok);background:#3ddc8422}.chip.no{border-color:var(--bad);background:#ff6b7a22}
+.big{background:var(--c2);border:0;color:#2b1800;border-radius:13px;padding:12px 6px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.nextb{margin-top:8px;background:var(--c1);border:0;color:#03202c;border-radius:11px;padding:9px 16px;font-weight:900}
+.nval{min-width:34px;text-align:center;font-weight:900;font-size:20px;color:var(--c1)}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.35fr) minmax(330px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:16px}.ctrl{grid-area:c;align-self:end}
+ .chips{grid-template-columns:1fr 1fr}
+ .info b.t{font-size:23px}
+}
+@media(max-height:700px) and (max-width:899px){.info{font-size:14px;padding:8px 11px}.info b.t{font-size:17px}.chip{padding:8px 2px}}
+@media(max-height:620px){.wrap{gap:7px;padding-top:6px}.modes button{padding:8px 4px;font-size:14px}.chip{padding:7px 3px;font-size:13.5px}.info{padding:8px 11px;font-size:14px}.info b.t{font-size:17px}.big{padding:9px 4px}.pm{width:38px;height:38px}}
+@media(max-width:420px){.chip,.big{font-size:13px}.modes button{font-size:13.5px;padding:9px 2px}.grid2{font-size:14px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(12px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#4FD1FF;color:#03202c;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #4fd1ff44">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mod">
+   <button data-m="bina" class="on" role="tab">Bina</button>
+   <button data-m="uji" role="tab">Sekata?</button>
+   <button data-m="cabaran" role="tab">Cabaran</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" viewBox="0 0 400 400" aria-label="Rajah poligon"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const CX=200,CY=200,R=150;
+const C1='#4FD1FF',C2='#FFB547',C3='#FF6FA8',C4='#B69CFF',GOLD='#FFD166',OK='#3DDC84',BAD='#FF6B7A',BASE='#9DB8CC',TX='#EAF6FF',DARK='#0A1622';
+const NAMA={3:'Segi tiga sama sisi',4:'Segi empat sama',5:'Pentagon sekata',6:'Heksagon sekata',7:'Heptagon sekata',8:'Oktagon sekata',9:'Nonagon sekata',10:'Dekagon sekata',11:'Poligon sekata 11 sisi',12:'Poligon sekata 12 sisi'};
+const NAMA0={3:'Segi tiga',4:'Sisi empat',5:'Pentagon',6:'Heksagon',7:'Heptagon',8:'Oktagon',9:'Nonagon',10:'Dekagon'};
+let S={m:'bina',n:5,rot:-90,ax:false,pus:true,ped:false,pel:false,anim:-1,pts:null,un:5,q:null,score:0,tot:0,streak:0};
+const rad=d=>d*Math.PI/180,deg=r=>r*180/Math.PI;
+const nf=v=>{const r=Math.round(v*100)/100;return(Math.abs(r-Math.round(r))<1e-9?String(Math.round(r)):r.toFixed(2).replace(/0$/,'')).replace('-','−')};
+const snd=n=>{if(window.FX)FX.play(n)};
+const rnd=n=>Math.floor(Math.random()*n);
+function lbl(x,y,t,c=TX,s=18){return `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" fill="${c}" font-size="${s}" font-weight="900" text-anchor="middle" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="${DARK}" stroke-width="5" stroke-linejoin="round">${t}</text>`}
+function ln(p,q,c,w=3,dash=''){return `<line x1="${p.x.toFixed(1)}" y1="${p.y.toFixed(1)}" x2="${q.x.toFixed(1)}" y2="${q.y.toFixed(1)}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"${dash?` stroke-dasharray="${dash}"`:''}/>`}
+function dot(p,c,r=5){return `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${r}" fill="${c}" stroke="${DARK}" stroke-width="2"/>`}
+function poly(pts,c,fo='22',w=5){return `<polygon points="${pts.map(p=>p.x.toFixed(1)+','+p.y.toFixed(1)).join(' ')}" fill="${c}${fo}" stroke="${c}" stroke-width="${w}" stroke-linejoin="round"/>`}
+const unit=(p,q)=>{const dx=q.x-p.x,dy=q.y-p.y,L=Math.hypot(dx,dy)||1;return{x:dx/L,y:dy/L}};
+const addv=(p,u,k)=>({x:p.x+u.x*k,y:p.y+u.y*k});
+function arc(V,A,B,r,c,fill=true){const u1=unit(V,A),u2=unit(V,B),p1=addv(V,u1,r),p2=addv(V,u2,r);let d=Math.atan2(u2.y,u2.x)-Math.atan2(u1.y,u1.x);while(d>Math.PI)d-=2*Math.PI;while(d<=-Math.PI)d+=2*Math.PI;
+ return `<path d="M${V.x.toFixed(1)} ${V.y.toFixed(1)} L${p1.x.toFixed(1)} ${p1.y.toFixed(1)} A${r} ${r} 0 0 ${d>0?1:0} ${p2.x.toFixed(1)} ${p2.y.toFixed(1)} Z" fill="${fill?c+'33':'none'}" stroke="${c}" stroke-width="3"/>`}
+function bis(V,A,B){const u1=unit(V,A),u2=unit(V,B),b={x:u1.x+u2.x,y:u1.y+u2.y},L=Math.hypot(b.x,b.y)||1;return{x:b.x/L,y:b.y/L}}
+const regPts=(n,rot,r=R,cx=CX,cy=CY)=>Array.from({length:n},(_,i)=>({x:cx+r*Math.cos(rad(rot+360*i/n)),y:cy+r*Math.sin(rad(rot+360*i/n))}));
+const LET='ABCDEFGHIJKL';
+/* ================= Mod 1: Bina ================= */
+function axesSVG(pts){const n=pts.length;let g='';const mid=(a,b)=>({x:(a.x+b.x)/2,y:(a.y+b.y)/2});
+ for(let i=0;i<n;i++){let a,b;
+  if(n%2){a=pts[i];const j=(i+(n-1)/2)%n;b=mid(pts[j],pts[(j+1)%n])}
+  else if(i<n/2){a=pts[i];b=pts[i+n/2]}
+  else{const j=i-n/2;a=mid(pts[j],pts[(j+1)%n]);b=mid(pts[j+n/2],pts[(j+n/2+1)%n])}
+  const u=unit(a,b);g+=ln(addv(a,u,-18),addv(b,u,18),C4,2.5,'8 6')}
+ return g}
+function binaSVG(){
+ const n=S.n,pts=regPts(n,S.rot),k=S.anim<0?n:S.anim;let g=`<circle cx="${CX}" cy="${CY}" r="${R}" fill="none" stroke="${BASE}" stroke-width="2" stroke-dasharray="8 7" opacity=".7"/>`;
+ if(S.ax&&k===n)g+=axesSVG(pts);
+ if(S.pus){for(let i=0;i<k;i++)g+=ln({x:CX,y:CY},pts[i],BASE,2);
+  if(k>=2){g+=arc({x:CX,y:CY},pts[0],pts[1],38,GOLD);const b=bis({x:CX,y:CY},pts[0],pts[1]);g+=lbl(CX+b.x*62,CY+b.y*62,nf(360/n)+'°',GOLD,17)}}
+ if(k===n)g+=poly(pts,C1);else for(let i=0;i+1<k;i++)g+=ln(pts[i],pts[i+1],C1,5);
+ if(k===n){
+  if(S.ped){const i=Math.floor(n/2),V=pts[i],A=pts[(i+n-1)%n],B=pts[(i+1)%n];g+=arc(V,A,B,28,C2);const b=bis(V,A,B);g+=lbl(V.x+b.x*52,V.y+b.y*52,nf(180-360/n)+'°',C2,16)}
+  if(S.pel){const i=Math.floor(n/2)+1,V=pts[i%n],A=pts[(i+n-1)%n],B=pts[(i+1)%n],e=addv(V,unit(A,V),62);g+=ln(V,e,BASE,2.5,'7 6')+arc(V,e,B,24,C3);const b=bis(V,e,B);g+=lbl(V.x+b.x*46,V.y+b.y*46,nf(360/n)+'°',C3,16)}
+ }
+ for(let i=0;i<k;i++){g+=dot(pts[i],C1,i===0?0:5);const u=unit({x:CX,y:CY},pts[i]);g+=lbl(pts[i].x+u.x*24,pts[i].y+u.y*24,LET[i],TX,16)}
+ g+=dot({x:CX,y:CY},BASE,4)+lbl(CX-14,CY+16,'O',BASE,15);
+ // pemegang putar di A
+ const a=pts[0];g+=`<g class="h" data-h="rot" style="cursor:grab"><circle cx="${a.x.toFixed(1)}" cy="${a.y.toFixed(1)}" r="26" fill="transparent"/><circle cx="${a.x.toFixed(1)}" cy="${a.y.toFixed(1)}" r="11" fill="${GOLD}" stroke="#fff" stroke-width="3"/></g>`;
+ return g}
+function binaInfo(){
+ const n=S.n,c=360/n,pd=180-c,sum=(n-2)*180;
+ let h=`<b class="t">${NAMA[n]}</b><div class="grid2"><span>Bilangan sisi: <b>${n}</b></span><span>Paksi simetri: <b class="u">${n}</b></span><span>Sudut pusat: <b>${nf(c)}°</b></span><span>Sudut pedalaman: <b class="p">${nf(pd)}°</b></span><span>Sudut peluaran: <b class="k">${nf(c)}°</b></span><span>Jumlah pedalaman: <b class="p">${sum}°</b></span></div>`;
+ if(S.anim>=0&&S.anim<n)h+=`<div class="eq">Langkah: ukur ${nf(c)}° dari jejari sebelumnya dan tandakan bucu ${LET[S.anim]||''}… (${S.anim}/${n})</div>`;
+ else h+=`<div class="eq">Sudut pusat = 360° ÷ ${n} = ${nf(c)}°${Number.isInteger(c)?'':' (bukan nombor bulat: sukar diukur dengan protraktor)'}</div>`;
+ h+=`<div class="tip">Ubah bilangan sisi <i>n</i>. Seret titik kuning A untuk memutar poligon.</div>`;
+ info.innerHTML=h}
+/* ================= Mod 2: Sekata? ================= */
+function ujiReset(n,reg){S.un=n;const base=regPts(n,-90,130,CX,CY+6);S.pts=reg?base:base.map((p,i)=>{let q;do{const a=rad(-90+360*i/n+(Math.random()*2-1)*(140/n)),r=100+Math.random()*50;q={x:CX+r*Math.cos(a),y:CY+6+r*Math.sin(a)}}while(false);return q})}
+function measure(pts){const n=pts.length,sides=[],angs=[];let area=0;
+ for(let i=0;i<n;i++){const p=pts[i],q=pts[(i+1)%n];sides.push(Math.hypot(q.x-p.x,q.y-p.y));area+=p.x*q.y-q.x*p.y}
+ const s=Math.sign(area)||1;
+ for(let i=0;i<n;i++){const A=pts[(i+n-1)%n],V=pts[i],B=pts[(i+1)%n];const a1=Math.atan2(A.y-V.y,A.x-V.x),a2=Math.atan2(B.y-V.y,B.x-V.x);let d=deg(a1-a2)*s;d=((d%360)+360)%360;angs.push(d)}
+ return{sides,angs}}
+function simple(pts){const n=pts.length,cr=(a,b,c)=>(b.x-a.x)*(c.y-a.y)-(b.y-a.y)*(c.x-a.x);
+ for(let i=0;i<n;i++)for(let j=i+1;j<n;j++){if(j===i+1||(i===0&&j===n-1))continue;const a=pts[i],b=pts[(i+1)%n],c=pts[j],d=pts[(j+1)%n];if(cr(a,b,c)*cr(a,b,d)<0&&cr(c,d,a)*cr(c,d,b)<0)return false}
+ return true}
+function ujiSVG(){const pts=S.pts,n=pts.length,{sides,angs}=measure(pts),cen={x:pts.reduce((s,p)=>s+p.x,0)/n,y:pts.reduce((s,p)=>s+p.y,0)/n};
+ const smin=Math.min(...sides),smax=Math.max(...sides),sOK=(smax-smin)/smax<0.04,aOK=Math.max(...angs)-Math.min(...angs)<4;
+ let g=poly(pts,sOK&&aOK?OK:C1,'22',4.5);
+ for(let i=0;i<n;i++){const p=pts[i],q=pts[(i+1)%n],m={x:(p.x+q.x)/2,y:(p.y+q.y)/2},u=unit(p,q);let nv={x:-u.y,y:u.x};if((m.x-cen.x)*nv.x+(m.y-cen.y)*nv.y<0)nv={x:-nv.x,y:-nv.y};
+  g+=lbl(m.x+nv.x*16,m.y+nv.y*16,(sides[i]/30).toFixed(1),sOK?OK:TX,13)}
+ for(let i=0;i<n;i++){const A=pts[(i+n-1)%n],V=pts[i],B=pts[(i+1)%n];if(angs[i]<180){g+=arc(V,A,B,18,aOK?OK:C2);const b=bis(V,A,B);g+=lbl(V.x+b.x*38,V.y+b.y*38,Math.round(angs[i])+'°',aOK?OK:C2,13)}else{const b=bis(V,A,B);g+=lbl(V.x-b.x*34,V.y-b.y*34,Math.round(angs[i])+'°',C3,13)}}
+ pts.forEach((p,i)=>{g+=`<g class="h" data-h="${i}" style="cursor:grab"><circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="24" fill="transparent"/><circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="10" fill="${C1}" stroke="#fff" stroke-width="3"/></g>`});
+ S.okSide=sOK;S.okAng=aOK;return g}
+function ujiInfo(){const n=S.pts.length,{angs}=measure(S.pts),sum=Math.round(angs.reduce((a,b)=>a+b,0));
+ let h=`<b class="t">${NAMA0[n]}: sekata atau tidak?</b>`;
+ h+=`<div class="grid2"><span>Sisi sama panjang? ${S.okSide?'<span class="ok">✓ Ya</span>':'<span class="no">✗ Tidak</span>'}</span><span>Sudut sama besar? ${S.okAng?'<span class="ok">✓ Ya</span>':'<span class="no">✗ Tidak</span>'}</span></div>`;
+ h+=S.okSide&&S.okAng?`<div class="eq ok">Poligon sekata! Semua sisi dan semua sudut (${nf(180-360/n)}°) sama.</div>`:`<div class="eq">Poligon sekata perlukan <b>kedua-dua</b> syarat. ${S.okSide&&!S.okAng?'Contoh: rombus – sisi sama tetapi sudut tidak.':!S.okSide&&S.okAng?'Contoh: segi empat tepat – sudut sama tetapi sisi tidak.':''}</div>`;
+ h+=`<div class="tip">Seret bucu biru. Panjang sisi dalam cm (anggaran). Jumlah sudut = ${sum}°.</div>`;
+ info.innerHTML=h}
+/* ================= Mod 3: Cabaran ================= */
+function newQ(){
+ const n=[3,4,5,6,8,9,10,12][rnd(8)],jenis=['paksi','pusat','nama','ped','pel'][rnd(5)];let q,ans,wr,unitT='';
+ if(jenis==='paksi'){q=`Berapakah bilangan paksi simetri poligon sekata ini?`;ans=n;wr=[n/2,n+1,n-1,2*n,n+2]}
+ if(jenis==='pusat'){q=`Berapakah sudut pusat untuk membina poligon sekata ini dalam bulatan?`;ans=360/n;wr=[180-360/n,180/n,360/n+10,360/(n+1),360/n*2];unitT='°'}
+ if(jenis==='nama'){const nn=n>10?10:n;q=`Apakah nama poligon sekata ini?`;ans=NAMA[nn];wr=[3,4,5,6,7,8,9,10].filter(k=>k!==nn).sort((x,y)=>Math.abs(x-nn)-Math.abs(y-nn)+(Math.random()-.5)*.1).map(k=>NAMA[k])}
+ if(jenis==='ped'){q=`Berapakah saiz setiap sudut pedalaman poligon sekata ini?`;ans=180-360/n;wr=[360/n,(n-2)*180,180-360/n+10,180-360/n-10,ans+5];unitT='°'}
+ if(jenis==='pel'){q=`Berapakah saiz setiap sudut peluaran poligon sekata ini?`;ans=360/n;wr=[180-360/n,360/n+10,360/n-5,180/n,ans*2];unitT='°'}
+ const nn=jenis==='nama'?(n>10?10:n):n;
+ const opts=[ans];wr.forEach(w=>{if((typeof w==='string'||(Number.isInteger(w)&&w>0))&&!opts.includes(w)&&opts.length<4)opts.push(w)});let k=1;while(opts.length<4){const c=ans+k*(unitT?5:1);if(!opts.includes(c))opts.push(c);k++}
+ S.q={n:nn,jenis,q,ans,unitT,opts:opts.sort(()=>Math.random()-.5),done:false,rot:-90+rnd(4)*15};
+ setCtrl();render();
+ info.innerHTML=`<b class="t">${q}</b><div class="tip">Kira sisi pada rajah. Skor: ${S.score}/${S.tot}${S.streak>=3?' · '+S.streak+' berturut-turut!':''}</div>`}
+function cabSVG(){const Q=S.q;if(!Q)return'';const pts=regPts(Q.n,Q.rot,140);let g='';
+ if(Q.done&&Q.jenis==='paksi')g+=axesSVG(pts);
+ if(Q.done&&Q.jenis==='pusat')pts.forEach(p=>g+=ln({x:CX,y:CY},p,BASE,2));
+ g+=poly(pts,C1);
+ if(Q.done&&Q.jenis==='pusat'){g+=arc({x:CX,y:CY},pts[0],pts[1],36,GOLD);const b=bis({x:CX,y:CY},pts[0],pts[1]);g+=lbl(CX+b.x*60,CY+b.y*60,Q.ans+'°',GOLD,16)}
+ if(Q.done&&Q.jenis==='ped'){const V=pts[1];g+=arc(V,pts[0],pts[2],26,C2)+lbl(V.x+bis(V,pts[0],pts[2]).x*48,V.y+bis(V,pts[0],pts[2]).y*48,Q.ans+'°',C2,16)}
+ if(Q.done&&Q.jenis==='pel'){const V=pts[1],e=addv(V,unit(pts[0],V),60);g+=ln(V,e,BASE,2.5,'7 6')+arc(V,e,pts[2],24,C3);const b=bis(V,e,pts[2]);g+=lbl(V.x+b.x*46,V.y+b.y*46,Q.ans+'°',C3,16)}
+ pts.forEach(p=>g+=dot(p,C1,5));
+ return g}
+function answer(o,btn){const Q=S.q;if(Q.done)return;Q.done=true;S.tot++;const ok=o===String(Q.ans);
+ if(ok){S.score++;S.streak++;snd('betul');if(window.FX)FX.stars(btn,10)}else{S.streak=0;snd('salah')}
+ ctrl.querySelectorAll('.chip').forEach(b=>{if(b.dataset.o===String(Q.ans))b.classList.add('ok');else if(b===btn)b.classList.add('no');b.disabled=true});
+ render();const n=Q.n;let w='';
+ if(Q.jenis==='paksi')w=`Poligon sekata ${n} sisi mempunyai <b>${n}</b> paksi simetri.`;
+ if(Q.jenis==='pusat')w=`Sudut pusat = 360° ÷ ${n} = <b>${Q.ans}°</b>`;
+ if(Q.jenis==='nama')w=`${n} sisi → <b>${Q.ans}</b>`;
+ if(Q.jenis==='ped')w=`Sudut peluaran = 360° ÷ ${n} = ${360/n}°<br>Sudut pedalaman = 180° − ${360/n}° = <b>${Q.ans}°</b>`;
+ if(Q.jenis==='pel')w=`Sudut peluaran = 360° ÷ ${n} = <b>${Q.ans}°</b>`;
+ info.innerHTML=`<b class="t">${ok?'<span class="ok">✓ Betul!</span>':'<span class="no">✗ Jawapan: '+Q.ans+Q.unitT+'</span>'}</b><div class="eq">${w}</div><div class="tip">Skor: ${S.score}/${S.tot}${S.streak>=3?' · '+S.streak+' berturut-turut!':''}</div><button class="nextb" id="nx">Seterusnya ▶</button>`;
+ document.getElementById('nx').onclick=newQ}
+/* ================= Lukis & kawalan ================= */
+function render(){
+ if(S.m==='bina'){svg.innerHTML=binaSVG();binaInfo()}
+ if(S.m==='uji'){svg.innerHTML=ujiSVG();ujiInfo()}
+ if(S.m==='cabaran')svg.innerHTML=cabSVG();
+}
+let timer=null;
+function stopAnim(){if(timer){clearInterval(timer);timer=null}S.anim=-1}
+function setN(v){stopAnim();S.n=Math.max(3,Math.min(12,v));const r=document.getElementById('nr');if(r)r.value=S.n;const t=document.getElementById('nv');if(t)t.textContent=S.n;snd('ketik');render()}
+function setCtrl(){
+ if(S.m==='bina'){
+  ctrl.innerHTML=`<div class="line"><label for="nr">Sisi <i>n</i></label><button class="pm" id="mn" aria-label="Kurang sisi">−</button><input type="range" id="nr" min="3" max="12" step="1" value="${S.n}"><button class="pm" id="pl" aria-label="Tambah sisi">+</button><span class="nval" id="nv">${S.n}</span></div>
+  <div class="chips"><button class="chip ${S.pus?'on':''}" data-t="pus">Sudut pusat</button><button class="chip ${S.ax?'on':''}" data-t="ax">Paksi simetri</button><button class="chip ${S.ped?'on':''}" data-t="ped">Sudut pedalaman</button><button class="chip ${S.pel?'on':''}" data-t="pel">Sudut peluaran</button></div>
+  <button class="big" id="anim">▶ Animasi pembinaan</button>`;
+  document.getElementById('nr').oninput=e=>setN(+e.target.value);
+  document.getElementById('mn').onclick=()=>setN(S.n-1);document.getElementById('pl').onclick=()=>setN(S.n+1);
+  ctrl.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{S[b.dataset.t]=!S[b.dataset.t];b.classList.toggle('on',S[b.dataset.t]);snd('ketik');render()});
+  document.getElementById('anim').onclick=()=>{stopAnim();S.pus=true;ctrl.querySelector('[data-t="pus"]').classList.add('on');S.anim=1;render();timer=setInterval(()=>{S.anim++;snd('langkah');if(S.anim>=S.n){stopAnim();snd('menang');if(window.FX)FX.stars(document.getElementById('stage'),12)}render()},650)};
+ }
+ if(S.m==='uji'){
+  ctrl.innerHTML=`<div class="line"><label>Bilangan sisi</label>${[3,4,5,6,8].map(k=>`<button class="chip ${S.un===k?'on':''}" data-n="${k}" style="flex:1">${k}</button>`).join('')}</div>
+  <div class="chips two"><button class="big alt" id="rw">Bentuk rawak</button><button class="big" id="sk">Jadikan sekata</button></div>`;
+  ctrl.querySelectorAll('[data-n]').forEach(b=>b.onclick=()=>{ujiReset(+b.dataset.n,false);setCtrl();render()});
+  document.getElementById('rw').onclick=()=>{ujiReset(S.un,false);render()};
+  document.getElementById('sk').onclick=()=>{ujiReset(S.un,true);snd('menang');if(window.FX)FX.stars(document.getElementById('stage'),10);render()};
+ }
+ if(S.m==='cabaran'&&S.q){
+  ctrl.innerHTML=`<div class="chips two">${S.q.opts.map(o=>`<button class="chip" data-o="${o}">${o}${S.q.unitT}</button>`).join('')}</div>`;
+  ctrl.querySelectorAll('.chip').forEach(b=>b.onclick=()=>answer(b.dataset.o,b));
+ }
+}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{
+ stopAnim();document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));S.m=b.dataset.m;snd('ketik');
+ if(S.m==='cabaran'){newQ();return}
+ if(S.m==='uji'&&!S.pts)ujiReset(5,false);
+ setCtrl();render()});
+/* ---------- Seret (tetikus + sentuh) ---------- */
+let drag=null;
+function svgPt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+svg.addEventListener('pointerdown',e=>{const h=e.target.closest('.h');if(!h)return;e.preventDefault();drag=h.dataset.h;stopAnim();svg.setPointerCapture(e.pointerId)});
+svg.addEventListener('pointermove',e=>{if(drag===null)return;e.preventDefault();const p=svgPt(e);
+ if(S.m==='bina'&&drag==='rot'){S.rot=Math.round(deg(Math.atan2(p.y-CY,p.x-CX)));render();return}
+ if(S.m==='uji'){const i=+drag,np={x:Math.max(18,Math.min(382,p.x)),y:Math.max(18,Math.min(382,p.y))},old=S.pts[i];S.pts[i]=np;
+  const tooClose=S.pts.some((q,j)=>j!==i&&Math.hypot(q.x-np.x,q.y-np.y)<24);if(tooClose||!simple(S.pts))S.pts[i]=old;render()}});
+const end=()=>{drag=null};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+svg.addEventListener('dragstart',e=>e.preventDefault());
+setCtrl();render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>
