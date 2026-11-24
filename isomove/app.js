@@ -474,14 +474,16 @@ function viewLatMain() {
       ${fig ? `<div class="qfig">${fig}</div>` : ''}
     </div></div>
     <div class="qfoot">
-      <button type="button" class="btn sec" id="latShow">${LAT.show ? IC.eyeoff + ' Sorok jawapan' : IC.eye + ' Tunjuk jawapan'}</button>
-      <button type="button" class="btn pri big" id="latNext" style="margin-left:auto">${LAT.i === LAT.qs.length - 1 ? 'Selesai' : 'Soalan seterusnya'} ${IC.arrow}</button>
+      <button type="button" class="btn sec" id="latPrev" aria-label="Soalan sebelumnya"${LAT.i === 0 ? ' disabled' : ''}>${IC.left}<span class="lpv">Sebelumnya</span></button>
+      <button type="button" class="btn sec" id="latShow">${LAT.show ? IC.eyeoff + '<span>Sorok<span class="lpv"> jawapan</span></span>' : IC.eye + '<span>Tunjuk<span class="lpv"> jawapan</span></span>'}</button>
+      <button type="button" class="btn pri big" id="latNext" style="margin-left:auto">${LAT.i === LAT.qs.length - 1 ? 'Selesai' : '<span class="lpv">Soalan seterusnya</span><span class="lsh">Seterusnya</span>'} ${IC.arrow}</button>
     </div>`;
 }
 function bindLatMain() {
   const a = document.getElementById('latAgain');
   if (a) { a.onclick = () => { LAT.qs = makeSet(); LAT.i = 0; LAT.show = false; render(true); }; return; }
   document.getElementById('latShow').onclick = () => { LAT.show = !LAT.show; render(true); };
+  document.getElementById('latPrev').onclick = () => { if (LAT.i > 0) { LAT.i--; LAT.show = false; render(true); document.getElementById('main').scrollTop = 0; } };
   document.getElementById('latNext').onclick = () => { LAT.i++; LAT.show = false; render(true); document.getElementById('main').scrollTop = 0; };
 }
 
