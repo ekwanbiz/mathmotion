@@ -220,7 +220,6 @@ function contHTML(){const last=LS.get('mathmotion-last','');const a=APPS.find(x=
 function home(){const light=document.documentElement.classList.contains('light');
  return`<main class="home">
  <header class="top"><a class="brand" href="#/">${LOGO(34,11)}<b>Teroka<span>Math</span></b></a>
-  <span class="pill" title="Jumlah bintang daripada semua app">${I.star}<span id="tot">${totalStars()}</span><span class="sr"> bintang</span></span>
   <a class="ib" href="#/pasang" aria-label="Cara pasang di telefon">${I.phone}</a>
   <button class="ib" id="mode" aria-label="${light?'Tukar ke mod gelap':'Tukar ke mod cerah'}">${light?I.moon:I.sun}</button></header>
  <label class="search"><span style="color:var(--mu);display:flex">${I.search}</span><span class="sr">Cari topik</span><input id="q" type="search" placeholder="Cari topik… (cth: pecutan)" value="${esc(query)}" autocomplete="off" enterkeyhint="search">${query?'<button class="clear" id="clr" aria-label="Kosongkan carian">×</button>':''}</label>
