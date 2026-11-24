@@ -160,7 +160,7 @@
       const L = s.last, w = L.wrong;
       return `<div class="kzwrap">${hdr(who)}<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:14px">
         <div class="kzbig">${L.sc} / ${n}</div><div style="text-align:center;font-weight:800;color:var(--am)">Belum lulus. Perlu ${Q.p}/${n}.</div>
-        <div class="kzbad">Soalan yang salah: <b>${w.length > 1 ? w.slice(0, -1).join(', ') + ' dan ' + w[w.length - 1] : w[0]}</b>.<br>Semak semula, kemudian cuba lagi.</div>
+        <div class="kzbad">Soalan yang salah: <b>${w.length > 1 ? w.slice(0, -1).join(', ') + ' dan ' + w[w.length - 1] : w[0]}</b>.</div>
         <p style="text-align:center;font-weight:700;margin:0">Sikit lagi! Semak soalan yang salah dan cuba sekali lagi.</p>
         <button type="button" class="btn pri big" id="kzAgain" style="--tr:var(--pu)">Cuba lagi (cubaan ${s.att + 1})</button></div></div>`;
     }
