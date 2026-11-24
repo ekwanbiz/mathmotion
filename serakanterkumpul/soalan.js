@@ -53,7 +53,7 @@ function stTable(d, cumCol) {
 function stOgif(d, guides) {
   const W = 520, H = 340, X0 = 58, X1 = 500, Y0 = 290, Y1 = 24;
   const xa = d.lb[0], xb = d.ub[d.K - 1];
-  const gx = v => X0 + (v - xa) / (xb - xa) * (X1 - X0), gy = v => Y0 - v / d.n * (Y1 - Y0) * -1;
+  const r1 = v => Math.round(v * 10) / 10, gx = v => r1(X0 + (v - xa) / (xb - xa) * (X1 - X0)), gy = v => r1(Y0 - v / d.n * (Y0 - Y1));
   const step = d.n <= 24 ? 2 : 4;
   let s = `<rect x="1" y="1" width="${W - 2}" height="${H - 2}" rx="14" style="fill:var(--sf);stroke:var(--bd)" stroke-width="2"/>`;
   for (let v = 0; v <= d.n; v++) s += `<line x1="${X0}" y1="${gy(v)}" x2="${X1}" y2="${gy(v)}" style="stroke:var(--bd)" stroke-width="${v % step ? 0.6 : 1.4}"/>`;

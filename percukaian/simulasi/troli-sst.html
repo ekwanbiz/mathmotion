@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Troli Belanja &amp; SST · Bab 4</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--sf:#131C2E;--sf2:#1A2540;--sf3:#0E1626;--bd:#22304A;--bd2:#2E3F60;--tx:#E6EDF7;--mu:#94A3B8;--c1:#FBBF24;--c2:#34D399;--tr:#38BDF8;--pk:#F472B6;--bad:#F87171;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto auto minmax(0,1fr) auto;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:center}
+.top h1{flex:1;margin:0;font-size:18px;color:var(--c1)}
+.top .snd-btn{min-height:40px;border-radius:14px}
+.shop{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.it{background:var(--sf);border:2px solid var(--bd2);border-radius:12px;padding:6px 4px;font-weight:700;font-size:12.5px;line-height:1.25;text-align:center;position:relative}
+.it .e{font-size:20px;display:block}
+.it small{display:block;color:var(--mu);font-weight:600}
+.it .q{position:absolute;top:-7px;right:-5px;background:var(--c1);color:#2a1a03;border-radius:10px;padding:1px 7px;font-size:12px;font-weight:900}
+.it.sv{border-color:#F472B655}.it.ex{border-color:#34D39955}.it.sl{border-color:#38BDF855}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.stage svg{width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:9px 13px;line-height:1.45;font-size:14px}
+.info .ln{display:flex;justify-content:space-between;gap:10px;font-weight:700}
+.info .ln span:first-child{color:var(--mu);font-weight:600}
+.info .tot{margin-top:5px;padding:6px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:800;font-size:16px;display:flex;justify-content:space-between}
+.info .tot b{color:var(--c1)}
+.info .tip{color:var(--mu);font-size:12.5px;margin-top:4px}
+.row2{display:flex;gap:6px;margin-top:6px}
+.row2 button{flex:1;background:var(--sf2);border:2px solid var(--bd2);border-radius:11px;padding:8px 4px;font-weight:800;font-size:13px}
+.row2 button.on{background:var(--pk);border-color:var(--pk);color:#2a0618}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.3fr) minmax(340px,1fr);grid-template-rows:auto auto minmax(0,1fr);grid-template-areas:"m m" "s p" "s i"}
+ .top{grid-area:m}.stage{grid-area:s}.shop{grid-area:p}.info{grid-area:i;align-self:start;font-size:15.5px;padding:14px}
+ .it{font-size:14px;padding:8px 4px}.it .e{font-size:24px}
+ .info .tot{font-size:19px}
+}
+@media(max-height:700px){.wrap{gap:6px}.it{padding:4px 3px;font-size:12px}.it .e{font-size:17px}.info{padding:6px 10px;font-size:13px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(12px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#FBBF24;color:#2a1a03;border-radius:14px;padding:10px 20px;font:900 16px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #fbbf2444">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top"><h1>Troli Belanja &amp; SST</h1><span id="sndslot" style="display:flex"></span></div>
+ <div class="shop" id="shop"></div>
+ <div class="stage" id="stage"><svg id="svg" viewBox="0 0 400 260" aria-label="Troli belanja dan cukai"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+</div>
+<script>
+'use strict';
+// [nama, emoji, harga, jenis: 'x' dikecualikan, 'j' cukai jualan, 'p' cukai perkhidmatan, kadar %]
+const ITEMS=[['Beras 10 kg','🍚',32,'x',0],['Roti','🍞',4.5,'x',0],['Kasut','👟',120,'j',10],['Telefon','📱',850,'j',5],['Peti sejuk','🧊',1500,'j',10],['Kosmetik','💄',45,'j',10],['Makan restoran','🍽️',60,'p',6],['Hotel 1 malam','🏨',220,'p',6],['Servis kereta','🔧',150,'p',6]];
+const $=id=>document.getElementById(id);
+const r2=v=>{const r=Math.round(v*100)/100;return Object.is(r,-0)?0:r};
+const fm=v=>{v=r2(v);const s=Number.isInteger(v)?String(v):v.toFixed(2);const [a,b]=s.split('.');return a.replace(/\B(?=(\d{3})+(?!\d))/g,',')+(b?'.'+b:'')};
+const RM=v=>'RM'+fm(v);
+const snd=n=>{if(window.FX)FX.play(n)};
+const Q=ITEMS.map(()=>0);
+let svRate=6;
+const rate=i=>ITEMS[i][3]==='p'?svRate:ITEMS[i][4];
+function shop(){
+ $('shop').innerHTML=ITEMS.map((t,i)=>`<button class="it ${t[3]==='p'?'sv':t[3]==='x'?'ex':'sl'}" data-i="${i}"><span class="e">${t[1]}</span>${t[0]}<small>${RM(t[2])} · ${t[3]==='x'?'dikecualikan':(t[3]==='p'?'perkhidmatan ':'jualan ')+rate(i)+'%'}</small>${Q[i]?`<span class="q">×${Q[i]}</span>`:''}</button>`).join('');
+ $('shop').querySelectorAll('.it').forEach(b=>b.onclick=()=>{const i=+b.dataset.i;if(Q[i]<5){Q[i]++;snd('ketik')}shop();render()});
+}
+function render(){
+ let harga=0,cj=0,cp=0;const lines=[];
+ ITEMS.forEach((t,i)=>{if(!Q[i])return;const h=r2(t[2]*Q[i]),c=r2(h*rate(i)/100);harga+=h;if(t[3]==='j')cj+=c;if(t[3]==='p')cp+=c;lines.push({i,h,c})});
+ harga=r2(harga);cj=r2(cj);cp=r2(cp);const tot=r2(harga+cj+cp);
+ // troli: senarai item (ketik untuk buang) + bar bertingkat
+ let s=`<text x="14" y="20" fill="#E6EDF7" font-size="13" font-weight="700">Troli anda (ketik item untuk buang 1)</text>`;
+ if(!lines.length)s+=`<text x="200" y="120" fill="#94A3B8" font-size="15" text-anchor="middle">Ketik barang di atas untuk masukkan ke troli</text>`;
+ lines.slice(0,7).forEach((L,k)=>{const t=ITEMS[L.i],y=34+k*26;
+  s+=`<g class="rm" data-i="${L.i}" style="cursor:pointer"><rect x="10" y="${y}" width="250" height="22" rx="6" fill="#1A2540" stroke="#2E3F60"/>`+
+   `<text x="18" y="${y+15}" fill="#E6EDF7" font-size="12" font-weight="700">${t[1]} ${t[0]} ×${Q[L.i]}</text>`+
+   `<text x="252" y="${y+15}" fill="${t[3]==='x'?'#34D399':t[3]==='p'?'#F472B6':'#38BDF8'}" font-size="12" font-weight="700" text-anchor="end">${RM(L.h)} + ${RM(L.c)}</text></g>`});
+ // bar
+ const bx=290,bw=70,by=30,bh=200,mx=Math.max(tot,1),hp=bh*harga/mx,hj=bh*cj/mx,hs=bh*cp/mx;
+ s+=`<rect x="${bx}" y="${by}" width="${bw}" height="${bh}" rx="8" fill="none" stroke="#2E3F60"/>`;
+ if(tot>0){s+=`<rect x="${bx}" y="${by+bh-hp}" width="${bw}" height="${hp}" fill="#94A3B8" opacity=".55"/>`+
+  `<rect x="${bx}" y="${by+bh-hp-hj}" width="${bw}" height="${hj}" fill="#38BDF8"/>`+
+  `<rect x="${bx}" y="${by+bh-hp-hj-hs}" width="${bw}" height="${hs}" fill="#F472B6"/>`}
+ s+=`<text x="${bx+bw/2}" y="${by+bh+18}" fill="#FBBF24" font-size="13" font-weight="800" text-anchor="middle">${RM(tot)}</text>`;
+ s+=`<text x="${bx+bw+6}" y="${by+12}" fill="#94A3B8" font-size="10" writing-mode="tb">harga · cukai</text>`;
+ $('svg').innerHTML=s;
+ $('svg').querySelectorAll('.rm').forEach(g=>g.onclick=()=>{const i=+g.dataset.i;if(Q[i])Q[i]--;snd('ketik');shop();render()});
+ $('info').innerHTML=
+  `<div class="ln"><span>Harga barang & perkhidmatan</span><span>${RM(harga)}</span></div>`+
+  `<div class="ln"><span style="color:#38BDF8">Cukai jualan (5% / 10%)</span><span>${RM(cj)}</span></div>`+
+  `<div class="ln"><span style="color:#F472B6">Cukai perkhidmatan (${svRate}%)</span><span>${RM(cp)}</span></div>`+
+  `<div class="tot"><span>Jumlah bayaran</span><b>${RM(tot)}</b></div>`+
+  `<div class="row2"><button data-r="6" class="${svRate===6?'on':''}">Perkhidmatan 6%</button><button data-r="8" class="${svRate===8?'on':''}">Perkhidmatan 8%</button><button id="clr">Kosongkan</button></div>`+
+  `<div class="tip">Cukai = harga × kadar. Barang keperluan asas seperti beras dan roti dikecualikan. Cukai dipungut oleh JKDM.</div>`;
+ $('info').querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{svRate=+b.dataset.r;snd('ketik');shop();render()});
+ $('clr').onclick=()=>{Q.fill(0);shop();render()};
+}
+Q[2]=1;Q[6]=1;
+shop();render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

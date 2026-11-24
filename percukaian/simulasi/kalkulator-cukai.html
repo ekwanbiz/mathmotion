@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Kalkulator Cukai Pendapatan · Bab 4</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--sf:#131C2E;--sf2:#1A2540;--sf3:#0E1626;--bd:#22304A;--bd2:#2E3F60;--tx:#E6EDF7;--mu:#94A3B8;--c1:#38BDF8;--c2:#34D399;--gold:#FBBF24;--pk:#F472B6;--bad:#F87171;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:center}
+.top h1{flex:1;margin:0;font-size:18px;color:var(--c1)}
+.top .snd-btn{min-height:40px;border-radius:14px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.stage svg{width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:10px 14px;line-height:1.45;font-size:14.5px}
+.info .ln{display:flex;justify-content:space-between;gap:10px;font-weight:700}
+.info .ln span:first-child{color:var(--mu);font-weight:600}
+.info .tot{margin-top:6px;padding:7px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:800;font-size:16px;display:flex;justify-content:space-between}
+.info .tot b{color:var(--gold)}
+.info .tip{color:var(--mu);font-size:12.5px;margin-top:5px}
+.ctrl{display:grid;grid-template-columns:1fr;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:10px 14px}
+.sl{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center;font-size:14px;font-weight:700}
+.sl b{color:var(--c1)}
+.sl input{grid-column:1/-1;width:100%;accent-color:var(--c1);height:26px;margin:0}
+.sl.z b{color:var(--c2)}.sl.z input{accent-color:var(--c2)}
+.sl.p b{color:var(--pk)}.sl.p input{accent-color:var(--pk)}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.35fr) minmax(330px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:16px}.ctrl{grid-area:c;align-self:end}
+ .info .tot{font-size:19px}
+}
+@media(max-height:700px){.wrap{gap:6px}.info{padding:7px 11px;font-size:13.5px}.sl input{height:22px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(12px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#38BDF8;color:#062033;border-radius:14px;padding:10px 20px;font:900 16px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #38bdf844">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top"><h1>Kalkulator Cukai Pendapatan</h1><span id="sndslot" style="display:flex"></span></div>
+ <div class="stage" id="stage"><svg id="svg" viewBox="0 0 400 300" aria-label="Rajah cukai berperingkat"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl">
+  <label class="sl"><span>Pendapatan tahunan</span><b id="vInc"></b><input type="range" id="inc" min="15000" max="150000" step="500" value="60000"></label>
+  <label class="sl p"><span>Pelepasan (termasuk individu RM9,000)</span><b id="vRel"></b><input type="range" id="rel" min="9000" max="40000" step="500" value="18500"></label>
+  <label class="sl z"><span>Zakat dibayar (rebat)</span><b id="vZak"></b><input type="range" id="zak" min="0" max="3000" step="50" value="0"></label>
+ </div>
+</div>
+<script>
+'use strict';
+// Jadual kadar cukai (buku teks KSSM T5): [bawah, atas, kadar %, cukai terkumpul pada bawah]
+const BAND=[[0,5000,0,0],[5000,20000,1,0],[20000,35000,3,150],[35000,50000,8,600],[50000,70000,14,1800],[70000,100000,21,4600],[100000,250000,24,10900]];
+const COL=['#94A3B8','#34D399','#38BDF8','#A78BFA','#FBBF24','#FB923C','#F472B6'];
+const $=id=>document.getElementById(id);
+const r2=v=>{const r=Math.round(v*100)/100;return Object.is(r,-0)?0:r};
+const fm=v=>{v=r2(v);const s=Number.isInteger(v)?String(v):v.toFixed(2);const [a,b]=s.split('.');return a.replace(/\B(?=(\d{3})+(?!\d))/g,',')+(b?'.'+b:'')};
+const RM=v=>'RM'+fm(v);
+const snd=n=>{if(window.FX)FX.play(n)};
+const S={inc:60000,rel:18500,zak:0};
+function tax(ci){let t=0;const parts=[];for(const [lo,hi,r] of BAND){if(ci<=lo)break;const amt=Math.min(ci,hi)-lo;parts.push({lo,hi:Math.min(ci,hi),r,amt,t:r2(amt*r/100)});t+=amt*r/100}return {t:r2(t),parts}}
+const SC=150000; // skala paksi
+const X0=50,X1=380,Y0=40,Y1=250;
+const sx=v=>X0+(X1-X0)*v/SC;
+let lastBand=-1;
+function render(){
+ const ci=Math.max(0,S.inc-S.rel),T=tax(ci),rInd=ci<=35000?400:0,reb=rInd+S.zak,pay=Math.max(0,r2(T.t-reb));
+ $('vInc').textContent=RM(S.inc);$('vRel').textContent=RM(S.rel);$('vZak').textContent=RM(S.zak);
+ // rajah: lajur bertingkat ikut peringkat (lebar = julat pendapatan, tinggi = kadar)
+ let s=`<text x="${X0}" y="20" fill="#E6EDF7" font-size="13" font-weight="700">Seret penanda ▼ untuk ubah pendapatan bercukai</text>`;
+ const H=r=>(Y1-Y0-30)*r/24;
+ BAND.forEach((b,i)=>{if(b[0]>=SC)return;const x=sx(b[0]),w=sx(Math.min(b[1],SC))-x,h=Math.max(3,H(b[2]));
+  s+=`<rect x="${x}" y="${Y1-h}" width="${w}" height="${h}" fill="${COL[i]}22" stroke="${COL[i]}" stroke-width="1"/>`;
+  if(ci>b[0]){const wf=sx(Math.min(ci,b[1],SC))-x;s+=`<rect x="${x}" y="${Y1-h}" width="${wf}" height="${h}" fill="${COL[i]}" opacity=".85"/>`}
+  s+=`<text x="${x+w/2}" y="${Y1-h-6}" fill="${COL[i]}" font-size="11" font-weight="700" text-anchor="middle">${b[2]}%</text>`});
+ s+=`<line x1="${X0}" y1="${Y1}" x2="${X1}" y2="${Y1}" stroke="#94A3B8" stroke-width="1.5"/>`;
+ [0,20000,50000,100000,150000].forEach(v=>s+=`<text x="${sx(v)}" y="${Y1+16}" fill="#94A3B8" font-size="11" text-anchor="middle">${v/1000}k</text>`);
+ s+=`<text x="${(X0+X1)/2}" y="${Y1+34}" fill="#94A3B8" font-size="11" text-anchor="middle">Pendapatan bercukai (RM)</text>`;
+ const mx=sx(Math.min(ci,SC));
+ s+=`<line x1="${mx}" y1="${Y0}" x2="${mx}" y2="${Y1}" stroke="#E6EDF7" stroke-width="2" stroke-dasharray="4 3"/>`;
+ s+=`<g class="h" style="cursor:grab"><circle cx="${mx}" cy="${Y0}" r="18" fill="transparent"/><path d="M${mx-10} ${Y0-10} L${mx+10} ${Y0-10} L${mx} ${Y0+4} Z" fill="#FBBF24" stroke="#0B1220" stroke-width="1.5"/></g>`;
+ s+=`<text x="${Math.min(Math.max(mx,90),330)}" y="${Y0+22}" fill="#FBBF24" font-size="13" font-weight="800" text-anchor="middle">${RM(ci)}</text>`;
+ $('svg').innerHTML=s;
+ const bi=BAND.findIndex(b=>ci<=b[1]);
+ if(lastBand>=0&&bi!==lastBand)snd('ketik');lastBand=bi;
+ const top=T.parts.filter(p=>p.r>0);
+ const brk=top.length?top.map(p=>`${fm(p.amt)}×${p.r}%`).join(' + '):'0';
+ $('info').innerHTML=
+  `<div class="ln"><span>Pendapatan bercukai</span><span>${fm(S.inc)} − ${fm(S.rel)} = ${RM(ci)}</span></div>`+
+  `<div class="ln"><span>Cukai dikira</span><span>${RM(T.t)}</span></div>`+
+  `<div class="tip">Ikut peringkat: ${brk}</div>`+
+  `<div class="ln"><span>Rebat individu</span><span>${rInd?'RM400 (≤ RM35,000)':'RM0 (> RM35,000)'}</span></div>`+
+  `<div class="ln"><span>Rebat zakat</span><span>${RM(S.zak)}</span></div>`+
+  `<div class="tot"><span>Cukai perlu dibayar</span><b>${RM(pay)}</b></div>`+
+  `<div class="tip">Kadar cukai berkesan: ${S.inc?fm(r2(pay/S.inc*100)):0}% daripada pendapatan tahunan. Rebat ditolak daripada cukai, pelepasan ditolak daripada pendapatan.</div>`;
+}
+['inc','rel','zak'].forEach(k=>$(k).addEventListener('input',e=>{S[k]=+e.target.value;render()}));
+// seret penanda
+const svg=$('svg');let drag=false;
+function svgPt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+svg.addEventListener('pointerdown',e=>{const p=svgPt(e);if(p.y>Y1+5)return;drag=true;svg.setPointerCapture(e.pointerId);move(e)});
+function move(e){if(!drag)return;e.preventDefault();const p=svgPt(e);let ci=Math.round(Math.max(0,Math.min(SC,(p.x-X0)/(X1-X0)*SC))/500)*500;
+ let inc=Math.max(15000,Math.min(150000,ci+S.rel));S.inc=inc;$('inc').value=inc;render()}
+svg.addEventListener('pointermove',move);
+const end=()=>{drag=false};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

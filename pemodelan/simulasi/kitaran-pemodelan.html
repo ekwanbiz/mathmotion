@@ -77,19 +77,20 @@ $('ex').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.e=+b.datas
 function setR(){const x=EX[S.e],p=$('p');p.min=x.min;p.max=x.max;p.step=x.st;p.value=S.v;$('pl').textContent=x.pl}
 $('p').oninput=e=>{S.v=+e.target.value;draw()};
 $('next').onclick=()=>{S.s=(S.s+1)%6;snd('ketik');draw()};$('prev').onclick=()=>{S.s=(S.s+5)%6;snd('ketik');draw()};
-const sv=$('sv');const CX=300,CY=210,R=150;
+const sv=$('sv');const CX=300,CY=215,R=140;
+const LS2=[['Kenal pasti','masalah'],['Andaian &','pemboleh ubah'],['Aplikasi','matematik'],['Tentusahkan','& tafsir'],['Perhalusi','model'],['Laporkan','dapatan']];
 sv.addEventListener('pointerdown',e=>{const n=e.target.closest('[data-s]');if(n){S.s=+n.dataset.s;snd('ketik');draw()}});
 function draw(){const x=EX[S.e],txt=x.f(S.v);
  document.querySelectorAll('#ex button').forEach(b=>b.classList.toggle('on',+b.dataset.i===S.e));$('pv').textContent=nf(S.v);
  let s=`<circle cx="${CX}" cy="${CY}" r="${R}" fill="none" stroke="#334155" stroke-width="3" stroke-dasharray="8 7"/>`;
  for(let i=0;i<6;i++){const a=(i+.5)*Math.PI/3,ax=CX+R*Math.sin(a),ay=CY-R*Math.cos(a),d=a+Math.PI/2;
   s+=`<path d="M${ax+10*Math.sin(d)} ${ay-10*Math.cos(d)} L${ax-10*Math.sin(d)+8*Math.sin(a)} ${ay+10*Math.cos(d)-8*Math.cos(a)} L${ax-10*Math.sin(d)-8*Math.sin(a)} ${ay+10*Math.cos(d)+8*Math.cos(a)}Z" fill="#94A3B8"/>`}
- if(S.s===4){s+=`<path d="M${CX+R*Math.sin(4*Math.PI/3)*.62} ${CY-R*Math.cos(4*Math.PI/3)*.62} Q${CX} ${CY-40} ${CX+R*Math.sin(2*Math.PI/3)*.62} ${CY-R*Math.cos(2*Math.PI/3)*.62}" fill="none" stroke="#F472B6" stroke-width="4" stroke-dasharray="7 6"/>`}
+ if(S.s===4){s+=`<path d="M${CX+R*Math.sin(4*Math.PI/3)*.62} ${CY-R*Math.cos(4*Math.PI/3)*.62} Q${CX} ${CY+30} ${CX+R*Math.sin(2*Math.PI/3)*.62} ${CY-R*Math.cos(2*Math.PI/3)*.62}" fill="none" stroke="#F472B6" stroke-width="4" stroke-dasharray="7 6"/>`}
  for(let i=0;i<6;i++){const a=i*Math.PI/3,x0=CX+R*Math.sin(a),y0=CY-R*Math.cos(a),on=i===S.s,done=i<S.s;
   s+=`<g data-s="${i}" style="cursor:pointer"><circle cx="${x0}" cy="${y0}" r="${on?40:32}" fill="${on||done?LC[i]:'#0E1626'}" stroke="${LC[i]}" stroke-width="4"/>`+T(x0,y0,i+1,on||done?'#0B1220':LC[i],26)+`</g>`;
   const lx=x0+(Math.sin(a)>.1?48:Math.sin(a)<-.1?-48:0),ly=y0+(Math.abs(Math.sin(a))<.1?(Math.cos(a)>0?0:0):0);
-  if(Math.abs(Math.sin(a))>.1)s+=T(lx,y0+(Math.cos(a)>0?-26:26),LS[i],on?LC[i]:'#94A3B8',13,Math.sin(a)>0?'start':'end')}
- s+=T(CX,CY-12,x.n,'#E6EDF7',20)+T(CX,CY+16,'Langkah '+(S.s+1)+' / 6',LC[S.s],16)+T(CX,22,LS[0],S.s===0?LC[0]:'#94A3B8',13).replace(/y="22"/,'y="22"')+T(CX,404,LS[3],S.s===3?LC[3]:'#94A3B8',13);
+  if(Math.abs(Math.sin(a))>.1){const c=on?LC[i]:'#94A3B8',an=Math.sin(a)>0?'start':'end';s+=T(lx,y0-9,LS2[i][0],c,14,an)+T(lx,y0+9,LS2[i][1],c,14,an)}}
+ s+=T(CX,CY-34,x.n,'#E6EDF7',20)+T(CX,CY-8,'Langkah '+(S.s+1)+' / 6',LC[S.s],16)+T(CX,16,LS[0],S.s===0?LC[0]:'#94A3B8',14)+T(CX,408,LS[3],S.s===3?LC[3]:'#94A3B8',14);
  sv.innerHTML=s;
  $('st').innerHTML=`<span style="color:${LC[S.s]}">${S.s+1}. ${LS[S.s]}</span>`;$('tx').innerHTML=txt[S.s];}
 setR();draw();

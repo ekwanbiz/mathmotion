@@ -106,8 +106,8 @@ const QV = {
   ],
   masalah: [
     d => ({ q: d.q }),
-    d => ({ q: d.q.replace('Gunakan pemodelan matematik untuk', 'Bina model matematik dan') }),
-    d => ({ q: d.q.replace('Gunakan pemodelan matematik untuk', 'Dengan pemodelan matematik,') })
+    d => ({ q: d.q.replace('Gunakan pemodelan matematik untuk', 'Bina model matematik untuk') }),
+    d => ({ q: d.q.replace('Gunakan pemodelan matematik untuk menyelesaikan:', 'Selesaikan melalui pemodelan matematik:') })
   ]
 };
 
@@ -178,7 +178,7 @@ function pmTable(X, Y, xs, ys) {
 const pmDiff = a => a.slice(1).map((v, i) => v - a[i]);
 function pmSeries(r, kind) {
   const xs = [0, 1, 2, 3, 4];
-  if (kind === 'linear') { const m = r.p([2, 3, 4, 5, 6, 7, 8, -3, -4]), c = r.i(5, 40); return { xs, ys: xs.map(x => m * x + c), model: `y = ${m}x + ${c}`, m, c }; }
+  if (kind === 'linear') { const m = r.p([2, 3, 4, 5, 6, 7, 8, -3, -4]), c = r.i(5, 40); return { xs, ys: xs.map(x => m * x + c), model: `y = ${pmN(m)}x + ${c}`, m, c }; }
   if (kind === 'kuadratik') { const a = r.p([1, 2, 3]), b = r.i(0, 4), c = r.i(1, 10); return { xs, ys: xs.map(x => a * x * x + b * x + c), model: `y = ${a === 1 ? '' : a}x² ${b ? `+ ${b}x ` : ''}+ ${c}`, a, b, c }; }
   const a = r.p([2, 3, 4, 5, 10]), b = r.p([2, 3]); return { xs, ys: xs.map(x => a * b ** x), model: `y = ${a}(${b}ˣ)`, a, b };
 }
@@ -220,11 +220,11 @@ const PMBM = [
 ];
 PM.binaModel = r => {
   const c = r.p(PMBM); let S = pmSeries(r, c.kind);
-  if (c.ctx.startsWith('isi padu')) { const m = -r.p([5, 10, 15, 20]), k = r.p([200, 300, 400]); S = { xs: [0, 1, 2, 3, 4], ys: [0, 1, 2, 3, 4].map(x => m * x + k), model: `y = ${m}x + ${k}`, m, c: k }; }
+  if (c.ctx.startsWith('isi padu')) { const m = -r.p([5, 10, 15, 20]), k = r.p([200, 300, 400]); S = { xs: [0, 1, 2, 3, 4], ys: [0, 1, 2, 3, 4].map(x => m * x + k), model: `y = ${pmN(m)}x + ${k}`, m, c: k }; }
   else if (c.kind === 'linear' && S.m < 0) S = pmSeries({ i: r.i, p: () => 5 }, 'linear');
   const xp = 6, yp = c.kind === 'linear' ? S.m * xp + S.c : S.a * S.b ** xp;
   const work = c.kind === 'linear'
-    ? [`Beza pertama tetap = ${S.m} → model linear y = mx + c.`, `c = nilai y apabila x = 0 = ${S.c}; m = ${S.m}.`, S.model]
+    ? [`Beza pertama tetap = ${pmN(S.m)} → model linear y = mx + c.`, `c = nilai y apabila x = 0 = ${S.c}; m = ${pmN(S.m)}.`, S.model]
     : [`Nisbah berturutan tetap = ${S.b} → model eksponen y = a(bˣ).`, `a = nilai y apabila x = 0 = ${S.a}; b = ${S.b}.`, S.model];
   return GEN_LQ('binaModel', { ctx: c.ctx, X: 'x', Y: 'y', xp, yp: pmN(yp), ans: `Model ${c.kind}: ${S.model}`, work }, { fig: pmTable('x', 'y', S.xs, S.ys) });
 };

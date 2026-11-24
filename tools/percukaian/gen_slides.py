@@ -42,7 +42,7 @@ def add(sub,kicker,title,body,fig=''): S.append({'sub':sub,'kicker':kicker,'titl
 c=GR
 def piefig():
     s=BG_()+T(250,40,'Cukai → Hasil kerajaan → Rakyat',TX,20)
-    items=[('Sekolah',TR,80,120),('Hospital',PK,250,120),('Jalan raya',AM,420,120),('Keselamatan',PU,80,330),('Subsidi',PA,250,330),('Kemudahan awam',GR,420,330)]
+    items=[('Sekolah',TR,80,120),('Hospital',PK,250,120),('Jalan raya',AM,420,120),('Keselamatan',PU,80,330),('Subsidi',PA,250,330),('Kebajikan',GR,420,330)]
     s+=f'<circle cx="250" cy="225" r="58" fill="{NAV}" stroke="{AM}" stroke-width="5"/>'+T(250,225,'RM',AM,34)
     for t,col,x,y in items:
         s+=f'<line x1="250" y1="225" x2="{x}" y2="{y}" stroke="{DIM}" stroke-width="3"/>'+RECT(x-72,y-26,144,52,NAV,col)+T(x,y,t,col,17)
@@ -81,7 +81,7 @@ add('4.1.3','4.1.3 Cukai Pendapatan','Pendapatan bercukai',
     DEF('<b>Pendapatan bercukai</b> = Jumlah pendapatan tahunan − Pengecualian cukai − <b>Pelepasan cukai</b>.',c)
     +BUL(['<b>Pelepasan cukai</b>: amaun yang ditolak, contohnya individu RM9 000, gaya hidup, KWSP, insurans, pendidikan.','<b>Rebat cukai</b>: ditolak daripada <b>cukai</b> (bukan daripada pendapatan), contohnya rebat individu RM400 jika pendapatan bercukai ≤ RM35 000, dan zakat.','<b>Cukai pendapatan yang perlu dibayar</b> = Cukai dikira − Rebat.'],c),bandfig())
 add('4.1.3','4.1.3 Cukai Pendapatan','Jadual kadar cukai (contoh buku teks)',
-    TABLE(['Pendapatan bercukai (RM)','Pengiraan (RM)','Kadar','Cukai (RM)'],[['0 – 5 000','5 000 pertama','0%','0'],['5 001 – 20 000','15 000 berikutnya','1%','150'],['20 001 – 35 000','35 000 pertama · 15 000 berikutnya','3%','150 · 450'],['35 001 – 50 000','50 000 pertama · 15 000 berikutnya','8%','600 · 1 200'],['50 001 – 70 000','70 000 pertama · 20 000 berikutnya','14%','1 800 · 2 800'],['70 001 – 100 000','100 000 pertama · 30 000 berikutnya','21%','4 600 · 6 300']],c)
+    TABLE(['Pendapatan bercukai (RM)','Pengiraan (RM)','Kadar','Cukai (RM)'],[['0 – 5 000','5 000 pertama','0%','0'],['5 001 – 20 000','5 000 pertama · 15 000 berikutnya','1%','0 · 150'],['20 001 – 35 000','20 000 pertama · 15 000 berikutnya','3%','150 · 450'],['35 001 – 50 000','35 000 pertama · 15 000 berikutnya','8%','600 · 1 200'],['50 001 – 70 000','50 000 pertama · 20 000 berikutnya','14%','1 800 · 2 800'],['70 001 – 100 000','70 000 pertama · 30 000 berikutnya','21%','4 600 · 6 300']],c)
     +NOTE('Kadar cukai berubah dari tahun ke tahun. Gunakan jadual yang diberikan dalam soalan.'),'')
 inc=60000; rel=9000+2500+4000+3000; ci=inc-rel
 assert ci==41500 and tax(ci)==600+6500*0.08==1120

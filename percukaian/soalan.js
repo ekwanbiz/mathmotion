@@ -208,7 +208,7 @@ CK.pcb = r => {
   const paid = m * 12, diff = ckR2(paid - t), nama = r.p(CKNAMA);
   const q = `Pendapatan tahunan ${nama} ialah ${ckRM(inc)} dengan pelepasan ${ckList(L)}. Majikannya memotong potongan cukai bulanan (PCB) ${ckRM(m)} sebulan. Adakah ${nama} perlu membayar baki cukai atau menerima bayaran balik? Hitung amaunnya. Gunakan jadual di bawah.`;
   const ans = diff === 0 ? 'Tiada baki dan tiada bayaran balik' : diff > 0 ? `Menerima bayaran balik ${ckRM(diff)}` : `Perlu membayar baki ${ckRM(-diff)}`;
-  return GEN_LQ('pcb', { q, ans, work: [`Pendapatan bercukai = ${ckN(inc)} − ${ckN(tr)} = ${ckRM(ci)}`].concat(ckTaxWork(ci), [`Jumlah PCB = ${ckN(m)} × 12 = ${ckRM(paid)}`, `${ckN(paid)} − ${ckN(t)} = ${ckN(diff)} → ${ans}`]) }, { fig: ckJadualFig() });
+  return GEN_LQ('pcb', { q, ans, work: [`Pendapatan bercukai = ${ckN(inc)} − ${ckN(tr)} = ${ckRM(ci)}`].concat(ckTaxWork(ci), [`Jumlah PCB = ${ckN(m)} × 12 = ${ckRM(paid)}`, `${ckN(paid)} − ${ckN(t)} = ${diff < 0 ? '−' + ckN(-diff) : ckN(diff)} → ${ans}`]) }, { fig: ckJadualFig() });
 };
 // 4.1.4
 const CKCC_A = [998, 1197, 1298, 1332, 1396, 1496, 1598];
