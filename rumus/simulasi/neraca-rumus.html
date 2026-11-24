@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Neraca Rumus · Bab 3</title>
+<link rel="icon" href="../logo.svg" type="image/svg+xml">
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0D0A18;--sf:#171228;--sf2:#201936;--sf3:#120E20;--bd:#2E2550;--bd2:#3D3268;--tx:#F1ECFF;--mu:#B9AEDD;--mu2:#8377AE;--c1:#B18CFF;--c2:#3DD9C1;--c3:#FF9F5A;--gold:#FFD166;--ok:#3DDC84;--bad:#FF6B7A;
+ --surface:#171228;--border:#3D3268;--text:#F1ECFF;--muted:#B9AEDD;--u:1px;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button,select,input{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#1d0f3d}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+/* ---------- neraca ---------- */
+.bal{position:absolute;left:50%;top:50%;width:calc(var(--u)*400);height:calc(var(--u)*300);transform:translate(-50%,-50%);user-select:none;-webkit-user-select:none}
+.post{position:absolute;left:calc(var(--u)*194);top:calc(var(--u)*66);width:calc(var(--u)*12);height:calc(var(--u)*200);background:linear-gradient(90deg,#5b4f86,#8a7cc0,#5b4f86);border-radius:calc(var(--u)*6)}
+.base{position:absolute;left:calc(var(--u)*130);top:calc(var(--u)*262);width:calc(var(--u)*140);height:calc(var(--u)*18);background:#5b4f86;border-radius:calc(var(--u)*9)}
+.beam{position:absolute;left:calc(var(--u)*75);top:calc(var(--u)*62);width:calc(var(--u)*250);height:calc(var(--u)*10);background:var(--c1);border-radius:calc(var(--u)*5);transform-origin:50% 50%;transition:transform .7s cubic-bezier(.3,1.6,.5,1)}
+.pivot{position:absolute;left:calc(var(--u)*189);top:calc(var(--u)*56);width:calc(var(--u)*22);height:calc(var(--u)*22);border-radius:50%;background:var(--gold);box-shadow:0 0 0 calc(var(--u)*3) #0004}
+.hang{position:absolute;top:calc(var(--u)*67);width:calc(var(--u)*150);height:calc(var(--u)*150);transition:transform .7s cubic-bezier(.3,1.6,.5,1)}
+.hang.L{left:0}.hang.R{left:calc(var(--u)*250)}
+.strings{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.pan{position:absolute;left:0;right:0;bottom:0;height:calc(var(--u)*92);display:flex;align-items:flex-end;justify-content:center;padding-bottom:calc(var(--u)*30)}
+.pan .dish{position:absolute;left:0;right:0;bottom:0;height:calc(var(--u)*30);border-radius:0 0 calc(var(--u)*75) calc(var(--u)*75)/0 0 calc(var(--u)*30) calc(var(--u)*30);background:#2a2150;border:calc(var(--u)*3) solid var(--c2);border-top-width:calc(var(--u)*4)}
+.hang.R .dish{border-color:var(--c3)}
+.ex{position:relative;z-index:2;font-weight:800;font-size:calc(var(--u)*25);line-height:1.15;white-space:nowrap;background:var(--sf2);border:calc(var(--u)*2) solid var(--bd2);border-radius:calc(var(--u)*12);padding:calc(var(--u)*6) calc(var(--u)*12);box-shadow:0 calc(var(--u)*4) calc(var(--u)*14) #0006;display:inline-block;transition:transform .25s}
+.ex.pop{animation:pop .45s}
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.16)}100%{transform:scale(1)}}
+.ex i{font-style:italic;color:var(--gold)}
+.fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:.82em;line-height:1.08;margin:0 .1em}
+.fr>span:first-child{border-bottom:.11em solid currentColor;padding:0 .2em}
+.fr>span:last-child{padding:0 .2em}
+.sq{display:inline-flex;align-items:stretch;white-space:nowrap}
+.sq>b{font-weight:800;margin-right:.04em;align-self:center}
+.sq>span{border-top:.1em solid currentColor;padding:.04em .15em 0;display:inline-flex;align-items:center}
+.eqs{position:absolute;left:calc(var(--u)*200);top:calc(var(--u)*-2);transform:translateX(-50%);font-weight:900;font-size:calc(var(--u)*24);color:var(--mu)}
+.chipfly{position:fixed;z-index:20;pointer-events:none;background:var(--gold);color:#2a1d00;font-weight:900;border-radius:12px;padding:6px 12px;font-size:18px;box-shadow:0 6px 18px #0008}
+.warn{position:absolute;left:50%;bottom:calc(var(--u)*8);transform:translateX(-50%);color:var(--bad);font-weight:900;font-size:calc(var(--u)*17);white-space:nowrap;opacity:0;transition:opacity .3s}
+.warn.on{opacity:1}
+/* ---------- info & kawalan ---------- */
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:12px 14px;min-height:74px;line-height:1.5;font-size:15px}
+.info b.t{display:block;font-size:19px;color:var(--c1);margin-bottom:2px}
+.info .tip{color:var(--mu);font-size:13px;margin-top:4px}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.info .eq{margin-top:6px;padding:8px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:700;font-size:17px}
+.info .eq i{color:var(--gold)}
+.hist{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.hist span{background:var(--sf2);border:1px solid var(--bd2);border-radius:9px;padding:3px 8px;font-weight:800;font-size:13px;color:var(--gold)}
+.ctrl{display:flex;flex-direction:column;gap:8px}
+.row{display:flex;gap:8px;align-items:center}
+.sel{flex:1;min-width:0;background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:11px 10px;font-weight:800;font-size:15px}
+.ops{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.chip{background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:12px 4px;font-weight:800;font-size:16px;min-height:50px}
+.chip small{display:block;font-size:11.5px;color:var(--mu);font-weight:700}
+.chip.ok{border-color:var(--ok);background:#3ddc8422}.chip.no{border-color:var(--bad);background:#ff6b7a22}
+.chip:disabled{opacity:.55}
+.big{background:var(--c2);border:0;color:#062a25;border-radius:13px;padding:12px 14px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.line{display:flex;gap:8px;align-items:center}
+.line label{font-weight:800;color:var(--mu);font-size:15px;white-space:nowrap;min-width:92px}
+.line label i{color:var(--gold);font-size:18px}
+.line input[type=range]{flex:1;accent-color:var(--c1);height:30px}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.35fr) minmax(330px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:23px}.info .eq{font-size:19px}
+ .ops{grid-template-columns:1fr}
+}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.chip{padding:8px 3px;min-height:42px;font-size:15px}.info{padding:8px 11px;min-height:62px;font-size:14px}.info b.t{font-size:17px}.big{padding:10px 8px}.sel{padding:8px}}
+@media(max-width:420px){.modes button{font-size:13.5px;padding:10px 3px}.chip{font-size:15px}.info .eq{font-size:16px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#B18CFF;color:#1d0f3d;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #b18cff44">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mod">
+   <button data-m="tukar" class="on" role="tab">⚖️ Tukar Perkara</button>
+   <button data-m="semak" role="tab">🔢 Semak Nilai</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage">
+  <div class="bal" id="bal" aria-label="Neraca rumus">
+   <div class="eqs">=</div>
+   <div class="post"></div><div class="base"></div>
+   <div class="hang L" id="hL"><svg class="strings" viewBox="0 0 150 150" preserveAspectRatio="none"><path d="M75 4 L6 122 M75 4 L144 122" stroke="#8377AE" stroke-width="2" fill="none" vector-effect="non-scaling-stroke"/></svg><div class="pan"><div class="dish"></div><div class="ex" id="exL"></div></div></div>
+   <div class="hang R" id="hR"><svg class="strings" viewBox="0 0 150 150" preserveAspectRatio="none"><path d="M75 4 L6 122 M75 4 L144 122" stroke="#8377AE" stroke-width="2" fill="none" vector-effect="non-scaling-stroke"/></svg><div class="pan"><div class="dish"></div><div class="ex" id="exR"></div></div></div>
+   <div class="beam" id="beam"></div><div class="pivot"></div>
+   <div class="warn" id="warn">Tidak seimbang!</div>
+  </div>
+ </div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+const stage=$('stage'),bal=$('bal'),beam=$('beam'),hL=$('hL'),hR=$('hR'),exL=$('exL'),exR=$('exR'),info=$('info'),ctrl=$('ctrl'),warn=$('warn');
+const snd=n=>{if(window.FX)FX.play(n)};
+/* ---------- pembantu paparan ---------- */
+const vx=s=>s.replace(/([A-Za-z])/g,'<i>$1</i>');           // huruf condong
+const fr=(a,b)=>`<span class="fr"><span>${a}</span><span>${b}</span></span>`;
+const sq=x=>`<span class="sq"><b>√</b><span>${x}</span></span>`;
+const fN=x=>{const v=Math.round(x*100)/100;return (v<0?'−':'')+Math.abs(v)};
+/* ---------- rumus pratetap ----------
+   L0/R0: sisi yang mengandungi sasaran di kiri. steps: ok (operasi betul), L, R (selepas), bad: [[operasi, sebab]] */
+const P=[
+ {nm:'y = 3x + 5',asal:`${vx('y')} = 3${vx('x')} + 5`,t:'x',L0:`3${vx('x')} + 5`,R0:vx('y'),
+  steps:[{ok:'− 5',L:`3${vx('x')}`,R:`${vx('y')} − 5`,bad:[['÷ 3','Songsangkan operasi yang <b>terakhir</b> (+ 5) dahulu.'],['× 5','Operasi songsang bagi + 5 ialah − 5, bukan × 5.']]},
+         {ok:'÷ 3',L:vx('x'),R:fr(`${vx('y')} − 5`,'3'),bad:[['− 3','3<i>x</i> bermaksud 3 × <i>x</i>. Songsangnya ialah ÷ 3.'],['× 3','Darab 3 menjadikan 9<i>x</i>. Gunakan operasi songsang, ÷ 3.']]}],
+  vars:[['x',-5,10,1,4]],sub:v=>3*v.x+5,subTxt:v=>`3(${fN(v.x)}) + 5`,inv:S=>`${fr(`${fN(S)} − 5`,'3')}`,invV:S=>(S-5)/3,S:'y'},
+ {nm:'v = u + at',asal:`${vx('v')} = ${vx('u')} + ${vx('at')}`,t:'a',L0:`${vx('u')} + ${vx('at')}`,R0:vx('v'),
+  steps:[{ok:'− u',L:vx('at'),R:`${vx('v')} − ${vx('u')}`,bad:[['÷ t','Asingkan sebutan <i>at</i> dahulu dengan menolak <i>u</i>.'],['+ u','Untuk membuang + <i>u</i>, tolak <i>u</i>.']]},
+         {ok:'÷ t',L:vx('a'),R:fr(`${vx('v')} − ${vx('u')}`,vx('t')),bad:[['− t','<i>at</i> bermaksud <i>a</i> × <i>t</i>. Songsangnya ialah ÷ <i>t</i>.'],['× t','Darab <i>t</i> menjadikan <i>at</i>². Gunakan ÷ <i>t</i>.']]}],
+  vars:[['a',1,6,1,2],['u',0,10,1,3],['t',1,8,1,5]],sub:v=>v.u+v.a*v.t,subTxt:v=>`${fN(v.u)} + ${fN(v.a)}(${fN(v.t)})`,inv:(S,v)=>fr(`${fN(S)} − ${fN(v.u)}`,fN(v.t)),invV:(S,v)=>(S-v.u)/v.t,S:'v'},
+ {nm:'P = 2(p + l)',asal:`${vx('P')} = 2(${vx('p')} + ${vx('l')})`,t:'l',L0:`2(${vx('p')} + ${vx('l')})`,R0:vx('P'),
+  steps:[{ok:'÷ 2',L:`${vx('p')} + ${vx('l')}`,R:fr(vx('P'),'2'),bad:[['− p','<i>p</i> berada dalam kurungan yang didarab 2. Bahagi 2 dahulu.'],['− 2','2(…) bermaksud darab 2. Songsangnya ialah ÷ 2.']]},
+         {ok:'− p',L:vx('l'),R:`${fr(vx('P'),'2')} − ${vx('p')}`,bad:[['÷ p','<i>p</i> ditambah kepada <i>l</i>, maka tolak <i>p</i>.'],['+ p','Untuk membuang + <i>p</i>, tolak <i>p</i>.']]}],
+  vars:[['l',1,10,1,3],['p',1,12,1,7]],sub:v=>2*(v.p+v.l),subTxt:v=>`2(${fN(v.p)} + ${fN(v.l)})`,inv:(S,v)=>`${fr(fN(S),'2')} − ${fN(v.p)}`,invV:(S,v)=>S/2-v.p,S:'P'},
+ {nm:'A = πj²',asal:`${vx('A')} = π${vx('j')}²`,t:'j',L0:`π${vx('j')}²`,R0:vx('A'),
+  steps:[{ok:'÷ π',L:`${vx('j')}²`,R:fr(vx('A'),'π'),bad:[['√','Bahagi π dahulu supaya <i>j</i>² bersendirian.'],['− π','π<i>j</i>² bermaksud π × <i>j</i>². Songsangnya ialah ÷ π.']]},
+         {ok:'√',L:vx('j'),R:sq(fr(vx('A'),'π')),bad:[['÷ 2','<i>j</i>² bukan 2<i>j</i>. Songsang bagi kuasa dua ialah punca kuasa dua.'],['( )²','Kuasa dua sekali lagi menjadikan <i>j</i>⁴. Gunakan √.']]}],
+  vars:[['j',1,10,1,4]],sub:v=>Math.PI*v.j*v.j,subTxt:v=>`π(${fN(v.j)})²`,inv:S=>sq(fr(fN(S),'π')),invV:S=>Math.sqrt(S/Math.PI),S:'A'},
+ {nm:'t = √(h/5)',asal:`${vx('t')} = ${sq(fr(vx('h'),'5'))}`,t:'h',L0:sq(fr(vx('h'),'5')),R0:vx('t'),
+  steps:[{ok:'( )²',L:fr(vx('h'),'5'),R:`${vx('t')}²`,bad:[['× 5','Buang punca kuasa dua dahulu dengan mengkuasaduakan.'],['√','Songsang bagi √ ialah kuasa dua.']]},
+         {ok:'× 5',L:vx('h'),R:`5${vx('t')}²`,bad:[['÷ 5','<i>h</i> sedang dibahagi 5. Songsangnya ialah × 5.'],['− 5','Pecahan <i>h</i>/5 bermaksud <i>h</i> ÷ 5. Gunakan × 5.']]}],
+  vars:[['h',5,80,5,20]],sub:v=>Math.sqrt(v.h/5),subTxt:v=>sq(fr(fN(v.h),'5')),inv:S=>`5(${fN(S)})²`,invV:S=>5*S*S,S:'t'},
+ {nm:'F = 9C/5 + 32',asal:`${vx('F')} = ${fr('9'+vx('C'),'5')} + 32`,t:'C',L0:`${fr('9'+vx('C'),'5')} + 32`,R0:vx('F'),
+  steps:[{ok:'− 32',L:fr('9'+vx('C'),'5'),R:`${vx('F')} − 32`,bad:[['× 5','Songsangkan + 32 dahulu (operasi terakhir).'],['÷ 32','+ 32 disongsangkan dengan − 32.']]},
+         {ok:'× 5',L:'9'+vx('C'),R:`5(${vx('F')} − 32)`,bad:[['÷ 9','Buang penyebut 5 dahulu dengan mendarab 5.'],['÷ 5','9<i>C</i>/5 sedang dibahagi 5. Songsangnya ialah × 5.']]},
+         {ok:'÷ 9',L:vx('C'),R:fr(`5(${vx('F')} − 32)`,'9'),bad:[['− 9','9<i>C</i> bermaksud 9 × <i>C</i>. Gunakan ÷ 9.'],['× 9','Darab 9 menjadikan 81<i>C</i>. Gunakan ÷ 9.']]}],
+  vars:[['C',-20,100,5,30]],sub:v=>9*v.C/5+32,subTxt:v=>`${fr(`9(${fN(v.C)})`,'5')} + 32`,inv:S=>fr(`5(${fN(S)} − 32)`,'9'),invV:S=>5*(S-32)/9,S:'F'},
+ {nm:'E = ½mv²',asal:`${vx('E')} = ½${vx('m')}${vx('v')}²`,t:'v',L0:`½${vx('m')}${vx('v')}²`,R0:vx('E'),
+  steps:[{ok:'× 2',L:`${vx('m')}${vx('v')}²`,R:`2${vx('E')}`,bad:[['√','Asingkan <i>v</i>² dahulu sebelum punca kuasa dua.'],['÷ 2','½ bermaksud ÷ 2. Songsangnya ialah × 2.']]},
+         {ok:'÷ m',L:`${vx('v')}²`,R:fr('2'+vx('E'),vx('m')),bad:[['− m','<i>mv</i>² bermaksud <i>m</i> × <i>v</i>². Gunakan ÷ <i>m</i>.'],['√','Bahagi <i>m</i> dahulu supaya <i>v</i>² bersendirian.']]},
+         {ok:'√',L:vx('v'),R:sq(fr('2'+vx('E'),vx('m'))),bad:[['÷ 2','<i>v</i>² bukan 2<i>v</i>. Gunakan punca kuasa dua.'],['( )²','Kuasa dua sekali lagi menjadikan <i>v</i>⁴. Gunakan √.']]}],
+  vars:[['v',1,10,1,5],['m',1,10,1,4]],sub:v=>0.5*v.m*v.v*v.v,subTxt:v=>`½(${fN(v.m)})(${fN(v.v)})²`,inv:(S,v)=>sq(fr(`2(${fN(S)})`,fN(v.m))),invV:(S,v)=>Math.sqrt(2*S/v.m),S:'E'}
+];
+let S={m:'tukar',p:0,k:0,hist:[],L:'',R:'',busy:false,vals:{},done:false};
+/* ---------- skala neraca ---------- */
+function fit(){const w=stage.clientWidth,h=stage.clientHeight;const u=Math.max(.5,Math.min(w/400,h/300));document.documentElement.style.setProperty('--u',u+'px')}
+new ResizeObserver(fit).observe(stage);fit();
+function tilt(deg){beam.style.transform=`rotate(${deg}deg)`;const d=+(Math.sin(deg*Math.PI/180)*125).toFixed(2);hL.style.transform=`translateY(calc(var(--u)*${-d}))`;hR.style.transform=`translateY(calc(var(--u)*${d}))`;warn.classList.toggle('on',Math.abs(deg)>5)}
+function fitEx(e){const n=e.textContent.length;e.style.fontSize=`calc(var(--u)*${Math.round(25*Math.min(1,9/Math.max(n,1)))})`}
+function setPans(L,R,pop){exL.innerHTML=L;exR.innerHTML=R;fitEx(exL);fitEx(exR);if(pop){[exL,exR].forEach(e=>{e.classList.remove('pop');void e.offsetWidth;e.classList.add('pop')})}}
+/* ---------- mod Tukar Perkara ---------- */
+function startTukar(){const p=P[S.p];S.k=0;S.hist=[];S.L=p.L0;S.R=p.R0;S.done=false;S.busy=false;tilt(0);setPans(S.L,S.R);tukarInfo();tukarCtrl()}
+function tukarInfo(msg){
+ const p=P[S.p];
+ let h=`<b class="t">Jadikan <i style="color:var(--gold)">${p.t}</i> perkara rumus</b>`;
+ h+=`<div>Rumus: <b>${p.asal}</b></div>`;
+ h+=`<div class="eq">${S.L} &nbsp;=&nbsp; ${S.R}</div>`;
+ if(S.hist.length)h+=`<div class="hist">${S.hist.map((o,i)=>`<span>${i+1}. ${o}</span>`).join('')}</div>`;
+ if(msg)h+=msg;
+ else if(S.done)h+=`<div class="ok" style="margin-top:6px">✓ Siap! ${vx(p.t)} = ${S.R}</div><div class="tip">Operasi songsang dibuat mengikut tertib terbalik, pada kedua-dua belah.</div>`;
+ else h+=`<div class="tip">Pilih operasi songsang untuk dibuat pada <b>kedua-dua belah</b> neraca.</div>`;
+ info.innerHTML=h}
+function tukarCtrl(){
+ const p=P[S.p];
+ let opts='';
+ if(!S.done){
+  const st=p.steps[S.k];
+  const list=[{t:st.ok,k:'ok',s:'kedua-dua belah'},{t:st.bad[0][0],k:'b0',s:'kedua-dua belah'},{t:st.ok,k:'one',s:'kiri sahaja'},{t:st.bad[1][0],k:'b1',s:'kedua-dua belah'}];
+  // susunan tetap tetapi berbeza mengikut langkah
+  const ord=[[0,1,2],[1,2,0],[2,0,1]][(S.p+S.k)%3].map(i=>list[i]);
+  if((S.p+S.k)%2)ord[ord.findIndex(o=>o.k==='b0')]=list[3];
+  opts=`<div class="ops">${ord.map(o=>`<button class="chip" data-k="${o.k}">${o.t}<small>${o.s}</small></button>`).join('')}</div>`;
+ }
+ ctrl.innerHTML=opts+`<div class="row"><select class="sel" id="psel" aria-label="Pilih rumus">${P.map((q,i)=>`<option value="${i}"${i===S.p?' selected':''}>${q.nm}</option>`).join('')}</select><button class="big alt" id="ul">↺ Ulang</button></div>`;
+ ctrl.querySelectorAll('.chip').forEach(b=>b.onclick=()=>pickOp(b));
+ $('psel').onchange=e=>{S.p=+e.target.value;start()};
+ $('ul').onclick=()=>start();
+}
+function fly(btn,targets,txt,done){
+ const r0=btn.getBoundingClientRect();let n=targets.length;
+ targets.forEach(el=>{const c=document.createElement('div');c.className='chipfly';c.textContent=txt;document.body.appendChild(c);
+  const r1=el.getBoundingClientRect();const x0=r0.left+r0.width/2,y0=r0.top+r0.height/2,x1=r1.left+r1.width/2,y1=r1.top-6;
+  const a=c.animate([{transform:`translate(${x0}px,${y0}px) translate(-50%,-50%) scale(1)`},{transform:`translate(${(x0+x1)/2}px,${Math.min(y0,y1)-60}px) translate(-50%,-50%) scale(1.2)`},{transform:`translate(${x1}px,${y1}px) translate(-50%,-50%) scale(.7)`,opacity:.2}],{duration:650,easing:'ease-in-out'});
+  c.style.left='0';c.style.top='0';
+  a.onfinish=()=>{c.remove();if(--n===0&&done)done()}})}
+function pickOp(btn){
+ if(S.busy||S.done)return;const p=P[S.p],st=p.steps[S.k],k=btn.dataset.k;
+ if(k==='ok'){
+  S.busy=true;btn.classList.add('ok');snd('betul');
+  fly(btn,[exL,exR],st.ok,()=>{S.L=st.L;S.R=st.R;S.hist.push(st.ok);setPans(S.L,S.R,true);tilt(3);setTimeout(()=>tilt(0),180);S.k++;S.busy=false;
+   if(S.k>=p.steps.length){S.done=true;snd('menang');if(window.FX)FX.stars(exL,14)}
+   tukarInfo();tukarCtrl()});
+ }else if(k==='one'){
+  S.busy=true;btn.classList.add('no');snd('salah');
+  fly(btn,[exL],st.ok,()=>{exL.innerHTML=`(${S.L}) ${st.ok}`;fitEx(exL);tilt(12);
+   tukarInfo(`<div class="no" style="margin-top:6px">✗ Operasi pada satu belah sahaja menjadikan neraca tidak seimbang.</div><div class="tip">Rumus kekal benar hanya jika operasi yang sama dibuat pada <b>kedua-dua belah</b>.</div>`);
+   setTimeout(()=>{setPans(S.L,S.R);tilt(0);S.busy=false;btn.classList.remove('no')},1900)});
+ }else{
+  const why=st.bad[k==='b0'?0:1][1];btn.classList.add('no');snd('salah');if(window.FX&&FX.shake)FX.shake(btn);
+  tukarInfo(`<div class="no" style="margin-top:6px">✗ Belum tepat. ${why}</div>`);
+  setTimeout(()=>btn.classList.remove('no'),900);
+ }
+}
+/* ---------- mod Semak Nilai ---------- */
+function startSemak(){const p=P[S.p];S.vals={};p.vars.forEach(([n,a,b,s,v])=>S.vals[n]=v);tilt(0);semakCtrl();semakDraw()}
+function semakCtrl(){
+ const p=P[S.p];
+ ctrl.innerHTML=p.vars.map(([n,a,b,s])=>`<div class="line"><label>${vx(n)} = <b id="o_${n}">${fN(S.vals[n])}</b></label><input type="range" min="${a}" max="${b}" step="${s}" value="${S.vals[n]}" data-v="${n}" aria-label="Nilai ${n}"></div>`).join('')+
+  `<div class="row"><select class="sel" id="psel" aria-label="Pilih rumus">${P.map((q,i)=>`<option value="${i}"${i===S.p?' selected':''}>${q.nm}</option>`).join('')}</select></div>`;
+ ctrl.querySelectorAll('input[type=range]').forEach(r=>r.oninput=()=>{S.vals[r.dataset.v]=+r.value;$('o_'+r.dataset.v).textContent=fN(+r.value);semakDraw();snd('ketik')});
+ $('psel').onchange=e=>{S.p=+e.target.value;start()};
+}
+function semakDraw(){
+ const p=P[S.p],v=S.vals,Sv=p.sub(v),back=p.invV(Sv,v),ok=Math.abs(back-v[p.t])<1e-6;
+ const asalBetul=Math.abs(Math.round(Sv*100)/100-Sv)<1e-9;
+ setPans(`${p.subTxt(v)}`,`${vx(p.S)} ${asalBetul?'=':'≈'} ${fN(Sv)}`);
+ const last=p.steps[p.steps.length-1];
+ info.innerHTML=`<b class="t">Semak dengan nombor</b>
+  <div>Rumus asal: <b>${p.asal}</b></div>
+  <div class="eq">${vx(p.S)} = ${p.subTxt(v)} ${asalBetul?'=':'≈'} <b style="color:var(--c3)">${fN(Sv)}</b></div>
+  <div style="margin-top:6px">Rumus baharu: <b>${vx(p.t)} = ${last.R}</b></div>
+  <div class="eq">${vx(p.t)} = ${p.inv(Sv,v)} = <b style="color:var(--c2)">${fN(back)}</b> ${ok?'<span class="ok">✓ sama dengan '+vx(p.t)+' = '+fN(v[p.t])+'</span>':''}</div>
+  <div class="tip">Seret gelangsar. Kedua-dua rumus sentiasa memberi nilai yang sepadan kerana ia rumus yang sama.</div>`;
+ tilt(0);
+}
+/* ---------- umum ---------- */
+function start(){if(S.m==='tukar')startTukar();else startSemak()}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));S.m=b.dataset.m;start()});
+start();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>
