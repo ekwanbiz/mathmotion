@@ -21,27 +21,6 @@ function viewGamePilih() {
       <span class="ic">${ic}</span><span class="tag">${tag}</span><b>${n}</b><span class="d">${d}</span><span class="go">Pilih</span></a>`; }).join('')}</div></div>`;
 }
 
-/* ---------- soalan pilih jawapan untuk kelas ---------- */
-const CQT = { kenal: 'Kenal transformasi', vektor: 'Vektor translasi', koord: 'Cari imej titik', simetri: 'Simetri putaran' };
-function cqKoord(level) {
-  const t = gTap(level), [X, Y] = t.target, cands = [[-X, Y], [X, -Y], [-X, -Y], [Y, X], [X + 1, Y], [X, Y - 1], [-Y, -X]];
-  const seen = new Set([X + ',' + Y]), wrong = [];
-  for (const c of shuffle(cands)) { const k = c.join(','); if (!seen.has(k) && Math.abs(c[0]) <= 6 && Math.abs(c[1]) <= 6) { seen.add(k); wrong.push(c); } if (wrong.length === 3) break; }
-  const opts = shuffle([[X, Y], ...wrong]);
-  return { type: 'mcq', q: t.q.replace(/Ketik kedudukan imej A′\./, 'Apakah koordinat imej A′?'), fig: t.fig, opts: opts.map(o => 'A′' + P(o[0], o[1])), c: opts.findIndex(o => o[0] === X && o[1] === Y), anim: t.anim };
-}
-function cq(level, types) {
-  const pool = (types && types.length ? types : Object.keys(CQT));
-  for (let k = 0; k < 30; k++) {
-    const ty = pick(pool);
-    if (ty === 'koord') return cqKoord(level);
-    const q = gq(level);
-    if (q.type !== 'mcq') continue;
-    const isKenal = /Transformasi apakah/.test(q.q), isVek = /Vektor translasi/.test(q.q), isSim = /simetri putaran/.test(q.q);
-    if ((ty === 'kenal' && isKenal) || (ty === 'vektor' && isVek) || (ty === 'simetri' && isSim)) return q;
-  }
-  return cqKoord(level);
-}
 function cqView(q, shown, bigOpts) {
   let fig = q.fig;
   if (shown && q.reveal) fig = fig.replace('</svg>', q.reveal + '</svg>');
@@ -182,10 +161,10 @@ function bindSiapa() {
 }
 
 /* =================== RODA NAMA =================== */
-const RKEY = 'isomove-roda';
+const RKEY = 'terokamath-roda'; // dikongsi semua bab (senarai nama kelas)
 const RCOL = ['tr', 'pa', 'pu', 'gr', 'am', 'pk', 'rd'];
 function rLoad() {
-  let d = null; try { d = JSON.parse(localStorage.getItem(RKEY)); } catch (e) {}
+  let d = null; try { d = JSON.parse(localStorage.getItem(RKEY) || localStorage.getItem('isomove-roda')); } catch (e) {}
   if (!d || !Array.isArray(d.lists) || !d.lists.length) d = { cur: 'r1', rm: true, autoQ: false, lists: [{ id: 'r1', name: 'Senarai 1', text: '' }] };
   if (!d.lists.some(l => l.id === d.cur)) d.cur = d.lists[0].id;
   return d;

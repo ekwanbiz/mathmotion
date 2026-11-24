@@ -9,10 +9,10 @@
 <link rel="icon" href="../logo.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../../icons/icon-192.png">
 <style>
-@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../fonts/inter-latin-400-normal.woff2') format('woff2')}
-@font-face{font-family:'Inter';font-weight:600;font-display:swap;src:url('../fonts/inter-latin-600-normal.woff2') format('woff2')}
-@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../fonts/inter-latin-700-normal.woff2') format('woff2')}
-@font-face{font-family:'Space Grotesk';font-weight:700;font-display:swap;src:url('../fonts/space-grotesk-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:600;font-display:swap;src:url('../../teras/fonts/inter-latin-600-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:'Space Grotesk';font-weight:700;font-display:swap;src:url('../../teras/fonts/space-grotesk-latin-700-normal.woff2') format('woff2')}
 :root{--bg:#0B1220;--surface:#131C2E;--border:#22304A;--text:#E6EDF7;--muted:#94A3B8;--accent:#38BDF8;--green:#34D399;--orange:#FB923C;--pink:#F472B6;--amber:#FBBF24;--head:'Space Grotesk',system-ui,sans-serif}
 *{box-sizing:border-box}
 html,body{margin:0}
@@ -164,7 +164,7 @@ E('play').onclick=function(){if(!valid)return;if(playing){stop();draw();return}i
 
 </script>
 <script>(function(){var b=document.getElementById('backbtn');b.addEventListener('click',function(e){try{var r=document.referrer?new URL(document.referrer):null;if(r&&r.origin===location.origin&&history.length>1){e.preventDefault();history.back()}}catch(x){}})})();</script>
-<script src="../js/fx.js"></script>
+<script src="../../teras/fx.js"></script>
 <script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button();FX.watchSim('status',document.querySelector('.canvasbox'))}</script>
 </body>
 </html>

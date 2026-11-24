@@ -4,7 +4,7 @@
 // terus dengan satu butang ▶. Pelan disimpan dalam pelayar dan boleh disimpan
 // sebagai fail. Bergantung pada app.js, ws.js dan slides.js (dipanggil semasa guna sahaja).
 
-const AJKEY = 'isomove-ajar';
+const AJKEY = BAB.ajarKey;
 const AJT = {
   slaid: ['SLAID', 'tr'],
   sim: ['SIMULASI', 'gr'],
@@ -18,7 +18,7 @@ const TPL = {
   gambar: ['Gambar + teks', 'Muat naik gambar sendiri'],
   papan: ['Papan kosong / grid', 'Ruang tulis & lukis dengan pen']
 };
-const SIMNAME = { translasi: 'Translasi', pantulan: 'Pantulan', putaran: 'Putaran' };
+const SIMNAME = Object.fromEntries(SIMLIST.map(s => [s[0], s[1]]));
 const strip = s => String(s || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 const ajIcon = {
   ajar: sv('<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M10 8.5v5l4-2.5zM8 21h8M12 17v4"/>'),
@@ -113,7 +113,7 @@ function itemSlideHTML(it) {
 const subColVar = it => it.t === 'slaid' ? subCol(it.sub) : 'var(--pu)';
 
 /* =================== MOD SUSUN =================== */
-const AJS = { cat: 'slaid', sub: '11.1', sel: 0, modal: null, drag: -1 };
+const AJS = { cat: 'slaid', sub: SUBS[0].no, sel: 0, modal: null, drag: -1 };
 function viewSusun() {
   const d = ajData(), pl = ajPlan();
   if (AJS.sel >= pl.items.length) AJS.sel = pl.items.length - 1;
@@ -163,7 +163,7 @@ function viewPratonton(pl) {
   if (!it) return '<h2 class="ajh">PRATONTON</h2><p class="ajhint">Pilih satu item dalam pelan untuk lihat pratonton.</p>';
   let body = '';
   if (it.t === 'slaid' || it.t === 'cikgu') body = `<div class="ajpv" style="--c:${subColVar(it)}"><div class="ajpv-in"><div class="stage">${itemSlideHTML(it)}</div></div></div>`;
-  else if (it.t === 'sim') body = `<div class="ajinfo"><b>Simulasi ${SIMNAME[it.k]}</b><span>Simulasi asal ISOMOVE dipaparkan skrin penuh. Guna tetikus untuk gerakkan objek, kemudian tekan ▶ untuk item seterusnya.</span></div>`;
+  else if (it.t === 'sim') body = `<div class="ajinfo"><b>Simulasi ${SIMNAME[it.k]}</b><span>Simulasi ${APPNAME} dipaparkan skrin penuh. Guna tetikus untuk gerakkan objek, kemudian tekan ▶ untuk item seterusnya.</span></div>`;
   else if (it.t === 'game') body = `<div class="ajinfo"><b>${GMODES[it.g || '60'][0]}</b><span>${GMODES[it.g || '60'][2]}</span></div>`;
   else if (it.t === 'lat') {
     const B = bankById();
@@ -276,7 +276,7 @@ function bindSusun() {
   const ed = document.getElementById('ajEdit');
   if (ed) ed.onclick = () => {
     const it = pl.items[AJS.sel];
-    if (it.t === 'lat') AJS.modal = { type: 'lat', ids: it.ids.slice(), work: it.work !== false, sub: (it.ids[0] || '11.1').split('-')[0], lvl: 'all', edit: AJS.sel };
+    if (it.t === 'lat') AJS.modal = { type: 'lat', ids: it.ids.slice(), work: it.work !== false, sub: (it.ids[0] || SUBS[0].no).split('-')[0], lvl: 'all', edit: AJS.sel };
     else AJS.modal = { type: 'cikgu', it: JSON.parse(JSON.stringify(it)), edit: AJS.sel };
     render(true);
   };
@@ -590,7 +590,7 @@ async function ajShareOpen(pl) {
 function viewShareModal(M) {
   return `<div class="ajm-bg"><section class="ajm ajshare" role="dialog" aria-modal="true" aria-label="Kongsi link pelan">
     <div class="ajm-h"><h2>Kongsi link</h2><button type="button" class="ib" id="ajmX" aria-label="Tutup">${IC.x}</button></div>
-    <p class="ajhint" style="font-size:16px">Guru yang buka link ini akan nampak pelan <b style="color:var(--tx)">${esc(M.name)}</b> sahaja. Mereka hanya boleh tayang pelan ini. Mereka tidak dapat membuka bahagian lain ISOMOVE atau mengubah pelan.</p>
+    <p class="ajhint" style="font-size:16px">Guru yang buka link ini akan nampak pelan <b style="color:var(--tx)">${esc(M.name)}</b> sahaja. Mereka hanya boleh tayang pelan ini. Mereka tidak dapat membuka bahagian lain ${APPNAME} atau mengubah pelan.</p>
     <label class="ajf"><span>LINK</span><textarea id="ajLink" rows="3" readonly>${esc(M.link)}</textarea></label>
     ${M.img ? '<p class="ajwarn">Gambar yang dimuat naik tidak disertakan dalam link. Slaid Gambar + teks akan dipaparkan tanpa gambar.</p>' : ''}
     <p class="ajhint">Link ini menyimpan pelan seperti sekarang. Jika pelan diubah, cipta link baharu.</p>
@@ -609,7 +609,7 @@ function bindShareModal() {
     else { ta.select(); document.execCommand('copy'); done(); }
   };
   const nb = document.getElementById('ajNative');
-  if (nb) nb.onclick = () => navigator.share({ title: 'Pelan ISOMOVE: ' + M.name, text: 'Pelan mengajar ISOMOVE: ' + M.name, url: M.link }).catch(() => {});
+  if (nb) nb.onclick = () => navigator.share({ title: 'Pelan ' + APPNAME + ': ' + M.name, text: 'Pelan mengajar ' + APPNAME + ': ' + M.name, url: M.link }).catch(() => {});
 }
 function viewKongsi(code) {
   if (AJK.code !== code) {
@@ -617,13 +617,13 @@ function viewKongsi(code) {
     unpackPlan(code).then(p => { AJK.plan = p; }).catch(() => { AJK.err = true; }).then(() => { if (location.hash.indexOf('#/k/' + code) === 0) render(false); });
   }
   const light = isLight();
-  const head = `<header class="hdr"><span class="wm2"><b class="tm">Teroka<span>Math</span></b><small><b>ISO</b><b class="mv">MOVE</b> : Bab 11 : Transformasi Isometri</small></span><div class="end" style="margin-left:auto"><button type="button" class="ib" id="themeBtn" aria-label="${light ? 'Tukar ke mod gelap' : 'Tukar ke mod cerah'}">${light ? IC.moon : IC.sun}</button></div></header>`;
+  const head = `<header class="hdr"><span class="wm2"><b class="tm">Teroka<span>Math</span></b><small><b>${BAB.nama[0]}</b><b class="mv">${BAB.nama[1]}</b> : Bab ${BAB.no} : ${BAB.tajuk}</small></span><div class="end" style="margin-left:auto"><button type="button" class="ib" id="themeBtn" aria-label="${light ? 'Tukar ke mod gelap' : 'Tukar ke mod cerah'}">${light ? IC.moon : IC.sun}</button></div></header>`;
   let body;
   if (AJK.err) body = `<div class="kgcard"><p class="eyebrow">PELAN DIKONGSI</p><h1 class="h1">Link tidak sah</h1><p class="lead">Link ini rosak atau tidak lengkap. Minta guru yang berkongsi menghantar semula link.</p></div>`;
   else if (!AJK.plan) body = `<div class="kgcard"><p class="lead">Membuka pelan…</p></div>`;
   else {
     const pl = AJK.plan;
-    body = `<div class="kgcard"><p class="eyebrow">PELAN DIKONGSI · BAB 11 TRANSFORMASI ISOMETRI</p><h1 class="h1">${esc(pl.name)}</h1><p class="lead">${pl.items.length} item. Tekan Tayang untuk mula mengajar dengan pelan ini.</p>
+    body = `<div class="kgcard"><p class="eyebrow">PELAN DIKONGSI · BAB ${BAB.no} ${BAB.tajuk.toUpperCase()}</p><h1 class="h1">${esc(pl.name)}</h1><p class="lead">${pl.items.length} item. Tekan Tayang untuk mula mengajar dengan pelan ini.</p>
       <ol class="kglist">${pl.items.map((it, k) => `<li><span class="n">${k + 1}</span>${typeChip(it.t)}<span>${esc(itemName(it))}</span></li>`).join('')}</ol>
       <div class="kgbtns"><button type="button" class="btn pri big" id="kgPlay"${pl.items.length ? '' : ' disabled'}>${IC.play} Tayang</button></div></div>`;
   }
