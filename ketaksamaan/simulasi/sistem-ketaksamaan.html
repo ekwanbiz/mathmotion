@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Sistem Ketaksamaan · Bab 6</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--sf:#131C2E;--sf2:#1A2540;--sf3:#0E1626;--bd:#22304A;--bd2:#2E3F5E;--tx:#E6EDF7;--mu:#94A3B8;--mu2:#64748B;--c1:#F472B6;--l1:#FBBF24;--l2:#38BDF8;--l3:#34D399;--ok:#34D399;--bad:#F87171;
+ --surface:#131C2E;--border:#2E3F5E;--text:#E6EDF7;--muted:#94A3B8;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff06 1px,transparent 1px),linear-gradient(90deg,#ffffff06 1px,transparent 1px);background-size:32px 32px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:9px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#33061d}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:10px 14px;line-height:1.45;font-size:15px}
+.info b.t{display:block;font-size:17px;color:var(--c1);margin-bottom:3px}
+.info .ln{display:flex;justify-content:space-between;gap:8px;font-weight:800;font-size:17px;padding:2px 0}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.info .box{margin-top:6px;padding:7px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:800}
+.ctrl{display:flex;flex-direction:column;gap:7px}
+.row4{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.row3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.tab{background:var(--sf);border:2px solid var(--bd2);border-radius:12px;padding:7px 2px;font-weight:900;font-size:14px;line-height:1.15;color:var(--mu);min-height:44px}
+.tab.on{color:#0B1220;border-color:var(--lc);background:var(--lc)}
+.tab.off{opacity:.55;border-style:dashed}
+.kd{background:var(--sf);border:2px solid var(--bd2);border-radius:12px;padding:8px 2px;font-weight:800;font-size:14px;min-height:42px}
+.kd.on{border-color:var(--tx);background:var(--sf2)}
+.chip{background:var(--sf);border:2px solid var(--bd2);border-radius:12px;padding:7px 4px;font-weight:900;font-size:21px;line-height:1;min-height:42px}
+.chip.on{background:var(--lc);border-color:var(--lc);color:#0B1220}
+.sl{display:grid;grid-template-columns:auto 40px minmax(0,1fr) 40px 58px;gap:6px;align-items:center}
+.sl label{font-weight:900;font-size:17px;min-width:22px}
+.sl input[type=range]{width:100%;height:26px;margin:0}
+.sl .v{font-weight:900;font-size:16px;text-align:center;background:var(--sf);border:1px solid var(--bd2);border-radius:10px;padding:5px 2px}
+.pm{background:var(--sf);border:2px solid var(--bd2);border-radius:12px;height:38px;font-weight:900;font-size:20px;padding:0}
+.btns{display:flex;gap:8px}
+.big{flex:1;background:var(--c1);border:0;color:#33061d;border-radius:13px;padding:11px 6px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.hide{display:none!important}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.35fr) minmax(360px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:16px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:20px}.info .ln{font-size:20px}
+}
+@media(max-height:760px){.wrap{gap:6px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.info{padding:7px 11px;font-size:14px}.info .ln{font-size:15px;padding:0}.info b.t{font-size:15px}.big{padding:8px 4px}.chip,.kd,.tab{min-height:36px;padding:5px 2px}.chip{font-size:18px}.sl input[type=range]{height:22px}.pm{height:32px}.sl .v{padding:3px 2px}}
+@media(max-width:420px){.info .bt{display:none}.info .box{margin-top:4px;padding:5px 8px}.modes button{font-size:13px;padding:10px 3px}.info{font-size:14px}.info .tip{font-size:12px}.tab{font-size:12px}.kd{font-size:12.5px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#38BDF8;color:#03202e;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #38bdf844">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mod">
+   <button data-m="bina" class="on" role="tab">🧩 Bina Sistem</button>
+   <button data-m="cabar" role="tab">🎯 Cari Rantau Sepunya</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" aria-label="Satah Cartes dengan rantau sepunya"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl">
+  <div class="row4" id="tabs"></div>
+  <div class="row3 bina"><button class="kd" data-k="y">y ? mx + c</button><button class="kd" data-k="x">x ? a</button><button class="kd" data-k="h">y ? a</button></div>
+  <div class="row4 bina" id="signs"><button class="chip" data-op="<" aria-label="kurang daripada">&lt;</button><button class="chip" data-op="<=" aria-label="kurang daripada atau sama dengan">≤</button><button class="chip" data-op=">" aria-label="lebih daripada">&gt;</button><button class="chip" data-op=">=" aria-label="lebih daripada atau sama dengan">≥</button></div>
+  <div class="sl bina" id="slm"><label for="rm">m</label><button class="pm" data-d="m-" aria-label="Kurangkan m">−</button><input type="range" id="rm" min="0" max="8" step="1" aria-label="Kecerunan m"><button class="pm" data-d="m+" aria-label="Tambah m">+</button><span class="v" id="vm"></span></div>
+  <div class="sl bina"><label for="rc" id="lc">c</label><button class="pm" data-d="c-" aria-label="Kurangkan nilai">−</button><input type="range" id="rc" min="-6" max="6" step="1" aria-label="Pintasan"><button class="pm" data-d="c+" aria-label="Tambah nilai">+</button><span class="v" id="vc"></span></div>
+  <div class="btns hide" id="cbtns"><button class="big" id="semak">Semak titik P</button><button class="big alt" id="nx">Sistem baharu ▶</button></div>
+ </div>
+</div>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+const svg=$('svg'),stage=$('stage'),info=$('info');
+const MSV=[[-3,1],[-2,1],[-1,1],[-1,2],[0,1],[1,2],[1,1],[2,1],[3,1]];
+const R=7,MI='−',OPH={'<':'&lt;','<=':'≤','>':'&gt;','>=':'≥'},COL=['#FBBF24','#38BDF8','#34D399'],PINK='#F472B6';
+const N=v=>v<0?MI+(-v):String(v);
+const big=o=>o==='>'||o==='>=',strict=o=>o==='<'||o==='>';
+const fr=m=>m[1]===1?N(m[0]):(m[0]<0?MI:'')+Math.abs(m[0])+'/'+m[1];
+function rhs(m,c){if(m[0]===0)return N(c);const k=m[0]===m[1]?'':m[0]===-m[1]?MI:m[1]===1?fr(m):(m[0]<0?MI:'')+'('+Math.abs(m[0])+'/'+m[1]+')';return k+'x'+(c?(c<0?' '+MI+' ':' + ')+Math.abs(c):'')}
+let mode='bina',act=0,each=false,P={x:1,y:1},drag=false,G=null,score=0,tot=0,res=null,CH=null;
+let L=[{on:true,k:'y',mi:7,c:1,op:'<='},{on:true,k:'h',mi:6,c:-1,op:'>'},{on:true,k:'x',mi:6,c:3,op:'<'}];
+const snd=n=>{if(window.FX)FX.play(n)};
+const TX=(x,y,t,col='#E6EDF7',s=14,an='middle',w=800)=>`<text x="${x}" y="${y}" fill="${col}" font-size="${s}" font-weight="${w}" text-anchor="${an}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="#0E1626" stroke-width="4" stroke-linejoin="round">${t}</text>`;
+function H(l){if(l.k==='x')return{A:1,B:0,C:l.c,op:l.op};if(l.k==='h')return{A:0,B:1,C:l.c,op:l.op};const m=MSV[l.mi];return{A:-m[0],B:m[1],C:l.c*m[1],op:l.op}}
+function T(l){return l.k==='x'?`x ${OPH[l.op]} ${N(l.c)}`:l.k==='h'?`y ${OPH[l.op]} ${N(l.c)}`:`y ${OPH[l.op]} ${rhs(MSV[l.mi],l.c)}`}
+function EQ(l){return l.k==='x'?`x = ${N(l.c)}`:l.k==='h'?`y = ${N(l.c)}`:`y = ${rhs(MSV[l.mi],l.c)}`}
+const holds=(h,x,y)=>{const v=h.A*x+h.B*y;return h.op==='<'?v<h.C:h.op==='>'?v>h.C:h.op==='<='?v<=h.C:v>=h.C};
+function clip(poly,h){const s=big(h.op)?-1:1,f=p=>(h.A*p[0]+h.B*p[1]-h.C)*s,o=[];for(let i=0;i<poly.length;i++){const p=poly[i],q=poly[(i+1)%poly.length],fp=f(p),fq=f(q);if(fp<=1e-9)o.push(p);if((fp<-1e-9&&fq>1e-9)||(fp>1e-9&&fq<-1e-9)){const t=fp/(fp-fq);o.push([p[0]+t*(q[0]-p[0]),p[1]+t*(q[1]-p[1])])}}return o}
+const B0=R+.5,BOX=[[-B0,-B0],[B0,-B0],[B0,B0],[-B0,B0]];
+const area=p=>Math.abs(p.reduce((s,a,i)=>{const b=p[(i+1)%p.length];return s+a[0]*b[1]-b[0]*a[1]},0))/2;
+const lines=()=>mode==='cabar'?CH:L.filter(l=>l.on);
+function seg(h){let p,q;if(h.B===0){const x=h.C/h.A;if(Math.abs(x)>B0)return null;return[[x,-B0],[x,B0]]}p=[-B0,(h.C+h.A*B0)/h.B];q=[B0,(h.C-h.A*B0)/h.B];const dy=q[1]-p[1];let t0=0,t1=1;if(dy){let a=(-B0-p[1])/dy,b=(B0-p[1])/dy;if(a>b)[a,b]=[b,a];t0=Math.max(0,a);t1=Math.min(1,b)}else if(Math.abs(p[1])>B0)return null;if(t1<=t0)return null;return[[p[0]+t0*(q[0]-p[0]),p[1]+t0*dy],[p[0]+t1*(q[0]-p[0]),p[1]+t1*dy]]}
+function draw(){const w=stage.clientWidth||300,hh=stage.clientHeight||300;svg.setAttribute('viewBox',`0 0 ${w} ${hh}`);
+ const u=Math.min((w-20)/(2*R+1),(hh-20)/(2*R+1)),cx=w/2,cy=hh/2;G={u,cx,cy,X:x=>cx+x*u,Y:y=>cy-y*u};const {X,Y}=G;
+ let g='';for(let i=-R;i<=R;i++)g+=`<line x1="${X(i)}" y1="${Y(-B0)}" x2="${X(i)}" y2="${Y(B0)}" stroke="#ffffff12"/><line x1="${X(-B0)}" y1="${Y(i)}" x2="${X(B0)}" y2="${Y(i)}" stroke="#ffffff12"/>`;
+ const ls=lines(),hs=ls.map(H),poly=hs.reduce((p,h)=>p.length?clip(p,h):p,BOX);
+ const showReg=mode==='bina'||res!==null;
+ if(mode==='bina'&&each)hs.forEach((h,i)=>{const p=clip(BOX,h);if(p.length>2)g+=`<polygon points="${p.map(q=>X(q[0])+','+Y(q[1])).join(' ')}" fill="${COL[L.indexOf(ls[i])]}" fill-opacity=".14"/>`});
+ if(showReg&&poly.length>2)g+=`<polygon points="${poly.map(q=>X(q[0])+','+Y(q[1])).join(' ')}" fill="${PINK}" fill-opacity=".38" stroke="${PINK}" stroke-opacity=".5" stroke-width="1"/>`;
+ g+=`<line x1="${X(-B0)}" y1="${cy}" x2="${X(B0)}" y2="${cy}" stroke="#94A3B8" stroke-width="2"/><line x1="${cx}" y1="${Y(-B0)}" x2="${cx}" y2="${Y(B0)}" stroke="#94A3B8" stroke-width="2"/>`;
+ const fs=Math.max(10,Math.min(13,u*.42));
+ for(let i=-R+1;i<R;i++)if(i&&i%2===0)g+=TX(X(i),cy+fs*.95,N(i),'#64748B',fs,'middle',700)+TX(cx-fs*.6,Y(i),N(i),'#64748B',fs,'end',700);
+ g+=TX(X(R+.25),cy-12,'x','#94A3B8',14,'middle',900)+TX(cx+11,Y(R+.2),'y','#94A3B8',14,'middle',900);
+ ls.forEach((l,i)=>{const h=hs[i],s=seg(h);if(!s)return;const col=mode==='cabar'?COL[i]:COL[L.indexOf(l)],wd=mode==='bina'&&L.indexOf(l)===act?6:4.5;
+  g+=`<line x1="${X(s[0][0])}" y1="${Y(s[0][1])}" x2="${X(s[1][0])}" y2="${Y(s[1][1])}" stroke="${col}" stroke-width="${wd}"${strict(l.op)?' stroke-dasharray="13 9"':' stroke-linecap="round"'}/>`;
+  const k=.9-.17*i,px=s[0][0]+(s[1][0]-s[0][0])*k,py=s[0][1]+(s[1][1]-s[0][1])*k,lf=px<0;
+  g+=TX(X(px)+(lf?8:-8),Y(py)-11,EQ(l),col,13,lf?'start':'end')});
+ const inAll=hs.every(h=>holds(h,P.x,P.y)),pc=mode==='cabar'&&res===null?'#E6EDF7':inAll?'#34D399':'#F87171';
+ g+=`<g id="hP" style="cursor:grab"><circle cx="${X(P.x)}" cy="${Y(P.y)}" r="24" fill="transparent"/><circle cx="${X(P.x)}" cy="${Y(P.y)}" r="10" fill="${pc}" stroke="#0E1626" stroke-width="3"/></g>`;
+ g+=TX(X(P.x)+(P.x>3?-14:14),Y(P.y)+(P.y>5?18:-16),`P(${N(P.x)}, ${N(P.y)})`,pc,14,P.x>3?'end':'start');
+ svg.innerHTML=g;showInfo(hs,poly,inAll)}
+function rowsHTML(ls,hs,mark){return ls.map((l,i)=>{const ok=holds(hs[i],P.x,P.y),col=mode==='cabar'?COL[i]:COL[L.indexOf(l)];let s='';
+  if(l.k==='y'){const m=MSV[l.mi],v=m[0]*P.x/m[1]+l.c,vs=Number.isInteger(v)?N(v):N(Math.round(v*10)/10);s=`${N(P.y)} ${OPH[l.op]} ${vs}`}else s=`${l.k==='x'?N(P.x):N(P.y)} ${OPH[l.op]} ${N(l.c)}`;
+  return`<div class="ln"><span style="color:${col}">${T(l)}</span>${mark?`<span class="${ok?'ok':'no'}">${s} ${ok?'✓':'✗'}</span>`:''}</div>`}).join('')}
+function showInfo(hs,poly,inAll){const ls=lines();
+ const cur=L[act];$('vm').textContent=fr(MSV[cur.mi]);$('rm').value=cur.mi;$('vc').textContent=N(cur.c);$('rc').value=cur.c;$('lc').textContent=cur.k==='y'?'c':'a';$('slm').classList.toggle('hide',mode!=='bina'||cur.k!=='y');
+ document.documentElement.style.setProperty('--lc',COL[act]);
+ document.querySelectorAll('.kd').forEach(b=>b.classList.toggle('on',b.dataset.k===cur.k));
+ document.querySelectorAll('.chip').forEach(b=>b.classList.toggle('on',b.dataset.op===cur.op));
+ $('tabs').innerHTML=mode==='bina'?L.map((l,i)=>`<button class="tab${i===act?' on':''}${l.on?'':' off'}" data-t="${i}" style="--lc:${COL[i]}">${l.on?T(l):'+ Tambah'}</button>`).join('')+`<button class="tab${each?' on':''}" id="each" style="--lc:#B6C2D3">${each?'Sorok':'Tunjuk'} rantau setiap</button>`:'';
+ bindTabs();
+ if(mode==='bina'){const empty=poly.length<3||area(poly)<1e-6;
+  info.innerHTML=`<b class="t">Sistem ketaksamaan</b>${rowsHTML(ls,hs,true)}<div class="box">${empty?'<span class="no">Tiada rantau sepunya: rantau-rantau tidak bertindih.</span>':inAll?'<span class="ok">✓ P dalam rantau sepunya (memuaskan semua ketaksamaan).</span>':'<span class="no">✗ P di luar rantau sepunya.</span>'}</div><div class="tip bt">Pilih ketaksamaan (butang berwarna), ubah jenis, simbol dan nilai. Seret P untuk menyemak.</div>`;return}
+ let s=`<b class="t">Letakkan P dalam rantau sepunya</b>${rowsHTML(ls,hs,res!==null)}<div class="tip">Seret P ke titik yang memuaskan <b>semua</b> ketaksamaan, kemudian tekan Semak. Skor: ${score}/${tot}</div>`;
+ if(res!==null)s+=res?`<div class="box"><span class="ok">Tepat! P${'('+N(P.x)+', '+N(P.y)+')'} terletak dalam rantau sepunya.</span></div>`:`<div class="box"><span class="no">Belum tepat. Lihat ketaksamaan yang bertanda ✗ dan rantau berlorek.</span></div>`;
+ info.innerHTML=s}
+function bindTabs(){document.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{const i=+b.dataset.t;if(!L[i].on){L[i].on=true;act=i}else if(act===i&&i===2){L[i].on=false;act=0}else act=i;snd('ketik');draw()});
+ const e=$('each');if(e)e.onclick=()=>{each=!each;draw()}}
+function newCH(){for(let t=0;t<500;t++){const n=Math.random()<.5?2:3,ls=[],used=new Set();
+  for(let i=0;i<n;i++){let l,key;do{const k=i===0?'y':['y','y','x','h'][Math.floor(Math.random()*4)],op=['<','<=','>','>='][Math.floor(Math.random()*4)];l={on:true,k,op,mi:[0,1,2,6,7,8][Math.floor(Math.random()*6)],c:Math.floor(Math.random()*9)-4};if(k!=='y')l.c=Math.floor(Math.random()*7)-3;key=l.k==='y'?'y'+l.mi:l.k}while(used.has(key));used.add(key);ls.push(l)}
+  const hs=ls.map(H),poly=hs.reduce((p,h)=>p.length?clip(p,h):p,[[-6,-6],[6,-6],[6,6],[-6,6]]);if(poly.length<3||area(poly)<5||area(poly)>45)continue;
+  let cnt=0;for(let x=-6;x<=6;x++)for(let y=-6;y<=6;y++)if(hs.every(h=>holds(h,x,y)))cnt++;if(cnt<3)continue;
+  if(hs.every(h=>holds(h,P.x,P.y)))continue;CH=ls;res=null;draw();return}}
+function setUI(){document.querySelectorAll('.bina').forEach(e=>e.classList.toggle('hide',mode!=='bina'));$('cbtns').classList.toggle('hide',mode!=='cabar')}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));mode=b.dataset.m;setUI();if(mode==='cabar')newCH();else draw()});
+document.querySelectorAll('.kd').forEach(b=>b.onclick=()=>{const l=L[act];l.k=b.dataset.k;if(l.k!=='y')l.c=Math.max(-6,Math.min(6,l.c));if(L.some((o,i)=>i!==act&&o.on&&o.k===l.k&&l.k!=='y'))l.c=l.c===2?-2:2;draw()});
+document.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{L[act].op=b.dataset.op;draw()});
+$('rm').oninput=()=>{L[act].mi=+$('rm').value;draw()};$('rc').oninput=()=>{L[act].c=+$('rc').value;draw()};
+document.querySelectorAll('.pm').forEach(b=>b.onclick=()=>{const d=b.dataset.d,l=L[act];if(d==='m-')l.mi=Math.max(0,l.mi-1);if(d==='m+')l.mi=Math.min(MSV.length-1,l.mi+1);if(d==='c-')l.c=Math.max(-6,l.c-1);if(d==='c+')l.c=Math.min(6,l.c+1);draw()});
+$('semak').onclick=()=>{if(res!==null)return;const ok=CH.map(H).every(h=>holds(h,P.x,P.y));res=ok;tot++;if(ok){score++;snd('betul');if(window.FX)FX.stars(stage,12)}else snd('salah');draw()};
+$('nx').onclick=()=>{if(res===null)tot++;newCH()};
+function pt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;const r=p.matrixTransform(svg.getScreenCTM().inverse());return{x:(r.x-G.cx)/G.u,y:(G.cy-r.y)/G.u}}
+function move(q){const x=Math.max(-R,Math.min(R,Math.round(q.x))),y=Math.max(-R,Math.min(R,Math.round(q.y)));if(x!==P.x||y!==P.y){P={x,y};if(mode==='cabar'&&res!==null)res=null;snd('langkah');draw()}}
+svg.addEventListener('pointerdown',e=>{const q=pt(e);if(!e.target.closest('#hP')&&(Math.abs(q.x)>B0||Math.abs(q.y)>B0))return;e.preventDefault();drag=true;svg.setPointerCapture(e.pointerId);move(q)});
+svg.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();move(pt(e))});
+const end=()=>{drag=false};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+new ResizeObserver(()=>draw()).observe(stage);setUI();draw();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

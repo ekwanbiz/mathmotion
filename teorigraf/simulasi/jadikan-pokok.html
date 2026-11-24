@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Jadikan Pokok · Bab 5</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0A0F1E;--sf:#121A2E;--sf2:#18223A;--sf3:#0D1426;--bd:#24324F;--bd2:#2F4166;--tx:#EAF0FF;--mu:#A9B6D3;--mu2:#7686A8;--c1:#38BDF8;--c2:#34D399;--c3:#A78BFA;--gold:#FBBF24;--pink:#F472B6;--ok:#3DDC84;--bad:#FF6B7A;
+ --surface:#121A2E;--border:#2F4166;--text:#EAF0FF;--muted:#A9B6D3;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#03202e}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:11px 14px;line-height:1.5;font-size:15px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:2px}
+.info .tip{color:var(--mu);font-size:13px;margin-top:4px}
+.info .row{display:flex;flex-wrap:wrap;gap:4px 14px;font-weight:700}
+.info .row b{color:var(--c2)}
+.info .degs{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
+.info .degs span{background:var(--sf2);border:1px solid var(--bd2);border-radius:9px;padding:2px 8px;font-weight:800;font-size:14px}
+.info .degs span b{color:var(--pink)}
+.info .eq{margin-top:6px;padding:7px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:700}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.tags span{border-radius:999px;padding:3px 10px;font-weight:800;font-size:13px;border:1.5px solid}
+.tags .y{color:var(--ok);border-color:var(--ok)}.tags .n{color:var(--bad);border-color:var(--bad)}
+.ctrl{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.chip{background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:11px 3px;font-weight:800;font-size:14.5px}
+.chip.on{background:var(--c1);border-color:var(--c1);color:#03202e}
+.chip.tog.on{background:var(--c3);border-color:var(--c3);color:#1a0f3a}
+.big{background:var(--c2);border:0;color:#052a1c;border-radius:13px;padding:12px 4px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.span2{grid-column:span 2}
+.big.okb{background:var(--ok);color:#06240f}.big.nob{background:var(--bad);color:#2a0609;border-color:var(--bad)}
+.nextb{margin-top:8px;background:var(--c1);border:0;color:#03202e;border-radius:11px;padding:9px 16px;font-weight:900}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.4fr) minmax(330px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:16px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:22px}
+}
+@media(max-width:899px),(max-aspect-ratio:4/3){.stage{min-height:38vh;min-height:38dvh}.info{max-height:25vh;max-height:25dvh;overflow-y:auto}}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.chip{padding:8px 2px;font-size:13.5px}.info{padding:8px 11px;font-size:14px}.info b.t{font-size:16px}.big{padding:9px 4px}}
+@media(max-width:420px){.chip,.big{font-size:13px}.modes button{font-size:13.5px;padding:10px 3px}.info{font-size:14px}.info .degs span{font-size:13px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#34D399;color:#052a1c;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #34d39944">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mod">
+   <button data-m="pokok" class="on" role="tab">🌳 Jadikan Pokok</button>
+   <button data-m="sub" role="tab">✂️ Subgraf</button>
+   <button data-m="kuiz" role="tab">❓ Pokok?</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" viewBox="0 0 400 320" aria-label="Graf"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const W=400,H=320,VR=17,NM='ABCDEFG';
+const C1='#38BDF8',C2='#34D399',C3='#A78BFA',GOLD='#FBBF24',PINK='#F472B6',OK='#3DDC84',BAD='#FF6B7A',TX='#EAF0FF',MU='#A9B6D3',DIMC='#3A4A6B',BG='#0D1426';
+const snd=n=>{if(window.FX)FX.play(n)};
+const rnd=n=>Math.floor(Math.random()*n);
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=rnd(i+1);[a[i],a[j]]=[a[j],a[i]]}return a};
+const LAY={4:[[110,80],[290,80],[290,240],[110,240]],5:[[200,48],[335,140],[285,272],[115,272],[65,140]],6:[[110,58],[290,58],[352,160],[290,262],[110,262],[48,160]],7:[[200,40],[330,95],[350,220],[255,285],[145,285],[50,220],[70,95]]};
+let S={m:'pokok',n:0,pos:[],E:[],off:new Set(),voff:new Set(),done:false,q:null,score:0,tot:0};
+function lbl(x,y,t,c=TX,s=17){return `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" fill="${c}" font-size="${s}" font-weight="900" text-anchor="middle" dominant-baseline="central" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="${BG}" stroke-width="5" stroke-linejoin="round" pointer-events="none">${t}</text>`}
+function makeG(n,m,conn=true){
+ const all=[];for(let i=0;i<n;i++)for(let j=i+1;j<n;j++)all.push([i,j]);
+ for(let t=0;t<200;t++){
+  const used=new Set(),E=[];
+  if(conn){const o=shuf([...Array(n).keys()]);for(let i=1;i<n;i++){const a=o[i],b=o[rnd(i)];used.add(Math.min(a,b)+','+Math.max(a,b));E.push([Math.min(a,b),Math.max(a,b)])}}
+  for(const [a,b] of shuf(all)){if(E.length>=m)break;if(!used.has(a+','+b)){used.add(a+','+b);E.push([a,b])}}
+  // elak tepi yang hampir melalui bucu lain
+  const bad=E.some(([a,b])=>LAY[n].some((p,k)=>{if(k===a||k===b)return false;const A=LAY[n][a],B=LAY[n][b],dx=B[0]-A[0],dy=B[1]-A[1],L=Math.hypot(dx,dy),t2=((p[0]-A[0])*dx+(p[1]-A[1])*dy)/(L*L);if(t2<=0||t2>=1)return false;return Math.abs((p[0]-A[0])*dy-(p[1]-A[1])*dx)/L<26}));
+  if(E.length===m&&!bad)return E}
+ return null}
+function comps(E,V){const par={};V.forEach(v=>par[v]=v);const f=x=>par[x]===x?x:(par[x]=f(par[x]));E.forEach(([a,b])=>{par[f(a)]=f(b)});const c={};V.forEach(v=>{const r=f(v);(c[r]=c[r]||[]).push(v)});return Object.values(c)}
+const liveV=()=>[...Array(S.n).keys()].filter(i=>!S.voff.has(i));
+const liveE=()=>S.E.map((e,i)=>[e,i]).filter(([e,i])=>!S.off.has(i)&&!S.voff.has(e[0])&&!S.voff.has(e[1]));
+function newG(){
+ let n,m,E;do{n=5+rnd(3);m=n+2+rnd(3);E=makeG(n,m)}while(!E);
+ S.n=n;S.pos=LAY[n];S.E=E;S.off=new Set();S.voff=new Set();S.done=false;setCtrl();render()}
+function render(){
+ if(S.m==='kuiz'){renderKuiz();return}
+ const lv=new Set(liveV()),le=liveE(),cs=comps(le.map(x=>x[0]),[...lv]),main=cs.sort((a,b)=>b.length-a.length)[0]||[];
+ let g='';
+ S.E.forEach(([a,b],i)=>{
+  const gone=S.off.has(i)||S.voff.has(a)||S.voff.has(b),[x1,y1]=S.pos[a],[x2,y2]=S.pos[b];
+  g+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${gone?DIMC:C2}" stroke-width="${gone?3:5}" stroke-linecap="round"${gone?' stroke-dasharray="7 7"':''}/>`;
+  if(!S.voff.has(a)&&!S.voff.has(b))g+=`<line data-e="${i}" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="transparent" stroke-width="22" style="cursor:pointer"/>`;
+  if(gone&&!S.voff.has(a)&&!S.voff.has(b))g+=lbl((x1+x2)/2,(y1+y2)/2,'✕',BAD,14);
+ });
+ for(let i=0;i<S.n;i++){const [x,y]=S.pos[i],off=S.voff.has(i),cut=!off&&cs.length>1&&!main.includes(i);
+  g+=`<g data-v="${i}" style="cursor:pointer"><circle cx="${x}" cy="${y}" r="26" fill="transparent"/><circle cx="${x}" cy="${y}" r="${VR}" fill="${off?'#0D1426':'#18223A'}" stroke="${off?DIMC:cut?BAD:GOLD}" stroke-width="4"${off?' stroke-dasharray="5 5"':''}/></g>`+lbl(x,y+1,NM[i],off?DIMC:TX)}
+ svg.innerHTML=g;
+ S.m==='pokok'?pokokInfo(cs,le):subInfo(lv,le)}
+function pokokInfo(cs,le){
+ const V=S.n,E=le.length,conn=cs.length===1,tree=conn&&E===V-1;
+ let h=`<b class="t">Buang tepi sehingga graf menjadi pokok</b><div class="row"><span>Bucu = <b>${V}</b></span><span>Tepi = <b>${E}</b></span><span>Sasaran = ${V} − 1 = <b>${V-1}</b></span></div>`;
+ h+=`<div class="tags">${conn?'<span class="y">Terkait</span>':`<span class="n">Terputus: ${cs.length} bahagian</span>`}${conn?(E-V+1>0?`<span class="n">${E-V+1} litar bebas lagi</span>`:'<span class="y">Tiada litar</span>'):''}</div>`;
+ if(tree){h+=`<div class="ok" style="margin-top:6px">🌳 Pokok! Terkait, tiada litar, tepi = bucu − 1 = ${V-1}. Ada pokok lain yang juga betul.</div>`;if(!S.done){S.done=true;snd('menang');if(window.FX)FX.stars(document.getElementById('stage'),14)}}
+ else if(!conn)h+=`<div class="no" style="margin-top:6px">Graf terputus (bucu merah). Pokok mesti terkait: ketik tepi ✕ untuk pulihkan.</div>`;
+ else h+=`<div class="tip">Ketik tepi untuk buang atau pulihkan. Buang ${E-(V-1)} tepi lagi tanpa memutuskan graf.</div>`;
+ info.innerHTML=h}
+function subInfo(lv,le){
+ const vs=[...lv].map(i=>NM[i]),es=le.map(([e])=>`(${NM[e[0]]}, ${NM[e[1]]})`);
+ let h=`<b class="t">Subgraf H daripada graf G</b><div class="row"><span>G: <b>${S.n}</b> bucu, <b>${S.E.length}</b> tepi</span><span>H: <b>${vs.length}</b> bucu, <b>${es.length}</b> tepi</span></div>`;
+ h+=`<div class="eq">V(H) = {${vs.join(', ')}}<br>E(H) = {${es.join(', ')}}</div>`;
+ h+=`<div class="tip">Ketik bucu untuk buang bucu itu bersama semua tepinya. Ketik tepi untuk buang tepi sahaja. Setiap graf yang terhasil ialah <b>subgraf</b> G kerana tiada bucu atau tepi baharu ditambah.</div>`;
+ info.innerHTML=h}
+/* ---------- kuiz ---------- */
+function newQ(){
+ const n=4+rnd(4),kind=['ya','ya','litar','pisah'][rnd(4)];let E;
+ if(kind==='ya')E=makeG(n,n-1);
+ else if(kind==='litar')E=makeG(n,n+rnd(2));
+ else{do{E=makeG(n,n-1,false)}while(!E||comps(E,[...Array(n).keys()]).length===1)}
+ if(!E)return newQ();
+ S.q={n,E,kind,ans:kind==='ya',done:false};S.n=n;S.pos=LAY[n];setCtrl();renderKuiz()}
+function renderKuiz(){
+ const Q=S.q;let g='';
+ Q.E.forEach(([a,b])=>{const [x1,y1]=S.pos[a],[x2,y2]=S.pos[b];g+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${C2}" stroke-width="5" stroke-linecap="round"/>`});
+ for(let i=0;i<Q.n;i++){const [x,y]=S.pos[i];g+=`<circle cx="${x}" cy="${y}" r="${VR}" fill="#18223A" stroke="${GOLD}" stroke-width="4"/>`+lbl(x,y+1,NM[i])}
+ svg.innerHTML=g;
+ if(!Q.done)info.innerHTML=`<b class="t">Adakah graf ini pokok?</b><div class="row"><span>Bucu = <b>${Q.n}</b></span><span>Tepi = <b>${Q.E.length}</b></span></div><div class="tip">Pokok: terkait, tiada litar, tepi = bucu − 1. Skor: ${S.score}/${S.tot}</div>`}
+function answer(v,btn){
+ const Q=S.q;if(Q.done)return;Q.done=true;S.tot++;const ok=v===Q.ans;
+ if(ok){S.score++;snd('betul');if(window.FX)FX.stars(btn,10)}else snd('salah');
+ btn.classList.add(ok?'okb':'nob');
+ const why=Q.kind==='ya'?`Terkait, tiada litar dan tepi = ${Q.n} − 1 = ${Q.n-1}. Ini ialah pokok.`:Q.kind==='litar'?`Ada litar: ${Q.E.length} tepi, sedangkan pokok dengan ${Q.n} bucu hanya ada ${Q.n-1} tepi.`:`Tepi = ${Q.n-1}, tetapi graf tidak terkait (ada bahagian terpisah), jadi bukan pokok.`;
+ info.innerHTML=`<b class="t">${ok?'<span class="ok">✓ Betul!</span>':'<span class="no">✗ Kurang tepat</span>'}</b><div class="eq">${why}</div><div class="tip">Skor: ${S.score}/${S.tot}</div><button class="nextb" id="nx">Seterusnya ▶</button>`;
+ document.getElementById('nx').onclick=newQ}
+/* ---------- kawalan ---------- */
+function setCtrl(){
+ if(S.m==='kuiz'){ctrl.innerHTML=`<button class="big span2" id="ya">🌳 Ya, pokok</button><button class="big alt span2" id="tk">✗ Bukan pokok</button>`;
+  document.getElementById('ya').onclick=e=>answer(true,e.currentTarget);document.getElementById('tk').onclick=e=>answer(false,e.currentTarget);return}
+ ctrl.innerHTML=`<button class="big span2" id="nb">Graf baharu</button><button class="big alt span2" id="pl">Pulihkan semua</button>${S.m==='pokok'?'<button class="big alt" id="hint" style="grid-column:1/-1">Tunjuk satu pokok</button>':''}`;
+ document.getElementById('nb').onclick=newG;
+ document.getElementById('pl').onclick=()=>{S.off=new Set();S.voff=new Set();S.done=false;render()};
+ const h=document.getElementById('hint');if(h)h.onclick=()=>{const seen=new Set([0]),q=[0],keep=new Set();while(q.length){const u=q.shift();S.E.forEach(([a,b],i)=>{const o=a===u?b:b===u?a:-1;if(o>=0&&!seen.has(o)){seen.add(o);q.push(o);keep.add(i)}})}S.off=new Set(S.E.map((e,i)=>i).filter(i=>!keep.has(i)));render()};
+}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));S.m=b.dataset.m;
+ if(S.m==='kuiz'){newQ();return}newG()});
+svg.addEventListener('pointerdown',e=>{
+ if(S.m==='kuiz')return;e.preventDefault();
+ const v=e.target.closest('[data-v]'),ed=e.target.closest('[data-e]');
+ if(v&&S.m==='sub'){const i=+v.dataset.v;if(S.voff.has(i))S.voff.delete(i);else if(liveV().length>1)S.voff.add(i);snd('ketik');render();return}
+ if(ed){const i=+ed.dataset.e;if(S.off.has(i))S.off.delete(i);else S.off.add(i);if(S.m==='pokok')S.done=S.done&&false;snd('ketik');render()}
+});
+svg.addEventListener('dragstart',e=>e.preventDefault());
+newG();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

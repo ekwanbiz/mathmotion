@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Rantau Ketaksamaan · Bab 6</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--sf:#131C2E;--sf2:#1A2540;--sf3:#0E1626;--bd:#22304A;--bd2:#2E3F5E;--tx:#E6EDF7;--mu:#94A3B8;--mu2:#64748B;--c1:#38BDF8;--c2:#FBBF24;--c3:#A78BFA;--c4:#F472B6;--ok:#34D399;--bad:#F87171;
+ --surface:#131C2E;--border:#2E3F5E;--text:#E6EDF7;--muted:#94A3B8;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff06 1px,transparent 1px),linear-gradient(90deg,#ffffff06 1px,transparent 1px);background-size:32px 32px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#03202e}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:11px 14px;line-height:1.45;font-size:15px}
+.info b.t{display:block;font-size:17px;color:var(--c1);margin-bottom:2px}
+.info .eq{font-weight:800;font-size:24px;letter-spacing:.01em;color:var(--c2)}
+.info .row{display:flex;flex-wrap:wrap;gap:4px 14px;font-weight:700}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.info .box{margin-top:6px;padding:7px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:700}
+.ctrl{display:flex;flex-direction:column;gap:8px}
+.signs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.chip{background:var(--sf);border:2px solid var(--bd2);border-radius:12px;padding:8px 4px;font-weight:900;font-size:22px;line-height:1}
+.chip.on{background:var(--c2);border-color:var(--c2);color:#2a1f00}
+.chip.ok{border-color:var(--ok);background:#34d39933}.chip.no{border-color:var(--bad);background:#f8717133}
+.sl{display:grid;grid-template-columns:auto 40px minmax(0,1fr) 40px 58px;gap:6px;align-items:center}
+.sl label{font-weight:900;font-size:17px;min-width:22px}
+.sl input[type=range]{width:100%;height:28px;margin:0}
+.sl .v{font-weight:900;font-size:16px;text-align:center;background:var(--sf);border:1px solid var(--bd2);border-radius:10px;padding:5px 2px}
+.pm{background:var(--sf);border:2px solid var(--bd2);border-radius:12px;height:38px;font-weight:900;font-size:20px;padding:0}
+.btns{display:flex;gap:8px}
+.big{flex:1;background:var(--c2);border:0;color:#2a1f00;border-radius:13px;padding:11px 6px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.big.sel{background:var(--c1);color:#03202e;border-color:var(--c1)}
+.hide{display:none!important}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.4fr) minmax(340px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:20px}.info .eq{font-size:30px}
+}
+@media(max-height:760px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.info{padding:8px 11px;font-size:14px}.info .eq{font-size:20px}.info b.t{font-size:15px}.big{padding:8px 4px}.chip{padding:6px 4px;font-size:19px}.sl input[type=range]{height:24px}.pm{height:34px}.sl .v{padding:3px 2px}}
+@media(max-width:420px){.modes button{font-size:13px;padding:10px 3px}.info{font-size:14px}.info .tip{font-size:12px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#38BDF8;color:#03202e;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #38bdf844">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mod">
+   <button data-m="y" class="on" role="tab">📈 y ? mx + c</button>
+   <button data-m="xa" role="tab">↔ x ? a · y ? a</button>
+   <button data-m="cabar" role="tab">🎯 Cabaran</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" aria-label="Satah Cartes dengan rantau ketaksamaan"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl">
+  <div class="signs" id="signs" role="group" aria-label="Simbol ketaksamaan">
+   <button class="chip" data-op="<" aria-label="kurang daripada">&lt;</button><button class="chip" data-op="<=" aria-label="kurang daripada atau sama dengan">≤</button><button class="chip" data-op=">" aria-label="lebih daripada">&gt;</button><button class="chip" data-op=">=" aria-label="lebih daripada atau sama dengan">≥</button>
+  </div>
+  <div class="btns hide" id="vbtns"><button class="big alt" data-v="x">Garis x = a</button><button class="big alt" data-v="y">Garis y = a</button></div>
+  <div class="sl" id="slm"><label style="color:var(--c1)" for="rm">m</label><button class="pm" data-d="m-" aria-label="Kurangkan m">−</button><input type="range" id="rm" min="0" max="10" step="1" aria-label="Kecerunan m"><button class="pm" data-d="m+" aria-label="Tambah m">+</button><span class="v" id="vm" style="color:var(--c1)"></span></div>
+  <div class="sl" id="slc"><label style="color:var(--c3)" for="rc" id="lc">c</label><button class="pm" data-d="c-" aria-label="Kurangkan nilai">−</button><input type="range" id="rc" min="-6" max="6" step="1" aria-label="Pintasan"><button class="pm" data-d="c+" aria-label="Tambah nilai">+</button><span class="v" id="vc" style="color:var(--c3)"></span></div>
+  <div class="btns" id="btns"></div>
+ </div>
+</div>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+const svg=$('svg'),stage=$('stage'),info=$('info'),btns=$('btns');
+const MS=[[-3,1],[-2,1],[-3,2],[-1,1],[-1,2],[0,1],[1,2],[1,1],[3,2],[2,1],[3,1]];
+const R=7,MI='−',OPH={'<':'&lt;','<=':'≤','>':'&gt;','>=':'≥'},FLIP={'<':'>','>':'<','<=':'>=','>=':'<='};
+const N=v=>v<0?MI+(-v):String(v);
+const big=o=>o==='>'||o==='>=',strict=o=>o==='<'||o==='>';
+const fr=m=>m[1]===1?N(m[0]):(m[0]<0?MI:'')+Math.abs(m[0])+'/'+m[1];
+function rhs(m,c){if(m[0]===0)return N(c);const k=m[0]===m[1]?'':m[0]===-m[1]?MI:m[1]===1?fr(m):(m[0]<0?MI:'')+'('+Math.abs(m[0])+'/'+m[1]+')';return k+'x'+(c?(c<0?' '+MI+' ':' + ')+Math.abs(c):'')}
+let mode='y',op='>',mi=9,c=1,vx='x',a=2,P={x:2,y:4},drag=false,G=null,T=null,score=0,tot=0,ans=null;
+const snd=n=>{if(window.FX)FX.play(n)};
+const TX=(x,y,t,col='#E6EDF7',s=14,an='middle',w=800)=>`<text x="${x}" y="${y}" fill="${col}" font-size="${s}" font-weight="${w}" text-anchor="${an}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="#0E1626" stroke-width="4" stroke-linejoin="round">${t}</text>`;
+// ketaksamaan semasa sebagai A x + B y op C
+function cur(){if(mode==='cabar')return T.h;if(mode==='y'){const m=MS[mi];return{A:-m[0],B:m[1],C:c*m[1],op}}return vx==='x'?{A:1,B:0,C:a,op}:{A:0,B:1,C:a,op}}
+function txt(){if(mode==='cabar')return T.t;return mode==='y'?`y ${OPH[op]} ${rhs(MS[mi],c)}`:`${vx} ${OPH[op]} ${N(a)}`}
+function eqTxt(){if(mode==='cabar')return T.eq;return mode==='y'?`y = ${rhs(MS[mi],c)}`:`${vx} = ${N(a)}`}
+const holds=(h,x,y)=>{const v=h.A*x+h.B*y;return h.op==='<'?v<h.C:h.op==='>'?v>h.C:h.op==='<='?v<=h.C:v>=h.C};
+function clip(poly,h){const s=big(h.op)?-1:1,f=p=>(h.A*p[0]+h.B*p[1]-h.C)*s,o=[];for(let i=0;i<poly.length;i++){const p=poly[i],q=poly[(i+1)%poly.length],fp=f(p),fq=f(q);if(fp<=1e-9)o.push(p);if((fp<-1e-9&&fq>1e-9)||(fp>1e-9&&fq<-1e-9)){const t=fp/(fp-fq);o.push([p[0]+t*(q[0]-p[0]),p[1]+t*(q[1]-p[1])])}}return o}
+function side(h){if(h.B===0)return big(h.op)!==(h.A<0)?'di sebelah kanan':'di sebelah kiri';return big(h.op)!==(h.B<0)?'di atas':'di bawah'}
+function frame(){const w=stage.clientWidth||300,h=stage.clientHeight||300;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+ const u=Math.min((w-20)/(2*R+1),(h-20)/(2*R+1)),cx=w/2,cy=h/2;G={u,cx,cy,X:x=>cx+x*u,Y:y=>cy-y*u};
+ let g=`<clipPath id="cl"><rect x="${cx-(R+.5)*u}" y="${cy-(R+.5)*u}" width="${(2*R+1)*u}" height="${(2*R+1)*u}"/></clipPath>`;
+ for(let i=-R;i<=R;i++){g+=`<line x1="${G.X(i)}" y1="${G.Y(-R-.5)}" x2="${G.X(i)}" y2="${G.Y(R+.5)}" stroke="#ffffff12"/><line x1="${G.X(-R-.5)}" y1="${G.Y(i)}" x2="${G.X(R+.5)}" y2="${G.Y(i)}" stroke="#ffffff12"/>`}
+ return g}
+function axes(){const {X,Y,cx,cy,u}=G;let g=`<line x1="${X(-R-.5)}" y1="${cy}" x2="${X(R+.5)}" y2="${cy}" stroke="#94A3B8" stroke-width="2"/><line x1="${cx}" y1="${Y(-R-.5)}" x2="${cx}" y2="${Y(R+.5)}" stroke="#94A3B8" stroke-width="2"/>`;
+ const fs=Math.max(10,Math.min(13,u*.42));
+ for(let i=-R+1;i<R;i++)if(i&&i%2===0)g+=TX(X(i),cy+fs*.95,N(i),'#64748B',fs,'middle',700)+TX(cx-fs*.6,Y(i),N(i),'#64748B',fs,'end',700);
+ return g+TX(X(R+.25),cy-12,'x','#94A3B8',14,'middle',900)+TX(cx+11,Y(R+.2),'y','#94A3B8',14,'middle',900)}
+function region(h,col){const {X,Y}=G,b=R+.5;const p=clip([[-b,-b],[b,-b],[b,b],[-b,b]],h);return p.length>2?`<polygon points="${p.map(q=>X(q[0])+','+Y(q[1])).join(' ')}" fill="${col}" fill-opacity=".26"/>`:''}
+function bline(h,col){const {X,Y}=G,b=R+.5;let p,q;if(h.B===0){const x=h.C/h.A;p=[x,-b];q=[x,b]}else{p=[-b-2,(h.C-h.A*(-b-2))/h.B];q=[b+2,(h.C-h.A*(b+2))/h.B]}
+ return`<line x1="${X(p[0])}" y1="${Y(p[1])}" x2="${X(q[0])}" y2="${Y(q[1])}" stroke="${col}" stroke-width="5" clip-path="url(#cl)"${strict(h.op)?' stroke-dasharray="14 10"':' stroke-linecap="round"'}/>`}
+function draw(){let g=frame();const h=cur();
+ g+=region(h,mode==='cabar'?'#F472B6':'#38BDF8');
+ g+=axes()+bline(h,'#FBBF24');
+ if(mode!=='cabar'){const {X,Y}=G,inR=holds(h,P.x,P.y),col=inR?'#34D399':'#F87171';
+  g+=`<g id="hP" style="cursor:grab"><circle cx="${X(P.x)}" cy="${Y(P.y)}" r="24" fill="transparent"/><circle cx="${X(P.x)}" cy="${Y(P.y)}" r="10" fill="${col}" stroke="#fff" stroke-width="3"/></g>`;
+  g+=TX(X(P.x)+(P.x>4?-14:14),Y(P.y)-16,`P(${N(P.x)}, ${N(P.y)})`,col,14,P.x>4?'end':'start')}
+ svg.innerHTML=g;showInfo()}
+function chk(h){const v=h.A*P.x+h.B*P.y,on=v===h.C,ok=holds(h,P.x,P.y);let s;
+ if(mode==='y'){const m=MS[mi],val=m[0]*P.x/m[1]+c,vs=Number.isInteger(val)?N(val):N(Math.round(val*10)/10);s=`y = ${N(P.y)}, ${rhs(m,c)} = ${vs} → ${N(P.y)} ${OPH[op]} ${vs}`}
+ else s=`${vx} = ${N(vx==='x'?P.x:P.y)} → ${N(vx==='x'?P.x:P.y)} ${OPH[op]} ${N(a)}`;
+ return`<div class="box">Semak P: ${s} <span class="${ok?'ok':'no'}">${ok?'✓ benar':'✗ palsu'}</span><br><span class="${ok?'ok':'no'}">${on?(ok?'P pada garis padu: termasuk dalam rantau.':'P pada garis putus-putus: tidak termasuk.'):(ok?'P dalam rantau berlorek.':'P di luar rantau.')}</span></div>`}
+function showInfo(){const h=cur();
+ $('vm').textContent=fr(MS[mi]);$('rm').value=mi;$('vc').textContent=N(mode==='y'?c:a);$('rc').value=mode==='y'?c:a;$('lc').textContent=mode==='y'?'c':'a';
+ document.querySelectorAll('.chip').forEach(b=>{b.classList.toggle('on',mode!=='cabar'&&b.dataset.op===op);b.classList.toggle('ok',mode==='cabar'&&ans!==null&&b.dataset.op===T.h.op);b.classList.toggle('no',mode==='cabar'&&ans!==null&&ans!==T.h.op&&b.dataset.op===ans)});
+ if(mode!=='cabar'){info.innerHTML=`<b class="t">Ketaksamaan</b><div class="eq">${txt()}</div>
+  <div class="row"><span>Garis: <span style="color:var(--c2)">${strict(op)?'putus-putus':'padu'}</span></span><span>Rantau: <span style="color:var(--c1)">${side(h)} garis</span></span></div>${chk(h)}
+  <div class="tip">${strict(op)?'&lt; atau &gt;: titik pada garis tidak termasuk.':'≤ atau ≥: titik pada garis termasuk.'} Pilih simbol, ubah garis dan seret titik P.</div>`;return}
+ let s=`<b class="t">Simbol manakah?</b><div class="eq">${T.ask}</div><div class="tip" style="margin-top:2px">Lihat jenis garis dan kedudukan rantau berlorek <b style="color:var(--c4)">merah jambu</b>, kemudian pilih simbol.</div><div class="row" style="margin-top:4px"><span style="color:var(--mu)">Skor: ${score}/${tot}</span></div>`;
+ if(ans!==null)s+=ans===T.h.op?`<div class="ok" style="margin-top:4px">Tepat! ${T.t}: ${strict(T.h.op)?'garis putus-putus':'garis padu'}, rantau ${side(T.h)} garis.</div>`:`<div class="no" style="margin-top:4px">Belum tepat. Jawapan: ${T.t} (${strict(T.h.op)?'garis putus-putus':'garis padu'}, rantau ${side(T.h)} garis).</div>`;
+ info.innerHTML=s}
+function newT(){const o=['<','<=','>','>='][Math.floor(Math.random()*4)],k=Math.random();let h,t,eq,ask;
+ if(k<.65){let m,cc;do{m=MS[Math.floor(Math.random()*MS.length)];cc=Math.floor(Math.random()*9)-4}while(m[0]===0&&Math.random()<.6);h={A:-m[0],B:m[1],C:cc*m[1],op:o};t=`y ${OPH[o]} ${rhs(m,cc)}`;eq=`y = ${rhs(m,cc)}`;ask=`y ? ${rhs(m,cc)}`}
+ else{const v=Math.random()<.5?'x':'y',aa=Math.floor(Math.random()*9)-4;h=v==='x'?{A:1,B:0,C:aa,op:o}:{A:0,B:1,C:aa,op:o};t=`${v} ${OPH[o]} ${N(aa)}`;eq=`${v} = ${N(aa)}`;ask=`${v} ? ${N(aa)}`}
+ T={h,t,eq,ask};ans=null;draw()}
+function setUI(){$('slm').classList.toggle('hide',mode!=='y');$('slc').classList.toggle('hide',mode==='cabar');$('vbtns').classList.toggle('hide',mode!=='xa');
+ document.querySelectorAll('[data-v]').forEach(b=>b.classList.toggle('sel',b.dataset.v===vx));
+ if(mode==='cabar'){btns.innerHTML=`<button class="big" id="nx">Soalan baharu ▶</button>`;$('nx').onclick=()=>{if(ans===null)tot++;newT()}}
+ else{btns.innerHTML=`<button class="big alt" id="tg">Tukar arah simbol</button><button class="big" id="rw">Rawak</button>`;
+  $('tg').onclick=()=>{op=FLIP[op];snd('ketik');draw()};
+  $('rw').onclick=()=>{op=['<','<=','>','>='][Math.floor(Math.random()*4)];mi=Math.floor(Math.random()*MS.length);c=Math.floor(Math.random()*9)-4;a=Math.floor(Math.random()*9)-4;snd('ketik');draw()}}}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));mode=b.dataset.m;setUI();if(mode==='cabar')newT();else draw()});
+document.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{if(mode==='cabar'){if(ans!==null)return;ans=b.dataset.op;tot++;if(ans===T.h.op){score++;snd('betul');if(window.FX)FX.stars(b,10)}else snd('salah');draw();return}op=b.dataset.op;draw()});
+document.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>{vx=b.dataset.v;setUI();draw()});
+$('rm').oninput=()=>{mi=+$('rm').value;draw()};$('rc').oninput=()=>{if(mode==='y')c=+$('rc').value;else a=+$('rc').value;draw()};
+document.querySelectorAll('.pm').forEach(b=>b.onclick=()=>{const d=b.dataset.d;if(d==='m-')mi=Math.max(0,mi-1);if(d==='m+')mi=Math.min(MS.length-1,mi+1);
+ if(d==='c-'){if(mode==='y')c=Math.max(-6,c-1);else a=Math.max(-6,a-1)}if(d==='c+'){if(mode==='y')c=Math.min(6,c+1);else a=Math.min(6,a+1)}draw()});
+function pt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;const r=p.matrixTransform(svg.getScreenCTM().inverse());return{x:(r.x-G.cx)/G.u,y:(G.cy-r.y)/G.u}}
+svg.addEventListener('pointerdown',e=>{if(mode==='cabar')return;const q=pt(e);if(!e.target.closest('#hP')){if(Math.abs(q.x)>R+.5||Math.abs(q.y)>R+.5)return}
+ e.preventDefault();drag=true;svg.setPointerCapture(e.pointerId);move(q)});
+function move(q){const x=Math.max(-R,Math.min(R,Math.round(q.x))),y=Math.max(-R,Math.min(R,Math.round(q.y)));if(x!==P.x||y!==P.y){const was=holds(cur(),P.x,P.y);P={x,y};if(holds(cur(),x,y)!==was)snd('langkah');draw()}}
+svg.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();move(pt(e))});
+const end=()=>{drag=false};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+new ResizeObserver(()=>draw()).observe(stage);setUI();draw();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>
