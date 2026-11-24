@@ -75,7 +75,7 @@ function shell(tab, inner) {
   <header class="hdr">
     <a class="ib" href="../#/utama" aria-label="Kembali ke MATHMOTION (semua bab)">${IC.mm}</a>
     <a class="wm" href="#/">ISO<span>MOVE</span></a>
-    <nav class="tabs" aria-label="Tab utama">${TABS.map(([k, t, sh]) => `<a href="#/${k}"${k === tab ? ' aria-current="page"' : ''}>${IC[k]}${sh ? `<span class="tl">${t}</span><span class="ts">${sh}</span>` : `<span>${t}</span>`}</a>`).join('')}</nav>
+    <nav class="tabs" aria-label="Tab utama">${TABS.map(([k, t, sh]) => `<a href="#/${k}"${k === 'ajar' ? ' class="hl"' : ''}${k === tab ? ' aria-current="page"' : ''}>${IC[k]}${sh ? `<span class="tl">${t}</span><span class="ts">${sh}</span>` : `<span>${t}</span>`}</a>`).join('')}</nav>
     <div class="end">
       <button type="button" class="ib" id="themeBtn" aria-label="${light ? 'Tukar ke mod gelap' : 'Tukar ke mod cerah'}">${light ? IC.moon : IC.sun}</button>
       ${fsOk ? `<button type="button" class="ib fsbtn" id="fsBtn" aria-label="Skrin penuh">${IC.fs}</button>` : ''}

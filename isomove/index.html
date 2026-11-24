@@ -252,6 +252,9 @@ g.rv.hid{visibility:hidden}
 /* ---------- Telefon / skrin kecil ---------- */
 /* ---------- MULA MENGAJAR: susun ---------- */
 .tabs .ts{display:none}
+.tabs a.hl{color:var(--tr);background:color-mix(in srgb,var(--tr) 13%,transparent);box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--tr) 60%,transparent);font-weight:800}
+.tabs a.hl:hover{background:color-mix(in srgb,var(--tr) 20%,transparent);color:var(--tr)}
+.tabs a.hl[aria-current="page"]{color:var(--on);background:var(--tr);box-shadow:0 0 0 3px color-mix(in srgb,var(--tr) 30%,transparent),0 6px 18px color-mix(in srgb,var(--tr) 35%,transparent)}
 .ajwrap{flex:1;min-height:0;display:flex;flex-direction:column;gap:14px;padding:16px 24px 20px;width:100%;max-width:1600px;margin:0 auto}
 .ajtop{display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap}
 .ajplan{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:800;letter-spacing:.1em;color:var(--mu)}
@@ -379,6 +382,7 @@ g.rv.hid{visibility:hidden}
 .ajp{position:relative}
 @media (max-width:900px){
  .tabs .tl{display:none}.tabs .ts{display:inline}
+ .tabs a.hl,.tabs a.hl[aria-current="page"]{color:var(--tr);background:color-mix(in srgb,var(--tr) 16%,transparent);box-shadow:inset 0 0 0 2px var(--tr)}
  .ajwrap{padding:12px 12px 16px}
  .ajwrap{flex:none}
  .ajgrid{flex:none;grid-template-columns:minmax(0,1fr);gap:12px}
