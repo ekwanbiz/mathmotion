@@ -75,7 +75,7 @@ function itemName(it) {
   if (it.t === 'slaid') { const s = slideOf(it); return s ? `${s.sub} · ${strip(s.title)}` : 'Slaid'; }
   if (it.t === 'sim') return 'Simulasi ' + (SIMNAME[it.k] || '');
   if (it.t === 'lat') { const subs = [...new Set(it.ids.map(id => id.split('-')[0]))].join(', '); return `Latihan ${subs} · ${it.ids.length} soalan`; }
-  if (it.t === 'game') return 'Cabaran 60 Saat';
+  if (it.t === 'game') return GMODES[it.g || '60'][0];
   if (it.t === 'cikgu') return `${TPL[it.tpl][0]}: ${strip(it.title || it.q) || 'Tanpa tajuk'}`;
   return '';
 }
@@ -118,7 +118,7 @@ function viewSusun() {
   const d = ajData(), pl = ajPlan();
   if (AJS.sel >= pl.items.length) AJS.sel = pl.items.length - 1;
   const opts = d.plans.map(p => `<option value="${p.id}"${p.id === d.cur ? ' selected' : ''}>${esc(p.name)}</option>`).join('');
-  const cats = [['slaid', 'Slaid nota', `${SLIDES.length} slaid · 6 subtopik`], ['sim', 'Simulasi', 'Translasi · Pantulan · Putaran'], ['lat', 'Latihan', 'Pilih soalan dari bank'], ['game', 'Game', 'Cabaran 60 Saat'], ['cikgu', 'Slaid baharu', '4 templat']];
+  const cats = [['slaid', 'Slaid nota', `${SLIDES.length} slaid · 6 subtopik`], ['sim', 'Simulasi', 'Translasi · Pantulan · Putaran'], ['lat', 'Latihan', 'Pilih soalan dari bank'], ['game', 'Game', '4 pilihan game'], ['cikgu', 'Slaid baharu', '4 templat']];
   const catBtns = cats.map(([k, t, s]) => `<button type="button" class="ajcat${AJS.cat === k ? ' on' : ''}" data-cat="${k}" style="--c:var(--${AJT[k][1]})"><span class="ab">${k === 'cikgu' ? '+' : AJT[k][0].slice(0, 2)}</span><span><b>${t}</b><small>${s}</small></span></button>`).join('');
   let lib = '';
   if (AJS.cat === 'slaid') {
@@ -130,7 +130,7 @@ function viewSusun() {
   } else if (AJS.cat === 'lat') {
     lib = `<p class="ajhint">Pilih soalan tetap daripada bank 180 soalan. Soalan keluar ikut susunan anda.</p><button type="button" class="btn sec" data-newlat="1" style="min-height:48px">${ajIcon.plus} Pilih soalan</button>`;
   } else if (AJS.cat === 'game') {
-    lib = `<p class="ajhint">Murid jawab seberapa banyak soalan dalam 60 saat.</p><button type="button" class="ajadd" data-addgame="1"><span>Cabaran 60 Saat</span>${ajIcon.plus}</button>`;
+    lib = Object.keys(GMODES).map(g => `<button type="button" class="ajadd tpl" data-addgame="${g}"><span><b>${GMODES[g][0]}</b><small>${GMODES[g][1][0] + GMODES[g][1].slice(1).toLowerCase()}</small></span>${ajIcon.plus}</button>`).join('');
   } else {
     lib = Object.keys(TPL).map(k => `<button type="button" class="ajadd tpl" data-newcikgu="${k}"><span><b>${TPL[k][0]}</b><small>${TPL[k][1]}</small></span>${ajIcon.plus}</button>`).join('');
   }
@@ -164,7 +164,7 @@ function viewPratonton(pl) {
   let body = '';
   if (it.t === 'slaid' || it.t === 'cikgu') body = `<div class="ajpv" style="--c:${subColVar(it)}"><div class="ajpv-in"><div class="stage">${itemSlideHTML(it)}</div></div></div>`;
   else if (it.t === 'sim') body = `<div class="ajinfo"><b>Simulasi ${SIMNAME[it.k]}</b><span>Simulasi asal ISOMOVE dipaparkan skrin penuh. Guna tetikus untuk gerakkan objek, kemudian tekan ▶ untuk item seterusnya.</span></div>`;
-  else if (it.t === 'game') body = `<div class="ajinfo"><b>Cabaran 60 Saat</b><span>3 nyawa, combo sehingga ×5, soalan pilih jawapan dan ketik pada grid.</span></div>`;
+  else if (it.t === 'game') body = `<div class="ajinfo"><b>${GMODES[it.g || '60'][0]}</b><span>${GMODES[it.g || '60'][2]}</span></div>`;
   else if (it.t === 'lat') {
     const B = bankById();
     body = `<div class="ajinfo"><b>${esc(itemName(it))}</b><span>${it.work ? 'Jawapan dan jalan kerja' : 'Jawapan sahaja'} ditunjuk apabila tekan ▶.</span>
@@ -250,6 +250,7 @@ function validItem(it) {
   if (it.t === 'sim') return !!SIMNAME[it.k];
   if (it.t === 'lat') return Array.isArray(it.ids);
   if (it.t === 'cikgu') return !!TPL[it.tpl];
+  if (it.t === 'game') return !it.g || !!GMODES[it.g];
   return true;
 }
 function bindSusun() {
@@ -287,7 +288,7 @@ function bindSusun() {
     const at = pl.items.length ? AJS.sel + 1 : 0; pl.items.splice(at, 0, ...add); AJS.sel = at + add.length - 1; ajSave(); render(true); toast(`${add.length} slaid ditambah`);
   });
   main.querySelectorAll('[data-addsim]').forEach(b => b.onclick = () => ajAdd({ t: 'sim', k: b.dataset.addsim }));
-  main.querySelectorAll('[data-addgame]').forEach(b => b.onclick = () => ajAdd({ t: 'game' }));
+  main.querySelectorAll('[data-addgame]').forEach(b => b.onclick = () => ajAdd(b.dataset.addgame === '60' ? { t: 'game' } : { t: 'game', g: b.dataset.addgame }));
   main.querySelectorAll('[data-newlat]').forEach(b => b.onclick = () => { AJS.modal = { type: 'lat', ids: [], work: true, sub: AJS.sub, lvl: 'all', edit: null }; render(true); });
   main.querySelectorAll('[data-newcikgu]').forEach(b => b.onclick = () => { AJS.modal = { type: 'cikgu', it: { t: 'cikgu', tpl: b.dataset.newcikgu, bg: 'grid' }, edit: null }; render(true); });
   main.querySelectorAll('[data-pick]').forEach(b => b.onclick = () => { AJS.sel = +b.dataset.pick; render(true); });
@@ -381,6 +382,8 @@ function ajGo(i, back) {
   AJ.qi = back && it.t === 'lat' ? Math.max(0, it.ids.length - 1) : 0;
   AJ.show = !!(back && it.t === 'lat');
   if (it.t === 'game' && typeof G !== 'undefined') { clearInterval(G.timer); G.st = 'intro'; }
+  if (it.t === 'game' && it.g === 'kumpulan') { clearInterval(K.timer); K.st = 'setup'; }
+  if (it.t === 'game' && it.g === 'siapa') Object.assign(S, { q: null, shown: false, right: 0, done: 0, end: false });
   render(false);
 }
 function ajSteps() { const st = document.getElementById('stage'); return st ? [...st.querySelectorAll('.rv')] : []; }
@@ -431,7 +434,7 @@ function viewTayang() {
   if (it.t === 'slaid' || it.t === 'cikgu') content = `<div class="stage" id="stage" style="--c:${subColVar(it)}">${itemSlideHTML(it)}</div>`;
   else if (it.t === 'sim') content = `<div class="tero"><iframe class="simframe" src="simulasi/${it.k}.html" title="Simulasi ${SIMNAME[it.k]}"></iframe></div>`;
   else if (it.t === 'lat') content = viewLatItem(it);
-  else if (it.t === 'game') { let g = viewGames(); if (ajShared()) g = g.replace(/<a [^>]*href="#\/[^"]*"[^>]*>[^<]*<\/a>/g, ''); content = `<div class="main" id="main">${g}</div>`; }
+  else if (it.t === 'game') { let g = viewGameMode(it.g || '60'); g = g.replace(/<a [^>]*href="#\/games[^"]*"[^>]*>[\s\S]*?<\/a>/g, ''); if (ajShared()) g = g.replace(/<a [^>]*href="#\/[^"]*"[^>]*>[^<]*<\/a>/g, ''); content = `<div class="main" id="main">${g}</div>`; }
   const dots = pl.items.map((x, k) => `<button type="button" class="ajdot${k === AJ.i ? ' on' : ''}" data-jump="${k}" style="--c:var(--${AJT[x.t][1]});opacity:${k <= AJ.i ? 1 : .4}" aria-label="Item ${k + 1}: ${esc(itemName(x))}"></button>`).join('');
   const cols = [['rd', 'Merah'], ['am', 'Kuning'], ['tx', isLight() ? 'Hitam' : 'Putih']];
   const tools = `<div class="ajpen" role="toolbar" aria-label="Pen conteng">
@@ -476,7 +479,7 @@ function bindTayang() {
   document.querySelectorAll('[data-tool]').forEach(b => b.onclick = () => { AJ.tool = AJ.tool === b.dataset.tool ? null : b.dataset.tool; inkTools(); });
   document.querySelectorAll('[data-col]').forEach(b => b.onclick = () => { AJ.col = b.dataset.col; if (!AJ.tool || AJ.tool === 'er') AJ.tool = 'pen'; inkTools(); });
   document.getElementById('ajClr').onclick = () => { AJ.ink[AJ.i] = []; inkDraw(); };
-  if (it.t === 'game') bindGames();
+  if (it.t === 'game') bindGameMode(it.g || '60');
   const st = document.getElementById('stage');
   if (st) {
     let x0 = null, y0 = 0;

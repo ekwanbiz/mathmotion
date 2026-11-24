@@ -706,7 +706,7 @@ function gStart() {
   G.q = gq(0); G.end = Date.now() + 60000; clearInterval(G.timer); G.timer = setInterval(gTick, 200); render(true);
 }
 function gTick() {
-  if (!location.hash.startsWith('#/games') && !(ajIsPlay() && ajCur() && ajCur().t === 'game')) { clearInterval(G.timer); G.st = 'intro'; return; }
+  if (!gActive('60')) { clearInterval(G.timer); G.st = 'intro'; return; }
   if (G.pausedAt) return;
   const left = G.end - Date.now();
   if (left <= 0) return gOver();
@@ -782,7 +782,8 @@ function render(keepScroll) {
   else if (tab === 'latihan' && p[1] === 'lembaran') { inner = viewLembaran(); bind = bindLembaran; document.title = 'Lembaran Kerja · ISOMOVE'; }
   else if (tab === 'latihan' && p[1] === 'main') { inner = viewLatMain(); bind = bindLatMain; document.title = 'Latihan · ISOMOVE'; }
   else if (tab === 'latihan') { inner = viewLatihan(); bind = bindLatihan; document.title = 'Latihan · ISOMOVE'; }
-  else if (tab === 'games') { inner = viewGames(); bind = bindGames; document.title = 'Games · ISOMOVE'; }
+  else if (tab === 'games' && GMODES[p[1]]) { const md = p[1]; inner = viewGameMode(md); bind = () => bindGameMode(md); document.title = GMODES[md][0] + ' · ISOMOVE'; }
+  else if (tab === 'games') { inner = viewGamePilih(); document.title = 'Games · ISOMOVE'; }
   else { location.replace('#/nota'); return; }
   if (!inner) return;
   app.innerHTML = shell(tab, inner);
