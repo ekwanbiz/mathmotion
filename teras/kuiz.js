@@ -45,7 +45,7 @@
   let DR = lsGet(DKEY); if (!DR || !Array.isArray(DR.q)) DR = defDraft();
   const saveDR = () => lsSet(DKEY, DR);
   const KG = { t: Object.keys(CQT)[0], L: 0, link: '' };
-  const quizCode = Q => b64e(JSON.stringify({ v: 1, b: BAB.id, t: Q.t, p: Q.p, r: Q.r ? 1 : 0, q: Q.q }));
+  const quizCode = Q => b64e(JSON.stringify({ v: 1, b: BAB.id, t: Q.t, p: Q.p, r: 1, q: Q.q }));
 
   /* ---------- gaya ---------- */
   const css = `.kzrow{display:flex;align-items:center;gap:8px;padding:9px 10px;border:1px solid var(--bd);border-radius:14px;background:var(--surf)}
@@ -87,8 +87,6 @@
       <section class="pbox" style="display:flex;flex-direction:column;gap:12px">
         <div><p class="kzlbl">TAJUK KUIZ</p><input class="kzin" id="kzT" maxlength="60" value="${escH(DR.t)}"></div>
         <div class="kzsw"><span>Markah lulus</span><span style="display:flex;align-items:center;gap:8px"><button type="button" class="ib" id="kzPm" aria-label="Kurang">−</button><b style="font-size:20px;min-width:70px;text-align:center">${Math.min(DR.p, n)} / ${n}</b><button type="button" class="ib" id="kzPp" aria-label="Tambah">+</button></span></div>
-        <div class="kzsw"><span>Susunan soalan rawak</span><button type="button" class="opt" id="kzR" aria-pressed="${!!DR.r}" style="min-height:40px;padding:0 16px">${DR.r ? 'Ya' : 'Tidak'}</button></div>
-        <p style="margin:0;color:var(--mu);font-size:14px">Murid boleh cuba berulang kali. Setiap jawapan ditanda Betul atau Salah, tetapi jawapan betul tidak ditunjuk.</p>
       </section>
       <section class="pbox" style="display:flex;flex-direction:column;gap:10px"><h3 style="margin:0">SOALAN (${n})</h3>
         <div class="kzlist">${rows || '<p class="lead">Belum ada soalan. Tambah di bawah.</p>'}</div>
@@ -111,7 +109,6 @@
     T.onchange = re;
     document.getElementById('kzPm').onclick = () => { DR.p = Math.max(1, Math.min(DR.p, DR.q.length) - 1); saveDR(); KG.link = ''; re(); };
     document.getElementById('kzPp').onclick = () => { DR.p = Math.min(DR.q.length, DR.p + 1); saveDR(); KG.link = ''; re(); };
-    document.getElementById('kzR').onclick = () => { DR.r = DR.r ? 0 : 1; saveDR(); KG.link = ''; re(); };
     const mv = (i, j) => { [DR.q[i], DR.q[j]] = [DR.q[j], DR.q[i]]; saveDR(); KG.link = ''; re(); };
     main.querySelectorAll('[data-up]').forEach(b => b.onclick = () => { const i = +b.dataset.up; if (i > 0) mv(i, i - 1); });
     main.querySelectorAll('[data-dn]').forEach(b => b.onclick = () => { const i = +b.dataset.dn; if (i < DR.q.length - 1) mv(i, i + 1); });
@@ -176,7 +173,7 @@
   }
   function startAttempt() {
     const s = KM.st, n = KM.qs.length; s.att++; s.i = 0; s.ans = []; s.fb = null;
-    if (!s.ord) { s.ord = [...Array(n).keys()]; if (KM.Q.r) s.ord = shuffle(s.ord); }
+    if (!s.ord) s.ord = shuffle([...Array(n).keys()]);
     s.order = s.ord.slice();
     s.stage = 'jawab'; saveM();
   }
