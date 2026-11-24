@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Padankan Model · Bab 8</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--sf:#131C2E;--sf3:#0E1626;--bd:#22304A;--tx:#E6EDF7;--mu:#94A3B8;--grid:#1E2A40;--c1:#FB923C;--c2:#F472B6;--c3:#FBBF24;--ok:#34D399;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg)}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
+.wrap{flex:1;min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:10px;padding:10px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:center;justify-content:space-between}
+.top h1{margin:0;font-size:19px;color:var(--c1)}
+.main{min-height:0;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(260px,1fr);gap:10px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;display:flex}
+.stage svg{width:100%;height:100%;display:block;touch-action:none;user-select:none}
+.side{min-height:0;display:flex;flex-direction:column;gap:10px}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:12px 14px;font-size:15px;line-height:1.5}
+.card b.t{display:block;font-size:17px;color:var(--c1);margin-bottom:4px}
+.big{font-size:24px;font-weight:800;letter-spacing:.3px}
+label{display:block;font-weight:700;font-size:15px;margin:6px 0 2px}
+input[type=range]{width:100%;height:34px;accent-color:var(--c1)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips button{border:1px solid var(--bd);background:var(--sf3);border-radius:12px;padding:8px 12px;font-weight:800;font-size:15px;min-height:40px}
+.chips button.on{background:var(--c1);color:#0B1220;border-color:var(--c1)}
+@media (max-width:760px){.main{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto}.card{padding:9px 12px;font-size:14px}.big{font-size:19px}.top h1{font-size:16px}label{margin:2px 0 0}input[type=range]{height:28px}}
+</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(12px + env(safe-area-inset-top)) 12px 0;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#FB923C;color:#0B1220;border-radius:14px;padding:10px 20px;font:900 16px Inter,system-ui,sans-serif;text-decoration:none">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+<div class="top"><h1>Padankan Model</h1><span id="sndslot" style="display:flex"></span></div>
+<div class="main">
+<div class="stage"><svg id="sv" viewBox="0 0 600 420" aria-label="Graf data dan model"></svg></div>
+<div class="side">
+<div class="card"><b class="t">Data</b><div class="chips" id="ds"></div><b class="t" style="margin-top:6px">Model</b><div class="chips" id="ms"></div></div>
+<div class="card" id="sl"></div>
+<div class="card"><div class="big" id="eq"></div><div id="er"></div><div id="tip" style="color:var(--mu)"></div></div>
+</div></div></div>
+<script>const $=id=>document.getElementById(id);const snd=n=>{if(window.FX)FX.play&&FX.play(n)};
+const nf=v=>{const r=Math.round(v*100)/100;const s=(Object.is(r,-0)?0:r).toString();return s.replace(/\B(?=(\d{3})+(?!\d))/g,' ')};
+const T=(x,y,t,c,s=16,a='middle')=>`<text x="${x}" y="${y}" fill="${c}" font-size="${s}" font-weight="700" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,sans-serif">${t}</text>`;
+const L=(x1,y1,x2,y2,c,w=2,d='')=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${c}" stroke-width="${w}" ${d?`stroke-dasharray="${d}"`:''} stroke-linecap="round"/>`;
+
+const DATA=[['Sewa dewan',[0,1,2,3,4,5],[20,32,44,56,68,80]],['Lontaran',[0,1,2,3,4,5],[0,35,60,75,80,75]],['Bakteria',[0,1,2,3,4,5],[3,6,12,24,48,96]]];
+const MOD={lin:{n:'Linear',p:[['m',-10,30,1,10],['c',0,60,1,10]],f:(x,p)=>p.m*x+p.c,s:p=>`y = ${nf(p.m)}x + ${nf(p.c)}`},
+ kua:{n:'Kuadratik',p:[['a',-10,10,1,1],['b',-10,50,1,5],['c',0,40,1,0]],f:(x,p)=>p.a*x*x+p.b*x+p.c,s:p=>`y = ${nf(p.a)}x² + ${nf(p.b)}x + ${nf(p.c)}`},
+ eks:{n:'Eksponen',p:[['a',1,20,1,5],['b',1,3,0.5,1.5]],f:(x,p)=>p.a*p.b**x,s:p=>`y = ${nf(p.a)}(${nf(p.b)}ˣ)`}};
+const S={d:0,m:'lin',P:{}};
+function reset(){S.P={};MOD[S.m].p.forEach(q=>S.P[q[0]]=q[4]);
+ $('sl').innerHTML=MOD[S.m].p.map(q=>`<label for="k${q[0]}">${q[0]} = <span id="v${q[0]}">${nf(S.P[q[0]])}</span></label><input id="k${q[0]}" type="range" min="${q[1]}" max="${q[2]}" step="${q[3]}" value="${q[4]}">`).join('');
+ MOD[S.m].p.forEach(q=>{$('k'+q[0]).oninput=e=>{S.P[q[0]]=+e.target.value;$('v'+q[0]).textContent=nf(S.P[q[0]]);draw()}})}
+$('ds').innerHTML=DATA.map((d,i)=>`<button data-i="${i}">${d[0]}</button>`).join('');
+$('ms').innerHTML=Object.keys(MOD).map(k=>`<button data-m="${k}">${MOD[k].n}</button>`).join('');
+$('ds').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.d=+b.dataset.i;snd('ketik');draw()};
+$('ms').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.m=b.dataset.m;reset();snd('ketik');draw()};
+const sv=$('sv'),X0=60,Y0=370,GW=500,GH=320,XM=5,YM=100;
+const px=x=>X0+x/XM*GW,py=y=>Y0-y/YM*GH;
+function draw(){const D=DATA[S.d],M=MOD[S.m];
+ document.querySelectorAll('#ds button').forEach(b=>b.classList.toggle('on',+b.dataset.i===S.d));
+ document.querySelectorAll('#ms button').forEach(b=>b.classList.toggle('on',b.dataset.m===S.m));
+ let s='';for(let i=0;i<=5;i++)s+=L(px(i),Y0,px(i),Y0-GH,'#1E2A40',1)+T(px(i),Y0+16,i,'#94A3B8',13);
+ for(let j=0;j<=5;j++)s+=L(X0,py(j*20),X0+GW,py(j*20),'#1E2A40',1)+T(X0-8,py(j*20),j*20,'#94A3B8',13,'end');
+ s+=L(X0,Y0,X0+GW+10,Y0,'#94A3B8',3)+L(X0,Y0+5,X0,Y0-GH-15,'#94A3B8',3)+T(X0+GW,Y0+34,'x','#94A3B8',16,'end')+T(X0,Y0-GH-26,'y','#94A3B8',16);
+ let d='',first=true;for(let i=0;i<=100;i++){const x=XM*i/100,y=M.f(x,S.P);if(y<-5||y>YM*1.1){first=true;continue}d+=(first?'M':'L')+px(x).toFixed(1)+' '+py(y).toFixed(1);first=false}
+ s+=`<path d="${d}" fill="none" stroke="#FB923C" stroke-width="5" stroke-linecap="round"/>`;
+ let E=0;D[1].forEach((x,i)=>{const y=D[2][i],m=M.f(x,S.P);E+=Math.abs(y-m);const my=Math.max(-5,Math.min(YM*1.1,m));
+  s+=L(px(x),py(y),px(x),py(my),'#F87171',2,'5 4')+`<circle cx="${px(x)}" cy="${py(y)}" r="9" fill="#38BDF8" stroke="#0B1220" stroke-width="3"/>`});
+ s+=T(300,20,'Titik biru = data · garis oren = model · garis merah = ralat','#94A3B8',13);
+ sv.innerHTML=s;const avg=E/D[1].length;
+ $('eq').textContent=M.s(S.P);
+ $('er').innerHTML=`Purata ralat = <b style="color:${avg<=1?'#34D399':avg<=6?'#FBBF24':'#F87171'}">${nf(avg)}</b> → ${avg<=1?'<b style="color:#34D399">Padanan sangat baik!</b>':avg<=6?'Hampir – laraskan lagi.':'Belum sepadan.'}`;
+ $('tip').textContent=avg<=1?'Tentusahkan: model ini boleh digunakan untuk meramal.':'Petua: semak beza pertama (linear), beza kedua (kuadratik) atau nisbah (eksponen).';
+ if(avg<=1&&!S.ok){snd('betul');S.ok=1}if(avg>1)S.ok=0}
+reset();draw();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+</body></html>
