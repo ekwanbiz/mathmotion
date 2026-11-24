@@ -67,7 +67,7 @@ const subCol = no => themed(subOf(no).col, isLight());
 
 /* =================== Kerangka =================== */
 const app = document.getElementById('app');
-const TABS = [['nota', 'NOTA'], ['teroka', 'TEROKA'], ['latihan', 'LATIHAN'], ['games', 'GAMES']];
+const TABS = [['ajar', 'MULA MENGAJAR', 'MENGAJAR'], ['nota', 'NOTA'], ['teroka', 'TEROKA'], ['latihan', 'LATIHAN'], ['games', 'GAMES']];
 function shell(tab, inner) {
   const light = isLight();
   const fsOk = document.fullscreenEnabled;
@@ -75,7 +75,7 @@ function shell(tab, inner) {
   <header class="hdr">
     <a class="ib" href="../#/utama" aria-label="Kembali ke MATHMOTION (semua bab)">${IC.mm}</a>
     <a class="wm" href="#/">ISO<span>MOVE</span></a>
-    <nav class="tabs" aria-label="Tab utama">${TABS.map(([k, t]) => `<a href="#/${k}"${k === tab ? ' aria-current="page"' : ''}>${IC[k]}<span>${t}</span></a>`).join('')}</nav>
+    <nav class="tabs" aria-label="Tab utama">${TABS.map(([k, t, sh]) => `<a href="#/${k}"${k === tab ? ' aria-current="page"' : ''}>${IC[k]}${sh ? `<span class="tl">${t}</span><span class="ts">${sh}</span>` : `<span>${t}</span>`}</a>`).join('')}</nav>
     <div class="end">
       <button type="button" class="ib" id="themeBtn" aria-label="${light ? 'Tukar ke mod gelap' : 'Tukar ke mod cerah'}">${light ? IC.moon : IC.sun}</button>
       ${fsOk ? `<button type="button" class="ib fsbtn" id="fsBtn" aria-label="Skrin penuh">${IC.fs}</button>` : ''}
@@ -104,7 +104,7 @@ function viewSplash() {
     <h1>ISO<span>MOVE</span></h1>
     <p class="slogan"><span style="color:var(--tr)">Gerak.</span> <span style="color:var(--pa)">Pantul.</span> <span style="color:var(--pu)">Putar!</span></p>
     <p class="sub">Bab 11 : Transformasi Isometri</p>
-    <a class="btn pri big" href="#/nota">Jom Mula! ${IC.arrow}</a>
+    <a class="btn pri big" href="#/ajar">Jom Mula! ${IC.arrow}</a>
   </main>`;
 }
 
@@ -706,7 +706,7 @@ function gStart() {
   G.q = gq(0); G.end = Date.now() + 60000; clearInterval(G.timer); G.timer = setInterval(gTick, 200); render(true);
 }
 function gTick() {
-  if (!location.hash.startsWith('#/games')) { clearInterval(G.timer); G.st = 'intro'; return; }
+  if (!location.hash.startsWith('#/games') && !(location.hash.startsWith('#/ajar/tayang') && ajCur() && ajCur().t === 'game')) { clearInterval(G.timer); G.st = 'intro'; return; }
   if (G.pausedAt) return;
   const left = G.end - Date.now();
   if (left <= 0) return gOver();
@@ -772,7 +772,9 @@ function render(keepScroll) {
   if (!p.length) { app.innerHTML = viewSplash(); document.title = 'ISOMOVE – Transformasi Isometri'; return; }
   const tab = p[0];
   let inner = '', bind = () => {};
-  if (tab === 'nota' && p[1]) { inner = viewSlide(p[1], +p[2] || 1); bind = bindSlide; document.title = `${p[1]} Nota · ISOMOVE`; }
+  if (tab === 'ajar' && p[1] === 'tayang') { const v = viewTayang(); if (!v) return; app.innerHTML = v; document.title = 'Mengajar · ISOMOVE'; bindTayang(); return; }
+  if (tab === 'ajar') { inner = viewSusun(); bind = bindSusun; document.title = 'Mula Mengajar · ISOMOVE'; }
+  else if (tab === 'nota' && p[1]) { inner = viewSlide(p[1], +p[2] || 1); bind = bindSlide; document.title = `${p[1]} Nota · ISOMOVE`; }
   else if (tab === 'nota') { inner = viewNotaList(); bind = bindNotaList; document.title = 'Nota · ISOMOVE'; }
   else if (tab === 'teroka') { inner = viewTeroka(p[1]); bind = bindTeroka; document.title = 'Teroka · ISOMOVE'; }
   else if (tab === 'latihan' && p[1] === 'lembaran') { inner = viewLembaran(); bind = bindLembaran; document.title = 'Lembaran Kerja · ISOMOVE'; }
@@ -786,5 +788,5 @@ function render(keepScroll) {
   if (keepScroll) { const m = document.getElementById('main'); if (m) m.scrollTop = sc; }
 }
 window.addEventListener('hashchange', () => { render(false); });
-setMeta(); render(false);
+window.addEventListener('DOMContentLoaded', () => { setMeta(); render(false); });
 if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('../sw.js', { scope: '../' }).catch(() => {}));
