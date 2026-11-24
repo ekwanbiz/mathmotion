@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Ubahan Langsung · Bab 1</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--sf:#131C2E;--sf3:#0E1626;--bd:#22304A;--tx:#E6EDF7;--mu:#94A3B8;--grid:#1E2A40;--c1:#38BDF8;--c2:#F472B6;--c3:#FBBF24;--ok:#34D399;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg)}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
+.wrap{flex:1;min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:10px;padding:10px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:center;justify-content:space-between}
+.top h1{margin:0;font-size:19px;color:var(--c1)}
+.main{min-height:0;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(260px,1fr);gap:10px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;display:flex}
+.stage svg{width:100%;height:100%;display:block;touch-action:none;user-select:none}
+.side{min-height:0;display:flex;flex-direction:column;gap:10px}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:12px 14px;font-size:15px;line-height:1.5}
+.card b.t{display:block;font-size:17px;color:var(--c1);margin-bottom:4px}
+.big{font-size:24px;font-weight:800;letter-spacing:.3px}
+label{display:block;font-weight:700;font-size:15px;margin:6px 0 2px}
+input[type=range]{width:100%;height:34px;accent-color:var(--c1)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips button{border:1px solid var(--bd);background:var(--sf3);border-radius:12px;padding:8px 12px;font-weight:800;font-size:15px;min-height:40px}
+.chips button.on{background:var(--c1);color:#0B1220;border-color:var(--c1)}
+@media (max-width:760px){.main{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto}.card{padding:9px 12px;font-size:14px}.big{font-size:19px}.top h1{font-size:16px}label{margin:2px 0 0}input[type=range]{height:28px}}
+</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(12px + env(safe-area-inset-top)) 12px 0;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#38BDF8;color:#0B1220;border-radius:14px;padding:10px 20px;font:900 16px Inter,system-ui,sans-serif;text-decoration:none">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+<div class="top"><h1>Ubahan Langsung</h1><span id="sndslot" style="display:flex"></span></div>
+<div class="main">
+<div class="stage"><svg id="sv" viewBox="0 0 600 420" aria-label="Graf ubahan langsung"></svg></div>
+<div class="side">
+<div class="card"><b class="t">Pilih kuasa n</b><div class="chips" id="ns"></div>
+<label for="k">Pemalar k = <span id="kv"></span></label><input id="k" type="range" min="1" max="5" step="0.5" value="2"></div>
+<div class="card"><div class="big" id="eq"></div><div id="val"></div><div id="tip" style="color:var(--mu)"></div></div>
+</div></div></div>
+<script>const $=id=>document.getElementById(id);const snd=n=>{if(window.FX)FX.play&&FX.play(n)};
+const nf=v=>{const r=Math.round(v*100)/100;return (Object.is(r,-0)?0:r).toLocaleString('ms-MY',{maximumFractionDigits:2})};
+const T=(x,y,t,c,s=16,a='middle')=>`<text x="${x}" y="${y}" fill="${c}" font-size="${s}" font-weight="700" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,sans-serif">${t}</text>`;
+const L=(x1,y1,x2,y2,c,w=2,d='')=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${c}" stroke-width="${w}" ${d?`stroke-dasharray="${d}"`:''} stroke-linecap="round"/>`;
+function svgPt(svg,e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+function drag(svg,onMove){let on=false;svg.addEventListener('pointerdown',e=>{on=true;svg.setPointerCapture(e.pointerId);onMove(svgPt(svg,e))});svg.addEventListener('pointermove',e=>{if(on)onMove(svgPt(svg,e))});const off=()=>{if(on){on=false;snd('ketik')}};svg.addEventListener('pointerup',off);svg.addEventListener('pointercancel',off)}
+
+const NS=[['1','x',x=>x],['2','x²',x=>x*x],['3','x³',x=>x**3],['½','√x',x=>Math.sqrt(x)]];
+const S={n:1,k:2,x:2,mode:0};const XM=4;
+$('ns').innerHTML=NS.map((a,i)=>`<button data-i="${i}">n = ${a[0]}</button>`).join('')+`<button id="md">Paksi-x: x</button>`;
+$('ns').onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.id==='md')S.mode^=1;else S.n=+b.dataset.i;snd('ketik');draw()};
+$('k').oninput=e=>{S.k=+e.target.value;draw()};
+const sv=$('sv');const X0=60,Y0=370,GW=500,GH=320;
+drag(sv,p=>{S.x=Math.max(0,Math.min(XM,((p.x-X0)/GW)*XM));S.x=Math.round(S.x*10)/10;draw()});
+function draw(){const [nl,ns,f]=NS[S.n],k=S.k,fmax=f(XM),ymax=k*fmax,y=k*f(S.x);
+ document.querySelectorAll('#ns button[data-i]').forEach(b=>b.classList.toggle('on',+b.dataset.i===S.n));
+ $('md').textContent=S.mode?'Paksi-x: '+ns:'Paksi-x: x';$('md').classList.toggle('on',!!S.mode);$('kv').textContent=nf(k);
+ const xv=S.mode?f(S.x):S.x,xmax=S.mode?fmax:XM,px=X0+xv/xmax*GW,py=Y0-y/ymax*GH;
+ let s='';for(let i=0;i<=8;i++){s+=L(X0+i*GW/8,Y0,X0+i*GW/8,Y0-GH,'#1E2A40',1)+L(X0,Y0-i*GH/8,X0+GW,Y0-i*GH/8,'#1E2A40',1)}
+ s+=L(X0,Y0,X0+GW+10,Y0,'#94A3B8',3)+L(X0,Y0+5,X0,Y0-GH-15,'#94A3B8',3)+T(X0+GW,Y0+28,S.mode?ns:'x','#94A3B8',18,'end')+T(X0,Y0-GH-28,'y','#94A3B8',18)+T(X0-14,Y0+16,'O','#94A3B8',14);
+ for(let i=0;i<=4;i++){const v=xmax*i/4;s+=T(X0+i*GW/4,Y0+16,nf(v),'#94A3B8',13)}
+ for(let i=1;i<=4;i++){s+=T(X0-8,Y0-i*GH/4,nf(ymax*i/4),'#94A3B8',13,'end')}
+ let d='';for(let i=0;i<=100;i++){const xx=XM*i/100,xv2=S.mode?f(xx):xx;d+=(i?'L':'M')+(X0+xv2/xmax*GW).toFixed(1)+' '+(Y0-k*f(xx)/ymax*GH).toFixed(1)}
+ s+=`<path d="${d}" fill="none" stroke="#38BDF8" stroke-width="5" stroke-linecap="round"/>`;
+ s+=L(px,Y0,px,py,'#FBBF24',2,'6 5')+L(X0,py,px,py,'#F472B6',2,'6 5')+`<circle cx="${px}" cy="${py}" r="13" fill="#FBBF24" stroke="#0B1220" stroke-width="3"/>`+T(Math.min(px+16,520),Math.max(py-22,20),`(${nf(xv)}, ${nf(y)})`,'#FBBF24',16,'start');
+ s+=T(300,22,'Seret titik atau klik pada graf untuk ubah x','#94A3B8',14);
+ sv.innerHTML=s;
+ $('eq').innerHTML=`y = ${nf(k)}${ns}`;
+ $('val').innerHTML=`x = <b>${nf(S.x)}</b>, ${ns} = <b>${nf(f(S.x))}</b>, y = <b style="color:var(--c3)">${nf(y)}</b>`+(S.x>0?`<br>y ÷ ${ns} = <b style="color:var(--ok)">${nf(y/f(S.x))}</b> = k (tetap)`:'');
+ $('tip').textContent=S.mode||S.n===0?'Graf y melawan '+ns+' ialah garis lurus melalui asalan. Kecerunan = k.':'Tekan “Paksi-x” untuk lukis y melawan '+ns+'.';}
+draw();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+</body></html>
