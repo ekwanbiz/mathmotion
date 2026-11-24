@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Pelengkap · PROBALYT</title>
+<style>
+:root{--bg:#0B0A1F;--sf:#13122E;--sf2:#1B1A3D;--sf3:#0E0D25;--bd:#2A2856;--bd2:#37346E;--tx:#EEEDFF;--mu:#A9A6D9;--mu2:#7A77AE;--c1:#7C7CFF;--c2:#FFB547;--c3:#4FE3C1;--gold:#FFD166;--ok:#3DDC84;--bad:#FF6B7A;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.modes{display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#0d0b3a}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:11px 14px;line-height:1.5;font-size:15px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:2px}
+.info .f{font-weight:800;font-size:17px}.info .f b{color:var(--c2)}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.info .ok{color:var(--ok)}.info .no{color:var(--bad)}
+.ctrl{display:flex;flex-direction:column;gap:8px}
+.line{display:flex;gap:8px;align-items:center}
+.line label{font-weight:800;color:var(--mu);font-size:14px;white-space:nowrap;min-width:64px}
+.line input[type=range]{flex:1;accent-color:var(--c1);height:28px}
+.seg{display:flex;gap:6px;flex:1}
+.seg button{flex:1;background:var(--sf);border:2px solid var(--bd2);border-radius:12px;padding:10px 2px;font-weight:800;font-size:14.5px}
+.seg button.on{background:var(--c1);border-color:var(--c1);color:#0d0b3a}
+.btns{display:flex;gap:8px}
+.big{flex:1;background:var(--c2);border:0;color:#2a1a03;border-radius:13px;padding:13px 6px;font-weight:900;font-size:16px}
+.big.alt{flex:.6;background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.big.ok{background:var(--ok);color:#06240f}.big.no{background:var(--bad);color:#2a0609}
+.big:disabled{opacity:.45}
+.nextb{margin-top:6px;background:var(--c1);border:0;color:#0d0b3a;border-radius:11px;padding:8px 16px;font-weight:900}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.45fr) minmax(330px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .modes{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:22px}.info .f{font-size:19px}
+}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.info{padding:8px 11px;font-size:13.5px}.info .f{font-size:15px}.info b.t{font-size:16px}.big{padding:10px 4px}.seg button{padding:7px 2px}}
+.c1{color:var(--c1)}.c2{color:var(--c2)}.tip2{color:var(--mu);font-size:13px;text-align:center}.big.sm{flex:.35}.info .f2{font-weight:700;font-size:14.5px}.info .f2 b{color:var(--tx)}.info .f small{color:var(--mu);font-weight:700}
+.cols{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.cc{display:flex;align-items:center;justify-content:space-between;gap:2px;background:var(--sf);border:2px solid var(--bd2);border-radius:12px;padding:4px;cursor:pointer}.cc.on{border-color:var(--c2)}.cc b{font-size:17px}
+.dot{width:16px;height:16px;border-radius:50%;flex:none}.pm{width:30px;height:34px;border-radius:9px;border:0;background:var(--sf2);font-size:18px;font-weight:900;flex:none}
+@media(max-width:400px){.pm{width:24px}.cc b{font-size:15px}.dot{width:12px;height:12px}}
+.line label{min-width:50px}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#4FE3C1;color:#05291f;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #4FE3C144">&#8592; Kembali ke PROBALYT</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="modes" role="tablist" id="esel"></div>
+ <div class="stage" id="stage"><svg id="svg" aria-label="Set nombor"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl"><div class="line"><label>Set S</label><div class="seg" id="ssel"></div></div><div class="tip2">Ketik nombor untuk tambah/buang daripada A.</div></div>
+</div>
+<script>
+'use strict';
+const M='−',gcd=(a,b)=>b?gcd(b,a%b):Math.abs(a);
+function frac(n,d){if(!d)return'0';const g=gcd(n,d)||1;n/=g;d/=g;return d===1?String(n):n+'/'+d}
+const T=(x,y,s,c='#EEEDFF',z=13,w=800,a='middle')=>`<text x="${x}" y="${y}" fill="${c}" font-size="${z}" font-weight="${w}" text-anchor="${a}" dominant-baseline="middle" font-family="Arial" paint-order="stroke" stroke="#0E0D25" stroke-width="4">${s}</text>`;
+const PIPS={1:[[.5,.5]],2:[[.27,.27],[.73,.73]],3:[[.27,.27],[.5,.5],[.73,.73]],4:[[.27,.27],[.73,.27],[.27,.73],[.73,.73]],5:[[.27,.27],[.73,.27],[.5,.5],[.27,.73],[.73,.73]],6:[[.27,.25],[.73,.25],[.27,.5],[.73,.5],[.27,.75],[.73,.75]]};
+function dieSVG(cx,cy,s,f,rot=0,hl=false){return`<g transform="translate(${cx} ${cy}) rotate(${rot})"><rect x="${-s/2}" y="${-s/2}" width="${s}" height="${s}" rx="${s*.18}" fill="#EEEDFF" stroke="${hl?'#FFB547':'#37346E'}" stroke-width="${hl?5:2}"/>${PIPS[f].map(([x,y])=>`<circle cx="${(x-.5)*s}" cy="${(y-.5)*s}" r="${s*.085}" fill="#1B1A3D"/>`).join('')}</g>`}
+
+const svg=document.getElementById('svg'),stage=document.getElementById('stage'),info=document.getElementById('info');
+const isP=n=>{if(n<2)return false;for(let k=2;k*k<=n;k++)if(n%k===0)return false;return true};
+const EV=[['Genap',n=>n%2===0],['Gandaan 3',n=>n%3===0],['Perdana',isP],['Lebih 7',n=>n>7]];
+let N=12,ei=0,A=new Set();
+function applyEv(){A=new Set([...Array(N)].map((_,i)=>i+1).filter(EV[ei][1]))}
+function draw(){const w=stage.clientWidth||300,h=stage.clientHeight||300;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+ const cols=N<=12?4:5,rows=Math.ceil(N/cols),barH=64,gw=w-24,gh=h-barH-30,s=Math.min(gw/cols,gh/rows)*.86,ox=(w-cols*s/.86)/2+s*.07,oy=12;let g='';
+ for(let k=1;k<=N;k++){const i=k-1,x=ox+(i%cols)*s/.86,y=oy+Math.floor(i/cols)*s/.86,inA=A.has(k);
+  g+=`<g class="tl" data-k="${k}" style="cursor:pointer"><rect x="${x}" y="${y}" width="${s}" height="${s}" rx="${s*.2}" fill="${inA?'#7C7CFF':'#FFB54733'}" stroke="${inA?'#fff':'#FFB547'}" stroke-width="2"/>`+T(x+s/2,y+s/2+1,k,inA?'#0d0b3a':'#FFB547',s*.42,900).replace('stroke="#0E0D25"',`stroke="${inA?'#7C7CFF':'#0E0D25'}"`)+'</g>'}
+ // bar 0..1
+ const by=h-barH+8,bx=20,bwid=w-40,p=A.size/N;
+ g+=`<rect x="${bx}" y="${by}" width="${bwid*p}" height="22" rx="6" fill="#7C7CFF"/><rect x="${bx+bwid*p}" y="${by}" width="${bwid*(1-p)}" height="22" rx="6" fill="#FFB547"/>`;
+ if(p>.08)g+=T(bx+bwid*p/2,by+12,'P(A) = '+frac(A.size,N),'#0d0b3a',12,900).replace('stroke="#0E0D25"','stroke="#7C7CFF"');
+ if(p<.92)g+=T(bx+bwid*p+bwid*(1-p)/2,by+12,"P(A′) = "+frac(N-A.size,N),'#2a1a03',12,900).replace('stroke="#0E0D25"','stroke="#FFB547"');
+ [['0',0],['½',.5],['1',1]].forEach(([l,v])=>g+=T(bx+bwid*v,by+36,l,'#A9A6D9',12,900));
+ svg.innerHTML=g;svg.querySelectorAll('.tl').forEach(t=>t.onclick=()=>{const k=+t.dataset.k;A.has(k)?A.delete(k):A.add(k);ei=-1;setEv();draw();showInfo()})}
+function lvl(p){return p===0?'mustahil':p===1?'pasti':p<.5?'kurang mungkin':p===.5?'sama mungkin':'besar kemungkinan'}
+function showInfo(){const a=A.size,lst=s=>'{'+[...s].sort((x,y)=>x-y).join(', ')+'}',Ac=[...Array(N)].map((_,i)=>i+1).filter(k=>!A.has(k));
+ info.innerHTML=`<div class="f2"><span class="c1">A = ${lst(A)}</span> · n(A) = ${a}</div><div class="f2"><span class="c2">A′ = ${lst(Ac)}</span> · n(A′) = ${N-a}</div><div class="f">P(A′) = 1 − P(A) = 1 − ${frac(a,N)} = <b>${frac(N-a,N)}</b></div><div class="tip">P(A) + P(A′) = 1 · A ${lvl(a/N)} berlaku.</div>`}
+function setEv(){const el=document.getElementById('esel');el.innerHTML=EV.map((e,i)=>`<button data-e="${i}" class="${i===ei?'on':''}">${e[0]}</button>`).join('');el.querySelectorAll('button').forEach(b=>b.onclick=()=>{ei=+b.dataset.e;applyEv();setEv();draw();showInfo()})}
+const ss=document.getElementById('ssel');ss.innerHTML=[10,12,20].map(v=>`<button data-n="${v}" class="${v===N?'on':''}">1 – ${v}</button>`).join('');
+ss.querySelectorAll('button').forEach(b=>b.onclick=()=>{N=+b.dataset.n;ss.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));if(ei<0)ei=0;applyEv();setEv();draw();showInfo()});
+new ResizeObserver(()=>draw()).observe(stage);applyEv();setEv();draw();showInfo();
+</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

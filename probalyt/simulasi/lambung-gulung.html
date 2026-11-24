@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Lambung & Gulung · PROBALYT</title>
+<style>
+:root{--bg:#0B0A1F;--sf:#13122E;--sf2:#1B1A3D;--sf3:#0E0D25;--bd:#2A2856;--bd2:#37346E;--tx:#EEEDFF;--mu:#A9A6D9;--mu2:#7A77AE;--c1:#7C7CFF;--c2:#FFB547;--c3:#4FE3C1;--gold:#FFD166;--ok:#3DDC84;--bad:#FF6B7A;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.modes{display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#0d0b3a}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:11px 14px;line-height:1.5;font-size:15px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:2px}
+.info .f{font-weight:800;font-size:17px}.info .f b{color:var(--c2)}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.info .ok{color:var(--ok)}.info .no{color:var(--bad)}
+.ctrl{display:flex;flex-direction:column;gap:8px}
+.line{display:flex;gap:8px;align-items:center}
+.line label{font-weight:800;color:var(--mu);font-size:14px;white-space:nowrap;min-width:64px}
+.line input[type=range]{flex:1;accent-color:var(--c1);height:28px}
+.seg{display:flex;gap:6px;flex:1}
+.seg button{flex:1;background:var(--sf);border:2px solid var(--bd2);border-radius:12px;padding:10px 2px;font-weight:800;font-size:14.5px}
+.seg button.on{background:var(--c1);border-color:var(--c1);color:#0d0b3a}
+.btns{display:flex;gap:8px}
+.big{flex:1;background:var(--c2);border:0;color:#2a1a03;border-radius:13px;padding:13px 6px;font-weight:900;font-size:16px}
+.big.alt{flex:.6;background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.big.ok{background:var(--ok);color:#06240f}.big.no{background:var(--bad);color:#2a0609}
+.big:disabled{opacity:.45}
+.nextb{margin-top:6px;background:var(--c1);border:0;color:#0d0b3a;border-radius:11px;padding:8px 16px;font-weight:900}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.45fr) minmax(330px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .modes{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:22px}.info .f{font-size:19px}
+}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.info{padding:8px 11px;font-size:13.5px}.info .f{font-size:15px}.info b.t{font-size:16px}.big{padding:10px 4px}.seg button{padding:7px 2px}}
+.c1{color:var(--c1)}.c2{color:var(--c2)}.tip2{color:var(--mu);font-size:13px;text-align:center}.big.sm{flex:.35}.info .f2{font-weight:700;font-size:14.5px}.info .f2 b{color:var(--tx)}.info .f small{color:var(--mu);font-weight:700}
+.cols{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.cc{display:flex;align-items:center;justify-content:space-between;gap:2px;background:var(--sf);border:2px solid var(--bd2);border-radius:12px;padding:4px;cursor:pointer}.cc.on{border-color:var(--c2)}.cc b{font-size:17px}
+.dot{width:16px;height:16px;border-radius:50%;flex:none}.pm{width:30px;height:34px;border-radius:9px;border:0;background:var(--sf2);font-size:18px;font-weight:900;flex:none}
+@media(max-width:400px){.pm{width:24px}.cc b{font-size:15px}.dot{width:12px;height:12px}}
+.big{font-size:17px}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#4FE3C1;color:#05291f;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #4FE3C144">&#8592; Kembali ke PROBALYT</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="modes" role="tablist" id="osel"></div>
+ <div class="stage" id="stage"><svg id="svg" aria-label="Eksperimen"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl"><div class="btns"><button class="big" data-n="1">×1</button><button class="big" data-n="10">×10</button><button class="big" data-n="100">×100</button><button class="big alt sm" id="rs" aria-label="Semula">↺</button></div><div class="tip2">Ketik palang untuk pilih peristiwa A.</div></div>
+</div>
+<script>
+'use strict';
+const M='−',gcd=(a,b)=>b?gcd(b,a%b):Math.abs(a);
+function frac(n,d){if(!d)return'0';const g=gcd(n,d)||1;n/=g;d/=g;return d===1?String(n):n+'/'+d}
+const T=(x,y,s,c='#EEEDFF',z=13,w=800,a='middle')=>`<text x="${x}" y="${y}" fill="${c}" font-size="${z}" font-weight="${w}" text-anchor="${a}" dominant-baseline="middle" font-family="Arial" paint-order="stroke" stroke="#0E0D25" stroke-width="4">${s}</text>`;
+const PIPS={1:[[.5,.5]],2:[[.27,.27],[.73,.73]],3:[[.27,.27],[.5,.5],[.73,.73]],4:[[.27,.27],[.73,.27],[.27,.73],[.73,.73]],5:[[.27,.27],[.73,.27],[.5,.5],[.27,.73],[.73,.73]],6:[[.27,.25],[.73,.25],[.27,.5],[.73,.5],[.27,.75],[.73,.75]]};
+function dieSVG(cx,cy,s,f,rot=0,hl=false){return`<g transform="translate(${cx} ${cy}) rotate(${rot})"><rect x="${-s/2}" y="${-s/2}" width="${s}" height="${s}" rx="${s*.18}" fill="#EEEDFF" stroke="${hl?'#FFB547':'#37346E'}" stroke-width="${hl?5:2}"/>${PIPS[f].map(([x,y])=>`<circle cx="${(x-.5)*s}" cy="${(y-.5)*s}" r="${s*.085}" fill="#1B1A3D"/>`).join('')}</g>`}
+
+const svg=document.getElementById('svg'),stage=document.getElementById('stage'),info=document.getElementById('info');
+const OBJ=[{n:'🪙 Syiling',o:['Kepala','Ekor'],c:['#FFB547','#4FE3C1']},{n:'🎲 Dadu',o:['1','2','3','4','5','6'],c:Array(6).fill('#7C7CFF')},{n:'🎡 Roda',o:['Merah','Biru','Kuning','Hijau'],c:['#FF6B7A','#5B8CFF','#FFD166','#3DDC84']}];
+let oi=0,cnt=[0,0],n=0,last=-1,sel=0,anim=null,spin=0,flip=0,G=null;
+function reset(){const o=OBJ[oi];cnt=o.o.map(()=>0);n=0;last=-1;sel=0;draw();showInfo()}
+function objSVG(R){const o=OBJ[oi],cx=R.x+R.w/2,cy=R.y+R.h/2,s=Math.min(R.w,R.h)*.62;let g='';
+ if(oi===0){const k=Math.abs(Math.cos(flip*Math.PI));const face=last<0?0:last;const c=o.c[face];g+=`<ellipse cx="${cx}" cy="${cy}" rx="${s/2}" ry="${Math.max(3,s/2*k)}" fill="${c}" stroke="#EEEDFF" stroke-width="3"/>`;if(k>.35)g+=T(cx,cy+1,last<0?'?':(face?'E':'K'),'#0E0D25',s*.36*k,900).replace('stroke="#0E0D25"','stroke="'+c+'"')}
+ if(oi===1)g+=dieSVG(cx,cy,s*.8,last<0?6:last+1,spin*360,true);
+ if(oi===2){const r=s/2;o.o.forEach((_,i)=>{const a0=i*90-90,a1=a0+90,P=a=>[cx+r*Math.cos(a*Math.PI/180),cy+r*Math.sin(a*Math.PI/180)];const [x0,y0]=P(a0),[x1,y1]=P(a1);g+=`<path d="M${cx} ${cy}L${x0} ${y0}A${r} ${r} 0 0 1 ${x1} ${y1}Z" fill="${o.c[i]}" stroke="#0E0D25" stroke-width="2" transform="rotate(${-spin} ${cx} ${cy})"/>`});
+  g+=`<circle cx="${cx}" cy="${cy}" r="${r*.12}" fill="#EEEDFF"/><path d="M${cx} ${cy-r-14}l-9 -14h18z" fill="#EEEDFF"/>`}
+ if(last>=0&&!anim)g+=T(cx,R.y+R.h-8,'Keputusan: '+o.o[last],'#FFB547',15,900);
+ return g}
+function chartSVG(R){const o=OBJ[oi],k=o.o.length,bw=R.w/k,maxP=Math.max(.6,...cnt.map(c=>n?c/n:0)),Y=p=>R.y+R.h-26-(R.h-46)*p/maxP,th=1/k;let g='';
+ for(let p=0;p<=maxP+.001;p+=.1)g+=`<line x1="${R.x}" y1="${Y(p)}" x2="${R.x+R.w}" y2="${Y(p)}" stroke="#ffffff0c"/>`;
+ o.o.forEach((lab,i)=>{const p=n?cnt[i]/n:0,x=R.x+i*bw+bw*.18,w=bw*.64;g+=`<g class="bar" data-i="${i}" style="cursor:pointer"><rect x="${R.x+i*bw}" y="${R.y}" width="${bw}" height="${R.h}" fill="transparent"/><rect x="${x}" y="${Y(p)}" width="${w}" height="${Y(0)-Y(p)}" rx="5" fill="${o.c[i]}" opacity="${i===sel?1:.45}" stroke="${i===sel?'#fff':'none'}" stroke-width="2"/></g>`;
+  g+=T(x+w/2,R.y+R.h-12,lab.length>2?lab.slice(0,1):lab,i===sel?'#FFB547':'#A9A6D9',12,900)+T(x+w/2,Y(p)-10,cnt[i],'#EEEDFF',11,800)});
+ g+=`<line x1="${R.x}" y1="${Y(th)}" x2="${R.x+R.w}" y2="${Y(th)}" stroke="#FFB547" stroke-width="2.5" stroke-dasharray="7 5"/>`+T(R.x+R.w-4,Y(th)-10,'teori '+frac(1,k),'#FFB547',11,900).replace('text-anchor="middle"','text-anchor="end"');
+ return g}
+function draw(){const w=stage.clientWidth||300,h=stage.clientHeight||300;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);const port=w/h<1.15;
+ const A=port?{x:10,y:8,w:w-20,h:h*.4}:{x:10,y:10,w:w*.42,h:h-20},B=port?{x:18,y:h*.42,w:w-36,h:h*.58-8}:{x:w*.46,y:14,w:w*.52,h:h-24};G=B;
+ svg.innerHTML=objSVG(A)+chartSVG(B);svg.querySelectorAll('.bar').forEach(b=>b.onclick=()=>{sel=+b.dataset.i;draw();showInfo()})}
+function showInfo(){const o=OBJ[oi],k=o.o.length,f=cnt[sel],pe=n?f/n:0,diff=Math.abs(pe-1/k);
+ info.innerHTML=`<div class="f2">A = mendapat <b class="c2">${o.o[sel]}</b> · Bilangan cubaan, n = <b>${n}</b></div><div class="f">P(A) eksperimen = ${f} ÷ ${n||'n'} = <b>${n?frac(f,n):'?'}</b>${n?` <small>(≈ ${pe.toFixed(2)})</small>`:''}</div><div class="f2">P(A) teori = <b class="c2">${frac(1,k)}</b> <small>(≈ ${(1/k).toFixed(2)})</small></div><div class="tip">${n<30?'Lakukan lebih banyak cubaan…':diff<.03?'✓ Cubaan banyak → nilai eksperimen hampir dengan nilai teori!':'Teruskan — makin banyak cubaan, makin hampir dengan nilai teori.'}</div>`}
+function roll(m){if(anim)return;const o=OBJ[oi],k=o.o.length;
+ const doRoll=()=>{for(let j=0;j<m;j++){const r=Math.floor(Math.random()*k);cnt[r]++;n++;last=r}};
+ if(m>1){doRoll();spin=0;flip=0;draw();showInfo();return}
+ const r=Math.floor(Math.random()*k),t0=performance.now(),dur=900;setBusy(true);
+ const st=now=>{const p=Math.min(1,(now-t0)/dur);flip=p*5;spin=oi===2?(1-Math.pow(1-p,3))*(720+r*90+45):p*3;
+  if(oi===1&&p<1)last=Math.floor(Math.random()*k);draw();if(p<1)anim=requestAnimationFrame(st);else{anim=null;cnt[r]++;n++;last=r;flip=0;spin=oi===2?spin:0;draw();showInfo();setBusy(false)}};anim=requestAnimationFrame(st)}
+function setBusy(b){document.querySelectorAll('.ctrl button').forEach(x=>x.disabled=b)}
+document.querySelectorAll('[data-n]').forEach(b=>b.onclick=()=>roll(+b.dataset.n));document.getElementById('rs').onclick=()=>{if(!anim){spin=0;reset()}};
+const osel=document.getElementById('osel');osel.innerHTML=OBJ.map((o,i)=>`<button data-o="${i}" class="${i===oi?'on':''}">${o.n}</button>`).join('');
+osel.querySelectorAll('button').forEach(b=>b.onclick=()=>{if(anim)return;oi=+b.dataset.o;osel.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));spin=0;reset()});
+new ResizeObserver(()=>draw()).observe(stage);reset();
+</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

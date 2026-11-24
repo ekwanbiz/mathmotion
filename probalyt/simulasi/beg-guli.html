@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Beg Guli · PROBALYT</title>
+<style>
+:root{--bg:#0B0A1F;--sf:#13122E;--sf2:#1B1A3D;--sf3:#0E0D25;--bd:#2A2856;--bd2:#37346E;--tx:#EEEDFF;--mu:#A9A6D9;--mu2:#7A77AE;--c1:#7C7CFF;--c2:#FFB547;--c3:#4FE3C1;--gold:#FFD166;--ok:#3DDC84;--bad:#FF6B7A;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.modes{display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#0d0b3a}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:11px 14px;line-height:1.5;font-size:15px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:2px}
+.info .f{font-weight:800;font-size:17px}.info .f b{color:var(--c2)}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.info .ok{color:var(--ok)}.info .no{color:var(--bad)}
+.ctrl{display:flex;flex-direction:column;gap:8px}
+.line{display:flex;gap:8px;align-items:center}
+.line label{font-weight:800;color:var(--mu);font-size:14px;white-space:nowrap;min-width:64px}
+.line input[type=range]{flex:1;accent-color:var(--c1);height:28px}
+.seg{display:flex;gap:6px;flex:1}
+.seg button{flex:1;background:var(--sf);border:2px solid var(--bd2);border-radius:12px;padding:10px 2px;font-weight:800;font-size:14.5px}
+.seg button.on{background:var(--c1);border-color:var(--c1);color:#0d0b3a}
+.btns{display:flex;gap:8px}
+.big{flex:1;background:var(--c2);border:0;color:#2a1a03;border-radius:13px;padding:13px 6px;font-weight:900;font-size:16px}
+.big.alt{flex:.6;background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.big.ok{background:var(--ok);color:#06240f}.big.no{background:var(--bad);color:#2a0609}
+.big:disabled{opacity:.45}
+.nextb{margin-top:6px;background:var(--c1);border:0;color:#0d0b3a;border-radius:11px;padding:8px 16px;font-weight:900}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.45fr) minmax(330px,1fr);grid-template-rows:minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .modes{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:22px}.info .f{font-size:19px}
+}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.info{padding:8px 11px;font-size:13.5px}.info .f{font-size:15px}.info b.t{font-size:16px}.big{padding:10px 4px}.seg button{padding:7px 2px}}
+.c1{color:var(--c1)}.c2{color:var(--c2)}.tip2{color:var(--mu);font-size:13px;text-align:center}.big.sm{flex:.35}.info .f2{font-weight:700;font-size:14.5px}.info .f2 b{color:var(--tx)}.info .f small{color:var(--mu);font-weight:700}
+.cols{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.cc{display:flex;align-items:center;justify-content:space-between;gap:2px;background:var(--sf);border:2px solid var(--bd2);border-radius:12px;padding:4px;cursor:pointer}.cc.on{border-color:var(--c2)}.cc b{font-size:17px}
+.dot{width:16px;height:16px;border-radius:50%;flex:none}.pm{width:30px;height:34px;border-radius:9px;border:0;background:var(--sf2);font-size:18px;font-weight:900;flex:none}
+@media(max-width:400px){.pm{width:24px}.cc b{font-size:15px}.dot{width:12px;height:12px}}
+
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#4FE3C1;color:#05291f;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #4FE3C144">&#8592; Kembali ke PROBALYT</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="stage" id="stage"><svg id="svg" aria-label="Beg guli"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl"><div class="cols" id="cols"></div><div class="btns"><button class="big" id="go">🎯 Cabut 1 guli</button><button class="big alt" id="g10">×10</button><button class="big alt sm" id="rs" aria-label="Semula">↺</button></div></div>
+</div>
+<script>
+'use strict';
+const M='−',gcd=(a,b)=>b?gcd(b,a%b):Math.abs(a);
+function frac(n,d){if(!d)return'0';const g=gcd(n,d)||1;n/=g;d/=g;return d===1?String(n):n+'/'+d}
+const T=(x,y,s,c='#EEEDFF',z=13,w=800,a='middle')=>`<text x="${x}" y="${y}" fill="${c}" font-size="${z}" font-weight="${w}" text-anchor="${a}" dominant-baseline="middle" font-family="Arial" paint-order="stroke" stroke="#0E0D25" stroke-width="4">${s}</text>`;
+const PIPS={1:[[.5,.5]],2:[[.27,.27],[.73,.73]],3:[[.27,.27],[.5,.5],[.73,.73]],4:[[.27,.27],[.73,.27],[.27,.73],[.73,.73]],5:[[.27,.27],[.73,.27],[.5,.5],[.27,.73],[.73,.73]],6:[[.27,.25],[.73,.25],[.27,.5],[.73,.5],[.27,.75],[.73,.75]]};
+function dieSVG(cx,cy,s,f,rot=0,hl=false){return`<g transform="translate(${cx} ${cy}) rotate(${rot})"><rect x="${-s/2}" y="${-s/2}" width="${s}" height="${s}" rx="${s*.18}" fill="#EEEDFF" stroke="${hl?'#FFB547':'#37346E'}" stroke-width="${hl?5:2}"/>${PIPS[f].map(([x,y])=>`<circle cx="${(x-.5)*s}" cy="${(y-.5)*s}" r="${s*.085}" fill="#1B1A3D"/>`).join('')}</g>`}
+
+const svg=document.getElementById('svg'),stage=document.getElementById('stage'),info=document.getElementById('info');
+const C=[['Merah','#FF6B7A'],['Biru','#5B8CFF'],['Kuning','#FFD166'],['Hijau','#3DDC84']];
+let cnt=[3,2,5,0],sel=0,draws=0,hits=0,lastPick=null,anim=null,rise=0;
+const nS=()=>cnt.reduce((a,b)=>a+b,0);
+function layout(){const L=[];C.forEach((_,ci)=>{for(let k=0;k<cnt[ci];k++)L.push(ci)});let s=7;for(let i=L.length-1;i>0;i--){s=(s*9301+49297)%233280;const j=s%(i+1);[L[i],L[j]]=[L[j],L[i]]}return L}
+function draw(){const w=stage.clientWidth||300,h=stage.clientHeight||300;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+ const bw=Math.min(w*.78,h*.95),bh=bw*.78,cx=w/2,by=h-12,top=by-bh;let g='';
+ g+=`<path d="M${cx-bw*.42} ${top+bh*.18}C${cx-bw*.62} ${top+bh*.55},${cx-bw*.5} ${by},${cx} ${by}C${cx+bw*.5} ${by},${cx+bw*.62} ${top+bh*.55},${cx+bw*.42} ${top+bh*.18}Z" fill="#1B1A3D" stroke="#37346E" stroke-width="4"/>`;
+ g+=`<path d="M${cx-bw*.44} ${top+bh*.18}Q${cx} ${top+bh*.04} ${cx+bw*.44} ${top+bh*.18}" fill="none" stroke="#A9A6D9" stroke-width="5" stroke-linecap="round"/>`;
+ const L=layout(),N=L.length,cols=Math.max(4,Math.ceil(Math.sqrt(N*1.6))),rows=Math.ceil(N/cols)||1,r=Math.min(bw*.62/cols/2.2,bh*.62/rows/2.2,18);
+ L.forEach((ci,i)=>{const row=Math.floor(i/cols),col=i%cols,inRow=Math.min(cols,N-row*cols),x=cx+(col-(inRow-1)/2)*r*2.3,y=by-bh*.16-row*r*2.25;
+  const pk=lastPick&&lastPick.i===i&&anim;g+=pk?'':`<circle cx="${x}" cy="${y}" r="${r}" fill="${C[ci][1]}" stroke="${ci===sel?'#fff':'#0E0D25'}" stroke-width="${ci===sel?2.5:1.5}"/><circle cx="${x-r*.3}" cy="${y-r*.3}" r="${r*.28}" fill="#ffffff66"/>`});
+ if(lastPick){const ci=lastPick.ci,y=top-10-rise*20;g+=`<circle cx="${cx}" cy="${anim?y+60*(1-rise):Math.max(26,top-18)}" r="${r*1.25}" fill="${C[ci][1]}" stroke="#fff" stroke-width="3"/>`;if(!anim)g+=T(cx+r*1.25+10,Math.max(26,top-18),C[ci][0]+'!',C[ci][1],15,900).replace('text-anchor="middle"','text-anchor="start"')}
+ if(!N)g+=T(cx,by-bh/2,'Beg kosong — tambah guli','#A9A6D9',14,800);
+ svg.innerHTML=g}
+function showInfo(){const N=nS(),a=cnt[sel],nm=C[sel][0];
+ const S=C.filter((_,i)=>cnt[i]).map(([n],i)=>n).length;
+ info.innerHTML=`<div class="f2">n(S) = jumlah guli = <b>${N}</b> · A = guli <b style="color:${C[sel][1]}">${nm.toLowerCase()}</b>, n(A) = <b>${a}</b></div><div class="f">P(${nm.toLowerCase()}) = n(A) ÷ n(S) = ${a} ÷ ${N||'?'} = <b>${N?frac(a,N):'?'}</b></div>${draws?`<div class="f2">Cabutan: ${hits} ${nm.toLowerCase()} daripada ${draws} → eksperimen ≈ <b>${(hits/draws).toFixed(2)}</b> (teori ≈ ${N?(a/N).toFixed(2):'-'})</div>`:'<div class="tip">Ketik warna untuk pilih peristiwa A. Guli dicabut lalu dimasukkan semula.</div>'}`}
+function setCols(){const el=document.getElementById('cols');el.innerHTML=C.map(([n,c],i)=>`<div class="cc ${i===sel?'on':''}" data-i="${i}"><button class="pm" data-d="-1" data-i="${i}" aria-label="Kurang ${n}">−</button><span class="dot" style="background:${c}"></span><b>${cnt[i]}</b><button class="pm" data-d="1" data-i="${i}" aria-label="Tambah ${n}">+</button></div>`).join('');
+ el.querySelectorAll('.cc').forEach(d=>d.onclick=e=>{if(e.target.closest('.pm'))return;sel=+d.dataset.i;draws=0;hits=0;setCols();draw();showInfo()});
+ el.querySelectorAll('.pm').forEach(b=>b.onclick=()=>{if(anim)return;const i=+b.dataset.i;cnt[i]=Math.max(0,Math.min(8,cnt[i]+ +b.dataset.d));draws=0;hits=0;lastPick=null;sel=i;setCols();draw();showInfo()})}
+function pickOne(){const L=layout();const i=Math.floor(Math.random()*L.length);return{i,ci:L[i]}}
+document.getElementById('go').onclick=()=>{if(anim||!nS())return;lastPick=pickOne();const t0=performance.now();
+ const st=now=>{const p=Math.min(1,(now-t0)/700);rise=p;draw();if(p<1)anim=requestAnimationFrame(st);else{anim=null;draws++;if(lastPick.ci===sel)hits++;draw();showInfo()}};anim=requestAnimationFrame(st)};
+document.getElementById('g10').onclick=()=>{if(anim||!nS())return;for(let k=0;k<10;k++){lastPick=pickOne();draws++;if(lastPick.ci===sel)hits++}draw();showInfo()};
+document.getElementById('rs').onclick=()=>{if(anim)return;cnt=[3,2,5,0];sel=0;draws=0;hits=0;lastPick=null;setCols();draw();showInfo()};
+new ResizeObserver(()=>draw()).observe(stage);setCols();draw();showInfo();
+</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

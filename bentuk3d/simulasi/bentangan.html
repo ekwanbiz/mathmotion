@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Buka Bentangan · BENTUK3D</title>
+<style>
+:root{--bg:#061413;--sf:#0C1F1E;--sf2:#122B29;--sf3:#081817;--bd:#1B3B38;--bd2:#25504C;--tx:#E8FFFC;--mu:#9CC9C3;--mu2:#6C9A94;--c1:#2DD4BF;--c2:#FFB547;--c3:#FF7EB6;--gold:#FFD166;--ok:#3DDC84;--bad:#FF6B7A;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.modes{display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#032622}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:11px 14px;line-height:1.5;font-size:15px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:2px}
+.info .f{font-weight:800;font-size:17px}.info .f b{color:var(--c2)}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.info .ok{color:var(--ok)}.info .no{color:var(--bad)}
+.ctrl{display:flex;flex-direction:column;gap:8px}
+.line{display:flex;gap:8px;align-items:center}
+.line label{font-weight:800;color:var(--mu);font-size:14px;white-space:nowrap;min-width:64px}
+.line input[type=range]{flex:1;accent-color:var(--c1);height:28px}
+.seg{display:flex;gap:6px;flex:1}
+.seg button{flex:1;background:var(--sf);border:2px solid var(--bd2);border-radius:12px;padding:10px 2px;font-weight:800;font-size:14.5px}
+.seg button.on{background:var(--c1);border-color:var(--c1);color:#032622}
+.btns{display:flex;gap:8px}
+.big{flex:1;background:var(--c2);border:0;color:#2a1a03;border-radius:13px;padding:13px 6px;font-weight:900;font-size:16px}
+.big.alt{flex:.6;background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.big.ok{background:var(--ok);color:#06240f}.big.no{background:var(--bad);color:#2a0609}
+.big:disabled{opacity:.45}
+.nextb{margin-top:6px;background:var(--c1);border:0;color:#032622;border-radius:11px;padding:8px 16px;font-weight:900}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.45fr) minmax(330px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .modes,.shapes{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:22px}.info .f{font-size:19px}
+}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.info{padding:8px 11px;font-size:13.5px}.info .f{font-size:15px}.info b.t{font-size:16px}.big{padding:10px 4px}.seg button{padding:7px 2px}}
+.shapes{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}.shapes.five{grid-template-columns:repeat(5,1fr)}
+.shapes button{border:0;background:none;color:var(--mu);font-weight:800;font-size:14px;padding:9px 2px;border-radius:11px}.shapes button.on{background:var(--c1);color:#032622}
+.tip2{color:var(--mu);font-size:13px;text-align:center}.big.sm{flex:.35}.info .f2{font-weight:700;font-size:14.5px}.info .f2 b{color:var(--c2)}
+.cnts{display:flex;gap:8px;margin-top:6px}.cnt{flex:1;background:var(--sf3);border:2px solid var(--bd2);border-radius:12px;padding:6px;text-align:center}.cnt b{display:block;font-size:24px;line-height:1.1}.cnt span{font-size:12px;color:var(--mu);font-weight:800}.cnt.on{border-color:var(--c2)}
+.big.hl{background:var(--sf);border:2px solid var(--bd2);color:var(--tx);font-size:15px}.big.hl.on{background:var(--c2);border-color:var(--c2);color:#2a1a03}
+.line label.r{min-width:auto}
+@media(max-width:400px){.shapes button{font-size:12.5px}.big.hl{font-size:13.5px}}
+@media(max-height:620px){.cnt b{font-size:19px}.shapes button{padding:7px 2px}}
+
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#FF7EB6;color:#3a0620;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #FF7EB644">&#8592; Kembali ke BENTUK3D</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="shapes five" role="tablist" id="ssel"></div>
+ <div class="stage" id="stage"><svg id="svg" aria-label="Bentangan"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl"><div class="line"><label for="fr">📄 Buka</label><input type="range" id="fr" min="0" max="1" step="0.01" value="0"><label class="r">Lipat 📦</label></div>
+ <div class="btns"><button class="big alt" id="op">📄 Buka</button><button class="big" id="cl">📦 Lipat</button></div></div>
+</div>
+<script>
+'use strict';
+const E3=(()=>{
+const sub=(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]],add=(a,b)=>[a[0]+b[0],a[1]+b[1],a[2]+b[2]],mul=(a,k)=>[a[0]*k,a[1]*k,a[2]*k],dot=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2],cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]],norm=a=>{const l=Math.hypot(a[0],a[1],a[2])||1;return[a[0]/l,a[1]/l,a[2]/l]};
+const cen=ps=>mul(ps.reduce(add,[0,0,0]),1/ps.length);
+function newell(ps){let n=[0,0,0];for(let i=0;i<ps.length;i++){const a=ps[i],b=ps[(i+1)%ps.length];n[0]+=(a[1]-b[1])*(a[2]+b[2]);n[1]+=(a[2]-b[2])*(a[0]+b[0]);n[2]+=(a[0]-b[0])*(a[1]+b[1])}return norm(n)}
+function rot(p,ya,pi){let x=p[0],y=p[1],z=p[2];const c=Math.cos(ya),s=Math.sin(ya);[x,z]=[x*c+z*s,-x*s+z*c];const c2=Math.cos(pi),s2=Math.sin(pi);[y,z]=[y*c2-z*s2,y*s2+z*c2];return[x,y,z]}
+function rotAxis(p,a,b,ang){const k=norm(sub(b,a)),v=sub(p,a),c=Math.cos(ang),s=Math.sin(ang);return add(add(add(mul(v,c),mul(cross(k,v),s)),mul(k,dot(k,v)*(1-c))),a)}
+function ngon(r,n,ph=0){return[...Array(n)].map((_,k)=>[r*Math.cos(ph+2*Math.PI*k/n),r*Math.sin(ph+2*Math.PI*k/n)])}
+function prism(poly,h){const n=poly.length,V=[...poly.map(([x,z])=>[x,-h/2,z]),...poly.map(([x,z])=>[x,h/2,z])];const F=[{i:[...Array(n).keys()],g:0},{i:[...Array(n).keys()].map(k=>k+n),g:1}];for(let k=0;k<n;k++)F.push({i:[k,(k+1)%n,(k+1)%n+n,k+n],g:2+k});return{V,F,G:n+2}}
+function box(a,b,c){return prism([[-a/2,-c/2],[a/2,-c/2],[a/2,c/2],[-a/2,c/2]],b)}
+function pyramid(poly,h){const n=poly.length,V=[...poly.map(([x,z])=>[x,-h/2,z]),[0,h/2,0]];const F=[{i:[...Array(n).keys()],g:0}];for(let k=0;k<n;k++)F.push({i:[k,(k+1)%n,n],g:1+k});return{V,F,G:n+1}}
+function cylinder(r,h,n=28){const s=prism(ngon(r,n),h);s.F.forEach(f=>{if(f.g>=2)f.g=2});s.G=3;s.curved=true;s.rims=[[...Array(n).keys()],[...Array(n).keys()].map(k=>k+n)];s.pts=[];return s}
+function cone(r,h,n=28){const s=pyramid(ngon(r,n),h);s.F.forEach(f=>{if(f.g>=1)f.g=1});s.G=2;s.curved=true;s.rims=[[...Array(n).keys()]];s.pts=[n];return s}
+function sphere(r,la=12,lo=24){const V=[],F=[];for(let i=0;i<=la;i++){const t=Math.PI*i/la;for(let j=0;j<lo;j++){const p=2*Math.PI*j/lo;V.push([r*Math.sin(t)*Math.cos(p),r*Math.cos(t),r*Math.sin(t)*Math.sin(p)])}}
+ for(let i=0;i<la;i++)for(let j=0;j<lo;j++){const a=i*lo+j,b=i*lo+(j+1)%lo;F.push({i:i===0?[a,b+lo,a+lo]:i===la-1?[a,b,a+lo]:[a,b,b+lo,a+lo],g:0})}return{V,F,G:1,curved:true,rims:[],pts:[]}}
+function edgesOf(s){const m=new Map();s.F.forEach((f,fi)=>{const n=f.i.length;for(let k=0;k<n;k++){const a=f.i[k],b=f.i[(k+1)%n];if(a===b)continue;const key=a<b?a+'_'+b:b+'_'+a;if(!m.has(key))m.set(key,{a:Math.min(a,b),b:Math.max(a,b),f:[]});m.get(key).f.push(fi)}});return m}
+function project(V,F,ya,pi,S,cx,cy,D=18,two=false){const R=V.map(p=>rot(p,ya,pi));const P=R.map(([x,y,z])=>{const k=D/(D-z);return[cx+x*k*S,cy-y*k*S]});const C=cen(R);const L=norm([-.45,.6,.75]);
+ const faces=F.map((f,fi)=>{const ps=f.i.map(i=>R[i]);const c=cen(ps);let n=newell(ps);if(!two&&dot(n,sub(c,C))<0)n=mul(n,-1);const view=norm(sub([0,0,D],c));const fr=dot(n,view);if(two&&fr<0)n=mul(n,-1);
+  return{fi,g:f.g,i:f.i,z:c[2],front:two?true:fr>0,shade:.5+.5*Math.max(0,dot(n,L))}});return{R,P,faces}}
+function tint(hex,k){const n=parseInt(hex.slice(1,7),16);let r=n>>16,g=n>>8&255,b=n&255;r=Math.round(Math.min(255,r*k));g=Math.round(Math.min(255,g*k));b=Math.round(Math.min(255,b*k));return'#'+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1)}
+const poly=(P,idx)=>idx.map(i=>P[i][0].toFixed(1)+','+P[i][1].toFixed(1)).join(' ');
+return{sub,add,mul,dot,cross,norm,cen,rot,rotAxis,ngon,prism,box,pyramid,cylinder,cone,sphere,edgesOf,project,tint,poly}})();
+
+const svg=document.getElementById('svg'),stage=document.getElementById('stage'),info=document.getElementById('info'),fr=document.getElementById('fr');
+const D2=Math.PI/2,A=d=>d*Math.PI/180;
+const rect=(x0,y0,x1,y1)=>[[x0,y0],[x1,y0],[x1,y1],[x0,y1]];
+// net: faces {p:[[x,y]], par, h:[i,j] (indeks titik engsel dlm p), a:sudut, lab, c}
+function cubeNet(){const s=2,L='16 cm²';return{F:[{p:rect(0,0,s,s),par:-1,lab:L},{p:rect(-s,0,0,s),par:0,h:[1,2],a:D2,lab:L},{p:rect(s,0,2*s,s),par:0,h:[0,3],a:D2,lab:L},{p:rect(0,s,s,2*s),par:0,h:[0,1],a:D2,lab:L},{p:rect(0,2*s,s,3*s),par:3,h:[0,1],a:D2,lab:L},{p:rect(0,-s,s,0),par:0,h:[3,2],a:D2,lab:L}],
+ calc:'Luas permukaan = 6 × (4 × 4) = 6 × 16 = <b>96 cm²</b>',dim:'Kubus sisi 4 cm'}}
+function cuboidNet(){const p=3,l=2,t=1.5;return{F:[{p:rect(0,0,p,l),par:-1,lab:'24'},{p:rect(0,-t,p,0),par:0,h:[3,2],a:D2,lab:'18'},{p:rect(0,l,p,l+t),par:0,h:[0,1],a:D2,lab:'18'},{p:rect(0,l+t,p,2*l+t),par:2,h:[0,1],a:D2,lab:'24'},{p:rect(-t,0,0,l),par:0,h:[1,2],a:D2,lab:'12'},{p:rect(p,0,p+t,l),par:0,h:[0,3],a:D2,lab:'12'}],
+ calc:'Luas permukaan = 2(24) + 2(18) + 2(12) = <b>108 cm²</b>',dim:'Kuboid 6 cm × 4 cm × 3 cm'}}
+function prismNet(){const a=1.5,b=2,c=2.5,L=3;return{F:[{p:rect(0,0,b,L),par:-1,lab:'24'},{p:rect(-a,0,0,L),par:0,h:[1,2],a:D2,lab:'18'},{p:rect(b,0,b+c,L),par:0,h:[0,3],a:A(143.13),lab:'30'},{p:[[0,L],[b,L],[0,L+a]],par:0,h:[0,1],a:D2,lab:'6'},{p:[[0,0],[b,0],[0,-a]],par:0,h:[0,1],a:D2,lab:'6'}],
+ calc:'Luas permukaan = 2(6) + 18 + 24 + 30 = <b>84 cm²</b>',dim:'Prisma: segi tiga 3-4-5 cm, panjang 6 cm'}}
+function pyrNet(){const s=3,sl=2.5,an=A(126.87);return{F:[{p:rect(0,0,s,s),par:-1,lab:'36'},{p:[[0,0],[s,0],[s/2,-sl]],par:0,h:[0,1],a:an,lab:'15'},{p:[[0,s],[s,s],[s/2,s+sl]],par:0,h:[0,1],a:an,lab:'15'},{p:[[0,0],[0,s],[-sl,s/2]],par:0,h:[0,1],a:an,lab:'15'},{p:[[s,0],[s,s],[s+sl,s/2]],par:0,h:[0,1],a:an,lab:'15'}],
+ calc:'Luas permukaan = 36 + 4 × (½ × 6 × 5) = 36 + 60 = <b>96 cm²</b>',dim:'Piramid tapak 6 cm × 6 cm, tinggi sendeng 5 cm'}}
+function cylNet(){const n=24,r=1,w=2*r*Math.sin(Math.PI/n),T=10/7,F=[],mid=12;
+ for(let k=0;k<n;k++)F.push({p:rect(k*w,0,(k+1)*w,T),strip:true});
+ F[mid].par=-1;for(let k=mid+1;k<n;k++){F[k].par=k-1;F[k].h=[0,3];F[k].a=2*Math.PI/n}for(let k=mid-1;k>=0;k--){F[k].par=k+1;F[k].h=[1,2];F[k].a=2*Math.PI/n}
+ F[mid].lab='2πj × t = 440';
+ const ap=r*Math.cos(Math.PI/n),circ=(cy,up)=>{const cx=(mid+.5)*w,c=[cx,up?T+ap:-ap];const pts=[];for(let k=0;k<n;k++){const ang=(up?-Math.PI/2:Math.PI/2)-Math.PI/n+2*Math.PI*k/n*(up?1:-1);pts.push([c[0]+r*Math.cos(ang),c[1]+r*Math.sin(ang)])}return pts};
+ const top=circ(0,true),bot=circ(0,false);
+ // pastikan titik 0,1 ialah tepi engsel
+ F.push({p:top,par:mid,h:[0,1],a:D2,lab:'πj² = 154',circle:true});F.push({p:bot,par:mid,h:[0,1],a:D2,lab:'πj² = 154',circle:true});
+ return{F,calc:'Luas permukaan = 2(πj²) + 2πjt = 2(154) + 440 = <b>748 cm²</b>',dim:'Silinder j = 7 cm, t = 10 cm (π = 22/7)'}}
+const NETS=[['Kubus',cubeNet],['Kuboid',cuboidNet],['Prisma',prismNet],['Piramid',pyrNet],['Silinder',cylNet]].map(([n,f])=>{const o=f();o.n=n;return o});
+NETS.forEach(N=>{N.F.forEach(f=>{f.p3=f.p.map(([x,y])=>[x,y,0])});N.kids=N.F.map(()=>[]);N.F.forEach((f,i)=>{if(f.par>=0)N.kids[f.par].push(i)});
+ const sub=i=>[i,...N.kids[i].flatMap(sub)];N.sub=N.F.map((_,i)=>sub(i));N.root=N.F.findIndex(f=>f.par===-1);
+ // ekstrem rata untuk skala
+ const xs=N.F.flatMap(f=>f.p.map(p=>p[0])),ys=N.F.flatMap(f=>f.p.map(p=>p[1]));N.ext=Math.max(Math.max(...xs)-Math.min(...xs),Math.max(...ys)-Math.min(...ys));N.c0=[(Math.max(...xs)+Math.min(...xs))/2,(Math.max(...ys)+Math.min(...ys))/2]});
+// sambungkan engsel bulatan silinder: cari indeks titik bulatan yg bertindih dgn tepi atas/bawah jalur
+(()=>{const N=NETS[4],mid=N.root,s=N.F[mid].p;N.F.filter(f=>f.circle).forEach((f,ci)=>{const edge=ci===0?[s[3],s[2]]:[s[0],s[1]];const near=q=>f.p.reduce((b,p,i)=>Math.hypot(p[0]-q[0],p[1]-q[1])<Math.hypot(f.p[b][0]-q[0],f.p[b][1]-q[1])?i:b,0);f.h=[near(edge[0]),near(edge[1])]})})();
+let ni=0,t=0,ya=.35,pi=.95,anim=null,drag=null;
+function fold(N,t){const P=N.F.map(f=>f.p3.map(p=>p.slice())),Nm=N.F.map(()=>[0,0,1]);
+ const go=i=>{N.kids[i].forEach(c=>{const f=N.F[c],a=P[c][f.h[0]],b=P[c][f.h[1]],ang=f.a*t;if(ang){const cc=E3.cen(P[c]),pn=Nm[i];const test=E3.rotAxis(cc,a,b,.05);const sg=E3.dot(E3.sub(test,cc),pn)>=0?1:-1;
+   N.sub[c].forEach(j=>{P[j]=P[j].map(p=>E3.rotAxis(p,a,b,sg*ang));const nn=E3.rotAxis(E3.add(a,Nm[j]),a,b,sg*ang);Nm[j]=E3.norm(E3.sub(nn,a))})}go(c)})};go(N.root);return P}
+const COLS=['#2DD4BF','#FFB547','#FF7EB6','#7AA8FF','#B5F06B','#FF8A5C'];
+function draw(){const N=NETS[ni],w=stage.clientWidth||300,h=stage.clientHeight||300;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+ const P=fold(N,t);const all=P.flat(),c=E3.cen(all),c2=[N.c0[0]*(1-t)+c[0]*t,N.c0[1]*(1-t)+c[1]*t,c[2]];
+ const V=[],F=[];P.forEach((ps,fi)=>{const base=V.length;ps.forEach(p=>V.push([p[0]-c2[0],p[2]-c2[2],-(p[1]-c2[1])]));F.push({i:ps.map((_,k)=>base+k),g:fi})});
+ const S=Math.min(w,h)*.82/N.ext*(1+.85*t),pr=E3.project(V,F,ya,pi,S,w/2,h/2,18,true);
+ let g='';pr.faces.slice().sort((a,b)=>a.z-b.z).forEach(f=>{const fd=N.F[f.g];const base=fd.strip?'#2DD4BF':fd.circle?'#FFB547':COLS[f.g%COLS.length];const col=E3.tint(base,f.shade);
+  g+=`<polygon points="${E3.poly(pr.P,f.i)}" fill="${col}" stroke="${fd.strip?col:'#081817'}" stroke-width="${fd.strip?.8:1.6}" stroke-linejoin="round"/>`});
+ if(t<.2){const op=1-t/.2;N.F.forEach((fd,fi)=>{if(!fd.lab)return;const f=pr.faces[fi];const cx=f.i.reduce((s,i)=>s+pr.P[i][0],0)/f.i.length,cy=f.i.reduce((s,i)=>s+pr.P[i][1],0)/f.i.length;
+  g+=`<text x="${fd.strip?(w/2):cx}" y="${cy}" opacity="${op}" fill="#081817" font-size="${Math.max(11,Math.min(16,S*.22))}" font-weight="900" text-anchor="middle" dominant-baseline="middle" font-family="Arial">${fd.lab}</text>`})}
+ svg.innerHTML=g}
+function showInfo(){const N=NETS[ni];info.innerHTML=`<b class="t">${N.dim}</b><div class="f">${N.calc}</div><div class="tip">${t<.2?'Nombor pada setiap muka ialah luasnya (cm²).':'Seret bentuk untuk putar. Buka semula untuk lihat luas setiap muka.'}</div>`}
+function animTo(to){cancelAnimationFrame(anim);const from=t,t0=performance.now(),dur=1600*Math.abs(to-from)+200;const st=now=>{const p=Math.min(1,(now-t0)/dur),e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;t=from+(to-from)*e;fr.value=t;draw();if(p<1)anim=requestAnimationFrame(st);else showInfo()};anim=requestAnimationFrame(st)}
+document.getElementById('op').onclick=()=>animTo(0);document.getElementById('cl').onclick=()=>animTo(1);
+fr.oninput=()=>{cancelAnimationFrame(anim);t=+fr.value;draw();showInfo()};
+const ssel=document.getElementById('ssel');ssel.innerHTML=NETS.map((o,i)=>`<button data-s="${i}" class="${i===ni?'on':''}">${o.n}</button>`).join('');
+ssel.querySelectorAll('button').forEach(b=>b.onclick=()=>{ni=+b.dataset.s;ssel.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));cancelAnimationFrame(anim);t=0;fr.value=0;ya=.35;pi=.95;draw();showInfo()});
+svg.addEventListener('pointerdown',e=>{e.preventDefault();drag={x:e.clientX,y:e.clientY,ya,pi};svg.setPointerCapture(e.pointerId)});
+svg.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();ya=drag.ya+(e.clientX-drag.x)*.012;pi=Math.max(-1.2,Math.min(1.5,drag.pi+(e.clientY-drag.y)*.012));draw()});
+const end=()=>{drag=null};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+new ResizeObserver(()=>draw()).observe(stage);draw();showInfo();
+</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

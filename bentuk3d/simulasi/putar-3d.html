@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Putar 3D · BENTUK3D</title>
+<style>
+:root{--bg:#061413;--sf:#0C1F1E;--sf2:#122B29;--sf3:#081817;--bd:#1B3B38;--bd2:#25504C;--tx:#E8FFFC;--mu:#9CC9C3;--mu2:#6C9A94;--c1:#2DD4BF;--c2:#FFB547;--c3:#FF7EB6;--gold:#FFD166;--ok:#3DDC84;--bad:#FF6B7A;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.modes{display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#032622}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:11px 14px;line-height:1.5;font-size:15px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:2px}
+.info .f{font-weight:800;font-size:17px}.info .f b{color:var(--c2)}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.info .ok{color:var(--ok)}.info .no{color:var(--bad)}
+.ctrl{display:flex;flex-direction:column;gap:8px}
+.line{display:flex;gap:8px;align-items:center}
+.line label{font-weight:800;color:var(--mu);font-size:14px;white-space:nowrap;min-width:64px}
+.line input[type=range]{flex:1;accent-color:var(--c1);height:28px}
+.seg{display:flex;gap:6px;flex:1}
+.seg button{flex:1;background:var(--sf);border:2px solid var(--bd2);border-radius:12px;padding:10px 2px;font-weight:800;font-size:14.5px}
+.seg button.on{background:var(--c1);border-color:var(--c1);color:#032622}
+.btns{display:flex;gap:8px}
+.big{flex:1;background:var(--c2);border:0;color:#2a1a03;border-radius:13px;padding:13px 6px;font-weight:900;font-size:16px}
+.big.alt{flex:.6;background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.big.ok{background:var(--ok);color:#06240f}.big.no{background:var(--bad);color:#2a0609}
+.big:disabled{opacity:.45}
+.nextb{margin-top:6px;background:var(--c1);border:0;color:#032622;border-radius:11px;padding:8px 16px;font-weight:900}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.45fr) minmax(330px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .modes,.shapes{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:22px}.info .f{font-size:19px}
+}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.info{padding:8px 11px;font-size:13.5px}.info .f{font-size:15px}.info b.t{font-size:16px}.big{padding:10px 4px}.seg button{padding:7px 2px}}
+.shapes{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}.shapes.five{grid-template-columns:repeat(5,1fr)}
+.shapes button{border:0;background:none;color:var(--mu);font-weight:800;font-size:14px;padding:9px 2px;border-radius:11px}.shapes button.on{background:var(--c1);color:#032622}
+.tip2{color:var(--mu);font-size:13px;text-align:center}.big.sm{flex:.35}.info .f2{font-weight:700;font-size:14.5px}.info .f2 b{color:var(--c2)}
+.cnts{display:flex;gap:8px;margin-top:6px}.cnt{flex:1;background:var(--sf3);border:2px solid var(--bd2);border-radius:12px;padding:6px;text-align:center}.cnt b{display:block;font-size:24px;line-height:1.1}.cnt span{font-size:12px;color:var(--mu);font-weight:800}.cnt.on{border-color:var(--c2)}
+.big.hl{background:var(--sf);border:2px solid var(--bd2);color:var(--tx);font-size:15px}.big.hl.on{background:var(--c2);border-color:var(--c2);color:#2a1a03}
+.line label.r{min-width:auto}
+@media(max-width:400px){.shapes button{font-size:12.5px}.big.hl{font-size:13.5px}}
+@media(max-height:620px){.cnt b{font-size:19px}.shapes button{padding:7px 2px}}
+
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#FF7EB6;color:#3a0620;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #FF7EB644">&#8592; Kembali ke BENTUK3D</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="shapes" role="tablist" id="ssel"></div>
+ <div class="stage" id="stage"><svg id="svg" aria-label="Bentuk 3D"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl"><div class="btns" id="hsel"><button class="big hl" data-h="muka">🟦 Muka</button><button class="big hl" data-h="tepi">📏 Tepi</button><button class="big hl" data-h="bucu">🔴 Bucu</button></div><div class="tip2">Seret bentuk untuk putar. Tekan butang untuk kira.</div></div>
+</div>
+<script>
+'use strict';
+const E3=(()=>{
+const sub=(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]],add=(a,b)=>[a[0]+b[0],a[1]+b[1],a[2]+b[2]],mul=(a,k)=>[a[0]*k,a[1]*k,a[2]*k],dot=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2],cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]],norm=a=>{const l=Math.hypot(a[0],a[1],a[2])||1;return[a[0]/l,a[1]/l,a[2]/l]};
+const cen=ps=>mul(ps.reduce(add,[0,0,0]),1/ps.length);
+function newell(ps){let n=[0,0,0];for(let i=0;i<ps.length;i++){const a=ps[i],b=ps[(i+1)%ps.length];n[0]+=(a[1]-b[1])*(a[2]+b[2]);n[1]+=(a[2]-b[2])*(a[0]+b[0]);n[2]+=(a[0]-b[0])*(a[1]+b[1])}return norm(n)}
+function rot(p,ya,pi){let x=p[0],y=p[1],z=p[2];const c=Math.cos(ya),s=Math.sin(ya);[x,z]=[x*c+z*s,-x*s+z*c];const c2=Math.cos(pi),s2=Math.sin(pi);[y,z]=[y*c2-z*s2,y*s2+z*c2];return[x,y,z]}
+function rotAxis(p,a,b,ang){const k=norm(sub(b,a)),v=sub(p,a),c=Math.cos(ang),s=Math.sin(ang);return add(add(add(mul(v,c),mul(cross(k,v),s)),mul(k,dot(k,v)*(1-c))),a)}
+function ngon(r,n,ph=0){return[...Array(n)].map((_,k)=>[r*Math.cos(ph+2*Math.PI*k/n),r*Math.sin(ph+2*Math.PI*k/n)])}
+function prism(poly,h){const n=poly.length,V=[...poly.map(([x,z])=>[x,-h/2,z]),...poly.map(([x,z])=>[x,h/2,z])];const F=[{i:[...Array(n).keys()],g:0},{i:[...Array(n).keys()].map(k=>k+n),g:1}];for(let k=0;k<n;k++)F.push({i:[k,(k+1)%n,(k+1)%n+n,k+n],g:2+k});return{V,F,G:n+2}}
+function box(a,b,c){return prism([[-a/2,-c/2],[a/2,-c/2],[a/2,c/2],[-a/2,c/2]],b)}
+function pyramid(poly,h){const n=poly.length,V=[...poly.map(([x,z])=>[x,-h/2,z]),[0,h/2,0]];const F=[{i:[...Array(n).keys()],g:0}];for(let k=0;k<n;k++)F.push({i:[k,(k+1)%n,n],g:1+k});return{V,F,G:n+1}}
+function cylinder(r,h,n=28){const s=prism(ngon(r,n),h);s.F.forEach(f=>{if(f.g>=2)f.g=2});s.G=3;s.curved=true;s.rims=[[...Array(n).keys()],[...Array(n).keys()].map(k=>k+n)];s.pts=[];return s}
+function cone(r,h,n=28){const s=pyramid(ngon(r,n),h);s.F.forEach(f=>{if(f.g>=1)f.g=1});s.G=2;s.curved=true;s.rims=[[...Array(n).keys()]];s.pts=[n];return s}
+function sphere(r,la=12,lo=24){const V=[],F=[];for(let i=0;i<=la;i++){const t=Math.PI*i/la;for(let j=0;j<lo;j++){const p=2*Math.PI*j/lo;V.push([r*Math.sin(t)*Math.cos(p),r*Math.cos(t),r*Math.sin(t)*Math.sin(p)])}}
+ for(let i=0;i<la;i++)for(let j=0;j<lo;j++){const a=i*lo+j,b=i*lo+(j+1)%lo;F.push({i:i===0?[a,b+lo,a+lo]:i===la-1?[a,b,a+lo]:[a,b,b+lo,a+lo],g:0})}return{V,F,G:1,curved:true,rims:[],pts:[]}}
+function edgesOf(s){const m=new Map();s.F.forEach((f,fi)=>{const n=f.i.length;for(let k=0;k<n;k++){const a=f.i[k],b=f.i[(k+1)%n];if(a===b)continue;const key=a<b?a+'_'+b:b+'_'+a;if(!m.has(key))m.set(key,{a:Math.min(a,b),b:Math.max(a,b),f:[]});m.get(key).f.push(fi)}});return m}
+function project(V,F,ya,pi,S,cx,cy,D=18,two=false){const R=V.map(p=>rot(p,ya,pi));const P=R.map(([x,y,z])=>{const k=D/(D-z);return[cx+x*k*S,cy-y*k*S]});const C=cen(R);const L=norm([-.45,.6,.75]);
+ const faces=F.map((f,fi)=>{const ps=f.i.map(i=>R[i]);const c=cen(ps);let n=newell(ps);if(!two&&dot(n,sub(c,C))<0)n=mul(n,-1);const view=norm(sub([0,0,D],c));const fr=dot(n,view);if(two&&fr<0)n=mul(n,-1);
+  return{fi,g:f.g,i:f.i,z:c[2],front:two?true:fr>0,shade:.5+.5*Math.max(0,dot(n,L))}});return{R,P,faces}}
+function tint(hex,k){const n=parseInt(hex.slice(1,7),16);let r=n>>16,g=n>>8&255,b=n&255;r=Math.round(Math.min(255,r*k));g=Math.round(Math.min(255,g*k));b=Math.round(Math.min(255,b*k));return'#'+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1)}
+const poly=(P,idx)=>idx.map(i=>P[i][0].toFixed(1)+','+P[i][1].toFixed(1)).join(' ');
+return{sub,add,mul,dot,cross,norm,cen,rot,rotAxis,ngon,prism,box,pyramid,cylinder,cone,sphere,edgesOf,project,tint,poly}})();
+
+const svg=document.getElementById('svg'),stage=document.getElementById('stage'),info=document.getElementById('info');
+const tri=E3.ngon(1.25,3,Math.PI/2),sq=[[-1.2,-1.2],[1.2,-1.2],[1.2,1.2],[-1.2,1.2]];
+const SH=[
+ {n:'Kubus',s:E3.box(2.2,2.2,2.2),m:[6,0],t:12,b:8},
+ {n:'Kuboid',s:E3.box(3,1.8,1.6),m:[6,0],t:12,b:8},
+ {n:'Prisma',full:'Prisma segi tiga',s:(()=>{const p=E3.prism(tri,2.8);p.V=p.V.map(([x,y,z])=>[y,z,x]);return p})(),m:[5,0],t:9,b:6},
+ {n:'Piramid',full:'Piramid tapak segi empat',s:E3.pyramid(sq,2.6),m:[5,0],t:8,b:5},
+ {n:'Silinder',s:E3.cylinder(1.25,2.8),m:[2,1],t:2,b:0},
+ {n:'Kon',s:E3.cone(1.35,2.8),m:[1,1],t:1,b:1},
+ {n:'Sfera',s:E3.sphere(1.6),m:[0,1],t:0,b:0}];
+const GC=['#2DD4BF','#FFB547','#FF7EB6','#7AA8FF','#B5F06B','#FF8A5C','#C9A2FF','#5EEAD4'];
+let si=0,ya=.6,pi=-.42,drag=null,hl=null,step=0,timer=null,idle=0;
+SH.forEach(o=>{o.E=o.s.curved?null:[...E3.edgesOf(o.s).values()];o.EM=E3.edgesOf(o.s)});
+function rimSegs(o){const segs=[];(o.s.rims||[]).forEach((r,ri)=>{for(let k=0;k<r.length;k++){const a=r[k],b=r[(k+1)%r.length];const key=a<b?a+'_'+b:b+'_'+a;segs.push({a,b,f:o.EM.get(key).f,ri})}});return segs}
+SH.forEach(o=>{o.segs=o.s.curved?rimSegs(o):o.E});
+function draw(){const o=SH[si],w=stage.clientWidth||300,h=stage.clientHeight||300;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+ const S=Math.min(w,h)/5.6,{P,faces}=E3.project(o.s.V,o.s.F,ya,pi,S,w/2,h/2+6);
+ const front=new Set(faces.filter(f=>f.front).map(f=>f.fi));
+ let g='';const nG=o.s.G;
+ const colFor=gi=>{if(hl==='muka'){const order=groupOrder(o);const k=order.indexOf(gi);return k>=0&&k<step?GC[k%GC.length]:'#25504C'}return'#1f8f82'};
+ faces.slice().sort((a,b)=>a.z-b.z).forEach(f=>{const c=E3.tint(colFor(f.g),f.shade);g+=`<polygon points="${E3.poly(P,f.i)}" fill="${c}" stroke="${o.s.curved?c:'#081817'}" stroke-width="${o.s.curved?.8:1.2}" stroke-linejoin="round"/>`});
+ // tepi
+ const segs=o.segs,isVis=e=>e.f.some(fi=>front.has(fi));
+ const showE=hl==='tepi',eCount=o.s.curved?(o.s.rims||[]).length:segs.length;
+ segs.forEach((e,k)=>{const vis=isVis(e);let on=showE&&(o.s.curved?e.ri<step:k<step);
+  if(!on&&!o.s.curved&&!vis)g+=`<line x1="${P[e.a][0]}" y1="${P[e.a][1]}" x2="${P[e.b][0]}" y2="${P[e.b][1]}" stroke="#9CC9C355" stroke-width="1.5" stroke-dasharray="5 4"/>`;
+  if(on)g+=`<line x1="${P[e.a][0]}" y1="${P[e.a][1]}" x2="${P[e.b][0]}" y2="${P[e.b][1]}" stroke="#FFB547" stroke-width="${vis?5:3}" stroke-linecap="round" ${vis?'':'stroke-dasharray="6 5" opacity=".8"'}/>`;
+  else if(!o.s.curved&&vis)g+=`<line x1="${P[e.a][0]}" y1="${P[e.a][1]}" x2="${P[e.b][0]}" y2="${P[e.b][1]}" stroke="#E8FFFC" stroke-width="2" stroke-linecap="round"/>`});
+ if(hl==='bucu'){const vs=o.s.curved?o.s.pts:o.s.V.map((_,i)=>i);const fv=new Set();faces.forEach(f=>{if(f.front)f.i.forEach(i=>fv.add(i))});
+  vs.forEach((i,k)=>{if(k<step)g+=`<circle cx="${P[i][0]}" cy="${P[i][1]}" r="${fv.has(i)?9:6}" fill="#FF6B7A" stroke="#fff" stroke-width="2" ${fv.has(i)?'':'opacity=".55"'}/>`+(fv.has(i)?`<text x="${P[i][0]}" y="${P[i][1]+1}" font-size="10" font-weight="900" fill="#fff" text-anchor="middle" dominant-baseline="middle" font-family="Arial">${k+1}</text>`:'')})}
+ svg.innerHTML=g}
+function groupOrder(o){return[...Array(o.s.G).keys()]}
+function showInfo(){const o=SH[si],M=o.m[0]+o.m[1];
+ const lab=(k,v,c)=>`<div class="cnt ${hl===k?'on':''}"><b style="color:${c}">${hl===k?Math.min(step,v):v}</b><span>${k==='muka'?'Muka':k==='tepi'?'Tepi':'Bucu'}</span></div>`;
+ let extra='';if(o.s.curved){extra=`<div class="tip">${o.m[0]?o.m[0]+' muka rata + ':''}${o.m[1]} muka melengkung${o.t?' · tepi melengkung':''}</div>`}
+ info.innerHTML=`<b class="t">${o.full||o.n}</b><div class="cnts">${lab('muka',M,'#2DD4BF')}${lab('tepi',o.t,'#FFB547')}${lab('bucu',o.b,'#FF6B7A')}</div>${extra}`}
+function startHL(k){clearInterval(timer);hl=k;step=0;const o=SH[si];const N=k==='muka'?o.s.G:k==='tepi'?(o.s.curved?(o.s.rims||[]).length:o.segs.length):(o.s.curved?o.s.pts.length:o.s.V.length);
+ document.querySelectorAll('.hl').forEach(b=>b.classList.toggle('on',b.dataset.h===k));draw();showInfo();
+ if(!N){showInfo();return}timer=setInterval(()=>{step++;draw();showInfo();if(step>=N)clearInterval(timer)},N>8?260:480)}
+document.querySelectorAll('.hl').forEach(b=>b.onclick=()=>startHL(b.dataset.h));
+const ssel=document.getElementById('ssel');ssel.innerHTML=SH.map((o,i)=>`<button data-s="${i}" class="${i===si?'on':''}">${o.n}</button>`).join('');
+ssel.querySelectorAll('button').forEach(b=>b.onclick=()=>{si=+b.dataset.s;ssel.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));clearInterval(timer);hl=null;step=0;document.querySelectorAll('.hl').forEach(x=>x.classList.remove('on'));draw();showInfo()});
+svg.addEventListener('pointerdown',e=>{e.preventDefault();drag={x:e.clientX,y:e.clientY,ya,pi};svg.setPointerCapture(e.pointerId)});
+svg.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();ya=drag.ya+(e.clientX-drag.x)*.012;pi=Math.max(-1.4,Math.min(1.4,drag.pi+(e.clientY-drag.y)*.012));idle=0;draw()});
+const end=()=>{drag=null};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+let lt=performance.now();function loop(now){const dt=(now-lt)/1000;lt=now;idle+=dt;if(!drag&&idle>1.5){ya+=dt*.35;draw()}requestAnimationFrame(loop)}
+new ResizeObserver(()=>draw()).observe(stage);draw();showInfo();requestAnimationFrame(loop);
+</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

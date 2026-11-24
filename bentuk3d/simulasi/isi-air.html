@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Isi Air · BENTUK3D</title>
+<style>
+:root{--bg:#061413;--sf:#0C1F1E;--sf2:#122B29;--sf3:#081817;--bd:#1B3B38;--bd2:#25504C;--tx:#E8FFFC;--mu:#9CC9C3;--mu2:#6C9A94;--c1:#2DD4BF;--c2:#FFB547;--c3:#FF7EB6;--gold:#FFD166;--ok:#3DDC84;--bad:#FF6B7A;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.modes{display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#032622}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:11px 14px;line-height:1.5;font-size:15px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:2px}
+.info .f{font-weight:800;font-size:17px}.info .f b{color:var(--c2)}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.info .ok{color:var(--ok)}.info .no{color:var(--bad)}
+.ctrl{display:flex;flex-direction:column;gap:8px}
+.line{display:flex;gap:8px;align-items:center}
+.line label{font-weight:800;color:var(--mu);font-size:14px;white-space:nowrap;min-width:64px}
+.line input[type=range]{flex:1;accent-color:var(--c1);height:28px}
+.seg{display:flex;gap:6px;flex:1}
+.seg button{flex:1;background:var(--sf);border:2px solid var(--bd2);border-radius:12px;padding:10px 2px;font-weight:800;font-size:14.5px}
+.seg button.on{background:var(--c1);border-color:var(--c1);color:#032622}
+.btns{display:flex;gap:8px}
+.big{flex:1;background:var(--c2);border:0;color:#2a1a03;border-radius:13px;padding:13px 6px;font-weight:900;font-size:16px}
+.big.alt{flex:.6;background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.big.ok{background:var(--ok);color:#06240f}.big.no{background:var(--bad);color:#2a0609}
+.big:disabled{opacity:.45}
+.nextb{margin-top:6px;background:var(--c1);border:0;color:#032622;border-radius:11px;padding:8px 16px;font-weight:900}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.45fr) minmax(330px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .modes,.shapes{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:22px}.info .f{font-size:19px}
+}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.info{padding:8px 11px;font-size:13.5px}.info .f{font-size:15px}.info b.t{font-size:16px}.big{padding:10px 4px}.seg button{padding:7px 2px}}
+.shapes{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}.shapes.five{grid-template-columns:repeat(5,1fr)}
+.shapes button{border:0;background:none;color:var(--mu);font-weight:800;font-size:14px;padding:9px 2px;border-radius:11px}.shapes button.on{background:var(--c1);color:#032622}
+.tip2{color:var(--mu);font-size:13px;text-align:center}.big.sm{flex:.35}.info .f2{font-weight:700;font-size:14.5px}.info .f2 b{color:var(--c2)}
+.cnts{display:flex;gap:8px;margin-top:6px}.cnt{flex:1;background:var(--sf3);border:2px solid var(--bd2);border-radius:12px;padding:6px;text-align:center}.cnt b{display:block;font-size:24px;line-height:1.1}.cnt span{font-size:12px;color:var(--mu);font-weight:800}.cnt.on{border-color:var(--c2)}
+.big.hl{background:var(--sf);border:2px solid var(--bd2);color:var(--tx);font-size:15px}.big.hl.on{background:var(--c2);border-color:var(--c2);color:#2a1a03}
+.line label.r{min-width:auto}
+@media(max-width:400px){.shapes button{font-size:12.5px}.big.hl{font-size:13.5px}}
+@media(max-height:620px){.cnt b{font-size:19px}.shapes button{padding:7px 2px}}
+.line label{min-width:84px}.seg button{font-size:13.5px}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#FF7EB6;color:#3a0620;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #FF7EB644">&#8592; Kembali ke BENTUK3D</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="modes" role="tablist"><button data-m="isi" class="on" role="tab">💧 Isi Air</button><button data-m="tuang" role="tab">🫗 Kon vs Silinder</button></div>
+ <div class="stage" id="stage"><svg id="svg" aria-label="Isi padu"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),stage=document.getElementById('stage'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const SH=[{n:'Kuboid',base:[[0,0],[5,0],[5,4],[0,4]],A:20,Atx:'5 × 4 = 20',H:6},{n:'Prisma',base:[[0,0],[4,0],[0,3]],A:6,Atx:'½ × 4 × 3 = 6',H:8},{n:'Silinder',circle:7,A:154,Atx:'22/7 × 7² = 154',H:10}];
+const PAIR=[{n:'Kon & Silinder',circ:true},{n:'Piramid & Prisma',circ:false}];
+let mode='isi',si=0,lv=0,anim=null,pi_=0,pours=0,coneL=1,cylL=0;
+const T=(x,y,s,c='#E8FFFC',z=13,w=800,a='middle')=>`<text x="${x}" y="${y}" fill="${c}" font-size="${z}" font-weight="${w}" text-anchor="${a}" dominant-baseline="middle" font-family="Arial" paint-order="stroke" stroke="#081817" stroke-width="4">${s}</text>`;
+const pts=a=>a.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ');
+function hull(P){P=P.slice().sort((a,b)=>a[0]-b[0]||a[1]-b[1]);const cr=(o,a,b)=>(a[0]-o[0])*(b[1]-o[1])-(a[1]-o[1])*(b[0]-o[0]);const lo=[],up=[];for(const p of P){while(lo.length>=2&&cr(lo[lo.length-2],lo[lo.length-1],p)<=0)lo.pop();lo.push(p)}for(const p of P.slice().reverse()){while(up.length>=2&&cr(up[up.length-2],up[up.length-1],p)<=0)up.pop();up.push(p)}return lo.slice(0,-1).concat(up.slice(0,-1))}
+// unjuran serong: (x,z) tapak, y tinggi
+function mk(cx,yb,S){return(x,z,y)=>[cx+(x+.55*z)*S,yb-(.42*z+y)*S]}
+function solid(Pf,base,H,apex,level,col,showWater=true){// base: [[x,z]], apex? piramid/kon
+ const B=base.map(([x,z])=>Pf(x,z,0)),cz=base.reduce((s,p)=>[s[0]+p[0]/base.length,s[1]+p[1]/base.length],[0,0]);
+ const top=apex?[Pf(cz[0],cz[1],H)]:base.map(([x,z])=>Pf(x,z,H));let g='';
+ // air
+ if(showWater&&level>0){const f=level/H,Lp=base.map(([x,z])=>apex?Pf(cz[0]+(x-cz[0])*(1-f),cz[1]+(z-cz[1])*(1-f),level):Pf(x,z,level));
+  g+=`<polygon points="${pts(hull(B.concat(Lp)))}" fill="#2DD4BF" fill-opacity=".55"/><polygon points="${pts(Lp)}" fill="#7FF0E0" fill-opacity=".85" stroke="#E8FFFC" stroke-width="1.5"/>`}
+ // bekas
+ g+=`<polygon points="${pts(hull(B.concat(top)))}" fill="#E8FFFC" fill-opacity=".05" stroke="#E8FFFC" stroke-width="2.5" stroke-linejoin="round"/><polygon points="${pts(B)}" fill="none" stroke="#9CC9C3" stroke-width="1.5" stroke-dasharray="5 4"/>`;
+ if(!apex)g+=`<polygon points="${pts(top)}" fill="none" stroke="#E8FFFC" stroke-width="2"/>`;
+ return g}
+const circ=(r,n=40)=>[...Array(n)].map((_,k)=>[r*Math.cos(2*Math.PI*k/n),r*Math.sin(2*Math.PI*k/n)]);
+function drawIsi(){const o=SH[si],w=stage.clientWidth||300,h=stage.clientHeight||300;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+ const base=o.circle?circ(o.circle):o.base,xs=base.map(p=>p[0]+.55*p[1]),zs=base.map(p=>p[1]);const bw=Math.max(...xs)-Math.min(...xs),bh=o.H+.42*(Math.max(...zs)-Math.min(...zs));
+ const S=Math.min((w-60)/bw,(h-70)/bh)*.85,cx=w/2-(Math.min(...xs)+bw/2)*S,yb=h/2+(.42*Math.max(...zs)+o.H+.42*Math.min(...zs))*S/2+8;const Pf=mk(cx,yb,S);
+ let g=solid(Pf,base,o.H,false,lv);
+ const yl=[cx+(Math.max(...xs)+.2)*S];g+=`<line x1="${yl[0]+14}" y1="${yb-0}" x2="${yl[0]+14}" y2="${Pf(0,Math.min(...zs),lv)[1]}" stroke="#FFB547" stroke-width="3"/>`+T(yl[0]+20,(yb+Pf(0,Math.min(...zs),lv)[1])/2,'h = '+lv,'#FFB547',13,900).replace('text-anchor="middle"','text-anchor="start"');
+ g+=T(w/2,22,`Tinggi bekas = ${o.H} cm`,'#9CC9C3',13,700);svg.innerHTML=g}
+function infoIsi(){const o=SH[si];info.innerHTML=`<div class="f2">Luas keratan rentas (A) = ${o.Atx} cm²</div><div class="f">Isi padu air = A × h = ${o.A} × ${lv} = <b>${o.A*lv} cm³</b></div>${lv>=o.H?`<div class="tip">Penuh! Isi padu ${o.n.toLowerCase()} = ${o.A} × ${o.H} = <b>${o.A*o.H} cm³</b></div>`:'<div class="tip">Air naik lapis demi lapis — setiap lapis ialah keratan rentas yang sama.</div>'}`}
+function fill(to){cancelAnimationFrame(anim);const o=SH[si],from=lv,t0=performance.now(),dur=Math.abs(to-from)/o.H*2600+100;
+ const st=now=>{const p=Math.min(1,(now-t0)/dur);lv=Math.round((from+(to-from)*p)*2)/2;drawIsi();infoIsi();const r=ctrl.querySelector('input');if(r)r.value=lv;if(p<1)anim=requestAnimationFrame(st)};anim=requestAnimationFrame(st)}
+function setIsi(){const o=SH[si];ctrl.innerHTML=`<div class="seg" id="ssel">${SH.map((x,i)=>`<button data-s="${i}" class="${i===si?'on':''}">${x.n}</button>`).join('')}</div>
+ <div class="line"><label for="hr">Tinggi air</label><input type="range" id="hr" min="0" max="${o.H}" step="0.5" value="${lv}"></div>
+ <div class="btns"><button class="big" id="go">💧 Isi penuh</button><button class="big alt sm" id="rs" aria-label="Kosongkan">↺</button></div>`;
+ ctrl.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{cancelAnimationFrame(anim);si=+b.dataset.s;lv=0;setIsi();drawIsi();infoIsi()});
+ const hr=document.getElementById('hr');hr.oninput=()=>{cancelAnimationFrame(anim);lv=+hr.value;drawIsi();infoIsi()};
+ document.getElementById('go').onclick=()=>fill(SH[si].H);document.getElementById('rs').onclick=()=>fill(0)}
+/* ---------- kon vs silinder ---------- */
+function drawTuang(){const P=PAIR[pi_],w=stage.clientWidth||300,h=stage.clientHeight||300;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+ const base=P.circ?circ(1.4):[[-1.3,-1.3],[1.3,-1.3],[1.3,1.3],[-1.3,1.3]],H=3.2;const S=Math.min(w/9.5,h/5.8),yb=h/2+H*S/2+10;
+ const L=mk(w*.27,yb,S),R=mk(w*.71,yb,S);let g='';
+ g+=solid(L,base,H,true,coneL*H)+solid(R,base,H,false,cylL*H);
+ for(let k=1;k<3;k++){const y=R(0,-1.4,H*k/3)[1];g+=`<line x1="${R(1.6,-1.4,0)[0]}" y1="${y}" x2="${R(1.6,-1.4,0)[0]+12}" y2="${y}" stroke="#FFB547" stroke-width="2"/>`+T(R(1.6,-1.4,0)[0]+16,y,k+'/3','#FFB547',11,900).replace('text-anchor="middle"','text-anchor="start"')}
+ g+=T(w*.27+.3*S,yb+28,P.circ?'Kon':'Piramid','#E8FFFC',14,900)+T(w*.71+.3*S,yb+28,P.circ?'Silinder':'Prisma','#E8FFFC',14,900);
+ g+=T(w/2,22,'Tapak sama, tinggi sama','#9CC9C3',13,700);svg.innerHTML=g}
+function infoTuang(){const P=PAIR[pi_],a=P.circ?'kon':'piramid',b=P.circ?'silinder':'prisma';
+ info.innerHTML=pours>=3?`<b class="t">3 ${a} = 1 ${b} penuh!</b><div class="f">Isi padu ${a} = <b>⅓ × isi padu ${b}</b></div><div class="f2">${P.circ?'Kon = ⅓ × πj² × t':'Piramid = ⅓ × luas tapak × t'}</div>`
+ :`<div class="f">Tuangan: <b>${pours} / 3</b></div><div class="tip">Tuang ${a} penuh air ke dalam ${b}. Berapa kali perlu dituang untuk penuh?</div>`}
+function pour(){if(anim||pours>=3)return;const t0=performance.now(),from=cylL;setBusy(true);
+ const st=now=>{const p=Math.min(1,(now-t0)/1500);coneL=1-p;cylL=from+p/3;drawTuang();if(p<1)anim=requestAnimationFrame(st);else{anim=null;pours++;if(pours<3){const t1=performance.now();const rf=n2=>{const q=Math.min(1,(n2-t1)/500);coneL=q;drawTuang();if(q<1)anim=requestAnimationFrame(rf);else{anim=null;setBusy(false)}};anim=requestAnimationFrame(rf)}else setBusy(false);infoTuang()}};anim=requestAnimationFrame(st)}
+function setBusy(b){ctrl.querySelectorAll('button').forEach(x=>x.disabled=b&&!x.dataset.p)}
+function setTuang(){ctrl.innerHTML=`<div class="seg">${PAIR.map((x,i)=>`<button data-p="${i}" class="${i===pi_?'on':''}">${x.n}</button>`).join('')}</div><div class="btns"><button class="big" id="go">🫗 Tuang</button><button class="big alt sm" id="rs" aria-label="Semula">↺</button></div>`;
+ ctrl.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{if(anim)return;pi_=+b.dataset.p;resetT();setTuang()});document.getElementById('go').onclick=pour;document.getElementById('rs').onclick=()=>{if(!anim)resetT()}}
+function resetT(){pours=0;coneL=1;cylL=0;drawTuang();infoTuang()}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{if(anim){cancelAnimationFrame(anim);anim=null}document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));mode=b.dataset.m;
+ if(mode==='isi'){setIsi();drawIsi();infoIsi()}else{setTuang();resetT()}});
+new ResizeObserver(()=>mode==='isi'?drawIsi():drawTuang()).observe(stage);setIsi();drawIsi();infoIsi();
+</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>
