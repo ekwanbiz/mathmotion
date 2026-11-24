@@ -617,7 +617,7 @@ function viewKongsi(code) {
     unpackPlan(code).then(p => { AJK.plan = p; }).catch(() => { AJK.err = true; }).then(() => { if (location.hash.indexOf('#/k/' + code) === 0) render(false); });
   }
   const light = isLight();
-  const head = `<header class="hdr"><span class="wm2"><b class="tm">Teroka<span>Math</span></b><small><b>${BAB.nama[0]}</b><b class="mv">${BAB.nama[1]}</b> : Bab ${BAB.no} : ${BAB.tajuk}</small></span><div class="end" style="margin-left:auto"><button type="button" class="ib" id="themeBtn" aria-label="${light ? 'Tukar ke mod gelap' : 'Tukar ke mod cerah'}">${light ? IC.moon : IC.sun}</button></div></header>`;
+  const head = `<header class="hdr"><span class="wm2"><b class="tm">Teroka<span>Math</span></b><small><b class="mv">Bab ${BAB.no}</b> : ${BAB.tajuk}</small></span><div class="end" style="margin-left:auto"><button type="button" class="ib" id="themeBtn" aria-label="${light ? 'Tukar ke mod gelap' : 'Tukar ke mod cerah'}">${light ? IC.moon : IC.sun}</button></div></header>`;
   let body;
   if (AJK.err) body = `<div class="kgcard"><p class="eyebrow">PELAN DIKONGSI</p><h1 class="h1">Link tidak sah</h1><p class="lead">Link ini rosak atau tidak lengkap. Minta guru yang berkongsi menghantar semula link.</p></div>`;
   else if (!AJK.plan) body = `<div class="kgcard"><p class="lead">Membuka pelan…</p></div>`;

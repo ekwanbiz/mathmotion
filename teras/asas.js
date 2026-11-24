@@ -2,7 +2,7 @@
 /* =================== TerokaMath · TERAS: asas (dikongsi semua bab) =================== */
 // Perlu dimuat SELEPAS bab.js dan slides.js bagi bab itu.
 const KEY = BAB.key;
-const APPNAME = BAB.nama.join('');
+const APPNAME = `Bab ${BAB.no} ${BAB.tajuk}`; // nama app tidak dipaparkan lagi (24 Nov)
 const LS = {
   get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : v; } catch (e) { return d; } },
   set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }

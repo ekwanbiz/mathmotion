@@ -62,7 +62,7 @@ html.light .wm2 .tm span{color:#4B4BD6}
 /* ---------- Muka depan ---------- */
 .splash{height:100vh;height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:calc(24px + var(--sat)) 24px calc(24px + var(--sab));text-align:center;background-image:linear-gradient(#8080800f 1px,transparent 1px),linear-gradient(90deg,#8080800f 1px,transparent 1px);background-size:28px 28px}
 .splash img{width:150px;height:150px;border-radius:38px;box-shadow:0 18px 50px #38BDF833}
-.splash h1{margin:6px 0 0;font-family:var(--head);font-size:clamp(44px,7vw,72px);line-height:1;letter-spacing:.03em}
+.splash h1{margin:6px 0 0;font-family:var(--head);font-size:clamp(32px,5.5vw,58px);line-height:1.08;letter-spacing:0;max-width:16ch;text-wrap:balance}
 .splash h1 span{color:var(--tr)}
 .slogan{margin:0;font-family:var(--head);font-size:clamp(20px,2.6vw,28px);font-weight:700}
 .splash .sub{margin:0;color:var(--mu);font-size:16px}

@@ -9,7 +9,7 @@ function shell(tab, inner) {
   return `<div class="app tabbed">
   <header class="hdr">
     <a class="ib" href="../#/utama" aria-label="Kembali ke TerokaMath (semua bab)">${IC.mm}</a>
-    <a class="wm2" href="../#/utama" aria-label="Kembali ke TerokaMath (semua bab)"><b class="tm">Teroka<span>Math</span></b><small><b>${BAB.nama[0]}</b><b class="mv">${BAB.nama[1]}</b> : Bab ${BAB.no} : ${BAB.tajuk}</small></a>
+    <a class="wm2" href="../#/utama" aria-label="Kembali ke TerokaMath (semua bab)"><b class="tm">Teroka<span>Math</span></b><small><b class="mv">Bab ${BAB.no}</b> : ${BAB.tajuk}</small></a>
     <nav class="tabs" aria-label="Tab utama">${TABS.map(([k, t, sh]) => `<a href="#/${k}"${k === 'ajar' ? ' class="hl"' : ''}${k === tab ? ' aria-current="page"' : ''}>${IC[k]}${sh ? `<span class="tl">${t}</span><span class="ts">${sh}</span>` : `<span>${t}</span>`}</a>`).join('')}</nav>
     <div class="end">
       <button type="button" class="ib" id="themeBtn" aria-label="${light ? 'Tukar ke mod gelap' : 'Tukar ke mod cerah'}">${light ? IC.moon : IC.sun}</button>
@@ -36,9 +36,9 @@ let tt; function toast(m) { const t = document.getElementById('toast'); t.textCo
 function viewSplash() {
   return `<main class="splash">
     <img src="${BAB.logo}" alt="Logo ${APPNAME}" width="150" height="150">
-    <h1>${BAB.nama[0]}<span>${BAB.nama[1]}</span></h1>
+    <h1>${BAB.tajuk}</h1>
     <p class="slogan">${BAB.slogan.map(([t, c]) => `<span style="color:var(--${c})">${t}</span>`).join(' ')}</p>
-    <p class="sub">Bab ${BAB.no} : ${BAB.tajuk}</p>
+    <p class="sub">Bab ${BAB.no} · Tingkatan ${BAB.ting}</p>
     <a class="btn pri big" href="#/ajar">Jom Mula! ${IC.arrow}</a>
   </main>`;
 }
