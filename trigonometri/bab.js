@@ -30,3 +30,10 @@ const SUBSIM = { '5.1.1': 'sisi-sudut', '5.1.2': 'segi-tiga-serupa', '5.1.4': 's
 
 /* ---------- simulasi TEROKA: [fail dalam simulasi/, nama, warna] ---------- */
 const SIMLIST = [['sisi-sudut', 'Sisi & Sudut', 'pa'], ['segi-tiga-serupa', 'Segi Tiga Serupa', 'pu'], ['klinometer', 'Klinometer', 'gr']];
+
+// Subtopik disatukan ikut nombor buku teks (25 Nov) – lihat teras/lembaran.js gabungSub()
+BAB.gabung = {"5.1.1": "5.1", "5.1.2": "5.1", "5.1.4": "5.1", "5.1.7": "5.1"};
+BAB.gabungNama = {"5.1": "Sinus, Kosinus dan Tangen bagi Sudut Tirus dalam Segi Tiga Bersudut Tegak"};
+Object.assign(SUBDESC, {"5.1": "Sisi segi tiga bersudut tegak, nisbah sin, kos dan tan, sudut khas dan penyelesaian masalah"});
+Object.assign(SHORT, {"5.1": "Sin, Kos & Tan"});
+Object.assign(SUBSIM, {"5.1": "sisi-sudut"});

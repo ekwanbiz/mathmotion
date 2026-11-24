@@ -1,6 +1,24 @@
 'use strict';
 /* =================== TerokaMath · TERAS: Lembaran Kerja (bank tetap, pilih & cetak) =================== */
 // Bab perlu sediakan WG (penjana) dan WSPLAN (susunan bank).
+
+/* =================== Gabung subtopik ikut buku teks (BAB.gabung) ===================
+   Contoh dalam bab.js: gabung: { '2.1.1': '2.1', '2.2.1': '2.2', '2.2.3': '2.2' },
+   gabungNama: { '2.1': 'Matriks', '2.2': 'Operasi Asas Matriks' }
+   Slaid, soalan (GEN, WSPLAN) dan senarai subtopik disatukan supaya nombor ikut buku teks. */
+(function gabungSub() {
+  const M = BAB.gabung; if (!M) return;
+  const to = k => M[k] || k, nama = BAB.gabungNama || {};
+  const subs = []; SUBS.forEach(s => { const n = to(s.no); if (!subs.some(x => x.no === n)) subs.push(Object.assign({}, s, { no: n, name: nama[n] || s.name })); });
+  window.SUBS = subs;
+  const cnt = {}, idx = {};
+  SLIDES.forEach(sl => { sl.sub = to(sl.sub); cnt[sl.sub] = (cnt[sl.sub] || 0) + 1; });
+  SLIDES.forEach(sl => { idx[sl.sub] = (idx[sl.sub] || 0) + 1; sl.n = idx[sl.sub]; sl.N = cnt[sl.sub]; });
+  const merge = (obj, join) => { const out = {}; Object.keys(obj).forEach(k => { const n = to(k); out[n] = out[n] ? join(out[n], obj[k]) : obj[k]; }); Object.keys(obj).forEach(k => delete obj[k]); Object.assign(obj, out); };
+  merge(WSPLAN, (a, b) => a.concat(b));
+  merge(GEN, (a, b) => { const o = {}; ['m', 's', 'k'].forEach(l => { o[l] = (a[l] || []).concat(b[l] || []); }); return o; });
+})();
+
 let WSBANK = null;
 function wsBank() {
   if (WSBANK) return WSBANK;

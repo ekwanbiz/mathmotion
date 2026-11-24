@@ -23,3 +23,10 @@ const SUBDESC = {
 const SHORT = { '4.1.1': 'Tujuan & Jenis Cukai', '4.1.3': 'Cukai Pendapatan', '4.1.4': 'Cukai Lain' };
 const SUBSIM = { '4.1.1': 'troli-sst', '4.1.3': 'kalkulator-cukai', '4.1.4': 'troli-sst' };
 const SIMLIST = [['kalkulator-cukai', 'Kalkulator Cukai Pendapatan', 'tr'], ['troli-sst', 'Troli Belanja & SST', 'am']];
+
+// Subtopik disatukan ikut nombor buku teks (25 Nov) – lihat teras/lembaran.js gabungSub()
+BAB.gabung = {"4.1.1": "4.1", "4.1.3": "4.1", "4.1.4": "4.1"};
+BAB.gabungNama = {"4.1": "Percukaian"};
+Object.assign(SUBDESC, {"4.1": "Tujuan dan jenis cukai, cukai pendapatan, cukai jalan, cukai harta serta cukai jualan dan perkhidmatan"});
+Object.assign(SHORT, {"4.1": "Percukaian"});
+Object.assign(SUBSIM, {"4.1": "kalkulator-cukai"});

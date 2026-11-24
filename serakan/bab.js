@@ -32,3 +32,10 @@ const SUBSIM = { '8.1.1': 'plot-kotak', '8.2.1': 'plot-kotak', '8.2.2': 'sisihan
 
 /* ---------- simulasi TEROKA: [fail dalam simulasi/, nama, warna] ---------- */
 const SIMLIST = [['plot-kotak', 'Plot Titik & Plot Kotak', 'pu'], ['sisihan-piawai', 'Sisihan Piawai', 'pk'], ['kesan-perubahan', 'Kesan Perubahan', 'gr']];
+
+// Subtopik disatukan ikut nombor buku teks (25 Nov) – lihat teras/lembaran.js gabungSub()
+BAB.gabung = {"8.1.1": "8.1", "8.2.1": "8.2", "8.2.2": "8.2", "8.2.3": "8.2", "8.2.4": "8.2"};
+BAB.gabungNama = {"8.1": "Serakan", "8.2": "Sukatan Serakan"};
+Object.assign(SUBDESC, {"8.1": "Maksud serakan, plot titik, plot batang-dan-daun dan membanding dua set data", "8.2": "Julat, kuartil, julat antara kuartil, varians, sisihan piawai, plot kotak dan kesan perubahan data"});
+Object.assign(SHORT, {"8.1": "Serakan", "8.2": "Sukatan Serakan"});
+Object.assign(SUBSIM, {"8.1": "plot-kotak", "8.2": "sisihan-piawai"});

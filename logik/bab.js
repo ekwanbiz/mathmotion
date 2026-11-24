@@ -32,3 +32,10 @@ const SUBSIM = { '3.1.1': 'jadual-kebenaran', '3.1.3': 'jadual-kebenaran', '3.1.
 
 /* ---------- simulasi TEROKA: [fail dalam simulasi/, nama, warna] ---------- */
 const SIMLIST = [['jadual-kebenaran', 'Jadual Kebenaran', 'pa'], ['pembina-implikasi', 'Pembina Implikasi', 'pu'], ['pengesah-hujah', 'Pengesah Hujah', 'gr']];
+
+// Subtopik disatukan ikut nombor buku teks (25 Nov) – lihat teras/lembaran.js gabungSub()
+BAB.gabung = {"3.1.1": "3.1", "3.1.3": "3.1", "3.1.4": "3.1", "3.2.1": "3.2", "3.2.4": "3.2"};
+BAB.gabungNama = {"3.1": "Pernyataan", "3.2": "Hujah"};
+Object.assign(SUBDESC, {"3.1": "Pernyataan, nilai kebenaran, penafian, pernyataan majmuk, implikasi, akas, songsangan dan kontrapositif", "3.2": "Hujah deduktif (Bentuk I, II, III) dan hujah induktif, sah, munasabah dan meyakinkan"});
+Object.assign(SHORT, {"3.1": "Pernyataan", "3.2": "Hujah"});
+Object.assign(SUBSIM, {"3.1": "jadual-kebenaran", "3.2": "pengesah-hujah"});

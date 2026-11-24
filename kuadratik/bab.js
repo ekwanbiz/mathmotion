@@ -30,3 +30,10 @@ const SUBSIM = { '1.1.1': 'main-abc', '1.1.3': 'main-abc', '1.1.4': 'punca-pinta
 
 /* ---------- simulasi TEROKA: [fail dalam simulasi/, nama, warna] ---------- */
 const SIMLIST = [['main-abc', 'Main a, b, c', 'tr'], ['punca-pintasan', 'Punca & Pintasan-x', 'pk'], ['masalah-harian', 'Nilai Maksimum Harian', 'am']];
+
+// Subtopik disatukan ikut nombor buku teks (25 Nov) – lihat teras/lembaran.js gabungSub()
+BAB.gabung = {"1.1.1": "1.1", "1.1.3": "1.1", "1.1.4": "1.1", "1.1.6": "1.1"};
+BAB.gabungNama = {"1.1": "Fungsi dan Persamaan Kuadratik"};
+Object.assign(SUBDESC, {"1.1": "Fungsi kuadratik, kesan a, b dan c, persamaan kuadratik, punca, pemfaktoran dan penyelesaian masalah"});
+Object.assign(SHORT, {"1.1": "Fungsi & Persamaan"});
+Object.assign(SUBSIM, {"1.1": "main-abc"});

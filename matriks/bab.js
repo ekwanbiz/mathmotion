@@ -31,3 +31,10 @@ const SUBSIM = { '2.1.1': 'pembina-matriks', '2.2.1': 'pembina-matriks', '2.2.3'
 
 /* ---------- simulasi TEROKA ---------- */
 const SIMLIST = [['pembina-matriks', 'Pembina Matriks', 'tr'], ['darab-matriks', 'Baris × Lajur', 'pk'], ['songsang-serentak', 'Songsang & Serentak', 'am']];
+
+// Subtopik disatukan ikut nombor buku teks (25 Nov) – lihat teras/lembaran.js gabungSub()
+BAB.gabung = {"2.1.1": "2.1", "2.2.1": "2.2", "2.2.3": "2.2", "2.2.5": "2.2"};
+BAB.gabungNama = {"2.1": "Matriks", "2.2": "Operasi Asas Matriks"};
+Object.assign(SUBDESC, {"2.1": "Mewakili maklumat dengan matriks, peringkat matriks, unsur aᵢⱼ dan matriks sama", "2.2": "Tambah, tolak, darab skalar, darab dua matriks, matriks identiti, penentu, matriks songsang dan persamaan linear serentak"});
+Object.assign(SHORT, {"2.1": "Matriks", "2.2": "Operasi Asas"});
+Object.assign(SUBSIM, {"2.1": "pembina-matriks", "2.2": "darab-matriks"});
