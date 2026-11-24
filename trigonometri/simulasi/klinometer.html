@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Klinometer · Bab 5</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0F0B18;--sf:#1A1426;--sf2:#231B33;--sf3:#140F1F;--bd:#33284A;--bd2:#45375F;--tx:#F3EEFF;--mu:#B9ADD6;--mu2:#8A7DAA;--c1:#FF8A3D;--c2:#A78BFA;--hip:#FFC93C;--opp:#FF7AB6;--adj:#4FD1FF;--ok:#3DDC84;--bad:#FF6B7A;
+ --surface:#1A1426;--border:#45375F;--text:#F3EEFF;--muted:#B9ADD6;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#2a1203}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:11px 14px;line-height:1.45;font-size:15px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:4px}
+.info .tip{color:var(--mu);font-size:13px;margin-top:4px}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.rat{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.rat div{background:var(--sf2);border:1px solid var(--bd2);border-radius:11px;padding:6px 8px;font-weight:700;font-size:14px;line-height:1.35}
+.rat div b{display:block;font-size:18px;color:var(--tx)}
+.rat .fr{color:var(--mu);font-size:12.5px;font-weight:700}
+.hip{color:var(--hip)}.opp{color:var(--opp)}.adj{color:var(--adj)}
+.ctrl{display:flex;flex-direction:column;gap:8px}
+.line{display:flex;gap:10px;align-items:center}
+.line label{font-weight:800;color:var(--mu);font-size:14px;white-space:nowrap;min-width:70px}
+.line input[type=range]{flex:1;accent-color:var(--c1);height:28px}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.btns.three{grid-template-columns:repeat(3,1fr)}
+.big{background:var(--c2);border:0;color:#1b1035;border-radius:13px;padding:12px 6px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.bar{display:flex;align-items:center;gap:8px;margin:3px 0;font-weight:800;font-size:14px}.bar i{display:block;height:14px;border-radius:7px;min-width:2px}.bar span{min-width:58px}.bar em{font-style:normal;color:var(--tx);min-width:56px;text-align:right}
+.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.chip{background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:12px 4px;font-weight:800;font-size:15px}.chip.ok{border-color:var(--ok);background:#3ddc8422}.chip.no{border-color:var(--bad);background:#ff6b7a22}
+.tbl{width:100%;border-collapse:collapse;font-size:14px;font-weight:700}.tbl td,.tbl th{padding:4px 6px;border-bottom:1px solid var(--bd2);text-align:right}.tbl th{color:var(--mu);font-size:12.5px}.tbl td:first-child,.tbl th:first-child{text-align:left}.tbl .same{color:var(--ok)}
+.big.on{background:var(--c1);color:#2a1203;border-color:var(--c1)}
+.nextb{margin-top:6px;background:var(--c1);border:0;color:#2a1203;border-radius:11px;padding:8px 16px;font-weight:900}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:16px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:22px}.rat div b{font-size:21px}
+}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.big{padding:9px 4px}.info{padding:8px 11px;font-size:14px}}
+@media(max-width:420px){.modes button{font-size:13px;padding:10px 3px}.big{font-size:14px}.rat div{font-size:13px;padding:5px 6px}.rat div b{font-size:16px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#A78BFA;color:#1b1035;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #a78bfa44">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mod">
+   <button data-m="ukur" class="on" role="tab">🌳 Ukur Tinggi</button>
+   <button data-m="cabaran" role="tab">❓ Cabaran</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" viewBox="0 0 440 360" aria-label="Mengukur tinggi objek dengan klinometer"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const HIP='#FFC93C',OPP='#FF7AB6',ADJ='#4FD1FF',TH='#FF8A3D',TX='#F3EEFF',MU='#B9ADD6',BG='#140F1F',OK='#3DDC84',BAD='#FF6B7A',GR='#34D399';
+const GY=330,OX=394,SC=11,EYE=1.5; // tanah y=330, objek di x=410, 11 px = 1 m, paras mata 1.5 m
+let S={m:'ukur',obj:'pokok',H:14.6,d:15,a:30,q:null,score:0,tot:0,streak:0};
+const rad=d=>d*Math.PI/180,deg=r=>r*180/Math.PI,f2=n=>n.toFixed(2),f4=n=>n.toFixed(4);
+const snd=n=>{if(window.FX)FX.play(n)};
+function lbl(x,y,t,c=TX,s=16,a='middle'){return `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" fill="${c}" font-size="${s}" font-weight="900" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="${BG}" stroke-width="5" stroke-linejoin="round">${t}</text>`}
+function ln(x1,y1,x2,y2,c,w=4,dash=''){return `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"${dash?` stroke-dasharray="${dash}"`:''}/>`}
+const trueA=()=>deg(Math.atan((S.H-EYE)/S.d));
+const hit=()=>Math.abs(S.a-trueA())<=0.5;
+function objSVG(){
+ const top=GY-S.H*SC;let g='';
+ if(S.obj==='pokok'){g+=`<rect x="${OX-6}" y="${top+40}" width="12" height="${GY-top-40}" fill="#8A6A4A"/>`+`<ellipse cx="${OX}" cy="${top+34}" rx="34" ry="36" fill="#2E8B57"/><ellipse cx="${OX}" cy="${top+22}" rx="24" ry="22" fill="#3BAA6A"/>`;}
+ else if(S.obj==='bangunan'){g+=`<rect x="${OX-22}" y="${top}" width="44" height="${GY-top}" fill="#5B5478" stroke="#8A80B0" stroke-width="2"/>`;for(let y=top+12;y<GY-14;y+=22)g+=`<rect x="${OX-14}" y="${y}" width="10" height="10" fill="#FFD16655"/><rect x="${OX+4}" y="${y}" width="10" height="10" fill="#FFD16655"/>`;}
+ else{g+=`<rect x="${OX-3}" y="${top}" width="6" height="${GY-top}" fill="#C9C2DE"/><path d="M${OX+3} ${top+2} h34 v20 h-34 Z" fill="#FF6B7A"/>`;}
+ return g+`<circle cx="${OX}" cy="${top}" r="5" fill="${HIP}"/>`}
+function sceneSVG(showH){
+ const ex=OX-S.d*SC,ey=GY-EYE*SC,top=GY-S.H*SC;
+ let g=`<rect x="0" y="${GY}" width="440" height="40" fill="#1E2A1E"/>`+ln(0,GY,440,GY,'#5C7A5C',3);
+ g+=objSVG();
+ // murid
+ g+=`<circle cx="${ex}" cy="${ey-6}" r="8" fill="#F3D2B5"/><rect x="${ex-6}" y="${ey+2}" width="12" height="${GY-ey-2}" rx="4" fill="#4FD1FF"/>`;
+ // jarak mengufuk
+ g+=ln(ex,GY+16,OX,GY+16,ADJ,2.5)+ln(ex,GY+10,ex,GY+22,ADJ,2.5)+ln(OX,GY+10,OX,GY+22,ADJ,2.5)+lbl((ex+OX)/2,GY+16,S.d+' m',ADJ,15);
+ // garis mengufuk paras mata
+ g+=ln(ex,ey,OX,ey,'#ffffff55',2,'5 6');
+ // garis penglihatan
+ const L=700,sx=ex+L*Math.cos(rad(S.a)),sy=ey-L*Math.sin(rad(S.a)),ok=hit();
+ g+=ln(ex,ey,sx,sy,ok?OK:TH,ok?4:3,ok?'':'8 6');
+ // klinometer (protraktor kecil)
+ g+=`<path d="M${ex+30} ${ey} A30 30 0 0 0 ${(ex+30*Math.cos(rad(S.a))).toFixed(1)} ${(ey-30*Math.sin(rad(S.a))).toFixed(1)}" fill="${TH}33" stroke="${TH}" stroke-width="3"/>`;
+ g+=lbl(ex+44*Math.cos(rad(S.a/2))+14,ey-44*Math.sin(rad(S.a/2)),S.a+'°',TH,16,'start');
+ if(ok){const yT=ey-S.d*SC*Math.tan(rad(S.a));g+=`<polygon points="${ex},${ey} ${OX},${ey} ${OX},${yT}" fill="${OK}18"/>`+ln(OX,ey,OX,yT,OPP,4)+lbl(OX-10,(ey+yT)/2,'x',OPP,18,'end')}
+ g+=lbl(ex,ey-26,'mata '+EYE+' m',MU,13);
+ if(showH)g+=lbl(OX-40,top-14,'tinggi = '+f2(S.H)+' m',HIP,15,'end');
+ // pemegang seret
+ const hx=ex+150*Math.cos(rad(S.a)),hy=ey-150*Math.sin(rad(S.a));
+ g+=`<g class="h" style="cursor:grab"><circle cx="${hx.toFixed(1)}" cy="${hy.toFixed(1)}" r="30" fill="transparent"/><circle cx="${hx.toFixed(1)}" cy="${hy.toFixed(1)}" r="12" fill="${TH}" stroke="#fff" stroke-width="3"/></g>`;
+ return g}
+function calcHTML(){const x=S.d*Math.tan(rad(S.a));return `tan ${S.a}° = x ÷ ${S.d}<br>x = ${S.d} × tan ${S.a}° = <b>${f2(x)} m</b><br>Tinggi = ${f2(x)} + ${EYE} = <b class="hip">${f2(x+EYE)} m</b>`}
+function ukurInfo(){
+ let h=`<b class="t">Sudut klinometer: ${S.a}°</b>`;
+ if(hit())h+=`<div class="ok">✓ Garis penglihatan tepat ke puncak!</div><div style="margin-top:4px">${calcHTML()}</div><div class="tip">Tinggi sebenar: ${f2(S.H)} m. Perbezaan kecil kerana sudut dibundarkan kepada darjah terdekat.</div>`;
+ else h+=`Seret ● atau gunakan gelangsar supaya garis penglihatan <b>tepat</b> mengenai puncak ${S.obj==='tiang'?'tiang bendera':S.obj}.<div class="tip">Sudut di antara garis mengufuk paras mata dengan garis penglihatan ke puncak dipanggil sudut dongakan. Ubah jarak dan lihat sudut berubah.</div>`;
+ info.innerHTML=h}
+/* ================= Cabaran ================= */
+function newQ(){
+ const obj=['pokok','bangunan','tiang'][Math.floor(Math.random()*3)],d=8+Math.floor(Math.random()*20),A=20+Math.floor(Math.random()*36);
+ let H=d*Math.tan(rad(A))+EYE;if(H>26||H<6){newQ();return}
+ S.obj=obj;S.d=d;S.H=H;S.a=10;
+ const ans=f2(H),wr=[d*Math.sin(rad(A))+EYE,d*Math.tan(rad(A)),d/Math.tan(rad(A))+EYE,d*Math.cos(rad(A))+EYE].map(f2).filter((v,i,a)=>v!==ans&&+v>0&&a.indexOf(v)===i).slice(0,3);
+ let k=1;while(wr.length<3){const v=f2(H+k*1.7);if(v!==ans&&!wr.includes(v))wr.push(v);k++}
+ S.q={A,ans,opts:[ans,...wr].sort(()=>Math.random()-.5),done:false,aimed:false};
+ setCtrl();render();cabInfo()}
+function cabInfo(){const Q=S.q;
+ info.innerHTML=`<b class="t">Berapakah tinggi ${S.obj==='tiang'?'tiang bendera':S.obj} ini?</b>${Q.aimed||hit()?`<div class="ok">✓ Sudut dongakan = ${S.a}°</div>Kira x = ${S.d} × tan ${S.a}°, kemudian tambah ${EYE} m.`:'Langkah 1: halakan klinometer tepat ke puncak (seret ●).'}<div class="tip">Skor: ${S.score}/${S.tot}${S.streak>=3?' · 🔥 '+S.streak:''}</div>`}
+function answer(o,btn){const Q=S.q;if(Q.done)return;Q.done=true;S.tot++;const ok=o===Q.ans;
+ if(ok){S.score++;S.streak++;snd('betul');if(window.FX)FX.stars(btn,10)}else{S.streak=0;snd('salah')}
+ S.a=Q.A;ctrl.querySelectorAll('.chip').forEach(b=>{if(b.dataset.o===Q.ans)b.classList.add('ok');else if(b===btn)b.classList.add('no');b.disabled=true});render();
+ info.innerHTML=`<b class="t">${ok?'<span class="ok">✓ Betul!</span>':'<span class="no">✗ Jawapan: '+Q.ans+' m</span>'}</b>${calcHTML()}<div class="tip">Skor: ${S.score}/${S.tot}</div><button class="nextb" id="nx">Seterusnya ▶</button>`;
+ document.getElementById('nx').onclick=newQ}
+/* ================= Lukis & kawalan ================= */
+function render(){
+ svg.innerHTML=sceneSVG(S.m==='ukur'||(S.q&&S.q.done));
+ if(S.m==='ukur')ukurInfo();
+ else if(S.q&&!S.q.done){if(hit()&&!S.q.aimed){S.q.aimed=true;snd('langkah')}cabInfo()}
+ const a=document.getElementById('slA');if(a){a.value=S.a;document.getElementById('vA').textContent=S.a+'°'}
+ const d=document.getElementById('slD');if(d){d.value=S.d;document.getElementById('vD').textContent=S.d+' m'}
+}
+function setCtrl(){
+ const aim=`<div class="line"><label>Sudut <span id="vA">${S.a}°</span></label><input type="range" id="slA" min="1" max="80" step="1" value="${S.a}" aria-label="Sudut klinometer"></div>`;
+ if(S.m==='ukur'){
+  ctrl.innerHTML=aim+`<div class="line"><label>Jarak <span id="vD">${S.d} m</span></label><input type="range" id="slD" min="5" max="32" step="1" value="${S.d}" aria-label="Jarak dari objek"></div><div class="btns"><button class="big alt" id="ob">Tukar objek</button><button class="big" id="sk">Halakan tepat</button></div>`;
+  document.getElementById('slD').oninput=e=>{S.d=+e.target.value;render()};
+  document.getElementById('ob').onclick=()=>{const L=['pokok','bangunan','tiang'];S.obj=L[(L.indexOf(S.obj)+1)%3];S.H=+(8+Math.random()*16).toFixed(1);snd('langkah');render()};
+  document.getElementById('sk').onclick=()=>{S.a=Math.round(trueA());render()};
+ } else if(S.q){
+  ctrl.innerHTML=aim+`<div class="opts" style="grid-template-columns:repeat(2,1fr)">${S.q.opts.map(o=>`<button class="chip" data-o="${o}">${o} m</button>`).join('')}</div>`;
+  ctrl.querySelectorAll('.chip').forEach(b=>b.onclick=()=>answer(b.dataset.o,b));
+ }
+ document.getElementById('slA').oninput=e=>{if(S.q&&S.q.done&&S.m==='cabaran')return;S.a=+e.target.value;render()};
+}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));S.m=b.dataset.m;
+ if(S.m==='cabaran'){newQ();return}S.q=null;S.obj='pokok';S.H=14.6;S.d=15;S.a=30;setCtrl();render()});
+/* ---------- Seret (tetikus + sentuh) ---------- */
+let drag=false;
+function svgPt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+function aimAt(e){const p=svgPt(e),ex=OX-S.d*SC,ey=GY-EYE*SC;let a=Math.round(deg(Math.atan2(ey-p.y,p.x-ex)));a=Math.max(1,Math.min(80,a));if(a!==S.a){S.a=a;render()}}
+svg.addEventListener('pointerdown',e=>{if(S.m==='cabaran'&&S.q&&S.q.done)return;e.preventDefault();drag=true;svg.setPointerCapture(e.pointerId);aimAt(e)});
+svg.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();aimAt(e)});
+const end=()=>{drag=false};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+svg.addEventListener('dragstart',e=>e.preventDefault());
+setCtrl();render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>
