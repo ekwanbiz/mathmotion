@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Matlamat SMART · Bab 10</title>
+<link rel="icon" href="../logo.svg" type="image/svg+xml">
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#060E1C;--sf:#0D1A2E;--sf2:#13233B;--sf3:#091426;--bd:#1C3253;--bd2:#29466E;--tx:#EAF3FF;--mu:#A6BEDD;--mu2:#6F88AA;--c1:#4FC3FF;--c2:#34D399;--c3:#FFC93C;--pk:#FF7AB6;--pa:#FF9F5A;--ok:#3DDC84;--bad:#FF6B7A;
+ --surface:#0D1A2E;--border:#29466E;--text:#EAF3FF;--muted:#A6BEDD;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:9px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:5px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:14.5px;padding:10px 4px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#04203a}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:10px 14px;line-height:1.45;font-size:15px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:2px}
+.info .row{display:flex;flex-wrap:wrap;gap:2px 16px;font-weight:700}
+.info .c1{color:var(--c1)}.info .c2{color:var(--c2)}.info .c3{color:var(--c3)}.info .pk{color:var(--pk)}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.info .eq{margin-top:5px;padding:7px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:700;font-size:14.5px}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}.info .mid{color:var(--c3);font-weight:800}
+.ctrl{display:flex;flex-direction:column;gap:6px}
+.line{display:flex;gap:8px;align-items:center}
+.line label{font-weight:800;color:var(--mu);font-size:14px;white-space:nowrap;min-width:120px}
+.line label b{color:var(--tx)}
+.line input[type=range]{flex:1;min-width:0;accent-color:var(--c1);height:28px}
+.big{background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:12px 4px;font-weight:800;font-size:15px;width:100%}
+.big.ok{border-color:var(--ok);background:#3ddc8422}.big.no{border-color:var(--bad);background:#ff6b7a22}
+.nextb{margin-top:6px;background:var(--c1);border:0;color:#04203a;border-radius:11px;padding:8px 16px;font-weight:900}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.45fr) minmax(340px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:16px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:22px}.info .eq{font-size:16px}
+}
+@media(max-height:620px){.wrap{gap:6px;padding-top:6px}.modes button{padding:7px 3px;font-size:13.5px}.info{padding:7px 11px;font-size:13.5px}.info b.t{font-size:16px}.line input[type=range]{height:24px}}
+@media(max-width:420px){.modes button{font-size:13px;padding:9px 2px}.line label{min-width:112px;font-size:13px}.info{font-size:14px}.info .eq{font-size:13.5px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(12px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#4FC3FF;color:#04203a;border-radius:14px;padding:11px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #4fc3ff44">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mod">
+   <button data-m="simpan" class="on" role="tab">🎯 Rancang Simpanan</button>
+   <button data-m="semak" role="tab">✅ Semak SMART</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" aria-label="Balang simpanan matlamat"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),stage=document.getElementById('stage'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const C1='#4FC3FF',C2='#34D399',C3='#FFC93C',PK='#FF7AB6',PA='#FF9F5A',MU='#A6BEDD',MU2='#6F88AA',TX='#EAF3FF',HALO='#091426',OK='#3DDC84',BAD='#FF6B7A';
+const snd=n=>{if(window.FX)FX.play(n)};
+const grp=s=>s.replace(/\B(?=(\d{3})+(?!\d))/g,' ');
+const r2=x=>Math.round((x+1e-9)*100)/100;
+function rm(x){x=r2(x);const neg=x<0;x=Math.abs(x);const s=Number.isInteger(x)?grp(String(x)):(()=>{const [a,b]=x.toFixed(2).split('.');return grp(a)+'.'+b})();return(neg?'−':'')+'RM'+s}
+const T=(x,y,t,c=TX,s=14,w=800,a='middle')=>`<text x="${(+x).toFixed(1)}" y="${(+y).toFixed(1)}" fill="${c}" font-size="${s}" font-weight="${w}" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="${HALO}" stroke-width="4" stroke-linejoin="round">${t}</text>`;
+const ri=(a,b)=>a+Math.floor(Math.random()*(b-a+1)),pick=a=>a[Math.floor(Math.random()*a.length)];
+let S={m:'simpan',goal:2400,mo:12,gaji:2000,k:6,drag:false,q:null,score:0,tot:0,streak:0};
+let G=null;
+const need=()=>S.goal/S.mo,pct=()=>need()/S.gaji*100;
+function jenis(){return S.mo<=12?['Jangka pendek',C2]:S.mo>60?['Jangka panjang','#B79CFF']:['Antara 1 hingga 5 tahun',C3]}
+function realis(){const p=pct();return p<=10?['Realistik (≤ 10% gaji)',OK,'ok']:p<=20?['Mencabar (10%–20% gaji)',C3,'mid']:['Kurang realistik (> 20% gaji)',BAD,'no']}
+/* ================= Mod 1: rancang simpanan ================= */
+function drawSimpan(){
+ const w=stage.clientWidth||340,h=stage.clientHeight||360;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+ const tlH=70,jh=Math.max(90,h-tlH-70),jw=Math.min(jh*0.72,w*0.42),jx=Math.max(16,w*0.08),jy=40;
+ const saved=Math.min(S.goal,need()*S.k),frac=saved/S.goal,fh=(jh-16)*frac,[rl,rc]=realis();
+ let g='';
+ g+=T(jx+jw/2,20,`Matlamat ${rm(S.goal)}`,C3,15,900);
+ g+=`<rect x="${jx+8}" y="${jy+jh-8-fh}" width="${jw-16}" height="${fh}" rx="10" fill="${C2}55"/>`;
+ // garis aras setiap bulan (jika tidak terlalu rapat)
+ if(S.mo<=24)for(let i=1;i<S.mo;i++){const y=jy+jh-8-(jh-16)*i/S.mo;g+=`<line x1="${jx+10}" y1="${y}" x2="${jx+22}" y2="${y}" stroke="${MU2}" stroke-width="1.5"/>`}
+ g+=`<path d="M${jx} ${jy} V${jy+jh-18} Q${jx} ${jy+jh} ${jx+18} ${jy+jh} H${jx+jw-18} Q${jx+jw} ${jy+jh} ${jx+jw} ${jy+jh-18} V${jy}" fill="none" stroke="${C2}" stroke-width="5" stroke-linejoin="round"/>`;
+ g+=`<rect x="${jx-8}" y="${jy-12}" width="${jw+16}" height="14" rx="6" fill="${C2}44" stroke="${C2}" stroke-width="3"/>`;
+ g+=T(jx+jw/2,jy+jh-8-fh/2>jy+30?jy+jh-8-Math.max(fh/2,14):jy+30,rm(saved),TX,Math.min(20,jw/6),900);
+ g+=T(jx+jw/2,jy+jh+16,`${Math.round(frac*100)}% tercapai`,C2,13,800);
+ // panel kanan
+ const px=jx+jw+18,pw=w-px-12,fs=Math.min(15,pw/11);
+ const lines=[['Simpanan sebulan',rm(r2(need())),C1],['% daripada gaji',`${r2(pct())}%`,rc],['Tempoh',`${S.mo} bulan`,TX],['Jenis matlamat',jenis()[0],jenis()[1]]];
+ lines.forEach(([a,b,c],i)=>{const y=jy+10+i*Math.min(56,(jh-10)/4);g+=T(px,y,a,MU,fs*0.9,700,'start')+T(px,y+fs*1.35,b,c,fs*1.1,900,'start')});
+ // garis masa
+ const tx0=24,tx1=w-24,ty=h-34;G={tx0,tx1,ty};
+ g+=`<line x1="${tx0}" y1="${ty}" x2="${tx1}" y2="${ty}" stroke="${MU}" stroke-width="3" stroke-linecap="round"/>`;
+ const step=S.mo<=12?1:S.mo<=36?3:S.mo<=72?6:12;
+ for(let i=0;i<=S.mo;i+=step){const x=tx0+(tx1-tx0)*i/S.mo;g+=`<line x1="${x}" y1="${ty-6}" x2="${x}" y2="${ty+6}" stroke="${MU2}" stroke-width="2"/>`+T(x,ty+18,String(i),MU2,11,700)}
+ const kx=tx0+(tx1-tx0)*S.k/S.mo;
+ g+=`<rect x="${tx0}" y="${ty-4}" width="${kx-tx0}" height="8" rx="4" fill="${C2}"/>`;
+ g+=`<g style="cursor:ew-resize"><circle cx="${kx}" cy="${ty}" r="13" fill="${C3}" stroke="#fff" stroke-width="3"/></g>`+T(Math.min(Math.max(kx,60),w-60),ty-24,`Bulan ${S.k}`,C3,13,900);
+ svg.innerHTML=g}
+function infoSimpan(){
+ const [rl,rc,cl]=realis(),n=r2(need());
+ info.innerHTML=`<b class="t">Simpan ${rm(n)} sebulan</b>
+ <div class="eq">Simpanan bulanan = ${grp(String(S.goal))} ÷ ${S.mo} = ${rm(n)}${Number.isInteger(S.goal/S.mo)?'':' (dibundarkan)'}<br>${rm(n)} ÷ ${rm(S.gaji)} × 100% = <span class="${cl}">${r2(pct())}%</span></div>
+ <div class="row" style="margin-top:4px"><span class="${cl}">${rl}</span><span style="color:${jenis()[1]}">${jenis()[0]}</span></div>
+ <div class="tip">Seret penanda <b class="c3">●</b> untuk melihat simpanan selepas bulan ke-${S.k}: ${rm(Math.min(S.goal,n*S.k))}. Panduan: simpan sekurang-kurangnya 10% daripada pendapatan.</div>`}
+/* ================= Mod 2: semak SMART ================= */
+const BRG=[['membeli komputer riba',3000],['membeli telefon pintar',1800],['membeli basikal',900],['melancong ke Sabah',2400],['membeli motosikal',7200],['membayar yuran kursus memandu',1500]];
+const LET=[['S','Spesifik',C1],['M','Boleh diukur',C2],['A','Boleh dicapai',C3],['R','Realistik',PA],['T','Tempoh masa',PK]];
+function newQ(){
+ const kind=pick(['S','M','T','R','ok']),[b,c]=pick(BRG),m=pick([6,10,12,15,18,24]),gaji=pick([1500,2000,2500,3000]);
+ let st,why;
+ if(kind==='S'){st=`Saya mahu menyimpan ${rm(c)} dalam tempoh ${m} bulan.`;why='Tidak dinyatakan untuk apa wang itu disimpan (tidak spesifik).'}
+ else if(kind==='M'){st=`Saya mahu menyimpan wang untuk ${b} dalam tempoh ${m} bulan.`;why='Tiada jumlah wang, jadi kemajuan tidak boleh diukur.'}
+ else if(kind==='T'){st=`Saya mahu menyimpan ${rm(c)} untuk ${b}.`;why='Tiada tempoh masa atau tarikh akhir.'}
+ else if(kind==='R'){const mm=pick([2,3]),cc=Math.round(gaji*pick([0.6,0.7,0.8])*mm/100)*100;st=`Gaji bersih saya ${rm(gaji)} sebulan. Saya mahu menyimpan ${rm(cc)} untuk ${b} dalam tempoh ${mm} bulan.`;why=`Simpanan ${rm(cc/mm)} sebulan ialah ${r2(cc/mm/gaji*100)}% daripada gaji, terlalu besar: tidak realistik dan sukar dicapai.`}
+ else{const s=Math.round(gaji*0.1),cc=s*m;st=`Gaji bersih saya ${rm(gaji)} sebulan. Saya mahu menyimpan ${rm(cc)} untuk ${b} dalam tempoh ${m} bulan.`;why=`Semua ciri dipenuhi: ${rm(cc)} ÷ ${m} = ${rm(s)} sebulan, iaitu 10% daripada gaji.`}
+ S.q={kind,st,why,done:false,pickI:-1};setCtrl();drawSemak();infoSemak()}
+function drawSemak(){
+ const w=stage.clientWidth||340,h=stage.clientHeight||300;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+ const Q=S.q,pad=14,cardH=Math.max(90,h*0.42);let g='';
+ g+=`<rect x="${pad}" y="${pad}" width="${w-2*pad}" height="${cardH}" rx="16" fill="#13233B" stroke="${C3}" stroke-width="2.5"/>`;
+ // balut teks
+ const fs=Math.max(14,Math.min(20,(w-2*pad)/26)),maxc=Math.floor((w-2*pad-28)/(fs*0.55)),words=('"'+Q.st+'"').split(' '),ls=[];let cur='';
+ words.forEach(wd=>{if((cur+' '+wd).trim().length>maxc){ls.push(cur.trim());cur=wd}else cur+=' '+wd});ls.push(cur.trim());
+ const y0=pad+cardH/2-(ls.length-1)*fs*0.65;ls.forEach((l,i)=>g+=T(w/2,y0+i*fs*1.3,l,TX,fs,800));
+ // jubin huruf
+ const ty=pad+cardH+16,tw=(w-2*pad-4*8)/5,th=Math.min(h-ty-pad,96);G={tiles:[],ty,th};
+ LET.forEach(([L,nm,c],i)=>{const x=pad+i*(tw+8);let st=c,fill=c+'22';
+  if(Q.done){const right=Q.kind===L||(Q.kind==='R'&&L==='A');if(right){st=OK;fill='#3ddc8433'}else if(Q.pickI===i){st=BAD;fill='#ff6b7a33'}}
+  g+=`<rect x="${x}" y="${ty}" width="${tw}" height="${th}" rx="14" fill="${fill}" stroke="${st}" stroke-width="3"/>`+T(x+tw/2,ty+th*0.42,L,c,Math.min(34,tw*0.5),900)+T(x+tw/2,ty+th*0.78,nm.split(' ').pop(),MU,Math.min(12,tw/7),700);
+  G.tiles.push([x,ty,tw,th])});
+ svg.innerHTML=g}
+function infoSemak(){
+ const Q=S.q;let s;
+ if(!Q.done)s=`<b class="t">Ciri SMART manakah yang TIDAK dipenuhi?</b><div class="tip">Ketik huruf pada jubin. Jika matlamat itu sudah SMART, tekan butang "Semua dipenuhi".</div>`;
+ else s=`<b class="t">${Q.ok?'<span class="ok">✓ Betul!</span>':'<span class="no">✗ Belum tepat</span>'}</b><div class="eq">${Q.kind==='ok'?'Matlamat ini SMART.':'Jawapan: '+(Q.kind==='R'?'R (Realistik) / A (Boleh dicapai)':Q.kind+' ('+LET.find(l=>l[0]===Q.kind)[1]+')')}<br>${Q.why}</div><button class="nextb" id="nx">Seterusnya ▶</button>`;
+ s+=`<div class="tip">Skor: ${S.score}/${S.tot}${S.streak>=3?' · 🔥 '+S.streak+' berturut-turut':''}</div>`;
+ info.innerHTML=s;const nx=document.getElementById('nx');if(nx)nx.onclick=newQ}
+function judge(L,i){const Q=S.q;if(Q.done)return;Q.done=true;Q.pickI=i;S.tot++;Q.ok=L===Q.kind||(Q.kind==='R'&&L==='A');
+ if(Q.ok){S.score++;S.streak++;snd('betul');if(window.FX)FX.stars(info,10)}else{S.streak=0;snd('salah')}
+ setCtrl();drawSemak();infoSemak()}
+/* ================= kawalan ================= */
+function setCtrl(){
+ if(S.m==='simpan'){ctrl.innerHTML=`<div class="line"><label>Matlamat: <b id="vG">${rm(S.goal)}</b></label><input type="range" id="sG" min="500" max="30000" step="100" value="${S.goal}" aria-label="Nilai matlamat"></div>
+ <div class="line"><label>Tempoh: <b id="vM">${S.mo} bulan</b></label><input type="range" id="sM" min="1" max="120" step="1" value="${S.mo}" aria-label="Tempoh dalam bulan"></div>
+ <div class="line"><label>Gaji bersih: <b id="vS">${rm(S.gaji)}</b></label><input type="range" id="sS" min="500" max="8000" step="100" value="${S.gaji}" aria-label="Gaji bersih sebulan"></div>`;
+  const up=()=>{S.goal=+sG.value;const m=+sM.value;if(m!==S.mo){S.k=Math.round(S.k/S.mo*m);S.mo=m}S.k=Math.max(0,Math.min(S.mo,S.k));S.gaji=+sS.value;vG.textContent=rm(S.goal);vM.textContent=S.mo+' bulan';vS.textContent=rm(S.gaji);render()};
+  const sG=document.getElementById('sG'),sM=document.getElementById('sM'),sS=document.getElementById('sS'),vG=document.getElementById('vG'),vM=document.getElementById('vM'),vS=document.getElementById('vS');
+  [sG,sM,sS].forEach(x=>x.oninput=up)}
+ if(S.m==='semak'&&S.q){ctrl.innerHTML=`<button class="big${S.q.done&&S.q.kind==='ok'?' ok':S.q.done&&S.q.pickI===5?' no':''}" id="allok"${S.q.done?' disabled':''}>✓ Semua dipenuhi (matlamat SMART)</button>`;document.getElementById('allok').onclick=()=>judge('ok',5)}
+}
+function render(){if(S.m==='simpan'){drawSimpan();infoSimpan()}else if(S.q)drawSemak()}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));S.m=b.dataset.m;
+ if(S.m==='semak'){if(!S.q)newQ();else{setCtrl();drawSemak();infoSemak()}return}
+ setCtrl();render()});
+/* ---------- seret penanda bulan / ketik jubin ---------- */
+function svgPt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+function moveTo(p){const k=Math.max(0,Math.min(S.mo,Math.round((p.x-G.tx0)/(G.tx1-G.tx0)*S.mo)));if(k!==S.k){S.k=k;snd(k===S.mo?'menang':'detik');render()}}
+svg.addEventListener('pointerdown',e=>{const p=svgPt(e);
+ if(S.m==='simpan'&&G&&G.ty!=null&&G.tx0!=null){if(p.y<G.ty-44)return;e.preventDefault();S.drag=true;svg.setPointerCapture(e.pointerId);moveTo(p);return}
+ if(S.m==='semak'&&G&&G.tiles){const i=G.tiles.findIndex(([x,y,w,h])=>p.x>=x&&p.x<=x+w&&p.y>=y&&p.y<=y+h);if(i>=0)judge(LET[i][0],i)}});
+svg.addEventListener('pointermove',e=>{if(!S.drag)return;e.preventDefault();moveTo(svgPt(e))});
+const end=()=>{S.drag=false};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+new ResizeObserver(()=>render()).observe(stage);
+setCtrl();render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>
