@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Pemutar Pepejal · Bab 7</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#070F1E;--sf:#0E1A30;--sf2:#14233D;--sf3:#0A1426;--bd:#1D3152;--bd2:#28436B;--tx:#EAF3FF;--mu:#9DB4D3;--mu2:#6F87A8;--c1:#38BDF8;--c2:#FB923C;--gr:#34D399;--pk:#F472B6;--gold:#FFD166;--ok:#3DDC84;--bad:#FF6B7A;
+ --surface:#0E1A30;--border:#28436B;--text:#EAF3FF;--muted:#9DB4D3;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button,select{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto auto;gap:9px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.shapes{flex:1;min-width:0;display:flex;gap:6px;overflow-x:auto;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px;scrollbar-width:none}
+.shapes::-webkit-scrollbar{display:none}
+.shapes button{flex:1 0 auto;border:0;background:none;color:var(--mu);font-weight:800;font-size:14.5px;padding:10px 10px;border-radius:12px;white-space:nowrap}
+.shapes button.on{background:var(--c1);color:#04202e}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative;touch-action:none}
+.stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+.badge{position:absolute;left:10px;top:10px;background:#0A1426dd;border:1px solid var(--bd2);border-radius:12px;padding:6px 11px;font-weight:800;font-size:14px;pointer-events:none}
+.hint{position:absolute;right:10px;bottom:8px;color:var(--mu2);font-size:12.5px;pointer-events:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:10px 12px;line-height:1.45;font-size:15px}
+.info b.t{display:block;font-size:17px;color:var(--c1);margin-bottom:2px}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.views{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:6px}
+.views button{margin:0;background:var(--sf3);border:2px solid var(--bd);border-radius:12px;padding:4px 4px 2px;display:flex;flex-direction:column;align-items:center}
+.views button.on{border-color:var(--gold)}
+.views span{font-size:12.5px;font-weight:800}
+.views canvas{width:100%;height:84px;display:block}
+.ctrl{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.chip{background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:11px 4px;font-weight:800;font-size:14.5px}
+.chip.on{background:var(--c1);border-color:var(--c1);color:#04202e}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.4fr) minmax(330px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:16px}.ctrl{grid-area:c;align-self:end;grid-template-columns:1fr 1fr}
+ .info b.t{font-size:21px}.views canvas{height:118px}
+}
+@media(max-height:700px){.views canvas{height:62px}}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.chip{padding:8px 3px;font-size:13.5px}.views canvas{height:52px}.info{padding:8px 10px;font-size:14px}}
+@media(max-width:420px){.chip{font-size:13px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#FB923C;color:#2a1203;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #fb923c44">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="shapes" id="shapes" role="tablist" aria-label="Pilih pepejal"></div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><canvas id="cv" aria-label="Pepejal tiga dimensi yang boleh diputar"></canvas><div class="badge" id="badge">Bebas 3D</div><div class="hint">Seret untuk memutar</div></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const cv=document.getElementById('cv'),stage=document.getElementById('stage'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl'),badge=document.getElementById('badge');
+const snd=n=>{if(window.FX)FX.play(n)};
+const COL={o:[251,146,60],b:[56,189,248],p:[167,139,250],g:[52,211,153],k:[244,114,182],plane:[60,80,110],img:[52,211,153]};
+/* ================= pembina mesh ================= */
+// muka: { p:[[x,y,z]...] cembung, c:warna, g:kumpulan licin (pilihan) }
+function box(x0,y0,z0,x1,y1,z1,c,skip){const F=[],q=(a,b,cc,d)=>F.push({p:[a,b,cc,d],c});
+ if(!skip||!skip.includes('b'))q([x0,y0,z0],[x1,y0,z0],[x1,y1,z0],[x0,y1,z0]);
+ if(!skip||!skip.includes('t'))q([x0,y0,z1],[x1,y0,z1],[x1,y1,z1],[x0,y1,z1]);
+ if(!skip||!skip.includes('f'))q([x0,y0,z0],[x1,y0,z0],[x1,y0,z1],[x0,y0,z1]);
+ if(!skip||!skip.includes('k'))q([x0,y1,z0],[x1,y1,z0],[x1,y1,z1],[x0,y1,z1]);
+ if(!skip||!skip.includes('l'))q([x0,y0,z0],[x0,y1,z0],[x0,y1,z1],[x0,y0,z1]);
+ if(!skip||!skip.includes('r'))q([x1,y0,z0],[x1,y1,z0],[x1,y1,z1],[x1,y0,z1]);return F}
+// pepejal kiub daripada peta tinggi (baris belakang dahulu): muka unit terdedah
+function voxMesh(H,c){const n=H.length,S=new Set(),F=[];H.forEach((row,r)=>row.forEach((h,x)=>{for(let z=0;z<h;z++)S.add(`${x},${n-1-r},${z}`)}));
+ const has=(x,y,z)=>S.has(`${x},${y},${z}`);
+ for(const k of S){const[x,y,z]=k.split(',').map(Number);
+  if(!has(x,y,z-1))F.push({p:[[x,y,z],[x+1,y,z],[x+1,y+1,z],[x,y+1,z]],c});
+  if(!has(x,y,z+1))F.push({p:[[x,y,z+1],[x+1,y,z+1],[x+1,y+1,z+1],[x,y+1,z+1]],c});
+  if(!has(x,y-1,z))F.push({p:[[x,y,z],[x+1,y,z],[x+1,y,z+1],[x,y,z+1]],c});
+  if(!has(x,y+1,z))F.push({p:[[x,y+1,z],[x+1,y+1,z],[x+1,y+1,z+1],[x,y+1,z+1]],c});
+  if(!has(x-1,y,z))F.push({p:[[x,y,z],[x,y+1,z],[x,y+1,z+1],[x,y,z+1]],c});
+  if(!has(x+1,y,z))F.push({p:[[x+1,y,z],[x+1,y+1,z],[x+1,y+1,z+1],[x+1,y,z+1]],c})}
+ return F}
+function cylinder(r,h,n,c){const F=[],P=i=>{const a=2*Math.PI*(i%n)/n;return[r*Math.cos(a),r*Math.sin(a)]};const bot=[],top=[];
+ for(let i=0;i<n;i++){const[a,b]=P(i),[cc,d]=P(i+1);F.push({p:[[a,b,0],[cc,d,0],[cc,d,h],[a,b,h]],c,g:1});bot.push([a,b,0]);top.push([a,b,h])}
+ F.push({p:bot.reverse(),c},{p:top,c});return F}
+function cone(r,h,n,c){const F=[],bot=[];for(let i=0;i<n;i++){const a=2*Math.PI*i/n,b=2*Math.PI*((i+1)%n)/n;F.push({p:[[r*Math.cos(a),r*Math.sin(a),0],[r*Math.cos(b),r*Math.sin(b),0],[0,0,h]],c,g:1});bot.push([r*Math.cos(a),r*Math.sin(a),0])}F.push({p:bot,c});return F}
+const SOLIDS=[
+ {id:'L',nm:'Blok L',F:()=>voxMesh([[2,1,1],[2,1,1]],COL.o),d:'Blok bertingkat. Lihat garis perubahan aras pada pelan dan dongakan depan.'},
+ {id:'takuk',nm:'Blok Bertakuk',F:()=>voxMesh([[1,2,1],[2,2,2]],COL.p),d:'Bahagian belakang lebih rendah di kiri dan kanan. Dari depan, tepinya tersembunyi: garis putus-putus.'},
+ {id:'rumah',nm:'Rumah',F:()=>{const F=box(0,0,0,3,2,2,COL.b,['t']);F.push({p:[[0,0,2],[3,0,2],[3,1,3],[0,1,3]],c:COL.k},{p:[[0,2,2],[3,2,2],[3,1,3],[0,1,3]],c:COL.k},{p:[[0,0,2],[0,2,2],[0,1,3]],c:COL.b},{p:[[3,0,2],[3,2,2],[3,1,3]],c:COL.b});return F},d:'Gabungan kuboid dan prisma segi tiga. Dongakan sisi berbentuk pentagon; pelan menunjukkan garis rabung bumbung.'},
+ {id:'baji',nm:'Baji',F:()=>{const a=3,b=4,l=3;return[{p:[[0,0,0],[b,0,0],[0,0,a]],c:COL.g},{p:[[0,l,0],[b,l,0],[0,l,a]],c:COL.g},{p:[[0,0,0],[b,0,0],[b,l,0],[0,l,0]],c:COL.g},{p:[[0,0,0],[0,l,0],[0,l,a],[0,0,a]],c:COL.g},{p:[[b,0,0],[b,l,0],[0,l,a],[0,0,a]],c:COL.g}]},d:'Muka condong berukuran 5 × 3 tetapi imejnya pada pelan hanya 4 × 3: tepi condong menjadi lebih pendek.'},
+ {id:'silinder',nm:'Silinder',F:()=>cylinder(1.3,2.8,40,COL.b),d:'Pelan silinder tegak ialah bulatan; dongakan depan dan sisinya ialah segi empat tepat.'},
+ {id:'piramid',nm:'Piramid',F:()=>{const s=3,h=3,A=[1.5,1.5,h];return[{p:[[0,0,0],[s,0,0],[s,s,0],[0,s,0]],c:COL.o},{p:[[0,0,0],[s,0,0],A],c:COL.o},{p:[[s,0,0],[s,s,0],A],c:COL.o},{p:[[s,s,0],[0,s,0],A],c:COL.o},{p:[[0,s,0],[0,0,0],A],c:COL.o}]},d:'Pelan piramid tegak bertapak segi empat sama ialah segi empat sama dengan dua pepenjuru. Dongakannya ialah segi tiga.'},
+ {id:'kon',nm:'Kon',dot:[0,0,3],F:()=>cone(1.5,3,40,COL.p),d:'Pelan kon tegak ialah bulatan dengan titik di pusat (puncak). Dongakannya ialah segi tiga sama kaki.'}
+];
+/* ---------- sediakan mesh: pusat, normal, tepi ---------- */
+const sub=(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]],dot=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2],crs=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]],nrm=a=>{const l=Math.hypot(...a)||1;return a.map(x=>x/l)};
+function prep(F,dotP){
+ const all=F.flatMap(f=>f.p),mn=[0,1,2].map(i=>Math.min(...all.map(p=>p[i]))),mx=[0,1,2].map(i=>Math.max(...all.map(p=>p[i])));
+ const c=[(mn[0]+mx[0])/2,(mn[1]+mx[1])/2,(mn[2]+mx[2])/2];
+ F=F.map(f=>({p:f.p.map(p=>sub(p,c)),c:f.c,g:f.g}));
+ const cen=[0,0,0];
+ F.forEach(f=>{let n=nrm(crs(sub(f.p[1],f.p[0]),sub(f.p[2],f.p[0])));const fc=f.p.reduce((s,p)=>[s[0]+p[0]/f.p.length,s[1]+p[1]/f.p.length,s[2]+p[2]/f.p.length],[0,0,0]);
+  // normal menghala keluar: untuk pepejal tidak cembung guna ujian sinar ringkas (tengah muka + normal kecil, kira silangan)
+  f.n=n;f.fc=fc;f.d=dot(n,f.p[0])});
+ F.forEach(f=>{const q=[f.fc[0]+f.n[0]*1e-3,f.fc[1]+f.n[1]*1e-3,f.fc[2]+f.n[2]*1e-3];if(inside(F,q)){f.n=f.n.map(x=>-x);f.d=-f.d}});
+ const key=p=>p.map(x=>(Math.round(x*1000)/1000+0).toFixed(3)).join(','),E=new Map();
+ F.forEach((f,fi)=>f.p.forEach((p,i)=>{const q=f.p[(i+1)%f.p.length],ka=key(p),kb=key(q),k=ka<kb?ka+'|'+kb:kb+'|'+ka;if(!E.has(k))E.set(k,{a:p,b:q,f:[]});E.get(k).f.push(fi)}));
+ const edges=[];
+ for(const e of E.values()){
+  if(e.f.length===2){const A=F[e.f[0]],B=F[e.f[1]];
+   if(Math.abs(dot(A.n,B.n)-1)<1e-6&&Math.abs(A.d-B.d)<1e-6)continue;   // sesatah: tepi dalaman
+   e.smooth=A.g&&A.g===B.g}
+  edges.push(e)}
+ const R=Math.max(...F.flatMap(f=>f.p.map(p=>Math.hypot(...p))));
+ return{F,edges,R,size:sub(mx,mn),dot:dotP?sub(dotP,c):null}}
+// ujian titik di dalam pepejal: kira silangan sinar arah (rawak tetap) dengan muka
+function inside(F,q){const d=nrm([.5731,.3127,.7573]);let n=0;for(const f of F){const nn=nrm(crs(sub(f.p[1],f.p[0]),sub(f.p[2],f.p[0]))),den=dot(nn,d);if(Math.abs(den)<1e-9)continue;const t=dot(nn,sub(f.p[0],q))/den;if(t<=1e-6)continue;const x=[q[0]+d[0]*t,q[1]+d[1]*t,q[2]+d[2]*t];if(inPoly(f.p,x,nn))n++}return n%2===1}
+function inPoly(P,x,n){for(let i=0;i<P.length;i++){const a=P[i],b=P[(i+1)%P.length];if(dot(crs(sub(b,a),sub(x,a)),n)<-1e-9)return false}return true}
+/* ================= kamera ortografik & pemapar penimbal-z ================= */
+function camera(yaw,pitch){const th=yaw*Math.PI/180,ph=pitch*Math.PI/180;
+ const d=[Math.cos(ph)*Math.sin(th),-Math.cos(ph)*Math.cos(th),Math.sin(ph)],r=[Math.cos(th),Math.sin(th),0],u=crs(d,r);return{d,r,u}}
+function render(canvas,M,cam,o){
+ o=o||{};const dpr=Math.min(window.devicePixelRatio||1,o.thumb?2:1.5),Wc=canvas.clientWidth,Hc=canvas.clientHeight;if(!Wc||!Hc)return;
+ const W=Math.max(1,Math.round(Wc*dpr)),H=Math.max(1,Math.round(Hc*dpr));if(canvas.width!==W||canvas.height!==H){canvas.width=W;canvas.height=H}
+ const ctx=canvas.getContext('2d'),img=ctx.createImageData(W,H),buf=img.data,zb=new Float32Array(W*H).fill(-Infinity);
+ const bg=o.thumb?[10,20,38]:[10,20,38];for(let i=0;i<W*H;i++){buf[i*4]=bg[0];buf[i*4+1]=bg[1];buf[i*4+2]=bg[2];buf[i*4+3]=255}
+ const ext=o.plane?M.R*1.5:M.R;const sc=Math.min(W,H)/(2*ext)*(o.thumb?.86:.82);
+ let cy0=0;if(o.plane)cy0=M.R*.42;
+ const PR=p=>[W/2+dot(p,cam.r)*sc,H/2-(dot(p,cam.u)+cy0)*sc,dot(p,cam.d)];
+ const L=nrm([-.45,-.75,1]);
+ const tri=(a,b,c,col,zoff=0)=>{const x0=Math.max(0,Math.floor(Math.min(a[0],b[0],c[0]))),x1=Math.min(W-1,Math.ceil(Math.max(a[0],b[0],c[0]))),y0=Math.max(0,Math.floor(Math.min(a[1],b[1],c[1]))),y1=Math.min(H-1,Math.ceil(Math.max(a[1],b[1],c[1])));
+  const den=(b[1]-c[1])*(a[0]-c[0])+(c[0]-b[0])*(a[1]-c[1]);if(Math.abs(den)<1e-9)return;
+  for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++){const px=x+.5,py=y+.5,w1=((b[1]-c[1])*(px-c[0])+(c[0]-b[0])*(py-c[1]))/den,w2=((c[1]-a[1])*(px-c[0])+(a[0]-c[0])*(py-c[1]))/den,w3=1-w1-w2;
+   if(w1<-1e-6||w2<-1e-6||w3<-1e-6)continue;const z=w1*a[2]+w2*b[2]+w3*c[2]+zoff,i=y*W+x;if(z>zb[i]){zb[i]=z;buf[i*4]=col[0];buf[i*4+1]=col[1];buf[i*4+2]=col[2]}}};
+ const poly=(pts,col,zoff)=>{const P=pts.map(PR);for(let i=1;i<P.length-1;i++)tri(P[0],P[i],P[i+1],col,zoff)};
+ // satah unjuran mengufuk & imej
+ const zp=-M.size[2]/2-M.R*.55;
+ if(o.plane){const e=M.R*1.05;poly([[-e,-e,zp],[e,-e,zp],[e,e,zp],[-e,e,zp]],[34,48,72],0);
+  for(const f of M.F)if(Math.abs(f.n[2])>1e-6)poly(f.p.map(p=>[p[0],p[1],zp]),[28,92,82],1e-3)}
+ for(const f of M.F){const lam=Math.max(0,dot(f.n,L)),k=.32+.68*lam;poly(f.p,f.c.map(v=>Math.round(v*k*.85+18)),0)}
+ ctx.putImageData(img,0,0);
+ // tepi: penuh jika kelihatan, putus-putus jika tersembunyi
+ const eps=M.R*.02;
+ const visAt=(x,y,z)=>{const xi=Math.round(x-.5),yi=Math.round(y-.5);for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){const X=xi+dx,Y=yi+dy;if(X<0||Y<0||X>=W||Y>=H)return true;if(zb[Y*W+X]<=z+eps)return true}return false};
+ const lw=(o.thumb?1.6:2.4)*dpr,solid=[],dash=[];
+ const doEdge=(A,B)=>{const a=PR(A),b=PR(B),len=Math.hypot(b[0]-a[0],b[1]-a[1]),n=Math.max(2,Math.ceil(len/2));let cur=null,start=null;
+  for(let i=0;i<=n;i++){const t=i/n,x=a[0]+(b[0]-a[0])*t,y=a[1]+(b[1]-a[1])*t,z=a[2]+(b[2]-a[2])*t,v=visAt(x,y,z);
+   if(cur===null){cur=v;start=[x,y]}else if(v!==cur||i===n){(cur?solid:dash).push([start,[x,y]]);cur=v;start=[x,y]}}};
+ for(const e of M.edges){
+  if(e.smooth){const A=M.F[e.f[0]],B=M.F[e.f[1]],sa=dot(A.n,cam.d),sb=dot(B.n,cam.d);if(sa*sb>0||(Math.abs(sa)<1e-9&&Math.abs(sb)<1e-9))continue}
+  doEdge(e.a,e.b)}
+ ctx.lineCap='round';
+ if(o.hidden){ctx.strokeStyle=o.thumb?o.col:'#EAF3FF';ctx.globalAlpha=.85;ctx.lineWidth=lw*.8;ctx.setLineDash([5*dpr,4*dpr]);ctx.beginPath();dash.forEach(([p,q])=>{ctx.moveTo(p[0],p[1]);ctx.lineTo(q[0],q[1])});ctx.stroke();ctx.globalAlpha=1}
+ ctx.setLineDash([]);ctx.strokeStyle=o.thumb?o.col:'#EAF3FF';ctx.lineWidth=lw;ctx.beginPath();solid.forEach(([p,q])=>{ctx.moveTo(p[0],p[1]);ctx.lineTo(q[0],q[1])});ctx.stroke();
+ if(M.dot){const q=PR(M.dot);if(visAt(q[0],q[1],q[2])){ctx.fillStyle=o.thumb?o.col:'#EAF3FF';ctx.beginPath();ctx.arc(q[0],q[1],(o.thumb?2.2:3.5)*dpr,0,7);ctx.fill()}}
+ if(o.plane){ // garis unjuran dari bucu atas ke satah + garis imej
+  const pts=[],seen=new Set();for(const f of M.F)for(const p of f.p){const k=p[0].toFixed(2)+','+p[1].toFixed(2);if(seen.has(k))continue;seen.add(k);pts.push(p)}
+  const step=Math.max(1,Math.floor(pts.length/10));
+  ctx.strokeStyle='#FFD166';ctx.lineWidth=1.4*dpr;ctx.setLineDash([4*dpr,4*dpr]);ctx.beginPath();
+  pts.filter((_,i)=>i%step===0).forEach(p=>{const top=M.F.flatMap(f=>f.p).filter(q=>Math.abs(q[0]-p[0])<1e-6&&Math.abs(q[1]-p[1])<1e-6).reduce((m,q)=>q[2]>m[2]?q:m,p);const a=PR(top),b=PR([p[0],p[1],zp]);ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1])});ctx.stroke();ctx.setLineDash([]);
+  // garis imej: tepi pandangan atas diratakan ke satah
+  const top=camera(0,90);ctx.strokeStyle='#34D399';ctx.lineWidth=2*dpr;ctx.beginPath();
+  for(const e of M.edges){if(e.smooth){const A=M.F[e.f[0]],B=M.F[e.f[1]];if(dot(A.n,top.d)*dot(B.n,top.d)>0)continue}
+   if(Math.abs(e.a[0]-e.b[0])<1e-6&&Math.abs(e.a[1]-e.b[1])<1e-6)continue;
+   const a=PR([e.a[0],e.a[1],zp]),b=PR([e.b[0],e.b[1],zp]),za=a[2],mid=PR([(e.a[0]+e.b[0])/2,(e.a[1]+e.b[1])/2,zp]);
+   if(!visAt(mid[0],mid[1],mid[2]+eps*2))continue;ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1])}
+  ctx.stroke()}
+}
+/* ================= keadaan & UI ================= */
+const VIEWS={bebas:{nm:'Bebas 3D'},pelan:{nm:'Pelan',y:0,p:90,col:'#34D399',arah:'atas',satah:'satah mengufuk'},depan:{nm:'Dongakan depan',y:0,p:0,col:'#38BDF8',arah:'depan',satah:'satah mencancang'},sisi:{nm:'Dongakan sisi',y:90,p:0,col:'#F472B6',arah:'sisi kanan',satah:'satah mencancang'}};
+let S={si:0,M:null,yaw:35,pitch:24,view:'bebas',hidden:true,plane:false,anim:null};
+const shapes=document.getElementById('shapes');
+shapes.innerHTML=SOLIDS.map((s,i)=>`<button data-i="${i}" class="${i===0?'on':''}" role="tab">${s.nm}</button>`).join('');
+shapes.querySelectorAll('button').forEach(b=>b.onclick=()=>{shapes.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));load(+b.dataset.i)});
+function load(i){S.si=i;S.M=prep(SOLIDS[i].F(),SOLIDS[i].dot);draw();setInfo()}
+function draw(){const cam=camera(S.yaw,S.pitch);render(cv,S.M,cam,{hidden:S.hidden&&S.view!=='bebas'||S.hidden&&S.showHidFree,plane:S.plane&&S.view==='bebas'});badge.textContent=VIEWS[S.view].nm;badge.style.color=VIEWS[S.view].col||'#EAF3FF'}
+function drawThumbs(){['pelan','depan','sisi'].forEach(k=>{const c=document.getElementById('th-'+k),V=VIEWS[k];render(c,S.M,camera(V.y,V.p),{thumb:true,hidden:true,col:V.col})})}
+function setInfo(){
+ const V=VIEWS[S.view],sd=SOLIDS[S.si];
+ const head=S.view==='bebas'?`<b class="t">${sd.nm}: seret untuk memutar</b>${S.plane?'Garis unjuran kuning <b>berserenjang</b> dengan satah mengufuk. Imej hijau pada satah ialah <b>pelan</b>.':sd.d}`
+  :`<b class="t" style="color:${V.col}">${V.nm}</b>Unjuran ortogon pada <b>${V.satah}</b>, dilihat dari <b>${V.arah}</b>. ${S.hidden?'Tepi tersembunyi: garis putus-putus.':''}`;
+ info.innerHTML=head+`<div class="views">${['pelan','depan','sisi'].map(k=>`<button data-v="${k}" class="${S.view===k?'on':''}"><span style="color:${VIEWS[k].col}">${VIEWS[k].nm}</span><canvas id="th-${k}"></canvas></button>`).join('')}</div><div class="tip">Dongakan sisi dilihat dari kanan. Ketik lukisan kecil untuk melihat dari arah itu.</div>`;
+ info.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>goView(b.dataset.v));
+ drawThumbs()}
+function setCtrl(){
+ ctrl.innerHTML=['bebas','pelan','depan','sisi'].map(k=>`<button class="chip ${S.view===k?'on':''}" data-v="${k}">${k==='bebas'?'↻ Bebas 3D':k==='pelan'?'⬇ Atas':k==='depan'?'Depan':'Sisi'}</button>`).join('')
+  +`<button class="chip ${S.hidden?'on':''}" id="hd" style="grid-column:span 2">Garis tersembunyi</button><button class="chip ${S.plane?'on':''}" id="pl" style="grid-column:span 2">Satah &amp; garis unjuran</button>`;
+ ctrl.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>goView(b.dataset.v));
+ document.getElementById('hd').onclick=()=>{S.hidden=!S.hidden;setCtrl();draw();setInfo()};
+ document.getElementById('pl').onclick=()=>{S.plane=!S.plane;if(S.plane&&S.view!=='bebas')goView('bebas');else{setCtrl();draw();setInfo()}};
+}
+function goView(v){
+ S.view=v;const V=VIEWS[v],ty=v==='bebas'?35:V.y,tp=v==='bebas'?24:V.p,y0=S.yaw,p0=S.pitch,t0=performance.now(),D=650;
+ let dy=((ty-y0)%360+540)%360-180;
+ cancelAnimationFrame(S.anim);
+ const step=now=>{const k=Math.min(1,(now-t0)/D),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;S.yaw=y0+dy*e;S.pitch=p0+(tp-p0)*e;draw();if(k<1)S.anim=requestAnimationFrame(step);else{S.yaw=ty;S.pitch=tp;draw();if(v!=='bebas')snd('langkah')}};
+ S.anim=requestAnimationFrame(step);setCtrl();setInfo()}
+/* ---------- seret (tetikus + sentuh) ---------- */
+let drag=null;
+cv.addEventListener('pointerdown',e=>{e.preventDefault();drag={x:e.clientX,y:e.clientY};cv.setPointerCapture(e.pointerId);cancelAnimationFrame(S.anim);cv.style.cursor='grabbing'});
+cv.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();const dx=e.clientX-drag.x,dy=e.clientY-drag.y;drag={x:e.clientX,y:e.clientY};
+ S.yaw-=dx*.5;S.pitch=Math.max(-10,Math.min(90,S.pitch+dy*.5));
+ if(S.view!=='bebas'){S.view='bebas';setCtrl();setInfo()}draw()});
+const end=()=>{drag=null;cv.style.cursor='grab'};cv.addEventListener('pointerup',end);cv.addEventListener('pointercancel',end);
+let rt=null;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{draw();drawThumbs()},80)});
+setCtrl();load(0);
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>
