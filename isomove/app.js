@@ -706,7 +706,7 @@ function gStart() {
   G.q = gq(0); G.end = Date.now() + 60000; clearInterval(G.timer); G.timer = setInterval(gTick, 200); render(true);
 }
 function gTick() {
-  if (!location.hash.startsWith('#/games') && !(location.hash.startsWith('#/ajar/tayang') && ajCur() && ajCur().t === 'game')) { clearInterval(G.timer); G.st = 'intro'; return; }
+  if (!location.hash.startsWith('#/games') && !(ajIsPlay() && ajCur() && ajCur().t === 'game')) { clearInterval(G.timer); G.st = 'intro'; return; }
   if (G.pausedAt) return;
   const left = G.end - Date.now();
   if (left <= 0) return gOver();
@@ -772,6 +772,8 @@ function render(keepScroll) {
   if (!p.length) { app.innerHTML = viewSplash(); document.title = 'ISOMOVE – Transformasi Isometri'; return; }
   const tab = p[0];
   let inner = '', bind = () => {};
+  if (tab === 'k' && p[1] && p[2] === 'tayang') { viewKongsi(p[1]); if (!AJK.plan) { if (AJK.err) location.replace('#/k/' + p[1]); return; } const v = viewTayang(); if (!v) return; app.innerHTML = v; document.title = 'Mengajar · ISOMOVE'; bindTayang(); return; }
+  if (tab === 'k' && p[1]) { app.innerHTML = viewKongsi(p[1]); document.title = 'Pelan dikongsi · ISOMOVE'; bindKongsi(); return; }
   if (tab === 'ajar' && p[1] === 'tayang') { const v = viewTayang(); if (!v) return; app.innerHTML = v; document.title = 'Mengajar · ISOMOVE'; bindTayang(); return; }
   if (tab === 'ajar') { inner = viewSusun(); bind = bindSusun; document.title = 'Mula Mengajar · ISOMOVE'; }
   else if (tab === 'nota' && p[1]) { inner = viewSlide(p[1], +p[2] || 1); bind = bindSlide; document.title = `${p[1]} Nota · ISOMOVE`; }

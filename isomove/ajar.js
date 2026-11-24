@@ -26,8 +26,8 @@ const ajIcon = {
   down: sv('<path d="M12 5v14M6 13l6 6 6-6"/>', 18),
   drag: sv('<path d="M9 6h.01M15 6h.01M9 12h.01M15 12h.01M9 18h.01M15 18h.01"/>', 20, ' stroke-width="3.4"'),
   plus: sv('<path d="M12 5v14M5 12h14"/>', 18),
-  save: sv('<path d="M12 4v11M7 10l5 5 5-5M5 20h14"/>', 18),
-  open: sv('<path d="M12 20V9M7 14l5-5 5 5M5 4h14"/>', 18),
+  share: sv('<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/>', 18),
+  copy: sv('<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/>', 18),
   edit: sv('<path d="M4 20h4L19 9l-4-4L4 16z"/>', 18),
   trash: sv('<path d="M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13"/>', 18),
   list: sv('<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>', 20),
@@ -51,7 +51,9 @@ function ajLoad() {
 }
 const AJD = { d: null };
 const ajData = () => AJD.d || (AJD.d = ajLoad());
-const ajPlan = () => { const d = ajData(); return d.plans.find(p => p.id === d.cur); };
+const ajShared = () => /^#\/k\//.test(location.hash) && AJK.plan;
+const ajPlan = () => { if (ajShared()) return AJK.plan; const d = ajData(); return d.plans.find(p => p.id === d.cur); };
+const ajIsPlay = () => /^#\/(ajar|k\/[^/]+)\/tayang/.test(location.hash);
 function ajSave() {
   try { localStorage.setItem(AJKEY, JSON.stringify(ajData())); return true; }
   catch (e) { toast('Storan penuh. Buang gambar yang besar atau pelan lama.'); return false; }
@@ -145,8 +147,7 @@ function viewSusun() {
         <button type="button" class="btn sec" id="ajNew">${ajIcon.plus}<span>Pelan baharu</span></button>
         <button type="button" class="ib" id="ajRen" aria-label="Namakan semula pelan">${ajIcon.edit}</button>
         <button type="button" class="ib" id="ajDelPlan" aria-label="Padam pelan ini">${ajIcon.trash}</button>
-        <button type="button" class="btn sec" id="ajSaveF">${ajIcon.save}<span>Simpan fail</span></button>
-        <label class="btn sec" id="ajOpenL">${ajIcon.open}<span>Buka fail</span><input type="file" id="ajOpenF" accept=".json,application/json" hidden></label>
+        <button type="button" class="btn sec" id="ajShare"${pl.items.length ? '' : ' disabled'}>${ajIcon.share}<span>Kongsi link</span></button>
       </div>
       <button type="button" class="btn pri big ajgo" id="ajGo"${pl.items.length ? '' : ' disabled'}>${IC.play} Mula Mengajar</button>
     </div>
@@ -173,12 +174,13 @@ function viewPratonton(pl) {
     : it.t === 'cikgu' ? `<button type="button" class="btn sec" id="ajEdit" style="min-height:46px">${ajIcon.edit} Ubah slaid</button>` : '';
   return `<h2 class="ajh">ITEM ${AJS.sel + 1} · ${AJT[it.t][0]}</h2>${body}${edit}
     <button type="button" class="btn sec" id="ajFrom" style="min-height:46px">${IC.play} Tayang dari sini</button>
-    <p class="ajhint" style="margin-top:auto">Pelan disimpan dalam komputer ini. Guna <b>Simpan fail</b> untuk bawa ke laptop lain.</p>`;
+    <p class="ajhint" style="margin-top:auto">Pelan disimpan dalam pelayar komputer ini. Guna <b>Kongsi link</b> untuk beri pelan kepada guru lain.</p>`;
 }
 
 /* ---------- modal: latihan & slaid baharu ---------- */
 function viewModal() {
   const M = AJS.modal;
+  if (M.type === 'share') return viewShareModal(M);
   if (M.type === 'lat') {
     const bank = wsBank(), B = bankById();
     const list = bank.filter(q => q.sub === M.sub && (M.lvl === 'all' || q.lvl === M.lvl));
@@ -242,15 +244,6 @@ function readImage(file, cb) {
   };
   fr.readAsDataURL(file);
 }
-function downloadPlan(pl) {
-  const data = JSON.stringify({ app: 'ISOMOVE', jenis: 'pelan-mengajar', v: 1, plan: { name: pl.name, items: pl.items } }, null, 1);
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([data], { type: 'application/json' }));
-  a.download = 'pelan-isomove-' + pl.name.replace(/[^\w\- ]+/g, '').trim().replace(/\s+/g, '-').toLowerCase() + '.json';
-  document.body.appendChild(a); a.click(); a.remove();
-  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
-  toast('Fail pelan disimpan');
-}
 function validItem(it) {
   if (!it || !AJT[it.t]) return false;
   if (it.t === 'slaid') return !!slideOf(it);
@@ -276,18 +269,7 @@ function bindSusun() {
     if (!d.plans.length) d.plans.push({ id: 'p' + Date.now(), name: 'Pelan baharu', items: [] });
     d.cur = d.plans[0].id; AJS.sel = 0; ajSave(); render(true);
   };
-  document.getElementById('ajSaveF').onclick = () => downloadPlan(pl);
-  document.getElementById('ajOpenF').onchange = e => {
-    const f = e.target.files[0]; if (!f) return;
-    f.text().then(t => {
-      const j = JSON.parse(t), p = j && j.plan;
-      if (!p || !Array.isArray(p.items)) throw new Error('bukan pelan');
-      let name = String(p.name || 'Pelan dari fail').slice(0, 60);
-      if (d.plans.some(x => x.name === name)) name += ' (salinan)';
-      const np = { id: 'p' + Date.now(), name, items: p.items.filter(validItem) };
-      d.plans.push(np); d.cur = np.id; AJS.sel = 0; ajSave(); render(true); toast('Pelan dibuka: ' + name);
-    }).catch(() => toast('Fail ini bukan pelan ISOMOVE'));
-  };
+  document.getElementById('ajShare').onclick = () => ajShareOpen(pl);
   document.getElementById('ajGo').onclick = () => ajStart(0);
   const from = document.getElementById('ajFrom'); if (from) from.onclick = () => ajStart(AJS.sel);
   const ed = document.getElementById('ajEdit');
@@ -328,7 +310,8 @@ function bindSusun() {
       const [m] = pl.items.splice(from, 1); pl.items.splice(to, 0, m); AJS.sel = to; ajSave(); render(true);
     });
   });
-  if (AJS.modal) bindModal(pl);
+  if (AJS.modal && AJS.modal.type === 'share') bindShareModal();
+  else if (AJS.modal) bindModal(pl);
 }
 function bindModal(pl) {
   const M = AJS.modal, root = document.querySelector('.ajm');
@@ -372,7 +355,7 @@ function bindModal(pl) {
     else ajAdd(item);
   };
 }
-window.addEventListener('resize', () => { if (/^#\/ajar/.test(location.hash)) { fitPreviews(); inkResize(); } });
+window.addEventListener('resize', () => { if (/^#\/(ajar|k\/)/.test(location.hash)) { fitPreviews(); inkResize(); } });
 
 /* =================== MOD TAYANG =================== */
 const AJ = { i: 0, r: 0, qi: 0, show: false, ink: {}, tool: null, col: 'rd', back: false };
@@ -380,11 +363,12 @@ const ajCur = () => { const pl = ajPlan(); return pl && pl.items[AJ.i]; };
 function ajStart(i) {
   AJ.i = i; AJ.r = 0; AJ.qi = 0; AJ.show = false; AJ.ink = {}; AJ.tool = null; AJ.back = false;
   if (document.fullscreenEnabled && !document.fullscreenElement) document.documentElement.requestFullscreen().catch(() => {});
-  location.hash = '#/ajar/tayang';
+  location.hash = ajShared() ? `#/k/${AJK.code}/tayang` : '#/ajar/tayang';
 }
 function ajExit() {
   if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
   if (typeof G !== 'undefined') { clearInterval(G.timer); G.st = 'intro'; }
+  if (ajShared()) { location.hash = `#/k/${AJK.code}`; return; }
   AJS.sel = AJ.i; location.hash = '#/ajar';
 }
 function ajGo(i, back) {
@@ -442,7 +426,7 @@ function viewLatItem(it) {
 }
 function viewTayang() {
   const pl = ajPlan(), it = ajCur();
-  if (!it) { location.replace('#/ajar'); return ''; }
+  if (!it) { location.replace(ajShared() ? `#/k/${AJK.code}` : '#/ajar'); return ''; }
   let content = '';
   if (it.t === 'slaid' || it.t === 'cikgu') content = `<div class="stage" id="stage" style="--c:${subColVar(it)}">${itemSlideHTML(it)}</div>`;
   else if (it.t === 'sim') content = `<div class="tero"><iframe class="simframe" src="simulasi/${it.k}.html" title="Simulasi ${SIMNAME[it.k]}"></iframe></div>`;
@@ -502,7 +486,7 @@ function bindTayang() {
   inkBind();
 }
 document.addEventListener('keydown', e => {
-  if (!/^#\/ajar\/tayang/.test(location.hash)) return;
+  if (!ajIsPlay()) return;
   if (e.target.closest && e.target.closest('input,textarea,select')) return;
   if (['ArrowRight', 'ArrowDown', 'PageDown', ' ', 'Enter'].includes(e.key)) {
     if ((e.key === 'Enter' || e.key === ' ') && e.target.closest && e.target.closest('a,button,label')) return;
@@ -568,5 +552,91 @@ function inkBind() {
   });
   const end = () => { INK.draw = null; };
   c.addEventListener('pointerup', end); c.addEventListener('pointercancel', end);
+}
+
+/* =================== KONGSI LINK =================== */
+// Pelan dibungkus terus ke dalam link (#/k/<kod>): tiada pangkalan data.
+// Gambar tidak disertakan supaya link tidak terlalu panjang.
+const AJK = { code: '', plan: null, err: false, busy: false };
+const b64u = bytes => { let s = ''; for (let i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000)); return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); };
+const unb64u = str => { str = str.replace(/-/g, '+').replace(/_/g, '/'); while (str.length % 4) str += '='; const bin = atob(str), u = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); return u; };
+async function packPlan(pl) {
+  const str = JSON.stringify({ v: 1, n: pl.name, i: pl.items.map(it => { const c = Object.assign({}, it); delete c.img; return c; }) });
+  if (!window.CompressionStream) return '0' + b64u(new TextEncoder().encode(str));
+  const st = new Blob([str]).stream().pipeThrough(new CompressionStream('deflate-raw'));
+  return '1' + b64u(new Uint8Array(await new Response(st).arrayBuffer()));
+}
+async function unpackPlan(code) {
+  const t = code[0], u = unb64u(code.slice(1));
+  let str;
+  if (t === '0') str = new TextDecoder().decode(u);
+  else if (t === '1') str = await new Response(new Blob([u]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).text();
+  else throw new Error('kod');
+  const j = JSON.parse(str);
+  if (!j || !Array.isArray(j.i)) throw new Error('pelan');
+  return { id: 'kongsi', name: String(j.n || 'Pelan dikongsi').slice(0, 60), items: j.i.filter(validItem) };
+}
+async function ajShareOpen(pl) {
+  try {
+    const code = await packPlan(pl);
+    const link = location.origin + location.pathname + '#/k/' + code;
+    AJS.modal = { type: 'share', link, name: pl.name, img: pl.items.some(it => it.img) };
+  } catch (e) { toast('Link tidak dapat dicipta'); return; }
+  render(true);
+}
+function viewShareModal(M) {
+  return `<div class="ajm-bg"><section class="ajm ajshare" role="dialog" aria-modal="true" aria-label="Kongsi link pelan">
+    <div class="ajm-h"><h2>Kongsi link</h2><button type="button" class="ib" id="ajmX" aria-label="Tutup">${IC.x}</button></div>
+    <p class="ajhint" style="font-size:16px">Guru yang buka link ini akan nampak pelan <b style="color:var(--tx)">${esc(M.name)}</b> sahaja. Mereka boleh tayang terus, atau simpan salinan untuk diubah.</p>
+    <label class="ajf"><span>LINK</span><textarea id="ajLink" rows="3" readonly>${esc(M.link)}</textarea></label>
+    ${M.img ? '<p class="ajwarn">Gambar yang dimuat naik tidak disertakan dalam link. Slaid Gambar + teks akan dipaparkan tanpa gambar.</p>' : ''}
+    <p class="ajhint">Link ini menyimpan pelan seperti sekarang. Jika pelan diubah, cipta link baharu.</p>
+    <div class="prow ajsharebtns"><button type="button" class="btn pri" id="ajCopy">${ajIcon.copy} Salin link</button>${navigator.share ? `<button type="button" class="btn sec" id="ajNative">${ajIcon.share} Kongsi…</button>` : ''}</div>
+  </section></div>`;
+}
+function bindShareModal() {
+  const M = AJS.modal, close = () => { AJS.modal = null; render(true); };
+  document.getElementById('ajmX').onclick = close;
+  document.querySelector('.ajm-bg').addEventListener('click', e => { if (e.target.classList.contains('ajm-bg')) close(); });
+  const ta = document.getElementById('ajLink');
+  ta.onfocus = () => ta.select();
+  document.getElementById('ajCopy').onclick = () => {
+    const done = () => toast('Link disalin');
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(M.link).then(done, () => { ta.select(); document.execCommand('copy'); done(); });
+    else { ta.select(); document.execCommand('copy'); done(); }
+  };
+  const nb = document.getElementById('ajNative');
+  if (nb) nb.onclick = () => navigator.share({ title: 'Pelan ISOMOVE: ' + M.name, text: 'Pelan mengajar ISOMOVE: ' + M.name, url: M.link }).catch(() => {});
+}
+function viewKongsi(code) {
+  if (AJK.code !== code) {
+    AJK.code = code; AJK.plan = null; AJK.err = false;
+    unpackPlan(code).then(p => { AJK.plan = p; }).catch(() => { AJK.err = true; }).then(() => { if (location.hash.indexOf('#/k/' + code) === 0) render(false); });
+  }
+  const light = isLight();
+  const head = `<header class="hdr"><span class="wm">ISO<span>MOVE</span></span><div class="end" style="margin-left:auto"><button type="button" class="ib" id="themeBtn" aria-label="${light ? 'Tukar ke mod gelap' : 'Tukar ke mod cerah'}">${light ? IC.moon : IC.sun}</button></div></header>`;
+  let body;
+  if (AJK.err) body = `<div class="kgcard"><p class="eyebrow">PELAN DIKONGSI</p><h1 class="h1">Link tidak sah</h1><p class="lead">Link ini rosak atau tidak lengkap. Minta guru yang berkongsi menghantar semula link.</p><a class="btn sec" href="#/ajar">Buka ISOMOVE</a></div>`;
+  else if (!AJK.plan) body = `<div class="kgcard"><p class="lead">Membuka pelan…</p></div>`;
+  else {
+    const pl = AJK.plan;
+    body = `<div class="kgcard"><p class="eyebrow">PELAN DIKONGSI · BAB 11 TRANSFORMASI ISOMETRI</p><h1 class="h1">${esc(pl.name)}</h1><p class="lead">${pl.items.length} item. Tekan Tayang untuk mula mengajar dengan pelan ini.</p>
+      <ol class="kglist">${pl.items.map((it, k) => `<li><span class="n">${k + 1}</span>${typeChip(it.t)}<span>${esc(itemName(it))}</span></li>`).join('')}</ol>
+      <div class="kgbtns"><button type="button" class="btn pri big" id="kgPlay"${pl.items.length ? '' : ' disabled'}>${IC.play} Tayang</button><button type="button" class="btn sec big" id="kgSave">${ajIcon.plus} Simpan ke pelan saya</button></div></div>`;
+  }
+  return `<div class="app kgpage">${head}<main class="main" id="main"><div class="wrap kgwrap">${body}</div></main></div>`;
+}
+function bindKongsi() {
+  const t = document.getElementById('themeBtn');
+  if (t) t.onclick = () => { const l = !isLight(); document.documentElement.classList.toggle('light', l); LS.set('mathmotion-mode', l ? 'cerah' : 'gelap'); setMeta(); render(true); };
+  const pl = AJK.plan; if (!pl) return;
+  document.getElementById('kgPlay').onclick = () => ajStart(0);
+  document.getElementById('kgSave').onclick = () => {
+    const d = ajData(); let name = pl.name;
+    if (d.plans.some(p => p.name === name)) name += ' (salinan)';
+    const np = { id: 'p' + Date.now(), name, items: JSON.parse(JSON.stringify(pl.items)) };
+    d.plans.push(np); d.cur = np.id; AJS.sel = 0; ajSave();
+    location.hash = '#/ajar'; setTimeout(() => toast('Disimpan ke pelan anda: ' + name), 50);
+  };
 }
 IC.ajar = ajIcon.ajar;
