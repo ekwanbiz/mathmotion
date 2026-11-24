@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Grid Dua Dadu · Bab 9</title>
+<link rel="icon" href="../logo.svg" type="image/svg+xml">
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#07140F;--sf:#0F2119;--sf2:#163024;--sf3:#0A1912;--bd:#1F3D2E;--bd2:#2B523F;--tx:#E8FFF4;--mu:#9CCBB4;--mu2:#6C9C85;--c1:#3DDC97;--c2:#FFB547;--a:#4FC3FF;--b:#FF7AB6;--ok:#3DDC84;--bad:#FF6B7A;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button,select{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:9px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:10px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#03291a}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:10px 14px;line-height:1.45;font-size:15px;min-height:84px}
+.info b.t{display:block;font-size:17px;color:var(--c1);margin-bottom:2px}
+.info .f{font-weight:800;font-size:16.5px}.info .f b{color:var(--c2)}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.info .ex{font-weight:700;font-size:14px;color:var(--mu)}.info .ex b{color:var(--ok)}
+.ctrl{display:flex;flex-direction:column;gap:8px}
+.row{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.row.two{grid-template-columns:1fr 1fr}.row.three{grid-template-columns:1fr 1fr 1fr}
+.chip{background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:10px 3px;font-weight:800;font-size:14px}
+.chip.on{background:var(--c2);border-color:var(--c2);color:#2a1a03}
+.sel{display:flex;align-items:center;gap:6px;background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:4px 4px 4px 10px;font-weight:900;min-width:0}
+.sel select{flex:1;min-width:0;background:var(--sf2);border:0;border-radius:9px;padding:8px 4px;font-weight:700;font-size:14px}
+.sl{display:flex;align-items:center;gap:8px;background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:4px 10px;font-weight:800;font-size:14px;color:var(--mu)}
+.sl input{flex:1;accent-color:var(--c2);height:28px}.sl b{color:var(--c2);min-width:24px;text-align:right}
+.big{background:var(--c2);border:0;color:#2a1a03;border-radius:13px;padding:12px 6px;font-weight:900;font-size:15.5px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.hide{display:none!important}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.3fr) minmax(340px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:16px 18px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:21px}.info .f{font-size:19px}.info .ex{font-size:15px}
+ .row{grid-template-columns:1fr 1fr}
+}
+@media(max-height:700px){.wrap{gap:7px;padding-top:7px}.modes button{padding:8px 4px;font-size:14px}.info{padding:8px 11px;font-size:13.5px;min-height:70px}.info .f{font-size:15px}.info b.t{font-size:15px}.big{padding:9px 4px}.chip{padding:7px 3px}}
+@media(max-width:420px){.chip,.big{font-size:13px}.modes button{font-size:13.5px;padding:9px 3px}.sel select{font-size:13px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(12px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#3DDC97;color:#03291a;border-radius:14px;padding:11px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #3ddc9744">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mod">
+   <button data-m="satu" class="on" role="tab">✏️ Lorek peristiwa</button>
+   <button data-m="dua" role="tab">🔀 A atau B</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" aria-label="Grid ruang sampel dua dadu"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl">
+  <div class="row" id="pre1">
+   <button class="chip" data-p="sum">Hasil tambah</button><button class="chip" data-p="sama">Nombor sama</button><button class="chip" data-p="enam">Ada nombor 6</button><button class="chip" data-p="genap">Kedua-dua genap</button>
+  </div>
+  <div class="sl" id="slw"><span>Hasil tambah</span><input type="range" id="sk" min="2" max="12" value="7" aria-label="Hasil tambah"><b id="skv">7</b></div>
+  <div class="row two hide" id="pre2">
+   <label class="sel" style="color:var(--a)">A<select id="sa" aria-label="Peristiwa A"></select></label>
+   <label class="sel" style="color:var(--b)">B<select id="sb" aria-label="Peristiwa B"></select></label>
+  </div>
+  <div class="row three"><button class="big" id="roll">🎲 Lambung</button><button class="big alt" id="r30">× 30</button><button class="big alt" id="clr">↺ Kosongkan</button></div>
+ </div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),stage=document.getElementById('stage'),info=document.getElementById('info');
+const GOLD='#FFB547',CA='#4FC3FF',CB='#FF7AB6',MU='#9CCBB4',TX='#E8FFF4',BD='#2B523F';
+const gcd=(a,b)=>b?gcd(b,a%b):Math.abs(a);
+const fr=(n,d)=>{if(!n)return'0';const g=gcd(n,d)||1;n/=g;d/=g;return d===1?String(n):n+'/'+d};
+const snd=n=>{if(window.FX)FX.play(n)};
+const prime=n=>[2,3,5,7,11].includes(n);
+const EV=[
+ ['Hasil tambah 7',(a,b)=>a+b===7],['Hasil tambah 11',(a,b)=>a+b===11],['Hasil tambah > 8',(a,b)=>a+b>8],['Hasil tambah perdana',(a,b)=>prime(a+b)],
+ ['Nombor sama',(a,b)=>a===b],['Ada nombor 6',(a,b)=>a===6||b===6],['Kedua-dua genap',(a,b)=>a%2===0&&b%2===0],['Kedua-dua ganjil',(a,b)=>a%2===1&&b%2===1],
+ ['Dadu 1 ialah 1',a=>a===1],['Dadu 2 ialah 1',(a,b)=>b===1],['Hasil darab ganjil',(a,b)=>(a*b)%2===1],['Hasil darab > 15',(a,b)=>a*b>15],['Beza ialah 2',(a,b)=>Math.abs(a-b)===2]];
+let S={m:'satu',on:new Set(),pre:'sum',k:7,A:5,B:4,rolls:0,hits:0,last:null,anim:false,face:[3,4],paint:null};
+const key=(a,b)=>a+','+b;
+function setSum(){S.on=new Set();for(let a=1;a<=6;a++)for(let b=1;b<=6;b++)if(a+b===S.k)S.on.add(key(a,b))}
+function setPreset(p){S.pre=p;S.on=new Set();const f={sama:(a,b)=>a===b,enam:(a,b)=>a===6||b===6,genap:(a,b)=>a%2===0&&b%2===0}[p];
+ if(p==='sum')setSum();else for(let a=1;a<=6;a++)for(let b=1;b<=6;b++)if(f(a,b))S.on.add(key(a,b))}
+const inA=(a,b)=>EV[S.A][1](a,b),inB=(a,b)=>EV[S.B][1](a,b);
+const T=(x,y,s,c=TX,z=15,w=800,a='middle')=>`<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" fill="${c}" font-size="${z.toFixed(1)}" font-weight="${w}" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" pointer-events="none">${s}</text>`;
+const PIP={1:[[0,0]],2:[[-1,-1],[1,1]],3:[[-1,-1],[0,0],[1,1]],4:[[-1,-1],[1,-1],[-1,1],[1,1]],5:[[-1,-1],[1,-1],[0,0],[-1,1],[1,1]],6:[[-1,-1],[1,-1],[-1,0],[1,0],[-1,1],[1,1]]};
+const die=(x,y,s,v,c)=>`<rect x="${x}" y="${y}" width="${s}" height="${s}" rx="${s*.2}" fill="#F4FFF9" stroke="${c}" stroke-width="2.5"/>`+PIP[v].map(([dx,dy])=>`<circle cx="${(x+s/2+dx*s*.27).toFixed(1)}" cy="${(y+s/2+dy*s*.27).toFixed(1)}" r="${(s*.09).toFixed(1)}" fill="#0A1912"/>`).join('');
+let G={};
+function draw(){
+ const w=stage.clientWidth||360,h=stage.clientHeight||360;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+ const side=w>h*1.25,rollW=side?Math.min(130,w*.2):0,rollH=side?0:Math.min(64,h*.16);
+ const gw=w-rollW-16,gh=h-rollH-16,cs=Math.min(gw/7.3,gh/7.3),x0=8+(gw-cs*7)/2+cs*.3,y0=rollH+8+(gh-cs*7)/2+cs*.3;
+ G={x0:x0+cs,y0:y0+cs,cs};
+ let g='';const ds=cs*.62;
+ g+=T(x0+cs*.5-2,y0+cs*.5,'',MU,12);
+ for(let j=1;j<=6;j++)g+=die(x0+cs*j+(cs-ds)/2,y0+(cs-ds)/2-cs*.12,ds,j,CA);
+ for(let i=1;i<=6;i++)g+=die(x0+(cs-ds)/2-cs*.12,y0+cs*i+(cs-ds)/2,ds,i,CB);
+ g+=T(x0+cs*4,y0-cs*.18,'Dadu 2 →',CA,Math.max(11,cs*.26),800)+`<g transform="translate(${(x0-cs*.18).toFixed(1)} ${(y0+cs*4).toFixed(1)}) rotate(90)">${T(0,0,'Dadu 1 →',CB,Math.max(11,cs*.26),800)}</g>`;
+ const fz=Math.max(10,cs*.27);
+ for(let a=1;a<=6;a++)for(let b=1;b<=6;b++){
+  const x=x0+cs*b,y=y0+cs*a;let fill='#0F2119',st=BD,sw=1.5,tc=MU;
+  if(S.m==='satu'){if(S.on.has(key(a,b))){fill='#FFB54755';st=GOLD;sw=2.5;tc=TX}}
+  else{const ia=inA(a,b),ib=inB(a,b);if(ia&&ib){fill='#FFB54766';st=GOLD;sw=2.5;tc=TX}else if(ia){fill='#4FC3FF44';st=CA;sw=2.5;tc=TX}else if(ib){fill='#FF7AB644';st=CB;sw=2.5;tc=TX}}
+  const last=S.last&&S.last[0]===a&&S.last[1]===b;
+  g+=`<rect class="c" data-a="${a}" data-b="${b}" x="${(x+2).toFixed(1)}" y="${(y+2).toFixed(1)}" width="${(cs-4).toFixed(1)}" height="${(cs-4).toFixed(1)}" rx="${(cs*.16).toFixed(1)}" fill="${fill}" stroke="${last?'#FFFFFF':st}" stroke-width="${last?4:sw}"/>`;
+  g+=T(x+cs/2,y+cs/2+1,`${a},${b}`,tc,fz,tc===TX?800:600);
+ }
+ // dadu dilambung
+ const rs=side?Math.min(rollW*.42,cs*1.05):Math.min(rollH*.78,cs*.95);
+ const rx=side?w-rollW/2-8:w/2,ry=side?h/2:8+rollH/2;
+ const c1=S.anim?'#FFFFFF':CB,c2=S.anim?'#FFFFFF':CA;
+ if(side){g+=die(rx-rs/2,ry-rs-10,rs,S.face[0],c1)+die(rx-rs/2,ry+10,rs,S.face[1],c2)+T(rx,ry-rs-26,'Dadu 1',CB,12)+T(rx,ry+rs+26,'Dadu 2',CA,12)}
+ else{g+=die(rx-rs-10,ry-rs/2,rs,S.face[0],c1)+die(rx+10,ry-rs/2,rs,S.face[1],c2)+T(rx-rs-22,ry,'D1',CB,12,800,'end')+T(rx+rs+22,ry,'D2',CA,12,800,'start')}
+ svg.innerHTML=g;
+}
+function count(f){let n=0;for(let a=1;a<=6;a++)for(let b=1;b<=6;b++)if(f(a,b))n++;return n}
+function showInfo(){
+ let s='';
+ if(S.m==='satu'){const n=S.on.size,nm={sum:`hasil tambah ${S.k}`,sama:'kedua-dua nombor sama',enam:'sekurang-kurangnya satu nombor 6',genap:'kedua-dua nombor genap'}[S.pre]||'peristiwa yang anda lorek';
+  s=`<b class="t">A = ${nm}</b><div class="f">n(A) = <b>${n}</b>, n(S) = 6 × 6 = 36 → P(A) = ${n}/36${n&&fr(n,36)!==n+'/36'?' = ':''}<b>${n&&fr(n,36)!==n+'/36'?fr(n,36):''}</b></div>`;
+  s+=S.rolls?`<div class="ex">Lambungan: A berlaku <b>${S.hits}</b> kali daripada ${S.rolls} → ${(S.hits/S.rolls).toFixed(2)} (teori ${(n/36).toFixed(2)})</div>`:`<div class="tip">Ketik atau seret pada grid untuk melorek atau memadam sel.</div>`}
+ else{const nA=count(inA),nB=count(inB),nI=count((a,b)=>inA(a,b)&&inB(a,b)),nU=count((a,b)=>inA(a,b)||inB(a,b));
+  const ex=nI===0;
+  s=`<b class="t">${ex?'Saling eksklusif':'Tidak saling eksklusif'}</b><div class="tip" style="margin:0 0 3px;color:#C9EEDC"><span style="color:${CA}">■</span> A: ${EV[S.A][0].toLowerCase()} (${nA}) · <span style="color:${CB}">■</span> B: ${EV[S.B][0].toLowerCase()} (${nB}) · <span style="color:${GOLD}">■</span> A ∩ B (${nI})</div>`;
+  s+=`<div class="f">P(A ∪ B) = ${nA}/36 + ${nB}/36${ex?'':` − ${nI}/36`} = ${nU}/36${fr(nU,36)!==nU+'/36'?' = <b>'+fr(nU,36)+'</b>':''}</div>`;
+  s+=S.rolls?`<div class="ex">Lambungan: A atau B berlaku <b>${S.hits}</b> kali daripada ${S.rolls} → ${(S.hits/S.rolls).toFixed(2)} (teori ${(nU/36).toFixed(2)})</div>`:''}
+ info.innerHTML=s}
+const hit=(a,b)=>S.m==='satu'?S.on.has(key(a,b)):(inA(a,b)||inB(a,b));
+function resetTally(){S.rolls=0;S.hits=0;S.last=null}
+function rollOne(){const a=1+Math.floor(Math.random()*6),b=1+Math.floor(Math.random()*6);S.rolls++;if(hit(a,b))S.hits++;S.last=[a,b];S.face=[a,b]}
+document.getElementById('roll').onclick=()=>{if(S.anim)return;S.anim=true;let k=0;snd('detik');
+ const tick=()=>{S.face=[1+Math.floor(Math.random()*6),1+Math.floor(Math.random()*6)];draw();if(++k<7)setTimeout(tick,70);else{S.anim=false;rollOne();if(hit(...S.last))snd('betul');else snd('ketik');draw();showInfo()}};tick()};
+document.getElementById('r30').onclick=()=>{if(S.anim)return;for(let k=0;k<30;k++)rollOne();snd('ketik');draw();showInfo()};
+document.getElementById('clr').onclick=()=>{if(S.anim)return;if(S.m==='satu'){S.on=new Set();S.pre=''}resetTally();setUI();draw();showInfo()};
+document.querySelectorAll('#pre1 .chip').forEach(b=>b.onclick=()=>{setPreset(b.dataset.p);resetTally();snd('ketik');setUI();draw();showInfo()});
+const sk=document.getElementById('sk');sk.oninput=()=>{S.k=+sk.value;document.getElementById('skv').textContent=S.k;setPreset('sum');resetTally();setUI();draw();showInfo()};
+const sa=document.getElementById('sa'),sb=document.getElementById('sb');
+sa.innerHTML=sb.innerHTML=EV.map((e,i)=>`<option value="${i}">${e[0]}</option>`).join('');sa.value=S.A;sb.value=S.B;
+sa.onchange=()=>{S.A=+sa.value;resetTally();snd('ketik');draw();showInfo()};sb.onchange=()=>{S.B=+sb.value;resetTally();snd('ketik');draw();showInfo()};
+function setUI(){document.querySelectorAll('#pre1 .chip').forEach(b=>b.classList.toggle('on',b.dataset.p===S.pre));
+ document.getElementById('pre1').classList.toggle('hide',S.m!=='satu');document.getElementById('slw').classList.toggle('hide',S.m!=='satu'||S.pre!=='sum');document.getElementById('pre2').classList.toggle('hide',S.m!=='dua');
+ document.getElementById('clr').textContent=S.m==='satu'?'↺ Kosongkan':'↺ Semula'}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{if(S.anim)return;document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));S.m=b.dataset.m;resetTally();snd('ketik');setUI();draw();showInfo()});
+/* ---------- lorek dengan ketik / seret (tetikus + sentuh) ---------- */
+function cellAt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;const q=p.matrixTransform(svg.getScreenCTM().inverse());const b=Math.floor((q.x-G.x0)/G.cs)+1,a=Math.floor((q.y-G.y0)/G.cs)+1;return a>=1&&a<=6&&b>=1&&b<=6?[a,b]:null}
+function paint(c){const k=key(...c);if(S.paint==='add')S.on.add(k);else S.on.delete(k)}
+svg.addEventListener('pointerdown',e=>{if(S.m!=='satu')return;const c=cellAt(e);if(!c)return;e.preventDefault();S.paint=S.on.has(key(...c))?'del':'add';if(S.pre){S.pre='';setUI()}paint(c);resetTally();svg.setPointerCapture(e.pointerId);snd('ketik');draw();showInfo()});
+svg.addEventListener('pointermove',e=>{if(!S.paint)return;const c=cellAt(e);if(!c)return;const had=S.on.has(key(...c));if((S.paint==='add')!==had){paint(c);draw();showInfo()}});
+const end=()=>{S.paint=null};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+new ResizeObserver(()=>draw()).observe(stage);setPreset('sum');setUI();draw();showInfo();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>
