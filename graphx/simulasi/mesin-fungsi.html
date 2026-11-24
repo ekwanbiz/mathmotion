@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Mesin Fungsi · GRAPHX</title>
+<style>
+:root{--bg:#100A1C;--sf:#1A1230;--sf2:#231940;--sf3:#140D24;--bd:#33264F;--bd2:#443366;--tx:#F3EEFF;--mu:#B5A6D6;--mu2:#8576A8;--c1:#B57BFF;--c2:#FFB547;--c3:#4FE3C1;--gold:#FFD166;--ok:#3DDC84;--bad:#FF6B7A;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.modes{display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#1e0b3a}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:11px 14px;line-height:1.5;font-size:15px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:2px}
+.info .f{font-weight:800;font-size:17px}.info .f b{color:var(--c2)}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.info .ok{color:var(--ok)}.info .no{color:var(--bad)}
+.ctrl{display:flex;flex-direction:column;gap:8px}
+.line{display:flex;gap:8px;align-items:center}
+.line label{font-weight:800;color:var(--mu);font-size:14px;white-space:nowrap;min-width:64px}
+.line input[type=range]{flex:1;accent-color:var(--c1);height:28px}
+.seg{display:flex;gap:6px;flex:1}
+.seg button{flex:1;background:var(--sf);border:2px solid var(--bd2);border-radius:12px;padding:10px 2px;font-weight:800;font-size:14.5px}
+.seg button.on{background:var(--c1);border-color:var(--c1);color:#1e0b3a}
+.btns{display:flex;gap:8px}
+.big{flex:1;background:var(--c2);border:0;color:#2a1a03;border-radius:13px;padding:13px 6px;font-weight:900;font-size:16px}
+.big.alt{flex:.6;background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.big.ok{background:var(--ok);color:#06240f}.big.no{background:var(--bad);color:#2a0609}
+.big:disabled{opacity:.45}
+.nextb{margin-top:6px;background:var(--c1);border:0;color:#1e0b3a;border-radius:11px;padding:8px 16px;font-weight:900}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.45fr) minmax(330px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .modes{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:22px}.info .f{font-size:19px}
+}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.info{padding:8px 11px;font-size:13.5px}.info .f{font-size:15px}.info b.t{font-size:16px}.big{padding:10px 4px}.seg button{padding:7px 2px}}
+.tv{border-collapse:collapse;margin-top:6px;font-weight:800;font-size:15px}.tv th{color:var(--mu);font-size:13px;padding:3px 8px 3px 0;text-align:left}.tv td{border:1px solid var(--bd2);padding:3px 8px;text-align:center;min-width:34px}.tv tr:first-child td{color:var(--c1)}.tv tr:last-child td{color:var(--c2)}
+.stepper{display:flex;align-items:center;gap:6px;flex:1.2}.stepper button{width:46px;height:48px;flex:none;border-radius:12px;background:var(--sf);border:2px solid var(--bd2);font-size:24px;font-weight:900}.stepper .v{flex:1;text-align:center;font-size:19px;font-weight:900;color:var(--c1);white-space:nowrap}
+.seg button{font-size:13.5px}@media(max-width:400px){.seg button{font-size:12px;padding:9px 1px}.stepper button{width:40px}.stepper .v{font-size:17px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#4FE3C1;color:#05291f;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #4FE3C144">&#8592; Kembali ke GRAPHX</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="modes" role="tablist"><button data-m="mesin" class="on" role="tab">⚙️ Mesin Fungsi</button><button data-m="uji" role="tab">🔗 Fungsi atau Bukan?</button></div>
+ <div class="stage" id="stage"><svg id="svg" aria-label="Rajah"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),stage=document.getElementById('stage'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const M='−',N=v=>v<0?M+(-v):String(v),PN=v=>v<0?'('+M+(-v)+')':String(v);
+const FN=[
+ {t:'x + 3',f:x=>x+3,s:x=>`${N(x)} + 3`},
+ {t:'2x + 1',f:x=>2*x+1,s:x=>`2${PN(x).startsWith('(')?PN(x):'('+x+')'} + 1`},
+ {t:'3x − 2',f:x=>3*x-2,s:x=>`3${PN(x).startsWith('(')?PN(x):'('+x+')'} − 2`},
+ {t:'x²',f:x=>x*x,s:x=>`${PN(x).startsWith('(')?PN(x):'('+x+')'}²`}];
+const XMIN=-3,XMAX=4;
+let mode='mesin',fi=1,X=2,pts=[],P=1,anim=null,last=null;
+let Q=null,score=0,tot=0;
+const T=(x,y,t,c='#F3EEFF',s=16,w=900,a='middle')=>`<text x="${x}" y="${y}" fill="${c}" font-size="${s}" font-weight="${w}" text-anchor="${a}" dominant-baseline="middle" font-family="Arial" paint-order="stroke" stroke="#140D24" stroke-width="4">${t}</text>`;
+function dims(){return{w:stage.clientWidth||300,h:stage.clientHeight||300}}
+/* ---------- Mesin ---------- */
+function machine(R,p){const k=Math.min(R.w/400,R.h/200),ox=R.x+(R.w-400*k)/2,oy=R.y+(R.h-200*k)/2;const F=FN[fi];
+ const glow=p>.3&&p<.7?Math.sin((p-.3)/.4*Math.PI):0;
+ let g=`<g transform="translate(${ox} ${oy}) scale(${k})">`;
+ g+=`<path d="M70 100H130M270 100H330" stroke="#443366" stroke-width="10" stroke-linecap="round"/>`;
+ g+=`<rect x="120" y="40" width="160" height="120" rx="20" fill="#231940" stroke="#B57BFF" stroke-width="${3+glow*5}"/>`;
+ for(const [cx,cy] of [[146,62],[254,62]])g+=`<g transform="translate(${cx} ${cy}) rotate(${p*540})"><circle r="11" fill="none" stroke="#443366" stroke-width="5" stroke-dasharray="4 3"/></g>`;
+ g+=T(200,92,'f(x)','#B5A6D6',17,800)+T(200,122,F.t,'#B57BFF',26);
+ // bola input
+ let ix=40,io=1;if(anim||p>0){ix=40+Math.min(1,p/.32)*110;io=p>.3?Math.max(0,1-(p-.3)/.05):1}
+ if(io>0)g+=`<g opacity="${io}"><circle cx="${ix}" cy="100" r="30" fill="#B57BFF"/>${T(ix,101,N(X),'#1e0b3a',22).replace('stroke="#140D24"','stroke="#B57BFF"')}</g>`;
+ if(p===0&&!anim)g+=T(40,148,'x','#B5A6D6',16,800);
+ // bola output
+ if(p>.68||(!anim&&last)){const q=anim?Math.min(1,(p-.68)/.32):1,ox2=250+q*110;const val=anim?FN[fi].f(X):last.y;
+  g+=`<circle cx="${ox2}" cy="100" r="30" fill="#FFB547" opacity="${q}"/>`+T(ox2,101,N(val),'#2a1a03',22).replace('stroke="#140D24"','stroke="#FFB547"');if(q===1)g+=T(360,148,'f(x)','#B5A6D6',16,800)}
+ return g+'</g>'}
+function graph(R){const F=FN[fi];let ys=[];for(let x=XMIN;x<=XMAX;x++)ys.push(F.f(x));let y0=Math.min(0,...ys)-1,y1=Math.max(0,...ys)+1;
+ const pad=26,gx=R.x+pad,gy=R.y+10,gw=R.w-pad-12,gh=R.h-pad-12,X0=XMIN-.5,X1=XMAX+.5;
+ const sx=x=>gx+(x-X0)/(X1-X0)*gw,sy=y=>gy+gh-(y-y0)/(y1-y0)*gh;
+ const step=(y1-y0)>24?5:(y1-y0)>10?2:1;let g=`<rect x="${gx}" y="${gy}" width="${gw}" height="${gh}" fill="#1A1230" rx="8"/>`;
+ for(let x=XMIN;x<=XMAX;x++)g+=`<line x1="${sx(x)}" y1="${gy}" x2="${sx(x)}" y2="${gy+gh}" stroke="#ffffff0d"/>`+T(sx(x),sy(0)+12,x===0?'':N(x),'#8576A8',11,700);
+ for(let y=Math.ceil(y0/step)*step;y<=y1;y+=step){g+=`<line x1="${gx}" y1="${sy(y)}" x2="${gx+gw}" y2="${sy(y)}" stroke="#ffffff0d"/>`;if(y)g+=T(sx(0)-12,sy(y),N(y),'#8576A8',11,700)}
+ g+=`<line x1="${gx}" y1="${sy(0)}" x2="${gx+gw}" y2="${sy(0)}" stroke="#B5A6D6" stroke-width="2"/><line x1="${sx(0)}" y1="${gy}" x2="${sx(0)}" y2="${gy+gh}" stroke="#B5A6D6" stroke-width="2"/>`;
+ g+=T(gx+gw-6,sy(0)-10,'x','#B5A6D6',13)+T(sx(0)+18,gy+10,'f(x)','#B5A6D6',13);
+ if(pts.length>=3){let d='';for(let i=0;i<=60;i++){const x=X0+(X1-X0)*i/60;d+=(i?'L':'M')+sx(x).toFixed(1)+' '+sy(F.f(x)).toFixed(1)}g+=`<clipPath id="gc"><rect x="${gx}" y="${gy}" width="${gw}" height="${gh}"/></clipPath><path d="${d}" fill="none" stroke="#B57BFF55" stroke-width="2.5" stroke-dasharray="6 5" clip-path="url(#gc)"/>`}
+ pts.forEach((p,i)=>{const isL=i===pts.length-1;g+=`<circle cx="${sx(p.x)}" cy="${sy(p.y)}" r="${isL?7:5}" fill="${isL?'#FFB547':'#B57BFF'}" stroke="#140D24" stroke-width="2"/>`;if(isL)g+=T(sx(p.x)+(p.x>2?-30:30),sy(p.y)-12,`(${N(p.x)}, ${N(p.y)})`,'#FFB547',13)});
+ return g}
+function drawMesin(){const {w,h}=dims();svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+ const port=w/h<1.15;const A=port?{x:6,y:4,w:w-12,h:h*.42}:{x:6,y:6,w:w*.55,h:h-12},B=port?{x:4,y:h*.44,w:w-8,h:h*.56-4}:{x:w*.56,y:8,w:w*.44-8,h:h-16};
+ svg.innerHTML=machine(A,P)+graph(B)}
+function infoMesin(){const F=FN[fi];let h='';
+ if(last)h+=`<div class="f">f(${N(last.x)}) = ${F.s(last.x)} = <b>${N(last.y)}</b></div>`;else h+=`<b class="t">Masukkan nilai x ke dalam mesin</b>`;
+ const L=pts.slice(-8);
+ h+=L.length?`<table class="tv"><tr><th>x</th>${L.map(p=>`<td>${N(p.x)}</td>`).join('')}</tr><tr><th>f(x)</th>${L.map(p=>`<td>${N(p.y)}</td>`).join('')}</tr></table>`:`<div class="tip">Pilih x, tekan <b>Masuk</b>. Setiap input ada <b>satu</b> output sahaja — itulah fungsi.</div>`;
+ info.innerHTML=h}
+function run(){if(anim)return;const t0=performance.now(),dur=1500;setBusy(true);
+ const step=now=>{P=Math.min(1,(now-t0)/dur);drawMesin();if(P<1)anim=requestAnimationFrame(step);else{anim=null;const y=FN[fi].f(X);last={x:X,y};pts=pts.filter(p=>p.x!==X);pts.push(last);drawMesin();infoMesin();setBusy(false)}};
+ P=0;anim=requestAnimationFrame(step)}
+function setBusy(b){ctrl.querySelectorAll('button').forEach(x=>x.disabled=b)}
+/* ---------- Fungsi atau bukan ---------- */
+function newQ(){const kinds=['satu','banyak','satubanyak','tiada'];const kind=Math.random()<.5?kinds[Math.floor(Math.random()*2)]:kinds[2+Math.floor(Math.random()*2)];
+ const Pv=[1,2,3,4];let Qv=[];while(Qv.length<4){const v=2+Math.floor(Math.random()*15);if(!Qv.includes(v))Qv.push(v)}Qv.sort((a,b)=>a-b);
+ const perm=[0,1,2,3].sort(()=>Math.random()-.5);let arr=Pv.map((p,i)=>[i,perm[i]]),bad=-1;
+ if(kind==='banyak'){const a=Math.floor(Math.random()*4);let b=(a+1+Math.floor(Math.random()*3))%4;arr[b][1]=arr[a][1]}
+ if(kind==='satubanyak'){bad=Math.floor(Math.random()*4);const other=(perm[bad]+1+Math.floor(Math.random()*3))%4;arr.push([bad,other])}
+ if(kind==='tiada'){bad=Math.floor(Math.random()*4);arr=arr.filter(a=>a[0]!==bad)}
+ Q={kind,Pv,Qv,arr,bad,fn:kind==='satu'||kind==='banyak',done:false,pick:null};drawUji();
+ info.innerHTML=`<b class="t">Adakah hubungan ini suatu fungsi?</b><div class="tip">Fungsi: setiap objek dalam P ada <b>tepat satu</b> imej dalam Q. Skor: ${score}/${tot}</div>`;
+ ctrl.innerHTML=`<div class="btns"><button class="big ok" data-a="1">✓ Fungsi</button><button class="big no" data-a="0">✗ Bukan fungsi</button></div>`;
+ ctrl.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>answer(b.dataset.a==='1'))}
+function drawUji(){const {w,h}=dims();svg.setAttribute('viewBox',`0 0 ${w} ${h}`);const k=Math.min(w/400,h/300),ox=(w-400*k)/2,oy=(h-300*k)/2;
+ const py=i=>70+i*55;let g=`<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="context-stroke"/></marker></defs><g transform="translate(${ox} ${oy}) scale(${k})">`;
+ g+=`<ellipse cx="100" cy="152" rx="56" ry="128" fill="#B57BFF14" stroke="#B57BFF" stroke-width="2.5"/><ellipse cx="300" cy="152" rx="56" ry="128" fill="#FFB54714" stroke="#FFB547" stroke-width="2.5"/>`;
+ g+=T(100,14,'P','#B57BFF',18)+T(300,14,'Q','#FFB547',18);
+ Q.arr.forEach(([a,b])=>{let col='#B5A6D6';if(Q.done){col=Q.fn?'#3DDC84':(a===Q.bad?'#FF6B7A':'#B5A6D655')}
+  g+=`<line x1="${118}" y1="${py(a)}" x2="${280}" y2="${py(b)}" stroke="${col}" stroke-width="3" marker-end="url(#ah)"/>`});
+ Q.Pv.forEach((v,i)=>{const isBad=Q.done&&!Q.fn&&i===Q.bad;g+=`<circle cx="100" cy="${py(i)}" r="16" fill="${isBad?'#FF6B7A':'#231940'}" stroke="#B57BFF" stroke-width="2"/>`+T(100,py(i)+1,v,'#F3EEFF',17)});
+ Q.Qv.forEach((v,i)=>{g+=`<circle cx="300" cy="${py(i)}" r="16" fill="#231940" stroke="#FFB547" stroke-width="2"/>`+T(300,py(i)+1,v,'#F3EEFF',16)});
+ svg.innerHTML=g+'</g>'}
+function answer(a){if(Q.done)return;Q.done=true;tot++;const ok=a===Q.fn;if(ok)score++;drawUji();
+ const why=Q.kind==='satu'?'Setiap objek ada tepat satu imej (satu kepada satu).':Q.kind==='banyak'?'Dua objek boleh berkongsi imej yang sama (banyak kepada satu) — tetap fungsi.':Q.kind==='satubanyak'?`Objek <b>${Q.Pv[Q.bad]}</b> mempunyai <b>dua</b> imej (satu kepada banyak).`:`Objek <b>${Q.Pv[Q.bad]}</b> tiada imej.`;
+ info.innerHTML=`<b class="t">${ok?'<span class="ok">✓ Betul!</span>':'<span class="no">✗ Belum tepat</span>'} Ini ${Q.fn?'suatu fungsi':'bukan fungsi'}.</b>${why}<div class="tip">Skor: ${score}/${tot}</div><button class="nextb" id="nx">Seterusnya ▶</button>`;
+ ctrl.querySelectorAll('button').forEach(b=>b.disabled=true);document.getElementById('nx').onclick=newQ}
+/* ---------- Kawalan ---------- */
+function setCtrl(){
+ ctrl.innerHTML=`<div class="seg">${FN.map((F,i)=>`<button data-f="${i}" class="${i===fi?'on':''}">f(x) = ${F.t}</button>`).join('')}</div>
+ <div class="btns"><div class="stepper"><button id="mn" aria-label="Kurang">−</button><span class="v" id="xv">x = ${N(X)}</span><button id="pl" aria-label="Tambah">+</button></div><button class="big" id="go">▶ Masuk</button><button class="big alt" id="cl" aria-label="Kosongkan">↺</button></div>`;
+ ctrl.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{fi=+b.dataset.f;pts=[];last=null;P=0;setCtrl();drawMesin();infoMesin()});
+ const upd=d=>{X=Math.max(XMIN,Math.min(XMAX,X+d));document.getElementById('xv').textContent='x = '+N(X);P=0;last=pts.find(p=>p.x===X)||null;drawMesin()};
+ document.getElementById('mn').onclick=()=>upd(-1);document.getElementById('pl').onclick=()=>upd(1);
+ document.getElementById('go').onclick=run;document.getElementById('cl').onclick=()=>{pts=[];last=null;P=0;drawMesin();infoMesin()}}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{if(anim){cancelAnimationFrame(anim);anim=null}
+ document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));mode=b.dataset.m;
+ if(mode==='uji')newQ();else{P=0;setCtrl();drawMesin();infoMesin()}});
+new ResizeObserver(()=>{mode==='mesin'?drawMesin():Q&&drawUji()}).observe(stage);
+P=0;setCtrl();drawMesin();infoMesin();
+</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

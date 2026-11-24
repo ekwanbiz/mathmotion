@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Lukis Graf · GRAPHX</title>
+<style>
+:root{--bg:#100A1C;--sf:#1A1230;--sf2:#231940;--sf3:#140D24;--bd:#33264F;--bd2:#443366;--tx:#F3EEFF;--mu:#B5A6D6;--mu2:#8576A8;--c1:#B57BFF;--c2:#FFB547;--c3:#4FE3C1;--gold:#FFD166;--ok:#3DDC84;--bad:#FF6B7A;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.modes{display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#1e0b3a}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:11px 14px;line-height:1.5;font-size:15px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:2px}
+.info .f{font-weight:800;font-size:17px}.info .f b{color:var(--c2)}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.info .ok{color:var(--ok)}.info .no{color:var(--bad)}
+.ctrl{display:flex;flex-direction:column;gap:8px}
+.line{display:flex;gap:8px;align-items:center}
+.line label{font-weight:800;color:var(--mu);font-size:14px;white-space:nowrap;min-width:64px}
+.line input[type=range]{flex:1;accent-color:var(--c1);height:28px}
+.seg{display:flex;gap:6px;flex:1}
+.seg button{flex:1;background:var(--sf);border:2px solid var(--bd2);border-radius:12px;padding:10px 2px;font-weight:800;font-size:14.5px}
+.seg button.on{background:var(--c1);border-color:var(--c1);color:#1e0b3a}
+.btns{display:flex;gap:8px}
+.big{flex:1;background:var(--c2);border:0;color:#2a1a03;border-radius:13px;padding:13px 6px;font-weight:900;font-size:16px}
+.big.alt{flex:.6;background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.big.ok{background:var(--ok);color:#06240f}.big.no{background:var(--bad);color:#2a0609}
+.big:disabled{opacity:.45}
+.nextb{margin-top:6px;background:var(--c1);border:0;color:#1e0b3a;border-radius:11px;padding:8px 16px;font-weight:900}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.45fr) minmax(330px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .modes{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:22px}.info .f{font-size:19px}
+}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.info{padding:8px 11px;font-size:13.5px}.info .f{font-size:15px}.info b.t{font-size:16px}.big{padding:10px 4px}.seg button{padding:7px 2px}}
+.modes button{display:flex;flex-direction:column;align-items:center;gap:1px;padding:7px 2px;font-size:14px}.modes button small{font-size:11.5px;font-weight:700;opacity:.85}
+.tv{border-collapse:collapse;margin-top:6px;font-weight:800;font-size:15px;width:100%;table-layout:fixed}.tv th{color:var(--mu);font-size:14px;width:26px;text-align:left}.tv td{border:1px solid var(--bd2);padding:0;height:36px;text-align:center}.tv tr:first-child td{color:var(--c1)}.tv tr:last-child td{color:var(--c2)}.tv td.nw{background:#ffb54722}
+.q{width:100%;height:100%;border:0;background:#B57BFF1a;color:var(--c1);font-weight:900;font-size:16px}.q:hover{background:#B57BFF33}
+.jn{stroke-dasharray:1;stroke-dashoffset:1;animation:jn 1.2s ease forwards}@keyframes jn{to{stroke-dashoffset:0}}
+@media(max-width:400px){.tv{font-size:13.5px}.modes button{font-size:13px}.modes button small{font-size:10.5px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#4FE3C1;color:#05291f;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #4FE3C144">&#8592; Kembali ke GRAPHX</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="modes" role="tablist" id="fsel"></div>
+ <div class="stage" id="stage"><svg id="svg" aria-label="Graf"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl"><div class="btns"><button class="big" id="go">▶ Titik seterusnya</button><button class="big alt" id="rs">↺ Semula</button></div></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),stage=document.getElementById('stage'),info=document.getElementById('info'),go=document.getElementById('go');
+const M='−',N=v=>v<0?M+(-v):String(v),PN=v=>v<0?'('+M+(-v)+')':'('+v+')';
+const FS=[
+ {n:'Linear',t:'y = 2x + 1',f:x=>2*x+1,xs:[-2,-1,0,1,2,3],s:x=>`2${PN(x)} + 1`,shape:'Graf <b>linear</b> ialah <b>garis lurus</b>.'},
+ {n:'Kuadratik',t:'y = x² − 2',f:x=>x*x-2,xs:[-3,-2,-1,0,1,2,3],s:x=>`${PN(x)}² − 2`,shape:'Graf <b>kuadratik</b> ialah lengkung licin berbentuk <b>∪</b>.'},
+ {n:'Kubik',t:'y = x³',f:x=>x**3,xs:[-2,-1,0,1,2],s:x=>`${PN(x)}³`,shape:'Graf <b>kubik</b> ialah lengkung licin berbentuk <b>S</b>.'},
+ {n:'Salingan',t:'y = 6/x',f:x=>6/x,xs:[-6,-3,-2,-1,1,2,3,6],s:x=>`6 ÷ ${PN(x)}`,shape:'Graf <b>salingan</b> ada <b>dua lengkung</b> yang tidak menyentuh paksi.'}];
+let fi=0,rev=[],lastI=-1,joined=false;
+const T=(x,y,t,c='#F3EEFF',s=12,w=700)=>`<text x="${x}" y="${y}" fill="${c}" font-size="${s}" font-weight="${w}" text-anchor="middle" dominant-baseline="middle" font-family="Arial" paint-order="stroke" stroke="#140D24" stroke-width="4">${t}</text>`;
+function draw(newI){const F=FS[fi],w=stage.clientWidth||300,h=stage.clientHeight||300;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+ const ys=F.xs.map(F.f),x0=Math.min(...F.xs)-1,x1=Math.max(...F.xs)+1,y0=Math.min(0,...ys)-1,y1=Math.max(0,...ys)+1;
+ const L=30,Rm=14,Tm=14,B=26,gw=w-L-Rm,gh=h-Tm-B,sx=x=>L+(x-x0)/(x1-x0)*gw,sy=y=>Tm+gh-(y-y0)/(y1-y0)*gh;
+ const yst=(y1-y0)>20?2:1,xst=(x1-x0)>10?2:1;
+ let g='';
+ for(let x=Math.ceil(x0);x<=x1;x++)g+=`<line x1="${sx(x)}" y1="${Tm}" x2="${sx(x)}" y2="${Tm+gh}" stroke="#ffffff${x%xst?'08':'12'}"/>`;
+ for(let y=Math.ceil(y0);y<=y1;y++)g+=`<line x1="${L}" y1="${sy(y)}" x2="${L+gw}" y2="${sy(y)}" stroke="#ffffff${y%yst?'08':'12'}"/>`;
+ g+=`<line x1="${L}" y1="${sy(0)}" x2="${L+gw}" y2="${sy(0)}" stroke="#B5A6D6" stroke-width="2"/><line x1="${sx(0)}" y1="${Tm}" x2="${sx(0)}" y2="${Tm+gh}" stroke="#B5A6D6" stroke-width="2"/>`;
+ for(let x=Math.ceil(x0);x<=x1;x+=1)if(x&&x%xst===0)g+=T(sx(x),Math.min(sy(0)+13,Tm+gh+12),N(x),'#8576A8');
+ for(let y=Math.ceil(y0);y<=y1;y++)if(y&&y%yst===0)g+=T(Math.max(sx(0)-13,12),sy(y),N(y),'#8576A8');
+ g+=T(L+gw-8,sy(0)-11,'x','#B5A6D6',14,900)+T(sx(0)+13,Tm+8,'y','#B5A6D6',14,900);
+ if(joined){const seg=fi===3?[[x0+.1,-6/(y1-.2)],[6/(y1-.2),x1-.1]]:[[x0+.2,x1-.2]];
+  g+=`<clipPath id="pc"><rect x="${L}" y="${Tm}" width="${gw}" height="${gh}"/></clipPath>`;
+  for(const [a,b] of seg){let d='';for(let i=0;i<=120;i++){const x=a+(b-a)*i/120;d+=(i?'L':'M')+sx(x).toFixed(1)+' '+sy(F.f(x)).toFixed(1)}
+   g+=`<path d="${d}" pathLength="1" class="jn" clip-path="url(#pc)" fill="none" stroke="#B57BFF" stroke-width="3.5" stroke-linecap="round"/>`}}
+ rev.forEach(i=>{const x=F.xs[i],y=ys[i],nw=i===newI;g+=`<circle cx="${sx(x)}" cy="${sy(y)}" r="6.5" fill="${i===lastI?'#FFB547':'#B57BFF'}" stroke="#140D24" stroke-width="2">${nw?'<animate attributeName="r" values="0;11;6.5" dur=".45s"/>':''}</circle>`;
+  if(i===lastI&&!joined)g+=T(sx(x)+(x>0?-28:28),sy(y)+(y>=0?14:-14),`(${N(x)}, ${N(y)})`,'#FFB547',13,900)});
+ svg.innerHTML=g}
+function table(){const F=FS[fi],ys=F.xs.map(F.f);
+ return`<table class="tv"><tr><th>x</th>${F.xs.map(x=>`<td>${N(x)}</td>`).join('')}</tr><tr><th>y</th>${F.xs.map((x,i)=>rev.includes(i)?`<td class="${i===lastI?'nw':''}">${N(ys[i])}</td>`:`<td><button class="q" data-i="${i}" aria-label="Kira y bagi x = ${N(x)}">?</button></td>`).join('')}</tr></table>`}
+function showInfo(){const F=FS[fi];let top;
+ if(joined)top=`<div class="f">${F.shape}</div>`;
+ else if(lastI>=0){const x=F.xs[lastI];top=`<div class="f">x = ${N(x)} → y = ${F.s(x)} = <b>${N(F.f(x))}</b></div>`}
+ else top=`<div class="f">${F.t}</div><div class="tip">Tekan <b>?</b> dalam jadual atau butang di bawah untuk kira y dan plot titik.</div>`;
+ info.innerHTML=top+table();
+ info.querySelectorAll('.q').forEach(b=>b.onclick=()=>reveal(+b.dataset.i));
+ const all=rev.length===F.xs.length;go.textContent=joined?'✓ Graf siap':all?'〰 Sambung titik':'▶ Titik seterusnya';go.disabled=joined}
+function reveal(i){if(rev.includes(i))return;rev.push(i);lastI=i;draw(i);showInfo()}
+go.onclick=()=>{const F=FS[fi];if(rev.length<F.xs.length){const i=F.xs.findIndex((_,k)=>!rev.includes(k));reveal(i)}else{joined=true;draw();showInfo()}};
+document.getElementById('rs').onclick=()=>{rev=[];lastI=-1;joined=false;draw();showInfo()};
+const fsel=document.getElementById('fsel');fsel.innerHTML=FS.map((F,i)=>`<button data-f="${i}" class="${i===fi?'on':''}"><span>${F.n}</span><small>${F.t}</small></button>`).join('');
+fsel.querySelectorAll('button').forEach(b=>b.onclick=()=>{fi=+b.dataset.f;fsel.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));rev=[];lastI=-1;joined=false;draw();showInfo()});
+new ResizeObserver(()=>draw()).observe(stage);
+draw();showInfo();
+</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

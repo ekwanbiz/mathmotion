@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Bentuk Graf · GRAPHX</title>
+<style>
+:root{--bg:#100A1C;--sf:#1A1230;--sf2:#231940;--sf3:#140D24;--bd:#33264F;--bd2:#443366;--tx:#F3EEFF;--mu:#B5A6D6;--mu2:#8576A8;--c1:#B57BFF;--c2:#FFB547;--c3:#4FE3C1;--gold:#FFD166;--ok:#3DDC84;--bad:#FF6B7A;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.modes{display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#1e0b3a}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:11px 14px;line-height:1.5;font-size:15px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:2px}
+.info .f{font-weight:800;font-size:17px}.info .f b{color:var(--c2)}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.info .ok{color:var(--ok)}.info .no{color:var(--bad)}
+.ctrl{display:flex;flex-direction:column;gap:8px}
+.line{display:flex;gap:8px;align-items:center}
+.line label{font-weight:800;color:var(--mu);font-size:14px;white-space:nowrap;min-width:64px}
+.line input[type=range]{flex:1;accent-color:var(--c1);height:28px}
+.seg{display:flex;gap:6px;flex:1}
+.seg button{flex:1;background:var(--sf);border:2px solid var(--bd2);border-radius:12px;padding:10px 2px;font-weight:800;font-size:14.5px}
+.seg button.on{background:var(--c1);border-color:var(--c1);color:#1e0b3a}
+.btns{display:flex;gap:8px}
+.big{flex:1;background:var(--c2);border:0;color:#2a1a03;border-radius:13px;padding:13px 6px;font-weight:900;font-size:16px}
+.big.alt{flex:.6;background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.big.ok{background:var(--ok);color:#06240f}.big.no{background:var(--bad);color:#2a0609}
+.big:disabled{opacity:.45}
+.nextb{margin-top:6px;background:var(--c1);border:0;color:#1e0b3a;border-radius:11px;padding:8px 16px;font-weight:900}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.45fr) minmax(330px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .modes{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:22px}.info .f{font-size:19px}
+}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.info{padding:8px 11px;font-size:13.5px}.info .f{font-size:15px}.info b.t{font-size:16px}.big{padding:10px 4px}.seg button{padding:7px 2px}}
+.info .eq{font-size:22px;font-weight:900;color:var(--c1)}.info .rd{font-weight:700;margin-top:2px}.info .rd b{color:var(--c2);font-size:17px}
+.line label b{color:var(--c1);display:inline-block;min-width:30px}
+@media(min-width:900px) and (min-aspect-ratio:4/3){.info .eq{font-size:30px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#4FE3C1;color:#05291f;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #4FE3C144">&#8592; Kembali ke GRAPHX</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="modes" role="tablist" id="tsel"></div>
+ <div class="stage" id="stage"><svg id="svg" aria-label="Graf"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl">
+  <div class="line"><label for="sa">a = <b id="av"></b></label><input type="range" id="sa"></div>
+  <div class="line" id="crow"><label for="sc">c = <b id="cv"></b></label><input type="range" id="sc" min="-5" max="5" step="1"></div>
+ </div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),stage=document.getElementById('stage'),info=document.getElementById('info'),sa=document.getElementById('sa'),sc=document.getElementById('sc');
+const M='−',N=v=>{v=Math.round(v*100)/100;return v<0?M+(-v):String(v)};
+const TY=[
+ {n:'Linear',f:(a,c,x)=>a*x+c,p:'x',ar:[-3,3,.5],a:2,c:1},
+ {n:'Kuadratik',f:(a,c,x)=>a*x*x+c,p:'x²',ar:[-3,3,.5],a:1,c:-3},
+ {n:'Kubik',f:(a,c,x)=>a*x**3+c,p:'x³',ar:[-3,3,.5],a:.5,c:0},
+ {n:'Salingan',f:(a,c,x)=>a/x,p:'/x',ar:[-8,8,1],a:4,c:0}];
+let ti=0,a=2,c=1,px=2,drag=false;
+const XR=[-5,5],YR=[-10,10];
+let G=null;
+const T=(x,y,t,col='#F3EEFF',s=12,w=700,an='middle')=>`<text x="${x}" y="${y}" fill="${col}" font-size="${s}" font-weight="${w}" text-anchor="${an}" dominant-baseline="middle" font-family="Arial" paint-order="stroke" stroke="#140D24" stroke-width="4">${t}</text>`;
+function eq(){const t=TY[ti],A=a===1?'':a===-1?M:N(a);
+ if(ti===3)return`y = ${a<0?M:''}${Math.abs(a)}/x`;
+ return`y = ${A}${t.p}${c?(c>0?' + ':' '+M+' ')+Math.abs(c):''}`}
+function shape(){if(ti===0)return a>0?'Garis lurus <b>naik</b> ke kanan':'Garis lurus <b>turun</b> ke kanan';
+ if(ti===1)return a>0?'Lengkung licin bentuk <b>∪</b> (a &gt; 0)':'Lengkung licin bentuk <b>∩</b> (a &lt; 0)';
+ if(ti===2)return a>0?'Lengkung bentuk <b>S</b>, naik ke kanan':'Lengkung bentuk <b>S</b> terbalik, turun ke kanan';
+ return a>0?'<b>Dua lengkung</b> di sukuan I dan III':'<b>Dua lengkung</b> di sukuan II dan IV'}
+function draw(){const w=stage.clientWidth||300,h=stage.clientHeight||300;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+ const L=26,R=10,Tm=10,B=22,gw=w-L-R,gh=h-Tm-B,sx=x=>L+(x-XR[0])/(XR[1]-XR[0])*gw,sy=y=>Tm+gh-(y-YR[0])/(YR[1]-YR[0])*gh;G={sx,sy,L,gw};
+ let g=`<clipPath id="pc"><rect x="${L}" y="${Tm}" width="${gw}" height="${gh}"/></clipPath>`;
+ for(let x=XR[0];x<=XR[1];x++)g+=`<line x1="${sx(x)}" y1="${Tm}" x2="${sx(x)}" y2="${Tm+gh}" stroke="#ffffff10"/>`;
+ for(let y=YR[0];y<=YR[1];y+=1)g+=`<line x1="${L}" y1="${sy(y)}" x2="${L+gw}" y2="${sy(y)}" stroke="#ffffff${y%2?'06':'10'}"/>`;
+ g+=`<line x1="${L}" y1="${sy(0)}" x2="${L+gw}" y2="${sy(0)}" stroke="#B5A6D6" stroke-width="2"/><line x1="${sx(0)}" y1="${Tm}" x2="${sx(0)}" y2="${Tm+gh}" stroke="#B5A6D6" stroke-width="2"/>`;
+ for(let x=XR[0];x<=XR[1];x++)if(x)g+=T(sx(x),sy(0)+12,N(x),'#8576A8',11);
+ for(let y=YR[0];y<=YR[1];y+=2)if(y)g+=T(sx(0)-11,sy(y),N(y),'#8576A8',11);
+ const f=x=>TY[ti].f(a,c,x),segs=ti===3?[[XR[0],-.05],[.05,XR[1]]]:[[XR[0],XR[1]]];
+ for(const [p,q] of segs){let d='';for(let i=0;i<=240;i++){const x=p+(q-p)*i/240;let y=f(x);y=Math.max(-40,Math.min(40,y));d+=(i?'L':'M')+sx(x).toFixed(1)+' '+sy(y).toFixed(1)}g+=`<path d="${d}" fill="none" stroke="#B57BFF" stroke-width="4" stroke-linecap="round" clip-path="url(#pc)"/>`}
+ // titik boleh seret
+ const y=f(px),inside=y>=YR[0]&&y<=YR[1],cy=sy(Math.max(YR[0],Math.min(YR[1],y)));
+ g+=`<line x1="${sx(px)}" y1="${sy(0)}" x2="${sx(px)}" y2="${cy}" stroke="#FFB547" stroke-width="2" stroke-dasharray="5 4"/><line x1="${sx(0)}" y1="${cy}" x2="${sx(px)}" y2="${cy}" stroke="#FFB547" stroke-width="2" stroke-dasharray="5 4"/>`;
+ g+=`<g id="hd" style="cursor:grab"><circle cx="${sx(px)}" cy="${cy}" r="26" fill="transparent"/><circle cx="${sx(px)}" cy="${cy}" r="10" fill="#FFB547" stroke="#fff" stroke-width="3"/></g>`;
+ g+=T(Math.min(L+gw-40,Math.max(L+40,sx(px)+(px>0?-44:44))),cy+(y>=0?18:-18),`(${N(px)}, ${N(y)})`,'#FFB547',14,900);
+ g+=T(L+gw-6,sy(0)-10,'x','#B5A6D6',14,900,'end')+T(sx(0)+10,Tm+8,'y','#B5A6D6',14,900,'start');
+ svg.innerHTML=g;
+ info.innerHTML=`<div class="eq">${eq()}</div><div class="f">${shape()}</div><div class="rd">Bila x = <b>${N(px)}</b>, y = <b>${N(y)}</b>${inside?'':' <span class="tip">(di luar skrin)</span>'}</div>`}
+function setType(i){ti=i;const t=TY[i];a=t.a;c=t.c;sa.min=t.ar[0];sa.max=t.ar[1];sa.step=t.ar[2];sa.value=a;sc.value=c;
+ document.getElementById('crow').style.visibility=i===3?'hidden':'visible';if(i===3&&px===0)px=2;
+ document.querySelectorAll('#tsel button').forEach((b,k)=>b.classList.toggle('on',k===i));upd()}
+function upd(){document.getElementById('av').textContent=N(a);document.getElementById('cv').textContent=N(c);draw()}
+sa.oninput=()=>{let v=+sa.value;if(v===0)v=a>0?-(+sa.step):+sa.step;a=v;sa.value=v;upd()};
+sc.oninput=()=>{c=+sc.value;upd()};
+const tsel=document.getElementById('tsel');tsel.innerHTML=TY.map((t,i)=>`<button data-t="${i}">${t.n}</button>`).join('');
+tsel.querySelectorAll('button').forEach(b=>b.onclick=()=>setType(+b.dataset.t));
+function svgX(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse()).x}
+svg.addEventListener('pointerdown',e=>{if(!e.target.closest('#hd'))return;e.preventDefault();drag=true;svg.setPointerCapture(e.pointerId)});
+svg.addEventListener('pointermove',e=>{if(!drag||!G)return;e.preventDefault();let x=XR[0]+(svgX(e)-G.L)/G.gw*(XR[1]-XR[0]);x=Math.round(x*2)/2;x=Math.max(XR[0],Math.min(XR[1],x));if(ti===3&&x===0)return;if(x!==px){px=x;draw()}});
+const end=()=>{drag=false};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+new ResizeObserver(()=>draw()).observe(stage);
+setType(0);
+</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>
