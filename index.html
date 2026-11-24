@@ -42,7 +42,7 @@ a{color:var(--link)}
 .home{height:100vh;height:100dvh;display:flex;flex-direction:column;gap:12px;padding:calc(14px + env(safe-area-inset-top)) 16px calc(14px + env(safe-area-inset-bottom));max-width:1240px;margin:0 auto}
 .top{display:flex;align-items:center;gap:8px;min-height:44px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--tx);margin-right:auto;min-width:0}
-.brand b{font-size:19px;font-weight:900;letter-spacing:-.4px;white-space:nowrap}.brand b span{color:var(--accTx)}
+.brand .bt{display:flex;flex-direction:column;line-height:1.1;min-width:0}.brand small{font-size:12px;font-weight:700;color:var(--mu);margin-top:3px;white-space:nowrap}.brand b{font-size:24px;font-weight:900;letter-spacing:-.4px;white-space:nowrap}.brand b span{color:var(--accTx)}
 .pill{display:flex;align-items:center;gap:6px;height:40px;padding:0 12px;border-radius:20px;background:var(--starBg);border:1px solid var(--starBd);font-weight:900;color:var(--star)}
 .ib{width:42px;height:42px;flex:none;border-radius:21px;border:1px solid var(--bd);background:var(--card);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--tx);text-decoration:none}
 .search{display:flex;align-items:center;gap:10px;height:46px;padding:0 14px;border-radius:14px;background:var(--card);border:1px solid var(--bd);box-shadow:var(--shadow)}
@@ -92,10 +92,10 @@ html.light .card .lname span{color:var(--m2)}
 }
 @media(max-height:760px) and (min-width:500px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-height:700px) and (max-width:499px){.card{flex-direction:row;flex-wrap:wrap;align-content:flex-start;column-gap:6px}.card .gl{width:26px;height:26px;font-size:12px}.card .bb{align-self:center}.card .nm{flex-basis:100%}}
-@media(max-width:370px){.brand b{font-size:16px}.pill{padding:0 9px}.ib{width:38px;height:38px}}
+@media(max-width:370px){.brand b{font-size:20px}.brand small{font-size:11px}.pill{padding:0 9px}.ib{width:38px;height:38px}}
 @media(min-width:900px){
  .home{padding:26px 36px 30px;gap:16px}
- .brand b{font-size:22px}
+ .brand b{font-size:26px}
  .search{max-width:520px}
  .tabs{max-width:640px;width:100%}
  .tabs button{white-space:nowrap;padding:0 10px}
@@ -219,7 +219,7 @@ function contHTML(){const last=LS.get('mathmotion-last','');const a=APPS.find(x=
  return`<a class="cont" href="${a.path}" data-app="${a.id}" style="background:${a.col}1a;border-color:${a.col}"><span class="g" style="background:${a.col}">${a.logo?`<img src="${a.logo}" alt="">`:a.glyph}</span><span class="t"><small style="color:var(--orange)">TERUSKAN</small><b>Bab ${w[1]} · ${esc(BAB[w[0]][w[1]-1])}</b></span><span style="color:${a.col}">${I.arrow}</span></a>`}
 function home(){const light=document.documentElement.classList.contains('light');
  return`<main class="home">
- <header class="top"><a class="brand" href="#/">${LOGO(34,11)}<b>Teroka<span>Math</span></b></a>
+ <header class="top"><a class="brand" href="#/">${LOGO(46,13)}<span class="bt"><b>Teroka<span>Math</span></b><small>Teroka. Faham. Kuasai.</small></span></a>
   <a class="ib" href="#/pasang" aria-label="Cara pasang di telefon">${I.phone}</a>
   <button class="ib" id="mode" aria-label="${light?'Tukar ke mod gelap':'Tukar ke mod cerah'}">${light?I.moon:I.sun}</button></header>
  <label class="search"><span style="color:var(--mu);display:flex">${I.search}</span><span class="sr">Cari topik</span><input id="q" type="search" placeholder="Cari topik… (cth: pecutan)" value="${esc(query)}" autocomplete="off" enterkeyhint="search">${query?'<button class="clear" id="clr" aria-label="Kosongkan carian">×</button>':''}</label>
