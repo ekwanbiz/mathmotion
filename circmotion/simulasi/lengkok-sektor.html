@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Lengkok & Sektor · CIRCMOTION</title>
+<style>
+:root{--bg:#120A06;--sf:#1E130C;--sf2:#281A10;--sf3:#170E08;--bd:#3D2817;--bd2:#4E341E;--tx:#FFF2E8;--mu:#CFAE94;--mu2:#9C7C64;--c1:#FF8A3D;--c2:#3DD9C1;--c3:#8F9BFF;--gold:#FFD166;--ok:#3DDC84;--bad:#FF6B7A;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:10px 14px;display:flex;flex-direction:column;gap:6px}
+.fr{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;font-size:15px;line-height:1.4}
+.fr .k{font-weight:900;min-width:118px}
+.fr .k.a{color:var(--c2)}.fr .k.s{color:var(--c1)}.fr .k.t{color:var(--gold)}
+.fr .v{color:#F0DCCD}.fr .v b{font-size:17px;color:var(--tx)}
+.ctrl{display:flex;flex-direction:column;gap:8px}
+.line{display:flex;gap:8px;align-items:center}
+.line label{font-weight:800;color:var(--mu);font-size:14px;white-space:nowrap;min-width:74px}
+.seg{display:flex;gap:6px;flex:1}
+.seg button{flex:1;background:var(--sf);border:2px solid var(--bd2);border-radius:12px;padding:10px 2px;font-weight:800;font-size:15px}
+.seg button.on{background:var(--c1);border-color:var(--c1);color:#2a1203}
+.seg.th button.on{background:var(--gold);border-color:var(--gold);color:#2a1d03}
+.tip{color:var(--mu);font-size:13px;text-align:center}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.3fr) minmax(340px,1fr);grid-template-rows:minmax(0,1fr) auto;grid-template-areas:"s i" "s c"}
+ .stage{grid-area:s}.info{grid-area:i;align-self:start;padding:18px;gap:14px}.ctrl{grid-area:c;align-self:end}
+ .fr{font-size:16px}.fr .v b{font-size:20px}
+}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.info{padding:7px 11px;gap:3px}.fr{font-size:13.5px}.fr .v b{font-size:15px}.seg button{padding:7px 2px;font-size:14px}.tip{display:none}}
+@media(max-width:380px){.fr .k{min-width:104px}.fr{font-size:14px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#8F9BFF;color:#10133a;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #8f9bff44">&#8592; Kembali ke CIRCMOTION</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="stage" id="stage"><svg id="svg" aria-label="Rajah sektor"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl">
+  <div class="line"><label>Jejari</label><div class="seg" id="jseg"></div></div>
+  <div class="line"><label>Sudut θ</label><div class="seg th" id="tseg"></div></div>
+  <div class="tip">Seret titik ● pada bulatan untuk ubah sudut θ.</div>
+ </div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),stage=document.getElementById('stage'),info=document.getElementById('info');
+const W=400,H=400,CX=200,CY=200,R=150;
+let j=7,th=90;
+const JS=[7,14,21],TS=[45,90,180,270];
+function fitVB(){const w=stage.clientWidth||1,h=stage.clientHeight||1,asp=w/h;
+ if(asp>1){const vw=H*asp;svg.setAttribute('viewBox',`${(W-vw)/2} 0 ${vw} ${H}`)}else{const vh=W/asp;svg.setAttribute('viewBox',`0 ${(H-vh)/2} ${W} ${vh}`)}}
+new ResizeObserver(fitVB).observe(stage);
+const rad=d=>d*Math.PI/180;
+const P=(a,r=R)=>({x:CX+r*Math.cos(rad(a)),y:CY-r*Math.sin(rad(a))});
+const T=(x,y,t,c='#FFF2E8',s=19)=>`<text x="${x}" y="${y}" fill="${c}" font-size="${s}" font-weight="900" text-anchor="middle" dominant-baseline="middle" font-family="Arial" paint-order="stroke" stroke="#170E08" stroke-width="5">${t}</text>`;
+const gcd=(a,b)=>b?gcd(b,a%b):a;
+const nice=n=>{const v=Math.round(n*100)/100;return String(v)};
+function frac(a,b){const g=gcd(a,b);const p=a/g,q=b/g;return q===1?String(p):`${p}/${q}`}
+function arcD(a,r){if(a>=359.9)return null;const B=P(a,r),A=P(0,r);return `M${A.x} ${A.y}A${r} ${r} 0 ${a>180?1:0} 0 ${B.x} ${B.y}`}
+function draw(){
+ const A=P(0),B=P(th);let g=`<circle cx="${CX}" cy="${CY}" r="${R}" fill="#ffffff06" stroke="#CFAE94" stroke-width="3"/>`;
+ if(th>=360)g+=`<circle cx="${CX}" cy="${CY}" r="${R}" fill="#FF8A3Dbb" stroke="#3DD9C1" stroke-width="9"/>`;
+ else if(th>0){const d=arcD(th,R);g+=`<path d="M${CX} ${CY}L${A.x} ${A.y}${d.replace(/^M[^A]+/,'')}Z" fill="#FF8A3Dbb"/>`+`<path d="${d}" fill="none" stroke="#3DD9C1" stroke-width="9" stroke-linecap="round"/>`}
+ g+=`<line x1="${CX}" y1="${CY}" x2="${A.x}" y2="${A.y}" stroke="#8F9BFF" stroke-width="5" stroke-linecap="round"/><line x1="${CX}" y1="${CY}" x2="${B.x}" y2="${B.y}" stroke="#8F9BFF" stroke-width="5" stroke-linecap="round"/>`;
+ // sudut kecil
+ if(th>0&&th<360){const d=arcD(th,34);g+=`<path d="${d}" fill="none" stroke="#FFD166" stroke-width="4"/>`}
+ const mt=P(th/2,th<40?66:58);g+=T(mt.x,mt.y,th+'°','#FFD166',20);
+ g+=T((CX+A.x)/2+4,CY+20,'j = '+j+' cm','#8F9BFF',18);
+ const la=P(th/2,R+28);if(th>0)g+=T(la.x,la.y,'lengkok','#3DD9C1',17);
+ g+=`<circle cx="${CX}" cy="${CY}" r="6" fill="#FFF2E8"/>`;
+ g+=`<g id="hd" style="cursor:grab"><circle cx="${B.x}" cy="${B.y}" r="32" fill="transparent"/><circle cx="${B.x}" cy="${B.y}" r="14" fill="#FFD166" stroke="#fff" stroke-width="3"/></g>`;
+ svg.innerHTML=g;
+ const f=frac(th,360),arc=th/360*2*22/7*j,area=th/360*22/7*j*j;
+ info.innerHTML=`<div class="fr"><span class="k t">θ/360°</span><span class="v">${th}/360 = <b>${f}</b></span></div>
+ <div class="fr"><span class="k a">Panjang lengkok</span><span class="v">${f} × 2 × 22/7 × ${j} = <b>${nice(arc)} cm</b></span></div>
+ <div class="fr"><span class="k s">Luas sektor</span><span class="v">${f} × 22/7 × ${j}² = <b>${nice(area)} cm²</b></span></div>`;
+ document.querySelectorAll('#jseg button').forEach(b=>b.classList.toggle('on',+b.dataset.j===j));
+ document.querySelectorAll('#tseg button').forEach(b=>b.classList.toggle('on',+b.dataset.t===th));
+}
+document.getElementById('jseg').innerHTML=JS.map(v=>`<button data-j="${v}">${v} cm</button>`).join('');
+document.getElementById('tseg').innerHTML=TS.map(v=>`<button data-t="${v}">${v}°</button>`).join('');
+document.querySelectorAll('#jseg button').forEach(b=>b.onclick=()=>{j=+b.dataset.j;draw()});
+document.querySelectorAll('#tseg button').forEach(b=>b.onclick=()=>{th=+b.dataset.t;draw()});
+let drag=false;
+function svgPt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+svg.addEventListener('pointerdown',e=>{if(!e.target.closest('#hd'))return;e.preventDefault();drag=true;svg.setPointerCapture(e.pointerId)});
+svg.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();const p=svgPt(e);let a=Math.atan2(-(p.y-CY),p.x-CX)*180/Math.PI;a=(a+360)%360;
+ let v=Math.round(a/5)*5;if(v===0)v=(th>180?360:5);if(th>=300&&v<60)v=360;if(th<=60&&v>300)v=5;th=Math.max(5,Math.min(360,v));draw()});
+const end=()=>{drag=false};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+fitVB();draw();
+</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

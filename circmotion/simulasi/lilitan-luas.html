@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Lilitan & Luas · CIRCMOTION</title>
+<style>
+:root{--bg:#120A06;--sf:#1E130C;--sf2:#281A10;--sf3:#170E08;--bd:#3D2817;--bd2:#4E341E;--tx:#FFF2E8;--mu:#CFAE94;--mu2:#9C7C64;--c1:#FF8A3D;--c2:#3DD9C1;--c3:#8F9BFF;--gold:#FFD166;--ok:#3DDC84;--bad:#FF6B7A;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.modes{display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#2a1203}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:11px 14px;min-height:70px;line-height:1.5;font-size:15px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:2px}
+.info .f{font-weight:800;font-size:17px}.info .f b{color:var(--c2)}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.ctrl{display:flex;flex-direction:column;gap:8px}
+.line{display:flex;gap:8px;align-items:center}
+.line label{font-weight:800;color:var(--mu);font-size:14px;white-space:nowrap;min-width:92px}
+.line input[type=range]{flex:1;accent-color:var(--c1);height:28px}
+.seg{display:flex;gap:6px;flex:1}
+.seg button{flex:1;background:var(--sf);border:2px solid var(--bd2);border-radius:12px;padding:9px 2px;font-weight:800;font-size:15px}
+.seg button.on{background:var(--c2);border-color:var(--c2);color:#062a25}
+.btns{display:flex;gap:8px}
+.big{flex:1;background:var(--c1);border:0;color:#2a1203;border-radius:13px;padding:13px 6px;font-weight:900;font-size:16px}
+.big.alt{flex:.6;background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.big:disabled{opacity:.5}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.5fr) minmax(320px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .modes{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:23px}.info .f{font-size:19px}
+}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.info{padding:8px 11px;min-height:60px;font-size:13.5px}.info .f{font-size:15px}.info b.t{font-size:16px}.big{padding:10px 4px}.seg button{padding:7px 2px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#8F9BFF;color:#10133a;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #8f9bff44">&#8592; Kembali ke CIRCMOTION</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="modes" role="tablist" aria-label="Mod">
+  <button data-m="golek" class="on" role="tab">🛞 Golek · Lilitan</button>
+  <button data-m="potong" role="tab">🍕 Potong · Luas</button>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" aria-label="Rajah simulasi"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),stage=document.getElementById('stage'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const W=600,H=400,PI=3.142;
+const fx=(n,d=2)=>String(Math.round(n*10**d)/10**d);
+let mode='golek',anim=null;
+let G={j:3,t:0,done:false};      // golek: t = sudut putaran (rad)
+let K={n:8,t:0,target:0};       // potong: t 0 = bulatan, 1 = tersusun
+let FK=1;
+function fitVB(){const w=stage.clientWidth||1,h=stage.clientHeight||1,asp=w/h;
+ const B=mode==='golek'?{x:10,y:70,w:580,h:260}:{x:80,y:50,w:440,h:300};
+ FK=mode==='golek'?Math.min(1.6,Math.max(1,.8*580/w)):Math.min(1.4,Math.max(1,.75*440/w));
+ if(asp>B.w/B.h){const vw=B.h*asp;svg.setAttribute('viewBox',`${B.x+(B.w-vw)/2} ${B.y} ${vw} ${B.h}`)}else{const vh=B.w/asp;svg.setAttribute('viewBox',`${B.x} ${B.y+(B.h-vh)/2} ${B.w} ${vh}`)}
+ draw()}
+new ResizeObserver(()=>fitVB()).observe(stage);
+const T=(x,y,t,c='#FFF2E8',s=18,a='middle')=>`<text x="${x}" y="${y}" fill="${c}" font-size="${s*FK}" font-weight="900" text-anchor="${a}" dominant-baseline="middle" font-family="Arial" paint-order="stroke" stroke="#170E08" stroke-width="5">${t}</text>`;
+/* =================== GOLEK =================== */
+const SC=16,X0=92,GY=250;
+function drawGolek(){
+ const r=G.j*SC,d=2*r,L=2*Math.PI*r,th=G.t,cx=X0+r*th,cy=GY-r;
+ const px=cx-r*Math.sin(th),py=cy+r*Math.cos(th);
+ let g=`<line x1="20" y1="${GY}" x2="580" y2="${GY}" stroke="#4E341E" stroke-width="4"/>`;
+ g+=`<line x1="${X0}" y1="${GY}" x2="${cx}" y2="${GY}" stroke="#FF8A3D" stroke-width="8" stroke-linecap="round"/>`;
+ // bar diameter
+ const rolled=r*th;
+ for(let k=0;k<4;k++){const s=X0+k*d,e=Math.min(X0+(k+1)*d,X0+L);if(s>=X0+L)break;const fill=Math.max(0,Math.min(e,X0+rolled)-s);
+  g+=`<rect x="${s+1}" y="${GY+16}" width="${Math.max(0,e-s-2)}" height="16" rx="4" fill="#3DD9C11f" stroke="#3DD9C155"/>`;
+  if(fill>0)g+=`<rect x="${s+1}" y="${GY+16}" width="${Math.max(0,Math.min(fill,e-s-2))}" height="16" rx="4" fill="#3DD9C1"/>`;
+  if(e-s>d-1)g+=T(s+d/2,GY+44+6*FK,(k+1)+'d','#3DD9C1',15)}
+ if(G.done){g+=T(X0+L/2,GY-2*r-18-10*FK,'Lilitan ≈ 3.14 × diameter','#FFD166',20);g+=T(X0+L+4,GY+44+6*FK,'≈ 3.14d','#FFD166',15,'start')}
+ // tanda mula
+ g+=`<line x1="${X0}" y1="${GY-8}" x2="${X0}" y2="${GY+8}" stroke="#FFF2E8" stroke-width="3"/>`;
+ // roda
+ g+=`<g transform="translate(${cx} ${cy}) rotate(${th*180/Math.PI})"><circle r="${r}" fill="#FF8A3D22" stroke="#FF8A3D" stroke-width="5"/>
+  <line x1="${-r}" y1="0" x2="${r}" y2="0" stroke="#3DD9C1" stroke-width="4"/><line x1="0" y1="${-r}" x2="0" y2="${r}" stroke="#ffffff33" stroke-width="2"/><circle r="5" fill="#FFF2E8"/></g>`;
+ g+=T(cx,cy-14,'d','#3DD9C1',15);
+ g+=`<circle cx="${px}" cy="${py}" r="8" fill="#FFD166" stroke="#fff" stroke-width="2"/>`;
+ svg.innerHTML=g;
+ const dd=2*G.j,rl=G.j*th;
+ info.innerHTML=G.done?`<b class="t">Satu pusingan penuh!</b><div class="f">Lilitan = π × d = 3.142 × <b>${dd}</b> = <b>${fx(PI*dd)} cm</b></div><div class="tip">Lilitan ÷ diameter = 3.142… = <b>π</b> — sama untuk semua saiz bulatan. Cuba ubah jejari.</div>`
+  :`<b class="t">${th>0?'Sedang bergolek…':'Golekkan bulatan satu pusingan'}</b><div class="f">j = <b>${G.j} cm</b> · d = <b>${dd} cm</b>${th>0?' · digolek: <b>'+fx(rl,1)+' cm</b>':''}</div><div class="tip">Titik kuning bermula di bawah. Garis oren = panjang lilitan bila "dibuka".</div>`}
+function golek(){if(anim)return;G.t=0;G.done=false;const t0=performance.now(),dur=3200;setBtns(true);
+ const step=now=>{const p=Math.min(1,(now-t0)/dur);G.t=2*Math.PI*(p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2);drawGolek();
+  if(p<1)anim=requestAnimationFrame(step);else{anim=null;G.done=true;drawGolek();setBtns(false)}};anim=requestAnimationFrame(step)}
+/* =================== POTONG =================== */
+const CR=105,CX=300,CY=195;
+function sectorPath(r,w){const h=w/2,x=r*Math.sin(h),y=-r*Math.cos(h);return `M0 0L${-x} ${y}A${r} ${r} 0 0 1 ${x} ${y}Z`}
+const ease=p=>p<.5?4*p*p*p:1-Math.pow(-2*p+2,3)/2;
+function drawPotong(){
+ const n=K.n,w=2*Math.PI/n,s=2*CR*Math.sin(w/2),half=n/2,totalW=half*s+s/2,x0=CX-totalW/2+s/2,yb=CY+CR/2,yd=yb-CR*Math.cos(w/2);
+ const e=ease(K.t),path=sectorPath(CR,w);let g='';
+ for(let k=0;k<n;k++){const up=k<half,j=up?k:k-half;
+  const r0=k*360/n+180/n-90;               // putaran asal (sektor di bahagian atas dahulu)
+  let r1=up?0:180;let dr=((r1-r0)%360+540)%360-180;
+  const ay=CY+((up?yb:yd)-CY)*e;
+  const tx=up?CX+(x0+j*s-CX)*e:CX+(x0+s/2+j*s-CX)*e;
+  g+=`<path d="${path}" transform="translate(${tx} ${ay}) rotate(${r0+dr*e})" fill="${up?'#FF8A3D':'#FFD166'}" stroke="#170E08" stroke-width="${n>16?1:2}"/>`}
+ if(K.t>=1){const L=x0-s/2,Rr=L+totalW;
+  g+=`<path d="M${L} ${yb+14}v8H${Rr}v-8" fill="none" stroke="#3DD9C1" stroke-width="3"/>`+T((L+Rr)/2,yb+32+10*FK,'½ × lilitan = πj','#3DD9C1',18);
+  g+=`<path d="M${L-14} ${yb}h-8V${yb-CR}h8" fill="none" stroke="#8F9BFF" stroke-width="3"/>`+T(L-34,yb-CR/2,'j','#8F9BFF',20);
+  g+=T(CX,yb-CR-20-10*FK,'Luas = πj × j = πj²','#FFD166',21)}
+ if(K.t===0){g+=`<line x1="${CX}" y1="${CY}" x2="${CX+CR}" y2="${CY}" stroke="#8F9BFF" stroke-width="4"/>`+T(CX+CR/2,CY-14,'j','#8F9BFF',20)}
+ svg.innerHTML=g;
+ info.innerHTML=K.t>=1?`<b class="t">Hampir jadi segi empat tepat!</b><div class="f">Panjang = <b>πj</b> · Lebar = <b>j</b> → Luas = <b>πj²</b></div><div class="tip">Contoh: j = 7 cm → Luas = 22/7 × 7 × 7 = <b>154 cm²</b>. Cuba ${n<32?'lebih banyak sektor':'bulatkan semula'}.</div>`
+  :`<b class="t">Potong bulatan kepada ${n} sektor</b><div class="f">Tekan <b>Susun</b> untuk susun selang-seli.</div><div class="tip">Separuh oren (atas), separuh kuning (bawah). Lebih banyak sektor → lebih hampir segi empat tepat.</div>`}
+function potong(to){if(anim)return;const from=K.t,t0=performance.now(),dur=1700;setBtns(true);
+ const step=now=>{const p=Math.min(1,(now-t0)/dur);K.t=from+(to-from)*p;drawPotong();if(p<1)anim=requestAnimationFrame(step);else{anim=null;K.t=to;drawPotong();setBtns(false)}};anim=requestAnimationFrame(step)}
+/* =================== Kawalan =================== */
+function setCtrl(){
+ if(mode==='golek'){ctrl.innerHTML=`<div class="line"><label for="jr">Jejari: <span id="jv">${G.j}</span> cm</label><input type="range" id="jr" min="1" max="4" step="0.5" value="${G.j}"></div><div class="btns"><button class="big" id="go">▶ Golek</button><button class="big alt" id="rs">↺ Semula</button></div>`;
+  const jr=document.getElementById('jr');jr.oninput=()=>{G.j=+jr.value;G.t=0;G.done=false;document.getElementById('jv').textContent=G.j;drawGolek()};
+  document.getElementById('go').onclick=golek;document.getElementById('rs').onclick=()=>{if(anim)return;G.t=0;G.done=false;drawGolek()}}
+ else{ctrl.innerHTML=`<div class="line"><label>Bil. sektor</label><div class="seg">${[4,8,16,32].map(n=>`<button data-n="${n}" class="${n===K.n?'on':''}">${n}</button>`).join('')}</div></div><div class="btns"><button class="big" id="go">${K.t>=1?'↺ Bulatkan':'▶ Susun'}</button></div>`;
+  ctrl.querySelectorAll('[data-n]').forEach(b=>b.onclick=()=>{if(anim)return;K.n=+b.dataset.n;K.t=0;setCtrl();drawPotong()});
+  document.getElementById('go').onclick=()=>{potong(K.t>=1?0:1)}}
+}
+function setBtns(busy){ctrl.querySelectorAll('button,input').forEach(b=>b.disabled=busy);if(!busy&&mode==='potong'){const g=document.getElementById('go');if(g)g.textContent=K.t>=1?'↺ Bulatkan':'▶ Susun'}}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{if(anim){cancelAnimationFrame(anim);anim=null}
+ document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));mode=b.dataset.m;
+ if(mode==='golek'){G.t=0;G.done=false}else K.t=0;setCtrl();fitVB();draw()});
+function draw(){mode==='golek'?drawGolek():drawPotong()}
+fitVB();setCtrl();draw();
+</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>
