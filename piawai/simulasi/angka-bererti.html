@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Angka Bererti · Bab 2</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#07111C;--sf:#0E1C2B;--sf2:#132538;--sf3:#0A1622;--bd:#1C3349;--bd2:#28465F;--tx:#E8F4FF;--mu:#9FBCD4;--mu2:#6F8EA8;--c1:#4FD1FF;--c2:#3DDC84;--c3:#FF7AB6;--gold:#FFD166;--ok:#3DDC84;--bad:#FF6B7A;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#03202c}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:11px 14px;line-height:1.5;font-size:15px;min-height:74px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:2px}
+.info .row{display:flex;flex-wrap:wrap;gap:4px 14px;font-weight:700}
+.info .row b{color:var(--c2)}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.info .eq{margin-top:6px;padding:7px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:700}
+.ctrl{display:flex;flex-direction:column;gap:8px}
+.line{display:flex;gap:8px;align-items:center}
+.line label{font-weight:800;color:var(--mu);font-size:14px;white-space:nowrap}
+.line input[type=range]{flex:1;accent-color:var(--c1);height:30px;min-width:0}
+.line .val{font-weight:900;color:var(--c1);min-width:62px;text-align:right}
+.seg{display:flex;gap:6px;flex:1}
+.seg button{flex:1;background:var(--sf);border:2px solid var(--bd2);border-radius:12px;padding:10px 2px;font-weight:800;font-size:14.5px}
+.seg button.on{background:var(--c1);border-color:var(--c1);color:#03202c}
+.btns{display:flex;gap:8px}
+.big{flex:1;background:var(--c2);border:0;color:#052414;border-radius:13px;padding:13px 6px;font-weight:900;font-size:16px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.big:disabled{opacity:.45;cursor:not-allowed}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.45fr) minmax(330px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:23px}
+ .info .eq{font-size:17px}
+}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.info{padding:8px 11px;min-height:60px;font-size:14px}.info b.t{font-size:17px}.big{padding:10px 4px}.seg button{padding:8px 2px}}
+@media(max-width:420px){.big{font-size:14.5px}.modes button{font-size:13.5px;padding:10px 3px}.seg button{font-size:13.5px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#4FD1FF;color:#03202c;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #4fd1ff44">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mod">
+   <button data-m="tanda" class="on" role="tab">👆 Tanda Bererti</button>
+   <button data-m="bundar" role="tab">🎯 Bundarkan</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" viewBox="0 0 420 300" aria-label="Jubin digit nombor"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const C1='#4FD1FF',C2='#3DDC84',C3='#FF7AB6',GOLD='#FFD166',BAD='#FF6B7A',MU='#9FBCD4',MU2='#6F8EA8',SF='#0E1C2B',BD='#28465F',TXC='#E8F4FF';
+const snd=n=>{if(window.FX)FX.play(n)};
+const ri=(a,b)=>a+Math.floor(Math.random()*(b-a+1)),pick=a=>a[Math.floor(Math.random()*a.length)];
+const NB=' ';
+const PLACE={1:'puluh',2:'ratus',3:'ribu',4:'puluh ribu'};
+/* ---------- nombor ---------- */
+function dig(L,zero){let s=String(ri(1,9));for(let i=1;i<L-1;i++)s+=String(zero?ri(0,9):ri(1,9));if(L>1)s+=String(ri(1,9));return s}
+function grp(s){let[a,b]=s.split('.');if(a.length>=4){const r=[];while(a.length>3){r.unshift(a.slice(-3));a=a.slice(0,-3)}r.unshift(a);a=r.join(' ')}if(b!==undefined&&b.length>=5)b=b.match(/.{1,3}/g).join(' ');return b===undefined?a:a+'.'+b}
+function mask(raw,place){const dec=raw.includes('.'),d=raw.replace('.','').split('');const f=d.findIndex(c=>c!=='0');let l=-1;d.forEach((c,i)=>{if(c!=='0')l=i});
+ return d.map((c,i)=>i<f?0:(dec||i<=l)?1:(place==null?2:(i<d.length-place?1:0)))}
+function makeNum(){
+ const k=pick(['a','b','c','c','d','d','e','e']);let raw,place=null;
+ const pt=(s,p)=>p>=s.length?s:s.slice(0,p)+'.'+s.slice(p);
+ if(k==='a'){const L=ri(3,5);raw=pt(dig(L,false),ri(1,L))}
+ else if(k==='b'){let s;do s=dig(ri(4,6),true);while(!s.slice(1,-1).includes('0'));raw=pt(s,ri(1,s.length))}
+ else if(k==='c')raw='0.'+'0'.repeat(ri(1,3))+dig(ri(2,3),true);
+ else if(k==='d'){const c=dig(ri(1,3),true),z='0'.repeat(ri(1,2));if(Math.random()<.4)raw='0.0'+c+z;else{const p=ri(1,c.length);raw=c.slice(0,p)+'.'+c.slice(p)+z}}
+ else{const c=dig(ri(2,3),true),z=ri(2,3);place=ri(1,z);raw=c+'0'.repeat(z)}
+ return{raw,place,mask:mask(raw,place),str:grp(raw)}}
+/* ---------- jubin ---------- */
+function tilesLayout(str,W,y,tw){const TG=6,PT=16,SP=12;let w=0;for(const ch of str)w+=ch==='.'?PT:ch===' '?SP:tw+TG;w-=TG;let x=(W-w)/2;const L=[];let pt=null;
+ for(const ch of str){if(ch==='.'){pt=x+PT/2-TG/2;x+=PT;continue}if(ch===' '){x+=SP;continue}L.push({x,ch});x+=tw+TG}return{L,pt,w}}
+function tile(x,y,w,h,ch,fill,stroke,tc,sw=2.5,extra=''){return `<g${extra}><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="10" fill="${fill}" stroke="${stroke}" stroke-width="${sw}"/><text x="${x+w/2}" y="${y+h/2+1}" fill="${tc}" font-size="${Math.round(h*.52)}" font-weight="800" text-anchor="middle" dominant-baseline="middle" font-family="Inter,Arial,sans-serif">${ch}</text></g>`}
+function lbl(x,y,t,c=TXC,s=16,a='middle'){return `<text x="${x}" y="${y}" fill="${c}" font-size="${s}" font-weight="800" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="#0A1622" stroke-width="5" stroke-linejoin="round">${t}</text>`}
+const tw=s=>{const n=s.replace(/[ .]/g,'').length;return Math.min(54,Math.floor((400-(s.length-n)*14)/n)-6)};
+/* ================= Mod 1: tanda bererti ================= */
+const S={m:'tanda',num:null,marks:[],checked:false,score:0,tot:0,streak:0,hint:false,
+ v:null,n:2,kind:'int'};
+function newTanda(){S.num=makeNum();S.marks=S.num.mask.map(()=>false);S.checked=false;render()}
+function tandaSVG(){
+ const N=S.num,W=420,t=tw(N.str),h=Math.min(78,Math.round(t*1.35)),y=110,lay=tilesLayout(N.str,W,y,t);let g='';
+ g+=lbl(W/2,40,'Ketik digit yang <tspan fill="'+C2+'">bererti</tspan>',MU,18);
+ if(N.place)g+=lbl(W/2,72,`(betul kepada ${PLACE[N.place]} terdekat)`,GOLD,16);
+ lay.L.forEach((T,i)=>{const on=S.marks[i],m=N.mask[i];let fill=SF,st=BD,tc=TXC;
+  if(!S.checked){if(on){fill=C2+'33';st=C2;tc=C2}}
+  else{const right=m===1;if(right&&on){fill=C2+'33';st=C2;tc=C2}else if(right&&!on){fill=GOLD+'22';st=GOLD;tc=GOLD}else if(!right&&on){fill=BAD+'33';st=BAD;tc=BAD}else{tc=MU2}}
+  g+=tile(T.x,y,t,h,T.ch,fill,st,tc,on||S.checked?3:2.5,` class="tl" data-i="${i}" style="cursor:pointer"`)});
+ if(lay.pt!==null)g+=`<circle cx="${lay.pt}" cy="${y+h-8}" r="6" fill="${GOLD}"/>`;
+ if(S.checked){g+=lbl(W/2,y+h+40,'Hijau: betul · Kuning: tertinggal · Merah: tidak bererti',MU,14)}
+ else g+=lbl(W/2,y+h+40,`Ditanda: ${S.marks.filter(Boolean).length} digit`,C1,17);
+ return g}
+function tandaInfo(){
+ const N=S.num,k=N.mask.filter(x=>x===1).length;
+ if(!S.checked){info.innerHTML=`<b class="t">Digit manakah bererti?</b>Nombor: <b>${N.str}</b>${N.place?` (betul kepada ${PLACE[N.place]} terdekat)`:''}
+ ${S.hint?`<div class="eq">• Digit bukan sifar: bererti<br>• Sifar di antara digit bukan sifar: bererti<br>• Sifar di hadapan: <b style="color:${BAD}">tidak</b> bererti<br>• Sifar di hujung perpuluhan: bererti</div>`:''}
+ <div class="tip">Skor: ${S.score}/${S.tot}${S.streak>=3?' · 🔥 '+S.streak+' berturut-turut':''}</div>`;return}
+ const ok=N.mask.every((m,i)=>(m===1)===S.marks[i]);
+ let why='';const d=N.raw;
+ if(N.place)why=`Nombor bulat ini betul kepada ${PLACE[N.place]} terdekat, jadi sifar selepas tempat ${PLACE[N.place]} tidak bererti.`;
+ else if(d.startsWith('0'))why='Sifar di hadapan digit bukan sifar pertama tidak bererti; ia hanya menunjukkan kedudukan titik perpuluhan.';
+ else if(d.includes('.')&&d.endsWith('0'))why='Sifar di hujung nombor perpuluhan adalah bererti kerana ia menunjukkan kejituan.';
+ else if(/[1-9]0+[1-9]/.test(d.replace('.','')))why='Sifar di antara digit bukan sifar adalah bererti.';
+ else why='Semua digit bukan sifar adalah bererti.';
+ info.innerHTML=`<b class="t">${ok?'<span class="ok">✓ Betul!</span>':'<span class="no">✗ Belum tepat</span>'}</b><div class="row"><span>${N.str}${N.place?' ('+PLACE[N.place]+' terdekat)':''} mempunyai <b>${k} angka bererti</b></span></div><div class="eq">${why}</div><div class="tip">Skor: ${S.score}/${S.tot}${S.streak>=3?' · 🔥 '+S.streak+' berturut-turut':''}</div>`}
+function semak(){if(S.checked)return;S.checked=true;S.tot++;const ok=S.num.mask.every((m,i)=>(m===1)===S.marks[i]);
+ if(ok){S.score++;S.streak++;snd('betul');if(window.FX)FX.stars(document.getElementById('stage'),12)}else{S.streak=0;snd('salah')}setCtrl();render()}
+/* ================= Mod 2: bundarkan ================= */
+// v = {m, e}: nilai m × 10^e
+function raw(m,e){const s=String(m);if(e>=0)return s+'0'.repeat(e);const k=-e;return s.length>k?s.slice(0,s.length-k)+'.'+s.slice(s.length-k):'0.'+'0'.repeat(k-s.length)+s}
+function newBundar(){
+ const L=ri(5,6);let m;do m=+dig(L,true);while(m%10===0);
+ S.v={m,e:S.kind==='int'?0:(Math.random()<.5?-ri(1,L-1):-(L+ri(0,2)))};S.n=Math.min(S.n,L-1);render()}
+function roundParts(){
+ const {m,e}=S.v,s=String(m),L=s.length,n=Math.min(S.n,L-1),d=L-n,p=10**d,q=Math.floor(m/p),r=m-q*p,up=r*2>=p;
+ let R=q+(up?1:0),Re=e+d;if(String(R).length>n){R/=10;Re++}
+ return{s,L,n,d,p,q,r,up,lower:{m:q,e:e+d},upper:{m:q+1,e:e+d},R:{m:R,e:Re}}}
+const NL={x0:50,x1:370,y:178};
+function bundarSVG(){
+ const P=roundParts(),W=420,str=grp(raw(S.v.m,S.v.e)),t=Math.min(46,tw(str)),h=56,y=26,lay=tilesLayout(str,W,y,t);let g='';
+ lay.L.forEach((T,i)=>{let fill=SF,st=BD,tc=MU2;
+  if(i<P.n){fill=C2+'33';st=C2;tc=C2}else if(i===P.n){fill=C3+'33';st=C3;tc=C3}
+  if(raw(S.v.m,S.v.e).startsWith('0')){const lead=raw(S.v.m,S.v.e).replace('.','').search(/[1-9]/);if(i<lead){fill=SF;st=BD;tc=MU2}
+   else{const j=i-lead;fill=j<P.n?C2+'33':j===P.n?C3+'33':SF;st=j<P.n?C2:j===P.n?C3:BD;tc=j<P.n?C2:j===P.n?C3:MU2}}
+  g+=tile(T.x,y,t,h,T.ch,fill,st,tc)});
+ if(lay.pt!==null)g+=`<circle cx="${lay.pt}" cy="${y+h-8}" r="6" fill="${GOLD}"/>`;
+ // garis nombor
+ const {x0,x1,y:ly}=NL,fr=P.r/P.p,mx=(x0+x1)/2,px=x0+(x1-x0)*fr;
+ g+=`<line x1="${x0}" y1="${ly}" x2="${x1}" y2="${ly}" stroke="${MU}" stroke-width="4" stroke-linecap="round"/>`;
+ g+=`<line x1="${mx}" y1="${ly-12}" x2="${mx}" y2="${ly+12}" stroke="${MU2}" stroke-width="3" stroke-dasharray="4 3"/>`+lbl(mx,ly+26,'tengah',MU2,13);
+ [[x0,P.lower,!P.up],[x1,P.upper,P.up]].forEach(([x,v,win])=>{g+=`<line x1="${x}" y1="${ly-16}" x2="${x}" y2="${ly+16}" stroke="${win?C2:MU}" stroke-width="4"/>`+lbl(x,ly+38,grp(raw(v.m,v.e)),win?C2:MU,15)});
+ g+=`<path d="M${(P.up?x1:x0)} ${ly-30} Q${(px+(P.up?x1:x0))/2} ${ly-62} ${px} ${ly-26}" fill="none" stroke="${C2}" stroke-width="3" stroke-dasharray="6 5"/>`;
+ g+=`<g class="knob" style="cursor:grab"><circle cx="${px}" cy="${ly}" r="26" fill="transparent"/><circle cx="${px}" cy="${ly}" r="12" fill="${C3}" stroke="#fff" stroke-width="3"/></g>`;
+ g+=lbl(W/2,ly-74,'Seret ● pada garis nombor',MU,14);
+ // hasil
+ const rs=grp(raw(P.R.m,P.R.e)),rt=Math.min(46,tw(rs)),lay2=tilesLayout(rs,W,236,rt);
+ lay2.L.forEach(T=>{g+=tile(T.x,236,rt,52,T.ch,C1+'22',C1,C1)});
+ if(lay2.pt!==null)g+=`<circle cx="${lay2.pt}" cy="${236+52-8}" r="6" fill="${GOLD}"/>`;
+ return g}
+function bundarInfo(){
+ const P=roundParts(),N=grp(raw(S.v.m,S.v.e)),X=P.s[P.n-1],Y=+P.s[P.n],res=grp(raw(P.R.m,P.R.e));
+ const tail=S.v.e+P.d>0?'Digit selepasnya diganti dengan sifar.':'Digit selepasnya digugurkan.';
+ info.innerHTML=`<b class="t">${N} ≈ ${res}</b><div class="row"><span>betul kepada <b>${P.n} angka bererti</b></span></div>
+ <div class="eq">Digit ke-${P.n}: <span style="color:${C2}">${X}</span> · digit seterusnya: <span style="color:${C3}">${Y}</span><br>${Y>=5?`${Y} ≥ 5 → tambah 1 pada digit ke-${P.n}`:`${Y} &lt; 5 → digit ke-${P.n} kekal`}. ${tail}</div>
+ <div class="tip">Nilai lebih dekat dengan <b style="color:${C2}">${res}</b>. Seret titik merah jambu melepasi tengah untuk melihat jawapan berubah.</div>`}
+/* ================= kawalan ================= */
+function setCtrl(){
+ if(S.m==='tanda'){
+  ctrl.innerHTML=`<div class="btns"><button class="big" id="sk" ${S.checked?'disabled':''}>Semak ✓</button><button class="big alt" id="nb">Nombor baharu</button><button class="big alt" id="hn" style="flex:.55">${S.hint?'Tutup':'Petunjuk'}</button></div>`;
+  document.getElementById('sk').onclick=semak;
+  document.getElementById('nb').onclick=()=>{snd('ketik');newTanda();setCtrl()};
+  document.getElementById('hn').onclick=()=>{S.hint=!S.hint;setCtrl();render()};
+ }else{
+  const L=String(S.v.m).length;
+  ctrl.innerHTML=`<div class="line"><label for="nr">Angka bererti</label><input type="range" id="nr" min="1" max="${L-1}" step="1" value="${S.n}"><span class="val" id="nv">${S.n} a.b.</span></div>
+  <div class="btns"><div class="seg"><button data-k="int" class="${S.kind==='int'?'on':''}">Nombor bulat</button><button data-k="dec" class="${S.kind==='dec'?'on':''}">Perpuluhan</button></div><button class="big alt" id="nb" style="flex:.7">Nombor baharu</button></div>`;
+  const nr=document.getElementById('nr');nr.oninput=()=>{S.n=+nr.value;document.getElementById('nv').textContent=S.n+' a.b.';snd('ketik');render()};
+  ctrl.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{S.kind=b.dataset.k;newBundar();setCtrl()});
+  document.getElementById('nb').onclick=()=>{snd('ketik');newBundar();setCtrl()};
+ }}
+function render(){if(S.m==='tanda'){svg.innerHTML=tandaSVG();tandaInfo()}else{svg.innerHTML=bundarSVG();bundarInfo()}}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));S.m=b.dataset.m;snd('ketik');
+ if(S.m==='tanda'){if(!S.num)newTanda()}else if(!S.v)newBundar();
+ setCtrl();render()});
+/* ---------- ketik & seret (tetikus + sentuh) ---------- */
+let drag=false;
+function svgPt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+function setFrac(e){const p=svgPt(e),P=roundParts();let fr=(p.x-NL.x0)/(NL.x1-NL.x0);fr=Math.max(0,Math.min(.999,fr));
+ let r=Math.round(fr*P.p);if(r>=P.p)r=P.p-1;
+ // kekalkan digit terakhir bukan sifar supaya bilangan digit tidak berubah
+ if(r%10===0)r=Math.min(P.p-1,r+1);
+ const old=P.up;S.v={m:P.q*P.p+r,e:S.v.e};const np=roundParts();if(np.up!==old)snd('langkah');render()}
+svg.addEventListener('pointerdown',e=>{
+ if(S.m==='tanda'){const t=e.target.closest('.tl');if(!t||S.checked)return;const i=+t.dataset.i;S.marks[i]=!S.marks[i];snd('ketik');render();return}
+ const k=e.target.closest('.knob'),p=svgPt(e);if(!k&&!(Math.abs(p.y-NL.y)<30&&p.x>NL.x0-10&&p.x<NL.x1+10))return;
+ e.preventDefault();drag=true;svg.setPointerCapture(e.pointerId);setFrac(e)});
+svg.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();setFrac(e)});
+const end=()=>{drag=false};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+svg.addEventListener('dragstart',e=>e.preventDefault());
+newTanda();setCtrl();render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>
