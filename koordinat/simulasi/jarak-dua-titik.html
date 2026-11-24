@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark"><link rel="icon" href="../logo.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Jarak Dua Titik · Bab 7</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0A1120;--sf:#121C30;--sf2:#18253F;--sf3:#0D1628;--bd:#22304A;--bd2:#2D3F60;--tx:#E9F0FA;--mu:#9FB0C8;--mu2:#6B7C96;--c1:#38BDF8;--c2:#FBBF24;--c3:#F472B6;--gr:#34D399;--ok:#3DDC84;--bad:#FF6B7A;
+ --surface:#121C30;--border:#2D3F60;--text:#E9F0FA;--muted:#9FB0C8;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff06 1px,transparent 1px),linear-gradient(90deg,#ffffff06 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:9px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:10px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#03243a}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:10px 14px;line-height:1.45;font-size:15px}
+.info b.t{display:block;font-size:17px;color:var(--c1);margin-bottom:2px}
+.info .f{font-weight:700;font-size:15.5px}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.c1{color:var(--c1)}.c2{color:var(--c2)}.c3{color:var(--c3)}.cg{color:var(--gr)}
+.ctrl{display:flex;gap:8px}
+.chip{flex:1;background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:11px 4px;font-weight:800;font-size:14.5px}
+.chip.on{background:var(--c2);border-color:var(--c2);color:#2a1f00}
+.big{flex:1;background:var(--c1);border:0;color:#03243a;border-radius:13px;padding:12px 6px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.score{display:inline-block;background:var(--sf2);border:1px solid var(--bd2);border-radius:10px;padding:2px 9px;font-weight:800;font-size:13px;color:var(--c2);margin-left:6px}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.45fr) minmax(330px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end;flex-wrap:wrap}
+ .info b.t{font-size:22px}.info .f{font-size:18px}.info .f+.f{margin-top:4px}
+}
+@media(max-height:700px){.wrap{gap:7px;padding-top:6px}.modes button{padding:8px 4px;font-size:14px}.info{padding:8px 11px;font-size:13.5px}.info .f{font-size:14px}.info b.t{font-size:15px}.big,.chip{padding:9px 4px}}
+@media(max-width:420px){.modes button{font-size:13.5px;padding:9px 3px}.info .f{font-size:14px}.chip,.big{font-size:13.5px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(12px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#38BDF8;color:#03243a;border-radius:14px;padding:11px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #38bdf844">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mod">
+   <button data-m="teroka" class="on" role="tab">📏 Jarak</button>
+   <button data-m="cabaran" role="tab">🎯 Cabaran</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" aria-label="Satah Cartes dengan titik P dan Q"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),stage=document.getElementById('stage'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const M='−',N=v=>v<0?M+(-v):String(v),PN=v=>v<0?'('+M+(-v)+')':String(v);
+const C1='#38BDF8',C2='#FBBF24',C3='#F472B6',GR='#34D399',PU='#A78BFA',TX='#E9F0FA',MU='#9FB0C8',BG='#0D1628';
+const snd=n=>{if(window.FX)FX.play(n)};
+const R=6;
+let mode='teroka',P={x:-4,y:-2},Q={x:2,y:3},sq=false,drag=null,G=null;
+let CH={P:{x:0,y:0},d:5,Q:{x:1,y:0},done:false,score:0,tot:0};
+const sqrtTxt=s=>{const r=Math.round(Math.sqrt(s));return r*r===s?String(r):'√'+s};
+const dec=s=>(Math.round(Math.sqrt(s)*100)/100).toFixed(2);
+const T=(x,y,t,c=TX,s=14,a='middle',w=800)=>`<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" fill="${c}" font-size="${s}" font-weight="${w}" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="${BG}" stroke-width="4" stroke-linejoin="round">${t}</text>`;
+const L=(a,b,c,w=4,d='')=>`<line x1="${G.X(a.x).toFixed(1)}" y1="${G.Y(a.y).toFixed(1)}" x2="${G.X(b.x).toFixed(1)}" y2="${G.Y(b.y).toFixed(1)}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"${d?` stroke-dasharray="${d}"`:''}/>`;
+const poly=(pts,c,op=.18)=>`<polygon points="${pts.map(p=>G.X(p.x).toFixed(1)+','+G.Y(p.y).toFixed(1)).join(' ')}" fill="${c}" fill-opacity="${op}" stroke="${c}" stroke-width="2" stroke-linejoin="round"/>`;
+function frame(){
+ const w=stage.clientWidth||300,h=stage.clientHeight||300;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+ const u=Math.min((w-28)/(2*R+1),(h-28)/(2*R+1)),cx=w/2,cy=h/2;G={u,cx,cy,X:x=>cx+x*u,Y:y=>cy-y*u};
+ const e=R+.5;let g=`<defs><clipPath id="cl"><rect x="${G.X(-e)}" y="${G.Y(e)}" width="${2*e*u}" height="${2*e*u}"/></clipPath></defs>`;
+ for(let i=-R;i<=R;i++)g+=`<line x1="${G.X(i)}" y1="${G.Y(-e)}" x2="${G.X(i)}" y2="${G.Y(e)}" stroke="#ffffff14"/><line x1="${G.X(-e)}" y1="${G.Y(i)}" x2="${G.X(e)}" y2="${G.Y(i)}" stroke="#ffffff14"/>`;
+ g+=`<line x1="${G.X(-e)}" y1="${cy}" x2="${G.X(e)}" y2="${cy}" stroke="${MU}" stroke-width="2"/><line x1="${cx}" y1="${G.Y(-e)}" x2="${cx}" y2="${G.Y(e)}" stroke="${MU}" stroke-width="2"/>`;
+ const fs=Math.max(10,Math.min(13,u*.42));
+ for(let i=-R;i<=R;i++)if(i){g+=T(G.X(i),cy+fs*.95,N(i),'#6B7C96',fs,'middle',700)+T(cx-fs*.6,G.Y(i),N(i),'#6B7C96',fs,'end',700)}
+ return g+T(G.X(e)-6,cy-12,'x',MU,15)+T(cx+12,G.Y(e)+8,'y',MU,15);
+}
+const hd=(id,p,lab,col,lx=1)=>{const x=G.X(p.x),y=G.Y(p.y),r=Math.max(9,G.u*.32);const right=p.x>2;
+ return `<g class="h" data-h="${id}" style="cursor:grab"><circle cx="${x}" cy="${y}" r="${r+14}" fill="transparent"/><circle cx="${x}" cy="${y}" r="${r}" fill="${col}" stroke="#fff" stroke-width="3"/></g>`+(lab?T(x+(right?-1:1)*(r+5),y-(r+9),lab,col,15,right?'end':'start',900):'')};
+// segi tiga Pythagoras (dan kuasa dua pilihan)
+function tri(A,B,showD,showSq){
+ const C={x:B.x,y:A.y},dx=B.x-A.x,dy=B.y-A.y;let g='';
+ if(showSq){
+  const sx=dx>=0?1:-1,sy=dy>=0?1:-1;
+  if(dx)g+=poly([A,C,{x:C.x,y:C.y-sy*Math.abs(dx)},{x:A.x,y:A.y-sy*Math.abs(dx)}],C3,.14);
+  if(dy)g+=poly([C,B,{x:B.x+sx*Math.abs(dy),y:B.y},{x:C.x+sx*Math.abs(dy),y:C.y}],C1,.14);
+  const k=dx*dy>0?1:-1,nx=-dy*k,ny=dx*k;
+  g+=poly([A,B,{x:B.x+nx,y:B.y+ny},{x:A.x+nx,y:A.y+ny}],C2,.10).replace('stroke-width="2"','stroke-width="2" stroke-dasharray="6 5"');
+  if(dx)g+=T(G.X((A.x+C.x)/2),G.Y(A.y-sy*Math.abs(dx)/2),Math.abs(dx)*Math.abs(dx)+'',C3,15);
+  if(dy)g+=T(G.X(C.x+sx*Math.abs(dy)/2),G.Y((C.y+B.y)/2),dy*dy+'',C1,15);
+  if(dx&&dy)g+=T(G.X((A.x+B.x+nx)/2),G.Y((A.y+B.y+ny)/2),(dx*dx+dy*dy)+'',C2,15);
+  g=`<g clip-path="url(#cl)">${g}</g>`;
+ }
+ if(dx&&dy)g+=poly([A,C,B],C2,.10).replace(/stroke="[^"]+"/,'stroke="none"');
+ if(dx)g+=L(A,C,C3,5);if(dy)g+=L(C,B,C1,5);
+ if(dx&&dy){const k=Math.min(14,G.u*.4),ux=dx>0?-1:1,uy=dy>0?-1:1,cx=G.X(C.x),cy=G.Y(C.y);g+=`<path d="M${cx+ux*k} ${cy} L${cx+ux*k} ${cy+uy*k} L${cx} ${cy+uy*k}" fill="none" stroke="${TX}" stroke-width="2"/>`}
+ g+=L(A,B,C2,6);
+ if(dx)g+=T(G.X((A.x+C.x)/2),G.Y(A.y)+(dy>0?17:-15),Math.abs(dx)+'',C3,15);
+ if(dy)g+=T(G.X(C.x)+(dx>=0?14:-14),G.Y((C.y+B.y)/2),Math.abs(dy)+'',C1,15,dx>=0?'start':'end');
+ if(showD&&dx&&dy){const s=dx*dx+dy*dy,mx=G.X((A.x+B.x)/2),my=G.Y((A.y+B.y)/2),nx=-(dy>0?1:-1)*(dx>0?1:-1);g+=T(mx+(nx>0?-14:14),my-14,sqrtTxt(s),C2,16,nx>0?'end':'start',900)}
+ return g;
+}
+function render(){
+ let g=frame();
+ if(mode==='teroka'){g+=tri(P,Q,true,sq)+hd('P',P,`P(${N(P.x)}, ${N(P.y)})`,PU)+hd('Q',Q,`Q(${N(Q.x)}, ${N(Q.y)})`,GR)}
+ else{g+=tri(CH.P,CH.Q,CH.done,false)+hd('P0',CH.P,`P(${N(CH.P.x)}, ${N(CH.P.y)})`,PU)+hd('Q',CH.Q,`Q(${N(CH.Q.x)}, ${N(CH.Q.y)})`,GR)}
+ svg.innerHTML=g;showInfo();
+}
+function steps(A,B,nmA='P',nmB='Q'){
+ const dx=B.x-A.x,dy=B.y-A.y,s=dx*dx+dy*dy,r=sqrtTxt(s);
+ return `<div class="f">${nmA}${nmB} = √((x₂ − x₁)² + (y₂ − y₁)²)</div>`+
+ `<div class="f">= √((${N(B.x)} − ${PN(A.x)})² + (${N(B.y)} − ${PN(A.y)})²)</div>`+
+ `<div class="f">= √(<span class="c3">${PN(dx)}²</span> + <span class="c1">${PN(dy)}²</span>) = √(<span class="c3">${dx*dx}</span> + <span class="c1">${dy*dy}</span>) = √${s}</div>`+
+ `<div class="f">= <b class="c2">${r[0]==='√'?dec(s)+' unit</b> <small style="color:var(--mu)">(2 t.p.)</small>':r+' unit</b>'}</div>`;
+}
+function showInfo(){
+ if(mode==='teroka'){
+  const dx=Q.x-P.x,dy=Q.y-P.y;
+  let extra='';
+  if(!dy)extra=`<div class="tip">Garis <b class="c3">mengufuk</b>: jarak = beza koordinat-x = ${Math.abs(dx)} unit.</div>`;
+  else if(!dx)extra=`<div class="tip">Garis <b class="c1">mencancang</b>: jarak = beza koordinat-y = ${Math.abs(dy)} unit.</div>`;
+  else extra=`<div class="tip">Teorem Pythagoras: PQ² = <span class="c3">${dx*dx}</span> + <span class="c1">${dy*dy}</span> = ${dx*dx+dy*dy}. Seret P atau Q.</div>`;
+  info.innerHTML=`<b class="t">Jarak PQ</b>`+steps(P,Q)+extra;
+ }else{
+  const dx=CH.Q.x-CH.P.x,dy=CH.Q.y-CH.P.y;
+  if(!CH.done)info.innerHTML=`<b class="t">Seret Q supaya PQ = ${CH.d} unit <span class="score">⭐ ${CH.score}/${CH.tot}</span></b><div class="f">Mengufuk = <span class="c3">${Math.abs(dx)}</span>, mencancang = <span class="c1">${Math.abs(dy)}</span></div><div class="f">PQ = √(<span class="c3">${Math.abs(dx)}²</span> + <span class="c1">${Math.abs(dy)}²</span>) = ?</div><div class="tip">Kira dahulu, kemudian tekan Semak.</div>`;
+  else{const s=dx*dx+dy*dy,ok=s===CH.d*CH.d;
+   info.innerHTML=`<b class="t">${ok?'<span class="ok">Betul! 🎉</span>':'<span class="no">Belum tepat</span>'} <span class="score">⭐ ${CH.score}/${CH.tot}</span></b>`+steps(CH.P,CH.Q)+`<div class="tip">${ok?'Hebat! Tekan Soalan Baharu.':`Sasaran ${CH.d} unit, iaitu PQ² = ${CH.d*CH.d}. Cuba lagi.`}</div>`}
+ }
+}
+function setCtrl(){
+ if(mode==='teroka'){ctrl.innerHTML=`<button class="chip${sq?' on':''}" id="bSq">□ Kuasa Dua</button><button class="big alt" id="bRand">🎲 Titik Rawak</button>`;
+  document.getElementById('bSq').onclick=()=>{sq=!sq;snd('ketik');setCtrl();render()};
+  document.getElementById('bRand').onclick=()=>{snd('ketik');do{P={x:ri(-5,5),y:ri(-5,5)};Q={x:ri(-5,5),y:ri(-5,5)}}while(P.x===Q.x&&P.y===Q.y);render()};
+ }else{ctrl.innerHTML=`<button class="big" id="bChk"${CH.done?' disabled style="opacity:.45"':''}>✔ Semak</button><button class="big alt" id="bNew">🔄 Soalan Baharu</button>`;
+  document.getElementById('bChk').onclick=check;document.getElementById('bNew').onclick=()=>{snd('ketik');newQ()};
+ }
+}
+const ri=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+function newQ(){
+ const D=[5,5,10,5,4,6,7,5,10,3,8];
+ for(let t=0;t<200;t++){const d=D[ri(0,D.length-1)],p={x:ri(-5,5),y:ri(-5,5)};let n=0;
+  for(let x=-R;x<=R;x++)for(let y=-R;y<=R;y++)if((x-p.x)**2+(y-p.y)**2===d*d)n++;
+  if(n){CH.P=p;CH.d=d;break}}
+ CH.Q={x:CH.P.x+(CH.P.x>0?-2:2),y:CH.P.y};
+ CH.done=false;setCtrl();render();
+}
+function check(){
+ if(CH.done)return;const s=(CH.Q.x-CH.P.x)**2+(CH.Q.y-CH.P.y)**2,ok=s===CH.d*CH.d;CH.tot++;
+ if(ok){CH.score++;CH.done=true;snd('betul');if(window.FX)FX.stars(document.getElementById('stage'),12)}else{snd('salah');CH.done=true}
+ setCtrl();render();
+ if(!ok)setTimeout(()=>{if(mode==='cabaran'&&CH.done){CH.done=false;setCtrl();render()}},2600);
+}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));mode=b.dataset.m;snd('ketik');if(mode==='cabaran'&&!CH.tot&&!CH.done)newQ();setCtrl();render()});
+function pt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;const q=p.matrixTransform(svg.getScreenCTM().inverse());return{x:Math.max(-R,Math.min(R,Math.round((q.x-G.cx)/G.u))),y:Math.max(-R,Math.min(R,Math.round((G.cy-q.y)/G.u)))}}
+svg.addEventListener('pointerdown',e=>{const h=e.target.closest('.h');if(!h||h.dataset.h==='P0')return;if(mode==='cabaran'&&CH.done)return;e.preventDefault();drag=h.dataset.h;svg.setPointerCapture(e.pointerId)});
+svg.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();const p=pt(e);
+ const cur=mode==='teroka'?(drag==='P'?P:Q):CH.Q,oth=mode==='teroka'?(drag==='P'?Q:P):CH.P;
+ if(p.x===oth.x&&p.y===oth.y)return;if(cur.x!==p.x||cur.y!==p.y){cur.x=p.x;cur.y=p.y;snd('langkah');render()}});
+const end=()=>{drag=null};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+svg.addEventListener('dragstart',e=>e.preventDefault());
+new ResizeObserver(()=>render()).observe(stage);setCtrl();render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

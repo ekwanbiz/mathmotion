@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark"><link rel="icon" href="../logo.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Peta Harta Karun · Bab 7</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0A1120;--sf:#121C30;--sf2:#18253F;--sf3:#0D1628;--bd:#22304A;--bd2:#2D3F60;--tx:#E9F0FA;--mu:#9FB0C8;--mu2:#6B7C96;--c1:#FB923C;--c2:#FBBF24;--c3:#F472B6;--gr:#34D399;--ok:#3DDC84;--bad:#FF6B7A;
+ --surface:#121C30;--border:#2D3F60;--text:#E9F0FA;--muted:#9FB0C8;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff06 1px,transparent 1px),linear-gradient(90deg,#ffffff06 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:9px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:10px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#2a1203}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:#17130C;border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:10px 14px;line-height:1.45;font-size:15px}
+.info b.t{display:block;font-size:17px;color:var(--c1);margin-bottom:2px}
+.info .f{font-weight:700;font-size:15.5px}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.c1{color:var(--c1)}.c2{color:var(--c2)}.c3{color:var(--c3)}.cg{color:var(--gr)}
+.ctrl{display:flex;gap:8px}
+.chip{flex:1;background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:11px 4px;font-weight:800;font-size:14.5px}
+.chip.on{background:var(--c2);border-color:var(--c2);color:#2a1f00}
+.big{flex:1;background:var(--c1);border:0;color:#2a1203;border-radius:13px;padding:12px 6px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.score{display:inline-block;background:var(--sf2);border:1px solid var(--bd2);border-radius:10px;padding:2px 9px;font-weight:800;font-size:13px;color:var(--c2);margin-left:6px}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.45fr) minmax(330px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end;flex-wrap:wrap}
+ .info b.t{font-size:22px}.info .f{font-size:18px}.info .f+.f{margin-top:4px}
+}
+@media(max-height:700px){.wrap{gap:7px;padding-top:6px}.modes button{padding:8px 4px;font-size:14px}.info{padding:8px 11px;font-size:13.5px}.info .f{font-size:14px}.info b.t{font-size:15px}.big,.chip{padding:9px 4px}}
+@media(max-width:420px){.modes button{font-size:13.5px;padding:9px 3px}.info .f{font-size:14px}.chip,.big{font-size:13.5px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(12px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#FB923C;color:#2a1203;border-radius:14px;padding:11px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #fb923c44">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mod">
+   <button data-m="harta" class="on" role="tab">🗺️ Cari Harta</button>
+   <button data-m="ukur" role="tab">📐 Ukur Peta</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" aria-label="Peta harta karun bergrid"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),stage=document.getElementById('stage'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const MI='−',N=v=>{v=Math.round(v*100)/100;if(Object.is(v,-0))v=0;return v<0?MI+(-v):String(v)},PN=v=>v<0?'('+N(v)+')':N(v);
+const OR='#FB923C',AM='#FBBF24',PK='#F472B6',BL='#38BDF8',GR='#34D399',PU='#A78BFA',TX='#F5EEDF',MU='#C9B48E',BG='#17130C';
+const snd=n=>{if(window.FX)FX.play(n)};
+const X0=0,X1=10,Y0=0,Y1=10,ri=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const sqrtTxt=s=>{const r=Math.round(Math.sqrt(s));return r*r===s?String(r):'√'+s},dec=s=>(Math.round(Math.sqrt(s)*100)/100).toFixed(2);
+const NAMA={pokok:'Pokok Kelapa',batu:'Batu Besar',perigi:'Perigi',jeti:'Jeti',pondok:'Pondok',kapal:'Kapal'};
+let mode='harta',G=null,drag=null;
+let H={lm:{},clue:'',tgt:{x:5,y:5},pin:{x:1,y:1},tries:0,found:false,shown:false,score:0,tot:0,type:0,work:[]};
+let U={a:{x:1,y:2},b:{x:7,y:10}};
+const T=(x,y,t,c=TX,s=14,a='middle',w=800)=>`<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" fill="${c}" font-size="${s}" font-weight="${w}" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="${BG}" stroke-width="4" stroke-linejoin="round">${t}</text>`;
+const L=(a,b,c,w=4,d='')=>`<line x1="${G.X(a.x).toFixed(1)}" y1="${G.Y(a.y).toFixed(1)}" x2="${G.X(b.x).toFixed(1)}" y2="${G.Y(b.y).toFixed(1)}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"${d?` stroke-dasharray="${d}"`:''}/>`;
+function frame(){
+ const w=stage.clientWidth||300,h=stage.clientHeight||300;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+ const pad=30,u=Math.min((w-pad-14)/(X1-X0+.6),(h-pad-14)/(Y1-Y0+.6)),ox=(w-(X1-X0)*u)/2+8,oy=(h+(Y1-Y0)*u)/2-8;
+ G={u,X:x=>ox+(x-X0)*u,Y:y=>oy-(y-Y0)*u};
+ let g=`<rect x="${G.X(X0-.3)}" y="${G.Y(Y1+.3)}" width="${(X1-X0+.6)*u}" height="${(Y1-Y0+.6)*u}" rx="14" fill="#2A2013" stroke="#5A4527" stroke-width="2"/>`;
+ // laut di sudut
+ g+=`<path d="M${G.X(X1+.3)} ${G.Y(Y0+2.6)} Q ${G.X(X1-1.2)} ${G.Y(Y0+1.4)} ${G.X(X1-2.8)} ${G.Y(Y0-.3)} L ${G.X(X1+.3)} ${G.Y(Y0-.3)} Z" fill="#1B3A55" opacity=".85"/>`;
+ for(let i=X0;i<=X1;i++)g+=`<line x1="${G.X(i)}" y1="${G.Y(Y0)}" x2="${G.X(i)}" y2="${G.Y(Y1)}" stroke="#ffffff16"/>`;
+ for(let j=Y0;j<=Y1;j++)g+=`<line x1="${G.X(X0)}" y1="${G.Y(j)}" x2="${G.X(X1)}" y2="${G.Y(j)}" stroke="#ffffff16"/>`;
+ g+=`<line x1="${G.X(0)}" y1="${G.Y(0)}" x2="${G.X(X1)}" y2="${G.Y(0)}" stroke="${MU}" stroke-width="2"/><line x1="${G.X(0)}" y1="${G.Y(0)}" x2="${G.X(0)}" y2="${G.Y(Y1)}" stroke="${MU}" stroke-width="2"/>`;
+ const fs=Math.max(10,Math.min(13,u*.4));
+ for(let i=0;i<=X1;i++)g+=T(G.X(i),G.Y(0)+fs+3,String(i),'#9C8662',fs,'middle',700);
+ for(let j=1;j<=Y1;j++)g+=T(G.X(0)-6,G.Y(j),String(j),'#9C8662',fs,'end',700);
+ return g;
+}
+function icon(t,p){const x=G.X(p.x),y=G.Y(p.y),s=Math.max(11,G.u*.42);let g='';
+ if(t==='pokok')g=`<rect x="${x-s*.12}" y="${y-s*.2}" width="${s*.24}" height="${s*.75}" fill="#8B5A2B"/><circle cx="${x}" cy="${y-s*.45}" r="${s*.55}" fill="#2F9E5B" stroke="#1E6B3C" stroke-width="2"/>`;
+ if(t==='batu')g=`<path d="M${x-s*.7} ${y+s*.4} L${x-s*.45} ${y-s*.35} L${x+s*.1} ${y-s*.6} L${x+s*.65} ${y-s*.1} L${x+s*.6} ${y+s*.4}Z" fill="#8A8F99" stroke="#5B606A" stroke-width="2"/>`;
+ if(t==='perigi')g=`<circle cx="${x}" cy="${y}" r="${s*.55}" fill="#1B3A55" stroke="#9FB0C8" stroke-width="3"/>`;
+ if(t==='jeti')g=`<rect x="${x-s*.7}" y="${y-s*.22}" width="${s*1.4}" height="${s*.44}" rx="3" fill="#A0703F" stroke="#6E4A27" stroke-width="2"/>`;
+ if(t==='pondok')g=`<rect x="${x-s*.45}" y="${y-s*.1}" width="${s*.9}" height="${s*.55}" fill="#C08A4A"/><path d="M${x-s*.7} ${y-s*.05} L${x} ${y-s*.7} L${x+s*.7} ${y-s*.05}Z" fill="#E0B266" stroke="#8B5A2B" stroke-width="2"/>`;
+ if(t==='kapal')g=`<path d="M${x-s*.75} ${y} L${x+s*.75} ${y} L${x+s*.45} ${y+s*.4} L${x-s*.45} ${y+s*.4}Z" fill="#A0703F"/><path d="M${x} ${y-s*.8} L${x} ${y} L${x+s*.55} ${y-s*.1}Z" fill="#F5EEDF"/>`;
+ const right=p.x>6;return g+T(x+(right?-1:1)*(s+4),y-s*.75,`${NAMA[t]} (${p.x}, ${p.y})`,TX,12.5,right?'end':'start',800);}
+function pinSvg(p,col){const x=G.X(p.x),y=G.Y(p.y),r=Math.max(10,G.u*.34);
+ return `<g class="h" data-h="pin" style="cursor:grab"><circle cx="${x}" cy="${y}" r="${r+14}" fill="transparent"/><path d="M${x} ${y} L${x-r*.7} ${y-r*1.5} A${r*.8} ${r*.8} 0 1 1 ${x+r*.7} ${y-r*1.5} Z" fill="${col}" stroke="#fff" stroke-width="2.5"/><circle cx="${x}" cy="${y-r*1.85}" r="${r*.32}" fill="#fff"/></g>`+T(x+(p.x>6?-1:1)*(r+6),y+r*.3,`(${p.x}, ${p.y})`,col,14,p.x>6?'end':'start',900);}
+const cross=(p,c)=>{const x=G.X(p.x),y=G.Y(p.y),k=Math.max(8,G.u*.28);return `<path d="M${x-k} ${y-k}L${x+k} ${y+k}M${x-k} ${y+k}L${x+k} ${y-k}" stroke="${c}" stroke-width="5" stroke-linecap="round"/>`};
+const chest=p=>{const x=G.X(p.x),y=G.Y(p.y),s=Math.max(12,G.u*.45);return `<rect x="${x-s*.8}" y="${y-s*.55}" width="${s*1.6}" height="${s*1.1}" rx="4" fill="#B7791F" stroke="#FFD166" stroke-width="3"/><line x1="${x-s*.8}" y1="${y-s*.1}" x2="${x+s*.8}" y2="${y-s*.1}" stroke="#FFD166" stroke-width="3"/><rect x="${x-s*.16}" y="${y-s*.25}" width="${s*.32}" height="${s*.3}" fill="#FFD166"/>`};
+const flag=(id,p,col,t)=>{const x=G.X(p.x),y=G.Y(p.y),r=Math.max(10,G.u*.34);return `<g class="h" data-h="${id}" style="cursor:grab"><circle cx="${x}" cy="${y}" r="${r+14}" fill="transparent"/><line x1="${x}" y1="${y}" x2="${x}" y2="${y-r*2.4}" stroke="#fff" stroke-width="3"/><path d="M${x} ${y-r*2.4} L${x+r*1.4} ${y-r*1.9} L${x} ${y-r*1.4}Z" fill="${col}"/><circle cx="${x}" cy="${y}" r="${r*.45}" fill="${col}" stroke="#fff" stroke-width="2"/></g>`+T(x+(p.x>6?-1:1)*(r+4),y+r*.6,t,col,14,p.x>6?'end':'start',900)};
+/* ---------- soalan harta ---------- */
+const free=(used,pp,d=2)=>!used.some(q=>Math.abs(q.x-pp.x)+Math.abs(q.y-pp.y)<d);
+const rp=()=>({x:ri(0,9),y:ri(1,10)});
+function newRound(){
+ H.type=(H.type+1)%3;H.tries=0;H.dug=[];H.found=false;H.shown=false;H.lm={};let ok=false;
+ for(let t=0;t<500&&!ok;t++){
+  const used=[];const put=(k,p)=>{H.lm[k]=p;used.push(p)};H.lm={};
+  if(H.type===0){const a=rp(),b=rp();if((a.x+b.x)%2||(a.y+b.y)%2||Math.abs(a.x-b.x)+Math.abs(a.y-b.y)<6)continue;
+   put('pokok',a);put('batu',b);H.tgt={x:(a.x+b.x)/2,y:(a.y+b.y)/2};if(!free([a,b],H.tgt))continue;
+   H.clue=`Harta tertanam di <b>titik tengah</b> antara Pokok Kelapa (${a.x}, ${a.y}) dan Batu Besar (${b.x}, ${b.y}).`;
+   H.work=[`x = (${a.x} + ${b.x})/2 = ${H.tgt.x}`,`y = (${a.y} + ${b.y})/2 = ${H.tgt.y}`];}
+  else if(H.type===1){const j=rp(),m={x:ri(1,9),y:ri(1,9)},h={x:2*m.x-j.x,y:2*m.y-j.y};if(h.x<0||h.x>9||h.y<1||h.y>10||Math.abs(j.x-m.x)+Math.abs(j.y-m.y)<3)continue;
+   put('jeti',j);put('pondok',m);H.tgt=h;if(!free([j,m],h))continue;
+   H.clue=`Pondok (${m.x}, ${m.y}) terletak <b>tepat di tengah-tengah</b> antara Jeti (${j.x}, ${j.y}) dan harta. Di manakah harta itu?`;
+   H.work=[`(${j.x} + x)/2 = ${m.x} → x = ${2*m.x} − ${j.x} = ${h.x}`,`(${j.y} + y)/2 = ${m.y} → y = ${2*m.y} − ${j.y} = ${h.y}`];}
+  else{const tr=[[3,4,5],[4,3,5],[6,8,10],[8,6,10]][ri(0,3)],w=rp(),sx=Math.random()<.5?1:-1,sy=Math.random()<.5?1:-1,h={x:w.x+sx*tr[0],y:w.y+sy*tr[1]};if(h.x<0||h.x>9||h.y<1||h.y>10)continue;
+   put('perigi',w);H.tgt=h;
+   H.clue=`Harta terletak pada garis <b>y = ${h.y}</b>, di sebelah <b>${sx>0?'kanan':'kiri'}</b> Perigi (${w.x}, ${w.y}), dan <b>${tr[2]} km</b> dari perigi itu. (1 unit = 1 km)`;
+   H.work=[`Mencancang = ${Math.abs(h.y-w.y)}, maka mengufuk = √(${tr[2]}² − ${Math.abs(h.y-w.y)}²) = ${tr[0]}`,`x = ${w.x} ${sx>0?'+':'−'} ${tr[0]} = ${h.x}, maka harta di (${h.x}, ${h.y})`];}
+  const kp={x:10,y:0};if(!free(Object.values(H.lm).concat([H.tgt]),kp,4))continue;
+  ok=true;
+ }
+ const k={x:10,y:0};H.lm.kapal=k;
+ do{H.pin={x:ri(1,8),y:ri(1,9)}}while(!free(Object.values(H.lm).concat([H.tgt]),H.pin,4));
+ setCtrl();render();
+}
+function dig(){
+ if(H.found||H.shown)return;H.tries++;const ok=H.pin.x===H.tgt.x&&H.pin.y===H.tgt.y;
+ if(ok){H.found=true;H.score++;H.tot++;snd('menang');if(window.FX)FX.stars(document.getElementById('stage'),16)}
+ else{snd('salah');H.dug.push({x:H.pin.x,y:H.pin.y});if(H.tries>=3){H.shown=true;H.tot++}}
+ setCtrl();render();
+}
+function render(){
+ let g=frame();
+ if(mode==='harta'){
+  Object.keys(H.lm).forEach(k=>{g+=icon(k,H.lm[k])});
+  if(H.found||H.shown)g+=L(H.lm.kapal,H.tgt,AM,3,'8 6')+chest(H.tgt);
+  (H.dug||[]).forEach(d=>{g+=cross(d,'#FF6B7A')});
+  if(!H.found&&!H.shown)g+=pinSvg(H.pin,OR);
+ }else{
+  const a=U.a,b=U.b,m={x:(a.x+b.x)/2,y:(a.y+b.y)/2};
+  if(a.x!==b.x&&a.y!==b.y)g+=L(a,{x:b.x,y:a.y},PK,3,'7 6')+L({x:b.x,y:a.y},b,BL,3,'7 6');
+  g+=L(a,b,AM,5);const r=Math.max(7,G.u*.26);g+=`<circle cx="${G.X(m.x)}" cy="${G.Y(m.y)}" r="${r}" fill="${GR}" stroke="#fff" stroke-width="2.5"/>`+T(G.X(m.x)+(m.x>6?-1:1)*(r+6),G.Y(m.y)+r+8,`M(${N(m.x)}, ${N(m.y)})`,GR,13.5,m.x>6?'end':'start',900);
+  g+=flag('ua',a,PU,`A(${a.x}, ${a.y})`)+flag('ub',b,OR,`B(${b.x}, ${b.y})`);
+ }
+ svg.innerHTML=g;showInfo();
+}
+function showInfo(){
+ if(mode==='harta'){
+  let s=`<b class="t">Petunjuk ${H.tot+(H.found||H.shown?0:1)} <span class="score">💰 ${H.score}/${H.tot}</span></b><div class="f" style="font-weight:600">${H.clue}</div>`;
+  if(H.found||H.shown){const k=H.lm.kapal,dx=H.tgt.x-k.x,dy=H.tgt.y-k.y,q=dx*dx+dy*dy;s+=`<div class="f">${H.found?'<span class="ok">Jumpa! 🎉</span>':'<span class="no">Harta di sini:</span>'} (${H.tgt.x}, ${H.tgt.y}) · ${H.work.join(' · ')}</div><div class="tip">Jarak kapal ke harta = √(${dx*dx} + ${dy*dy}) = ${sqrtTxt(q)[0]==='√'?sqrtTxt(q)+' ≈ '+dec(q):sqrtTxt(q)} km</div>`}
+  else if(H.tries){const D=H.dug[H.dug.length-1],dx=H.tgt.x-D.x,dy=H.tgt.y-D.y,hint=[];if(dx)hint.push(dx>0?'ke kanan':'ke kiri');if(dy)hint.push(dy>0?'ke atas':'ke bawah');s+=`<div class="tip"><span class="no">Tiada harta di (${D.x}, ${D.y}).</span> Harta lebih ${hint.join(' dan ')}. Cubaan ${H.tries}/3.</div>`}
+  else s+=`<div class="tip">Penanda oren di <b>(${H.pin.x}, ${H.pin.y})</b>. Seret ke titik grid, kemudian tekan Gali.</div>`;
+  info.innerHTML=s;
+ }else{const a=U.a,b=U.b,dx=b.x-a.x,dy=b.y-a.y,q=dx*dx+dy*dy,r=sqrtTxt(q);
+  info.innerHTML=`<b class="t">Ukur peta (1 unit = 1 km)</b><div class="f">AB = √(<span class="c3">${PN(dx)}²</span> + <span style="color:${BL}">${PN(dy)}²</span>) = √${q} = <b style="color:${AM}">${r[0]==='√'?dec(q)+' km':r+' km'}</b></div><div class="f">Titik tengah M = ((${a.x} + ${b.x})/2, (${a.y} + ${b.y})/2) = <b class="cg">(${N((a.x+b.x)/2)}, ${N((a.y+b.y)/2)})</b></div><div class="tip">Seret bendera A dan B. Jarak dari A ke M = ${r[0]==='√'?(Math.round(Math.sqrt(q)/2*100)/100).toFixed(2):N(Math.sqrt(q)/2)} km (separuh AB).</div>`;
+ }
+}
+function setCtrl(){
+ if(mode==='harta'){ctrl.innerHTML=`<button class="big" id="bDig"${H.found||H.shown?' disabled style="opacity:.45"':''}>⛏️ Gali</button><button class="big alt" id="bNew">🔄 Petunjuk Baharu</button>`;
+  document.getElementById('bDig').onclick=dig;document.getElementById('bNew').onclick=()=>{snd('ketik');if(!H.found&&!H.shown&&H.tries)H.tot++;newRound()};}
+ else{ctrl.innerHTML=`<button class="big alt" id="bRand">🎲 Kedudukan Rawak</button>`;document.getElementById('bRand').onclick=()=>{snd('ketik');do{U.a={x:ri(0,10),y:ri(0,10)};U.b={x:ri(0,10),y:ri(0,10)}}while(U.a.x===U.b.x&&U.a.y===U.b.y);render()};}
+}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));mode=b.dataset.m;snd('ketik');setCtrl();render()});
+function pt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;const q=p.matrixTransform(svg.getScreenCTM().inverse());return{x:Math.max(X0,Math.min(X1,Math.round((q.x-G.X(0))/G.u))),y:Math.max(Y0,Math.min(Y1,Math.round((G.Y(0)-q.y)/G.u)))}}
+svg.addEventListener('pointerdown',e=>{const h=e.target.closest('.h');if(!h)return;e.preventDefault();drag=h.dataset.h;svg.setPointerCapture(e.pointerId)});
+svg.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();const p=pt(e);
+ const cur=drag==='pin'?H.pin:drag==='ua'?U.a:U.b,oth=drag==='ua'?U.b:drag==='ub'?U.a:null;
+ if(oth&&p.x===oth.x&&p.y===oth.y)return;if(cur.x!==p.x||cur.y!==p.y){cur.x=p.x;cur.y=p.y;snd('langkah');render()}});
+const end=()=>{drag=null};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+svg.addEventListener('dragstart',e=>e.preventDefault());
+H.type=-1;new ResizeObserver(()=>render()).observe(stage);newRound();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>
