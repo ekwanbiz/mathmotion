@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Pengesah Hujah · Bab 3</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--sf:#131C2E;--sf2:#1A2540;--sf3:#0E1626;--bd:#22304A;--bd2:#2E3F5E;--tx:#E6EDF7;--mu:#94A3B8;--mu2:#64748B;--c1:#34D399;--c2:#38BDF8;--c3:#F472B6;--gold:#FBBF24;--ok:#34D399;--bad:#F87171;
+ --surface:#131C2E;--border:#2E3F5E;--text:#E6EDF7;--muted:#94A3B8;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff06 1px,transparent 1px),linear-gradient(90deg,#ffffff06 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#05291c}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:11px 14px;line-height:1.5;font-size:15px;min-height:70px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:2px}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.info .eq{margin-top:6px;padding:7px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:700}
+.ctrl{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.ctrl.three{grid-template-columns:1fr}
+.chip{background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:12px 4px;font-weight:800;font-size:15px;line-height:1.2}
+.chip.on{background:var(--c1);border-color:var(--c1);color:#05291c}
+.chip.ok{border-color:var(--ok);background:#34d39922}.chip.no{border-color:var(--bad);background:#f8717122}
+.big{background:var(--c2);border:0;color:#03202e;border-radius:13px;padding:13px 6px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.step{display:flex;align-items:center;gap:4px;background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:3px;grid-column:span 2}
+.step b{flex:1;text-align:center;font-size:16px;white-space:nowrap}
+.step button{width:46px;height:42px;border:0;border-radius:10px;background:var(--sf2);font-size:22px;font-weight:900;color:var(--tx)}
+.nextb{margin-top:8px;background:var(--c1);border:0;color:#05291c;border-radius:11px;padding:9px 16px;font-weight:900}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.35fr) minmax(320px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:22px}
+}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.chip{padding:9px 3px;font-size:14px}.info{padding:8px 11px;min-height:60px;font-size:14px}.info b.t{font-size:17px}.big{padding:10px 4px}.step button{height:36px}}
+@media(max-width:420px){.chip,.big{font-size:13px}.modes button{font-size:13px;padding:10px 3px}.info{font-size:14px}.step b{font-size:14px}.step button{width:40px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#34D399;color:#05291c;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #34d39944">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mod">
+   <button data-m="ded" class="on" role="tab">🧠 Deduktif</button>
+   <button data-m="ind" role="tab">📈 Induktif</button>
+   <button data-m="cabaran" role="tab">❓ Cabaran</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" viewBox="0 0 400 400" aria-label="Pengesah hujah"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const GR='#34D399',BL='#38BDF8',PK='#F472B6',PU='#A78BFA',OR='#FB923C',GOLD='#FBBF24',OK='#34D399',BAD='#F87171',TX='#E6EDF7',MU='#94A3B8',SF='#131C2E',BD='#2E3F5E',NAV='#0E1626';
+const snd=n=>{if(window.FX)FX.play(n)};
+const rnd=n=>Math.floor(Math.random()*n),pick=a=>a[rnd(a.length)],shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=rnd(i+1);[a[i],a[j]]=[a[j],a[i]]}return a};
+const fmt=n=>n<0?'−'+(-n):''+n;
+const isPr=n=>{if(n<2)return false;for(let d=2;d*d<=n;d++)if(n%d===0)return false;return true};
+/* ---------- bank hujah deduktif ----------
+   jenis 'imp': Premis 1 = Jika p, maka q.  Pilihan premis 2: p, ~p, q, ~q
+   jenis 'all': Premis 1 = Semua A ialah B. Pilihan premis 2: C ialah A, C ialah B, C bukan A
+   f* = fungsi nilai kebenaran bagi objek (null = objek umum, premis diandaikan benar) */
+const DED=[
+ {k:'imp',p1:'Jika suatu nombor ialah gandaan 6, maka nombor itu ialah gandaan 3.',t1:true,objs:[24,20,15,9],
+  p:o=>`${o} ialah gandaan 6`,np:o=>`${o} bukan gandaan 6`,q:o=>`${o} ialah gandaan 3`,nq:o=>`${o} bukan gandaan 3`,fp:o=>o%6===0,fq:o=>o%3===0},
+ {k:'imp',p1:'Jika suatu nombor lebih besar daripada 10, maka nombor itu lebih besar daripada 5.',t1:true,objs:[12,7,3],
+  p:o=>`${o} lebih besar daripada 10`,np:o=>`${o} tidak lebih besar daripada 10`,q:o=>`${o} lebih besar daripada 5`,nq:o=>`${o} tidak lebih besar daripada 5`,fp:o=>o>10,fq:o=>o>5},
+ {k:'imp',p1:'Jika suatu nombor ialah nombor perdana, maka nombor itu ialah nombor ganjil.',t1:false,objs:[7,2,9,4],
+  p:o=>`${o} ialah nombor perdana`,np:o=>`${o} bukan nombor perdana`,q:o=>`${o} ialah nombor ganjil`,nq:o=>`${o} bukan nombor ganjil`,fp:isPr,fq:o=>o%2===1},
+ {k:'imp',p1:'Jika sebuah poligon ialah heksagon, maka poligon itu mempunyai 6 sisi.',t1:true,objs:['PQRSTU','KLMNO'],
+  p:o=>`${o} ialah heksagon`,np:o=>`${o} bukan heksagon`,q:o=>`${o} mempunyai 6 sisi`,nq:o=>`${o} tidak mempunyai 6 sisi`,fp:null,fq:null},
+ {k:'imp',p1:'Jika x = 4, maka 3x = 12.',t1:true,objs:['x'],
+  p:()=>'x = 4',np:()=>'x ≠ 4',q:()=>'3x = 12',nq:()=>'3x ≠ 12',fp:null,fq:null},
+ {k:'all',p1:'Semua gandaan 10 ialah gandaan 5.',t1:true,objs:[70,35,12],
+  a:o=>`${o} ialah gandaan 10`,b:o=>`${o} ialah gandaan 5`,na:o=>`${o} bukan gandaan 10`,nb:o=>`${o} bukan gandaan 5`,fa:o=>o%10===0,fb:o=>o%5===0,A:'gandaan 10',B:'gandaan 5'},
+ {k:'all',p1:'Semua segi empat sama ialah segi empat tepat.',t1:true,objs:['ABCD'],
+  a:o=>`${o} ialah segi empat sama`,b:o=>`${o} ialah segi empat tepat`,na:o=>`${o} bukan segi empat sama`,nb:o=>`${o} bukan segi empat tepat`,fa:null,fb:null,A:'segi empat sama',B:'segi empat tepat'},
+ {k:'all',p1:'Semua nombor perdana ialah nombor ganjil.',t1:false,objs:[2,7,9],
+  a:o=>`${o} ialah nombor perdana`,b:o=>`${o} ialah nombor ganjil`,na:o=>`${o} bukan nombor perdana`,nb:o=>`${o} bukan nombor ganjil`,fa:isPr,fb:o=>o%2===1,A:'nombor perdana',B:'nombor ganjil'},
+ {k:'all',p1:'Semua segi tiga mempunyai hasil tambah sudut pedalaman 180°.',t1:true,objs:['PQR'],
+  a:o=>`${o} ialah segi tiga`,b:o=>`Hasil tambah sudut pedalaman ${o} ialah 180°`,na:o=>`${o} bukan segi tiga`,nb:o=>`Hasil tambah sudut pedalaman ${o} bukan 180°`,fa:null,fb:null,A:'segi tiga',B:'sudut pedalaman 180°'}
+];
+const OPTI={imp:[['p','p'],['np','~p'],['q','q'],['nq','~q']],all:[['a','C ialah A'],['b','C ialah B'],['na','C bukan A']]};
+/* nilai hujah: {p2, p2v, conc, cv, sah, bentuk, sebab} */
+function judge(it,o,ch){
+ const tv=(f,neg)=>f?(neg?!f(o):f(o)):null;
+ if(it.k==='imp'){
+  const p2={p:it.p(o),np:it.np(o),q:it.q(o),nq:it.nq(o)}[ch],p2v={p:tv(it.fp,0),np:tv(it.fp,1),q:tv(it.fq,0),nq:tv(it.fq,1)}[ch];
+  if(ch==='p')return{p2,p2v,conc:it.q(o),cv:tv(it.fq,0),sah:true,bentuk:'Bentuk II',sebab:'Premis 2 mengesahkan antejadian p, maka akibat q benar.'};
+  if(ch==='nq')return{p2,p2v,conc:it.np(o),cv:tv(it.fp,1),sah:true,bentuk:'Bentuk III',sebab:'Premis 2 menafikan akibat q, maka antejadian p dinafikan.'};
+  if(ch==='q')return{p2,p2v,conc:it.p(o)+'?',cv:null,sah:false,bentuk:'Tidak sah',sebab:'Mengesahkan akibat q tidak memastikan p benar.'};
+  return{p2,p2v,conc:it.nq(o)+'?',cv:null,sah:false,bentuk:'Tidak sah',sebab:'Menafikan antejadian p tidak memastikan q palsu.'};
+ }
+ const p2={a:it.a(o),b:it.b(o),na:it.na(o)}[ch],p2v={a:tv(it.fa,0),b:tv(it.fb,0),na:tv(it.fa,1)}[ch];
+ if(ch==='a')return{p2,p2v,conc:it.b(o),cv:tv(it.fb,0),sah:true,bentuk:'Bentuk I',sebab:'C berada dalam set A, dan set A berada dalam set B, maka C dalam set B.'};
+ if(ch==='b')return{p2,p2v,conc:it.a(o)+'?',cv:null,sah:false,bentuk:'Tidak sah',sebab:'C dalam set B tidak semestinya dalam set A.'};
+ return{p2,p2v,conc:it.nb(o)+'?',cv:null,sah:false,bentuk:'Tidak sah',sebab:'C di luar set A masih boleh berada dalam set B.'};
+}
+const munasabah=(it,j)=>j.sah&&it.t1&&j.p2v!==false;
+let S={m:'ded',di:0,oi:0,ch:null,g:0,a:1,b:0,tg:null,cq:null,score:0,tot:0,streak:0,won:false};
+/* ---------- lukisan ---------- */
+function T(x,y,t,c=TX,s=18,a='middle',w=800){return `<text x="${x}" y="${y}" fill="${c}" font-size="${s}" font-weight="${w}" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif">${t}</text>`}
+function R(x,y,w,h,f,s,rx=12,sw=2,d=''){return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="${f}" stroke="${s}" stroke-width="${sw}"${d?` stroke-dasharray="${d}"`:''}/>`}
+function wrapT(t,max){const w=t.split(' ');const L=[];let c='';w.forEach(x=>{if((c+' '+x).trim().length>max){L.push(c.trim());c=x}else c+=' '+x});if(c.trim())L.push(c.trim());return L}
+function tag(x,y,v){if(v===null)return T(x,y,'andaian',MU,12,'end',700);return T(x,y,v?'B':'P',v?OK:BAD,17,'end',900)}
+function box(y,lab,txt,col,v,dash){const L=wrapT(txt,40);const h=28+L.length*20;let g=R(10,y,380,h,SF,col,13,2.5,dash?'7 6':'')+T(24,y+15,lab,col,13,'start',900)+tag(376,y+15,v);
+ L.forEach((l,i)=>g+=T(24,y+36+i*20,l,TX,15.5,'start',700));return{g,h}}
+function dedSVG(){
+ const it=DED[S.di],o=it.objs[S.oi];let g='';
+ const b1=box(10,'PREMIS 1',it.p1,BL,it.t1);g+=b1.g;let y=22+b1.h;
+ if(!S.ch){g+=R(10,y,380,52,'#ffffff05',MU,13,2,'7 6')+T(200,y+27,'Pilih premis 2 di bawah',MU,16,'middle',700);return g}
+ const j=judge(it,o,S.ch);
+ const b2=box(y,'PREMIS 2',j.p2,PU,j.p2v);g+=b2.g;y+=b2.h+10;
+ g+=`<path d="M200 ${y} v18 m-9 -9 l9 9 l9 -9" fill="none" stroke="${j.sah?GOLD:BAD}" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>`;y+=26;
+ const b3=box(y,'KESIMPULAN',j.sah?j.conc:'Tiada kesimpulan yang pasti',j.sah?GOLD:BAD,j.sah?j.cv:null,!j.sah);g+=b3.g;y+=b3.h+12;
+ const mun=munasabah(it,j);
+ const bw=[120,116,124];const lab=[j.bentuk,j.sah?'Sah':'Tidak sah',j.sah?(mun?'Munasabah':'Tidak munasabah'):'—'];const cc=[j.sah?GOLD:BAD,j.sah?OK:BAD,j.sah?(mun?OK:BAD):MU];
+ let x=10;lab.forEach((l,i)=>{g+=R(x,y,bw[i],38,cc[i]+'22',cc[i],19,2)+T(x+bw[i]/2,y+20,l,cc[i],l.length>11?12.5:15,'middle',900);x+=bw[i]+10});
+ y+=48;
+ if(it.k==='all'&&y<330){ // gambar rajah set
+  const cy=y+(392-y)/2,R1=Math.min(150,(392-y)/2-2)*1.6/1.6;
+  const rB=Math.min(56,(392-y)/2-4),rA=rB*.55;
+  g+=`<circle cx="200" cy="${cy}" r="${rB}" fill="${BL}22" stroke="${BL}" stroke-width="2.5"/><circle cx="${200-rB*.3}" cy="${cy}" r="${rA}" fill="${PK}2a" stroke="${PK}" stroke-width="2.5"/>`;
+  g+=T(200+rB+8,cy-rB*.6,'B: '+it.B,BL,12.5,'start',800)+T(200-rB-8,cy-rB*.6,'A: '+it.A,PK,12.5,'end',800);
+  const inA=it.fa?it.fa(o):(S.ch==='a'),inB=it.fb?it.fb(o):(S.ch!=='na'||null);
+  let px=200-rB*.3,py=cy;
+  if(!inA&&inB)px=200+rB*.55;if(!inA&&!inB)px=200+rB+30;
+  if(it.fa||S.ch==='a')g+=`<circle cx="${px}" cy="${py}" r="7" fill="${GOLD}" stroke="${NAV}" stroke-width="2"/>`+T(px,py+16,String(o),GOLD,13,'middle',900);
+ }
+ return g}
+function infoDed(){
+ const it=DED[S.di],o=it.objs[S.oi];
+ if(!S.ch){info.innerHTML=`<b class="t">Bina hujah deduktif</b>Premis 1 ialah pernyataan umum. Pilih premis 2 dan lihat sama ada kesimpulan pasti benar.<div class="tip">Hujah <b>sah</b> mengikut Bentuk I, II atau III. Hujah <b>munasabah</b> = sah + semua premis benar.</div>`;return}
+ const j=judge(it,o,S.ch),mun=munasabah(it,j);
+ let h=`<b class="t">${j.sah?j.bentuk+' · Sah':'Tidak sah'}</b>${j.sebab}`;
+ if(j.sah)h+=`<div class="eq">${mun?'<span class="ok">Munasabah</span>: sah dan semua premis benar.':'<span class="no">Tidak munasabah</span>: '+(!it.t1?'premis 1 palsu.':'premis 2 palsu.')}</div>`;
+ if(j.p2v===null)h+=`<div class="tip">Objek umum: premis 2 diandaikan benar.</div>`;
+ info.innerHTML=h}
+/* ---------- induktif ---------- */
+const GF=[{n:'an + b',g:n=>n,e:(a,b)=>`${a===1?'':a}n${b?(b>0?' + '+b:' − '+(-b)):''}`},
+          {n:'an² + b',g:n=>n*n,e:(a,b)=>`${a===1?'':a}n²${b?(b>0?' + '+b:' − '+(-b)):''}`},
+          {n:'a(2ⁿ) + b',g:n=>Math.pow(2,n),e:(a,b)=>`${a===1?'':a}(2ⁿ)${b?(b>0?' + '+b:' − '+(-b)):''}`}];
+const fv=(g,a,b,n)=>a*GF[g].g(n)+b;
+function newPola(){let g,a,b;do{g=rnd(3);a=1+rnd(g===2?3:5);b=rnd(12)-3}while(S.tg&&S.tg.g===g&&S.tg.a===a&&S.tg.b===b);S.tg={g,a,b};S.g=0;S.a=1;S.b=0;S.won=false}
+const match=()=>{const t=S.tg;for(let n=1;n<=5;n++)if(fv(S.g,S.a,S.b,n)!==fv(t.g,t.a,t.b,n))return false;return true};
+function indSVG(){
+ const t=S.tg;let g='';
+ const tv=[1,2,3,4,5].map(n=>fv(t.g,t.a,t.b,n)),uv=[1,2,3,4,5].map(n=>fv(S.g,S.a,S.b,n));
+ const mx=Math.max(...tv,...uv,1),mn=Math.min(0,...tv,...uv),Y0=300,HH=220,sc=HH/(mx-mn),yz=Y0+mn*sc;
+ g+=T(200,22,'Pola: '+tv.join(', ')+', ...',TX,19,'middle',900);
+ g+=`<line x1="30" y1="${yz}" x2="380" y2="${yz}" stroke="${MU}" stroke-width="2"/>`;
+ tv.forEach((v,i)=>{const x=46+i*68,y=yz-v*sc;g+=R(x,Math.min(y,yz),44,Math.max(2,Math.abs(v*sc)),PK+'40',PK,7,2.5)+T(x+22,Math.min(y,yz)-14,fmt(v),PK,16,'middle',900)+T(x+22,yz+(v<0?-14:18),'n='+(i+1),MU,13,'middle',700)});
+ uv.forEach((v,i)=>{const x=68+i*68,y=yz-v*sc,ok=v===tv[i];g+=`<circle cx="${x}" cy="${y}" r="9" fill="${ok?OK:GOLD}" stroke="${NAV}" stroke-width="2.5"/>`});
+ g+=`<polyline points="${uv.map((v,i)=>`${68+i*68},${yz-v*sc}`).join(' ')}" fill="none" stroke="${GOLD}" stroke-width="2" stroke-dasharray="5 5"/>`;
+ const won=match();
+ g+=R(10,338,380,52,won?OK+'22':SF,won?OK:GOLD,14,2.5);
+ g+=T(200,357,'Rumus anda: '+GF[S.g].e(S.a,S.b),won?OK:GOLD,18,'middle',900);
+ g+=T(200,378,won?'✓ Padan dengan semua sebutan':'● titik = nilai rumus anda',won?OK:MU,13,'middle',700);
+ return g}
+function infoInd(){
+ const t=S.tg,won=match(),e=GF[S.g].e(S.a,S.b);
+ if(won)info.innerHTML=`<b class="t"><span class="ok">✓ Kesimpulan umum ditemui</span></b><div class="eq">${e}, &nbsp;n = 1, 2, 3, 4, ...</div><div class="tip">Ramalan sebutan ke-10: ${e.replace(/n/g,'(10)')} = <b>${fmt(fv(S.g,S.a,S.b,10))}</b></div>`;
+ else info.innerHTML=`<b class="t">Cari kesimpulan umum</b>Pilih bentuk rumus dan laraskan nilai a dan b sehingga semua titik kuning menjadi hijau.<div class="tip">Petua: lihat beza antara sebutan berturutan. Beza tetap → bentuk an + b.</div>`}
+/* ---------- cabaran ---------- */
+const IND=[
+ ['Setiap pagi minggu lepas, Amir melihat matahari terbit dari timur. Maka matahari sentiasa terbit dari timur.','ind'],
+ ['5 = 4(1) + 1, 9 = 4(2) + 1, 13 = 4(3) + 1. Maka senarai itu boleh ditulis sebagai 4n + 1, n = 1, 2, 3, ...','ind'],
+ ['Tiga ekor kucing yang dilihat oleh Siti berwarna hitam. Maka semua kucing berwarna hitam.','ind'],
+ ['Hasil tambah sudut pedalaman tiga buah segi tiga yang diukur ialah 180°. Maka hasil tambah sudut pedalaman semua segi tiga ialah 180°.','ind']];
+function newQ(){
+ const kind=rnd(3);
+ if(kind<2){const di=rnd(DED.length),it=DED[di],oi=rnd(it.objs.length),o=it.objs[oi],ch=pick(OPTI[it.k])[0],j=judge(it,o,ch);
+  const conc=j.sah?j.conc:j.conc.replace('?','');
+  const ans=j.sah?(munasabah(it,j)?'Sah dan munasabah':'Sah tetapi tidak munasabah'):'Tidak sah';
+  S.cq={kind:0,it,o,ch,j,conc,ans,opts:['Sah dan munasabah','Sah tetapi tidak munasabah','Tidak sah'],done:false}}
+ else{const di=rnd(DED.length),it=DED[di],o=it.objs[0],useInd=Math.random()<.5;
+  if(useInd){const [t]=pick(IND);S.cq={kind:1,txt:t,ans:'Induktif',opts:['Deduktif','Induktif'],done:false}}
+  else{const ch=it.k==='imp'?'p':'a',j=judge(it,o,ch);S.cq={kind:1,txt:`${it.p1} ${j.p2}. Maka ${j.conc.charAt(0).toLowerCase()+j.conc.slice(1)}.`,ans:'Deduktif',opts:['Deduktif','Induktif'],done:false}}}
+ setCtrl();render();
+ info.innerHTML=`<b class="t">${S.cq.kind===0?'Sah? Munasabah?':'Deduktif atau induktif?'}</b>${S.cq.kind===0?'Semak bentuk hujah dahulu, kemudian semak kebenaran premis.':'Deduktif: umum → khusus. Induktif: khusus → umum.'}<div class="tip">Skor: ${S.score}/${S.tot}${S.streak>=3?' · 🔥 '+S.streak+' berturut-turut':''}</div>`}
+function cabSVG(){
+ const Q=S.cq;if(!Q)return '';let g='';
+ if(Q.kind===0){
+  const a=box(10,'PREMIS 1',Q.it.p1,BL,Q.done?Q.it.t1:null);g+=a.g;let y=20+a.h;
+  const b=box(y,'PREMIS 2',Q.j.p2,PU,Q.done?Q.j.p2v:null);g+=b.g;y+=b.h+10;
+  const c=box(y,'KESIMPULAN',Q.conc,GOLD,null);g+=c.g;y+=c.h+12;
+  if(Q.done)g+=R(60,y,280,42,Q.j.sah?OK+'22':BAD+'22',Q.j.sah?OK:BAD,21,2.5)+T(200,y+22,Q.j.sah?Q.j.bentuk:'Bukan Bentuk I, II atau III',Q.j.sah?OK:BAD,16,'middle',900);
+ }else{
+  const L=wrapT(Q.txt,40);g+=R(10,20,380,40+L.length*24,SF,BL,14,2.5);L.forEach((l,i)=>g+=T(24,44+i*24,l,TX,16,'start',700));
+  if(Q.done){const y=80+L.length*24;g+=R(80,y,240,46,OK+'22',OK,23,2.5)+T(200,y+24,Q.ans+(Q.ans==='Induktif'?': khusus → umum':': umum → khusus'),OK,15,'middle',900)}
+ }
+ return g}
+function answer(o,btn){
+ const Q=S.cq;if(Q.done)return;Q.done=true;S.tot++;const ok=o===Q.ans;
+ if(ok){S.score++;S.streak++;snd('betul');if(window.FX)FX.stars(btn,10)}else{S.streak=0;snd('salah')}
+ ctrl.querySelectorAll('.chip').forEach(b=>{if(b.dataset.o===Q.ans)b.classList.add('ok');else if(b===btn)b.classList.add('no');b.disabled=true});
+ render();
+ let w='';if(Q.kind===0){w=Q.j.sebab;if(Q.j.sah&&Q.ans!=='Sah dan munasabah')w+=' '+(!Q.it.t1?'Premis 1 palsu.':'Premis 2 palsu.')}else w=Q.ans==='Induktif'?'Kesimpulan umum dibuat daripada beberapa kes khusus.':'Kesimpulan khusus dibuat daripada premis umum.';
+ info.innerHTML=`<b class="t">${ok?'<span class="ok">✓ Betul!</span>':'<span class="no">✗ Jawapan: '+Q.ans+'</span>'}</b><div class="eq">${w}</div><div class="tip">Skor: ${S.score}/${S.tot}</div><button class="nextb" id="nx">Seterusnya ▶</button>`;
+ document.getElementById('nx').onclick=newQ}
+/* ---------- render & kawalan ---------- */
+function render(){
+ if(S.m==='ded'){svg.innerHTML=dedSVG();infoDed()}
+ if(S.m==='ind'){svg.innerHTML=indSVG();infoInd()}
+ if(S.m==='cabaran')svg.innerHTML=cabSVG();
+}
+function setCtrl(){
+ ctrl.className='ctrl';
+ if(S.m==='ded'){
+  const it=DED[S.di],opts=OPTI[it.k];
+  ctrl.innerHTML=opts.map(([k,l])=>`<button class="chip ${S.ch===k?'on':''}" data-c="${k}"${opts.length===3&&k==='na'?'':''}>${l}</button>`).join('')+(opts.length===3?'<button class="chip" disabled style="opacity:.35">—</button>':'')+
+   `<button class="big alt" id="ob" style="grid-column:span 2">${it.objs.length>1?'Objek lain':'Kosongkan'}</button><button class="big" id="hl" style="grid-column:span 2">Hujah lain</button>`;
+  ctrl.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>{S.ch=b.dataset.c;snd('langkah');setCtrl();render();const j=judge(it,it.objs[S.oi],S.ch);if(j.sah&&munasabah(it,j)&&window.FX)FX.stars(b,8)});
+  document.getElementById('ob').onclick=()=>{if(it.objs.length>1)S.oi=(S.oi+1)%it.objs.length;else S.ch=null;setCtrl();render()};
+  document.getElementById('hl').onclick=()=>{S.di=(S.di+1+rnd(DED.length-1))%DED.length;S.oi=0;S.ch=null;snd('langkah');setCtrl();render()};
+ }
+ if(S.m==='ind'){
+  ctrl.innerHTML=GF.map((f,i)=>`<button class="chip ${S.g===i?'on':''}" data-g="${i}">${f.n}</button>`).join('')+`<button class="big" id="pb">Pola baharu</button>`+
+   `<div class="step"><button data-s="a-1" aria-label="Kurangkan a">−</button><b>a = ${S.a}</b><button data-s="a1" aria-label="Tambah a">+</button></div>`+
+   `<div class="step"><button data-s="b-1" aria-label="Kurangkan b">−</button><b>b = ${fmt(S.b)}</b><button data-s="b1" aria-label="Tambah b">+</button></div>`;
+  ctrl.querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>{S.g=+b.dataset.g;upd()});
+  ctrl.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{const k=b.dataset.s[0],d=+b.dataset.s.slice(1);if(k==='a')S.a=Math.max(1,Math.min(9,S.a+d));else S.b=Math.max(-20,Math.min(40,S.b+d));upd()});
+  document.getElementById('pb').onclick=()=>{newPola();snd('langkah');setCtrl();render()};
+ }
+ if(S.m==='cabaran'&&S.cq){
+  ctrl.className='ctrl three';
+  ctrl.innerHTML=S.cq.opts.map(o=>`<button class="chip" data-o="${o}">${o}</button>`).join('');
+  ctrl.querySelectorAll('.chip').forEach(b=>b.onclick=()=>answer(b.dataset.o,b));
+ }
+}
+function upd(){const was=S.won;S.won=match();snd(S.won&&!was?'menang':'ketik');if(S.won&&!was&&window.FX)FX.stars(document.getElementById('stage'),14);setCtrl();render()}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));S.m=b.dataset.m;
+ if(S.m==='cabaran'){newQ();return}
+ if(S.m==='ind'&&!S.tg)newPola();
+ setCtrl();render()});
+setCtrl();render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

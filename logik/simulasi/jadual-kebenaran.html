@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Jadual Kebenaran · Bab 3</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--sf:#131C2E;--sf2:#1A2540;--sf3:#0E1626;--bd:#22304A;--bd2:#2E3F5E;--tx:#E6EDF7;--mu:#94A3B8;--mu2:#64748B;--c1:#FB923C;--c2:#38BDF8;--c3:#A78BFA;--gold:#FBBF24;--ok:#34D399;--bad:#F87171;
+ --surface:#131C2E;--border:#2E3F5E;--text:#E6EDF7;--muted:#94A3B8;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff06 1px,transparent 1px),linear-gradient(90deg,#ffffff06 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#2a1203}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:11px 14px;line-height:1.5;font-size:15px;min-height:70px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:2px}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.info .eq{margin-top:6px;padding:7px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:700}
+.B{color:var(--ok);font-weight:900}.P{color:var(--bad);font-weight:900}
+.ctrl{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.chip{background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:12px 4px;font-weight:800;font-size:15px}
+.chip.on{background:var(--c1);border-color:var(--c1);color:#2a1203}
+.chip.ok{border-color:var(--ok);background:#34d39922}.chip.no{border-color:var(--bad);background:#f8717122}
+.big{background:var(--c2);border:0;color:#03202e;border-radius:13px;padding:13px 6px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.nextb{margin-top:8px;background:var(--c1);border:0;color:#2a1203;border-radius:11px;padding:9px 16px;font-weight:900}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.35fr) minmax(320px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:22px}
+}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.chip{padding:9px 3px;font-size:14px}.info{padding:8px 11px;min-height:60px;font-size:14px}.info b.t{font-size:17px}.big{padding:10px 4px}}
+@media(max-width:420px){.chip,.big{font-size:13.5px}.modes button{font-size:13px;padding:10px 3px}.info{font-size:14px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#FB923C;color:#2a1203;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #fb923c44">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mod">
+   <button data-m="togol" class="on" role="tab">🔀 Togol p, q</button>
+   <button data-m="ayat" role="tab">🧩 Ayat</button>
+   <button data-m="cabaran" role="tab">❓ Cabaran</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" viewBox="0 0 400 400" aria-label="Jadual kebenaran interaktif"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const OR='#FB923C',BL='#38BDF8',PU='#A78BFA',GOLD='#FBBF24',OK='#34D399',BAD='#F87171',TX='#E6EDF7',MU='#94A3B8',SF='#131C2E',BD='#2E3F5E',NAV='#0E1626';
+const snd=n=>{if(window.FX)FX.play(n)};
+const rnd=n=>Math.floor(Math.random()*n),pick=a=>a[rnd(a.length)];
+const BP=v=>v?'B':'P',BPw=v=>v?'<span class="B">Benar</span>':'<span class="P">Palsu</span>';
+const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+let S={m:'togol',p:true,q:false,tab:false,np:false,nq:false,con:0,A:null,Bq:null,cq:null,score:0,tot:0,streak:0};
+/* ---------- operasi ---------- */
+const OPS=[
+ {k:'dan',n:'p dan q',f:(p,q)=>p&&q,w:'Benar hanya jika kedua-dua benar.'},
+ {k:'atau',n:'p atau q',f:(p,q)=>p||q,w:'Palsu hanya jika kedua-dua palsu.'},
+ {k:'imp',n:'Jika p, maka q',f:(p,q)=>!p||q,w:'Palsu hanya apabila p benar dan q palsu.'},
+ {k:'dwi',n:'p jika dan hanya jika q',f:(p,q)=>p===q,w:'Benar apabila p dan q mempunyai nilai yang sama.'}];
+/* ---------- lukisan ---------- */
+function T(x,y,t,c=TX,s=18,a='middle',w=800){return `<text x="${x}" y="${y}" fill="${c}" font-size="${s}" font-weight="${w}" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif">${t}</text>`}
+function R(x,y,w,h,f,s,rx=12,sw=2){return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="${f}" stroke="${s}" stroke-width="${sw}"/>`}
+function sw(id,x,y,lab,v,col){
+ const kx=v?x+92:x+44;
+ return `<g class="tg" data-t="${id}" style="cursor:pointer"><rect x="${x-40}" y="${y-36}" width="${200}" height="${72}" fill="transparent"/>`+
+  T(x-18,y,lab,col,30,'middle',900)+
+  R(x+20,y-24,120,48,v?OK+'33':BAD+'33',v?OK:BAD,24,3)+
+  `<circle cx="${kx+4}" cy="${y}" r="19" fill="${v?OK:BAD}" stroke="${NAV}" stroke-width="3"/>`+
+  T(kx+4,y+1,BP(v),NAV,18,'middle',900)+`</g>`}
+function lamp(x,y,v){return `<circle cx="${x}" cy="${y}" r="17" fill="${v?OK:BAD}" fill-opacity="${v?1:.25}" stroke="${v?OK:BAD}" stroke-width="3"/>`+T(x,y+1,BP(v),v?NAV:BAD,17,'middle',900)}
+function togolSVG(){
+ const {p,q}=S;let g='';
+ g+=sw('p',40,46,'p',p,BL)+sw('q',240,46,'q',q,PU);
+ if(!S.tab){
+  const rows=[['~p (bukan p)',!p,BL],['~q (bukan q)',!q,PU]].concat(OPS.map(o=>[o.n,o.f(p,q),OR]));
+  rows.forEach(([n,v,c],i)=>{const y=118+i*46;g+=R(14,y-20,372,40,SF,i<2?BD:c+'88',12,2)+T(30,y+1,n,TX,17,'start',800)+lamp(356,y,v)});
+ }else{
+  const H=['p','q','p dan q','p atau q','p ⇒ q'],cw=[56,56,94,94,90],x0=5;let x=x0;
+  g+=R(x0,96,390,290,SF,BD,14,2);
+  H.forEach((h,i)=>{g+=T(x+cw[i]/2,122,h,i<2?[BL,PU][i]:OR,16);x+=cw[i]});
+  g+=`<line x1="${x0}" y1="142" x2="${x0+390}" y2="142" stroke="${BD}" stroke-width="2"/>`;
+  [[1,1],[1,0],[0,1],[0,0]].forEach(([a,b],r)=>{
+   const pp=!!a,qq=!!b,y=172+r*56,cur=pp===p&&qq===q;
+   if(cur)g+=R(x0+4,y-24,382,48,GOLD+'22',GOLD,10,2.5);
+   const vals=[pp,qq,pp&&qq,pp||qq,!pp||qq];let x=x0;
+   vals.forEach((v,i)=>{g+=T(x+cw[i]/2,y+1,BP(v),v?OK:BAD,20,'middle',900);x+=cw[i]});
+  });
+ }
+ return g}
+/* ---------- bank pernyataan matematik ---------- */
+const isPr=n=>{if(n<2)return false;for(let d=2;d*d<=n;d++)if(n%d===0)return false;return true};
+const sq=n=>Number.isInteger(Math.sqrt(n));
+function stmt(){
+ const t=rnd(7);
+ if(t===0){const n=2+rnd(28);return{s:`${n} ialah nombor perdana`,ns:`${n} bukan nombor perdana`,v:isPr(n)}}
+ if(t===1){const n=2+rnd(40);return{s:`${n} ialah nombor genap`,ns:`${n} bukan nombor genap`,v:n%2===0}}
+ if(t===2){const a=2+rnd(8),b=a*(1+rnd(6))+(Math.random()<.5?0:1+rnd(a-1));return{s:`${a} ialah faktor bagi ${b}`,ns:`${a} bukan faktor bagi ${b}`,v:b%a===0}}
+ if(t===3){const n=2+rnd(60);return{s:`${n} ialah nombor kuasa dua sempurna`,ns:`${n} bukan nombor kuasa dua sempurna`,v:sq(n)}}
+ if(t===4){const a=rnd(13)-6,b=rnd(13)-6;const f=x=>x<0?'−'+(-x):''+x;return{s:`${f(a)} &gt; ${f(b)}`,ns:`${f(a)} ≤ ${f(b)}`,v:a>b}}
+ if(t===5){const a=2+rnd(4),e=2+rnd(2),c=Math.pow(a,e)+(Math.random()<.5?0:pick([-1,1,a]));return{s:`${a}${e===2?'²':'³'} = ${c}`,ns:`${a}${e===2?'²':'³'} ≠ ${c}`,v:Math.pow(a,e)===c}}
+ const G=[['Segi tiga mempunyai 3 sisi',true],['Pentagon mempunyai 6 sisi',false],['Segi empat sama mempunyai 4 paksi simetri',true],['Bulatan mempunyai 2 paksi simetri',false],['Hasil tambah sudut dalam segi tiga ialah 180°',true],['Kubus mempunyai 8 muka',false],['Heksagon mempunyai 6 bucu',true],['Sudut tegak ialah 100°',false]];
+ const [s,v]=pick(G);const ns=s.replace(' mempunyai ',' tidak mempunyai ').replace(' ialah ',' bukan ');return{s,ns,v}}
+function freshAyat(){let a,b;do{a=stmt();b=stmt()}while(a.s===b.s);S.A=a;S.Bq=b;S.np=false;S.nq=false}
+const curP=()=>({s:S.np?S.A.ns:S.A.s,v:S.np?!S.A.v:S.A.v}),curQ=()=>({s:S.nq?S.Bq.ns:S.Bq.s,v:S.nq?!S.Bq.v:S.Bq.v});
+function wrapT(t,max){const w=t.split(' ');const L=[];let c='';w.forEach(x=>{if((c+' '+x).trim().length>max){L.push(c.trim());c=x}else c+=' '+x});if(c.trim())L.push(c.trim());return L}
+function card(x,y,w,lab,st,col,id){
+ const L=wrapT(st.s,26);const h=34+L.length*22;
+ let g=`<g class="tg" data-t="${id}" style="cursor:pointer">`+R(x,y,w,h,SF,col,14,2.5)+T(x+16,y+20,lab,col,16,'start',900);
+ L.forEach((l,i)=>g+=T(x+16,y+44+i*22,l,TX,16,'start',700));
+ g+=lamp(x+w-26,y+22,st.v)+`</g>`;return {g,h}}
+function ayatSVG(){
+ const P=curP(),Q=curQ(),o=OPS[S.con];let g='';
+ const c1=card(12,10,376,S.np?'~p':'p',P,BL,'np');g+=c1.g;
+ const c2=card(12,22+c1.h,376,S.nq?'~q':'q',Q,PU,'nq');g+=c2.g;
+ const y0=36+c1.h+c2.h;
+ g+=`<g class="tg" data-t="con" style="cursor:pointer">`+R(130,y0,140,40,OR+'2a',OR,20,2.5)+T(200,y0+21,['dan','atau','jika ... maka','jika dan hanya jika'][S.con],OR,S.con>1?14:18,'middle',900)+`</g>`;
+ const v=o.f(P.v,Q.v);
+ const txt=S.con===0?`${P.s} dan ${Q.s}`:S.con===1?`${P.s} atau ${Q.s}`:S.con===2?`Jika ${P.s}, maka ${Q.s}`:`${P.s} jika dan hanya jika ${Q.s}`;
+ const L=wrapT(txt,32).slice(0,5),yy=y0+52,h=Math.max(70,30+L.length*22);
+ g+=R(12,yy,376,Math.min(h,388-yy),v?OK+'18':BAD+'18',v?OK:BAD,14,2.5);
+ L.forEach((l,i)=>g+=T(28,yy+22+i*22,l,TX,16,'start',700));
+ g+=lamp(362,yy+24,v);
+ return g}
+/* ---------- cabaran ---------- */
+function newQ(){
+ let a,b;do{a=stmt();b=stmt()}while(a.s===b.s);
+ const k=rnd(3),na=Math.random()<.25,P={s:na?a.ns:a.s,v:na?!a.v:a.v},Q={s:b.s,v:b.v};
+ const txt=k===0?`${P.s} dan ${Q.s}`:k===1?`${P.s} atau ${Q.s}`:`Jika ${P.s}, maka ${Q.s}`;
+ S.cq={P,Q,k,txt,ans:OPS[k].f(P.v,Q.v),done:false};setCtrl();render();
+ info.innerHTML=`<b class="t">Benar atau palsu?</b>Nilai setiap bahagian dahulu, kemudian gabungkan.<div class="tip">Skor: ${S.score}/${S.tot}${S.streak>=3?' · 🔥 '+S.streak+' berturut-turut':''}</div>`}
+function cabSVG(){
+ const Q=S.cq;if(!Q)return '';let g='';
+ const L=wrapT(Q.txt,30);g+=R(12,14,376,40+L.length*26,SF,OR,16,2.5);
+ L.forEach((l,i)=>g+=T(200,42+i*26,l,TX,18,'middle',800));
+ const y=80+L.length*26;
+ const pc=card(12,y,376,'p',Q.P,BL,'x'),qc=card(12,y+pc.h+12,376,'q',Q.Q,PU,'x');
+ if(Q.done){g+=pc.g+qc.g;const yy=y+pc.h+qc.h+24;g+=R(100,yy,200,44,Q.ans?OK+'22':BAD+'22',Q.ans?OK:BAD,22,2.5)+T(200,yy+23,(['dan','atau','jika ... maka'][Q.k])+' → '+BP(Q.ans),Q.ans?OK:BAD,18,'middle',900)}
+ else g+=T(200,y+40,'?',MU,60,'middle',900);
+ return g}
+function answer(v,btn){
+ const Q=S.cq;if(Q.done)return;Q.done=true;S.tot++;const ok=v===Q.ans;
+ if(ok){S.score++;S.streak++;snd('betul');if(window.FX)FX.stars(btn,10)}else{S.streak=0;snd('salah')}
+ ctrl.querySelectorAll('.chip').forEach(b=>{const bv=b.dataset.v==='1';if(bv===Q.ans)b.classList.add('ok');else if(b===btn)b.classList.add('no');b.disabled=true});
+ render();
+ info.innerHTML=`<b class="t">${ok?'<span class="ok">✓ Betul!</span>':'<span class="no">✗ Jawapan: '+(Q.ans?'Benar':'Palsu')+'</span>'}</b><div class="eq">p ${BPw(Q.P.v)} · q ${BPw(Q.Q.v)} → ${BPw(Q.ans)}</div><div class="tip">${OPS[Q.k].w} Skor: ${S.score}/${S.tot}</div><button class="nextb" id="nx">Seterusnya ▶</button>`;
+ document.getElementById('nx').onclick=newQ}
+/* ---------- info & kawalan ---------- */
+function infoTogol(){
+ const {p,q}=S;
+ info.innerHTML=`<b class="t">p ${BP(p)} · q ${BP(q)}</b><div>p dan q: ${BPw(p&&q)} · p atau q: ${BPw(p||q)} · Jika p, maka q: ${BPw(!p||q)}</div>`+
+ `<div class="tip">${p&&!q?'Perhatikan: implikasi palsu <b>hanya</b> apabila p benar dan q palsu.':!p&&!q?'Kedua-dua palsu: "atau" juga palsu, tetapi implikasi tetap benar.':p&&q?'Kedua-dua benar: semua pernyataan majmuk benar.':'Ketik suis p atau q untuk menukar nilai kebenaran.'}</div>`}
+function infoAyat(){
+ const P=curP(),Q=curQ(),o=OPS[S.con],v=o.f(P.v,Q.v);
+ info.innerHTML=`<b class="t">${o.n} → ${v?'Benar':'Palsu'}</b>p ${BPw(P.v)}, q ${BPw(Q.v)}. ${o.w}<div class="tip">Ketik kad p atau q untuk menafikannya (~). Ketik butang oren untuk menukar penghubung.</div>`}
+function render(){
+ if(S.m==='togol'){svg.innerHTML=togolSVG();infoTogol()}
+ if(S.m==='ayat'){svg.innerHTML=ayatSVG();infoAyat()}
+ if(S.m==='cabaran')svg.innerHTML=cabSVG();
+}
+function setCtrl(){
+ if(S.m==='togol'){
+  ctrl.innerHTML=`<button class="chip ${S.p?'on':''}" id="bp">p: ${S.p?'Benar':'Palsu'}</button><button class="chip ${S.q?'on':''}" id="bq">q: ${S.q?'Benar':'Palsu'}</button><button class="big alt" id="tb">${S.tab?'Lihat nilai':'Jadual penuh'}</button><button class="big" id="rw">Rawak</button>`;
+  document.getElementById('bp').onclick=()=>tog('p');document.getElementById('bq').onclick=()=>tog('q');
+  document.getElementById('tb').onclick=()=>{S.tab=!S.tab;setCtrl();render()};
+  document.getElementById('rw').onclick=()=>{S.p=Math.random()<.5;S.q=Math.random()<.5;snd('langkah');setCtrl();render()};
+ }
+ if(S.m==='ayat'){
+  ctrl.innerHTML=`<button class="chip ${S.np?'on':''}" id="bp">${S.np?'~p':'p'} · nafikan</button><button class="chip ${S.nq?'on':''}" id="bq">${S.nq?'~q':'q'} · nafikan</button><button class="big alt" id="cn">Tukar penghubung</button><button class="big" id="rw">Pernyataan baharu</button>`;
+  document.getElementById('bp').onclick=()=>tog('np');document.getElementById('bq').onclick=()=>tog('nq');
+  document.getElementById('cn').onclick=()=>tog('con');
+  document.getElementById('rw').onclick=()=>{freshAyat();snd('langkah');setCtrl();render()};
+ }
+ if(S.m==='cabaran'&&S.cq){
+  ctrl.innerHTML=`<button class="chip" data-v="1">Benar</button><button class="chip" data-v="0">Palsu</button>`;
+  ctrl.querySelectorAll('.chip').forEach(b=>b.onclick=()=>answer(b.dataset.v==='1',b));
+ }
+}
+function tog(k){
+ if(k==='con')S.con=(S.con+1)%4;else S[k]=!S[k];
+ snd('ketik');setCtrl();render();
+}
+svg.addEventListener('pointerdown',e=>{const g=e.target.closest('.tg');if(!g)return;e.preventDefault();const t=g.dataset.t;if(t==='x')return;
+ if(S.m==='togol'&&(t==='p'||t==='q'))tog(t);
+ if(S.m==='ayat'&&(t==='np'||t==='nq'||t==='con'))tog(t)});
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));S.m=b.dataset.m;
+ if(S.m==='cabaran'){newQ();return}
+ if(S.m==='ayat'&&!S.A)freshAyat();
+ setCtrl();render()});
+setCtrl();render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

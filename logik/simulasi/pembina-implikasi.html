@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Pembina Implikasi · Bab 3</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--sf:#131C2E;--sf2:#1A2540;--sf3:#0E1626;--bd:#22304A;--bd2:#2E3F5E;--tx:#E6EDF7;--mu:#94A3B8;--mu2:#64748B;--c1:#A78BFA;--c2:#38BDF8;--c3:#F472B6;--gold:#FBBF24;--ok:#34D399;--bad:#F87171;
+ --surface:#131C2E;--border:#2E3F5E;--text:#E6EDF7;--muted:#94A3B8;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff06 1px,transparent 1px),linear-gradient(90deg,#ffffff06 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#1d1240}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:11px 14px;line-height:1.5;font-size:15px;min-height:70px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:2px}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.info .eq{margin-top:6px;padding:7px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:700}
+.B{color:var(--ok);font-weight:900}.P{color:var(--bad);font-weight:900}
+.ctrl{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.ctrl.two{grid-template-columns:1fr 1fr}
+.chip{background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:12px 4px;font-weight:800;font-size:15px;line-height:1.25}
+.chip.on{background:var(--c1);border-color:var(--c1);color:#1d1240}
+.chip.ok{border-color:var(--ok);background:#34d39922}.chip.no{border-color:var(--bad);background:#f8717122}
+.chip.q{text-align:left;padding:10px 12px;font-size:14px}
+.big{background:var(--c2);border:0;color:#03202e;border-radius:13px;padding:13px 6px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.nextb{margin-top:8px;background:var(--c1);border:0;color:#1d1240;border-radius:11px;padding:9px 16px;font-weight:900}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.35fr) minmax(320px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .ctrl{grid-template-columns:1fr 1fr}
+ .info b.t{font-size:22px}
+}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.chip{padding:9px 3px;font-size:14px}.info{padding:8px 11px;min-height:60px;font-size:14px}.info b.t{font-size:17px}.big{padding:10px 4px}}
+@media(max-width:420px){.chip,.big{font-size:13px}.chip.q{font-size:13px;padding:8px 10px}.modes button{font-size:13px;padding:10px 3px}.info{font-size:14px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#A78BFA;color:#1d1240;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #a78bfa44">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mod">
+   <button data-m="bina" class="on" role="tab">🧱 Bina</button>
+   <button data-m="cabaran" role="tab">❓ Cabaran</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" viewBox="0 0 400 400" aria-label="Pembina implikasi: seret kad ke dalam slot jika dan maka"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const PU='#A78BFA',BL='#38BDF8',PK='#F472B6',GOLD='#FBBF24',OK='#34D399',BAD='#F87171',TX='#E6EDF7',MU='#94A3B8',SF='#131C2E',BD='#2E3F5E',NAV='#0E1626';
+const snd=n=>{if(window.FX)FX.play(n)};
+const rnd=n=>Math.floor(Math.random()*n),pick=a=>a[rnd(a.length)],shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=rnd(i+1);[a[i],a[j]]=[a[j],a[i]]}return a};
+/* bank implikasi: v = [implikasi, akas, songsangan, kontrapositif]; c = contoh penyangkal bagi yang palsu */
+const BANK=[
+ {p:'x = 3',np:'x ≠ 3',q:'x² = 9',nq:'x² ≠ 9',v:[1,0,0,1],c:['','x = −3: x² = 9 tetapi x ≠ 3','x = −3: x ≠ 3 tetapi x² = 9','']},
+ {p:'k ialah gandaan 4',np:'k bukan gandaan 4',q:'k ialah nombor genap',nq:'k bukan nombor genap',v:[1,0,0,1],c:['','k = 6: genap tetapi bukan gandaan 4','k = 6: bukan gandaan 4 tetapi genap','']},
+ {p:'x > 5',np:'x ≤ 5',q:'x > 2',nq:'x ≤ 2',v:[1,0,0,1],c:['','x = 3: 3 > 2 tetapi 3 ≤ 5','x = 3: 3 ≤ 5 tetapi 3 > 2','']},
+ {p:'n ialah nombor perdana',np:'n bukan nombor perdana',q:'n ialah nombor ganjil',nq:'n bukan nombor ganjil',v:[0,0,0,0],c:['n = 2: perdana tetapi genap','n = 9: ganjil tetapi bukan perdana','n = 9: bukan perdana tetapi ganjil','n = 2: bukan ganjil tetapi perdana']},
+ {p:'x + 2 = 7',np:'x + 2 ≠ 7',q:'x = 5',nq:'x ≠ 5',v:[1,1,1,1],c:['','','','']},
+ {p:'y ialah faktor bagi 6',np:'y bukan faktor bagi 6',q:'y ialah faktor bagi 12',nq:'y bukan faktor bagi 12',v:[1,0,0,1],c:['','y = 4: faktor bagi 12 tetapi bukan faktor bagi 6','y = 4: bukan faktor bagi 6 tetapi faktor bagi 12','']},
+ {p:'m < 0',np:'m ≥ 0',q:'m² > 0',nq:'m² ≤ 0',v:[1,0,0,1],c:['','m = 1: 1² > 0 tetapi 1 ≥ 0','m = 1: 1 ≥ 0 tetapi 1² > 0','']},
+ {p:'ABCD ialah segi empat sama',np:'ABCD bukan segi empat sama',q:'ABCD mempunyai 4 sisi sama panjang',nq:'ABCD tidak mempunyai 4 sisi sama panjang',v:[1,0,0,1],c:['','Rombus: 4 sisi sama panjang tetapi bukan segi empat sama','Rombus: bukan segi empat sama tetapi 4 sisi sama panjang','']},
+ {p:'2x = 10',np:'2x ≠ 10',q:'x = 5',nq:'x ≠ 5',v:[1,1,1,1],c:['','','','']},
+ {p:'w ialah gandaan 10',np:'w bukan gandaan 10',q:'w ialah gandaan 5',nq:'w bukan gandaan 5',v:[1,0,0,1],c:['','w = 15: gandaan 5 tetapi bukan gandaan 10','w = 15: bukan gandaan 10 tetapi gandaan 5','']}
+];
+const NAMES=['Implikasi','Akas','Songsangan','Kontrapositif'],FORM=['Jika p, maka q','Jika q, maka p','Jika ~p, maka ~q','Jika ~q, maka ~p'];
+const KEYS=[['p','q'],['q','p'],['np','nq'],['nq','np']];
+let S={m:'bina',bi:0,slot:[null,null],tgt:3,sel:null,cq:null,score:0,tot:0,streak:0,done:false};
+const I=()=>BANK[S.bi];
+const COL={p:BL,np:BL,q:PK,nq:PK};
+const LAB={p:'p',np:'~p',q:'q',nq:'~q'};
+function T(x,y,t,c=TX,s=18,a='middle',w=800){return `<text x="${x}" y="${y}" fill="${c}" font-size="${s}" font-weight="${w}" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif">${t}</text>`}
+function R(x,y,w,h,f,s,rx=12,sw=2,d=''){return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="${f}" stroke="${s}" stroke-width="${sw}"${d?` stroke-dasharray="${d}"`:''}/>`}
+const fit=(t,w,base)=>Math.max(11,Math.min(base,(w-16)/(t.length*0.56)));
+/* kedudukan kad (tray) & slot */
+const TRAY={p:[14,300],q:[204,300],np:[14,350],nq:[204,350]},CW=182,CH=42;
+const SLOT=[[82,104,304,50],[82,190,304,50]];
+let drag=null;
+function cardG(k,x,y,lift){
+ const t=I()[k],c=COL[k],fs=fit(t,CW-46,16);
+ return `<g class="cd" data-k="${k}" style="cursor:grab"${lift?' opacity=".95"':''}>`+R(x,y,CW,CH,S.sel===k?c+'55':SF,c,12,S.sel===k?3.5:2.5)+
+ T(x+20,y+CH/2+1,LAB[k],c,16,'middle',900)+T(x+40,y+CH/2+1,t,TX,fs,'start',700)+`</g>`}
+function binaSVG(){
+ const it=I();let g='';
+ g+=T(200,22,'Seret kad ke dalam slot',MU,15,'middle',700);
+ g+=R(10,40,380,56,SF,PU+'88',14,2)+T(26,68,'Asal:',PU,14,'start',900)+T(74,68,`Jika ${it.p}, maka ${it.q}`,TX,fit(`Jika ${it.p}, maka ${it.q}`,310,16),'start',700);
+ ['Jika','maka'].forEach((w,i)=>{const [x,y,ww,h]=SLOT[i];g+=T(14,y+h/2+1,w,GOLD,19,'start',900);
+  const k=S.slot[i];
+  if(k&&!(drag&&drag.k===k&&drag.from===i)){const t=it[k],c=COL[k];g+=`<g class="sl" data-s="${i}" style="cursor:grab">`+R(x,y,ww,h,c+'22',c,12,3)+T(x+20,y+h/2+1,LAB[k],c,17,'middle',900)+T(x+42,y+h/2+1,t,TX,fit(t,ww-50,17),'start',700)+`</g>`}
+  else g+=`<g class="sl" data-s="${i}">`+R(x,y,ww,h,'#ffffff05',drag?GOLD:MU,12,2,'7 6')+T(x+ww/2,y+h/2+1,'letak di sini',MU,14,'middle',600)+`</g>`});
+ // keputusan
+ const r=result();
+ if(r){const ok=r.idx>=0,v=ok?it.v[r.idx]:null,c=ok?(v?OK:BAD):GOLD;
+  g+=R(10,252,380,38,c+'1f',c,12,2)+T(200,272,ok?`${NAMES[r.idx]} · ${v?'Benar':'Palsu'}`:'Bukan salah satu daripada empat bentuk',c,16,'middle',900)}
+ else g+=T(200,272,'Isi kedua-dua slot',MU,14,'middle',600);
+ // kad dalam dulang
+ ['p','q','np','nq'].forEach(k=>{if(S.slot.includes(k))return;if(drag&&drag.k===k)return;const [x,y]=TRAY[k];g+=cardG(k,x,y)});
+ if(drag)g+=cardG(drag.k,drag.x-CW/2,drag.y-CH/2,true);
+ return g}
+function result(){const [a,b]=S.slot;if(!a||!b)return null;const idx=KEYS.findIndex(([x,y])=>x===a&&y===b);return{idx}}
+function infoBina(){
+ const r=result(),it=I(),t=S.tgt;
+ let h=`<b class="t">Sasaran: ${NAMES[t]}</b><div>${FORM[t]}</div>`;
+ if(r){
+  if(r.idx<0)h+=`<div class="no" style="margin-top:4px">Gabungan ini bukan implikasi, akas, songsangan atau kontrapositif.</div>`;
+  else{const v=it.v[r.idx];
+   h+=`<div class="eq">${NAMES[r.idx]}: Jika ${it[S.slot[0]]}, maka ${it[S.slot[1]]} → ${v?'<span class="B">Benar</span>':'<span class="P">Palsu</span>'}${!v?`<br><span style="color:var(--mu)">Contoh penyangkal:</span> ${it.c[r.idx]}`:''}</div>`;
+   h+=r.idx===t?`<div class="ok" style="margin-top:4px">✓ Anda telah membina ${NAMES[t].toLowerCase()}!</div>`:`<div class="tip">Ini ${NAMES[r.idx].toLowerCase()}, bukan ${NAMES[t].toLowerCase()}. Cuba lagi.</div>`}
+ }else h+=`<div class="tip">Seret (atau ketik kad, kemudian ketik slot) untuk membina ayat "Jika ..., maka ...".</div>`;
+ h+=`<div class="tip">Implikasi dan kontrapositif sentiasa sama nilai; akas dan songsangan juga sama nilai.</div>`;
+ info.innerHTML=h}
+/* ---------- cabaran ---------- */
+function newQ(){
+ const bi=rnd(BANK.length),it=BANK[bi],kind=rnd(2);
+ let q,opts,ans;
+ if(kind===0){const t=1+rnd(3);ans=`Jika ${it[KEYS[t][0]]}, maka ${it[KEYS[t][1]]}`;
+  q=`Implikasi: <b>Jika ${it.p}, maka ${it.q}</b>. Apakah <b>${NAMES[t].toLowerCase()}</b>nya?`;
+  opts=shuf([0,1,2,3].map(j=>`Jika ${it[KEYS[j][0]]}, maka ${it[KEYS[j][1]]}`))}
+ else{const t=1+rnd(3);ans=it.v[t]?'Benar':'Palsu';
+  q=`Implikasi: <b>Jika ${it.p}, maka ${it.q}</b> (${it.v[0]?'benar':'palsu'}). Adakah <b>${NAMES[t].toLowerCase()}</b>nya benar atau palsu?`;opts=['Benar','Palsu'];S.ct=t}
+ S.cq={bi,kind,q,opts,ans,done:false,t:kind===0?null:S.ct};S.bi=bi;setCtrl();render();
+ info.innerHTML=`<b class="t">Cabaran</b>${q}<div class="tip">Skor: ${S.score}/${S.tot}${S.streak>=3?' · 🔥 '+S.streak+' berturut-turut':''}</div>`}
+function cabSVG(){
+ const Q=S.cq;if(!Q)return '';const it=BANK[Q.bi];let g='';
+ const box=(y,lab,k1,k2,c,show)=>{const t=`Jika ${it[k1]}, maka ${it[k2]}`;return R(10,y,380,60,SF,c,14,2.5)+T(24,y+18,lab,c,14,'start',900)+T(24,y+42,show?t:'?',show?TX:MU,show?fit(t,350,16):22,'start',700)};
+ g+=box(14,'IMPLIKASI','p','q',PU,true);
+ for(let j=1;j<4;j++){const show=Q.done;g+=box(14+j*72,NAMES[j].toUpperCase(),KEYS[j][0],KEYS[j][1],[GOLD,PK,OK][j-1],show);
+  if(Q.done)g+=T(372,14+j*72+18,it.v[j]?'B':'P',it.v[j]?OK:BAD,18,'end',900)}
+ g+=T(372,32,it.v[0]?'B':'P',it.v[0]?OK:BAD,18,'end',900);
+ g+=T(200,330,'tukar ↔  ·  nafi ~  ·  tukar + nafi',MU,15,'middle',700);
+ g+=T(200,362,'Implikasi ≡ kontrapositif',GOLD,16,'middle',800);
+ return g}
+function answer(o,btn){
+ const Q=S.cq;if(Q.done)return;Q.done=true;S.tot++;const ok=o===Q.ans;
+ if(ok){S.score++;S.streak++;snd('betul');if(window.FX)FX.stars(btn,10)}else{S.streak=0;snd('salah')}
+ ctrl.querySelectorAll('.chip').forEach(b=>{if(b.dataset.o===Q.ans)b.classList.add('ok');else if(b===btn)b.classList.add('no');b.disabled=true});
+ render();const it=BANK[Q.bi];
+ const why=Q.kind===1&&!it.v[Q.t]?`<br>Contoh penyangkal: ${it.c[Q.t]}`:'';
+ info.innerHTML=`<b class="t">${ok?'<span class="ok">✓ Betul!</span>':'<span class="no">✗ Jawapan: '+Q.ans+'</span>'}</b><div class="eq">${Q.kind===0?Q.ans:'Nilai: '+Q.ans+why}</div><div class="tip">Skor: ${S.score}/${S.tot}</div><button class="nextb" id="nx">Seterusnya ▶</button>`;
+ document.getElementById('nx').onclick=newQ}
+/* ---------- render & kawalan ---------- */
+function render(){
+ if(S.m==='bina'){svg.innerHTML=binaSVG();if(!drag)infoBina()}
+ if(S.m==='cabaran')svg.innerHTML=cabSVG();
+}
+function setCtrl(){
+ if(S.m==='bina'){
+  ctrl.className='ctrl';
+  ctrl.innerHTML=NAMES.map((n,i)=>`<button class="chip ${S.tgt===i?'on':''}" data-t="${i}">${n}</button>`).join('')+`<button class="big alt" id="kos" style="grid-column:span 2">Kosongkan</button><button class="big" id="lain" style="grid-column:span 2">Implikasi lain</button>`;
+  ctrl.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{S.tgt=+b.dataset.t;setCtrl();render()});
+  document.getElementById('kos').onclick=()=>{S.slot=[null,null];S.sel=null;S.done=false;render()};
+  document.getElementById('lain').onclick=()=>{let b;do b=rnd(BANK.length);while(b===S.bi);S.bi=b;S.slot=[null,null];S.sel=null;S.done=false;snd('langkah');render()};
+ }
+ if(S.m==='cabaran'&&S.cq){
+  const Q=S.cq;ctrl.className='ctrl two';
+  ctrl.innerHTML=Q.opts.map(o=>`<button class="chip${Q.kind===0?' q':''}" data-o="${o}"${Q.kind===0?' style="grid-column:1/-1"':''}>${o}</button>`).join('');
+  ctrl.querySelectorAll('.chip').forEach(b=>b.onclick=()=>answer(b.dataset.o,b));
+ }
+}
+function place(k,i){
+ const j=S.slot.indexOf(k);if(j>=0)S.slot[j]=null;
+ S.slot[i]=k;S.sel=null;snd('langkah');
+ const r=result();if(r&&r.idx===S.tgt&&!S.done){S.done=true;snd('menang');if(window.FX)FX.stars(document.getElementById('stage'),14)}
+ if(!r||r.idx!==S.tgt)S.done=false;
+}
+/* ---------- seret (tetikus + sentuh) ---------- */
+function svgPt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+function slotAt(p){return SLOT.findIndex(([x,y,w,h])=>p.x>=x-10&&p.x<=x+w+10&&p.y>=y-14&&p.y<=y+h+14)}
+svg.addEventListener('pointerdown',e=>{
+ if(S.m!=='bina')return;
+ const c=e.target.closest('.cd'),s=e.target.closest('.sl');const p=svgPt(e);
+ if(c){e.preventDefault();drag={k:c.dataset.k,from:-1,x:p.x,y:p.y,x0:p.x,y0:p.y,moved:false};svg.setPointerCapture(e.pointerId);render();return}
+ if(s){const i=+s.dataset.s;
+  if(S.slot[i]){e.preventDefault();drag={k:S.slot[i],from:i,x:p.x,y:p.y,x0:p.x,y0:p.y,moved:false};svg.setPointerCapture(e.pointerId);render();return}
+  if(S.sel){place(S.sel,i);render()}}
+});
+svg.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();const p=svgPt(e);drag.x=p.x;drag.y=p.y;if(Math.hypot(p.x-drag.x0,p.y-drag.y0)>6)drag.moved=true;svg.innerHTML=binaSVG()});
+function endDrag(e){
+ if(!drag)return;const d=drag;drag=null;const p={x:d.x,y:d.y};
+ if(!d.moved){ // ketik: pilih kad
+  if(d.from>=0){S.slot[d.from]=null;S.done=false;snd('ketik')}else S.sel=S.sel===d.k?null:d.k;render();return}
+ const i=slotAt(p);
+ if(i>=0)place(d.k,i);else if(d.from>=0){S.slot[d.from]=null;S.done=false}
+ render()}
+svg.addEventListener('pointerup',endDrag);svg.addEventListener('pointercancel',endDrag);
+svg.addEventListener('dragstart',e=>e.preventDefault());
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));S.m=b.dataset.m;
+ if(S.m==='cabaran'){newQ();return}
+ S.slot=[null,null];S.done=false;setCtrl();render()});
+setCtrl();render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>
