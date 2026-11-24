@@ -74,7 +74,7 @@ function shell(tab, inner) {
   return `<div class="app tabbed">
   <header class="hdr">
     <a class="ib" href="../#/utama" aria-label="Kembali ke TerokaMath (semua bab)">${IC.mm}</a>
-    <a class="wm2" href="#/" aria-label="TerokaMath – ISOMOVE, Bab 11 Transformasi Isometri"><b class="tm">Teroka<span>Math</span></b><small><b>ISO</b><b class="mv">MOVE</b> : Bab 11 : Transformasi Isometri</small></a>
+    <a class="wm2" href="../#/utama" aria-label="Kembali ke TerokaMath (semua bab)"><b class="tm">Teroka<span>Math</span></b><small><b>ISO</b><b class="mv">MOVE</b> : Bab 11 : Transformasi Isometri</small></a>
     <nav class="tabs" aria-label="Tab utama">${TABS.map(([k, t, sh]) => `<a href="#/${k}"${k === 'ajar' ? ' class="hl"' : ''}${k === tab ? ' aria-current="page"' : ''}>${IC[k]}${sh ? `<span class="tl">${t}</span><span class="ts">${sh}</span>` : `<span>${t}</span>`}</a>`).join('')}</nav>
     <div class="end">
       <button type="button" class="ib" id="themeBtn" aria-label="${light ? 'Tukar ke mod gelap' : 'Tukar ke mod cerah'}">${light ? IC.moon : IC.sun}</button>
