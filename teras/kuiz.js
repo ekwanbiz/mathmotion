@@ -34,14 +34,6 @@
     let out = ''; for (let i = 0; i < 12; i++) { out = B32[Number(v & 31n)] + out; v >>= 5n; }
     return out.slice(0, 4) + '-' + out.slice(4, 8) + '-' + out.slice(8);
   }
-  function readCode(code) {
-    const c = String(code || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
-    if (c.length !== 12) return null;
-    let v = 0n; for (const ch of c) { const i = B32.indexOf(ch); if (i < 0) return null; v = v << 5n | BigInt(i); }
-    const h = Number(v & 0xFFFFFn); v >>= 20n; const mins = Number(v & 0x1FFFFFn); v >>= 21n; const att = Number(v & 127n); v >>= 7n; const tot = Number(v & 31n); v >>= 5n; const sc = Number(v & 31n);
-    if (!tot || sc > tot || !att) return null;
-    return { sc, tot, att, mins, h, when: new Date((mins + T0) * 60000) };
-  }
   const fmtT = d => d.toLocaleDateString('ms-MY', { day: 'numeric', month: 'short', year: 'numeric' }) + ', ' + d.toLocaleTimeString('ms-MY', { hour: 'numeric', minute: '2-digit' });
 
   /* ---------- draf guru ---------- */
@@ -52,7 +44,7 @@
   }
   let DR = lsGet(DKEY); if (!DR || !Array.isArray(DR.q)) DR = defDraft();
   const saveDR = () => lsSet(DKEY, DR);
-  const KG = { t: Object.keys(CQT)[0], L: 0, link: '', chk: '' };
+  const KG = { t: Object.keys(CQT)[0], L: 0, link: '' };
   const quizCode = Q => b64e(JSON.stringify({ v: 1, b: BAB.id, t: Q.t, p: Q.p, r: Q.r ? 1 : 0, q: Q.q }));
 
   /* ---------- gaya ---------- */
@@ -90,23 +82,13 @@
         <button type="button" class="ib" data-up="${i}" aria-label="Naik"${i ? '' : ' disabled'}>↑</button><button type="button" class="ib" data-dn="${i}" aria-label="Turun"${i < n - 1 ? '' : ' disabled'}>↓</button>
         <button type="button" class="ib" data-rf="${i}" aria-label="Tukar soalan">⟳</button><button type="button" class="ib" data-rm="${i}" aria-label="Buang">✕</button></div>`;
     }).join('');
-    const chk = KG.chk ? (() => {
-      const r = readCode(KG.chk.code);
-      if (!r) return '<div class="kzok n">Kod tidak sah. Semak semula huruf dan nombor.</div>';
-      let nm = '';
-      if (KG.chk.name) {
-        const ok = (fnv(['TM', norm(KG.chk.name), norm(KG.chk.kelas), r.sc, r.tot, r.att, r.mins].join('|')) & 0xFFFFF) === r.h;
-        nm = ok ? '<br>✓ Nama dan kelas <b>sepadan</b> dengan kod.' : '<br>✗ Nama atau kelas <b>tidak sepadan</b> dengan kod ini.';
-      }
-      return `<div class="kzok ${r.sc >= 0 ? 'y' : 'n'}">Markah <b>${r.sc}/${r.tot}</b> · cubaan ke-${r.att} · ${fmtT(r.when)}${nm}<br><span style="font-weight:600;color:var(--mu)">Bandingkan dengan Kad Siap murid. Jika berbeza, kad itu telah diubah.</span></div>`;
-    })() : '';
     return `<div class="wrap">${latSeg('kuiz')}
       <div><h1 class="h1">Kuiz Online</h1><p class="lead">Bina kuiz, hantar link kepada murid. Murid jawab sehingga lulus dan hantar Kad Siap kepada guru.</p></div>
       <section class="pbox" style="display:flex;flex-direction:column;gap:12px">
         <div><p class="kzlbl">TAJUK KUIZ</p><input class="kzin" id="kzT" maxlength="60" value="${escH(DR.t)}"></div>
         <div class="kzsw"><span>Markah lulus</span><span style="display:flex;align-items:center;gap:8px"><button type="button" class="ib" id="kzPm" aria-label="Kurang">−</button><b style="font-size:20px;min-width:70px;text-align:center">${Math.min(DR.p, n)} / ${n}</b><button type="button" class="ib" id="kzPp" aria-label="Tambah">+</button></span></div>
         <div class="kzsw"><span>Susunan soalan rawak</span><button type="button" class="opt" id="kzR" aria-pressed="${!!DR.r}" style="min-height:40px;padding:0 16px">${DR.r ? 'Ya' : 'Tidak'}</button></div>
-        <p style="margin:0;color:var(--mu);font-size:14px">Murid boleh cuba berulang kali. Soalan kekal sama; jawapan betul tidak ditunjuk, hanya nombor soalan yang salah.</p>
+        <p style="margin:0;color:var(--mu);font-size:14px">Murid boleh cuba berulang kali. Setiap jawapan ditanda Betul atau Salah, tetapi jawapan betul tidak ditunjuk.</p>
       </section>
       <section class="pbox" style="display:flex;flex-direction:column;gap:10px"><h3 style="margin:0">SOALAN (${n})</h3>
         <div class="kzlist">${rows || '<p class="lead">Belum ada soalan. Tambah di bawah.</p>'}</div>
@@ -120,12 +102,7 @@
         ${KG.link ? `<div class="kzlink" id="kzLink">${escH(KG.link)}</div><div class="prow"><button type="button" class="btn pri" id="kzCopy">Salin link</button>${navigator.share ? '<button type="button" class="btn sec" id="kzShare">Kongsi</button>' : ''}<a class="btn sec" href="${escH(KG.link)}" target="_blank" rel="noopener">Cuba sebagai murid</a></div>
           <p style="margin:0;color:var(--mu);font-size:14px">Jika guru ubah soalan, jana link baharu dan hantar semula.</p>` : ''}
       </section>
-      <section class="pbox" style="display:flex;flex-direction:column;gap:10px"><h3 style="margin:0">SEMAK KAD SIAP</h3>
-        <input class="kzin" id="kzC" placeholder="Kod pada Kad Siap, cth. K7QA-4M2B-XY3D" value="${escH(KG.chk.code || '')}" autocapitalize="characters">
-        <input class="kzin" id="kzCn" placeholder="Nama murid (pilihan, seperti di kad)" value="${escH(KG.chk.name || '')}">
-        <input class="kzin" id="kzCk" placeholder="Kelas (pilihan, seperti di kad)" value="${escH(KG.chk.kelas || '')}">
-        <button type="button" class="btn sec" id="kzChk">Semak</button>${chk}
-      </section></div>`;
+</div>`;
   }
   function bindGuru() {
     const main = document.getElementById('main');
@@ -149,9 +126,6 @@
     };
     const cp = document.getElementById('kzCopy'); if (cp) cp.onclick = () => { (navigator.clipboard ? navigator.clipboard.writeText(KG.link) : Promise.reject()).then(() => toast('Link disalin'), () => { const r = document.createRange(); r.selectNodeContents(document.getElementById('kzLink')); getSelection().removeAllRanges(); getSelection().addRange(r); toast('Pilih dan salin link'); }); };
     const sh = document.getElementById('kzShare'); if (sh) sh.onclick = () => navigator.share({ title: DR.t, text: `${DR.t} (lulus ${DR.p}/${DR.q.length})`, url: KG.link }).catch(() => {});
-    document.getElementById('kzChk').onclick = () => {
-      KG.chk = { code: document.getElementById('kzC').value, name: document.getElementById('kzCn').value, kelas: document.getElementById('kzCk').value }; re();
-    };
   }
 
   /* ---------- murid ---------- */
@@ -161,10 +135,10 @@
     try { const Q = JSON.parse(b64d(code)); if (!Q || Q.b !== BAB.id || !Array.isArray(Q.q) || !Q.q.length) throw 0; KM.Q = Q; } catch (e) { KM.Q = null; KM.code = code; return false; }
     KM.code = code; KM.qs = KM.Q.q.map(([t, L, s]) => genQ(t, L, s));
     const sk = 'kz-m-' + fnv(code), prev = lsGet(sk) || {}, who = lsGet('kz-nama') || {};
-    KM.sk = sk; KM.st = { name: prev.name || who.name || '', kelas: prev.kelas || who.kelas || '', att: prev.att || 0, pass: prev.pass || null, stage: prev.pass ? 'kad' : 'mula', order: [], ans: [], i: 0, last: null };
+    KM.sk = sk; KM.st = { name: prev.name || who.name || '', kelas: prev.kelas || who.kelas || '', att: prev.att || 0, pass: prev.pass || null, ord: Array.isArray(prev.ord) && prev.ord.length === KM.qs.length ? prev.ord : null, stage: prev.pass ? 'kad' : 'mula', order: [], ans: [], i: 0, last: null };
     return true;
   }
-  const saveM = () => { const s = KM.st; lsSet(KM.sk, { name: s.name, kelas: s.kelas, att: s.att, pass: s.pass }); };
+  const saveM = () => { const s = KM.st; lsSet(KM.sk, { name: s.name, kelas: s.kelas, att: s.att, pass: s.pass, ord: s.ord }); };
   function hdr(sub) {
     return `<div class="kzhd"><img src="${BAB.logo}" alt=""><div><b>Teroka<span style="color:var(--pu)">Math</span></b><small>${sub}</small></div>
       <button type="button" class="ib" id="themeBtn" style="margin-left:auto" aria-label="Tukar mod">${isLight() ? IC.moon : IC.sun}</button></div>`;
@@ -182,14 +156,15 @@
       const k = s.order[s.i], q = KM.qs[k];
       return `<div class="kzwrap">${hdr(who)}<div style="display:flex;justify-content:space-between;font-weight:700;color:var(--mu)"><span>Soalan ${s.i + 1} / ${n}</span><span>Cubaan ${s.att}</span></div>
         <div class="kzbar"><i style="width:${s.i / n * 100}%"></i></div><div class="kzq">${q.q}</div>${q.fig ? `<div class="kzfig">${q.fig}</div>` : ''}
-        <div class="gopts">${q.opts.map((t, i) => `<button type="button" class="gopt" data-o="${i}"><span class="k">${'ABCD'[i]}</span><span>${t}</span></button>`).join('')}</div></div>`;
+        <div class="gopts">${q.opts.map((t, i) => `<button type="button" class="gopt${s.fb && s.fb.pick === i ? (s.fb.ok ? ' right' : ' wrong') : ''}" data-o="${i}"${s.fb ? ' disabled' : ''}><span class="k">${'ABCD'[i]}</span><span>${t}</span></button>`).join('')}</div>
+        ${s.fb ? `<div class="kzok ${s.fb.ok ? 'y' : 'n'}" style="text-align:center;font-size:18px">${s.fb.ok ? '✓ Betul' : '✗ Salah'}</div><button type="button" class="btn pri big" id="kzNext" style="--tr:var(--pu)">${s.i + 1 < n ? 'Seterusnya' : 'Lihat keputusan'}</button>` : ''}</div>`;
     }
     if (s.stage === 'gagal') {
       const L = s.last, w = L.wrong;
       return `<div class="kzwrap">${hdr(who)}<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:14px">
         <div class="kzbig">${L.sc} / ${n}</div><div style="text-align:center;font-weight:800;color:var(--am)">Belum lulus. Perlu ${Q.p}/${n}.</div>
         <div class="kzbad">Soalan yang salah: <b>${w.length > 1 ? w.slice(0, -1).join(', ') + ' dan ' + w[w.length - 1] : w[0]}</b>.<br>Semak semula, kemudian cuba lagi.</div>
-        <p style="text-align:center;color:var(--mu);margin:0">Soalan sama${Q.r ? ', susunan berubah' : ''}.</p>
+        <p style="text-align:center;color:var(--mu);margin:0">Soalan dan susunan sama.</p>
         <button type="button" class="btn pri big" id="kzAgain" style="--tr:var(--pu)">Cuba lagi (cubaan ${s.att + 1})</button></div></div>`;
     }
     const P = s.pass;
@@ -200,8 +175,9 @@
       <p style="text-align:center;color:var(--mu);margin:0">Screenshot kad ini dan hantar kepada guru.</p></div></div>`;
   }
   function startAttempt() {
-    const s = KM.st, n = KM.qs.length; s.att++; s.i = 0; s.ans = [];
-    s.order = [...Array(n).keys()]; if (KM.Q.r) s.order = shuffle(s.order);
+    const s = KM.st, n = KM.qs.length; s.att++; s.i = 0; s.ans = []; s.fb = null;
+    if (!s.ord) { s.ord = [...Array(n).keys()]; if (KM.Q.r) s.ord = shuffle(s.ord); }
+    s.order = s.ord.slice();
     s.stage = 'jawab'; saveM();
   }
   function bindMurid() {
@@ -214,18 +190,25 @@
       s.name = N; s.kelas = K; lsSet('kz-nama', { name: N, kelas: K }); startAttempt(); render(); scrollTo(0, 0);
     };
     document.querySelectorAll('.gopt[data-o]').forEach(b => b.onclick = () => {
-      s.ans[s.i] = +b.dataset.o; s.i++;
+      if (s.fb) return;
+      const pk = +b.dataset.o, ok = pk === KM.qs[s.order[s.i]].c;
+      s.ans[s.i] = pk; s.fb = { pick: pk, ok }; try { snd(ok ? 'betul' : 'salah'); } catch (e) {}
+      render();
+    });
+    const nx = document.getElementById('kzNext');
+    if (nx) nx.onclick = () => {
+      s.fb = null; s.i++;
       if (s.i < KM.qs.length) { render(); scrollTo(0, 0); return; }
       const wrong = []; let sc = 0;
       s.order.forEach((k, pos) => { if (s.ans[pos] === KM.qs[k].c) sc++; else wrong.push(pos + 1); });
       const n = KM.qs.length;
       if (sc >= KM.Q.p) {
         const when = Date.now();
-        s.pass = { name: s.name, kelas: s.kelas, sc, tot: n, att: s.att, when, code: makeCode(s.name, s.kelas, String(fnv(KM.code)), sc, n, s.att, when) };
+        s.pass = { name: s.name, kelas: s.kelas, sc, tot: n, att: s.att, when, code: makeCode(s.name, s.kelas, '', sc, n, s.att, when) };
         s.stage = 'kad'; saveM(); try { snd('betul'); } catch (e) {}
       } else { s.last = { sc, wrong }; s.stage = 'gagal'; saveM(); }
       render(); scrollTo(0, 0);
-    });
+    };
     const ag = document.getElementById('kzAgain'); if (ag) ag.onclick = () => { startAttempt(); render(); scrollTo(0, 0); };
   }
 
