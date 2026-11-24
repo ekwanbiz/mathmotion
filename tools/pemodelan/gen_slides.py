@@ -48,7 +48,7 @@ def add(sub,kicker,title,body,fig=''): S.append({'sub':sub,'kicker':kicker,'titl
 import math
 OR=C['pa']
 SUB={'8.1.1':('Proses Pemodelan Matematik',TR),'8.1.2':('Menyelesaikan Masalah dengan Pemodelan',OR)}
-LANGKAH=['Kenal pasti & definisikan masalah','Buat andaian & kenal pasti pemboleh ubah','Aplikasikan matematik','Tentusahkan & tafsirkan','Perhalusi model','Laporkan dapatan']
+LANGKAH=['Kenal pasti & definisikan masalah','Buat andaian & kenal pasti pemboleh ubah','Aplikasikan matematik','Tentusahkan & tafsirkan','Murnikan model','Laporkan dapatan']
 LCOL=[TR,PU,OR,GR,PK,AM]
 def cycle(hi=None,label='Kitaran proses pemodelan matematik'):
     s=f'<rect x="0" y="0" width="{W}" height="{H}" rx="20" fill="{SURF}" stroke="{BD}" stroke-width="2"/>'
@@ -71,7 +71,7 @@ add('8.1.1','8.1 Pemodelan Matematik','Apakah pemodelan matematik?',
     +BUL(['<b>Model matematik</b> ialah hasilnya, contohnya <i>C</i> = 3<i>t</i> + 5.','Model membantu kita <b>meramal</b> dan <b>membuat keputusan</b>.','Model ialah <b>anggaran</b>, bukan gambaran yang tepat 100%.'],TR),
     cycle(None))
 add('8.1.1','8.1.1 Proses pemodelan','Enam langkah proses pemodelan',
-    STEPS(['<b>Kenal pasti & definisikan masalah</b> – apakah yang perlu dicari?','<b>Buat andaian & kenal pasti pemboleh ubah</b> – permudahkan keadaan.','<b>Aplikasikan matematik</b> – bina model dan selesaikan.','<b>Tentusahkan & tafsirkan</b> – adakah jawapan munasabah?','<b>Perhalusi model</b> – ubah andaian jika perlu.','<b>Laporkan dapatan</b> – nyatakan penyelesaian dengan jelas.'],TR)
+    STEPS(['<b>Kenal pasti & definisikan masalah</b> – apakah yang perlu dicari?','<b>Buat andaian & kenal pasti pemboleh ubah</b> – permudahkan keadaan.','<b>Aplikasikan matematik</b> – bina model dan selesaikan.','<b>Tentusahkan & tafsirkan</b> – adakah jawapan munasabah?','<b>Murnikan (perhalusi) model</b> – ubah andaian jika perlu.','<b>Laporkan dapatan</b> – nyatakan penyelesaian dengan jelas.'],TR)
     +NOTE('Proses ini ialah <b>kitaran</b>: jika model tidak sepadan dengan keadaan sebenar, kita kembali memperhalusi model.'),
     cycle(4,'Kitaran proses pemodelan – langkah perhalusi kembali ke langkah awal'))
 # contoh: sewa basikal RM5 + RM3 sejam
@@ -84,14 +84,14 @@ add('8.1.1','Contoh 1','Sewa basikal di taman',
 # tentusahkan: data sebenar vs model
 data=[(0,5),(1,8),(2,11),(3,14.5),(4,17)]
 for t,c_ in data: assert abs((3*t+5)-c_)<=0.5
-add('8.1.1','8.1.1 Tentusahkan & perhalusi','Adakah model sepadan dengan data?',
+add('8.1.1','8.1.1 Tentusahkan & murnikan','Adakah model sepadan dengan data?',
     P('Bandingkan nilai daripada model <i>C</i> = 3<i>t</i> + 5 dengan data sebenar:')
     +TABLE(['t (jam)','Data sebenar (RM)','Model (RM)'],[[str(t),f'{c_:g}',str(3*t+5)] for t,c_ in data],TR)
     +NOTE('Perbezaan kecil → model <b>boleh diterima</b>. Jika perbezaan besar, <b>perhalusi</b> andaian (contoh: tambah caj insurans).','Tafsir:'),
     graph(lambda x:3*x+5,5,20,TR,'t','C',[(3,14.5,'data (3, 14.5)')],'Data sebenar hampir dengan garis model'))
 add('8.1.1','Kesilapan biasa','Awas & ringkasan',
     BUL(['<b>Salah:</b> terus mengira tanpa menyatakan andaian. Andaian mesti ditulis.','<b>Salah:</b> menganggap model sentiasa tepat. Model perlu <b>ditentusahkan</b>.','Jawapan mesti <b>munasabah</b>: bilangan orang tidak boleh 2.5, masa tidak boleh negatif.'],RD)
-    +NOTE('Kenal pasti → Andaian → Aplikasi → Tentusahkan → Perhalusi → Laporkan','Ringkasan:'),
+    +NOTE('Kenal pasti → Andaian → Aplikasi → Tentusahkan → Murnikan → Laporkan','Ringkasan:'),
     cycle(3,'Langkah tentusahkan dan tafsirkan'))
 
 # ===== 8.1.2 =====

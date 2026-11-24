@@ -42,6 +42,15 @@ def graph(fn,xmax,ymax,col,xl,yl,pts=(),label=''):
     for (a,b,t) in pts:
         s+=LINE((gx(a,xmax),380),(gx(a,xmax),gy(b,ymax)),DIM,2,'6 5')+LINE((60,gy(b,ymax)),(gx(a,xmax),gy(b,ymax)),DIM,2,'6 5')+DOT((gx(a,xmax),gy(b,ymax)),AM)+(T(gx(a,xmax)-12,gy(b,ymax)-20,t,AM,17,'end') if gx(a,xmax)>360 else T(gx(a,xmax)+12,gy(b,ymax)-20,t,AM,17,'start'))
     return svg(s,label)
+
+def flow():
+    s=f'<rect x="0" y="0" width="{W}" height="{H}" rx="20" fill="{SURF}" stroke="{BD}" stroke-width="2"/>'
+    def box(x,y,t,col): return f'<rect x="{x-60}" y="{y-38}" width="120" height="76" rx="16" fill="{NAV}" stroke="{col}" stroke-width="4"/>'+T(x,y,t,col,34)
+    s+=box(110,120,'x',TR)+box(110,320,'z',PK)+box(390,220,'y',AM)
+    s+=LINE((172,135),(326,205),TR,4)+LINE((172,305),(326,235),PK,4,'10 7')
+    s+=T(250,140,'langsung',TR,18)+T(250,305,'songsang',PK,18)
+    s+=T(250,410,'y = kx/z',AM,26)
+    return svg(s,'Rajah ubahan separa: y berubah secara langsung dengan x dan secara songsang dengan z')
 S=[]
 def add(sub,kicker,title,body,fig=''): S.append({'sub':sub,'kicker':kicker,'title':title,'body':body,'fig':fig})
 
@@ -96,29 +105,41 @@ add('1.2','Contoh 2','Masalah harian',
     graph(lambda x:60/x if x>0 else 999,10,30,c,'n','t',[(5,12,'(5, 12)'),(4,15,'(4, 15)')],'Graf t = 60/n'))
 add('1.2','Kesilapan biasa','Awas!',
     BUL(['<b>Salah:</b> 8 = <i>k</i> × 3² untuk ubahan songsang. <b>Betul:</b> 8 = <i>k</i>/3².','Ubahan songsang: <i>x</i> bertambah, <i>y</i> berkurang, tetapi graf tidak menyentuh paksi.','Semak jawapan: <i>x</i>ⁿ<i>y</i> mestilah sama dengan <i>k</i>.'],RD)
-    +NOTE('<i>y</i> ∝ 1/<i>x</i>ⁿ ⇔ <i>y</i> = <i>k</i>/<i>x</i>ⁿ ⇔ <i>x</i>ⁿ<i>y</i> = <i>k</i>','Ringkasan:'),'')
+    +NOTE('<i>y</i> ∝ 1/<i>x</i>ⁿ ⇔ <i>y</i> = <i>k</i>/<i>x</i>ⁿ ⇔ <i>x</i>ⁿ<i>y</i> = <i>k</i>','Ringkasan:'),
+    graph(lambda x:12/x if x>0 else 99,12,12,PK,'x','y',[(3,4,'3 × 4 = 12'),(6,2,'6 × 2 = 12')],'Hasil darab xy tetap bagi ubahan songsang'))
 
 # ===== 1.3 Ubahan Bergabung =====
 c=AM
 add('1.3','1.3 Ubahan Bergabung','Apakah ubahan bergabung?',
     DEF('<b>Ubahan bergabung</b> melibatkan satu pemboleh ubah yang berubah dengan dua atau lebih pemboleh ubah lain.',c)
-    +TABLE(['Jenis','Ayat','Persamaan'],[['Ubahan bersama','y berubah secara langsung dengan x dan z','y = kxz'],['Ubahan bersama','y berubah secara langsung dengan x² dan z','y = kx²z'],['Ubahan separa','y berubah secara langsung dengan x dan secara songsang dengan z','y = kx/z'],['Ubahan separa','y berubah secara langsung dengan x dan secara songsang dengan z²','y = kx/z²']],c),'')
+    +TABLE(['Jenis','Ayat','Persamaan'],[['Ubahan bersama','y berubah secara langsung dengan x dan z','y = kxz'],['Ubahan bersama','y berubah secara langsung dengan x² dan z','y = kx²z'],['Ubahan separa','y berubah secara langsung dengan x dan secara songsang dengan z','y = kx/z'],['Ubahan separa','y berubah secara langsung dengan x dan secara songsang dengan z²','y = kx/z²']],c),
+    flow())
 k=F(24,2*3); assert k==4 and k*5*2==40
 add('1.3','Contoh 1','Ubahan bersama',
     P('Diberi <i>y</i> ∝ <i>xz</i> dan <i>y</i> = 24 apabila <i>x</i> = 2 dan <i>z</i> = 3. Cari <i>y</i> apabila <i>x</i> = 5 dan <i>z</i> = 2.')
-    +STEPS(['<i>y</i> = <i>kxz</i> → 24 = <i>k</i> × 2 × 3 = 6<i>k</i>','<i>k</i> = 4, maka <i>y</i> = 4<i>xz</i>','<i>y</i> = 4 × 5 × 2'],c)+ANS('<i>y</i> = 40'),'')
+    +STEPS(['<i>y</i> = <i>kxz</i> → 24 = <i>k</i> × 2 × 3 = 6<i>k</i>','<i>k</i> = 4, maka <i>y</i> = 4<i>xz</i>','<i>y</i> = 4 × 5 × 2'],c)+ANS('<i>y</i> = 40'),
+    graph(lambda u:4*u,10,40,c,'xz','y',[(6,24,'xz = 6, y = 24'),(10,40,'xz = 10, y = 40')],'Graf y melawan xz ialah garis lurus dengan kecerunan k = 4'))
 k=F(10*2**2,5); assert k==8 and F(8*9,3**2)==8
 add('1.3','Contoh 2','Ubahan separa',
     P('Diberi <i>y</i> ∝ <i>x</i>/<i>z</i>² dan <i>y</i> = 10 apabila <i>x</i> = 5 dan <i>z</i> = 2. Cari <i>y</i> apabila <i>x</i> = 9 dan <i>z</i> = 3.')
-    +STEPS(['<i>y</i> = <i>kx</i>/<i>z</i>² → 10 = <i>k</i> × 5 / 2²','<i>k</i> = 10 × 4 ÷ 5 = 8','<i>y</i> = 8<i>x</i>/<i>z</i>²','<i>y</i> = 8 × 9 / 3² = 72/9'],c)+ANS('<i>y</i> = 8'),'')
+    +STEPS(['<i>y</i> = <i>kx</i>/<i>z</i>² → 10 = <i>k</i> × 5 / 2²','<i>k</i> = 10 × 4 ÷ 5 = 8','<i>y</i> = 8<i>x</i>/<i>z</i>²','<i>y</i> = 8 × 9 / 3² = 72/9'],c)+ANS('<i>y</i> = 8'),
+    graph(lambda u:8*u,1.25,10,c,'x/z²','y',[(1.25,10,'(5/4, 10)'),(1,8,'(1, 8)')],'Graf y melawan x/z kuasa dua ialah garis lurus dengan kecerunan 8'))
 k=F(150,3*5); assert k==10 and F(450,10*6)==F(15,2)
 k2=F(120,4*3); assert k2==10 and F(600,10*5)==12
 add('1.3','Contoh 3','Masalah harian',
     P('Upah, RM<i>U</i>, berubah secara langsung dengan bilangan pekerja, <i>p</i>, dan bilangan hari, <i>h</i>. 4 pekerja selama 3 hari dibayar RM120. Berapa hari 5 pekerja perlu bekerja untuk mendapat RM600?')
-    +STEPS(['<i>U</i> = <i>kph</i> → 120 = <i>k</i> × 4 × 3','<i>k</i> = 10, maka <i>U</i> = 10<i>ph</i>','600 = 10 × 5 × <i>h</i> = 50<i>h</i>','<i>h</i> = 600 ÷ 50'],c)+ANS('12 hari'),'')
+    +STEPS(['<i>U</i> = <i>kph</i> → 120 = <i>k</i> × 4 × 3','<i>k</i> = 10, maka <i>U</i> = 10<i>ph</i>','600 = 10 × 5 × <i>h</i> = 50<i>h</i>','<i>h</i> = 600 ÷ 50'],c)+ANS('12 hari'),
+    graph(lambda u:10*u,60,600,c,'ph','U',[(12,120,'4 × 3 = 12 → RM120'),(60,600,'5 × 12 = 60 → RM600')],'Graf upah melawan hasil darab pekerja dan hari'))
+assert F(4)*2/2==4 and 3*1==3 and F(1,4)*2==F(1,2)
+add('1.3','1.3 Ubahan Bergabung','Kesan perubahan pemboleh ubah',
+    P('Diberi <i>y</i> = <i>kx</i>/<i>z</i>. Apakah berlaku kepada <i>y</i> jika:')
+    +TABLE(['Perubahan','Kesan pada y'],[['x digandakan dua, z tetap','y × 2'],['z digandakan dua, x tetap','y ÷ 2 (separuh)'],['x dan z kedua-duanya digandakan dua','y tidak berubah'],['x × 3, z tetap','y × 3']],c)
+    +NOTE('Pemboleh ubah di <b>pengangka</b> menaikkan <i>y</i>; di <b>penyebut</b> menurunkan <i>y</i>.'),
+    flow())
 add('1.3','Ringkasan','Ringkasan bab',
     TABLE(['Ubahan','Simbol','Persamaan'],[['Langsung','y ∝ xⁿ','y = kxⁿ'],['Songsang','y ∝ 1/xⁿ','y = k/xⁿ'],['Bersama','y ∝ xz','y = kxz'],['Separa','y ∝ x/z','y = kx/z']],c)
-    +BUL(['Langkah: tulis persamaan → cari <i>k</i> → gantikan nilai baharu.','Untuk ubahan langsung, pemboleh ubah di <b>pengangka</b>; untuk ubahan songsang, di <b>penyebut</b>.'],c),'')
+    +BUL(['Langkah: tulis persamaan → cari <i>k</i> → gantikan nilai baharu.','Untuk ubahan langsung, pemboleh ubah di <b>pengangka</b>; untuk ubahan songsang, di <b>penyebut</b>.'],c),
+    flow())
 
 counts={}
 for s in S: counts[s['sub']]=counts.get(s['sub'],0)+1
@@ -132,6 +153,6 @@ ALLOWED={x.lower() for x in [BG,SURF,NAV,BD,TX,MU,GRID,DIM]+list(C.values())}
 bad={h for h in re.findall(r'#[0-9a-fA-F]{6}',body) if h.lower() not in ALLOWED}
 assert not bad,bad
 assert 'NaN' not in body and 'None' not in body
-assert counts=={'1.1':5,'1.2':5,'1.3':5},counts
+assert counts=={'1.1':5,'1.2':5,'1.3':6},counts
 open(OUT,'w').write('/* Dijana oleh tools/ubahan/gen_slides.py. Jangan sunting dengan tangan. */\nwindow.SUBS='+json.dumps(subs,ensure_ascii=False)+';\nwindow.SLIDES='+body+';\n')
 print(len(out),'slaid ->',OUT)

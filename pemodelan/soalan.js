@@ -16,7 +16,7 @@ const pmN = v => {
 const pmRM = v => 'RM' + pmN(v);
 const pmD = v => String(+v.toFixed(4));
 const PML = ['Kenal pasti dan definisikan masalah', 'Membuat andaian dan mengenal pasti pemboleh ubah', 'Mengaplikasikan matematik untuk menyelesaikan masalah', 'Menentusahkan dan menafsir penyelesaian dalam konteks masalah', 'Memurnikan (memperhalusi) model matematik', 'Melaporkan dapatan'];
-const PMLS = ['Kenal pasti masalah', 'Andaian & pemboleh ubah', 'Aplikasi matematik', 'Tentusahkan & tafsir', 'Perhalusi model', 'Laporkan dapatan'];
+const PMLS = ['Kenal pasti masalah', 'Andaian & pemboleh ubah', 'Aplikasi matematik', 'Tentusahkan & tafsir', 'Murnikan model', 'Laporkan dapatan'];
 // aktiviti → langkah
 const PMACT = [
   [0, 'Ahli kumpulan berbincang tentang apa yang perlu dicari, iaitu kos minimum untuk lawatan sekolah'], [0, 'Murid menulis soalan utama: “Berapakah bilangan bas yang diperlukan?”'], [0, 'Murid mengenal pasti maklumat yang diberi dan maklumat yang tidak diketahui dalam masalah'],

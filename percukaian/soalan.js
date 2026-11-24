@@ -7,7 +7,7 @@
 const ckRG = { i: (a, b) => ri(a, b), p: a => pick(a) };
 const ckRW = { i: (a, b) => wri(a, b), p: a => wpick(a) };
 const ckR2 = v => { const r = Math.round(v * 100) / 100; return Object.is(r, -0) ? 0 : r; };
-const ckN = v => { const r = ckR2(v), s = Number.isInteger(r) ? String(r) : r.toFixed(2); const [a, b] = s.split('.'); return a.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + (b ? '.' + b : ''); };
+const ckN = v => { const r = ckR2(v), s = Number.isInteger(r) ? String(r) : r.toFixed(2); const [a, b] = s.split('.'); return a.replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0') + (b ? '.' + b : ''); };
 const ckRM = v => 'RM' + ckN(v);
 const CKNAMA = ['Encik Kamal', 'Puan Lina', 'Encik Ravi', 'Cik Mei Ling', 'Puan Aisyah', 'Encik Daniel', 'Cik Nurul', 'Encik Ah Kow', 'Puan Devi', 'Encik Faiz'];
 // kadar cukai pendapatan (jadual buku teks): [bawah, atas, kadar %, cukai terkumpul pada bawah]
@@ -16,7 +16,7 @@ const ckBand = ci => CKBAND.find(b => ci <= b[1]);
 const ckTax = ci => { const b = ckBand(ci); return ckR2(b[3] + (ci - b[0]) * b[2] / 100); };
 const ckTaxWork = ci => {
   const b = ckBand(ci);
-  if (b[2] === 0) return [`Pendapatan bercukai ${ckRM(ci)} ≤ RM5,000, kadar 0%: cukai = RM0`];
+  if (b[2] === 0) return [`Pendapatan bercukai ${ckRM(ci)} ≤ RM5 000, kadar 0%: cukai = RM0`];
   return [`${ckRM(ci)} berada dalam julat ${ckRM(b[0] + 1)} – ${ckRM(b[1])} (kadar ${b[2]}%)`, `Cukai bagi ${ckRM(b[0])} pertama = ${ckRM(b[3])}`,
     `Baki ${ckN(ci)} − ${ckN(b[0])} = ${ckN(ci - b[0])} × ${b[2]}% = ${ckRM((ci - b[0]) * b[2] / 100)}`, `Cukai = ${ckN(b[3])} + ${ckN((ci - b[0]) * b[2] / 100)} = ${ckRM(ckTax(ci))}`];
 };
@@ -35,10 +35,10 @@ const ckJalan = cc => { const b = ckJ(cc); return ckR2(b[2] + (b[3] ? (cc - b[0]
 function ckJalanFig() {
   let s = `<rect x="2" y="2" width="456" height="290" rx="12" style="fill:var(--sf);stroke:var(--bd)" stroke-width="2"/>`;
   s += ckTxt(16, 22, 'Kapasiti enjin (cc)', 'pk', 14) + ckTxt(180, 22, 'Kadar asas', 'pk', 14) + ckTxt(285, 22, 'Kadar progresif', 'pk', 14);
-  CKJALAN.forEach((b, i) => { const y = 52 + i * 30; s += `<line x1="10" y1="${y - 15}" x2="450" y2="${y - 15}" style="stroke:var(--bd)" stroke-width="1"/>` + ckTxt(16, y, b[0] === 0 ? '≤ 1,000' : `${ckN(b[0] + 1)} – ${ckN(b[1])}`, 'tx', 15) + ckTxt(180, y, ckRM(b[2]), 'am', 15) + ckTxt(285, y, b[3] ? `+${ckRM(b[3])} / cc > ${ckN(b[0])}` : '–', 'mu', 13); });
+  CKJALAN.forEach((b, i) => { const y = 52 + i * 30; s += `<line x1="10" y1="${y - 15}" x2="450" y2="${y - 15}" style="stroke:var(--bd)" stroke-width="1"/>` + ckTxt(16, y, b[0] === 0 ? '≤ 1 000' : `${ckN(b[0] + 1)} – ${ckN(b[1])}`, 'tx', 15) + ckTxt(180, y, ckRM(b[2]), 'am', 15) + ckTxt(285, y, b[3] ? `+${ckRM(b[3])} / cc > ${ckN(b[0])}` : '–', 'mu', 13); });
   return `<svg viewBox="0 0 460 294" style="max-width:460px;width:100%" role="img" aria-label="Jadual kadar cukai jalan">${s}</svg>`;
 }
-const ckJWork = cc => { const b = ckJ(cc); return b[3] ? [`${ckN(cc)} cc berada dalam julat ${ckN(b[0] + 1)} – ${ckN(b[1])} cc: kadar asas ${ckRM(b[2])}`, `Lebihan = ${ckN(cc)} − ${ckN(b[0])} = ${cc - b[0]} cc × ${ckRM(b[3])} = ${ckRM((cc - b[0]) * b[3])}`, `Cukai jalan = ${ckN(b[2])} + ${ckN((cc - b[0]) * b[3])} = ${ckRM(ckJalan(cc))}`] : [`${ckN(cc)} cc berada dalam julat ${b[0] === 0 ? '≤ 1,000' : ckN(b[0] + 1) + ' – ' + ckN(b[1])} cc`, `Cukai jalan = kadar asas = ${ckRM(b[2])}`]; };
+const ckJWork = cc => { const b = ckJ(cc); return b[3] ? [`${ckN(cc)} cc berada dalam julat ${ckN(b[0] + 1)} – ${ckN(b[1])} cc: kadar asas ${ckRM(b[2])}`, `Lebihan = ${ckN(cc)} − ${ckN(b[0])} = ${cc - b[0]} cc × ${ckRM(b[3])} = ${ckRM((cc - b[0]) * b[3])}`, `Cukai jalan = ${ckN(b[2])} + ${ckN((cc - b[0]) * b[3])} = ${ckRM(ckJalan(cc))}`] : [`${ckN(cc)} cc berada dalam julat ${b[0] === 0 ? '≤ 1 000' : ckN(b[0] + 1) + ' – ' + ckN(b[1])} cc`, `Cukai jalan = kadar asas = ${ckRM(b[2])}`]; };
 
 /* ---------- 4.1.1 data ---------- */
 const CKAG = [
@@ -185,12 +185,12 @@ CK.cukai = r => {
 const ckRebat = (r, ci) => {
   const z = r.p([0, 0, 100, 200, 300]);
   const ind = ci <= 35000 ? 400 : 0;
-  const rb = `Dia layak menerima rebat individu RM400 jika pendapatan bercukai tidak melebihi RM35,000${z ? ` dan telah membayar zakat ${ckRM(z)}` : ''}.`;
+  const rb = `Dia layak menerima rebat individu RM400 jika pendapatan bercukai tidak melebihi RM35 000${z ? ` dan telah membayar zakat ${ckRM(z)}` : ''}.`;
   return { z, ind, rb };
 };
 const ckRebatWork = (t, R) => {
   const tot = R.ind + R.z, pay = Math.max(0, ckR2(t - tot));
-  const w = [R.ind ? 'Pendapatan bercukai ≤ RM35,000: layak rebat individu RM400' : 'Pendapatan bercukai > RM35,000: tidak layak rebat individu'];
+  const w = [R.ind ? 'Pendapatan bercukai ≤ RM35 000: layak rebat individu RM400' : 'Pendapatan bercukai > RM35 000: tidak layak rebat individu'];
   if (R.z) w.push(`Rebat zakat = ${ckRM(R.z)}`);
   w.push(tot ? `Cukai perlu dibayar = ${ckN(t)} − ${ckN(tot)}${t - tot < 0 ? ' < 0, maka RM0' : ` = ${ckRM(pay)}`}` : `Cukai perlu dibayar = ${ckRM(pay)}`);
   return { pay, w };

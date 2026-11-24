@@ -67,7 +67,7 @@ function draw(){
  $('stage').innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Graf dua garis lurus">${s}</svg>`;
  $('info').innerHTML=info;['a','b','e','c','d','g'].forEach(k=>$(k).up&&$(k).up());
 }
-[['a','a'],['b','b'],['e','=1'],['c','c'],['d','d'],['g','=2']].forEach(([k,l])=>stp(k,l,()=>K[k],v=>K[k]=v,-9,9));
+[['a','a'],['b','b'],['e','p'],['c','c'],['d','d'],['g','q']].forEach(([k,l])=>stp(k,l,()=>K[k],v=>K[k]=v,-9,9));
 draw();
 </script>
 <script src="../../teras/fx.js"></script>

@@ -25,7 +25,7 @@ def T(x,y,t,col=TX,size=20,anchor='middle'):
 def RECT(x,y,w,h,fill,stroke=BD,rx=12): return f'<rect x="{round(x,1)}" y="{round(y,1)}" width="{round(w,1)}" height="{round(h,1)}" rx="{rx}" fill="{fill}" stroke="{stroke}" stroke-width="2"/>'
 def BG_(): return RECT(0,0,W,H,SURF)
 def rm(v):
-    s=f'{v:,.2f}'
+    s=f'{v:,.2f}'.replace(',','\u00a0')
     return 'RM'+(s[:-3] if s.endswith('.00') else s)
 
 # kadar cukai pendapatan (jadual buku teks, kadar berperingkat)

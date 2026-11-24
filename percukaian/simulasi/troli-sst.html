@@ -58,7 +58,7 @@ button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webk
 const ITEMS=[['Beras 10 kg','🍚',32,'x',0],['Roti','🍞',4.5,'x',0],['Kasut','👟',120,'j',10],['Telefon','📱',850,'j',5],['Peti sejuk','🧊',1500,'j',10],['Kosmetik','💄',45,'j',10],['Makan restoran','🍽️',60,'p',6],['Hotel 1 malam','🏨',220,'p',6],['Servis kereta','🔧',150,'p',6]];
 const $=id=>document.getElementById(id);
 const r2=v=>{const r=Math.round(v*100)/100;return Object.is(r,-0)?0:r};
-const fm=v=>{v=r2(v);const s=Number.isInteger(v)?String(v):v.toFixed(2);const [a,b]=s.split('.');return a.replace(/\B(?=(\d{3})+(?!\d))/g,',')+(b?'.'+b:'')};
+const fm=v=>{v=r2(v);const s=Number.isInteger(v)?String(v):v.toFixed(2);const [a,b]=s.split('.');return a.replace(/\B(?=(\d{3})+(?!\d))/g,'\u00a0')+(b?'.'+b:'')};
 const RM=v=>'RM'+fm(v);
 const snd=n=>{if(window.FX)FX.play(n)};
 const Q=ITEMS.map(()=>0);

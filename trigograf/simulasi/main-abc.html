@@ -53,7 +53,8 @@ function svgPt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;retur
 
 const BV=[0.5,1,2,3,4];let fn='sin';
 const F={sin:S,kos:C,tan:d=>Math.tan(R(d))};
-const L=60,Rr=800,T=20,B=380,Y0=-7,Y1=7,X=x=>L+x*(Rr-L-20)/360,Y=y=>B-(y-Y0)*(B-T)/(Y1-Y0);
+const NAR=innerWidth<600;svg.setAttribute('viewBox',NAR?'0 0 460 440':'0 0 820 400');
+const L=NAR?40:60,Rr=NAR?450:800,T=20,B=NAR?420:380,Y0=-7,Y1=7,X=x=>L+x*(Rr-L-20)/360,Y=y=>B-(y-Y0)*(B-T)/(Y1-Y0);
 const bs=b=>b===.5?'½':b===1?'':String(b);
 function eq(a,b,c){let s=(a===1?'':a===-1?'−':fm(a)+' ')+fn+' '+bs(b)+'x';if(a===0)s='0';if(c)s+=(c>0?' + ':' − ')+Math.abs(c);return 'y = '+s}
 function curve(f,col,w,dash){let d='',pen=false;for(let k=0;k<=720;k++){const x=k/2,y=f(x);if(!isFinite(y)||y<Y0-.5||y>Y1+.5){pen=false;continue}d+=(pen?'L':'M')+X(x).toFixed(1)+' '+Y(y).toFixed(1);pen=true}return `<path d="${d}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"${dash?' stroke-dasharray="7 6"':''}/>`}
@@ -62,7 +63,7 @@ function render(){
  document.getElementById('va').textContent=fm(a);document.getElementById('vb').textContent=bs(b)||'1';document.getElementById('vc').textContent=fm(c);
  let s='';
  for(let y=Y0+1;y<Y1;y++){s+=`<line x1="${L}" y1="${Y(y)}" x2="${Rr}" y2="${Y(y)}" stroke="#1E2A40" stroke-width="1.2"/>`;if(y)s+=`<text x="${L-8}" y="${Y(y)}" fill="#64748B" font-size="13" font-weight="700" text-anchor="end" dominant-baseline="central">${fm(y)}</text>`}
- for(let x=45;x<=360;x+=45){s+=`<line x1="${X(x)}" y1="${T}" x2="${X(x)}" y2="${B}" stroke="#1E2A40" stroke-width="1.2"/>`;s+=`<text x="${X(x)}" y="${Y(0)+16}" fill="#64748B" font-size="13" font-weight="700" text-anchor="middle" dominant-baseline="central">${x}°</text>`}
+ for(let x=NAR?90:45;x<=360;x+=NAR?90:45){s+=`<line x1="${X(x)}" y1="${T}" x2="${X(x)}" y2="${B}" stroke="#1E2A40" stroke-width="1.2"/>`;s+=`<text x="${X(x)}" y="${Y(0)+16}" fill="#64748B" font-size="13" font-weight="700" text-anchor="middle" dominant-baseline="central">${x}°</text>`}
  s+=`<line x1="${L}" y1="${Y(0)}" x2="${Rr}" y2="${Y(0)}" stroke="#94A3B8" stroke-width="2"/><line x1="${L}" y1="${T}" x2="${L}" y2="${B}" stroke="#94A3B8" stroke-width="2"/>`;
  if(fn==='tan'){const K=180/b;for(let x=K/2;x<=360;x+=K)s+=`<line x1="${X(x)}" y1="${T}" x2="${X(x)}" y2="${B}" stroke="#F87171" stroke-width="2" stroke-dasharray="6 6"/>`}
  if(c)s+=`<line x1="${L}" y1="${Y(c)}" x2="${Rr}" y2="${Y(c)}" stroke="#A78BFA" stroke-width="2" stroke-dasharray="4 6"/>`;

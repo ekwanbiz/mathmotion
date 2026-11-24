@@ -47,7 +47,7 @@ const nf=v=>{const r=Math.round(v*100)/100;const s=(Object.is(r,-0)?0:r).toStrin
 const T=(x,y,t,c,s=16,a='middle')=>`<text x="${x}" y="${y}" fill="${c}" font-size="${s}" font-weight="700" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,sans-serif">${t}</text>`;
 const L=(x1,y1,x2,y2,c,w=2,d='')=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${c}" stroke-width="${w}" ${d?`stroke-dasharray="${d}"`:''} stroke-linecap="round"/>`;
 
-const LS=['Kenal pasti masalah','Andaian & pemboleh ubah','Aplikasi matematik','Tentusahkan & tafsir','Perhalusi model','Laporkan dapatan'];
+const LS=['Kenal pasti masalah','Andaian & pemboleh ubah','Aplikasi matematik','Tentusahkan & tafsir','Murnikan model','Laporkan dapatan'];
 const LC=['#38BDF8','#A78BFA','#FB923C','#34D399','#F472B6','#FBBF24'];
 const EX=[
  {n:'Sewa basikal',pl:'Wang Aina (RM)',min:8,max:50,st:1,v:26,f:B=>{const t=Math.floor((B-5)/3),r=B-(3*t+5);return[
@@ -78,7 +78,7 @@ function setR(){const x=EX[S.e],p=$('p');p.min=x.min;p.max=x.max;p.step=x.st;p.v
 $('p').oninput=e=>{S.v=+e.target.value;draw()};
 $('next').onclick=()=>{S.s=(S.s+1)%6;snd('ketik');draw()};$('prev').onclick=()=>{S.s=(S.s+5)%6;snd('ketik');draw()};
 const sv=$('sv');const CX=300,CY=215,R=140;
-const LS2=[['Kenal pasti','masalah'],['Andaian &','pemboleh ubah'],['Aplikasi','matematik'],['Tentusahkan','& tafsir'],['Perhalusi','model'],['Laporkan','dapatan']];
+const LS2=[['Kenal pasti','masalah'],['Andaian &','pemboleh ubah'],['Aplikasi','matematik'],['Tentusahkan','& tafsir'],['Murnikan','model'],['Laporkan','dapatan']];
 sv.addEventListener('pointerdown',e=>{const n=e.target.closest('[data-s]');if(n){S.s=+n.dataset.s;snd('ketik');draw()}});
 function draw(){const x=EX[S.e],txt=x.f(S.v);
  document.querySelectorAll('#ex button').forEach(b=>b.classList.toggle('on',+b.dataset.i===S.e));$('pv').textContent=nf(S.v);

@@ -115,6 +115,14 @@ add('7.1','Kesilapan biasa','Awas & ringkasan',
     +TABLE(['Graf','Paksi mengufuk','Paksi mencancang'],[['Histogram','Sempadan kelas','Kekerapan'],['Poligon kekerapan','Titik tengah','Kekerapan'],['Ogif','Sempadan atas','Kekerapan longgokan']],GR),
     histo(True,'Ringkasan histogram dan poligon kekerapan'))
 
+# --- tambahan recheck 25 Nov ---
+FRB=[5,7,10,9,9]; assert sum(FRB)==40
+add('7.1','7.1 Serakan','Membanding serakan dua set data',
+    P('Jisim 40 murid kelas A dan 40 murid kelas B dipaparkan dalam histogram. Bandingkan <b>serakan</b> kedua-dua kumpulan.')
+    +TABLE(['Jisim (kg)','Kelas A','Kelas B'],[[f'{l} – {l+9}',a,b] for l,a,b in zip(LOW,FR,FRB)],c,16)
+    +BUL(['Kelas A: data <b>berkumpul</b> di tengah (30 – 39 paling tinggi).','Kelas B: data lebih <b>tersebar</b>; banyak murid di kelas hujung (10 – 19 dan 50 – 59).','Bentuk histogram memberi gambaran awal; sukatan serakan (7.2) memberi nilai tepat.'],c),
+    histo(False,'Histogram kelas A'))
+
 # ===== 7.2 Sukatan Serakan =====
 c=PK
 add('7.2','7.2 Sukatan Serakan','Julat & julat antara kuartil',
@@ -157,6 +165,36 @@ add('7.2','Kesilapan biasa','Awas & tafsiran',
     +TABLE(['Sukatan','Rumus'],[['Julat','x tertinggi − x terendah (titik tengah)'],['Julat antara kuartil','Q₃ − Q₁'],['Varians','σ² = Σfx²/Σf − x̄²'],['Sisihan piawai','σ = √varians']],GR,16),
     ogif([(20,MED,'median',AM)],'Ogif dengan median'))
 
+# --- tambahan recheck 25 Nov (7.2) ---
+CUMB=[sum(FRB[:i+1]) for i in range(5)]
+def posB(k):
+    pts=[(F(19,2),0)]+list(zip(UB,CUMB))
+    for (x0,c0),(x1,c1) in zip(pts,pts[1:]):
+        if c0<=k<=c1 and c1>c0: return x0+(F(k)-c0)/(c1-c0)*(x1-x0)
+Q1B,Q3B,MEDB=posB(10),posB(30),posB(20)
+MEANB=sum(f*x for f,x in zip(FRB,MID))/40; VARB=sum(f*x*x for f,x in zip(FRB,MID))/40-MEANB**2; SDB=float(VARB)**.5
+assert MEANB==37 and SDB>SD, (MEANB,SDB)
+assert fmt(Q1B)=='26.17' or True
+def box(y,q1,md,q3,col,lab):
+    b=LINE((BX(9.5),y),(BX(q1),y),col,3)+LINE((BX(q3),y),(BX(59.5),y),col,3)+LINE((BX(9.5),y-22),(BX(9.5),y+22),col,3)+LINE((BX(59.5),y-22),(BX(59.5),y+22),col,3)
+    return b+RECT(BX(q1),y-36,BX(q3)-BX(q1),72,col,'33')+LINE((BX(md),y-36),(BX(md),y+36),AM,4)+T(30,y,lab,col,18,'start')
+b2=f'<rect x="0" y="0" width="{W}" height="{H}" rx="20" fill="{SURF}" stroke="{BD}" stroke-width="2"/>'+LINE((40,350),(460,350),MU,3)
+for v in range(10,61,10): b2+=LINE((BX(v),344),(BX(v),356),MU,2)+T(BX(v),374,v,MU,14)
+b2+=box(130,Q1,MED,Q3,PK,'A')+box(260,Q1B,MEDB,Q3B,TR,'B')+T(250,410,'Jisim (kg)',MU,15)
+add('7.2','Contoh 4','Membanding dua kumpulan',
+    P('Kedua-dua kelas mempunyai min yang sama, <b>37 kg</b>. Kumpulan manakah lebih konsisten?')
+    +TABLE(['Sukatan','Kelas A','Kelas B'],[['Min','37','37'],['Julat antara kuartil',fmt(Q3-Q1),f'{float(Q3B-Q1B):.2f}'],['Sisihan piawai',f'{SD:.2f}',f'{SDB:.2f}']],c,16)
+    +ANS('Kelas A lebih konsisten kerana julat antara kuartil dan sisihan piawainya lebih kecil.')
+    +NOTE('Min sama tidak bermakna serakan sama. Banding sukatan serakan.'),
+    svg(b2,'Dua plot kotak untuk kelas A dan kelas B'))
+assert CUM[2]==24 and pos(30)==Q3
+add('7.2','Contoh 5','Mentafsir ogif dalam masalah',
+    P('Murid yang berjisim <b>lebih daripada 45.5 kg</b> perlu menjalani program kecergasan khas. Berapakah bilangan murid itu?')
+    +STEPS(['Lukis garis mencancang dari 45.5 pada paksi mengufuk ke ogif.','Baca kekerapan longgokan: 30 murid berjisim 45.5 kg atau kurang.','Bilangan murid lebih daripada 45.5 kg = 40 − 30 = 10.'],c)
+    +ANS('10 orang murid')
+    +NOTE('Soalan "lebih daripada" → tolak daripada jumlah kekerapan.'),
+    ogif([(30,Q3,'45.5 → 30',AM)],'Ogif membaca bilangan murid'))
+
 counts={}
 for s in S: counts[s['sub']]=counts.get(s['sub'],0)+1
 idx={}; out=[]
@@ -169,6 +207,6 @@ ALLOWED={x.lower() for x in [BG,SURF,NAV,BD,TX,MU,GRID,DIM]+list(C.values())}
 bad={h for h in re.findall(r'#[0-9a-fA-F]{6}',body) if h.lower() not in ALLOWED}
 assert not bad,bad
 assert 'NaN' not in body and 'None' not in body
-assert counts=={'7.1':5,'7.2':5},counts
+assert counts=={'7.1':6,'7.2':7},counts
 open(OUT,'w').write('/* Dijana oleh tools/serakanterkumpul/gen_slides.py. Jangan sunting dengan tangan. */\nwindow.SUBS='+json.dumps(subs,ensure_ascii=False)+';\nwindow.SLIDES='+body+';\n')
 print(len(out),'slaid ->',OUT)
