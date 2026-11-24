@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="color-scheme" content="dark light">
 <meta name="theme-color" content="#0B0C18">
-<meta name="description" content="TerokaMath – himpunan simulasi Matematik Tingkatan 1 dan 2.">
+<meta name="description" content="TerokaMath – himpunan simulasi Matematik Tingkatan 1 hingga 5.">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="TerokaMath">
@@ -52,7 +52,9 @@ a{color:var(--link)}
 .cont{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:18px;text-decoration:none;color:var(--tx);border:1.5px solid}
 .cont .g{width:44px;height:44px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;flex:none;color:#0B0C18}
 .cont .t{flex:1;display:flex;flex-direction:column;gap:1px;min-width:0}.cont .t small{font-size:11px;font-weight:800;letter-spacing:1px}.cont .t b{font-size:16px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;padding:5px;border-radius:16px;background:var(--card);border:1px solid var(--bd);box-shadow:var(--shadow)}
+.tn{display:none}
+@media(max-width:620px){.tabs .tw{display:none}.tabs .tn{display:inline}}
+.tabs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;padding:5px;border-radius:16px;background:var(--card);border:1px solid var(--bd);box-shadow:var(--shadow)}
 .tabs button{height:40px;border:0;border-radius:12px;background:none;color:var(--mu);font-weight:800;font-size:15px;cursor:pointer}
 .tabs button[aria-selected="true"]{background:var(--acc);color:#0B0C18;font-weight:900}
 .grid{flex:1;min-height:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:minmax(0,1fr);gap:8px}
@@ -95,12 +97,14 @@ html.light .card .lname span{color:var(--m2)}
  .home{padding:26px 36px 30px;gap:16px}
  .brand b{font-size:22px}
  .search{max-width:520px}
+ .tabs{max-width:640px;width:100%}
+ .tabs button{white-space:nowrap;padding:0 10px}
  .grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
  .card{padding:16px;gap:7px;border-radius:18px}
  .card .gl{width:46px;height:46px;font-size:18px;border-radius:13px}
  .card .nm{font-size:17px}.card .bb{font-size:12px}.card .tp{display:block}
  .card .lgimg{width:54px;height:54px;border-radius:14px}.card .lbab{font-size:15px}.card .lname{font-size:14px}.card .lcol{gap:6px}
- .tabs{max-width:420px}
+ .tabs{max-width:640px}
  .cont .g{width:52px;height:52px;font-size:24px}.cont .t b{font-size:19px}
 }
 @media(min-width:900px) and (max-height:760px){.card .tp{display:none}.card{padding:12px}}
@@ -136,12 +140,15 @@ const APPS=[
  {id:'probalyt',name:'PROBALYT',path:'/PROBALYT/',key:'probalyt-v1',col:'#7C7CFF',glyph:'P',topic:'Kebarangkalian mudah',kw:'kebarangkalian peluang dadu syiling ruang sampel peristiwa pelengkap',where:[[2,13]]}];
 const BAB={
  1:['Nombor Nisbah','Faktor & Gandaan','Kuasa Dua & Kuasa Tiga','Nisbah, Kadar & Kadaran','Ungkapan Algebra','Persamaan Linear','Ketaksamaan Linear','Garis & Sudut','Poligon Asas','Perimeter & Luas','Pengenalan Set','Pengendalian Data','Teorem Pythagoras'],
- 2:['Pola & Jujukan','Pemfaktoran & Pecahan Algebra','Rumus Algebra','Poligon','Bulatan','Bentuk Geometri 3D','Koordinat','Graf Fungsi','Laju & Pecutan','Kecerunan Garis Lurus','Transformasi Isometri','Kecenderungan Memusat','Kebarangkalian Mudah']};
+ 2:['Pola & Jujukan','Pemfaktoran & Pecahan Algebra','Rumus Algebra','Poligon','Bulatan','Bentuk Geometri 3D','Koordinat','Graf Fungsi','Laju & Pecutan','Kecerunan Garis Lurus','Transformasi Isometri','Kecenderungan Memusat','Kebarangkalian Mudah'],
+ 3:['Indeks','Bentuk Piawai','Simpanan & Pelaburan, Kredit & Hutang','Lukisan Berskala','Nisbah Trigonometri','Sudut & Tangen bagi Bulatan','Pelan & Dongakan','Lokus dalam Dua Dimensi','Garis Lurus'],
+ 4:['Fungsi & Persamaan Kuadratik','Asas Nombor','Penaakulan Logik','Operasi Set','Rangkaian dalam Teori Graf','Ketaksamaan Linear dalam Dua Pemboleh Ubah','Graf Gerakan','Sukatan Serakan Data Tak Terkumpul','Kebarangkalian Peristiwa Bergabung','Pengurusan Kewangan'],
+ 5:['Ubahan','Matriks','Insurans','Percukaian','Kekongruenan, Pembesaran & Gabungan Transformasi','Nisbah & Graf Fungsi Trigonometri','Sukatan Serakan Data Terkumpul','Pemodelan Matematik']};
 /* =================== Simpanan =================== */
 const LS={get(k,d){try{const v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
 function starsOf(a){if(!a.key)return 0;try{const o=JSON.parse(localStorage.getItem(a.key)||'null');return o&&+o.stars||0}catch(e){return 0}}
 const totalStars=()=>APPS.reduce((s,a)=>s+starsOf(a),0);
-let tab=+LS.get('mathmotion-tab','2')===1?1:2,query='';
+let tab=+LS.get('mathmotion-tab','2');if(!(tab>=1&&tab<=5))tab=2;let query='';
 /* =================== Ikon =================== */
 const LOGO=(s=34)=>`<svg class="logoM" width="${s}" height="${s}" viewBox="0 0 96 96" aria-hidden="true"><circle cx="48" cy="48" r="34" fill="none" stroke="currentColor" stroke-opacity=".28" stroke-width="3"/><polygon points="48,10 54.5,41.5 48,48 41.5,41.5" fill="#2EE6A6"/><polygon points="86,48 54.5,54.5 48,48 54.5,41.5" fill="#FF8A3D"/><polygon points="48,86 41.5,54.5 48,48 54.5,54.5" fill="#B57BFF"/><polygon points="10,48 41.5,41.5 48,48 41.5,54.5" fill="#FFC93C"/><circle cx="48" cy="48" r="4.5" fill="currentColor"/></svg>`;
 const I={
@@ -163,14 +170,14 @@ function cardHTML(c){
  return`<a class="card" href="${a.path}" data-app="${a.id}" aria-label="${esc(a.name)}, Tingkatan ${c.t} Bab ${c.bab}, ${esc(c.nm)}"><span class="gl" style="background:${a.col}">${a.glyph}</span><span class="bb">BAB ${c.bab}</span><span class="nm">${a.name}</span><span class="tp">${esc(c.nm)}</span>${s?`<span class="st">★ ${s}</span>`:''}</a>`}
 function gridHTML(){
  const q=query.trim().toLowerCase();
- if(q){const res=[];[1,2].forEach(t=>chapters(t).forEach(c=>{const hay=(c.nm+' '+(c.app?c.app.name+' '+c.app.topic+' '+c.app.kw:'')).toLowerCase();if(q.split(/\s+/).every(w=>hay.includes(w)))res.push(c)}));
+ if(q){const res=[];[1,2,3,4,5].forEach(t=>chapters(t).forEach(c=>{const hay=(c.nm+' '+(c.app?c.app.name+' '+c.app.topic+' '+c.app.kw:'')).toLowerCase();if(q.split(/\s+/).every(w=>hay.includes(w)))res.push(c)}));
   return res.length?res.map(cardHTML).join(''):`<div class="empty">Tiada bab ditemui untuk “${esc(query)}”.</div>`}
  return chapters(tab).map(cardHTML).join('')}
 /* =================== Paparan =================== */
 const app=document.getElementById('app');
 function splash(){const n=APPS.length,bab=APPS.reduce((s,a)=>s+a.where.length,0);
  return`<main class="splash"><div class="biglogo">${LOGO(96,9)}</div>
- <div><h1>Teroka<span>Math</span></h1><p class="tag"><span style="color:#2EE6A6">Teroka.</span> <span style="color:#FF8A3D">Faham.</span> <span style="color:#E0A800">Kuasai.</span></p><p class="sub">Simulasi Matematik Tingkatan 1 &amp; 2</p></div>
+ <div><h1>Teroka<span>Math</span></h1><p class="tag"><span style="color:#2EE6A6">Teroka.</span> <span style="color:#FF8A3D">Faham.</span> <span style="color:#E0A800">Kuasai.</span></p><p class="sub">Simulasi Matematik Tingkatan 1 hingga 5</p></div>
  <div class="dots" aria-hidden="true">${APPS.map(a=>`<i style="background:${a.col}"></i>`).join('')}</div>
  <p class="sub" style="margin:0">${n} app · ${bab} bab</p>
  <div class="btns"><a class="btn pri" href="#/utama">Jom Mula! ${I.arrow}</a><a class="btn sec" href="#/pasang">${I.phone} Cara Pasang di Telefon</a></div>
@@ -186,7 +193,7 @@ function home(){const light=document.documentElement.classList.contains('light')
   <button class="ib" id="mode" aria-label="${light?'Tukar ke mod gelap':'Tukar ke mod cerah'}">${light?I.moon:I.sun}</button></header>
  <label class="search"><span style="color:var(--mu);display:flex">${I.search}</span><span class="sr">Cari topik</span><input id="q" type="search" placeholder="Cari topik… (cth: pecutan)" value="${esc(query)}" autocomplete="off" enterkeyhint="search">${query?'<button class="clear" id="clr" aria-label="Kosongkan carian">×</button>':''}</label>
  ${query?'':contHTML()}
- ${query?'':`<div class="tabs" role="tablist" aria-label="Tingkatan"><button role="tab" data-t="1" aria-selected="${tab===1}">Tingkatan 1</button><button role="tab" data-t="2" aria-selected="${tab===2}">Tingkatan 2</button></div>`}
+ ${query?'':`<div class="tabs" role="tablist" aria-label="Tingkatan">${[1,2,3,4,5].map(t=>`<button role="tab" data-t="${t}" aria-selected="${tab===t}" aria-label="Tingkatan ${t}"><span class="tw">Tingkatan </span><span class="tn">T</span>${t}</button>`).join('')}</div>`}
  <div class="grid" id="grid">${gridHTML()}</div></main>`}
 function pasang(){return`<main class="pg"><a class="back" href="#/utama">${I.left} Kembali</a><h1>Cara Pasang TerokaMath</h1>
  <p class="note">Pasang sekali sahaja. Semua app (ALGEBRALAB, CIRCMOTION, GRAPHX dan lain-lain) boleh dibuka dari dalam TerokaMath, termasuk tanpa internet.</p>
