@@ -605,11 +605,11 @@ g.rv.hid{visibility:hidden}
 }
 
 /* Butang Pelan Mengajar di kepala (BAB.pelanBtn) */
-.pelbtn{height:44px;padding:0 18px 0 14px;display:inline-flex;align-items:center;gap:8px;border-radius:12px;text-decoration:none;font-weight:800;font-size:15px;letter-spacing:.02em;white-space:nowrap;color:var(--on);background:var(--tr);box-shadow:0 6px 18px color-mix(in srgb,var(--tr) 35%,transparent)}
-.pelbtn:hover{filter:brightness(1.08)}
+.pelbtn{height:44px;padding:0 18px 0 14px;display:inline-flex;align-items:center;gap:8px;border-radius:12px;text-decoration:none;font-weight:800;font-size:15px;letter-spacing:.02em;white-space:nowrap;color:var(--tr);background:color-mix(in srgb,var(--tr) 9%,transparent);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--tr) 45%,transparent)}
+.pelbtn:hover{background:color-mix(in srgb,var(--tr) 16%,transparent)}
 .pelbtn svg{width:18px;height:18px}
 .pelbtn .ts{display:none}
-.pelbtn[aria-current="page"]{box-shadow:0 0 0 3px color-mix(in srgb,var(--tr) 35%,transparent),0 6px 18px color-mix(in srgb,var(--tr) 35%,transparent)}
+.pelbtn[aria-current="page"]{background:color-mix(in srgb,var(--tr) 18%,transparent);box-shadow:inset 0 0 0 2px var(--tr)}
 @media (max-width:1250px){.pelbtn{padding:0 14px 0 11px;font-size:14px}}
 @media (max-width:1120px){.pelbtn .tl{display:none}.pelbtn .ts{display:inline}}
 @media (max-width:900px){.pelbtn{height:40px;padding:0 12px 0 10px;font-size:13px}}
