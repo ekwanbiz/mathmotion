@@ -109,7 +109,7 @@ function viewKumpulan() {
     <div class="kbody"><section class="kmain">${cqView(q, K.shown)}</section>
       <aside class="kside"><h3>${K.shown ? 'SIAPA BETUL? KLIK KUMPULAN' : 'PAPAN MARKAH'}</h3>${teams}
         ${K.shown ? `<button type="button" class="btn pri big" id="kNext" style="--tr:var(--pa);margin-top:auto">${K.qi + 1 < K.total ? 'Soalan seterusnya' : 'Lihat keputusan'} ${IC.arrow}</button>`
-          : `<button type="button" class="btn pri big" id="kShow" style="--tr:var(--pa);margin-top:auto">Tunjuk jawapan</button>`}</aside></div></div>`;
+          : `<button type="button" class="btn pri big" id="kShow" style="--tr:var(--pa);margin-top:auto">Tunjuk jawapan</button><button type="button" class="btn sec" id="kSkip" style="min-height:48px">Langkau soalan ${IC.right}</button>`}</aside></div></div>`;
 }
 function bindKumpulan() {
   const m = document.getElementById('main');
@@ -131,6 +131,7 @@ function bindKumpulan() {
   }
   document.getElementById('kStop').onclick = () => { if (confirm('Tamatkan pertandingan dan lihat keputusan?')) { clearInterval(K.timer); K.teams.forEach((t, i) => { if (K.got.includes(i)) t.score += kPts(); }); K.got = []; K.st = 'end'; snd('end'); render(true); } };
   const sh = document.getElementById('kShow'); if (sh) sh.onclick = kReveal;
+  const sk = document.getElementById('kSkip'); if (sk) sk.onclick = () => { clearInterval(K.timer); K.got = []; K.qi++; if (K.qi >= K.total) { K.st = 'end'; snd('end'); render(true); return; } snd('tap'); kNewQ(); render(true); };
   m.querySelectorAll('[data-team]').forEach(b => b.onclick = () => {
     const i = +b.dataset.team; if (!K.shown) return;
     if (K.got.includes(i)) K.got = K.got.filter(x => x !== i); else { K.got.push(i); snd('ok'); }
@@ -165,6 +166,7 @@ function viewSiapa() {
       ${cqView(S.q, S.shown, true)}</section></div>
     <div class="kfoot">
       <button type="button" class="btn sec" id="sEnd">${IC.x}<span>Tamat</span></button>
+      <button type="button" class="btn sec" id="sSkip">Langkau ${IC.right}</button>
       ${S.shown ? `<span class="kn2" style="margin-left:auto">Kelas jawab betul?</span><button type="button" class="btn sec big sno" id="sNo">✗ Salah</button><button type="button" class="btn pri big" id="sYes" style="--tr:var(--gr)">✓ Betul</button>`
         : `<span class="kn2 kfh">Tiada had masa. Tunjuk jawapan bila sudah sedia.</span><button type="button" class="btn pri big" id="sShow" style="--tr:var(--pu);margin-left:auto">Tunjuk jawapan</button>`}
     </div></div>`;
@@ -173,6 +175,7 @@ function bindSiapa() {
   const ag = document.getElementById('sAgain'); if (ag) { ag.onclick = () => { Object.assign(S, { q: null, shown: false, right: 0, done: 0, end: false }); render(true); }; return; }
   document.getElementById('sEnd').onclick = () => { S.end = true; render(true); if (S.done) snd('end'); };
   const sh = document.getElementById('sShow'); if (sh) sh.onclick = () => { S.shown = true; render(true); cqAnim(S.q); };
+  document.getElementById('sSkip').onclick = () => { snd('tap'); sNewQ(); render(true); };
   const mark = ok => { S.done++; if (ok) S.right++; snd(ok ? 'ok' : 'no'); sNewQ(); render(true); };
   const y = document.getElementById('sYes'); if (y) y.onclick = () => mark(true);
   const n = document.getElementById('sNo'); if (n) n.onclick = () => mark(false);
@@ -226,7 +229,7 @@ function viewRoda() {
   const qBox = R.q ? `<div class="rq-bg"><section class="rq" role="dialog" aria-modal="true" aria-label="Soalan">
       <div class="khead"><b class="kn">Soalan untuk <span style="color:var(--pk)">${esc(R.pick || '')}</span></b><button type="button" class="ib" id="rqX" aria-label="Tutup soalan" style="margin-left:auto">${IC.x}</button></div>
       <div class="rqb">${cqView(R.q, R.qShown, true)}</div>
-      <div class="kfoot">${R.qShown ? `<button type="button" class="btn pri big" id="rqDone" style="--tr:var(--pk);margin-left:auto">Selesai</button>` : `<button type="button" class="btn pri big" id="rqShow" style="--tr:var(--pk);margin-left:auto">Tunjuk jawapan</button>`}</div>
+      <div class="kfoot"><button type="button" class="btn sec" id="rqNext">Soalan lain ${IC.right}</button>${R.qShown ? `<button type="button" class="btn pri big" id="rqDone" style="--tr:var(--pk);margin-left:auto">Selesai</button>` : `<button type="button" class="btn pri big" id="rqShow" style="--tr:var(--pk);margin-left:auto">Tunjuk jawapan</button>`}</div>
     </section></div>` : '';
   return `<div class="kplay">
     <div class="khead">${gBack()}<b class="kn" style="color:var(--pk)">Roda Nama</b>
@@ -298,6 +301,7 @@ function bindRoda() {
   const rq = document.getElementById('rQ'); if (rq) rq.onclick = () => { R.q = cq(1); R.qShown = false; render(true); };
   const qx = document.getElementById('rqX'); if (qx) qx.onclick = () => { R.q = null; render(true); };
   const qs = document.getElementById('rqShow'); if (qs) qs.onclick = () => { R.qShown = true; render(true); cqAnim(R.q); };
+  const qn = document.getElementById('rqNext'); if (qn) qn.onclick = () => { R.q = cq(1); R.qShown = false; render(true); };
   const qd = document.getElementById('rqDone'); if (qd) qd.onclick = () => { R.q = null; render(true); };
 }
 document.addEventListener('keydown', e => {

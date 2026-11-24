@@ -698,6 +698,7 @@ function viewGames() {
       <div style="display:flex;flex-direction:column;gap:14px;min-width:0">
         <h1 class="qtext" style="font-size:clamp(21px,2.3vw,30px)">${q.q}</h1>
         ${side}
+        ${answered() ? '' : `<button type="button" class="btn sec gskip" id="gSkip">Langkau soalan ${IC.right}</button>`}
         ${fb}
       </div></div></div>`;
 }
@@ -761,6 +762,7 @@ function bindGames() {
       document.getElementById('gCheck').disabled = false;
     });
   }
+  const sk = document.getElementById('gSkip'); if (sk) sk.onclick = () => { if (answered()) return; G.combo = 0; G.pick = -1; G.tap = null; G.q = gq(gLevel()); snd('tap'); render(true); };
   const ck = document.getElementById('gCheck');
   if (ck) ck.onclick = () => { if (!G.tap || answered()) return; gAnswer(G.tap[0] === G.q.target[0] && G.tap[1] === G.q.target[1]); };
 }
