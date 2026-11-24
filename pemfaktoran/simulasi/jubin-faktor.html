@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Bina Segi Empat · Bab 2</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--sf:#131C2E;--sf2:#1A2540;--sf3:#0E1626;--bd:#22304A;--bd2:#2E3F60;--tx:#E6EDF7;--mu:#94A3B8;--c1:#34D399;--c2:#38BDF8;--c3:#FBBF24;--pk:#F472B6;--ok:#34D399;--bad:#F87171;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#052e1f}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.stage svg{width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:11px 14px;line-height:1.5;font-size:15px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:2px}
+.info .eq{margin-top:4px;padding:8px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:700;font-size:16px}
+.info .tip{color:var(--mu);font-size:13px;margin-top:4px}
+.info .row{display:flex;flex-wrap:wrap;gap:4px 14px;font-weight:700;font-size:14px}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.ctrl{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.big{background:var(--c1);border:0;color:#052e1f;border-radius:13px;padding:12px 4px;font-weight:900;font-size:15px;min-height:46px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.big.b2{background:var(--c2);color:#04263a}
+.big:disabled{opacity:.4;cursor:not-allowed}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.35fr) minmax(330px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:16px}.ctrl{grid-area:c;align-self:end;grid-template-columns:1fr 1fr}
+ .info b.t{font-size:22px}.info .eq{font-size:18px}
+}
+@media(max-height:700px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.info{padding:8px 11px;font-size:14px}.info b.t{font-size:16px}.big{padding:9px 3px;min-height:40px}}
+@media(max-width:420px){.modes button{font-size:13.5px;padding:10px 3px}.big{font-size:13.5px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#34D399;color:#052e1f;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #34d39944">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Aras">
+   <button data-m="1" class="on" role="tab">🧩 x² + bx + c</button>
+   <button data-m="2" role="tab">🧩 2x² + bx + c</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" viewBox="0 0 400 400" aria-label="Susun jubin algebra menjadi segi empat tepat"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl">
+  <button class="big b2" id="bR">+ Kanan</button><button class="big b2" id="bB">+ Bawah</button>
+  <button class="big alt" id="bU">Set semula</button><button class="big" id="bN">Soalan baharu</button>
+ </div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),info=document.getElementById('info');
+const C1='#38BDF8',C2='#34D399',C3='#FBBF24',PK='#F472B6',TX='#E6EDF7',MU='#94A3B8',SF3='#0E1626',BD='#2E3F60';
+const X=90,U=26,OX=40,OY=40;
+const S={lvl:1,a:1,b:5,c:6,n:2,m:3,R:0,Bt:0,done:false,score:0};
+const snd=n=>{if(window.FX)FX.play(n)};
+const rnd=n=>Math.floor(Math.random()*n);
+function lbl(x,y,t,c=TX,s=18){return `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" fill="${c}" font-size="${s}" font-weight="900" text-anchor="middle" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="${SF3}" stroke-width="4" stroke-linejoin="round">${t}</text>`}
+function tile(x,y,w,h,col,lab,fs,cls,extra){return `<g${cls?` class="${cls}"`:''}${extra||''}><rect x="${(x+1.5).toFixed(1)}" y="${(y+1.5).toFixed(1)}" width="${(w-3).toFixed(1)}" height="${(h-3).toFixed(1)}" rx="${Math.min(6,w/5)}" fill="${col}33" stroke="${col}" stroke-width="2.5"/>${lab?lbl(x+w/2,y+h/2,lab,TX,fs):''}</g>`}
+const expr=()=>`${S.a===1?'':S.a}x² + ${S.b}x + ${S.c}`;
+const lin=(k,n)=>`(${k===1?'':k}x + ${n})`;
+/* soalan: a = 1 → (x + n)(x + m); a = 2 → (2x + n)(x + m) */
+function newTask(){
+ let n,m;
+ if(S.lvl===1){do{n=1+rnd(5);m=1+rnd(5)}while(n*m>16||n+m>9)}
+ else{do{n=1+rnd(5);m=1+rnd(4)}while(n*m>12||n+2*m>11||n%2===0)}
+ S.a=S.lvl;S.n=n;S.m=m;S.b=S.a===1?n+m:n+2*m;S.c=n*m;S.R=0;S.Bt=0;S.done=false;render()}
+const rows=()=>Math.ceil(S.Bt/S.a);
+const tray=()=>S.b-S.R-S.Bt;
+const valid=()=>tray()===0&&S.Bt%S.a===0&&S.R*rows()===S.c;
+/* susun atur: kawasan bina di atas, dulang di bawah */
+function layout(){
+ const maxRows=Math.ceil(S.b/S.a),bw=S.a*X+S.b*U+80,bh=X+Math.max(maxRows,2)*U+70;
+ const ty=OY+bh+16;
+ return{bw,bh,ty,zR:{x:OX+S.a*X,y:OY-6,w:Math.max(S.R,1)*U+60,h:X+12},zB:{x:OX-6,y:OY+X,w:S.a*X+12,h:Math.max(rows(),1)*U+40}}}
+function render(){
+ const L=layout();let g='';
+ // zon lepas
+ g+=`<rect x="${L.zR.x+2}" y="${L.zR.y}" width="${L.zR.w}" height="${L.zR.h}" rx="10" fill="#38BDF810" stroke="${C1}" stroke-width="2" stroke-dasharray="7 6"/>`;
+ g+=`<rect x="${L.zB.x}" y="${L.zB.y+2}" width="${L.zB.w}" height="${L.zB.h}" rx="10" fill="#F472B610" stroke="${PK}" stroke-width="2" stroke-dasharray="7 6"/>`;
+ g+=lbl(L.zR.x+L.zR.w-28,L.zR.y-14,'kanan',C1,14)+lbl(L.zB.x+L.zB.w/2,L.zB.y+L.zB.h+14,'bawah',PK,14);
+ // jubin x²
+ for(let i=0;i<S.a;i++)g+=tile(OX+i*X,OY,X,X,C1,'x²',26);
+ // jubin x di kanan (tegak)
+ for(let i=0;i<S.R;i++)g+=tile(OX+S.a*X+i*U,OY,U,X,C2,'x',15,'pl',` data-z="R"`);
+ // jubin x di bawah (melintang, baris demi baris)
+ for(let i=0;i<S.Bt;i++){const r=Math.floor(i/S.a),k=i%S.a;g+=tile(OX+k*X,OY+X+r*U,X,U,C2,'x',15,'pl',` data-z="B"`)}
+ // penjuru jubin unit
+ const rw=rows();
+ if(S.R&&rw){
+  const cx=OX+S.a*X,cy=OY+X;
+  if(valid())for(let i=0;i<S.R;i++)for(let j=0;j<rw;j++)g+=tile(cx+i*U,cy+j*U,U,U,C3,'1',11);
+  else g+=`<rect x="${cx+2}" y="${cy+2}" width="${S.R*U-4}" height="${rw*U-4}" rx="5" fill="none" stroke="${C3}" stroke-width="2" stroke-dasharray="4 4"/>`+lbl(cx+S.R*U/2,cy+rw*U/2,`${S.R}×${rw}`,C3,Math.min(14,S.R*U/3));
+ }
+ // label dimensi apabila lengkap
+ if(valid()){g+=lbl(OX+(S.a*X+S.R*U)/2,OY-26,lin(S.a,S.R),C1,20)+`<text transform="rotate(-90 ${OX-22} ${OY+(X+rw*U)/2})" x="${OX-22}" y="${OY+(X+rw*U)/2}" fill="${PK}" font-size="20" font-weight="900" text-anchor="middle" dominant-baseline="middle" font-family="Inter,Arial,sans-serif">${lin(1,rw)}</text>`}
+ // dulang
+ g+=`<rect x="${OX-10}" y="${L.ty-10}" width="${Math.max(L.bw,S.b*(U+6)+20,8*(U+4)+20)}" height="${X+U*2+44}" rx="14" fill="#ffffff06" stroke="${BD}" stroke-width="2"/>`;
+ g+=lbl(OX+30,L.ty+4,'DULANG',MU,12);
+ for(let i=0;i<tray();i++)g+=tile(OX+i*(U+6),L.ty+16,U,X,C2,'x',15,'tr');
+ const unitsLeft=valid()?0:S.c;
+ for(let i=0;i<unitsLeft;i++){const r=Math.floor(i/8),k=i%8;g+=tile(OX+k*(U+4),L.ty+X+24+r*(U+2),U,U,C3,'1',11)}
+ if(!tray()&&!unitsLeft)g+=lbl(OX+120,L.ty+X/2+16,'Dulang kosong ✓',C2,16);
+ g+='<g id="ghost"></g>';
+ svg.innerHTML=g;
+ const W=Math.max(L.bw,S.b*(U+6)+20,8*(U+4)+20)+40,H=L.ty+X+U*2+70;
+ svg.setAttribute('viewBox',`${OX-50} ${OY-56} ${W+30} ${H}`);
+ renderInfo();
+ document.getElementById('bR').disabled=!tray()||S.done;document.getElementById('bB').disabled=!tray()||S.done;
+}
+function renderInfo(){
+ let h=`<b class="t">Faktorkan ${expr()}</b><div class="row"><span style="color:var(--c2)">Kanan: ${S.R} jubin x</span><span style="color:var(--pk)">Bawah: ${S.Bt} jubin x</span><span style="color:var(--mu)">Dulang: ${tray()}</span></div>`;
+ const rw=rows();
+ if(valid()){
+  h+=`<div class="eq"><span class="ok">✓ Segi empat tepat lengkap!</span><br>${expr()} = ${lin(S.a,S.R)}${lin(1,rw)}</div><div class="tip">Panjang × lebar = luas. Semak: ${S.R} × ${rw} = ${S.c} jubin unit${S.a===1?` dan ${S.R} + ${rw} = ${S.b} jubin x`:` dan ${S.R} + 2 × ${rw} = ${S.b} jubin x`}.</div>`;
+  if(!S.done){S.done=true;S.score++;snd('menang');if(window.FX)FX.stars(document.getElementById('stage'),14)}
+ }else if(!tray()){
+  if(S.Bt%S.a)h+=`<div class="no">Setiap baris di bawah perlu ${S.a} jubin x (selebar ${S.a}x).</div>`;
+  else h+=`<div class="no">Penjuru perlu ${S.R} × ${rw} = ${S.R*rw} jubin unit, tetapi ada ${S.c}. Cuba susunan lain.</div>`;
+  h+=`<div class="tip">Seret jubin x yang telah diletak kembali ke dulang.</div>`;
+ }else h+=`<div class="tip">Seret jubin <b style="color:var(--c2)">x</b> dari dulang ke zon <b style="color:var(--c2)">kanan</b> atau <b style="color:var(--pk)">bawah</b> jubin x². Jubin unit (1) akan mengisi penjuru jika ${S.c} jubin muat tepat.</div>`;
+ info.innerHTML=h}
+/* ---------- seret (tetikus + sentuh) ---------- */
+let drag=null;
+function svgPt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+const inR=(p,z)=>p.x>=z.x-14&&p.x<=z.x+z.w+14&&p.y>=z.y-14&&p.y<=z.y+z.h+14;
+svg.addEventListener('pointerdown',e=>{
+ const t=e.target.closest('.tr,.pl');if(!t||S.done&&t.classList.contains('pl')&&false)return;e.preventDefault();
+ drag={from:t.classList.contains('tr')?'T':t.dataset.z,el:t};t.style.opacity=.35;svg.setPointerCapture(e.pointerId);moveGhost(svgPt(e))});
+function moveGhost(p){const gh=document.getElementById('ghost');if(!gh||!drag)return;
+ const L=layout(),hz=inR(p,L.zB)&&!inR(p,L.zR);
+ gh.innerHTML=hz?tile(p.x-X/2,p.y-U/2,X,U,C2,'x',15):tile(p.x-U/2,p.y-X/2,U,X,C2,'x',15)}
+svg.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();moveGhost(svgPt(e))});
+svg.addEventListener('pointerup',e=>{if(!drag)return;const p=svgPt(e),L=layout(),f=drag.from;drag=null;
+ let to=inR(p,L.zR)?'R':inR(p,L.zB)?'B':'T';
+ if(to!==f){if(f==='R')S.R--;if(f==='B')S.Bt--;if(to==='R')S.R++;if(to==='B')S.Bt++;S.done=valid()?S.done:false;snd(to==='T'?'ketik':'langkah')}
+ render()});
+svg.addEventListener('pointercancel',()=>{drag=null;render()});
+svg.addEventListener('dragstart',e=>e.preventDefault());
+/* ---------- butang ---------- */
+document.getElementById('bR').onclick=()=>{if(tray()){S.R++;snd('langkah');render()}};
+document.getElementById('bB').onclick=()=>{if(tray()){S.Bt++;snd('langkah');render()}};
+document.getElementById('bU').onclick=()=>{S.R=0;S.Bt=0;S.done=false;snd('ketik');render()};
+document.getElementById('bN').onclick=()=>{snd('ketik');newTask()};
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));S.lvl=+b.dataset.m;snd('ketik');newTask()});
+newTask();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

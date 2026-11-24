@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Jubin Kembangan · Bab 2</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--sf:#131C2E;--sf2:#1A2540;--sf3:#0E1626;--bd:#22304A;--bd2:#2E3F60;--tx:#E6EDF7;--mu:#94A3B8;--mu2:#64748B;--c1:#38BDF8;--c2:#34D399;--c3:#FBBF24;--pk:#F472B6;--ok:#34D399;--bad:#F87171;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#04263a}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.stage svg{width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:11px 14px;line-height:1.5;font-size:15px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:2px}
+.info .eq{margin-top:4px;padding:8px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:700;font-size:16px;line-height:1.55}
+.info .tip{color:var(--mu);font-size:13px;margin-top:4px}
+.info .row{display:flex;flex-wrap:wrap;gap:4px 14px;font-weight:700;font-size:14px;margin-top:4px}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.k2{color:var(--c1)}.k1{color:var(--c2)}.k0{color:var(--c3)}.kn{color:var(--bad)}
+.ctrl{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.fac{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:7px 8px;display:flex;flex-direction:column;gap:6px}
+.fac h4{margin:0;font-size:12px;letter-spacing:.08em;color:var(--mu);font-weight:800}
+.fac .ex{font-weight:900;font-size:18px;text-align:center}
+.st{display:flex;gap:5px;align-items:center;justify-content:space-between}
+.st span{font-size:13px;color:var(--mu);font-weight:700;min-width:46px}
+.st button{flex:1;min-height:40px;background:var(--sf2);border:2px solid var(--bd2);border-radius:11px;font-weight:900;font-size:17px;padding:4px}
+.st button.sg{flex:1.2;font-size:15px}
+.chip{background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:12px 4px;font-weight:800;font-size:15.5px;min-height:48px}
+.chip.ok{border-color:var(--ok);background:#34d39922}.chip.no{border-color:var(--bad);background:#f8717122}
+.big{background:var(--c2);border:0;color:#052e1f;border-radius:13px;padding:12px 6px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.nextb{margin-top:8px;background:var(--c1);border:0;color:#04263a;border-radius:11px;padding:9px 16px;font-weight:900}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.3fr) minmax(340px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:16px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:22px}.info .eq{font-size:18px}
+}
+@media(max-height:700px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.info{padding:8px 11px;font-size:14px}.info .eq{font-size:15px;padding:6px 9px}.info b.t{font-size:16px}.st button{min-height:34px}.chip{padding:8px 3px;min-height:40px}}
+@media(max-width:420px){.modes button{font-size:13.5px;padding:10px 3px}.fac .ex{font-size:16px}.st span{min-width:38px;font-size:12px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#38BDF8;color:#04263a;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #38bdf844">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mod">
+   <button data-m="teroka" class="on" role="tab">🧱 Bina Jubin</button>
+   <button data-m="cabaran" role="tab">❓ Cabaran</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" viewBox="0 0 460 440" aria-label="Model luas jubin algebra"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const C1='#38BDF8',C2='#34D399',C3='#FBBF24',PK='#F472B6',RD='#F87171',TX='#E6EDF7',MU='#94A3B8',SF3='#0E1626';
+const OX=86,OY=70,AV=354; // asal grid & ruang tersedia
+let S={m:'teroka',a:1,b:3,c:1,d:2,q:null,score:0,tot:0,streak:0};
+const snd=n=>{if(window.FX)FX.play(n)};
+const fm=n=>(n<0?'−':'')+Math.abs(n);
+// sebutan bertanda: (k, kuasa) -> "+ 3x"
+function term(k,p,first){if(k===0)return '';const a=Math.abs(k),v=p===2?'x²':p===1?'x':'';const body=(a===1&&v?'':a)+v;return first?(k<0?'−':'')+body:(k<0?' − ':' + ')+body}
+function poly(c2,c1,c0){let s='',f=true;[[c2,2],[c1,1],[c0,0]].forEach(([k,p])=>{if(k){s+=term(k,p,f);f=false}});return s||'0'}
+const lin=(a,b)=>`${a===1?'':a}x${b?(b<0?' − ':' + ')+Math.abs(b):''}`;
+function lbl(x,y,t,c=TX,s=20,a='middle'){return `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" fill="${c}" font-size="${s}" font-weight="900" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="${SF3}" stroke-width="4" stroke-linejoin="round">${t}</text>`}
+function rect(x,y,w,h,col,neg,lab,fs){const fill=neg?'#F8717133':col+'33',st=neg?RD:col;let g=`<rect x="${(x+1.5).toFixed(1)}" y="${(y+1.5).toFixed(1)}" width="${Math.max(0,w-3).toFixed(1)}" height="${Math.max(0,h-3).toFixed(1)}" rx="${Math.min(6,w/5)}" fill="${fill}" stroke="${st}" stroke-width="2.5"${neg?' stroke-dasharray="5 3"':''}/>`;if(lab&&fs>7)g+=lbl(x+w/2,y+h/2,lab,neg?RD:TX,fs);return g}
+/* ---------- lukis grid jubin (ax + b)(cx + d): lajur = faktor 1, baris = faktor 2 ---------- */
+function geom(a,b,c,d){const X0=100,U0=30,wT=a*X0+Math.abs(b)*U0,hT=c*X0+Math.abs(d)*U0,s=1;return{X:X0*s,U:U0*s,s,W:a*X0*s+Math.abs(b)*U0*s,H:c*X0*s+Math.abs(d)*U0*s}}
+function tiles(a,b,c,d,showHandles){
+ const G=geom(a,b,c,d),{X,U}=G;let g='';
+ const cols=[],rows=[];for(let i=0;i<a;i++)cols.push({w:X,k:'x',neg:false});for(let i=0;i<Math.abs(b);i++)cols.push({w:U,k:'1',neg:b<0});
+ for(let i=0;i<c;i++)rows.push({h:X,k:'x',neg:false});for(let i=0;i<Math.abs(d);i++)rows.push({h:U,k:'1',neg:d<0});
+ let y=OY;rows.forEach(r=>{let x=OX;cols.forEach(cl=>{const neg=r.neg!==cl.neg,both=r.k+cl.k;
+  const col=both==='xx'?C1:both==='11'?C3:C2,lab=both==='xx'?'x²':both==='11'?'1':'x';
+  g+=rect(x,y,cl.w,r.h,col,neg,(neg?'−':'')+lab,both==='xx'?24*G.s+6:both==='11'?Math.min(13,U*.5):Math.min(17,U*.6));x+=cl.w});y+=r.h});
+ // pembaris atas & kiri
+ let x=OX;cols.forEach((cl,i)=>{g+=`<rect x="${(x+1).toFixed(1)}" y="${OY-30}" width="${(cl.w-2).toFixed(1)}" height="20" rx="5" fill="${cl.k==='x'?C1:(cl.neg?RD:C3)}" opacity=".85"/>`;if(cl.k==='x'||U>16)g+=lbl(x+cl.w/2,OY-20,cl.k==='x'?'x':(cl.neg?'−1':'1'),SF3,cl.k==='x'?15:11).replace(/stroke="[^"]*" stroke-width="4"/,'stroke="none"');x+=cl.w});
+ y=OY;rows.forEach(r=>{g+=`<rect x="${OX-30}" y="${(y+1).toFixed(1)}" width="20" height="${(r.h-2).toFixed(1)}" rx="5" fill="${r.k==='x'?C1:(r.neg?RD:C3)}" opacity=".85"/>`;if(r.k==='x'||U>16)g+=lbl(OX-20,y+r.h/2,r.k==='x'?'x':(r.neg?'−1':'1'),SF3,r.k==='x'?15:11).replace(/stroke="[^"]*" stroke-width="4"/,'stroke="none"');y+=r.h});
+ // label faktor
+ g+=lbl(OX+G.W/2,OY-50,`(${lin(a,b)})`,C1,20)+lbl(OX-50,OY+G.H/2,`(${lin(c,d)})`,PK,18).replace('<text ',`<text transform="rotate(-90 ${(OX-50).toFixed(1)} ${(OY+G.H/2).toFixed(1)})" `);
+ if(showHandles){
+  const hx=OX+G.W+16,hy=OY+G.H+16;
+  g+=`<g class="h" data-h="b" style="cursor:ew-resize"><circle cx="${hx}" cy="${OY-20}" r="26" fill="transparent"/><circle cx="${hx}" cy="${OY-20}" r="12" fill="${C3}" stroke="#fff" stroke-width="3"/><path d="M${hx-5} ${OY-20}h10M${hx+2} ${OY-24}l4 4-4 4M${hx-2} ${OY-24}l-4 4 4 4" stroke="${SF3}" stroke-width="2" fill="none"/></g>`;
+  g+=`<g class="h" data-h="d" style="cursor:ns-resize"><circle cx="${OX-20}" cy="${hy}" r="26" fill="transparent"/><circle cx="${OX-20}" cy="${hy}" r="12" fill="${C3}" stroke="#fff" stroke-width="3"/><path d="M${OX-20} ${hy-5}v10M${OX-24} ${hy+2}l4 4 4-4M${OX-24} ${hy-2}l4-4 4 4" stroke="${SF3}" stroke-width="2" fill="none"/></g>`;
+ }
+ // kotak pandangan ikut saiz kandungan (minimum 330)
+ const bw=G.W+104,bh=G.H+104,vw=Math.max(bw,330),vh=Math.max(bh,330);
+ svg.setAttribute('viewBox',`${(OX-68-(vw-bw)/2).toFixed(1)} ${(OY-68-(vh-bh)/2).toFixed(1)} ${vw.toFixed(1)} ${vh.toFixed(1)}`);
+ return g}
+function counts(a,b,c,d){return{x2:a*c,xa:a*d,xb:b*c,k:b*d}}
+/* ---------- mod teroka ---------- */
+function terokaInfo(){
+ const {a,b,c,d}=S,K=counts(a,b,c,d),c1=K.xa+K.xb;
+ const raw=[`<span class="k2">${term(K.x2,2,true)}</span>`];
+ if(K.xa)raw.push(`<span class="${K.xa<0?'kn':'k1'}">${term(K.xa,1,false)}</span>`);
+ if(K.xb)raw.push(`<span class="${K.xb<0?'kn':'k1'}">${term(K.xb,1,false)}</span>`);
+ if(K.k)raw.push(`<span class="${K.k<0?'kn':'k0'}">${term(K.k,0,false)}</span>`);
+ const res=poly(K.x2,c1,K.k);
+ let h=`<b class="t">Luas = (${lin(a,b)})(${lin(c,d)})</b>`;
+ h+=`<div class="eq">= ${raw.join('')}<br>= <span style="color:var(--c2)">${res}</span></div>`;
+ h+=`<div class="row"><span class="k2">x²: ${K.x2} jubin</span><span class="k1">x: ${fm(K.xa)} ${K.xb<0?'−':'+'} ${Math.abs(K.xb)} = ${fm(c1)}</span><span class="k0">pemalar: ${fm(K.k)}</span></div>`;
+ if(b&&d&&c1===0)h+=`<div class="ok" style="margin-top:4px">Jubin x positif dan negatif saling membatalkan: (a + b)(a − b) = a² − b²!</div>`;
+ else if(a===c&&b===d&&b)h+=`<div class="ok" style="margin-top:4px">Segi empat sama: (${lin(a,b)})² mempunyai sebutan tengah ${fm(2*a*b)}x.</div>`;
+ h+=`<div class="tip">Seret ● kuning untuk ubah pemalar. Jubin <span class="kn">merah bergaris putus</span> bernilai negatif.</div>`;
+ info.innerHTML=h}
+function stepRow(lab,val,dec,inc,extra){return `<div class="st"><span>${lab}</span><button data-a="${dec}" aria-label="Kurang ${lab}">−</button><b style="min-width:30px;text-align:center;font-size:17px">${val}</b><button data-a="${inc}" aria-label="Tambah ${lab}">+</button>${extra||''}</div>`}
+function terokaCtrl(){
+ ctrl.className='ctrl';
+ ctrl.innerHTML=`<div class="fac"><h4>FAKTOR 1 (ATAS)</h4><div class="ex" style="color:var(--c1)">(${lin(S.a,S.b)})</div>${stepRow('x',S.a,'a-','a+')}${stepRow('nombor',fm(S.b),'b-','b+')}</div>
+ <div class="fac"><h4>FAKTOR 2 (KIRI)</h4><div class="ex" style="color:var(--pk)">(${lin(S.c,S.d)})</div>${stepRow('x',S.c,'c-','c+')}${stepRow('nombor',fm(S.d),'d-','d+')}</div>`;
+ ctrl.querySelectorAll('[data-a]').forEach(bt=>bt.onclick=()=>{const k=bt.dataset.a[0],up=bt.dataset.a[1]==='+';
+  const lim={a:[1,3],c:[1,3],b:[-6,6],d:[-6,6]}[k];const v=Math.max(lim[0],Math.min(lim[1],S[k]+(up?1:-1)));if(v!==S[k]){S[k]=v;snd('ketik');render()}});
+}
+/* ---------- mod cabaran ---------- */
+const rnd=n=>Math.floor(Math.random()*n);
+const nzr=(lo,hi)=>{let v;do v=lo+rnd(hi-lo+1);while(!v);return v};
+function newQ(){
+ let a,b,c,d;do{a=1+rnd(2);c=1+rnd(2);b=nzr(-4,5);d=nzr(-4,5)}while(a*d+b*c===0);
+ const K=counts(a,b,c,d),ans=poly(K.x2,K.xa+K.xb,K.k);
+ const wr=[poly(K.x2,0,K.k),poly(K.x2,K.xa,K.k),poly(K.x2,K.xb,K.k),poly(K.x2,K.xa+K.xb,-K.k),poly(K.x2,-(K.xa+K.xb),K.k),poly(a+c,K.xa+K.xb,K.k)].sort(()=>Math.random()-.5);
+ const opts=[ans];wr.forEach(w=>{if(!opts.includes(w)&&opts.length<4)opts.push(w)});for(let k=1;opts.length<4;k++){const w=poly(K.x2,K.xa+K.xb+k,K.k);if(!opts.includes(w))opts.push(w)}
+ S.q={a,b,c,d,ans,opts:opts.sort(()=>Math.random()-.5),done:false};
+ setCtrl();render();
+ info.innerHTML=`<b class="t">Apakah kembangan bagi (${lin(a,b)})(${lin(c,d)})?</b><div class="tip">Kira jubin: x² biru, x hijau, 1 kuning (merah = negatif). Skor: ${S.score}/${S.tot}${S.streak>=3?' · 🔥 '+S.streak+' berturut-turut':''}</div>`}
+function answer(o,btn){
+ const Q=S.q;if(Q.done)return;Q.done=true;S.tot++;const ok=o===Q.ans;
+ if(ok){S.score++;S.streak++;snd('betul');if(window.FX)FX.stars(btn,10)}else{S.streak=0;snd('salah')}
+ ctrl.querySelectorAll('.chip').forEach(b=>{if(b.dataset.o===Q.ans)b.classList.add('ok');else if(b===btn)b.classList.add('no');b.disabled=true});
+ const K=counts(Q.a,Q.b,Q.c,Q.d);
+ info.innerHTML=`<b class="t">${ok?'<span class="ok">✓ Betul!</span>':'<span class="no">✗ Jawapan: '+Q.ans+'</span>'}</b><div class="eq">${term(K.x2,2,true)}${term(K.xa,1,false)}${term(K.xb,1,false)}${term(K.k,0,false)}<br>= ${Q.ans}</div><div class="tip">Skor: ${S.score}/${S.tot}${S.streak>=3?' · 🔥 '+S.streak+' berturut-turut':''}</div><button class="nextb" id="nx">Seterusnya ▶</button>`;
+ document.getElementById('nx').onclick=newQ}
+function setCtrl(){
+ if(S.m==='teroka'){terokaCtrl();return}
+ ctrl.className='ctrl';
+ ctrl.innerHTML=S.q.opts.map(o=>`<button class="chip" data-o="${o}">${o}</button>`).join('');
+ ctrl.querySelectorAll('.chip').forEach(b=>b.onclick=()=>answer(b.dataset.o,b));
+}
+function render(){
+ if(S.m==='teroka'){svg.innerHTML=tiles(S.a,S.b,S.c,S.d,true);terokaInfo();terokaCtrl()}
+ else if(S.q){svg.innerHTML=tiles(S.q.a,S.q.b,S.q.c,S.q.d,false)}
+}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));S.m=b.dataset.m;snd('ketik');
+ if(S.m==='cabaran'){newQ();return}
+ render()});
+/* ---------- seret pemegang (tetikus + sentuh) ---------- */
+let drag=null;
+function svgPt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+svg.addEventListener('pointerdown',e=>{const h=e.target.closest('.h');if(!h)return;e.preventDefault();drag=h.dataset.h;svg.setPointerCapture(e.pointerId)});
+svg.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();const p=svgPt(e);
+ const G=geom(S.a,S.b,S.c,S.d);
+ if(drag==='b'){const sg=S.b<0?-1:1,n=Math.max(0,Math.min(6,Math.round((p.x-OX-S.a*G.X-8)/G.U)));const v=n*(sg||1);if(v!==S.b){S.b=v;snd('ketik');render()}}
+ else{const sg=S.d<0?-1:1,n=Math.max(0,Math.min(6,Math.round((p.y-OY-S.c*G.X-8)/G.U)));const v=n*(sg||1);if(v!==S.d){S.d=v;snd('ketik');render()}}});
+const end=()=>{drag=null};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+svg.addEventListener('dragstart',e=>e.preventDefault());
+render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>
