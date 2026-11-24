@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Pokok Faktor · Bab 2</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--sf:#131C2E;--sf3:#0E1626;--bd:#22304A;--tx:#E6EDF7;--mu:#94A3B8;--grid:#1E2A40;--c1:#34D399;--c2:#F472B6;--c3:#34D399;--ok:#34D399;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg)}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
+.wrap{flex:1;min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:10px;padding:10px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:center;justify-content:space-between}
+.top h1{margin:0;font-size:19px;color:var(--c1)}
+.main{min-height:0;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(260px,1fr);gap:10px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;display:flex}
+.stage svg{width:100%;height:100%;display:block;touch-action:none;user-select:none}
+.side{min-height:0;display:flex;flex-direction:column;gap:10px}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:12px 14px;font-size:15px;line-height:1.5}
+.card b.t{display:block;font-size:17px;color:var(--c1);margin-bottom:4px}
+.big{font-size:24px;font-weight:800;letter-spacing:.3px}
+label{display:block;font-weight:700;font-size:15px;margin:6px 0 2px}
+input[type=range]{width:100%;height:34px;accent-color:var(--c1)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips button{border:1px solid var(--bd);background:var(--sf3);border-radius:12px;padding:8px 12px;font-weight:800;font-size:15px;min-height:40px}
+.chips button.on{background:var(--c1);color:#0B1220;border-color:var(--c1)}
+@media (max-width:760px){.main{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto}.card{padding:9px 12px;font-size:14px}.big{font-size:19px}.top h1{font-size:16px}label{margin:2px 0 0}input[type=range]{height:28px}}
+.list{font-size:20px;font-weight:800;line-height:1.6}
+.chips button.off{opacity:.45}
+.go{border:0;border-radius:12px;padding:10px 14px;font-weight:900;font-size:15px;background:var(--c1);color:#0B1220;min-height:42px}
+</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(12px + env(safe-area-inset-top)) 12px 0;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#34D399;color:#0B1220;border-radius:14px;padding:10px 20px;font:900 16px Inter,system-ui,sans-serif;text-decoration:none">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+<div class="top"><h1>Pokok Faktor</h1><span id="sndslot" style="display:flex"></span></div>
+<div class="main">
+<div class="stage"><svg id="sv" viewBox="0 0 600 420" aria-label="Pokok faktor"></svg></div>
+<div class="side">
+<div class="card"><label for="n" id="nl">Nombor = </label><input type="range" id="n" min="4" max="240" value="60">
+<div class="chips" id="qk" style="margin-top:6px"></div></div>
+<div class="card"><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="go" id="step">Pecahkan ▶</button><button class="go" id="all" style="background:var(--sf3);color:var(--tx);border:1px solid var(--bd)">Tunjuk semua</button><button class="go" id="rst" style="background:var(--sf3);color:var(--tx);border:1px solid var(--bd)">Mula semula</button></div></div>
+<div class="card"><div class="big" id="eq"></div><div id="sub" style="margin-top:6px;color:var(--mu)"></div></div>
+</div></div>
+</div>
+<script>const $=id=>document.getElementById(id);const snd=n=>{if(window.FX)FX.play&&FX.play(n)};
+const nf=v=>{const r=Math.round(v*100)/100;return (Object.is(r,-0)?0:r).toLocaleString('ms-MY',{maximumFractionDigits:2})};
+const T=(x,y,t,c,s=16,a='middle')=>`<text x="${x}" y="${y}" fill="${c}" font-size="${s}" font-weight="700" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,sans-serif">${t}</text>`;
+const L=(x1,y1,x2,y2,c,w=2,d='')=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${c}" stroke-width="${w}" ${d?`stroke-dasharray="${d}"`:''} stroke-linecap="round"/>`;
+function svgPt(svg,e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+function drag(svg,onMove){let on=false;svg.addEventListener('pointerdown',e=>{on=true;svg.setPointerCapture(e.pointerId);onMove(svgPt(svg,e))});svg.addEventListener('pointermove',e=>{if(on)onMove(svgPt(svg,e))});const off=()=>{if(on){on=false;snd('ketik')}};svg.addEventListener('pointerup',off);svg.addEventListener('pointercancel',off)}
+const pf=n=>{const f=[];let d=2;while(n>1){while(n%d===0){f.push(d);n/=d}d++}return f};
+let K=0;const sv=$('sv');
+$('qk').innerHTML=[24,36,48,60,72,90,100,120,180].map(v=>`<button data-v="${v}">${v}</button>`).join('');
+$('qk').onclick=e=>{const b=e.target.closest('button');if(!b)return;$('n').value=b.dataset.v;K=0;snd('ketik');draw()};
+$('n').oninput=()=>{K=0;draw()};
+$('step').onclick=()=>{const f=pf(+$('n').value);if(K<f.length-1){K++;snd('ketik')}else snd('betul');draw()};
+$('all').onclick=()=>{K=99;snd('betul');draw()};$('rst').onclick=()=>{K=0;snd('ketik');draw()};
+function draw(){const n=+$('n').value,f=pf(n),k=Math.min(K,Math.max(0,f.length-1));$('nl').textContent='Nombor = '+n;
+ let s='',x=300,y=40,v=n,dx=Math.min(70,250/Math.max(1,f.length));const gap=Math.min(62,340/Math.max(1,f.length));
+ const leaf=(x,y,t,c,ring)=>(ring?`<circle cx="${x}" cy="${y}" r="20" fill="#0E1626" stroke="${c}" stroke-width="3"/>`:'')+T(x,y,t,c,ring?18:20);
+ if(f.length<=1){s+=leaf(x,y+40,n,'#FBBF24',1)+T(300,200,n+' ialah nombor perdana','#FBBF24',22)}
+ else{for(let i=0;i<k;i++){const p=f[i],q=v/p;s+=leaf(x,y,v,'#E6EDF7',0)+L(x-6,y+14,x-dx+6,y+gap-18,'#94A3B8',3)+L(x+6,y+14,x+dx-6,y+gap-18,'#94A3B8',3)+leaf(x-dx,y+gap,p,'#FBBF24',1);v=q;x+=dx;y+=gap}
+  const last=pf(v).length===1;s+=leaf(x,y,v,last?'#FBBF24':'#34D399',last)}
+ sv.innerHTML=s;
+ const done=k>=f.length-1;
+ $('eq').innerHTML=done?`${n} = ${f.join(' × ')||n}`:`${n} = ${f.slice(0,k).concat([v]).join(' × ')}`;
+ $('sub').innerHTML=done?(f.length>1?'Semua cabang berakhir dengan nombor perdana (bulatan kuning). Inilah pemfaktoran perdana.':''):'Nombor hijau belum perdana. Tekan <b>Pecahkan</b> untuk bahagi dengan nombor perdana terkecil.'}
+draw();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+</body></html>

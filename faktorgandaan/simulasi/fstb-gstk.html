@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>FSTB & GSTK · Bab 2</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--sf:#131C2E;--sf3:#0E1626;--bd:#22304A;--tx:#E6EDF7;--mu:#94A3B8;--grid:#1E2A40;--c1:#A78BFA;--c2:#F472B6;--c3:#A78BFA;--ok:#34D399;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg)}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
+.wrap{flex:1;min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:10px;padding:10px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:center;justify-content:space-between}
+.top h1{margin:0;font-size:19px;color:var(--c1)}
+.main{min-height:0;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(260px,1fr);gap:10px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;display:flex}
+.stage svg{width:100%;height:100%;display:block;touch-action:none;user-select:none}
+.side{min-height:0;display:flex;flex-direction:column;gap:10px}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:12px 14px;font-size:15px;line-height:1.5}
+.card b.t{display:block;font-size:17px;color:var(--c1);margin-bottom:4px}
+.big{font-size:24px;font-weight:800;letter-spacing:.3px}
+label{display:block;font-weight:700;font-size:15px;margin:6px 0 2px}
+input[type=range]{width:100%;height:34px;accent-color:var(--c1)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips button{border:1px solid var(--bd);background:var(--sf3);border-radius:12px;padding:8px 12px;font-weight:800;font-size:15px;min-height:40px}
+.chips button.on{background:var(--c1);color:#0B1220;border-color:var(--c1)}
+@media (max-width:760px){.main{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto}.card{padding:9px 12px;font-size:14px}.big{font-size:19px}.top h1{font-size:16px}label{margin:2px 0 0}input[type=range]{height:28px}}
+.list{font-size:20px;font-weight:800;line-height:1.6}
+.chips button.off{opacity:.45}
+.go{border:0;border-radius:12px;padding:10px 14px;font-weight:900;font-size:15px;background:var(--c1);color:#0B1220;min-height:42px}
+</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(12px + env(safe-area-inset-top)) 12px 0;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#A78BFA;color:#0B1220;border-radius:14px;padding:10px 20px;font:900 16px Inter,system-ui,sans-serif;text-decoration:none">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+<div class="top"><h1>FSTB &amp; GSTK</h1><span id="sndslot" style="display:flex"></span></div>
+<div class="main">
+<div class="stage"><svg id="sv" viewBox="0 0 600 420" aria-label="Gambar rajah Venn faktor perdana"></svg></div>
+<div class="side">
+<div class="card"><label for="a" id="al">A = </label><input type="range" id="a" min="2" max="120" value="18"><label for="b" id="bl">B = </label><input type="range" id="b" min="2" max="120" value="24"></div>
+<div class="card"><div class="big" id="eq"></div><div id="sub" style="margin-top:6px"></div></div>
+<div class="card" style="color:var(--mu)" id="tip">FSTB = darab nombor di tengah (sepunya). GSTK = darab semua nombor dalam gambar rajah.</div>
+</div></div>
+</div>
+<script>const $=id=>document.getElementById(id);const snd=n=>{if(window.FX)FX.play&&FX.play(n)};
+const nf=v=>{const r=Math.round(v*100)/100;return (Object.is(r,-0)?0:r).toLocaleString('ms-MY',{maximumFractionDigits:2})};
+const T=(x,y,t,c,s=16,a='middle')=>`<text x="${x}" y="${y}" fill="${c}" font-size="${s}" font-weight="700" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,sans-serif">${t}</text>`;
+const L=(x1,y1,x2,y2,c,w=2,d='')=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${c}" stroke-width="${w}" ${d?`stroke-dasharray="${d}"`:''} stroke-linecap="round"/>`;
+function svgPt(svg,e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+function drag(svg,onMove){let on=false;svg.addEventListener('pointerdown',e=>{on=true;svg.setPointerCapture(e.pointerId);onMove(svgPt(svg,e))});svg.addEventListener('pointermove',e=>{if(on)onMove(svgPt(svg,e))});const off=()=>{if(on){on=false;snd('ketik')}};svg.addEventListener('pointerup',off);svg.addEventListener('pointercancel',off)}
+const pf=n=>{const f=[];let d=2;while(n>1){while(n%d===0){f.push(d);n/=d}d++}return f};const sv=$('sv');
+$('a').oninput=draw;$('b').oninput=draw;
+function draw(){const a=+$('a').value,b=+$('b').value;$('al').textContent='A = '+a;$('bl').textContent='B = '+b;
+ const fa=pf(a),fb=pf(b).slice(),com=[],ra=[];fa.forEach(p=>{const i=fb.indexOf(p);if(i>=0){com.push(p);fb.splice(i,1)}else ra.push(p)});
+ const g=com.reduce((x,y)=>x*y,1),l=a*b/g;
+ let s=`<circle cx="230" cy="215" r="160" fill="rgba(52,211,153,.06)" stroke="#34D399" stroke-width="4"/><circle cx="370" cy="215" r="160" fill="rgba(167,139,250,.06)" stroke="#A78BFA" stroke-width="4"/>`;
+ s+=T(150,48,'A = '+a,'#34D399',22)+T(450,48,'B = '+b,'#A78BFA',22);
+ const place=(arr,cx,c)=>arr.forEach((p,i)=>{const col=i%2,row=Math.floor(i/2);s+=`<circle cx="${cx+(col?24:-24)*(arr.length>1?1:0)}" cy="${150+row*52}" r="21" fill="#0E1626" stroke="${c}" stroke-width="3"/>`+T(cx+(col?24:-24)*(arr.length>1?1:0),150+row*52,p,c,19)});
+ place(ra,150,'#34D399');place(com,300,'#FBBF24');place(fb,450,'#A78BFA');
+ if(!com.length)s+=T(300,215,'tiada','#94A3B8',16);
+ sv.innerHTML=s;
+ $('eq').innerHTML=`FSTB = <span style="color:var(--c3)">${g}</span> · GSTK = <span style="color:#38BDF8">${l}</span>`;
+ $('sub').innerHTML=`${a} = ${fa.join(' × ')||a}<br>${b} = ${pf(b).join(' × ')||b}<br>${g===1?'<b style="color:#FBBF24">FSTB = 1, maka A dan B ialah nombor koperdana.</b><br>':''}<span style="color:var(--mu)">Semak: FSTB × GSTK = ${g} × ${l} = ${g*l} = A × B</span>`}
+draw();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+</body></html>
