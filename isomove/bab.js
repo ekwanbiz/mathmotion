@@ -10,6 +10,7 @@ const BAB = {
   logo: 'logo.svg',
   key: 'isomove-v2',                // storan tetapan & rekod (jangan tukar)
   ajarKey: 'isomove-ajar',          // storan pelan Mula Mengajar (jangan tukar)
+  pelanBtn: true,                   // cuba: Mula Mengajar sebagai butang di kepala, bukan tab (24 Nov)
   g60: {                            // teks peraturan Cabaran 60 Saat
     soalan: 'Ada soalan <b>pilih jawapan</b> dan soalan <b>ketik pada grid</b>.',
     lepas: 'Selepas menjawab, lihat animasi transformasi yang betul.'

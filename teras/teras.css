@@ -603,3 +603,13 @@ g.rv.hid{visibility:hidden}
  .ps .sl-steps li,.ps .sl-def,.ps .sl-ans,.ps .sl-note{break-inside:avoid}
  .ps .rv.hid{visibility:visible}
 }
+
+/* Butang Pelan Mengajar di kepala (BAB.pelanBtn) */
+.pelbtn{height:44px;padding:0 18px 0 14px;display:inline-flex;align-items:center;gap:8px;border-radius:12px;text-decoration:none;font-weight:800;font-size:15px;letter-spacing:.02em;white-space:nowrap;color:var(--on);background:var(--tr);box-shadow:0 6px 18px color-mix(in srgb,var(--tr) 35%,transparent)}
+.pelbtn:hover{filter:brightness(1.08)}
+.pelbtn svg{width:18px;height:18px}
+.pelbtn .ts{display:none}
+.pelbtn[aria-current="page"]{box-shadow:0 0 0 3px color-mix(in srgb,var(--tr) 35%,transparent),0 6px 18px color-mix(in srgb,var(--tr) 35%,transparent)}
+@media (max-width:1250px){.pelbtn{padding:0 14px 0 11px;font-size:14px}}
+@media (max-width:1120px){.pelbtn .tl{display:none}.pelbtn .ts{display:inline}}
+@media (max-width:900px){.pelbtn{height:40px;padding:0 12px 0 10px;font-size:13px}}
