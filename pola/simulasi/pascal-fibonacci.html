@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Pascal &amp; Fibonacci · Bab 1</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--sf:#131C2E;--sf2:#1A2540;--sf3:#0E1626;--bd:#22304A;--bd2:#2E3E5C;--tx:#E6EDF7;--mu:#94A3B8;--c1:#38BDF8;--c2:#FBBF24;--c3:#34D399;--pk:#F472B6;--pu:#A78BFA;--ok:#34D399;--bad:#F87171;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#04263a}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.stage svg{width:100%;height:100%;display:block;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.cell{cursor:pointer}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:12px 14px;min-height:74px;line-height:1.5;font-size:15px}
+.info b.t{display:block;font-size:19px;color:var(--c1);margin-bottom:2px}
+.info .tip{color:var(--mu);font-size:13px;margin-top:4px}
+.info .row{display:flex;flex-wrap:wrap;gap:6px 14px;font-weight:700}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.info .eq{margin-top:6px;padding:8px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:700;word-break:break-word}
+.ctrl{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.ctrl.two{grid-template-columns:1fr 1fr}
+.ctrl.four{grid-template-columns:repeat(4,1fr)}
+.chip{background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:12px 4px;font-weight:800;font-size:15px}
+.chip.on{background:var(--c1);border-color:var(--c1);color:#04263a}
+.chip.ok{border-color:var(--ok);background:#34d39922}.chip.no{border-color:var(--bad);background:#f8717122}
+.big{background:var(--c2);border:0;color:#2a1d03;border-radius:13px;padding:13px 6px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.big:disabled{opacity:.45;cursor:not-allowed}
+.nextb{margin-top:8px;background:var(--c1);border:0;color:#04263a;border-radius:11px;padding:9px 16px;font-weight:900}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.35fr) minmax(320px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .ctrl,.ctrl.four{grid-template-columns:1fr 1fr}
+ .info b.t{font-size:24px}.info .eq{font-size:17px}
+}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.chip{padding:9px 3px;font-size:14px}.info{padding:8px 11px;min-height:62px;font-size:14px}.info b.t{font-size:17px}.big{padding:10px 4px}}
+@media(max-width:420px){.chip,.big{font-size:13px}.modes button{font-size:13px;padding:10px 3px}.chip{padding:10px 2px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#38BDF8;color:#04263a;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #38bdf844">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mod">
+   <button data-m="pascal" class="on" role="tab">🔺 Pascal</button>
+   <button data-m="fibo" role="tab">🌀 Fibonacci</button>
+   <button data-m="cabaran" role="tab">❓ Cabaran</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" viewBox="0 0 480 440" aria-label="Segi tiga Pascal atau petak Fibonacci"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const C1='#38BDF8',C2='#FBBF24',C3='#34D399',PK='#F472B6',PU='#A78BFA',MU='#94A3B8',TX='#E6EDF7',BD='#22304A',SF='#131C2E',SF2='#1A2540',RD='#F87171';
+const R=10; // baris 0..9
+const PS=[[1]];for(let r=1;r<R;r++){const p=PS[r-1];PS.push([1,...p.slice(1).map((v,i)=>p[i]+v),1])}
+const FIB=[0,1];while(FIB.length<16)FIB.push(FIB[FIB.length-1]+FIB[FIB.length-2]);
+let S={m:'pascal',hl:'tiada',sel:[4,2],row:null,diag:5,fn:5,q:null,score:0,tot:0,streak:0};
+const snd=n=>{if(window.FX)FX.play(n)};
+function lbl(x,y,t,c=TX,s=18,a='middle',w=800){return `<text x="${x}" y="${y}" fill="${c}" font-size="${s}" font-weight="${w}" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" pointer-events="none">${t}</text>`}
+/* ================= Pascal ================= */
+const DX=46,DY=41,pos=(r,k)=>({x:240+(k-r/2)*DX,y:30+r*DY});
+function cellState(r,k){
+ const v=PS[r][k];
+ if(S.hl==='ganjil')return v%2?{f:PK+'55',s:PK,t:TX}:{f:SF,s:BD,t:MU};
+ if(S.hl==='pepenjuru'){if(k===1||k===r-1)return{f:C1+'40',s:C1,t:TX};if((k===2||k===r-2)&&r>=2)return{f:PK+'40',s:PK,t:TX};if(k===0||k===r)return{f:C2+'26',s:C2,t:TX};return{f:SF,s:BD,t:MU}}
+ if(S.hl==='fibonacci'){if(r+k===S.diag&&k<=r)return{f:C3+'45',s:C3,t:TX};return{f:SF,s:BD,t:MU}}
+ if(S.hl==='jumlah'&&S.row===r)return{f:C3+'40',s:C3,t:TX};
+ if(S.sel&&S.sel[0]===r&&S.sel[1]===k)return{f:PU+'55',s:PU,t:TX};
+ if(S.sel&&S.sel[0]-1===r&&(k===S.sel[1]-1||k===S.sel[1]))return{f:C1+'30',s:C1,t:TX};
+ return{f:SF,s:(k===0||k===r)?C2:BD,t:(k===0||k===r)?C2:TX}}
+function pascalSVG(hide){
+ let g='';
+ if(S.hl==='tiada'&&S.sel&&S.sel[0]>0&&S.sel[1]>0&&S.sel[1]<S.sel[0]){const [r,k]=S.sel,c=pos(r,k);
+  [[r-1,k-1],[r-1,k]].forEach(([a,b])=>{const p=pos(a,b);g+=`<line x1="${p.x}" y1="${p.y+17}" x2="${(p.x+c.x)/2}" y2="${c.y-19}" stroke="${PU}" stroke-width="3" stroke-linecap="round"/>`})}
+ for(let r=0;r<R;r++)for(let k=0;k<=r;k++){const p=pos(r,k),v=PS[r][k],st=cellState(r,k),hid=hide&&hide[0]===r&&hide[1]===k;
+  g+=`<g class="cell" data-r="${r}" data-k="${k}"><circle cx="${p.x}" cy="${p.y}" r="19.5" fill="${hid?C1+'22':st.f}" stroke="${hid?C1:st.s}" stroke-width="2.2"${hid?' stroke-dasharray="5 4"':''}/>${lbl(p.x,p.y+1,hid?'?':v,hid?C1:st.t,v>=100?13:v>=10?15:17)}</g>`}
+ if(S.hl==='jumlah'&&S.row!=null){const y=pos(S.row,0).y;g+=lbl(14,y,'Σ',C3,16,'start')}
+ return g}
+function pascalInfo(){
+ let h='';
+ if(S.hl==='tiada'){
+  const [r,k]=S.sel||[0,0],v=PS[r][k];
+  if(k===0||k===r)h=`<b class="t">Nombor ${v} di hujung baris</b>Setiap baris bermula dan berakhir dengan <b style="color:var(--c2)">1</b>.`;
+  else h=`<b class="t">${PS[r-1][k-1]} + ${PS[r-1][k]} = ${v}</b>Setiap nombor ialah <b>hasil tambah dua nombor di atasnya</b>.`;
+  h+=`<div class="tip">Ketik mana-mana nombor dalam segi tiga untuk melihat cara ia diperoleh.</div>`}
+ if(S.hl==='ganjil')h=`<b class="t">Nombor ganjil diserlahkan</b>Nombor <b style="color:var(--pk)">ganjil</b> membentuk corak segi tiga berulang (segi tiga Sierpinski). Nombor genap dikelabukan.<div class="tip">Cuba cari nombor genap dan ganjil dalam setiap baris.</div>`;
+ if(S.hl==='pepenjuru')h=`<b class="t">Pola pada pepenjuru</b><div class="row"><span style="color:var(--c2)">1, 1, 1, 1, …</span><span style="color:var(--c1)">1, 2, 3, 4, 5, … (nombor bulat)</span><span style="color:var(--pk)">1, 3, 6, 10, 15, … (nombor segi tiga)</span></div><div class="tip">Pepenjuru kedua: tambah 1. Pepenjuru ketiga: tambah 2, 3, 4, …</div>`;
+ if(S.hl==='jumlah'){const r=S.row==null?4:S.row,row=PS[r];h=`<b class="t">Jumlah baris = ${row.reduce((a,b)=>a+b,0)}</b><div class="eq">${row.join(' + ')} = ${row.reduce((a,b)=>a+b,0)}</div><div class="tip">Jumlah setiap baris: 1, 2, 4, 8, 16, 32, … (darab 2). Ketik satu baris.</div>`}
+ if(S.hl==='fibonacci'){const cells=[];for(let k=0;k<=S.diag;k++){const r=S.diag-k;if(k<=r&&r<R)cells.push(PS[r][k])}const s=cells.reduce((a,b)=>a+b,0);
+  h=`<b class="t">Pepenjuru cetek: ${cells.join(' + ')} = ${s}</b>Jumlah pada pepenjuru cetek ialah <b style="color:var(--c3)">nombor Fibonacci</b>: 1, 1, 2, 3, 5, 8, 13, …<div class="tip">Tekan "Pepenjuru seterusnya" untuk melihat nombor Fibonacci berikutnya.</div>`}
+ info.innerHTML=h}
+/* ================= Fibonacci ================= */
+function fiboSq(n){ // n petak: sisi FIB[1..n]
+ const sq=[[0,0,1,'u']];let x0=0,y0=0,x1=1,y1=1;
+ for(let i=1;i<n;i++){const s=FIB[i+1],d=(i-1)%4;let p,t;
+  if(d===0){p=[x1,y0];x1+=s;t='r'}else if(d===1){p=[x0,y1];y1+=s;t='d'}else if(d===2){p=[x0-s,y0];x0-=s;t='l'}else{p=[x0,y0-s];y0-=s;t='u'}
+  sq.push([p[0],p[1],s,t])}
+ return{sq,x0,y0,x1,y1}}
+const FCOL=[C2,C2,C1,C3,PK,PU,'#FB923C',C1,C3,PK];
+function fiboSVG(){
+ const F=fiboSq(S.fn),w=F.x1-F.x0,h=F.y1-F.y0,U=Math.min(440/w,300/h),ox=240-(F.x0+w/2)*U,oy=170-(F.y0+h/2)*U;
+ let g='',path='';
+ F.sq.forEach(([x,y,s,t],i)=>{const X=ox+x*U,Y=oy+y*U,L=s*U,last=i===F.sq.length-1;const c=FCOL[i%FCOL.length];
+  g+=`<rect x="${X.toFixed(1)}" y="${Y.toFixed(1)}" width="${L.toFixed(1)}" height="${L.toFixed(1)}" rx="3" fill="${c}${last?'44':'22'}" stroke="${c}" stroke-width="${last?3.5:2}"/>`;
+  if(L>16)g+=lbl(X+L/2,Y+L/2,s,c,Math.min(34,Math.max(11,L*.3)));
+  // lengkok lingkaran
+  let a,b;if(t==='r'){a=[X,Y];b=[X+L,Y+L]}else if(t==='d'){a=[X+L,Y];b=[X,Y+L]}else if(t==='l'){a=[X+L,Y+L];b=[X,Y]}else{a=[X,Y+L];b=[X+L,Y]}
+  path+=`${i?'':`M${a[0].toFixed(1)} ${a[1].toFixed(1)}`} A${L.toFixed(1)} ${L.toFixed(1)} 0 0 1 ${b[0].toFixed(1)} ${b[1].toFixed(1)}`});
+ g+=`<path d="${path}" fill="none" stroke="${TX}" stroke-width="2.5" stroke-linecap="round" opacity=".85"/>`;
+ // jujukan
+ const list=FIB.slice(0,S.fn+1),cw=Math.min(52,456/list.length),x0=240-cw*list.length/2;
+ list.forEach((v,i)=>{const x=x0+i*cw+cw/2,last=i===list.length-1;g+=`<rect x="${(x-cw/2+2).toFixed(1)}" y="350" width="${(cw-4).toFixed(1)}" height="44" rx="9" fill="${last?C2+'33':SF}" stroke="${last?C2:BD}" stroke-width="2"/>`+lbl(x,373,v,last?C2:TX,v>=100?(cw<40?11:14):17)});
+ const a=list[list.length-3],b=list[list.length-2];
+ g+=lbl(240,420,`${a} + ${b} = ${a+b}`,C2,18);
+ return g}
+function fiboInfo(){
+ const L=FIB.slice(0,S.fn+1),a=L[L.length-3],b=L[L.length-2];
+ info.innerHTML=`<b class="t">${a} + ${b} = ${a+b}</b>Nombor Fibonacci: <b>0, 1, 1, 2, 3, 5, 8, …</b> Setiap nombor ialah <b>hasil tambah dua nombor sebelumnya</b>.<div class="tip">Sisi petak juga nombor Fibonacci. Lengkung yang terbentuk dipanggil lingkaran Fibonacci – boleh dilihat pada cengkerang dan bunga matahari.</div>`}
+/* ================= Cabaran ================= */
+const rnd=n=>Math.floor(Math.random()*n);
+function mkOpts(ans,ws){const o=[ans];ws.forEach(w=>{if(w>0&&!o.includes(w)&&o.length<4)o.push(w)});let k=1;while(o.length<4){if(!o.includes(ans+k))o.push(ans+k);k++}return o.sort(()=>Math.random()-.5)}
+function newQ(){
+ const t=rnd(3);let q;
+ if(t===0){const r=3+rnd(R-3),k=1+rnd(r-1),a=PS[r-1][k-1],b=PS[r-1][k],v=PS[r][k];q={t,r,k,ans:v,text:'Apakah nombor yang diwakili oleh ?',opts:mkOpts(v,[a*b,v+1,v-1,Math.max(a,b)+1]),w:`${a} + ${b} = ${v}`}}
+ if(t===1){const i=5+rnd(9),v=FIB[i];q={t,i,ans:v,text:`Nombor Fibonacci seterusnya selepas ${FIB.slice(i-4,i).join(', ')} ialah`,opts:mkOpts(v,[FIB[i-1]*2,v+1,FIB[i+1],FIB[i-1]+FIB[i-3]]),w:`${FIB[i-2]} + ${FIB[i-1]} = ${v}`}}
+ if(t===2){const r=4+rnd(R-4),s=Math.pow(2,r);q={t,r,ans:s,text:`Berapakah jumlah semua nombor dalam baris yang bermula 1, ${r}, …?`,opts:mkOpts(s,[s/2,s*2,r*r,2*r]),w:`${PS[r].join(' + ')} = ${s}`}}
+ q.done=false;S.q=q;setCtrl();render();
+ info.innerHTML=`<b class="t">${q.text}</b><div class="tip">Skor: ${S.score}/${S.tot}${S.streak>=3?' · 🔥 '+S.streak+' berturut-turut':''}</div>`}
+function cabSVG(){
+ const Q=S.q;if(!Q)return'';
+ if(Q.t===0){const hl=S.hl,sel=S.sel;S.hl='tiada';S.sel=Q.done?[Q.r,Q.k]:null;const g=pascalSVG(Q.done?null:[Q.r,Q.k]);S.hl=hl;S.sel=sel;return g}
+ if(Q.t===2){const hl=S.hl,row=S.row;S.hl='jumlah';S.row=Q.r;const g=pascalSVG();S.hl=hl;S.row=row;return g}
+ const list=FIB.slice(Q.i-4,Q.i),cw=86,x0=240-cw*2.5;let g='';
+ list.concat([Q.done?Q.ans:'?']).forEach((v,i)=>{const x=x0+i*cw+cw/2,last=i===4;g+=`<rect x="${x-38}" y="170" width="76" height="64" rx="12" fill="${last?C1+'22':SF}" stroke="${last?C1:BD}" stroke-width="2.2"${last&&!Q.done?' stroke-dasharray="6 4"':''}/>`+lbl(x,203,v,last?C1:TX,v>=100?18:24)});
+ g+=lbl(240,120,'Nombor Fibonacci',MU,18);
+ return g}
+function answer(o,btn){
+ const Q=S.q;if(Q.done)return;Q.done=true;S.tot++;const ok=o===Q.ans;
+ if(ok){S.score++;S.streak++;snd('betul');if(window.FX)FX.stars(btn,10)}else{S.streak=0;snd('salah');if(window.FX&&FX.shake)FX.shake(btn)}
+ ctrl.querySelectorAll('.chip').forEach(b=>{if(+b.dataset.o===Q.ans)b.classList.add('ok');else if(b===btn)b.classList.add('no');b.disabled=true});
+ render();
+ info.innerHTML=`<b class="t">${ok?'<span class="ok">✓ Betul!</span>':'<span class="no">✗ Jawapan: '+Q.ans+'</span>'}</b><div class="eq">${Q.w}</div><div class="tip">Skor: ${S.score}/${S.tot}${S.streak>=3?' · 🔥 '+S.streak+' berturut-turut':''}</div><button class="nextb" id="nx">Seterusnya ▶</button>`;
+ document.getElementById('nx').onclick=newQ}
+/* ================= Lukis & kawalan ================= */
+function render(){
+ if(S.m==='pascal'){svg.setAttribute('viewBox','0 0 480 440');svg.innerHTML=pascalSVG();pascalInfo()}
+ if(S.m==='fibo'){svg.setAttribute('viewBox','0 0 480 440');svg.innerHTML=fiboSVG();fiboInfo()}
+ if(S.m==='cabaran'){svg.setAttribute('viewBox','0 0 480 440');svg.innerHTML=cabSVG()}
+}
+const HL=[['tiada','Tambah'],['ganjil','Ganjil'],['pepenjuru','Pepenjuru'],['jumlah','Jumlah baris'],['fibonacci','Fibonacci']];
+function setCtrl(){
+ if(S.m==='pascal'){
+  ctrl.className='ctrl';
+  ctrl.innerHTML=HL.map(([k,n])=>`<button class="chip ${S.hl===k?'on':''}" data-h="${k}">${n}</button>`).join('')+(S.hl==='fibonacci'?`<button class="big" id="dg">Pepenjuru seterusnya ▶</button>`:`<button class="big alt" id="ul">Set semula</button>`);
+  ctrl.querySelectorAll('[data-h]').forEach(b=>b.onclick=()=>{S.hl=b.dataset.h;if(S.hl==='jumlah'&&S.row==null)S.row=4;setCtrl();render()});
+  const dg=document.getElementById('dg');if(dg)dg.onclick=()=>{S.diag=S.diag>=R-1?0:S.diag+1;snd('langkah');render()};
+  const ul=document.getElementById('ul');if(ul)ul.onclick=()=>{S.hl='tiada';S.sel=[4,2];S.row=null;setCtrl();render()};
+ }
+ if(S.m==='fibo'){
+  ctrl.className='ctrl two';
+  ctrl.innerHTML=`<button class="big alt" id="fb" ${S.fn<=2?'disabled':''}>◀ Undur</button><button class="big" id="ff" ${S.fn>=10?'disabled':''}>Sebutan seterusnya ▶</button>`;
+  document.getElementById('fb').onclick=()=>{if(S.fn>2){S.fn--;snd('ketik');setCtrl();render()}};
+  document.getElementById('ff').onclick=()=>{if(S.fn<10){S.fn++;snd('langkah');if(S.fn===10&&window.FX)FX.stars(document.getElementById('stage'),14);setCtrl();render()}};
+ }
+ if(S.m==='cabaran'&&S.q){
+  ctrl.className='ctrl four';
+  ctrl.innerHTML=S.q.opts.map(o=>`<button class="chip" data-o="${o}">${o}</button>`).join('');
+  ctrl.querySelectorAll('.chip').forEach(b=>b.onclick=()=>answer(+b.dataset.o,b));
+ }
+}
+svg.addEventListener('click',e=>{
+ if(S.m!=='pascal')return;const c=e.target.closest('.cell');if(!c)return;const r=+c.dataset.r,k=+c.dataset.k;
+ snd('ketik');
+ if(S.hl==='jumlah'){S.row=r}else if(S.hl==='fibonacci'){S.diag=r+k}else{S.hl=S.hl==='tiada'?'tiada':S.hl;S.sel=[r,k]}
+ render()});
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));S.m=b.dataset.m;
+ if(S.m==='cabaran'){newQ();return}
+ setCtrl();render()});
+setCtrl();render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Pembina Pola · Bab 1</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--sf:#131C2E;--sf2:#1A2540;--sf3:#0E1626;--bd:#22304A;--bd2:#2E3E5C;--tx:#E6EDF7;--mu:#94A3B8;--c1:#FBBF24;--c2:#38BDF8;--c3:#34D399;--pk:#F472B6;--pu:#A78BFA;--ok:#34D399;--bad:#F87171;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#2a1d03}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.stage svg{width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:12px 14px;min-height:74px;line-height:1.5;font-size:15px}
+.info b.t{display:block;font-size:19px;color:var(--c1);margin-bottom:2px}
+.info .tip{color:var(--mu);font-size:13px;margin-top:4px}
+.info .row{display:flex;flex-wrap:wrap;gap:6px 14px;font-weight:700}
+.info .row span b{color:var(--c2)}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.info .eq{margin-top:6px;padding:8px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:700}
+.ctrl{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.chip{background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:12px 4px;font-weight:800;font-size:15px}
+.chip.on{background:var(--c1);border-color:var(--c1);color:#2a1d03}
+.chip.ok{border-color:var(--ok);background:#34d39922}.chip.no{border-color:var(--bad);background:#f8717122}
+.big{background:var(--c2);border:0;color:#04263a;border-radius:13px;padding:13px 6px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.big:disabled{opacity:.45;cursor:not-allowed}
+.step{grid-column:1/-1;display:flex;align-items:center;gap:10px;background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:6px 8px}
+.step button{width:48px;height:44px;border-radius:12px;border:2px solid var(--bd2);background:var(--sf2);font-weight:900;font-size:22px}
+.step input{flex:1;accent-color:var(--c1);height:30px}
+.step b{min-width:92px;text-align:center;font-size:17px}
+.nextb{margin-top:8px;background:var(--c1);border:0;color:#2a1d03;border-radius:11px;padding:9px 16px;font-weight:900}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.35fr) minmax(320px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end;grid-template-columns:1fr 1fr}
+ .info b.t{font-size:24px}.info .eq{font-size:17px}
+}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.chip{padding:9px 3px;font-size:14px}.info{padding:8px 11px;min-height:62px;font-size:14px}.info b.t{font-size:17px}.big{padding:10px 4px}}
+@media(max-width:420px){.chip,.big{font-size:13.5px}.modes button{font-size:13px;padding:10px 3px}.chip{padding:10px 2px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#FBBF24;color:#2a1d03;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #fbbf2444">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mod">
+   <button data-m="bina" class="on" role="tab">🔨 Bina Pola</button>
+   <button data-m="cabaran" role="tab">❓ Cabaran</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" viewBox="0 0 480 400" aria-label="Pola objek dan jadual sebutan"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const C1='#FBBF24',C2='#38BDF8',C3='#34D399',PK='#F472B6',PU='#A78BFA',MU='#94A3B8',TX='#E6EDF7',BD='#22304A',SF='#131C2E',RD='#F87171',NEW='#38BDF8';
+const NMAX=8;
+const POLA={
+ sq:{nama:'Petak',unit:'batang',a:3,b:1,ket:'Setiap petak baharu perlukan 3 batang (satu sisi dikongsi).'},
+ tri:{nama:'Segi tiga',unit:'batang',a:2,b:1,ket:'Setiap segi tiga baharu perlukan 2 batang (satu sisi dikongsi).'},
+ L:{nama:'Huruf L',unit:'titik',a:2,b:-1,ket:'Setiap rajah menambah 1 titik di atas dan 1 titik di kanan.'},
+ dua:{nama:'Dua baris',unit:'titik',a:2,b:2,ket:'Setiap rajah menambah satu lajur 2 titik.'}
+};
+let S={m:'bina',p:'sq',n:1,tn:false,q:null,score:0,tot:0,streak:0};
+const snd=n=>{if(window.FX)FX.play(n)};
+const cnt=(p,n)=>POLA[p].a*n+POLA[p].b;
+const fm=v=>v<0?'−'+(-v):''+v;
+const tnE=(a,b)=>`${a}n ${b>=0?'+':'−'} ${Math.abs(b)}`;
+function lbl(x,y,t,c=TX,s=18,a='middle'){return `<text x="${x}" y="${y}" fill="${c}" font-size="${s}" font-weight="800" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="#0E1626" stroke-width="5" stroke-linejoin="round">${t}</text>`}
+function stick(p,q,col,w){const dx=q[0]-p[0],dy=q[1]-p[1],L=Math.hypot(dx,dy),k=Math.min(4,L*.08),a=[p[0]+dx/L*k,p[1]+dy/L*k],b=[q[0]-dx/L*k,q[1]-dy/L*k];
+ return `<line x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}" stroke="${col}" stroke-width="${w}" stroke-linecap="round"/><circle cx="${b[0].toFixed(1)}" cy="${b[1].toFixed(1)}" r="${(w*.85).toFixed(1)}" fill="${RD}"/>`}
+/* senarai unsur rajah n: {t:'s',p,q,st} batang atau {t:'d',x,y,st} titik; st = rajah yang menambahnya */
+function parts(p,n,box){
+ const [X0,Y0,W,H]=box,out=[];
+ if(p==='sq'){const u=Math.min(64,W/n,H);const x0=X0+(W-n*u)/2,y0=Y0+(H-u)/2;
+  for(let i=0;i<n;i++){out.push({t:'s',p:[x0+i*u,y0],q:[x0+(i+1)*u,y0],st:i+1});out.push({t:'s',p:[x0+i*u,y0+u],q:[x0+(i+1)*u,y0+u],st:i+1})}
+  for(let i=0;i<=n;i++)out.push({t:'s',p:[x0+i*u,y0+u],q:[x0+i*u,y0],st:Math.max(1,i)});return{out,u}}
+ if(p==='tri'){const u=Math.min(84,W/((n+1)/2),H/.866),h=u*.866,w=(n+1)/2*u,x0=X0+(W-w)/2,y0=Y0+(H-h)/2;
+  const B=j=>[x0+j*u,y0+h],T=j=>[x0+u/2+j*u,y0],seen=new Set();
+  for(let i=0;i<n;i++){const t=i%2===0?[B(i/2),B(i/2+1),T(i/2)]:[T((i-1)/2),T((i+1)/2),B((i+1)/2)];
+   [[0,1],[1,2],[2,0]].forEach(([a,b])=>{const k=[t[a],t[b]].map(v=>v.map(z=>z.toFixed(2)).join(',')).sort().join('|');if(!seen.has(k)){seen.add(k);out.push({t:'s',p:t[a],q:t[b],st:i+1})}})}
+  return{out,u}}
+ if(p==='L'){const g=Math.min(40,H/Math.max(1,n-1),W/Math.max(1,n-1));const sz=(n-1)*g,x0=X0+(W-sz)/2,y0=Y0+(H+sz)/2;
+  for(let k=0;k<n;k++)out.push({t:'d',x:x0,y:y0-k*g,st:k+1});for(let k=1;k<n;k++)out.push({t:'d',x:x0+k*g,y:y0,st:k+1});return{out,u:g}}
+ const g=Math.min(44,W/n,H);const x0=X0+(W-n*g)/2,y0=Y0+(H-g)/2;
+ for(let j=0;j<=n;j++){out.push({t:'d',x:x0+j*g,y:y0,st:Math.max(1,j)});out.push({t:'d',x:x0+j*g,y:y0+g,st:Math.max(1,j)})}
+ return{out,u:g}}
+function drawParts(pp,n,hiNew){
+ const {out,u}=pp;let g='';const w=Math.max(3.5,Math.min(7,u*.11)),r=Math.max(5,Math.min(11,u*.22));
+ out.forEach(e=>{const nw=hiNew&&e.st===n&&n>1;const col=e.t==='s'?(nw?NEW:C1):(nw?NEW:(S.p==='L'?PK:C3));
+  g+=e.t==='s'?stick(e.p,e.q,col,w):`<circle cx="${e.x.toFixed(1)}" cy="${e.y.toFixed(1)}" r="${r.toFixed(1)}" fill="${col}"/>`});
+ return g}
+function table(n,hideFrom){
+ let g='';const x0=18,cw=50,y=300;
+ g+=`<rect x="${x0}" y="${y-26}" width="${cw*.9+NMAX*cw}" height="96" rx="14" fill="${SF}" stroke="${BD}"/>`;
+ g+=lbl(x0+24,y,'n',MU,17)+lbl(x0+24,y+42,'Bil.',MU,15);
+ for(let k=1;k<=NMAX;k++){const x=x0+cw*.9+(k-.5)*cw,on=k===n,show=k<=n&&!(hideFrom&&k>=hideFrom);
+  if(on)g+=`<rect x="${x-cw/2+3}" y="${y-22}" width="${cw-6}" height="88" rx="10" fill="${C1}22" stroke="${C1}"/>`;
+  g+=lbl(x,y,k,on?C1:TX,17)+lbl(x,y+42,show?cnt(S.p,k):'·',show?(on?C1:C2):MU,show?19:17);
+  if(k>1&&k<=n&&!(hideFrom&&k>=hideFrom)){const xm=x-cw/2;g+=`<text x="${xm}" y="${y+76}" fill="${PU}" font-size="12" font-weight="800" text-anchor="middle" font-family="Inter,Arial,sans-serif">+${POLA[S.p].a}</text>`}}
+ return g}
+/* ================= Mod bina ================= */
+function binaSVG(){
+ let g=lbl(240,24,`Rajah ${S.n}`,C1,20);
+ g+=drawParts(parts(S.p,S.n,[30,46,420,200]),S.n,true);
+ g+=table(S.n);return g}
+function binaInfo(){
+ const P=POLA[S.p],v=cnt(S.p,S.n);
+ let h=`<b class="t">Rajah ${S.n}: ${v} ${P.unit}</b>`;
+ h+=`<div class="row"><span>Jujukan: <b>${Array.from({length:S.n},(_,i)=>cnt(S.p,i+1)).join(', ')}${S.n<NMAX?', …':''}</b></span></div>`;
+ h+=`<div class="row"><span>Pola: <b style="color:var(--pu)">tambah ${P.a} kepada nombor sebelumnya</b></span></div>`;
+ if(S.tn)h+=`<div class="eq">Tₙ = ${tnE(P.a,P.b)}<br>T${sub(S.n)} = ${P.a}(${S.n}) ${P.b>=0?'+':'−'} ${Math.abs(P.b)} = <span style="color:var(--c1)">${v}</span></div>`;
+ else h+=`<div class="tip">${P.ket} Bahagian <b style="color:var(--c2)">biru</b> ialah yang baru ditambah. Tekan <b>+</b> atau seret gelangsar.</div>`;
+ info.innerHTML=h}
+const sub=n=>String(n).split('').map(c=>'₀₁₂₃₄₅₆₇₈₉'[+c]).join('');
+/* ================= Mod cabaran ================= */
+const rnd=n=>Math.floor(Math.random()*n);
+function newQ(){
+ const ks=Object.keys(POLA),p=ks[rnd(ks.length)],m=6+rnd(10),P=POLA[p],ans=cnt(p,m);
+ const opts=[ans];[ans+P.a,ans-P.a,P.a*m,cnt(p,3)*m/3|0,ans+1,ans-1].forEach(w=>{if(w>0&&!opts.includes(w)&&opts.length<4)opts.push(w)});
+ S.q={p,m,ans,opts:opts.sort(()=>Math.random()-.5),done:false};
+ S.p=p;setCtrl();render();
+ info.innerHTML=`<b class="t">Berapakah bilangan ${P.unit} dalam Rajah ${m}?</b><div class="tip">Perhatikan Rajah 1, 2 dan 3. Cari pola, kemudian teruskan atau guna Tₙ. Skor: ${S.score}/${S.tot}${S.streak>=3?' · 🔥 '+S.streak+' berturut-turut':''}</div>`}
+function cabSVG(){
+ const Q=S.q;if(!Q)return'';let g='';
+ for(let k=1;k<=3;k++){const x0=12+(k-1)*156;g+=`<rect x="${x0}" y="20" width="144" height="190" rx="14" fill="${SF}" stroke="${BD}"/>`;
+  g+=drawParts(parts(Q.p,k,[x0+12,50,120,130]),k,false);g+=lbl(x0+72,192,`Rajah ${k}`,MU,15)}
+ g+=table(Q.done?Q.m>NMAX?3:Q.m:3,Q.done?0:4);
+ if(Q.done&&Q.m>NMAX)g+=lbl(240,232,`… Rajah ${Q.m}: ${Q.ans}`,C1,18);
+ return g}
+function answer(o,btn){
+ const Q=S.q;if(Q.done)return;Q.done=true;S.tot++;const ok=o===Q.ans,P=POLA[Q.p];
+ if(ok){S.score++;S.streak++;snd('betul');if(window.FX)FX.stars(btn,10)}else{S.streak=0;snd('salah');if(window.FX&&FX.shake)FX.shake(btn)}
+ ctrl.querySelectorAll('.chip').forEach(b=>{if(+b.dataset.o===Q.ans)b.classList.add('ok');else if(b===btn)b.classList.add('no');b.disabled=true});
+ S.n=Math.min(Q.m,NMAX);render();
+ info.innerHTML=`<b class="t">${ok?'<span class="ok">✓ Betul!</span>':'<span class="no">✗ Jawapan: '+Q.ans+'</span>'}</b><div class="eq">Jujukan: ${cnt(Q.p,1)}, ${cnt(Q.p,2)}, ${cnt(Q.p,3)}, … (tambah ${P.a})<br>Tₙ = ${tnE(P.a,P.b)} → T${sub(Q.m)} = ${P.a}(${Q.m}) ${P.b>=0?'+':'−'} ${Math.abs(P.b)} = <b>${Q.ans}</b></div><div class="tip">Skor: ${S.score}/${S.tot}${S.streak>=3?' · 🔥 '+S.streak+' berturut-turut':''}</div><button class="nextb" id="nx">Seterusnya ▶</button>`;
+ document.getElementById('nx').onclick=newQ}
+/* ================= Lukis & kawalan ================= */
+function render(){svg.innerHTML=S.m==='bina'?binaSVG():cabSVG();if(S.m==='bina')binaInfo()}
+function setN(n){n=Math.max(1,Math.min(NMAX,n));if(n===S.n)return;const up=n>S.n;S.n=n;snd(up?'langkah':'ketik');render();const r=document.getElementById('rg');if(r)r.value=n;const nb=document.getElementById('nb');if(nb)nb.textContent='Rajah '+n;
+ if(n===NMAX&&up&&window.FX)FX.stars(document.getElementById('stage'),10)}
+function setCtrl(){
+ if(S.m==='bina'){
+  ctrl.innerHTML=Object.keys(POLA).map(k=>`<button class="chip ${S.p===k?'on':''}" data-p="${k}">${POLA[k].nama}</button>`).join('')+
+   `<div class="step"><button id="mn" aria-label="Rajah sebelumnya">−</button><input id="rg" type="range" min="1" max="${NMAX}" step="1" value="${S.n}" aria-label="Nombor rajah"><b id="nb">Rajah ${S.n}</b><button id="pl" aria-label="Rajah seterusnya">+</button></div>`+
+   `<button class="big ${S.tn?'':'alt'}" id="tn" style="grid-column:1/-1">${S.tn?'Sembunyikan Tₙ':'Tunjuk ungkapan Tₙ'}</button>`;
+  ctrl.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{S.p=b.dataset.p;S.n=1;setCtrl();render()});
+  document.getElementById('mn').onclick=()=>setN(S.n-1);document.getElementById('pl').onclick=()=>setN(S.n+1);
+  document.getElementById('rg').oninput=e=>setN(+e.target.value);
+  document.getElementById('tn').onclick=()=>{S.tn=!S.tn;setCtrl();render()};
+ } else if(S.q){
+  ctrl.innerHTML=S.q.opts.map(o=>`<button class="chip" data-o="${o}">${o}</button>`).join('');
+  ctrl.querySelectorAll('.chip').forEach(b=>b.onclick=()=>answer(+b.dataset.o,b));
+ }
+}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));S.m=b.dataset.m;
+ if(S.m==='cabaran'){newQ();return}
+ S.n=1;setCtrl();render()});
+/* seret mendatar pada pentas untuk tukar rajah */
+let drag=null;
+svg.addEventListener('pointerdown',e=>{if(S.m!=='bina')return;drag={x:e.clientX,n:S.n};svg.setPointerCapture(e.pointerId)});
+svg.addEventListener('pointermove',e=>{if(!drag)return;const w=svg.getBoundingClientRect().width||400;setN(drag.n+Math.round((e.clientX-drag.x)/(w/10)))});
+const end=()=>{drag=null};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+setCtrl();render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>
