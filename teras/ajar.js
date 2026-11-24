@@ -15,7 +15,7 @@ const AJT = {
 const TPL = {
   isi: ['Tajuk + isi', 'Poin keluar satu demi satu'],
   soalan: ['Soalan cepat', 'Soalan, kemudian tunjuk jawapan'],
-  gambar: ['Gambar + teks', 'Muat naik gambar sendiri'],
+  gambar: ['Gambar', 'Tajuk + gambar sendiri'],
   papan: ['Papan kosong / grid', 'Ruang tulis & lukis dengan pen']
 };
 const SIMNAME = Object.fromEntries(SIMLIST.map(s => [s[0], s[1]]));
@@ -95,10 +95,9 @@ function cikguHTML(it) {
       ${it.ans ? `<div class="sl-ans cs-ans rv"><span>JAWAPAN</span>${esc(it.ans)}</div>` : ''}</div>`;
   }
   if (it.tpl === 'gambar') {
-    const paras = String(it.text || '').split('\n').map(l => l.trim()).filter(Boolean);
-    return `<div class="slide cs" style="--c:var(--pu)"><div class="sl-text">${kick ? `<p class="sl-kick">${kick}</p>` : ''}<h1 class="sl-title">${title || 'Tajuk'}</h1>
-      ${paras.map(p => `<p class="sl-p">${esc(p)}</p>`).join('')}</div>
-      <div class="sl-fig">${it.img ? `<img class="cs-img" src="${it.img}" alt="${title || 'Gambar'}">` : '<div class="cs-noimg">Tiada gambar</div>'}</div></div>`;
+    const x = it.x != null ? it.x : 50, y = it.y != null ? it.y : 50, w = it.w || 60;
+    return `<div class="slide full cs cs-pic" style="--c:var(--pu)"><h1 class="sl-title">${title || 'Tajuk'}</h1>
+      <div class="cs-imgbox">${it.img ? `<img class="cs-img" src="${it.img}" alt="${title || 'Gambar'}" draggable="false" style="left:${x}%;top:${y}%;width:${w}%">` : '<div class="cs-noimg">Tiada gambar</div>'}</div></div>`;
   }
   // papan
   const bg = it.bg || 'grid';
@@ -205,8 +204,9 @@ function viewModal() {
   let fields = '';
   if (it.tpl === 'isi') fields = f('fKick', 'TAJUK KECIL (pilihan)', it.kick) + f('fTitle', 'TAJUK', it.title) + f('fText', 'ISI (satu baris = satu poin, keluar satu demi satu)', it.text, 6);
   if (it.tpl === 'soalan') fields = f('fKick', 'TAJUK KECIL', it.kick || 'SOALAN CEPAT') + f('fQ', 'SOALAN', it.q, 3) + f('fAns', 'JAWAPAN (keluar bila tekan ▶)', it.ans, 3);
-  if (it.tpl === 'gambar') fields = f('fKick', 'TAJUK KECIL (pilihan)', it.kick) + f('fTitle', 'TAJUK', it.title) + f('fText', 'TEKS (satu baris = satu perenggan)', it.text, 4)
-    + `<label class="btn sec ajimg">${ajIcon.img}<span>${it.img ? 'Tukar gambar' : 'Muat naik gambar'}</span><input type="file" id="fImg" accept="image/*" hidden></label>${it.img ? '<button type="button" class="btn sec" id="fImgX" style="min-height:44px">Buang gambar</button>' : ''}`;
+  if (it.tpl === 'gambar') fields = f('fTitle', 'TAJUK', it.title)
+    + `<label class="btn sec ajimg">${ajIcon.img}<span>${it.img ? 'Tukar gambar' : 'Muat naik gambar'}</span><input type="file" id="fImg" accept="image/*" hidden></label>`
+    + (it.img ? `<label class="ajf"><span>SAIZ GAMBAR</span><input type="range" id="fSz" min="15" max="100" value="${it.w || 60}"></label><p class="ajhint" style="margin:0">Seret gambar dalam pratonton untuk ubah kedudukan.</p><button type="button" class="btn sec" id="fImgX" style="min-height:44px">Buang gambar</button>` : '');
   if (it.tpl === 'papan') fields = f('fTitle', 'TAJUK (pilihan)', it.title) + `<div class="ajf"><span>LATAR</span><div class="opts" style="grid-template-columns:repeat(3,minmax(0,1fr))">${[['kosong', 'Kosong'], ['grid', 'Grid'], ['cartes', 'Satah Cartes']].map(([k, t]) => `<button type="button" class="opt" data-bg="${k}" aria-pressed="${(it.bg || 'grid') === k}" style="--c:var(--pu)">${t}</button>`).join('')}</div></div>`;
   return `<div class="ajm-bg"><section class="ajm" role="dialog" aria-modal="true" aria-label="Slaid baharu">
     <div class="ajm-h">${typeChip('cikgu')}<h2>${M.edit != null ? 'Ubah slaid' : 'Slaid baharu'}</h2><button type="button" class="ib" id="ajmX" aria-label="Tutup">${IC.x}</button></div>
@@ -347,9 +347,22 @@ function bindModal(pl) {
   root.querySelectorAll('[data-tpl]').forEach(b => b.onclick = () => { it.tpl = b.dataset.tpl; if (it.tpl === 'soalan' && !it.kick) it.kick = 'SOALAN CEPAT'; render(true); });
   root.querySelectorAll('[data-bg]').forEach(b => b.onclick = () => { it.bg = b.dataset.bg; render(true); });
   const fi = document.getElementById('fImg'); if (fi) fi.onchange = e => { const f = e.target.files[0]; if (f) readImage(f, url => { it.img = url; render(true); }); };
-  const fx = document.getElementById('fImgX'); if (fx) fx.onclick = () => { delete it.img; render(true); };
+  const fx = document.getElementById('fImgX'); if (fx) fx.onclick = () => { delete it.img; delete it.x; delete it.y; delete it.w; render(true); };
+  const sz = document.getElementById('fSz'); if (sz) sz.oninput = () => { it.w = +sz.value; const im = document.querySelector('#ajmPv .cs-img'); if (im) im.style.width = it.w + '%'; };
+  const pvBox = document.getElementById('ajmPv');
+  if (pvBox && it.tpl === 'gambar') pvBox.addEventListener('pointerdown', e => {
+    const im = e.target.closest('.cs-img'); if (!im) return;
+    const box = im.parentElement.getBoundingClientRect(), r0 = im.getBoundingClientRect();
+    const ox = e.clientX - (r0.left + r0.width / 2), oy = e.clientY - (r0.top + r0.height / 2);
+    e.preventDefault(); pvBox.setPointerCapture(e.pointerId);
+    const mv = ev => { const cl = v => Math.max(0, Math.min(100, Math.round(v * 10) / 10));
+      it.x = cl((ev.clientX - ox - box.left) / box.width * 100); it.y = cl((ev.clientY - oy - box.top) / box.height * 100);
+      im.style.left = it.x + '%'; im.style.top = it.y + '%'; };
+    const up = () => { pvBox.removeEventListener('pointermove', mv); pvBox.removeEventListener('pointerup', up); pvBox.removeEventListener('pointercancel', up); };
+    pvBox.addEventListener('pointermove', mv); pvBox.addEventListener('pointerup', up); pvBox.addEventListener('pointercancel', up);
+  });
   document.getElementById('ajmOk').onclick = () => {
-    const keep = { isi: ['kick', 'title', 'text'], soalan: ['kick', 'q', 'ans'], gambar: ['kick', 'title', 'text', 'img'], papan: ['title', 'bg'] }[it.tpl];
+    const keep = { isi: ['kick', 'title', 'text'], soalan: ['kick', 'q', 'ans'], gambar: ['title', 'img', 'x', 'y', 'w'], papan: ['title', 'bg'] }[it.tpl];
     const item = { t: 'cikgu', tpl: it.tpl }; keep.forEach(k => { if (it[k] != null && it[k] !== '') item[k] = it[k]; });
     AJS.modal = null;
     if (M.edit != null) { pl.items[M.edit] = item; if (ajSave()) toast('Slaid dikemas kini'); render(true); }
@@ -592,7 +605,7 @@ function viewShareModal(M) {
     <div class="ajm-h"><h2>Kongsi link</h2><button type="button" class="ib" id="ajmX" aria-label="Tutup">${IC.x}</button></div>
     <p class="ajhint" style="font-size:16px">Guru yang buka link ini akan nampak pelan <b style="color:var(--tx)">${esc(M.name)}</b> sahaja. Mereka hanya boleh tayang pelan ini. Mereka tidak dapat membuka bahagian lain ${APPNAME} atau mengubah pelan.</p>
     <label class="ajf"><span>LINK</span><textarea id="ajLink" rows="3" readonly>${esc(M.link)}</textarea></label>
-    ${M.img ? '<p class="ajwarn">Gambar yang dimuat naik tidak disertakan dalam link. Slaid Gambar + teks akan dipaparkan tanpa gambar.</p>' : ''}
+    ${M.img ? '<p class="ajwarn">Gambar yang dimuat naik tidak disertakan dalam link. Slaid Gambar akan dipaparkan tanpa gambar.</p>' : ''}
     <p class="ajhint">Link ini menyimpan pelan seperti sekarang. Jika pelan diubah, cipta link baharu.</p>
     <div class="prow ajsharebtns"><button type="button" class="btn pri" id="ajCopy">${ajIcon.copy} Salin link</button>${navigator.share ? `<button type="button" class="btn sec" id="ajNative">${ajIcon.share} Kongsi…</button>` : ''}</div>
   </section></div>`;

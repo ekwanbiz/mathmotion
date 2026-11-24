@@ -320,8 +320,11 @@ g.rv.hid{visibility:hidden}
 .cs .sl-title.cs-q{font-size:calc(var(--fs) * 2.1);line-height:1.2}
 .cs-bul{font-size:calc(var(--fs) * 1.25);gap:18px}
 .cs-ans{font-size:calc(var(--fs) * 1.25);padding:18px 22px}
-.cs-img{max-width:100%;max-height:calc(100dvh - 230px);border-radius:18px;border:1px solid var(--bd);object-fit:contain}
-.ajpv .cs-img{max-height:420px}
+.cs-pic{display:flex;flex-direction:column;gap:14px}
+.cs-imgbox{position:relative;flex:1;min-height:300px;align-self:stretch}
+.cs-img{position:absolute;transform:translate(-50%,-50%);max-width:none;border-radius:14px;border:1px solid var(--bd);object-fit:contain;user-select:none;-webkit-user-drag:none}
+#ajmPv .cs-img{pointer-events:auto;cursor:grab;touch-action:none;outline:2px dashed var(--pu);outline-offset:3px}
+.ajpv .cs-pic .cs-imgbox{min-height:0}
 .cs-noimg{width:100%;aspect-ratio:4/3;border-radius:18px;border:2px dashed var(--bd);display:flex;align-items:center;justify-content:center;color:var(--mu)}
 .slide.cs.full{align-self:stretch;box-sizing:border-box}
 .slide.cs.full>div:first-child{align-self:stretch}
@@ -490,7 +493,9 @@ g.rv.hid{visibility:hidden}
  .ajm-b.lat,.ajm-b.cikgu{display:flex;flex-direction:column;overflow-y:auto;-webkit-overflow-scrolling:touch}
  .ajm-b.lat>*,.ajm-b.cikgu>*{flex:none;min-height:auto}
  .ajm-l,.ajform,.ajm-r{overflow:visible}
- .ajform .btn.pri{margin-top:6px!important}
+ .ajm-b.cikgu>.ajform{display:contents}
+ .ajm-b.cikgu #ajmOk{order:2;margin-top:6px!important;flex:none}
+ .ajm-b.cikgu>.ajform>*{flex:none}
  .ajtpls{grid-template-columns:repeat(2,minmax(0,1fr))}
  .ajmsubs{grid-template-columns:repeat(3,minmax(0,1fr))}
  .ajp-main>.stage,.ajp-main>.tero,.ajp-main>.qbody,.ajp-main>.main{padding-left:0}
