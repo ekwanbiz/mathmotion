@@ -10,9 +10,9 @@ function shell(tab, inner) {
   <header class="hdr">
     <a class="ib" href="../#/utama" aria-label="Kembali ke TerokaMath (semua bab)">${IC.mm}</a>
     <a class="wm2" href="../#/utama" aria-label="Kembali ke TerokaMath (semua bab)"><b class="tm">Teroka<span>Math</span></b><small><b class="mv">Bab ${BAB.no}</b> : ${BAB.tajuk}</small></a>
-    <nav class="tabs" aria-label="Tab utama">${(BAB.pelanBtn ? TABS.filter(t => t[0] !== 'ajar') : TABS).map(([k, t, sh]) => `<a href="#/${k}"${k === 'ajar' ? ' class="hl"' : ''}${k === tab ? ' aria-current="page"' : ''}>${IC[k]}${sh ? `<span class="tl">${t}</span><span class="ts">${sh}</span>` : `<span>${t}</span>`}</a>`).join('')}</nav>
+    <nav class="tabs" aria-label="Tab utama">${TABS.filter(t => t[0] !== 'ajar').map(([k, t, sh]) => `<a href="#/${k}"${k === 'ajar' ? ' class="hl"' : ''}${k === tab ? ' aria-current="page"' : ''}>${IC[k]}${sh ? `<span class="tl">${t}</span><span class="ts">${sh}</span>` : `<span>${t}</span>`}</a>`).join('')}</nav>
     <div class="end">
-      ${BAB.pelanBtn ? `<a class="pelbtn" href="#/ajar"${tab === 'ajar' ? ' aria-current="page"' : ''}>${IC.play || '▶'}<span class="tl">Pelan Mengajar</span><span class="ts">Pelan</span></a>` : ''}
+      <a class="pelbtn" href="#/ajar"${tab === 'ajar' ? ' aria-current="page"' : ''}>${IC.play}<span class="tl">Pelan Mengajar</span><span class="ts">Pelan</span></a>
       <button type="button" class="ib" id="themeBtn" aria-label="${light ? 'Tukar ke mod gelap' : 'Tukar ke mod cerah'}">${light ? IC.moon : IC.sun}</button>
       ${fsOk ? `<button type="button" class="ib fsbtn" id="fsBtn" aria-label="Skrin penuh">${IC.fs}</button>` : ''}
     </div>

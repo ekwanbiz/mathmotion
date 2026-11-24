@@ -53,7 +53,7 @@ Pembantu tersedia (teras/asas.js): `ri, pick, shuffle, nz, fmt, par, P, vec, esc
 ## 3. Daftar bab dalam hub
 1. `mathmotion/index.html` → tambah objek dalam `APPS` (`id, name, path:'/mathmotion/<id>/', logo, mark, key, col, glyph, topic, kw, where:[[ting, bab]]`).
 2. `mathmotion/sw.js` → tambah fail bab dalam `APPS`; naikkan `CACHE='mathmotion-vN'`.
-3. Butang kembali & kepala "TerokaMath" sudah automatik (dalam teras).
+3. Butang kembali, kepala "TerokaMath" (logo + Bab N : nama bab, tiada nama app) dan butang **Pelan Mengajar** di kanan atas sudah automatik (dalam teras). Tab: NOTA · TEROKA · LATIHAN · GAMES.
 
 ## 4. Aliran kerja dengan ejen (Manager + 2 Programmer)
 1. **Manager** (sesi utama): pecahkan bab ikut buku teks → senarai subtopik, idea slaid, jenis soalan, idea simulasi → **bincang & lulus dengan guru**.
