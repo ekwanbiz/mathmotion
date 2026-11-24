@@ -273,138 +273,147 @@ function bindTeroka() {}
 /* =================== Penjana soalan =================== */
 // setiap fungsi: {q, fig?, figAns?, ans, work[]}
 const AX = 'paksi';
+const GEN_LQ = (key, d, extra) => { const v = vq(key, d), e = Object.assign({}, extra || {}); if (v.rev) delete e.fig; delete v.rev; return Object.assign(e, v); };
 const GEN = {
   '11.1': {
-    m: [() => {
-      const asObj = Math.random() < .5;
-      return asObj ? { q: 'Bentuk asal sebelum transformasi dipanggil apa?', ans: 'Objek', work: ['Bentuk asal dipanggil <b>objek</b>.', 'Bentuk selepas transformasi dipanggil <b>imej</b>.'] }
-        : { q: 'Titik A pada objek dipetakan kepada titik A′. Apakah yang diwakili oleh A′?', ans: 'Titik imej', work: ['A ialah titik pada objek.', 'A′ ialah titik sepadan pada <b>imej</b>.'] };
+    m: [() => vq('istilah', {}), () => {
+      const [o, m] = pick([['P', 'Q'], ['M', 'N'], ['X', 'Y'], ['F', 'G'], ['S', 'T']]), sh = pick(['segi tiga', 'segi empat', 'pentagon']);
+      return GEN_LQ('objImej', { sh, o, m, ans: `Objek: ${sh} ${o}; Imej: ${sh} ${m}`, work: ['Bentuk asal sebelum transformasi ialah <b>objek</b>.', 'Bentuk selepas transformasi ialah <b>imej</b>.'] });
     }, () => {
       const same = Math.random() < .6, a = ri(2, 3), b = ri(2, 3);
       const o = [[0, 0], [a, 0], [0, b]];
       const im = same ? (Math.random() < .5 ? o.map(([x, y]) => [12 - x - 1, y]) : o.map(([x, y]) => [8 + y, a - x])) : o.map(([x, y]) => [6 + 2 * x, 2 * y]);
-      return { q: 'Adakah kedua-dua bentuk ini kongruen?', fig: plot({ x0: 0, x1: 12, y0: 0, y1: 6, axes: false, items: [{ t: 'poly', pts: o, c: 'tr' }, { t: 'poly', pts: im, c: 'pa', dash: true }], label: 'Dua bentuk' }),
-        ans: same ? 'Ya, kongruen' : 'Tidak kongruen', work: same ? ['Kedua-dua bentuk mempunyai bentuk yang sama.', 'Saiznya juga sama (panjang sisi sama).', 'Jadi bentuk itu <b>kongruen</b>.'] : ['Bentuknya sama tetapi <b>saiz berbeza</b>.', 'Bentuk kongruen mesti sama bentuk dan sama saiz.', 'Jadi bentuk itu <b>tidak kongruen</b>.'] };
+      return GEN_LQ('kongruen', { same, ans: same ? 'Ya, kongruen' : 'Tidak kongruen', work: same ? ['Kedua-dua bentuk mempunyai bentuk yang sama.', 'Saiznya juga sama (panjang sisi sama).', 'Jadi bentuk itu <b>kongruen</b>.'] : ['Bentuknya sama tetapi <b>saiz berbeza</b>.', 'Bentuk kongruen mesti sama bentuk dan sama saiz.', 'Jadi bentuk itu <b>tidak kongruen</b>.'] },
+        { fig: plot({ x0: 0, x1: 12, y0: 0, y1: 6, axes: false, items: [{ t: 'poly', pts: o, c: 'tr' }, { t: 'poly', pts: im, c: 'pa', dash: true }], label: 'Dua bentuk' }) });
     }],
     s: [() => {
       const iso = Math.random() < .5, o = [[1, 1], [3, 1], [1, 3]];
       const im = iso ? o.map(([x, y]) => [x + 6, y + 2]) : o.map(([x, y]) => [7 + (x - 1) * 2, 1 + (y - 1) * 2]);
-      return { q: 'Objek berwarna biru dipetakan kepada imej berwarna oren. Adakah transformasi ini satu isometri?', fig: plot({ x0: 0, x1: 12, y0: 0, y1: 7, axes: false, items: [{ t: 'poly', pts: o, c: 'tr' }, { t: 'poly', pts: im, c: 'pa', dash: true }], label: 'Objek dan imej' }),
-        ans: iso ? 'Ya, isometri' : 'Bukan isometri', work: iso ? ['Bandingkan saiz objek dan imej.', 'Bentuk dan saiz imej <b>sama</b> dengan objek.', 'Jadi transformasi ini ialah isometri.'] : ['Bandingkan saiz objek dan imej.', 'Saiz imej <b>lebih besar</b> daripada objek.', 'Isometri mesti mengekalkan saiz, jadi ini bukan isometri.'] };
+      return GEN_LQ('isoFig', { iso, ans: iso ? 'Ya, isometri' : 'Bukan isometri', work: iso ? ['Bandingkan saiz objek dan imej.', 'Bentuk dan saiz imej <b>sama</b> dengan objek.', 'Jadi transformasi ini ialah isometri.'] : ['Bandingkan saiz objek dan imej.', 'Saiz imej <b>lebih besar</b> daripada objek.', 'Isometri mesti mengekalkan saiz, jadi ini bukan isometri.'] },
+        { fig: plot({ x0: 0, x1: 12, y0: 0, y1: 7, axes: false, items: [{ t: 'poly', pts: o, c: 'tr' }, { t: 'poly', pts: im, c: 'pa', dash: true }], label: 'Objek dan imej' }) });
     }],
     k: [() => {
-      const ab = ri(3, 12), ang = pick([35, 40, 48, 55, 62, 70, 75]);
-      return { q: `Segi tiga ABC dipetakan kepada segi tiga A′B′C′ oleh satu isometri. Diberi AB = ${ab} cm dan ∠ABC = ${ang}°. Nyatakan panjang A′B′ dan saiz ∠A′B′C′.`,
-        ans: `A′B′ = ${ab} cm, ∠A′B′C′ = ${ang}°`, work: ['Isometri mengekalkan bentuk dan saiz.', 'Maka imej kongruen dengan objek.', `Panjang sisi dan saiz sudut tidak berubah: A′B′ = ${ab} cm, ∠A′B′C′ = ${ang}°.`] };
+      const n = pick(['ABC', 'PQR', 'KLM', 'DEF', 'XYZ']), ab = ri(3, 12), ang = pick([35, 40, 48, 55, 62, 70, 75]);
+      return GEN_LQ('panjangSudut', { n, ab, ang, ans: `${pr(n[0] + n[1])} = ${ab} cm, ∠${pr(n)} = ${ang}°`, work: ['Isometri mengekalkan bentuk dan saiz.', 'Maka imej kongruen dengan objek.', `Panjang sisi dan saiz sudut tidak berubah: ${pr(n[0] + n[1])} = ${ab} cm, ∠${pr(n)} = ${ang}°.`] });
     }]
   },
   '11.2': {
     m: [() => {
-      const x = ri(0, 4), y = ri(0, 4), a = nz(-3, 4), b = nz(-3, 4), X = x + a, Y = y + b;
+      const L = vlet(), x = ri(0, 4), y = ri(0, 4), a = nz(-3, 4), b = nz(-3, 4), X = x + a, Y = y + b;
       const box = { x0: Math.min(0, x, X) - 1, x1: Math.max(x, X) + 1, y0: Math.min(0, y, Y) - 1, y1: Math.max(y, Y) + 1 };
-      return { q: `Titik P${P(x, y)} ditranslasikan oleh ${vec(a, b)}. Cari koordinat imej P′.`,
-        fig: plot({ ...box, items: [{ t: 'pt', x, y, c: 'tr', l: 'P' }], label: 'Titik P' }),
-        figAns: plot({ ...box, items: [{ t: 'line', a: [x, y], b: [X, Y], c: 'tx', dash: true, w: 2.5 }, { t: 'pt', x, y, c: 'tr', l: 'P' }, { t: 'pt', x: X, y: Y, c: 'gr', l: 'P′' }], label: 'P dan P′' }),
-        ans: `P′${P(X, Y)}`, work: [`Gerak ${Math.abs(a)} unit ke ${a > 0 ? 'kanan' : 'kiri'}: ${fmt(x)} + ${par(a)} = ${fmt(X)}.`, `Gerak ${Math.abs(b)} unit ke ${b > 0 ? 'atas' : 'bawah'}: ${fmt(y)} + ${par(b)} = ${fmt(Y)}.`] };
+      return GEN_LQ('trImej', { L, x, y, a, b, X, Y, ans: `${L}′${P(X, Y)}`, work: [`Gerak ${Math.abs(a)} unit ke ${a > 0 ? 'kanan' : 'kiri'}: ${fmt(x)} + ${par(a)} = ${fmt(X)}.`, `Gerak ${Math.abs(b)} unit ke ${b > 0 ? 'atas' : 'bawah'}: ${fmt(y)} + ${par(b)} = ${fmt(Y)}.`] }, {
+        fig: plot({ ...box, items: [{ t: 'pt', x, y, c: 'tr', l: L }], label: `Titik ${L}` }),
+        figAns: plot({ ...box, items: [{ t: 'line', a: [x, y], b: [X, Y], c: 'tx', dash: true, w: 2.5 }, { t: 'pt', x, y, c: 'tr', l: L }, { t: 'pt', x: X, y: Y, c: 'gr', l: L + '′' }], label: `${L} dan ${L}′` }) });
+    }, () => {
+      const a = nz(-5, 5), b = nz(-5, 5);
+      return GEN_LQ('trKata', { a, b, ans: `Vektor translasi = ${vec(a, b, 'gr')}`, work: [`${a > 0 ? 'Ke kanan: positif' : 'Ke kiri: negatif'}, ${fmt(a)}.`, `${b > 0 ? 'Ke atas: positif' : 'Ke bawah: negatif'}, ${fmt(b)}.`, `Tulis sebagai vektor ${vec(a, b)}.`] });
     }],
     s: [() => {
-      const x = ri(-3, 3), y = ri(-3, 3), a = nz(-4, 4), b = nz(-4, 4);
-      return { q: `Titik A${P(x, y)} dipetakan kepada A′${P(x + a, y + b)} oleh satu translasi. Tentukan vektor translasi.`,
-        ans: `Vektor translasi = ${vec(a, b, 'gr')}`, work: [`Gerakan mengufuk: ${fmt(x + a)} − ${par(x)} = ${fmt(a)}.`, `Gerakan mencancang: ${fmt(y + b)} − ${par(y)} = ${fmt(b)}.`, `Tulis sebagai vektor ${vec(a, b)}.`] };
+      const L = vlet(), x = ri(-3, 3), y = ri(-3, 3), a = nz(-4, 4), b = nz(-4, 4), X = x + a, Y = y + b;
+      return GEN_LQ('trVektor', { L, x, y, X, Y, ans: `Vektor translasi = ${vec(a, b, 'gr')}`, work: [`Gerakan mengufuk: ${fmt(X)} − ${par(x)} = ${fmt(a)}.`, `Gerakan mencancang: ${fmt(Y)} − ${par(y)} = ${fmt(b)}.`, `Tulis sebagai vektor ${vec(a, b)}.`] });
     }, () => {
-      const X = ri(-2, 6), Y = ri(-2, 6), a = nz(-4, 4), b = nz(-4, 4);
-      return { q: `Q′${P(X, Y)} ialah imej bagi titik Q di bawah translasi ${vec(a, b)}. Cari koordinat Q.`,
-        ans: `Q${P(X - a, Y - b)}`, work: ['Gerak dalam arah <b>songsang</b> dari imej ke objek.', `Koordinat-x: ${fmt(X)} − ${par(a)} = ${fmt(X - a)}.`, `Koordinat-y: ${fmt(Y)} − ${par(b)} = ${fmt(Y - b)}.`] };
+      const L = vlet(), X = ri(-2, 6), Y = ri(-2, 6), a = nz(-4, 4), b = nz(-4, 4);
+      return GEN_LQ('trObjek', { L, X, Y, a, b, x: X - a, y: Y - b, ans: `${L}${P(X - a, Y - b)}`, work: ['Gerak dalam arah <b>songsang</b> dari imej ke objek.', `Koordinat-x: ${fmt(X)} − ${par(a)} = ${fmt(X - a)}.`, `Koordinat-y: ${fmt(Y)} − ${par(b)} = ${fmt(Y - b)}.`] });
     }],
     k: [() => {
+      const A = vlet(); let B; do B = vlet(); while (B === A);
       const ax = ri(-3, 3), ay = ri(-3, 3), a = nz(-4, 4), b = nz(-4, 4), bx = ri(-4, 4), by = ri(-4, 4);
-      return { q: `Translasi T memetakan A${P(ax, ay)} kepada A′${P(ax + a, ay + b)}. Cari imej bagi B${P(bx, by)} di bawah translasi T.`,
-        ans: `B′${P(bx + a, by + b)}`, work: [`Cari vektor T: ${vec(a, b)} (${fmt(ax + a)} − ${par(ax)}, ${fmt(ay + b)} − ${par(ay)}).`, `Tambah vektor pada B: (${fmt(bx)} + ${par(a)}, ${fmt(by)} + ${par(b)}).`, `B′${P(bx + a, by + b)}.`] };
+      return GEN_LQ('trB', { A, B, ax, ay, a, b, bx, by, ans: `${B}′${P(bx + a, by + b)}`, work: [`Cari vektor translasi: ${vec(a, b)} (${fmt(ax + a)} − ${par(ax)}, ${fmt(ay + b)} − ${par(ay)}).`, `Tambah vektor pada ${B}: (${fmt(bx)} + ${par(a)}, ${fmt(by)} + ${par(b)}).`, `${B}′${P(bx + a, by + b)}.`] });
+    }, () => {
+      const L = vlet(), x = ri(-3, 3), y = ri(-3, 3), a = nz(-3, 3), b = nz(-3, 3), c = nz(-3, 3), e = nz(-3, 3);
+      return GEN_LQ('trDua', { L, x, y, a, b, c, e, ans: P(x + a + c, y + b + e), work: [`Selepas translasi pertama: ${P(x + a, y + b)}.`, `Selepas translasi kedua: ${P(x + a + c, y + b + e)}.`] });
     }]
   },
   '11.3': {
     m: [() => {
-      const x = nz(-4, 4), y = nz(-4, 4), onX = Math.random() < .5, X = onX ? x : -x, Y = onX ? -y : y;
+      const L = vlet(), x = nz(-4, 4), y = nz(-4, 4), onX = Math.random() < .5, X = onX ? x : -x, Y = onX ? -y : y;
       const box = { x0: -5, x1: 5, y0: -5, y1: 5, u: 34 };
-      return { q: `Titik P${P(x, y)} dipantulkan pada ${onX ? 'paksi-x' : 'paksi-y'}. Cari koordinat imej P′.`,
-        fig: plot({ ...box, items: [{ t: 'pt', x, y, c: 'tr', l: 'P' }], label: 'Titik P' }),
-        figAns: plot({ ...box, items: [{ t: 'line', a: [x, y], b: [X, Y], c: 'tx', dash: true, w: 2.5 }, { t: 'pt', x, y, c: 'tr', l: 'P' }, { t: 'pt', x: X, y: Y, c: 'gr', l: 'P′' }], label: 'P dan P′' }),
-        ans: `P′${P(X, Y)}`, work: onX ? ['Pantulan pada paksi-x: (x, y) → (x, −y).', `Koordinat-x kekal: ${fmt(x)}.`, `Koordinat-y bertukar tanda: ${fmt(y)} → ${fmt(-y)}.`] : ['Pantulan pada paksi-y: (x, y) → (−x, y).', `Koordinat-x bertukar tanda: ${fmt(x)} → ${fmt(-x)}.`, `Koordinat-y kekal: ${fmt(y)}.`] };
+      return GEN_LQ('paImej', { L, x, y, onX, X, Y, ans: `${L}′${P(X, Y)}`, work: onX ? ['Pantulan pada paksi-x: (x, y) → (x, −y).', `Koordinat-x kekal: ${fmt(x)}.`, `Koordinat-y bertukar tanda: ${fmt(y)} → ${fmt(-y)}.`] : ['Pantulan pada paksi-y: (x, y) → (−x, y).', `Koordinat-x bertukar tanda: ${fmt(x)} → ${fmt(-x)}.`, `Koordinat-y kekal: ${fmt(y)}.`] }, {
+        fig: plot({ ...box, items: [{ t: 'pt', x, y, c: 'tr', l: L }], label: `Titik ${L}` }),
+        figAns: plot({ ...box, items: [{ t: 'line', a: [x, y], b: [X, Y], c: 'tx', dash: true, w: 2.5 }, { t: 'pt', x, y, c: 'tr', l: L }, { t: 'pt', x: X, y: Y, c: 'gr', l: L + '′' }], label: `${L} dan ${L}′` }) });
+    }, () => {
+      const L = vlet(), v = nz(-5, 5), onX = Math.random() < .5, pt = onX ? P(v, 0) : P(0, v);
+      return GEN_LQ('paPaksi', { L, pt, onX, ans: `${L}′${pt}`, work: [`Titik ${L} terletak pada ${PK(onX)}, iaitu paksi pantulan.`, 'Titik pada paksi pantulan tidak berubah kedudukan.', `Maka imejnya ialah titik yang sama: ${pt}.`] });
     }],
     s: [() => {
-      const vert = Math.random() < .5, h = ri(-2, 4), x = ri(-3, 6), y = ri(-3, 6);
+      const L = vlet(), vert = Math.random() < .5, h = ri(-2, 4), x = ri(-3, 6), y = ri(-3, 6);
       if (vert) { let px = x; if (px === h) px = h - 2; const d = h - px, X = h + d;
-        return { q: `Titik P${P(px, y)} dipantulkan pada garis x = ${fmt(h)}. Cari koordinat imej P′.`, ans: `P′${P(X, y)}`,
-          work: [`Jarak P ke garis x = ${fmt(h)} ialah ${Math.abs(d)} unit.`, `Imej berada ${Math.abs(d)} unit di sebelah lain garis: x = ${fmt(X)}.`, `Koordinat-y tidak berubah: ${fmt(y)}.`] }; }
+        return GEN_LQ('paGaris', { L, x: px, y, X, Y: y, ln: `x = ${fmt(h)}`, ans: `${L}′${P(X, y)}`, work: [`Jarak ${L} ke garis x = ${fmt(h)} ialah ${Math.abs(d)} unit.`, `Imej berada ${Math.abs(d)} unit di sebelah lain garis: x = ${fmt(X)}.`, `Koordinat-y tidak berubah: ${fmt(y)}.`] }); }
       let py = y; if (py === h) py = h - 2; const d = h - py, Y = h + d;
-      return { q: `Titik P${P(x, py)} dipantulkan pada garis y = ${fmt(h)}. Cari koordinat imej P′.`, ans: `P′${P(x, Y)}`,
-        work: [`Jarak P ke garis y = ${fmt(h)} ialah ${Math.abs(d)} unit.`, `Imej berada ${Math.abs(d)} unit di sebelah lain garis: y = ${fmt(Y)}.`, `Koordinat-x tidak berubah: ${fmt(x)}.`] };
+      return GEN_LQ('paGaris', { L, x, y: py, X: x, Y, ln: `y = ${fmt(h)}`, ans: `${L}′${P(x, Y)}`, work: [`Jarak ${L} ke garis y = ${fmt(h)} ialah ${Math.abs(d)} unit.`, `Imej berada ${Math.abs(d)} unit di sebelah lain garis: y = ${fmt(Y)}.`, `Koordinat-x tidak berubah: ${fmt(x)}.`] });
     }],
     k: [() => {
-      const vert = Math.random() < .5, m = ri(-3, 4), d = ri(1, 4), c = ri(-3, 4);
-      if (vert) return { q: `Titik A${P(m - d, c)} dipetakan kepada A′${P(m + d, c)} oleh satu pantulan. Nyatakan persamaan paksi pantulan.`, ans: `x = ${fmt(m)}`,
-        work: ['A dan A′ mempunyai koordinat-y yang sama, jadi paksi pantulan ialah garis mencancang.', `Titik tengah AA′: (${fmt(m - d)} + ${par(m + d)}) ÷ 2 = ${fmt(m)}.`, `Paksi pantulan: x = ${fmt(m)}.`] };
-      return { q: `Titik A${P(c, m - d)} dipetakan kepada A′${P(c, m + d)} oleh satu pantulan. Nyatakan persamaan paksi pantulan.`, ans: `y = ${fmt(m)}`,
-        work: ['A dan A′ mempunyai koordinat-x yang sama, jadi paksi pantulan ialah garis mengufuk.', `Titik tengah AA′: (${fmt(m - d)} + ${par(m + d)}) ÷ 2 = ${fmt(m)}.`, `Paksi pantulan: y = ${fmt(m)}.`] };
+      const L = vlet(), vert = Math.random() < .5, m = ri(-3, 4), d = ri(1, 4), c = ri(-3, 4);
+      if (vert) return GEN_LQ('paCari', { L, p1: P(m - d, c), p2: P(m + d, c), ans: `x = ${fmt(m)}`, work: ['Kedua-dua titik mempunyai koordinat-y yang sama, jadi paksi pantulan ialah garis mencancang.', `Titik tengah: (${fmt(m - d)} + ${par(m + d)}) ÷ 2 = ${fmt(m)}.`, `Paksi pantulan: x = ${fmt(m)}.`] });
+      return GEN_LQ('paCari', { L, p1: P(c, m - d), p2: P(c, m + d), ans: `y = ${fmt(m)}`, work: ['Kedua-dua titik mempunyai koordinat-x yang sama, jadi paksi pantulan ialah garis mengufuk.', `Titik tengah: (${fmt(m - d)} + ${par(m + d)}) ÷ 2 = ${fmt(m)}.`, `Paksi pantulan: y = ${fmt(m)}.`] });
     }]
   },
   '11.4': {
     m: [() => {
-      const x = nz(-4, 4), y = nz(-4, 4);
+      const L = vlet(), x = nz(-4, 4), y = nz(-4, 4);
       const box = { x0: -5, x1: 5, y0: -5, y1: 5, u: 34 };
-      return { q: `Titik A${P(x, y)} diputar 180° pada asalan O. Cari koordinat imej A′.`,
-        fig: plot({ ...box, items: [{ t: 'pt', x, y, c: 'tr', l: 'A' }, { t: 'pt', x: 0, y: 0, c: 'am' }], label: 'Titik A' }),
-        figAns: plot({ ...box, items: [{ t: 'line', a: [x, y], b: [-x, -y], c: 'tx', dash: true, w: 2.5 }, { t: 'pt', x, y, c: 'tr', l: 'A' }, { t: 'pt', x: -x, y: -y, c: 'gr', l: 'A′' }, { t: 'pt', x: 0, y: 0, c: 'am' }], label: 'A dan A′' }),
-        ans: `A′${P(-x, -y)}`, work: ['Putaran 180° pada asalan: (x, y) → (−x, −y).', `Kedua-dua koordinat bertukar tanda: ${P(x, y)} → ${P(-x, -y)}.`] };
-    }],
+      return GEN_LQ('r180', { L, x, y, ans: `${L}′${P(-x, -y)}`, work: ['Putaran 180° pada asalan: (x, y) → (−x, −y).', `Kedua-dua koordinat bertukar tanda: ${P(x, y)} → ${P(-x, -y)}.`] }, {
+        fig: plot({ ...box, items: [{ t: 'pt', x, y, c: 'tr', l: L }, { t: 'pt', x: 0, y: 0, c: 'am' }], label: `Titik ${L}` }),
+        figAns: plot({ ...box, items: [{ t: 'line', a: [x, y], b: [-x, -y], c: 'tx', dash: true, w: 2.5 }, { t: 'pt', x, y, c: 'tr', l: L }, { t: 'pt', x: -x, y: -y, c: 'gr', l: L + '′' }, { t: 'pt', x: 0, y: 0, c: 'am' }], label: `${L} dan ${L}′` }) });
+    }, () => vq('putarInfo', {})],
     s: [() => {
-      const x = nz(-4, 4), y = nz(-4, 4), cw = Math.random() < .5, X = cw ? y : -y, Y = cw ? -x : x;
+      const L = vlet(), x = nz(-4, 4), y = nz(-4, 4), cw = Math.random() < .5, X = cw ? y : -y, Y = cw ? -x : x;
       const box = { x0: -5, x1: 5, y0: -5, y1: 5, u: 34 };
-      return { q: `Titik A${P(x, y)} diputar 90° ${cw ? 'ikut' : 'lawan'} arah jam pada asalan O. Cari koordinat imej A′.`,
-        fig: plot({ ...box, items: [{ t: 'pt', x, y, c: 'tr', l: 'A' }, { t: 'pt', x: 0, y: 0, c: 'am' }], label: 'Titik A' }),
-        figAns: plot({ ...box, items: [{ t: 'line', a: [0, 0], b: [x, y], c: 'tr', w: 2.5 }, { t: 'line', a: [0, 0], b: [X, Y], c: 'gr', w: 2.5 }, { t: 'pt', x, y, c: 'tr', l: 'A' }, { t: 'pt', x: X, y: Y, c: 'gr', l: 'A′' }, { t: 'pt', x: 0, y: 0, c: 'am' }], label: 'A dan A′' }),
-        ans: `A′${P(X, Y)}`, work: ['Surih A dan O pada kertas surih.', `Putar kertas surih 90° ${cw ? 'ikut' : 'lawan'} arah jam dengan pensel di O.`, `Baca kedudukan baharu A: ${P(X, Y)}.`] };
+      return GEN_LQ('r90', { L, x, y, cw, X, Y, ans: `${L}′${P(X, Y)}`, work: [`Surih ${L} dan O pada kertas surih.`, `Putar kertas surih 90° ${ARAH(cw)} dengan pensel di O.`, `Baca kedudukan baharu ${L}: ${P(X, Y)}.`] }, {
+        fig: plot({ ...box, items: [{ t: 'pt', x, y, c: 'tr', l: L }, { t: 'pt', x: 0, y: 0, c: 'am' }], label: `Titik ${L}` }),
+        figAns: plot({ ...box, items: [{ t: 'line', a: [0, 0], b: [x, y], c: 'tr', w: 2.5 }, { t: 'line', a: [0, 0], b: [X, Y], c: 'gr', w: 2.5 }, { t: 'pt', x, y, c: 'tr', l: L }, { t: 'pt', x: X, y: Y, c: 'gr', l: L + '′' }, { t: 'pt', x: 0, y: 0, c: 'am' }], label: `${L} dan ${L}′` }) });
     }],
     k: [() => {
-      const h = ri(-2, 2), k = ri(-2, 2), dx = nz(-3, 3), dy = nz(-3, 3), x = h + dx, y = k + dy, cw = Math.random() < .5;
+      const L = vlet(), h = ri(-2, 2), k = ri(-2, 2), dx = nz(-3, 3), dy = nz(-3, 3), x = h + dx, y = k + dy, cw = Math.random() < .5;
       const X = cw ? h + dy : h - dy, Y = cw ? k - dx : k + dx;
-      return { q: `Titik A${P(x, y)} diputar 90° ${cw ? 'ikut' : 'lawan'} arah jam pada pusat ${P(h, k)}. Cari koordinat imej A′.`,
-        fig: plot({ x0: -6, x1: 6, y0: -6, y1: 6, u: 30, items: [{ t: 'pt', x, y, c: 'tr', l: 'A' }, { t: 'pt', x: h, y: k, c: 'am', l: 'pusat', dy: 22 }], label: 'Titik A dan pusat' }),
-        figAns: plot({ x0: -6, x1: 6, y0: -6, y1: 6, u: 30, items: [{ t: 'line', a: [h, k], b: [x, y], c: 'tr', w: 2.5 }, { t: 'line', a: [h, k], b: [X, Y], c: 'gr', w: 2.5 }, { t: 'pt', x, y, c: 'tr', l: 'A' }, { t: 'pt', x: X, y: Y, c: 'gr', l: 'A′' }, { t: 'pt', x: h, y: k, c: 'am' }], label: 'A dan A′' }),
-        ans: `A′${P(X, Y)}`, work: [`Dari pusat ke A: ${Math.abs(dx)} unit ${dx > 0 ? 'kanan' : 'kiri'}, ${Math.abs(dy)} unit ${dy > 0 ? 'atas' : 'bawah'}.`, `Putar arah gerakan itu 90° ${cw ? 'ikut' : 'lawan'} arah jam.`, `Dari pusat ${P(h, k)}, imej berada di ${P(X, Y)}.`] };
+      return GEN_LQ('r90p', { L, x, y, h, k, cw, ans: `${L}′${P(X, Y)}`, work: [`Dari pusat ke ${L}: ${Math.abs(dx)} unit ${dx > 0 ? 'kanan' : 'kiri'}, ${Math.abs(dy)} unit ${dy > 0 ? 'atas' : 'bawah'}.`, `Putar arah gerakan itu 90° ${ARAH(cw)}.`, `Dari pusat ${P(h, k)}, imej berada di ${P(X, Y)}.`] }, {
+        fig: plot({ x0: -6, x1: 6, y0: -6, y1: 6, u: 30, items: [{ t: 'pt', x, y, c: 'tr', l: L }, { t: 'pt', x: h, y: k, c: 'am', l: 'pusat', dy: 22 }], label: `Titik ${L} dan pusat` }),
+        figAns: plot({ x0: -6, x1: 6, y0: -6, y1: 6, u: 30, items: [{ t: 'line', a: [h, k], b: [x, y], c: 'tr', w: 2.5 }, { t: 'line', a: [h, k], b: [X, Y], c: 'gr', w: 2.5 }, { t: 'pt', x, y, c: 'tr', l: L }, { t: 'pt', x: X, y: Y, c: 'gr', l: L + '′' }, { t: 'pt', x: h, y: k, c: 'am' }], label: `${L} dan ${L}′` }) });
     }]
   },
   '11.5': {
     m: [() => {
-      const n = ri(3, 15), t = pick(['translasi', 'pantulan', 'putaran']);
-      return { q: `Panjang sisi AB pada sebuah objek ialah ${n} cm. Objek itu mengalami ${t}. Berapakah panjang A′B′?`, ans: `${n} cm`, work: [`${t[0].toUpperCase() + t.slice(1)} ialah isometri.`, 'Isometri mengekalkan jarak antara dua titik.', `Maka A′B′ = AB = ${n} cm.`] };
+      const n = ri(3, 15), t = pick(['translasi', 'pantulan', 'putaran']), nm = pick(['ABC', 'PQR', 'KLM', 'DEF', 'XYZ']);
+      return GEN_LQ('panjang', { nm, n, t, ans: `${n} cm`, work: [`${vcap(t)} ialah isometri.`, 'Isometri mengekalkan jarak antara dua titik.', `Maka panjang sisi sepadan = ${n} cm.`] });
+    }, () => {
+      const d = pick([30, 35, 42, 50, 58, 64, 72, 85, 96, 105, 118, 125]), t = pick(['translasi', 'pantulan', 'putaran']), nm = pick(['ABC', 'PQR', 'KLM', 'DEF', 'XYZ']);
+      return GEN_LQ('sudut', { nm, d, t, ans: `${d}°`, work: [`${vcap(t)} ialah isometri.`, 'Isometri mengekalkan saiz sudut.', `Maka saiz sudut sepadan = ${d}°.`] });
     }],
     s: [() => pick([
       { q: 'Dalam pantulan, titik manakah yang tidak berubah kedudukan?', ans: 'Titik pada paksi pantulan', work: ['Titik pada paksi pantulan berjarak 0 dari paksi.', 'Imejnya berada pada kedudukan yang sama.'] },
       { q: 'Dalam putaran, titik manakah yang tidak berubah kedudukan?', ans: 'Pusat putaran', work: ['Setiap titik diputar pada pusat putaran.', 'Pusat itu sendiri tidak bergerak.'] },
       { q: 'Transformasi isometri manakah yang menghasilkan imej terbalik (songsang sisi)?', ans: 'Pantulan', work: ['Translasi dan putaran tidak menterbalikkan bentuk.', 'Pantulan menghasilkan imej yang terbalik seperti dalam cermin.'] },
       { q: 'Nyatakan tiga maklumat yang diperlukan untuk menghuraikan satu putaran.', ans: 'Pusat, sudut dan arah putaran', work: ['Pusat: titik tetap putaran.', 'Sudut: contohnya 90° atau 180°.', 'Arah: ikut atau lawan arah jam.'] },
-      { q: 'Apakah maklumat yang diperlukan untuk menghuraikan satu translasi?', ans: 'Vektor translasi', work: ['Translasi ditentukan oleh jarak dan arah gerakan.', 'Kedua-duanya diwakili oleh vektor translasi.'] }
+      { q: 'Apakah maklumat yang diperlukan untuk menghuraikan satu translasi?', ans: 'Vektor translasi', work: ['Translasi ditentukan oleh jarak dan arah gerakan.', 'Kedua-duanya diwakili oleh vektor translasi.'] },
+      { q: 'Apakah maklumat yang diperlukan untuk menghuraikan satu pantulan?', ans: 'Paksi pantulan', work: ['Pantulan ditentukan oleh garis cermin.', 'Garis itu dipanggil paksi pantulan.'] },
+      { q: 'Dalam translasi, adakah orientasi imej sama dengan orientasi objek?', ans: 'Ya, sama', work: ['Translasi hanya menggelongsor bentuk.', 'Bentuk tidak berputar atau terbalik.'] },
+      { q: 'Dalam putaran, adakah jarak setiap titik dari pusat putaran berubah?', ans: 'Tidak berubah', work: ['Setiap titik bergerak pada bulatan berpusat di pusat putaran.', 'Jaraknya dari pusat kekal sama.'] }
     ])],
     k: [() => {
       const p = ri(4, 12), l = ri(2, p - 1), t = pick(['diputar 90° pada satu titik', 'dipantulkan pada satu garis', 'ditranslasikan']), area = Math.random() < .5;
-      return { q: `Sebuah segi empat tepat berukuran ${p} cm × ${l} cm ${t}. Hitung ${area ? 'luas' : 'perimeter'} imejnya.`,
-        ans: area ? `${p * l} cm²` : `${2 * (p + l)} cm`, work: ['Transformasi ini ialah isometri, jadi imej kongruen dengan objek.', `Ukuran imej juga ${p} cm × ${l} cm.`, area ? `Luas = ${p} × ${l} = ${p * l} cm².` : `Perimeter = 2 × (${p} + ${l}) = ${2 * (p + l)} cm.`] };
+      return GEN_LQ('luas', { p, l, t, area, ans: area ? `${p * l} cm²` : `${2 * (p + l)} cm`, work: ['Transformasi ini ialah isometri, jadi imej kongruen dengan objek.', `Ukuran imej juga ${p} cm × ${l} cm.`, area ? `Luas = ${p} × ${l} = ${p * l} cm².` : `Perimeter = 2 × (${p} + ${l}) = ${2 * (p + l)} cm.`] });
     }]
   },
   '11.6': {
     m: [() => {
-      const o = pick([['poly', 3, 'segi tiga sama sisi', 3], ['poly', 4, 'segi empat sama', 4], ['rect', 0, 'segi empat tepat', 2], ['poly', 5, 'pentagon sekata', 5], ['poly', 6, 'heksagon sekata', 6]]);
-      return { q: `Nyatakan peringkat simetri putaran bagi ${o[2]} ini.`, fig: shapeSVG(o[0], o[1]), ans: `${o[3]}`, work: ['Bayangkan bentuk diputar satu putaran lengkap (360°).', `Kira berapa kali bentuk kelihatan sama seperti asal: ${o[3]} kali.`] };
+      const o = pick([['poly', 3, 'segi tiga sama sisi', 3], ['poly', 4, 'segi empat sama', 4], ['rect', 0, 'segi empat tepat', 2], ['poly', 5, 'pentagon sekata', 5], ['poly', 6, 'heksagon sekata', 6], ['poly', 8, 'oktagon sekata', 8], ['rhombus', 0, 'rombus', 2], ['para', 0, 'segi empat selari', 2]]);
+      return GEN_LQ('bentuk', { name: o[2], ord: o[3], ans: `${o[3]}`, work: ['Bayangkan bentuk diputar satu putaran lengkap (360°).', `Kira berapa kali bentuk kelihatan sama seperti asal: ${o[3]} kali.`] }, { fig: o[0] === 'poly' || o[0] === 'rect' ? shapeSVG(o[0], o[1]) : wsShape(o[0], o[1]).replace(' class="shp"', '') });
+    }, () => {
+      const [h, ord] = pick([['H', 2], ['N', 2], ['S', 2], ['Z', 2], ['X', 2], ['A', 1], ['T', 1], ['L', 1], ['F', 1], ['E', 1]]);
+      return GEN_LQ('huruf', { h, ord, ans: `${ord}`, work: ord === 2 ? ['Putar huruf 180°.', 'Huruf kelihatan sama seperti asal.', 'Dalam satu putaran lengkap, ia kelihatan sama 2 kali.'] : ['Putar huruf 90° dan 180°: huruf tidak kelihatan sama.', 'Ia hanya kelihatan sama selepas satu putaran lengkap.', 'Maka peringkat simetri putaran ialah 1.'] }, { fig: shapeSVG('letter', h) });
     }],
     s: [() => {
-      const o = pick([['H', 2], ['N', 2], ['S', 2], ['Z', 2], ['X', 2], ['A', 1], ['T', 1], ['L', 1], ['F', 1], ['E', 1]]);
-      return { q: `Nyatakan peringkat simetri putaran bagi huruf ${o[0]}.`, fig: shapeSVG('letter', o[0]), ans: `${o[1]}`,
-        work: o[1] === 2 ? ['Putar huruf 180°.', 'Huruf kelihatan sama seperti asal.', 'Dalam satu putaran lengkap, ia kelihatan sama 2 kali.'] : ['Putar huruf 90° dan 180°: huruf tidak kelihatan sama.', 'Ia hanya kelihatan sama selepas satu putaran lengkap.', 'Maka peringkat simetri putaran ialah 1.'] };
+      const [h, ord] = pick([['H', 2], ['N', 2], ['S', 2], ['Z', 2], ['X', 2], ['A', 1], ['T', 1], ['L', 1], ['F', 1], ['E', 1]]);
+      return GEN_LQ('huruf', { h, ord, ans: `${ord}`, work: ord === 2 ? ['Putar huruf 180°.', 'Huruf kelihatan sama seperti asal.', 'Dalam satu putaran lengkap, ia kelihatan sama 2 kali.'] : ['Putar huruf 90° dan 180°: huruf tidak kelihatan sama.', 'Ia hanya kelihatan sama selepas satu putaran lengkap.', 'Maka peringkat simetri putaran ialah 1.'] }, { fig: shapeSVG('letter', h) });
+    }, () => {
+      const two = shuffle(['H', 'N', 'S', 'Z', 'X', 'I']).slice(0, 2), one = shuffle(['A', 'T', 'L', 'F', 'E', 'K', 'M', 'W', 'V', 'U', 'Y']).slice(0, 2);
+      const dan2 = a => a.slice(0, -1).join(', ') + ' dan ' + a[a.length - 1];
+      const list = dan2(shuffle(two.concat(one))), dua = dan2(two.slice().sort()), satu = dan2(one.slice().sort());
+      return GEN_LQ('pilihHuruf', { list, dua, satu, ans: dua, work: ['Bayangkan setiap huruf diputar 180°.', `${dua} kelihatan sama: peringkat 2.`, `${satu} tidak kelihatan sama: peringkat 1.`] });
     }],
     k: [() => {
       const n = pick([3, 4, 5, 6, 8, 9, 10, 12]);
-      return { q: `Sebuah poligon sekata mempunyai ${n} sisi. Berapakah sudut putaran terkecil supaya poligon itu kelihatan sama seperti asal?`, ans: `${360 / n}°`, work: [`Peringkat simetri putaran poligon sekata ${n} sisi ialah ${n}.`, `Sudut putaran terkecil = 360° ÷ ${n}.`, `= ${360 / n}°.`] };
+      return GEN_LQ('poligon', { n, ans: `${360 / n}°`, work: [`Peringkat simetri putaran poligon sekata ${n} sisi ialah ${n}.`, `Sudut putaran terkecil = 360° ÷ ${n}.`, `= ${360 / n}°.`] });
     }]
   }
 };
@@ -434,6 +443,7 @@ function viewLatihan() {
 }
 function makeSet() {
   const subs = SUBS.map(s => s.no).filter(no => LAT.on[no]), mx = mix(LAT.n), qs = [];
+  vreset();
   ['m', 's', 'k'].forEach(l => {
     let pool = shuffle(subs);
     for (let i = 0; i < mx[l]; i++) {

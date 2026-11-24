@@ -41,8 +41,15 @@ function wsShape(kind, n) {
 }
 
 /* ---------- penjana (i = indeks dalam kumpulan) ---------- */
+// Ayat soalan diambil daripada bank QV (qv.js) supaya cara tanya berbeza-beza.
 const WG = {};
+const wq = (key, d, extra) => Object.assign({}, extra || {}, vq(key, d));
+const LET4 = ['ABCD', 'PQRS', 'KLMN', 'EFGH', 'WXYZ'];
+const wlet2 = () => { const a = vlet(); let b; do b = vlet(); while (b === a); return [a, b]; };
+const wshuf = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(WR() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const dan = a => a.length < 2 ? a.join('') : a.slice(0, -1).join(', ') + ' dan ' + a[a.length - 1];
 // 11.1
+WG.istilah = () => vq('istilah', {});
 WG.kongruen = i => {
   const same = i % 3 !== 2, a = wri(2, 3), b = wri(2, 4);
   const o = wpick([[[0, 0], [a, 0], [0, b]], [[0, 0], [a, 0], [a, b], [0, b]], [[0, 0], [a + 1, 0], [1, b]]]);
@@ -52,85 +59,142 @@ WG.kongruen = i => {
   else if (how === 0) im = o.map(([x, y]) => [13 - x, y]);
   else if (how === 1) im = o.map(([x, y]) => [9 + y, a + 1 - x]);
   else im = o.map(([x, y]) => [x + 8, y + 1]);
-  return { q: 'Adakah kedua-dua bentuk di bawah kongruen? Berikan sebab.', fig: plot({ x0: 0, x1: 14, y0: 0, y1: 8, u: 26, axes: false, items: [{ t: 'poly', pts: o, c: 'tr' }, { t: 'poly', pts: im, c: 'pa', dash: true }], label: 'Dua bentuk' }),
-    ans: same ? 'Ya, kongruen' : 'Tidak kongruen', work: same ? ['Bentuk dan saiz kedua-duanya sama.'] : ['Bentuk sama tetapi saiz berbeza.'] };
+  return wq('kongruen', { same, ans: same ? 'Ya, kongruen' : 'Tidak kongruen', work: same ? ['Bentuk dan saiz kedua-duanya sama.'] : ['Bentuk sama tetapi saiz berbeza.'] },
+    { fig: plot({ x0: 0, x1: 14, y0: 0, y1: 8, u: 26, axes: false, items: [{ t: 'poly', pts: o, c: 'tr' }, { t: 'poly', pts: im, c: 'pa', dash: true }], label: 'Dua bentuk' }) });
 };
 WG.objekImej = i => {
   const [o, m] = [['P', 'Q'], ['M', 'N'], ['X', 'Y'], ['F', 'G'], ['S', 'T']][i % 5];
-  const sh = wpick(['Segi tiga', 'Segi empat', 'Pentagon']);
-  return { q: `${sh} ${o} dipetakan kepada ${sh.toLowerCase()} ${m} oleh satu transformasi. Nyatakan objek dan imej.`, ans: `Objek: ${sh.toLowerCase()} ${o}; Imej: ${sh.toLowerCase()} ${m}`, work: ['Bentuk asal ialah objek.', 'Bentuk selepas transformasi ialah imej.'] };
+  const sh = wpick(['segi tiga', 'segi empat', 'pentagon']);
+  return wq('objImej', { sh, o, m, ans: `Objek: ${sh} ${o}; Imej: ${sh} ${m}`, work: ['Bentuk asal ialah objek.', 'Bentuk selepas transformasi ialah imej.'] });
 };
-WG.titikImej = i => {
-  const nm = ['ABCD', 'PQRS', 'KLMN', 'EFGH', 'WXYZ'][i % 5], k = wri(0, 3);
-  return { q: `Segi empat ${nm} dipetakan kepada ${nm.split('').map(c => c + '′').join('')}. Nyatakan imej bagi titik ${nm[k]}.`, ans: `${nm[k]}′`, work: [`Titik ${nm[k]} dipetakan kepada titik sepadan ${nm[k]}′.`] };
+WG.titikImej = () => {
+  const nm = wpick(LET4), k = wri(0, 3);
+  return wq('titikImej', { nm, k, ans: `${nm[k]}′`, work: [`Titik ${nm[k]} dipetakan kepada titik sepadan ${nm[k]}′.`] });
 };
 WG.isometriFig = i => {
   const iso = i % 2 === 0, o = wpick([[[1, 1], [3, 1], [1, 3]], [[1, 1], [4, 1], [4, 3]], [[1, 1], [3, 1], [3, 2], [1, 3]]]);
   const dy = wri(0, 3), im = iso ? o.map(([x, y]) => [x + 6, y + dy]) : o.map(([x, y]) => [6 + (x - 1) * 2, 1 + (y - 1) * 2]);
-  return { q: 'Objek (biru) dipetakan kepada imej (oren). Adakah transformasi ini satu isometri? Terangkan.', fig: plot({ x0: 0, x1: 13, y0: 0, y1: 8, u: 26, axes: false, items: [{ t: 'poly', pts: o, c: 'tr' }, { t: 'poly', pts: im, c: 'pa', dash: true }], label: 'Objek dan imej' }),
-    ans: iso ? 'Ya, isometri' : 'Bukan isometri', work: iso ? ['Bentuk dan saiz imej sama dengan objek.'] : ['Saiz imej berbeza daripada objek.'] };
+  return wq('isoFig', { iso, ans: iso ? 'Ya, isometri' : 'Bukan isometri', work: iso ? ['Bentuk dan saiz imej sama dengan objek.'] : ['Saiz imej berbeza daripada objek.'] },
+    { fig: plot({ x0: 0, x1: 13, y0: 0, y1: 8, u: 26, axes: false, items: [{ t: 'poly', pts: o, c: 'tr' }, { t: 'poly', pts: im, c: 'pa', dash: true }], label: 'Objek dan imej' }) });
 };
+const ISOTEKS = [
+  ['Imej mempunyai bentuk dan saiz yang sama dengan objek.', true],
+  ['Panjang setiap sisi imej dua kali panjang sisi objek.', false],
+  ['Imej ialah hasil pantulan objek pada paksi-y.', true],
+  ['Luas imej separuh daripada luas objek.', false],
+  ['Semua sudut dan panjang sisi imej sama dengan objek.', true],
+  ['Imej lebih kecil daripada objek tetapi bentuknya sama.', false],
+  ['Objek diputar 90° pada satu titik.', true],
+  ['Perimeter imej berbeza daripada perimeter objek.', false]
+];
 WG.isometriTeks = i => {
-  const L = [['Imej mempunyai bentuk dan saiz yang sama dengan objek.', 'Ya, isometri'], ['Panjang setiap sisi imej dua kali panjang sisi objek.', 'Bukan isometri'], ['Imej ialah hasil pantulan objek pada paksi-y.', 'Ya, isometri'], ['Luas imej separuh daripada luas objek.', 'Bukan isometri']][i % 4];
-  return { q: `Diberi: "${L[0]}" Adakah transformasi ini satu isometri?`, ans: L[1], work: ['Isometri mengekalkan bentuk dan saiz.'] };
+  const [s, iso] = ISOTEKS[(i * 2 + wri(0, 1)) % ISOTEKS.length];
+  return wq('isoTeks', { s, iso, ans: iso ? 'Ya, isometri' : 'Bukan isometri', work: ['Isometri mengekalkan bentuk dan saiz.'] });
 };
 WG.panjangSudut = i => {
   const ab = [5, 8, 12][i], ang = [40, 65, 110][i], n = LET[i];
-  return { q: `Segi tiga ${n} dipetakan kepada segi tiga ${n.split('').map(c => c + '′').join('')} oleh satu isometri. Diberi ${n[0]}${n[1]} = ${ab} cm dan ∠${n} = ${ang}°. Nyatakan panjang ${n[0]}′${n[1]}′ dan saiz ∠${n[0]}′${n[1]}′${n[2]}′.`,
-    ans: `${n[0]}′${n[1]}′ = ${ab} cm, ∠${n[0]}′${n[1]}′${n[2]}′ = ${ang}°`, work: ['Isometri mengekalkan bentuk dan saiz.', 'Panjang sisi dan saiz sudut tidak berubah.'] };
+  return wq('panjangSudut', { n, ab, ang, ans: `${pr(n[0] + n[1])} = ${ab} cm, ∠${pr(n)} = ${ang}°`, work: ['Isometri mengekalkan bentuk dan saiz.', 'Panjang sisi dan saiz sudut tidak berubah.'] });
 };
 // 11.2
-WG.imejTitik = () => { const x = wri(-4, 4), y = wri(-4, 4), a = wnz(-4, 4), b = wnz(-4, 4); return { q: `Titik P${P(x, y)} ditranslasikan oleh ${vec(a, b)}. Cari koordinat imej P′.`, ans: `P′${P(x + a, y + b)}`, work: [`x: ${fmt(x)} + ${par(a)} = ${fmt(x + a)}`, `y: ${fmt(y)} + ${par(b)} = ${fmt(y + b)}`] }; };
-WG.vektorKata = () => { const a = wnz(-5, 5), b = wnz(-5, 5); return { q: `Satu titik digerakkan ${Math.abs(a)} unit ke ${a > 0 ? 'kanan' : 'kiri'} dan ${Math.abs(b)} unit ke ${b > 0 ? 'atas' : 'bawah'}. Tuliskan vektor translasi.`, ans: vec(a, b), work: [`${a > 0 ? 'Kanan positif' : 'Kiri negatif'}: ${fmt(a)}.`, `${b > 0 ? 'Atas positif' : 'Bawah negatif'}: ${fmt(b)}.`] }; };
+WG.imejTitik = () => {
+  const L = vlet(), x = wri(-4, 4), y = wri(-4, 4), a = wnz(-4, 4), b = wnz(-4, 4), X = x + a, Y = y + b;
+  return wq('trImej', { L, x, y, a, b, X, Y, ans: `${L}′${P(X, Y)}`, work: [`x: ${fmt(x)} + ${par(a)} = ${fmt(X)}`, `y: ${fmt(y)} + ${par(b)} = ${fmt(Y)}`] });
+};
+WG.vektorKata = () => {
+  const a = wnz(-5, 5), b = wnz(-5, 5);
+  return wq('trKata', { a, b, ans: vec(a, b), work: [`${a > 0 ? 'Kanan positif' : 'Kiri negatif'}: ${fmt(a)}.`, `${b > 0 ? 'Atas positif' : 'Bawah negatif'}: ${fmt(b)}.`] });
+};
 function lukis(kind, opt) {
   // soalan melukis: objek pada grid, murid lukis imej
   for (let t = 0; t < 300; t++) {
-    let o, f, extra = [], desc;
+    let o, f, extra = [], desc, descP;
     const names = wpick(LET);
-    if (kind === 'tr') { o = wsTri(-5, 0, -5, 0); const a = opt.neg ? wnz(-4, 4) : wri(2, 5), b = opt.neg ? wnz(-4, 4) : wri(1, 5); f = ([x, y]) => [x + a, y + b]; desc = `di bawah translasi ${vec(a, b)}`; }
-    if (kind === 'px') { o = wsTri(-5, 5, 1, 5); f = ([x, y]) => [x, -y]; desc = 'apabila dipantulkan pada paksi-x'; }
-    if (kind === 'py') { o = wsTri(1, 5, -5, 5); f = ([x, y]) => [-x, y]; desc = 'apabila dipantulkan pada paksi-y'; }
-    if (kind === 'xh') { const h = wnz(-2, 2); o = wsTri(h + 1, Math.min(6, h + 4), -4, 4); f = ([x, y]) => [2 * h - x, y]; desc = `apabila dipantulkan pada garis x = ${fmt(h)}`; extra = [{ t: 'line', a: [h, -6], b: [h, 6], c: 'pa', w: 3 }, { t: 'text', x: h, y: 6, s: `x = ${fmt(h)}`, c: 'pa', anchor: 'start', size: 14 }]; }
-    if (kind === 'yk') { const k = wnz(-2, 2); o = wsTri(-4, 4, k + 1, Math.min(6, k + 4)); f = ([x, y]) => [x, 2 * k - y]; desc = `apabila dipantulkan pada garis y = ${fmt(k)}`; extra = [{ t: 'line', a: [-6, k], b: [6, k], c: 'pa', w: 3 }, { t: 'text', x: -6, y: k, s: `y = ${fmt(k)}`, c: 'pa', anchor: 'start', size: 14 }]; }
-    if (kind === 'r180') { o = wsTri(1, 5, 1, 5); f = ([x, y]) => [-x, -y]; desc = 'apabila diputar 180° pada asalan O'; }
-    if (kind === 'r90') { const cw = opt.cw; o = wsTri(1, 5, 1, 5); f = cw ? ([x, y]) => [y, -x] : ([x, y]) => [-y, x]; desc = `apabila diputar 90° ${cw ? 'ikut' : 'lawan'} arah jam pada asalan O`; }
+    if (kind === 'tr') { o = wsTri(-5, 0, -5, 0); const a = opt.neg ? wnz(-4, 4) : wri(2, 5), b = opt.neg ? wnz(-4, 4) : wri(1, 5); f = ([x, y]) => [x + a, y + b]; desc = `di bawah translasi ${vec(a, b)}`; descP = `ditranslasikan oleh ${vec(a, b)}`; }
+    if (kind === 'px') { o = wsTri(-5, 5, 1, 5); f = ([x, y]) => [x, -y]; desc = 'apabila dipantulkan pada paksi-x'; descP = 'dipantulkan pada paksi-x'; }
+    if (kind === 'py') { o = wsTri(1, 5, -5, 5); f = ([x, y]) => [-x, y]; desc = 'apabila dipantulkan pada paksi-y'; descP = 'dipantulkan pada paksi-y'; }
+    if (kind === 'xh') { const h = wnz(-2, 2); o = wsTri(h + 1, Math.min(6, h + 4), -4, 4); f = ([x, y]) => [2 * h - x, y]; desc = `apabila dipantulkan pada garis x = ${fmt(h)}`; descP = `dipantulkan pada garis x = ${fmt(h)}`; extra = [{ t: 'line', a: [h, -6], b: [h, 6], c: 'pa', w: 3 }, { t: 'text', x: h, y: 6, s: `x = ${fmt(h)}`, c: 'pa', anchor: 'start', size: 14 }]; }
+    if (kind === 'yk') { const k = wnz(-2, 2); o = wsTri(-4, 4, k + 1, Math.min(6, k + 4)); f = ([x, y]) => [x, 2 * k - y]; desc = `apabila dipantulkan pada garis y = ${fmt(k)}`; descP = `dipantulkan pada garis y = ${fmt(k)}`; extra = [{ t: 'line', a: [-6, k], b: [6, k], c: 'pa', w: 3 }, { t: 'text', x: -6, y: k, s: `y = ${fmt(k)}`, c: 'pa', anchor: 'start', size: 14 }]; }
+    if (kind === 'r180') { o = wsTri(1, 5, 1, 5); f = ([x, y]) => [-x, -y]; desc = 'apabila diputar 180° pada asalan O'; descP = 'diputar 180° pada asalan O'; }
+    if (kind === 'r90') { const cw = opt.cw; o = wsTri(1, 5, 1, 5); f = cw ? ([x, y]) => [y, -x] : ([x, y]) => [-y, x]; desc = `apabila diputar 90° ${ARAH(cw)} pada asalan O`; descP = `diputar 90° ${ARAH(cw)} pada asalan O`; }
     const im = o.map(f);
     if (!im.every(([x, y]) => Math.abs(x) <= 6 && Math.abs(y) <= 6)) continue;
     const nm = names.split(''), nm2 = nm.map(c => c + '′');
     const base = Object.assign({}, G6, { u: 28 });
-    return { kind: 'lukis', q: `Pada grid di bawah, lukis imej bagi segi tiga ${names} ${desc}. Labelkan imej itu ${nm2.join('')}.`,
+    return wq('lukis', { names, desc, descP, ans: im.map((p, i) => `${nm2[i]}${P(p[0], p[1])}`).join(', '), work: [] }, {
+      kind: 'lukis',
       fig: plot(Object.assign({}, base, { items: extra.concat(triItems(o, 'tr', nm)), label: `Grid dengan segi tiga ${names}` })),
-      figAns: plot(Object.assign({}, base, { items: extra.concat(triItems(o, 'tr', nm), triItems(im, 'gr', nm2, true)), label: `Segi tiga ${names} dan imejnya` })),
-      ans: im.map((p, i) => `${nm2[i]}${P(p[0], p[1])}`).join(', '), work: [] };
+      figAns: plot(Object.assign({}, base, { items: extra.concat(triItems(o, 'tr', nm), triItems(im, 'gr', nm2, true)), label: `Segi tiga ${names} dan imejnya` })) });
   }
 }
-WG.lukisTr = i => lukis('tr', { neg: false });
-WG.lukisTrNeg = i => lukis('tr', { neg: true });
-WG.cariVektor = () => { const x = wri(-4, 4), y = wri(-4, 4), a = wnz(-5, 5), b = wnz(-5, 5); return { q: `Titik A${P(x, y)} dipetakan kepada A′${P(x + a, y + b)} oleh satu translasi. Tentukan vektor translasi.`, ans: vec(a, b), work: [`${fmt(x + a)} − ${par(x)} = ${fmt(a)}`, `${fmt(y + b)} − ${par(y)} = ${fmt(b)}`] }; };
-WG.cariObjek = () => { const X = wri(-3, 6), Y = wri(-3, 6), a = wnz(-4, 4), b = wnz(-4, 4); return { q: `Q′${P(X, Y)} ialah imej bagi titik Q di bawah translasi ${vec(a, b)}. Cari koordinat Q.`, ans: `Q${P(X - a, Y - b)}`, work: [`${fmt(X)} − ${par(a)} = ${fmt(X - a)}`, `${fmt(Y)} − ${par(b)} = ${fmt(Y - b)}`] }; };
-WG.imejB = () => { const ax = wri(-3, 3), ay = wri(-3, 3), a = wnz(-4, 4), b = wnz(-4, 4), bx = wri(-4, 4), by = wri(-4, 4); return { q: `Translasi T memetakan A${P(ax, ay)} kepada A′${P(ax + a, ay + b)}. Cari imej bagi B${P(bx, by)} di bawah translasi T.`, ans: `B′${P(bx + a, by + b)}`, work: [`Vektor T = ${vec(a, b)}`, `B′ = (${fmt(bx)} + ${par(a)}, ${fmt(by)} + ${par(b)})`] }; };
-WG.duaTranslasi = () => { const x = wri(-3, 3), y = wri(-3, 3), a = wnz(-3, 3), b = wnz(-3, 3), c = wnz(-3, 3), d = wnz(-3, 3); return { q: `Titik R${P(x, y)} ditranslasikan oleh ${vec(a, b)}, kemudian imejnya ditranslasikan pula oleh ${vec(c, d)}. Cari koordinat imej akhir.`, ans: P(x + a + c, y + b + d), work: [`Selepas translasi pertama: ${P(x + a, y + b)}`, `Selepas translasi kedua: ${P(x + a + c, y + b + d)}`] }; };
+WG.lukisTr = () => lukis('tr', { neg: false });
+WG.lukisTrNeg = () => lukis('tr', { neg: true });
+WG.cariVektor = () => {
+  const L = vlet(), x = wri(-4, 4), y = wri(-4, 4), a = wnz(-5, 5), b = wnz(-5, 5), X = x + a, Y = y + b;
+  return wq('trVektor', { L, x, y, X, Y, ans: vec(a, b), work: [`${fmt(X)} − ${par(x)} = ${fmt(a)}`, `${fmt(Y)} − ${par(y)} = ${fmt(b)}`] });
+};
+WG.cariObjek = () => {
+  const L = vlet(), X = wri(-3, 6), Y = wri(-3, 6), a = wnz(-4, 4), b = wnz(-4, 4);
+  return wq('trObjek', { L, X, Y, a, b, x: X - a, y: Y - b, ans: `${L}${P(X - a, Y - b)}`, work: [`${fmt(X)} − ${par(a)} = ${fmt(X - a)}`, `${fmt(Y)} − ${par(b)} = ${fmt(Y - b)}`] });
+};
+WG.imejB = () => {
+  const [A, B] = wlet2(), ax = wri(-3, 3), ay = wri(-3, 3), a = wnz(-4, 4), b = wnz(-4, 4), bx = wri(-4, 4), by = wri(-4, 4);
+  return wq('trB', { A, B, ax, ay, a, b, bx, by, ans: `${B}′${P(bx + a, by + b)}`, work: [`Vektor translasi = ${vec(a, b)}`, `${B}′ = (${fmt(bx)} + ${par(a)}, ${fmt(by)} + ${par(b)})`] });
+};
+WG.duaTranslasi = () => {
+  const L = vlet(), x = wri(-3, 3), y = wri(-3, 3), a = wnz(-3, 3), b = wnz(-3, 3), c = wnz(-3, 3), e = wnz(-3, 3);
+  return wq('trDua', { L, x, y, a, b, c, e, ans: P(x + a + c, y + b + e), work: [`Selepas translasi pertama: ${P(x + a, y + b)}`, `Selepas translasi kedua: ${P(x + a + c, y + b + e)}`] });
+};
 // 11.3
-WG.paksiTitik = () => { const x = wnz(-5, 5), y = wnz(-5, 5), onX = WR() < .5; return { q: `Titik P${P(x, y)} dipantulkan pada ${onX ? 'paksi-x' : 'paksi-y'}. Cari koordinat imej P′.`, ans: `P′${P(onX ? x : -x, onX ? -y : y)}`, work: [onX ? '(x, y) → (x, −y)' : '(x, y) → (−x, y)'] }; };
-WG.padaPaksi = i => { const v = wnz(-5, 5), onX = i % 2 === 0; return { q: `Titik T${onX ? P(v, 0) : P(0, v)} dipantulkan pada ${onX ? 'paksi-x' : 'paksi-y'}. Nyatakan koordinat imej T′.`, ans: `T′${onX ? P(v, 0) : P(0, v)}`, work: ['Titik pada paksi pantulan tidak berubah kedudukan.'] }; };
+WG.paksiTitik = () => {
+  const L = vlet(), x = wnz(-5, 5), y = wnz(-5, 5), onX = WR() < .5, X = onX ? x : -x, Y = onX ? -y : y;
+  return wq('paImej', { L, x, y, onX, X, Y, ans: `${L}′${P(X, Y)}`, work: [onX ? '(x, y) → (x, −y)' : '(x, y) → (−x, y)'] });
+};
+WG.padaPaksi = i => {
+  const L = vlet(), v = wnz(-5, 5), onX = i % 2 === 0, pt = onX ? P(v, 0) : P(0, v);
+  return wq('paPaksi', { L, pt, onX, ans: `${L}′${pt}`, work: ['Titik pada paksi pantulan tidak berubah kedudukan.'] });
+};
 WG.lukisPaksi = i => lukis(i % 2 ? 'px' : 'py', {});
 WG.garisHK = i => {
-  const h = wri(-2, 4);
-  if (i % 2 === 0) { let x = wri(-3, 6); if (x === h) x = h - 2; const y = wri(-4, 5); return { q: `Titik P${P(x, y)} dipantulkan pada garis x = ${fmt(h)}. Cari koordinat imej P′.`, ans: `P′${P(2 * h - x, y)}`, work: [`Jarak ke garis = ${Math.abs(h - x)} unit`, `x′ = ${fmt(2 * h - x)}, y tidak berubah`] }; }
-  let y = wri(-3, 6); if (y === h) y = h - 2; const x = wri(-4, 5);
-  return { q: `Titik P${P(x, y)} dipantulkan pada garis y = ${fmt(h)}. Cari koordinat imej P′.`, ans: `P′${P(x, 2 * h - y)}`, work: [`Jarak ke garis = ${Math.abs(h - y)} unit`, `y′ = ${fmt(2 * h - y)}, x tidak berubah`] };
+  const L = vlet(), h = wri(-2, 4);
+  if (i % 2 === 0) {
+    let x = wri(-3, 6); if (x === h) x = h - 2; const y = wri(-4, 5), X = 2 * h - x;
+    return wq('paGaris', { L, x, y, X, Y: y, ln: `x = ${fmt(h)}`, ans: `${L}′${P(X, y)}`, work: [`Jarak ke garis = ${Math.abs(h - x)} unit`, `x′ = ${fmt(X)}, y tidak berubah`] });
+  }
+  let y = wri(-3, 6); if (y === h) y = h - 2; const x = wri(-4, 5), Y = 2 * h - y;
+  return wq('paGaris', { L, x, y, X: x, Y, ln: `y = ${fmt(h)}`, ans: `${L}′${P(x, Y)}`, work: [`Jarak ke garis = ${Math.abs(h - y)} unit`, `y′ = ${fmt(Y)}, x tidak berubah`] });
 };
 WG.lukisHK = i => lukis(i % 2 ? 'yk' : 'xh', {});
-WG.cariPaksi = i => { const m = wri(-3, 4), d = wri(1, 4), c = wri(-3, 4); if (i % 2 === 0) return { q: `Titik A${P(m - d, c)} dipetakan kepada A′${P(m + d, c)} oleh satu pantulan. Nyatakan persamaan paksi pantulan.`, ans: `x = ${fmt(m)}`, work: [`Titik tengah AA′: x = ${fmt(m)}`] }; return { q: `Titik A${P(c, m - d)} dipetakan kepada A′${P(c, m + d)} oleh satu pantulan. Nyatakan persamaan paksi pantulan.`, ans: `y = ${fmt(m)}`, work: [`Titik tengah AA′: y = ${fmt(m)}`] }; };
+WG.cariPaksi = i => {
+  const L = vlet(), m = wri(-3, 4), d = wri(1, 4), c = wri(-3, 4);
+  if (i % 2 === 0) return wq('paCari', { L, p1: P(m - d, c), p2: P(m + d, c), ans: `x = ${fmt(m)}`, work: [`Titik tengah: x = ${fmt(m)}`] });
+  return wq('paCari', { L, p1: P(c, m - d), p2: P(c, m + d), ans: `y = ${fmt(m)}`, work: [`Titik tengah: y = ${fmt(m)}`] });
+};
 // 11.4
-WG.r180 = () => { const x = wnz(-5, 5), y = wnz(-5, 5); return { q: `Titik A${P(x, y)} diputar 180° pada asalan O. Cari koordinat imej A′.`, ans: `A′${P(-x, -y)}`, work: ['(x, y) → (−x, −y)'] }; };
+WG.r180 = () => {
+  const L = vlet(), x = wnz(-5, 5), y = wnz(-5, 5);
+  return wq('r180', { L, x, y, ans: `${L}′${P(-x, -y)}`, work: ['(x, y) → (−x, −y)'] });
+};
+WG.putarInfo = () => vq('putarInfo', {});
 WG.lukis180 = () => lukis('r180', {});
-WG.r90 = i => { const x = wnz(-5, 5), y = wnz(-5, 5), cw = i % 2 === 0; return { q: `Titik A${P(x, y)} diputar 90° ${cw ? 'ikut' : 'lawan'} arah jam pada asalan O. Cari koordinat imej A′.`, ans: `A′${P(cw ? y : -y, cw ? -x : x)}`, work: [cw ? '(x, y) → (y, −x)' : '(x, y) → (−y, x)'] }; };
+WG.r90 = i => {
+  const L = vlet(), x = wnz(-5, 5), y = wnz(-5, 5), cw = i % 2 === 0, X = cw ? y : -y, Y = cw ? -x : x;
+  return wq('r90', { L, x, y, cw, X, Y, ans: `${L}′${P(X, Y)}`, work: [cw ? '(x, y) → (y, −x)' : '(x, y) → (−y, x)'] });
+};
 WG.lukis90 = i => lukis('r90', { cw: i % 2 === 0 });
-WG.r90pusat = i => { const h = wri(-2, 2), k = wri(-2, 2), dx = wnz(-3, 3), dy = wnz(-3, 3), cw = i % 2 === 0; const X = cw ? h + dy : h - dy, Y = cw ? k - dx : k + dx; return { q: `Titik A${P(h + dx, k + dy)} diputar 90° ${cw ? 'ikut' : 'lawan'} arah jam pada pusat ${P(h, k)}. Cari koordinat imej A′.`, ans: `A′${P(X, Y)}`, work: [`Dari pusat ke A: (${fmt(dx)}, ${fmt(dy)})`, `Selepas putaran: (${fmt(X - h)}, ${fmt(Y - k)})`, `A′ = ${P(X, Y)}`] }; };
+WG.r90pusat = i => {
+  const L = vlet(), h = wri(-2, 2), k = wri(-2, 2), dx = wnz(-3, 3), dy = wnz(-3, 3), cw = i % 2 === 0;
+  const X = cw ? h + dy : h - dy, Y = cw ? k - dx : k + dx;
+  return wq('r90p', { L, x: h + dx, y: k + dy, h, k, cw, ans: `${L}′${P(X, Y)}`, work: [`Dari pusat ke ${L}: (${fmt(dx)}, ${fmt(dy)})`, `Selepas putaran: (${fmt(X - h)}, ${fmt(Y - k)})`, `${L}′ = ${P(X, Y)}`] });
+};
 // 11.5
-WG.panjang = () => { const n = wri(3, 20), t = wpick(['translasi', 'pantulan', 'putaran']), nm = wpick(LET); return { q: `Panjang sisi ${nm[0]}${nm[1]} sebuah objek ialah ${n} cm. Objek itu mengalami ${t}. Berapakah panjang ${nm[0]}′${nm[1]}′?`, ans: `${n} cm`, work: [`${wcap(t)} ialah isometri; jarak dikekalkan.`] }; };
-WG.sudut = () => { const d = wpick([30, 35, 42, 50, 58, 64, 72, 85, 96, 105, 118, 125]), t = wpick(['translasi', 'pantulan', 'putaran']), nm = wpick(LET); return { q: `Diberi ∠${nm} = ${d}°. Segi tiga ${nm} mengalami ${t}. Nyatakan saiz ∠${nm.split('').map(c => c + '′').join('')}.`, ans: `${d}°`, work: [`${wcap(t)} ialah isometri; saiz sudut dikekalkan.`] }; };
+WG.panjang = () => {
+  const n = wri(3, 20), t = wpick(['translasi', 'pantulan', 'putaran']), nm = wpick(LET);
+  return wq('panjang', { nm, n, t, ans: `${n} cm`, work: [`${wcap(t)} ialah isometri; jarak dikekalkan.`] });
+};
+WG.sudut = () => {
+  const d = wpick([30, 35, 42, 50, 58, 64, 72, 85, 96, 105, 118, 125]), t = wpick(['translasi', 'pantulan', 'putaran']), nm = wpick(LET);
+  return wq('sudut', { nm, d, t, ans: `${d}°`, work: [`${wcap(t)} ialah isometri; saiz sudut dikekalkan.`] });
+};
 const SIFAT = [
   ['Dalam pantulan, titik manakah yang tidak berubah kedudukan?', 'Titik pada paksi pantulan'],
   ['Dalam putaran, titik manakah yang tidak berubah kedudukan?', 'Pusat putaran'],
@@ -143,24 +207,40 @@ const SIFAT = [
   ['Dalam putaran, adakah jarak setiap titik dari pusat putaran berubah?', 'Tidak berubah']
 ];
 WG.sifat = i => ({ q: SIFAT[i % SIFAT.length][0], ans: SIFAT[i % SIFAT.length][1], work: [] });
-WG.luas = i => { const p = [8, 10, 7][i], l = [5, 3, 6][i], area = i !== 1, t = ['diputar 90° pada satu titik', 'dipantulkan pada satu garis', 'ditranslasikan'][i]; return { q: `Sebuah segi empat tepat berukuran ${p} cm × ${l} cm ${t}. Hitung ${area ? 'luas' : 'perimeter'} imejnya.`, ans: area ? `${p * l} cm²` : `${2 * (p + l)} cm`, work: ['Isometri: imej kongruen dengan objek.', area ? `${p} × ${l} = ${p * l} cm²` : `2 × (${p} + ${l}) = ${2 * (p + l)} cm`] }; };
+WG.luas = i => {
+  const p = [8, 10, 7][i], l = [5, 3, 6][i], area = i !== 1, t = ['diputar 90° pada satu titik', 'dipantulkan pada satu garis', 'ditranslasikan'][i];
+  return wq('luas', { p, l, t, area, ans: area ? `${p * l} cm²` : `${2 * (p + l)} cm`, work: ['Isometri: imej kongruen dengan objek.', area ? `${p} × ${l} = ${p * l} cm²` : `2 × (${p} + ${l}) = ${2 * (p + l)} cm`] });
+};
 // 11.6
 const BENTUK = [['poly', 3, 'segi tiga sama sisi', 3], ['poly', 4, 'segi empat sama', 4], ['rect', 0, 'segi empat tepat', 2], ['poly', 5, 'pentagon sekata', 5], ['poly', 6, 'heksagon sekata', 6], ['poly', 8, 'oktagon sekata', 8], ['rhombus', 0, 'rombus', 2], ['para', 0, 'segi empat selari', 2], ['kite', 0, 'lelayang', 1], ['trap', 0, 'trapezium sama kaki', 1]];
-WG.bentuk = i => { const o = BENTUK[i % BENTUK.length]; return { q: `Nyatakan peringkat simetri putaran bagi ${o[2]} di bawah.`, fig: wsShape(o[0], o[1]), ans: `${o[3]}`, work: [`Bentuk kelihatan sama ${o[3]} kali dalam satu putaran lengkap.`] }; };
+WG.bentuk = i => {
+  const o = BENTUK[i % BENTUK.length];
+  return wq('bentuk', { name: o[2], ord: o[3], ans: `${o[3]}`, work: [`Bentuk kelihatan sama ${o[3]} kali dalam satu putaran lengkap.`] }, { fig: wsShape(o[0], o[1]) });
+};
 const HURUF1 = [['H', 2], ['N', 2], ['S', 2], ['Z', 2], ['X', 2], ['I', 2], ['A', 1], ['T', 1]];
 const HURUF2 = [['L', 1], ['F', 1], ['E', 1], ['K', 1], ['M', 1], ['W', 1], ['V', 1], ['U', 1], ['Y', 1]];
-WG.huruf = i => { const o = HURUF1[i % HURUF1.length]; return { q: `Nyatakan peringkat simetri putaran bagi huruf ${o[0]}.`, fig: wsShape('letter', o[0]), ans: `${o[1]}`, work: [o[1] === 2 ? 'Kelihatan sama selepas diputar 180°.' : 'Hanya kelihatan sama selepas satu putaran lengkap.'] }; };
-WG.huruf2 = i => { const o = HURUF2[i % HURUF2.length]; return { q: `Nyatakan peringkat simetri putaran bagi huruf ${o[0]}. Terangkan.`, fig: wsShape('letter', o[0]), ans: `${o[1]}`, work: ['Huruf ini tidak kelihatan sama selepas diputar 90° atau 180°.', 'Ia hanya kelihatan sama selepas satu putaran lengkap.'] }; };
-WG.poligonSudut = i => { const n = [5, 8, 12][i]; return { q: `Sebuah poligon sekata mempunyai ${n} sisi. Berapakah sudut putaran terkecil supaya poligon itu kelihatan sama seperti asal?`, ans: `${360 / n}°`, work: [`Peringkat simetri putaran = ${n}`, `360° ÷ ${n} = ${360 / n}°`] }; };
+const hurufWork = ord => ord === 2 ? ['Kelihatan sama selepas diputar 180°.', 'Dalam satu putaran lengkap, ia kelihatan sama 2 kali.'] : ['Huruf ini tidak kelihatan sama selepas diputar 90° atau 180°.', 'Ia hanya kelihatan sama selepas satu putaran lengkap.'];
+WG.huruf = i => { const [h, ord] = HURUF1[i % HURUF1.length]; return wq('huruf', { h, ord, ans: `${ord}`, work: hurufWork(ord) }, { fig: wsShape('letter', h) }); };
+WG.huruf2 = i => { const [h, ord] = HURUF2[i % HURUF2.length]; return wq('huruf', { h, ord, ans: `${ord}`, work: hurufWork(ord) }, { fig: wsShape('letter', h) }); };
+WG.pilihHuruf = () => {
+  const two = wshuf(['H', 'N', 'S', 'Z', 'X', 'I']).slice(0, 2), one = wshuf(['A', 'T', 'L', 'F', 'E', 'K', 'M', 'W', 'V', 'U', 'Y']).slice(0, 2);
+  const list = dan(wshuf(two.concat(one))), dua = dan(two.slice().sort()), satu = dan(one.slice().sort());
+  return wq('pilihHuruf', { list, dua, satu, ans: dua, work: [`${dua}: kelihatan sama selepas diputar 180° (peringkat 2).`, `${satu}: hanya kelihatan sama selepas satu putaran lengkap (peringkat 1).`] });
+};
+WG.poligonSudut = i => {
+  const n = [5, 8, 12][i];
+  return wq('poligon', { n, ans: `${360 / n}°`, work: [`Peringkat simetri putaran = ${n}`, `360° ÷ ${n} = ${360 / n}°`] });
+};
 
 /* ---------- susunan bank ---------- */
+// [aras, penjana, bilangan] — 30 soalan setiap subtopik (18 mudah, 9 sederhana, 3 sukar)
 const WSPLAN = {
-  '11.1': [['m', 'kongruen', 8], ['m', 'objekImej', 5], ['m', 'titikImej', 5], ['s', 'isometriFig', 5], ['s', 'isometriTeks', 4], ['k', 'panjangSudut', 3]],
-  '11.2': [['m', 'imejTitik', 10], ['m', 'vektorKata', 4], ['m', 'lukisTr', 4], ['s', 'cariVektor', 4], ['s', 'cariObjek', 3], ['s', 'lukisTrNeg', 2], ['k', 'imejB', 2], ['k', 'duaTranslasi', 1]],
-  '11.3': [['m', 'paksiTitik', 10], ['m', 'padaPaksi', 4], ['m', 'lukisPaksi', 4], ['s', 'garisHK', 6], ['s', 'lukisHK', 3], ['k', 'cariPaksi', 3]],
-  '11.4': [['m', 'r180', 12], ['m', 'lukis180', 6], ['s', 'r90', 6], ['s', 'lukis90', 3], ['k', 'r90pusat', 3]],
+  '11.1': [['m', 'kongruen', 6], ['m', 'objekImej', 4], ['m', 'titikImej', 5], ['m', 'istilah', 3], ['s', 'isometriFig', 5], ['s', 'isometriTeks', 4], ['k', 'panjangSudut', 3]],
+  '11.2': [['m', 'imejTitik', 8], ['m', 'vektorKata', 5], ['m', 'lukisTr', 5], ['s', 'cariVektor', 4], ['s', 'cariObjek', 3], ['s', 'lukisTrNeg', 2], ['k', 'imejB', 2], ['k', 'duaTranslasi', 1]],
+  '11.3': [['m', 'paksiTitik', 9], ['m', 'padaPaksi', 4], ['m', 'lukisPaksi', 5], ['s', 'garisHK', 6], ['s', 'lukisHK', 3], ['k', 'cariPaksi', 3]],
+  '11.4': [['m', 'r180', 9], ['m', 'lukis180', 5], ['m', 'putarInfo', 4], ['s', 'r90', 6], ['s', 'lukis90', 3], ['k', 'r90pusat', 3]],
   '11.5': [['m', 'panjang', 10], ['m', 'sudut', 8], ['s', 'sifat', 9], ['k', 'luas', 3]],
-  '11.6': [['m', 'bentuk', 10], ['m', 'huruf', 8], ['s', 'huruf2', 9], ['k', 'poligonSudut', 3]]
+  '11.6': [['m', 'bentuk', 10], ['m', 'huruf', 8], ['s', 'huruf2', 5], ['s', 'pilihHuruf', 4], ['k', 'poligonSudut', 3]]
 };
 let WSBANK = null;
 function wsBank() {
@@ -168,6 +248,7 @@ function wsBank() {
   WSBANK = [];
   Object.keys(WSPLAN).forEach((sub, si) => {
     WR = mulberry32(20261124 + si * 1009);
+    vreset(() => WR());
     const seen = new Set(); let n = 0;
     for (const [lvl, g, cnt] of WSPLAN[sub]) {
       for (let i = 0; i < cnt; i++) {
@@ -180,6 +261,7 @@ function wsBank() {
     }
   });
   WR = Math.random;
+  vreset();
   return WSBANK;
 }
 
