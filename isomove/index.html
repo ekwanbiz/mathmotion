@@ -187,6 +187,34 @@ g.rv.hid{visibility:hidden}
 .qfoot{flex:none;display:flex;align-items:center;gap:12px;padding:12px 24px calc(12px + var(--sab));border-top:1px solid var(--bd);background:var(--nav)}
 .lvl-m{--lc:var(--gr)}.lvl-s{--lc:var(--am)}.lvl-k{--lc:var(--rd)}
 
+/* ---------- LEMBARAN KERJA ---------- */
+.latseg{flex:none;max-width:440px;width:100%}
+.latseg a,.terseg a{min-height:46px;display:flex;align-items:center;justify-content:center;border-radius:10px;color:var(--mu);font-weight:700;font-size:16px;text-decoration:none}
+.latseg a[aria-current="page"]{background:var(--tr);color:var(--on);font-weight:800}
+.wsgrid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:24px;align-items:start}
+.wsubs{grid-template-columns:repeat(6,minmax(0,1fr))}
+.wlvls{grid-template-columns:repeat(5,minmax(0,1fr))}
+.wlvls .opt{font-size:14px}
+.wcnt{display:inline-flex;min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:var(--c);color:var(--on);font-size:12px;align-items:center;justify-content:center;margin-left:4px}
+.wsname{margin:12px 0 8px;font-family:var(--head);font-weight:700;font-size:20px}
+.wqs{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+.wq{display:flex;gap:14px;align-items:flex-start;padding:14px 16px;border-radius:16px;background:var(--surf);border:2px solid var(--bd);cursor:pointer}
+.wq.on{border-color:var(--tr);background:color-mix(in srgb,var(--tr) 7%,var(--surf))}
+.wq input{width:24px;height:24px;flex:none;margin-top:2px;accent-color:var(--tr)}
+.wqb{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+.wqh{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:14px;color:var(--mu)}
+.wqt{font-size:17px;line-height:1.45}
+.wqf{flex:none;width:150px}
+.wqf svg{display:block;width:100%;height:auto;background:var(--diag);border:1px solid var(--bd);border-radius:12px}
+.wqf svg.shp{width:90px;margin-left:auto}
+.wsside{position:sticky;top:0;display:flex;flex-direction:column;gap:12px}
+.wsel{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px;max-height:46vh;overflow:auto}
+.wsel li{display:flex;align-items:center;gap:6px;font-size:15px}
+.wsel .n{width:26px;height:26px;border-radius:13px;background:var(--tr);color:var(--on);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex:none}
+.wsel .t{flex:1;min-width:0}
+.mini{width:34px;height:34px;border-radius:9px;border:1px solid var(--bd);background:var(--surf2);color:var(--tx);font-weight:800;font-size:16px;flex:none}
+.mini:disabled{opacity:.35;cursor:default}
+
 /* ---------- GAMES ---------- */
 .ghud{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 .hearts{display:flex;gap:4px}
@@ -244,6 +272,12 @@ g.rv.hid{visibility:hidden}
  .tero{padding:10px 10px 12px;gap:8px}
  .simframe{border-radius:14px}
  .lgrid{grid-template-columns:minmax(0,1fr)}
+ .wsgrid{grid-template-columns:minmax(0,1fr)}
+ .wsside{position:static;order:-1}
+ .wsubs{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .wlvls{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .wqf{width:104px}
+ .wqt{font-size:16px}
  .topicl{grid-template-columns:minmax(0,1fr)}
  .qwrap{grid-template-columns:minmax(0,1fr);gap:18px}
  .qhead{padding:10px 14px}
@@ -271,6 +305,30 @@ g.rv.hid{visibility:hidden}
 
 /* ---------- Cetak ---------- */
 @media print{
+ .wsdoc{--tx:#14152B;--mu:#55607A;--surf:#FFFFFF;--surf2:#F4F6FB;--diag:#FFFFFF;--bd:#D5DCE8;--grid:#C9D2E0;--dim:#C3CBDA;--tr:#0284C7;--pa:#EA580C;--pu:#7C3AED;--am:#B45309;--gr:#059669;--pk:#DB2777;--rd:#DC2626;--on:#FFFFFF;color:#14152B;font-family:Inter,sans-serif;font-size:11.5pt;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ .wsdoc+.wsdoc{break-before:page;page-break-before:always}
+ .wshead h1{margin:0 0 4mm;font-family:'Space Grotesk',sans-serif;font-size:15pt}
+ .wshead p{margin:-2mm 0 5mm;color:#55607A;font-size:10pt}
+ .wsfields{display:flex;gap:6mm;font-size:11pt;margin-bottom:7mm}
+ .wsfields span{display:flex;gap:2mm;align-items:flex-end;flex:1}
+ .wsfields span:first-child{flex:2.2}
+ .wsfields i,.wsans i{flex:1;display:block;border-bottom:1px solid #14152B;height:5mm}
+ .wsq{break-inside:avoid;page-break-inside:avoid;margin-bottom:7mm}
+ .wsqh{display:flex;gap:2.5mm;align-items:baseline}
+ .wsqt{flex:1;line-height:1.5}
+ .wslv{font-size:8.5pt;color:#55607A;white-space:nowrap}
+ .wsfig{max-width:82mm;margin:3mm 0 2mm 7mm}
+ .wsfig.big{max-width:112mm}
+ .wsfig.small{max-width:62mm;margin-left:0}
+ .wsfig svg{display:block;width:100%;height:auto;border:.3mm solid #D5DCE8;border-radius:2mm}
+ .wsfig svg.shp{width:38mm;border:0}
+ .wspace{margin:2mm 0 0 7mm;background:repeating-linear-gradient(to bottom,transparent 0,transparent 7.6mm,#C9D2E0 7.6mm,#C9D2E0 7.9mm)}
+ .sp-m{height:24mm}.sp-s{height:40mm}.sp-k{height:56mm}
+ .wsans{margin:3mm 0 0 7mm;display:flex;gap:2mm;align-items:flex-end;width:95mm;font-weight:700}
+ .wskq{display:flex;gap:3mm;break-inside:avoid;page-break-inside:avoid;margin-bottom:4mm;font-size:10.5pt}
+ .wskq .ka{font-weight:700}
+ .wskq .kw{color:#55607A;font-size:9.5pt;margin-top:1mm}
+ .wsdoc .vec{border-width:.5mm;padding:0 2mm;border-radius:2mm}
  @page{size:A4 landscape;margin:10mm}
  html,body{height:auto!important;background:#fff!important}
  .app,.toast{display:none!important}
@@ -297,6 +355,7 @@ g.rv.hid{visibility:hidden}
 <div id="print" aria-hidden="true"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script src="slides.js"></script>
+<script src="ws.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

@@ -191,24 +191,27 @@ document.addEventListener('keydown', e => {
 });
 
 let printing = false;
+const slidesDoc = list => list.map(s => `<section class="ps"><div class="pshead"><span>ISOMOVE · ${s.sub} ${subOf(s.sub).name}</span><span>Slaid ${s.n} / ${s.N}</span></div>${slideHTML(s, true)}</section>`).join('');
 window.addEventListener('beforeprint', () => {
   if (printing) return;
   const pr = document.getElementById('print');
-  const m = location.hash.match(/^#\/nota\/([\d.]+)/);
-  const list = m ? SLIDES.filter(x => x.sub === m[1]) : SLIDES;
-  pr.innerHTML = list.map(s => `<section class="ps"><div class="pshead"><span>ISOMOVE · ${s.sub} ${subOf(s.sub).name}</span><span>Slaid ${s.n} / ${s.N}</span></div>${slideHTML(s, true)}</section>`).join('');
-  window.addEventListener('afterprint', () => { if (!printing) pr.innerHTML = ''; }, { once: true });
+  if (/^#\/latihan\/lembaran/.test(location.hash) && typeof WS !== 'undefined' && WS.sel.length) { pr.innerHTML = wsDocHTML(); setPage(WS_PAGE); }
+  else { const m = location.hash.match(/^#\/nota\/([\d.]+)/); pr.innerHTML = slidesDoc(m ? SLIDES.filter(x => x.sub === m[1]) : SLIDES); }
+  window.addEventListener('afterprint', () => { if (!printing) { pr.innerHTML = ''; setPage(''); } }, { once: true });
 });
-function printSlides(list) {
+function setPage(css) { let st = document.getElementById('pagesz'); if (!css) { if (st) st.remove(); return; } if (!st) { st = document.createElement('style'); st.id = 'pagesz'; document.head.appendChild(st); } st.textContent = `@page{${css}}`; }
+const WS_PAGE = 'size:A4 portrait;margin:13mm 14mm 15mm';
+function printDoc(html, page) {
   printing = true;
   const pr = document.getElementById('print');
-  pr.innerHTML = list.map(s => `<section class="ps"><div class="pshead"><span>ISOMOVE · ${s.sub} ${subOf(s.sub).name}</span><span>Slaid ${s.n} / ${s.N}</span></div>${slideHTML(s, true)}</section>`).join('');
+  pr.innerHTML = html; setPage(page);
   const wasDark = !isLight();
   if (wasDark) document.documentElement.classList.add('light');
-  const done = () => { if (wasDark) document.documentElement.classList.remove('light'); pr.innerHTML = ''; printing = false; window.removeEventListener('afterprint', done); };
+  const done = () => { if (wasDark) document.documentElement.classList.remove('light'); pr.innerHTML = ''; setPage(''); printing = false; window.removeEventListener('afterprint', done); };
   window.addEventListener('afterprint', done);
-  setTimeout(() => { window.print(); if (!('onafterprint' in window)) setTimeout(done, 500); }, 60);
+  setTimeout(() => { window.print(); if (!('onafterprint' in window)) setTimeout(done, 500); }, 80);
 }
+const printSlides = list => printDoc(slidesDoc(list));
 
 /* =================== Plot (rajah latihan & games) =================== */
 function plot(o) {
@@ -414,7 +417,7 @@ const LVL = { m: ['MUDAH', 'gr'], s: ['SEDERHANA', 'am'], k: ['SUKAR', 'rd'] };
 function viewLatihan() {
   const mx = mix(LAT.n);
   const items = SUBS.map(s => `<label class="tcheck${LAT.on[s.no] ? ' on' : ''}" style="--c:${subCol(s.no)}"><input type="checkbox" data-sub="${s.no}"${LAT.on[s.no] ? ' checked' : ''}><span class="no">${s.no}</span><span>${s.name}</span></label>`).join('');
-  return `<div class="wrap"><div><h1 class="h1">Latihan Kelas</h1><p class="lead">Tandakan subtopik yang <b style="color:var(--tx)">sudah diajar</b>. Soalan hanya diambil daripada subtopik ini.</p></div>
+  return `<div class="wrap">${latSeg('kelas')}<div><h1 class="h1">Latihan Kelas</h1><p class="lead">Tandakan subtopik yang <b style="color:var(--tx)">sudah diajar</b>. Soalan hanya diambil daripada subtopik ini.</p></div>
     <div class="lgrid"><div class="topicl">${items}</div>
     <aside style="display:flex;flex-direction:column;gap:16px">
       <div class="pbox" style="padding:20px;gap:14px"><h3>BILANGAN SOALAN</h3>
@@ -760,6 +763,7 @@ function render(keepScroll) {
   if (tab === 'nota' && p[1]) { inner = viewSlide(p[1], +p[2] || 1); bind = bindSlide; document.title = `${p[1]} Nota · ISOMOVE`; }
   else if (tab === 'nota') { inner = viewNotaList(); bind = bindNotaList; document.title = 'Nota · ISOMOVE'; }
   else if (tab === 'teroka') { inner = viewTeroka(p[1]); bind = bindTeroka; document.title = 'Teroka · ISOMOVE'; }
+  else if (tab === 'latihan' && p[1] === 'lembaran') { inner = viewLembaran(); bind = bindLembaran; document.title = 'Lembaran Kerja · ISOMOVE'; }
   else if (tab === 'latihan' && p[1] === 'main') { inner = viewLatMain(); bind = bindLatMain; document.title = 'Latihan · ISOMOVE'; }
   else if (tab === 'latihan') { inner = viewLatihan(); bind = bindLatihan; document.title = 'Latihan · ISOMOVE'; }
   else if (tab === 'games') { inner = viewGames(); bind = bindGames; document.title = 'Games · ISOMOVE'; }
