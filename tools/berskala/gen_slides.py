@@ -278,7 +278,7 @@ for i, (t, d, cl) in enumerate([('Bentuk sama', 'Sudut tidak berubah', TR), ('Ni
     y0 = 16 + i * 112
     fig += RECT(14, y0, 472, 100, SURF, BD, 16, 2) + RECT(30, y0 + 22, 56, 56, f'{cl}2E', cl, 12, 3)
     fig += T(58, y0 + 50, str(i + 1), cl, 26) + T(106, y0 + 36, t, cl, 22, 'start') + T(106, y0 + 68, d, MU, 17, 'start', halo=False)
-add('4.1.1', 'RINGKASAN', 'Ringkasan 4.1.1',
+add('4.1.1', 'RINGKASAN', 'Ringkasan: maksud lukisan berskala',
     DEF('Lukisan berskala mempunyai bentuk yang sama dengan objek, dan setiap ukurannya berkadar dengan ukuran objek mengikut nisbah yang sama.', col)
     + BUL(['Bandingkan <b>setiap</b> pasangan ukuran sepadan: lukisan ÷ objek.',
            'Jika semua nisbah sama, lukisan itu ialah lukisan berskala.',
@@ -491,7 +491,7 @@ fig = (RECT(30, 60, 170, 110, f'{OBJ}22', OBJ, 18, 3) + T(115, 100, 'Ukuran', OB
        + T(250, 344, '4.5 cm → 4.5 × 50 = 225 cm = 2.25 m', PK, 19)
        + T(250, 390, 'Tukar unit dahulu!', MU3, 18, halo=False))
 assert 300 / 50 == 6 and F(9, 2) * 50 == F(225) and F(225, 100) == F(9, 4)
-add('4.1.3', 'RINGKASAN', 'Ringkasan 4.1.3',
+add('4.1.3', 'RINGKASAN', 'Ringkasan: melukis lukisan berskala',
     TABLE(['Cari', 'Rumus'], [['Ukuran lukisan', 'ukuran sebenar ÷ <i>n</i>'], ['Ukuran sebenar', 'ukuran lukisan × <i>n</i>'], ['Skala', 'ukuran lukisan : ukuran sebenar']], col, rv=True)
     + BUL(['Gunakan unit yang sama.', 'Pada grid, kira petak bagi setiap sisi dan kekalkan semua sudut.'], col),
     svg(fig, 'Rajah aliran: ukuran sebenar dibahagi n menjadi ukuran lukisan, ukuran lukisan didarab n menjadi ukuran sebenar'))

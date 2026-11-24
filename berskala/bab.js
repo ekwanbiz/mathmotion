@@ -29,3 +29,10 @@ const SUBSIM = { '4.1.1': 'penukar-skala', '4.1.2': 'pelan-rumah', '4.1.3': 'luk
 
 /* ---------- simulasi TEROKA: [fail dalam simulasi/, nama, warna] ---------- */
 const SIMLIST = [['penukar-skala', 'Penukar Skala', 'tr'], ['pelan-rumah', 'Pelan Rumah', 'am'], ['lukis-grid', 'Lukis pada Grid', 'gr']];
+
+// Subtopik disatukan ikut nombor buku teks (25 Nov) – lihat teras/lembaran.js gabungSub()
+BAB.gabung = {"4.1.1":"4.1","4.1.2":"4.1","4.1.3":"4.1","4.1.4":"4.1"};
+BAB.gabungNama = {"4.1":"Lukisan Berskala"};
+Object.assign(SUBDESC, {"4.1":"Maksud lukisan berskala, mentafsir skala 1 : n, menentukan skala dan ukuran, melukis pada grid, serta masalah pelan, peta, luas dan kos"});
+Object.assign(SHORT, {"4.1":"Lukisan Berskala"});
+Object.assign(SUBSIM, {"4.1":"penukar-skala"});
