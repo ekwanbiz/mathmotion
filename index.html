@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="color-scheme" content="dark light">
 <meta name="theme-color" content="#0B0C18">
-<meta name="description" content="MATHMOTION – himpunan simulasi Matematik Tingkatan 1 dan 2.">
+<meta name="description" content="TerokaMath – himpunan simulasi Matematik Tingkatan 1 dan 2.">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="MATHMOTION">
-<title>MATHMOTION – Simulasi Matematik</title>
+<meta name="apple-mobile-web-app-title" content="TerokaMath">
+<title>TerokaMath – Simulasi Matematik</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/logo.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -143,7 +143,7 @@ function starsOf(a){if(!a.key)return 0;try{const o=JSON.parse(localStorage.getIt
 const totalStars=()=>APPS.reduce((s,a)=>s+starsOf(a),0);
 let tab=+LS.get('mathmotion-tab','2')===1?1:2,query='';
 /* =================== Ikon =================== */
-const LOGO=(s=34,w=11)=>`<svg class="logoM" width="${s}" height="${s}" viewBox="0 0 96 96" aria-hidden="true"><path d="M14 74 L26 26" stroke="#2EE6A6" stroke-width="${w}"/><path d="M26 26 L48 58" stroke="#FF8A3D" stroke-width="${w}"/><path d="M48 58 L70 26" stroke="#B57BFF" stroke-width="${w}"/><path d="M70 26 L82 74" stroke="#FFC93C" stroke-width="${w}"/>${s>60?'<circle cx="48" cy="58" r="7" fill="currentColor"/>':''}</svg>`;
+const LOGO=(s=34)=>`<svg class="logoM" width="${s}" height="${s}" viewBox="0 0 96 96" aria-hidden="true"><circle cx="48" cy="48" r="34" fill="none" stroke="currentColor" stroke-opacity=".28" stroke-width="3"/><polygon points="48,10 54.5,41.5 48,48 41.5,41.5" fill="#2EE6A6"/><polygon points="86,48 54.5,54.5 48,48 54.5,41.5" fill="#FF8A3D"/><polygon points="48,86 41.5,54.5 48,48 54.5,54.5" fill="#B57BFF"/><polygon points="10,48 41.5,41.5 48,48 41.5,54.5" fill="#FFC93C"/><circle cx="48" cy="48" r="4.5" fill="currentColor"/></svg>`;
 const I={
  star:'<svg width="16" height="16" viewBox="0 0 24 24" fill="#FFC93C" aria-hidden="true"><path d="M12 2l3 6.5 7 .9-5.2 4.8 1.4 7L12 17.8 5.8 21.2l1.4-7L2 9.4l7-.9z"/></svg>',
  sun:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFC93C" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>',
@@ -170,7 +170,7 @@ function gridHTML(){
 const app=document.getElementById('app');
 function splash(){const n=APPS.length,bab=APPS.reduce((s,a)=>s+a.where.length,0);
  return`<main class="splash"><div class="biglogo">${LOGO(96,9)}</div>
- <div><h1>MATH<span>MOTION</span></h1><p class="tag"><span style="color:#2EE6A6">Lihat.</span> <span style="color:#FF8A3D">Gerak.</span> <span style="color:#E0A800">Faham!</span></p><p class="sub">Simulasi Matematik Tingkatan 1 &amp; 2</p></div>
+ <div><h1>Teroka<span>Math</span></h1><p class="tag"><span style="color:#2EE6A6">Teroka.</span> <span style="color:#FF8A3D">Faham.</span> <span style="color:#E0A800">Kuasai.</span></p><p class="sub">Simulasi Matematik Tingkatan 1 &amp; 2</p></div>
  <div class="dots" aria-hidden="true">${APPS.map(a=>`<i style="background:${a.col}"></i>`).join('')}</div>
  <p class="sub" style="margin:0">${n} app · ${bab} bab</p>
  <div class="btns"><a class="btn pri" href="#/utama">Jom Mula! ${I.arrow}</a><a class="btn sec" href="#/pasang">${I.phone} Cara Pasang di Telefon</a></div>
@@ -180,7 +180,7 @@ function contHTML(){const last=LS.get('mathmotion-last','');const a=APPS.find(x=
  return`<a class="cont" href="${a.path}" data-app="${a.id}" style="background:${a.col}1a;border-color:${a.col}"><span class="g" style="background:${a.col}">${a.logo?`<img src="${a.logo}" alt="">`:a.glyph}</span><span class="t"><small style="color:var(--orange)">TERUSKAN</small><b>${a.name} · ${esc(BAB[w[0]][w[1]-1])}</b></span><span style="color:${a.col}">${I.arrow}</span></a>`}
 function home(){const light=document.documentElement.classList.contains('light');
  return`<main class="home">
- <header class="top"><a class="brand" href="#/">${LOGO(34,11)}<b>MATH<span>MOTION</span></b></a>
+ <header class="top"><a class="brand" href="#/">${LOGO(34,11)}<b>Teroka<span>Math</span></b></a>
   <span class="pill" title="Jumlah bintang daripada semua app">${I.star}<span id="tot">${totalStars()}</span><span class="sr"> bintang</span></span>
   <a class="ib" href="#/pasang" aria-label="Cara pasang di telefon">${I.phone}</a>
   <button class="ib" id="mode" aria-label="${light?'Tukar ke mod gelap':'Tukar ke mod cerah'}">${light?I.moon:I.sun}</button></header>
@@ -188,8 +188,8 @@ function home(){const light=document.documentElement.classList.contains('light')
  ${query?'':contHTML()}
  ${query?'':`<div class="tabs" role="tablist" aria-label="Tingkatan"><button role="tab" data-t="1" aria-selected="${tab===1}">Tingkatan 1</button><button role="tab" data-t="2" aria-selected="${tab===2}">Tingkatan 2</button></div>`}
  <div class="grid" id="grid">${gridHTML()}</div></main>`}
-function pasang(){return`<main class="pg"><a class="back" href="#/utama">${I.left} Kembali</a><h1>Cara Pasang MATHMOTION</h1>
- <p class="note">Pasang sekali sahaja. Semua app (ALGEBRALAB, CIRCMOTION, GRAPHX dan lain-lain) boleh dibuka dari dalam MATHMOTION, termasuk tanpa internet.</p>
+function pasang(){return`<main class="pg"><a class="back" href="#/utama">${I.left} Kembali</a><h1>Cara Pasang TerokaMath</h1>
+ <p class="note">Pasang sekali sahaja. Semua app (ALGEBRALAB, CIRCMOTION, GRAPHX dan lain-lain) boleh dibuka dari dalam TerokaMath, termasuk tanpa internet.</p>
  <div class="how"><section><h2>Android (Chrome)</h2><ol><li>Buka <b>ekwanbiz.github.io/mathmotion</b> dalam Chrome.</li><li>Tekan menu <b>⋮</b> di atas kanan.</li><li>Pilih <b>Tambah ke skrin utama</b> / <b>Pasang aplikasi</b>.</li><li>Tekan <b>Pasang</b>.</li></ol></section>
  <section><h2>iPhone / iPad (Safari)</h2><ol><li>Buka <b>ekwanbiz.github.io/mathmotion</b> dalam Safari.</li><li>Tekan butang <b>Kongsi</b> (petak dengan anak panah ke atas).</li><li>Pilih <b>Add to Home Screen</b>.</li><li>Tekan <b>Add</b>.</li></ol></section>
  <section><h2>Komputer (Chrome / Edge)</h2><ol><li>Buka <b>ekwanbiz.github.io/mathmotion</b>.</li><li>Tekan ikon <b>Pasang</b> di hujung bar alamat.</li><li>Tekan <b>Pasang</b>.</li></ol></section></div>
@@ -204,9 +204,9 @@ function bindHome(){
 let tt;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),1800)}
 function setTheme(){const m=document.querySelector('meta[name="theme-color"]');if(m)m.content=document.documentElement.classList.contains('light')?'#F4F5FB':'#0B0C18'}
 function render(){const h=location.hash.replace(/^#/,'')||'/';
- if(h.startsWith('/utama')){app.innerHTML=home();bindHome();document.title='Utama · MATHMOTION'}
- else if(h.startsWith('/pasang')){app.innerHTML=pasang();document.title='Cara Pasang · MATHMOTION'}
- else{app.innerHTML=splash();document.title='MATHMOTION – Simulasi Matematik'}}
+ if(h.startsWith('/utama')){app.innerHTML=home();bindHome();document.title='Utama · TerokaMath'}
+ else if(h.startsWith('/pasang')){app.innerHTML=pasang();document.title='Cara Pasang · TerokaMath'}
+ else{app.innerHTML=splash();document.title='TerokaMath – Simulasi Matematik'}}
 window.addEventListener('hashchange',()=>{query='';render();scrollTo(0,0)});
 window.addEventListener('pageshow',()=>{if(location.hash.startsWith('#/utama'))render()});
 setTheme();render();
