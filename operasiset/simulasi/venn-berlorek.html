@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Venn Berlorek · Bab 4</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0A0F1E;--sf:#121A2E;--sf2:#18223A;--sf3:#0E1527;--bd:#24304A;--bd2:#33405E;--tx:#E9EEF8;--mu:#A3AECB;--mu2:#7884A3;--c1:#34D399;--c2:#FB923C;--c3:#A78BFA;--ok:#3DDC84;--bad:#FF6B7A;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#05291c}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:6px}
+.stage svg{width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.stage svg .atom{cursor:pointer}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:12px 14px;min-height:96px;line-height:1.45;font-size:15px}
+.info b.t{display:block;font-size:22px;color:var(--c1);margin-bottom:2px;letter-spacing:.02em}
+.info .tip{color:var(--mu);font-size:13.5px;margin-top:4px}
+.info .eq{margin-top:6px;padding:7px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:700;word-break:break-word}
+.info .eq b{color:var(--c2)}
+.info .no{color:var(--bad);font-weight:800}
+.ctrl{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.ctrl.k5{grid-template-columns:repeat(5,1fr)}
+.chip{background:var(--sf);border:2px solid var(--bd2);border-radius:12px;padding:10px 2px;font-weight:800;font-size:15.5px;white-space:nowrap}
+.chip.on{background:var(--c1);border-color:var(--c1);color:#05291c}
+.chip.key{font-size:19px;padding:8px 2px}
+.chip.op{color:var(--c2)}
+.wide{grid-column:span 2}
+.big{background:var(--c3);border:0;color:#1d1240;border-radius:12px;padding:11px 4px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.3fr) minmax(340px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:28px}
+ .chip{font-size:17px;padding:13px 2px}
+}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.chip{padding:7px 2px;font-size:14px}.info{padding:8px 11px;min-height:70px;font-size:14px}.info b.t{font-size:18px}}
+@media(max-width:420px){.modes button{font-size:13.5px;padding:10px 3px}.chip{font-size:14.5px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#A78BFA;color:#1d1240;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #a78bfa44">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mod">
+   <button data-m="2" class="on" role="tab">Dua Set</button>
+   <button data-m="3" role="tab">Tiga Set</button>
+   <button data-m="bina" role="tab">Bina Ungkapan</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" viewBox="0 0 340 230" aria-label="Gambar rajah Venn"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+/* ================= enjin Venn (sama seperti soalan.js) ================= */
+const LAY={L2:{w:340,h:230,c:[[128,118,80],[212,118,80]],lab:[[58,40],[282,40]]},L3:{w:340,h:286,c:[[128,110,82],[212,110,82],[170,183,82]],lab:[[60,32],[280,32],[272,262]]}};
+const SC=['#38BDF8','#F472B6','#FBBF24'],SHADE='#34D399';
+const r1=v=>Math.round(v*10)/10;
+const atomAt=(C,x,y)=>C.reduce((m,[cx,cy,r],k)=>m|((x-cx)**2+(y-cy)**2<r*r?1<<k:0),0);
+function vpath(L,mask){
+ const C=L.c,V=[],cuts=C.map(()=>[]);
+ for(let i=0;i<C.length;i++)for(let j=i+1;j<C.length;j++){const[x1,y1,ra]=C[i],[x2,y2,rb]=C[j],d=Math.hypot(x2-x1,y2-y1);if(d>=ra+rb||d<=Math.abs(ra-rb))continue;
+  const a=(ra*ra-rb*rb+d*d)/(2*d),h=Math.sqrt(ra*ra-a*a),mx=x1+a*(x2-x1)/d,my=y1+a*(y2-y1)/d;
+  for(const sg of[1,-1]){const p=[mx+sg*h*(y2-y1)/d,my-sg*h*(x2-x1)/d];V.push(p);const k=V.length-1;cuts[i].push([Math.atan2(p[1]-y1,p[0]-x1),k]);cuts[j].push([Math.atan2(p[1]-y2,p[0]-x2),k])}}
+ const inR=a=>mask>>a&1,others=(i,x,y)=>C.reduce((m,[cx,cy,r],k)=>m|(k!==i&&(x-cx)**2+(y-cy)**2<r*r?1<<k:0),0);
+ const E=[];let d='';
+ C.forEach(([cx,cy,r],i)=>{const cu=cuts[i].sort((p,q)=>p[0]-q[0]);
+  if(!cu.length){const m=others(i,cx+r,cy);if(inR(m|1<<i)!==inR(m))d+=`M${cx+r} ${cy}A${r} ${r} 0 1 1 ${cx-r} ${cy}A${r} ${r} 0 1 1 ${cx+r} ${cy}Z`;return}
+  cu.forEach(([t0,a],k)=>{let[t1,b]=cu[(k+1)%cu.length];if(k+1===cu.length)t1+=2*Math.PI;const tm=(t0+t1)/2,m=others(i,cx+r*Math.cos(tm),cy+r*Math.sin(tm));if(inR(m|1<<i)!==inR(m))E.push({i,a,b,big:t1-t0>Math.PI?1:0})})});
+ const used=E.map(()=>false);
+ E.forEach((e0,s0)=>{if(used[s0])return;const st=e0.a;let cur=st,e=s0;d+=`M${r1(V[st][0])} ${r1(V[st][1])}`;
+  for(let g=0;g<40;g++){used[e]=true;const Q=E[e],f=Q.a===cur,nx=f?Q.b:Q.a,r=C[Q.i][2];d+=`A${r} ${r} 0 ${Q.big} ${f?1:0} ${r1(V[nx][0])} ${r1(V[nx][1])}`;cur=nx;if(cur===st)break;e=E.findIndex((q,k)=>!used[k]&&(q.a===cur||q.b===cur));if(e<0)break}d+='Z'});
+ if(inR(0))d+=`M12 12H${L.w-12}V${L.h-12}H12Z`;
+ return d}
+const SLOT={};
+function slots(K,a){const key=K+a;if(SLOT[key])return SLOT[key];const L=LAY[K],x1=L.w-12,y1=L.h-12,av=L.lab.concat([[26,30]]),pts=[];
+ for(let y=15;y<y1;y+=3)for(let x=15;x<x1;x+=3){if(atomAt(L.c,x,y)!==a)continue;const cl=Math.min(...L.c.map(([cx,cy,r])=>Math.abs(Math.hypot(x-cx,y-cy)-r)),x-12,x1-x,y-12,y1-y);if(cl>=9&&av.every(p=>Math.hypot(x-p[0],y-p[1])>28))pts.push([cl,x,y])}
+ pts.sort((p,q)=>q[0]-p[0]);const o=[];for(const[,x,y]of pts)if(o.every(([u,v])=>Math.abs(x-u)>=24||Math.abs(y-v)>=19))o.push([x,y]);return(SLOT[key]=o)}
+/* ungkapan */
+function parse(s){const t=[...s].filter(c=>c!==' ');let i=0;
+ const un=()=>{const c=t[i++];let x;if(c==='('){x=ex();if(t[i++]!==')')throw new Error('Kurungan tidak ditutup.')}else if(c&&/[ABC]/.test(c))x={k:'s',v:c};else throw new Error(c?`"${c}" tidak dijangka.`:'Ungkapan belum lengkap.');while(t[i]==='′'){i++;x={k:'n',a:x}}return x};
+ const ex=()=>{let x=un(),op=null;while(t[i]==='∩'||t[i]==='∪'){const o=t[i++];if(op&&op!==o)throw new Error('Guna kurungan apabila ∩ dan ∪ digabungkan.');op=o;x={k:o==='∩'?'i':'u',a:x,b:un()}}return x};
+ const x=ex();if(i!==t.length)throw new Error(t[i]===')'?'Kurungan ")" berlebihan.':'Ungkapan tidak lengkap.');return x}
+function ev(t,o){return t.k==='s'?o.s(t.v):t.k==='n'?o.n(ev(t.a,o)):(t.k==='i'?o.i:o.u)(ev(t.a,o),ev(t.b,o))}
+function maskOf(e,n){const full=(1<<(1<<n))-1,set=k=>{let m=0;for(let a=0;a<1<<n;a++)if(a>>k&1)m|=1<<a;return m};return ev(parse(e),{s:v=>set('ABC'.indexOf(v)),n:x=>full&~x,i:(x,y)=>x&y,u:(x,y)=>x|y})}
+function words(t){if(t.k==='s')return `dalam ${t.v}`;if(t.k==='n')return t.a.k==='s'?`bukan dalam ${t.a.v}`:`bukan (${words(t.a)})`;
+ const w=c=>(c.k==='i'||c.k==='u')&&c.k!==t.k?`(${words(c)})`:words(c);return `${w(t.a)} ${t.k==='i'?'dan':'atau'} ${w(t.b)}`}
+function atomName(a,n){const nm='ABC'.slice(0,n).split('');const ins=nm.filter((x,k)=>a>>k&1);
+ if(!ins.length)return n===2?'(A ∪ B)′ · di luar kedua-dua set':'(A ∪ B ∪ C)′ · di luar semua set';
+ const full=nm.map((x,k)=>a>>k&1?x:x+'′').join(' ∩ ');
+ if(ins.length===n)return `${full} · dalam ${n===2?'kedua-dua':'ketiga-tiga'} set`;
+ return `${full} · ${ins.join(' dan ')} sahaja`}
+/* ================= data ================= */
+const U=[1,2,3,4,5,6,7,8,9,10,11,12];
+const SETS={A:U.filter(x=>x%2===0),B:U.filter(x=>x%3===0),C:U.filter(x=>12%x===0)};
+const DESC={A:'nombor genap',B:'gandaan 3',C:'faktor bagi 12'};
+const PRE={2:['A ∩ B','A ∪ B','A′','(A ∩ B)′','(A ∪ B)′','A ∩ B′','A′ ∩ B','A′ ∪ B′'],3:['A ∩ B ∩ C','A ∪ B ∪ C','(A ∩ B) ∪ C','A ∩ (B ∪ C)','(A ∪ B) ∩ C′','(A ∪ B ∪ C)′','A′ ∩ B ∩ C','(A ∩ C) ∪ B']};
+const S={m:'2',e:'A ∩ B',el:true,tap:null,bina:'(A ∪ B)′ ∩ C'};
+const svg=document.getElementById('svg'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const snd=n=>{if(window.FX)FX.play(n)};
+const txt=(x,y,t,c,s=17,w=800)=>`<text x="${r1(x)}" y="${r1(y)}" fill="${c}" font-size="${s}" font-weight="${w}" text-anchor="middle" dominant-baseline="central" font-family="Inter,Arial,sans-serif" pointer-events="none">${t}</text>`;
+const fs=a=>a.length?`{${a.join(', ')}}`:'∅';
+function cur(){ // n set, ungkapan, ralat
+ if(S.m!=='bina')return{n:+S.m,e:S.e,err:null};
+ const n=/C/.test(S.bina)?3:2;if(!S.bina.trim())return{n,e:'',err:'Ketik butang untuk membina ungkapan.'};
+ try{parse(S.bina);return{n,e:S.bina,err:null}}catch(x){return{n,e:S.bina,err:x.message}}}
+function render(flash){
+ const c=cur(),K=c.n===2?'L2':'L3',L=LAY[K];
+ svg.setAttribute('viewBox',`0 0 ${L.w} ${L.h}`);
+ let g=`<rect x="12" y="12" width="${L.w-24}" height="${L.h-24}" rx="8" fill="#121A2E" stroke="#A3AECB" stroke-width="2.5"/>`;
+ let mask=0;if(c.e&&!c.err)mask=maskOf(c.e,c.n);
+ if(mask)g+=`<path id="sh" d="${vpath(L,mask)}" fill-rule="evenodd" fill="${SHADE}" fill-opacity=".45"/>`;
+ // rantau boleh ketik
+ for(let a=0;a<1<<c.n;a++)g+=`<path class="atom" data-a="${a}" d="${vpath(L,1<<a)}" fill-rule="evenodd" fill="#fff" fill-opacity="${S.tap===a?'.10':'0'}"${S.tap===a?' stroke="#fff" stroke-width="3" stroke-dasharray="7 5"':''}/>`;
+ L.c.forEach(([cx,cy,r],k)=>g+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${SC[k]}" stroke-width="3.5" pointer-events="none"/>`);
+ L.lab.forEach(([x,y],k)=>g+=txt(x,y,'ABC'[k],SC[k],22,900));
+ g+=txt(26,30,'ξ','#A3AECB',21,900);
+ if(S.el){const n=c.n;for(let a=0;a<1<<n;a++){const it=U.filter(v=>'ABC'.slice(0,n).split('').reduce((m,x,k)=>m|(SETS[x].includes(v)?1<<k:0),0)===a);
+  const sl=slots(K,a).slice(0,it.length).sort((p,q)=>Math.round(p[1]/19)-Math.round(q[1]/19)||p[0]-q[0]);it.forEach((v,i)=>{if(sl[i])g+=txt(sl[i][0],sl[i][1],v,'#E9EEF8',16,700)})}}
+ svg.innerHTML=g;
+ if(flash){const sh=document.getElementById('sh');if(sh&&sh.animate)sh.animate([{fillOpacity:0},{fillOpacity:.45}],{duration:380,easing:'ease-out'})}
+ // maklumat
+ let h='';
+ if(c.err){h=`<b class="t">${c.e||'…'}</b><div class="no">${c.err}</div><div class="tip">Contoh: (A ∪ B)′ ∩ C, A ∩ (B ∪ C)</div>`}
+ else{
+  const t=parse(c.e),nm='ABC'.slice(0,c.n),res=ev(t,{s:v=>SETS[v],n:x=>U.filter(e=>!x.includes(e)),i:(x,y)=>x.filter(e=>y.includes(e)),u:(x,y)=>U.filter(e=>x.includes(e)||y.includes(e))});
+  h=`<b class="t">${c.e}</b><div>Rantau berlorek: unsur yang <b>${words(t)}</b>.</div>`;
+  if(S.el)h+=`<div class="eq">${c.e} = <b>${fs(res)}</b> &nbsp;·&nbsp; <i>n</i>(${c.e}) = <b>${res.length}</b></div>`;
+  if(S.tap!=null&&S.tap<1<<c.n)h+=`<div class="tip">Rantau diketik: <b style="color:#E9EEF8">${atomName(S.tap,c.n)}</b></div>`;
+  else h+=`<div class="tip">ξ = {1, 2, …, 12}, ${nm.split('').map(x=>`${x} = {${DESC[x]}}`).join(', ')}. Ketik mana-mana rantau untuk melihat namanya.</div>`}
+ info.innerHTML=h}
+function setCtrl(){
+ if(S.m==='bina'){ctrl.className='ctrl k5';
+  const keys=['A','B','C','(',')','∩','∪','′','⌫','Padam'];
+  ctrl.innerHTML=keys.map(k=>`<button class="chip key${'∩∪′'.includes(k)?' op':''}" data-k="${k}" aria-label="${k==='⌫'?'Padam satu':k}">${k}</button>`).join('')+
+   `<button class="chip wide ${S.el?'on':''}" id="el">Unsur: ${S.el?'Hidup':'Mati'}</button><button class="big alt wide" id="rw">Contoh rawak</button><span></span>`;
+  ctrl.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{const k=b.dataset.k;snd('ketik');
+   if(k==='⌫')S.bina=[...S.bina.replace(/ $/,'')].slice(0,-1).join('').replace(/ $/,'');else if(k==='Padam')S.bina='';
+   else S.bina+=('∩∪'.includes(k)?` ${k} `:k);S.bina=S.bina.replace(/\s+/g,' ').replace(/^ /,'');S.tap=null;render(true)});
+  document.getElementById('rw').onclick=()=>{const all=PRE[3].concat(PRE[2]);let e;do e=all[Math.floor(Math.random()*all.length)];while(e===S.bina);S.bina=e;snd('langkah');render(true)};
+ }else{ctrl.className='ctrl';
+  ctrl.innerHTML=PRE[S.m].map(e=>`<button class="chip ${e===S.e?'on':''}" data-e="${e}">${e}</button>`).join('')+
+   `<button class="chip wide ${S.el?'on':''}" id="el">Unsur: ${S.el?'Hidup':'Mati'}</button><button class="big alt wide" id="rw">Rawak</button>`;
+  ctrl.querySelectorAll('[data-e]').forEach(b=>b.onclick=()=>{S.e=b.dataset.e;S.tap=null;snd('ketik');setCtrl();render(true)});
+  document.getElementById('rw').onclick=()=>{const p=PRE[S.m];let e;do e=p[Math.floor(Math.random()*p.length)];while(e===S.e);S.e=e;S.tap=null;snd('langkah');setCtrl();render(true)}}
+ document.getElementById('el').onclick=()=>{S.el=!S.el;snd('ketik');setCtrl();render()};
+}
+svg.addEventListener('click',e=>{const p=e.target.closest('.atom');if(!p)return;const a=+p.dataset.a;S.tap=S.tap===a?null:a;snd('ketik');render()});
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));
+ S.m=b.dataset.m;S.tap=null;if(S.m!=='bina')S.e=PRE[S.m][0];setCtrl();render(true)});
+setCtrl();render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>
