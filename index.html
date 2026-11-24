@@ -224,15 +224,14 @@ function home(){const light=document.documentElement.classList.contains('light')
   <a class="ib" href="#/pasang" aria-label="Cara pasang di telefon">${I.phone}</a>
   <button class="ib" id="mode" aria-label="${light?'Tukar ke mod gelap':'Tukar ke mod cerah'}">${light?I.moon:I.sun}</button></header>
  <label class="search"><span style="color:var(--mu);display:flex">${I.search}</span><span class="sr">Cari topik</span><input id="q" type="search" placeholder="Cari topik… (cth: pecutan)" value="${esc(query)}" autocomplete="off" enterkeyhint="search">${query?'<button class="clear" id="clr" aria-label="Kosongkan carian">×</button>':''}</label>
- ${query?'':contHTML()}
  ${query?'':`<div class="tabs" role="tablist" aria-label="Tingkatan">${[1,2,3,4,5].map(t=>`<button role="tab" data-t="${t}" aria-selected="${tab===t}" aria-label="Tingkatan ${t}"><span class="tw">Tingkatan </span><span class="tn">T</span>${t}</button>`).join('')}</div>`}
  <div class="grid" id="grid">${gridHTML()}</div></main>`}
 function pasang(){return`<main class="pg"><a class="back" href="#/utama">${I.left} Kembali</a><h1>Cara Pasang TerokaMath</h1>
- <p class="note">Pasang sekali sahaja. Semua app (ALGEBRALAB, CIRCMOTION, GRAPHX dan lain-lain) boleh dibuka dari dalam TerokaMath, termasuk tanpa internet.</p>
+ <p class="note">Pasang sekali sahaja. Semua bab boleh dibuka dari dalam TerokaMath, termasuk tanpa internet.</p>
  <div class="how"><section><h2>Android (Chrome)</h2><ol><li>Buka <b>ekwanbiz.github.io/mathmotion</b> dalam Chrome.</li><li>Tekan menu <b>⋮</b> di atas kanan.</li><li>Pilih <b>Tambah ke skrin utama</b> / <b>Pasang aplikasi</b>.</li><li>Tekan <b>Pasang</b>.</li></ol></section>
  <section><h2>iPhone / iPad (Safari)</h2><ol><li>Buka <b>ekwanbiz.github.io/mathmotion</b> dalam Safari.</li><li>Tekan butang <b>Kongsi</b> (petak dengan anak panah ke atas).</li><li>Pilih <b>Add to Home Screen</b>.</li><li>Tekan <b>Add</b>.</li></ol></section>
  <section><h2>Komputer (Chrome / Edge)</h2><ol><li>Buka <b>ekwanbiz.github.io/mathmotion</b>.</li><li>Tekan ikon <b>Pasang</b> di hujung bar alamat.</li><li>Tekan <b>Pasang</b>.</li></ol></section></div>
- <p class="note">Selepas dibuka sekali dengan internet, semua app dimuat turun dan boleh digunakan tanpa internet.</p></main>`}
+ <p class="note">Selepas dibuka sekali dengan internet, semua bab dimuat turun dan boleh digunakan tanpa internet.</p></main>`}
 function bindHome(){
  document.getElementById('mode').onclick=()=>{const h=document.documentElement,l=!h.classList.contains('light');h.classList.toggle('light',l);LS.set('mathmotion-mode',l?'cerah':'gelap');setTheme();render()};
  document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{tab=+b.dataset.t;LS.set('mathmotion-tab',String(tab));render()});
