@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Plot Titik &amp; Plot Kotak · Bab 8</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0C0A18;--sf:#161328;--sf2:#1E1A36;--sf3:#100E1F;--bd:#2A2547;--bd2:#3A3360;--tx:#F0ECFF;--mu:#B4ABD6;--mu2:#7F76A6;--c1:#A78BFA;--c2:#4FB3FF;--c3:#FF9F43;--med:#FFD166;--ok:#3DDC84;--bad:#FF6B7A;
+ --surface:#161328;--border:#3A3360;--text:#F0ECFF;--muted:#B4ABD6;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#1a0f3a}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.stage svg{width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:11px 14px;line-height:1.45;font-size:15px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:4px}
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:5px}
+.stat{background:var(--sf2);border:1px solid var(--bd2);border-radius:10px;padding:5px 4px;text-align:center}
+.stat small{display:block;color:var(--mu);font-size:11.5px;font-weight:700}
+.stat b{font-size:18px}
+.info .tip{color:var(--mu);font-size:13px;margin-top:6px}
+.info .eq{margin-top:6px;padding:7px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:700;font-size:14px;overflow-wrap:anywhere}
+.ok{color:var(--ok);font-weight:800}.no{color:var(--bad);font-weight:800}
+.ctrl{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.chip{background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:12px 4px;font-weight:800;font-size:15px}
+.big{background:var(--c1);border:0;color:#1a0f3a;border-radius:13px;padding:12px 6px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.chk{display:flex;flex-wrap:wrap;gap:4px 14px;font-weight:700;margin-bottom:4px}
+.q1{color:var(--c1)}.md{color:var(--med)}.ca{color:var(--c2)}.cb{color:var(--c3)}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.45fr) minmax(340px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:16px}.ctrl{grid-area:c;align-self:end;grid-template-columns:1fr 1fr}
+ .info b.t{font-size:22px}.stat b{font-size:21px}.stats{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-height:700px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.chip,.big{padding:9px 3px;font-size:14px}.info{padding:8px 11px;font-size:14px}.info b.t{font-size:16px}}
+@media(max-width:420px){.chip,.big{font-size:13px}.modes button{font-size:13px;padding:10px 3px}.stat b{font-size:16px}.stat small{font-size:10.5px}.info{font-size:14px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#A78BFA;color:#1a0f3a;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #a78bfa44">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mod">
+   <button data-m="bina" class="on" role="tab">▭ Bina Plot</button>
+   <button data-m="banding" role="tab">⇅ Banding</button>
+   <button data-m="cabaran" role="tab">❓ Cabaran</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" viewBox="0 0 600 380" aria-label="Plot titik dan plot kotak interaktif"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const L=40,U=26,MAXV=20;
+const C1='#A78BFA',CA='#4FB3FF',CB='#FF9F43',MED='#FFD166',MU='#B4ABD6',MU2='#7F76A6',TX='#F0ECFF',BAD='#FF6B7A',OK='#3DDC84',BG3='#100E1F';
+const X=v=>L+v*U;
+const snd=n=>{if(window.FX)FX.play(n)};
+const S={m:'bina',A:[2,5,6,7,7,9,10,12,13,18],B:[],goal:null,score:0,done:false};
+const f2=n=>{const v=Math.round(n*100)/100;return (Object.is(v,-0)?0:v).toString()};
+const srt=a=>a.slice().sort((p,q)=>p-q);
+const md=a=>{const n=a.length;return (a[(n-1)>>1]+a[n>>1])/2};
+function stats(a){
+ if(a.length<4)return a.length?{n:a.length,s:srt(a),mn:Math.min(...a),mx:Math.max(...a),few:true}:null;
+ const s=srt(a),n=s.length,lo=s.slice(0,n>>1),hi=s.slice((n+1)>>1);
+ return{n,s,mn:s[0],mx:s[n-1],q1:md(lo),med:md(s),q3:md(hi),jul:s[n-1]-s[0],jak:md(hi)-md(lo)}}
+function lbl(x,y,t,c=TX,s=16,a='middle'){return `<text x="${x}" y="${y}" fill="${c}" font-size="${s}" font-weight="800" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="${BG3}" stroke-width="5" stroke-linejoin="round">${t}</text>`}
+function axis(y,labs=true){let g=`<line x1="${L-14}" y1="${y}" x2="${X(MAXV)+14}" y2="${y}" stroke="${MU}" stroke-width="3"/>`;
+ for(let v=0;v<=MAXV;v++){g+=`<line x1="${X(v)}" y1="${y-5}" x2="${X(v)}" y2="${y+5}" stroke="${MU}" stroke-width="2"/>`;if(labs)g+=`<text x="${X(v)}" y="${y+18}" fill="${MU}" font-size="13" font-weight="700" text-anchor="middle" font-family="Inter,Arial,sans-serif">${v}</text>`}return g}
+function box(st,y,h,col,dash){if(!st||st.few)return '';const d=dash?' stroke-dasharray="7 5"':'',op=dash?'00':'33';
+ return `<line x1="${X(st.mn)}" y1="${y}" x2="${X(st.q1)}" y2="${y}" stroke="${col}" stroke-width="3"${d}/><line x1="${X(st.q3)}" y1="${y}" x2="${X(st.mx)}" y2="${y}" stroke="${col}" stroke-width="3"${d}/>`+
+ `<line x1="${X(st.mn)}" y1="${y-h*.35}" x2="${X(st.mn)}" y2="${y+h*.35}" stroke="${col}" stroke-width="3"${d}/><line x1="${X(st.mx)}" y1="${y-h*.35}" x2="${X(st.mx)}" y2="${y+h*.35}" stroke="${col}" stroke-width="3"${d}/>`+
+ `<rect x="${X(st.q1)}" y="${y-h/2}" width="${Math.max(2,X(st.q3)-X(st.q1))}" height="${h}" rx="4" fill="${col}${op}" stroke="${col}" stroke-width="3"${d}/>`+
+ `<line x1="${X(st.med)}" y1="${y-h/2}" x2="${X(st.med)}" y2="${y+h/2}" stroke="${dash?col:MED}" stroke-width="3.5"${d}/>`}
+function fiveLabels(st,y){if(!st||st.few)return '';const it=[[st.mn,'min',TX],[st.q1,'Q₁',C1],[st.med,'median',MED],[st.q3,'Q₃',C1],[st.mx,'maks',TX]];
+ let g='',last=-99,row=0;it.forEach(([v,t,c])=>{const x=X(v);row=(x-last<46)?1-row:0;last=x;g+=lbl(Math.min(Math.max(x,22),578),y+row*18,f2(v),c,14)});return g}
+function dots(arr,base,gap,r,col,set){const k={};let g='';arr.forEach((v,i)=>{const j=k[v]||0;k[v]=j+1;const dd=drag&&drag.set===set&&drag.i===i;const cx=dd?drag.x:X(v),cy=dd?drag.y:base-12-j*gap;
+ g+=`<g class="d" data-s="${set}" data-i="${i}" style="cursor:grab"><circle cx="${cx}" cy="${cy}" r="${r+8}" fill="transparent"/><circle cx="${cx}" cy="${cy}" r="${dd?r+2:r}" fill="${col}" stroke="${BG3}" stroke-width="2"/></g>`});return g}
+let LAY={};
+function render(){
+ let g='';
+ if(S.m==='banding'){
+  LAY={A:{ax:128,lo:0,hi:200},B:{ax:296,lo:200,hi:362},gap:13,r:6};
+  const a=stats(S.A),b=stats(S.B);
+  g+=lbl(16,24,'A',CA,18,'start')+lbl(16,192,'B',CB,18,'start');
+  g+=axis(128)+axis(296)+box(a,170,24,CA)+box(b,338,24,CB);
+  g+=dots(S.A,128,13,6,CA,'A')+dots(S.B,296,13,6,CB,'B');
+ }else{
+  LAY={A:{ax:226,lo:0,hi:350},gap:18,r:9};
+  const a=stats(S.A);
+  if(S.m==='cabaran'&&S.goal)g+=box(S.goal,298,40,OK,true);
+  g+=axis(226)+box(a,298,40,C1)+fiveLabels(a,338);
+  g+=dots(S.A,226,18,9,CA,'A');
+  if(!S.A.length)g+=lbl(300,120,'Ketik di atas garis nombor untuk menambah data',MU,17);
+ }
+ if(drag)g+=`<rect x="10" y="364" width="580" height="14" rx="7" fill="${BAD}${drag.rm?'88':'33'}"/>`+lbl(300,371,'Lepaskan di sini untuk buang',drag.rm?TX:BAD,11);
+ svg.innerHTML=g;renderInfo()}
+function statBox(st,col){const v=k=>st&&!st.few&&st[k]!=null?f2(st[k]):'–';
+ return `<div class="stats"><div class="stat"><small>n</small><b>${st?st.n:0}</b></div><div class="stat"><small>Julat</small><b>${st&&st.n>1?f2(st.mx-st.mn):'–'}</b></div><div class="stat"><small>JAK</small><b class="q1">${v('jak')}</b></div><div class="stat"><small>Q₁</small><b class="q1">${v('q1')}</b></div><div class="stat"><small>Median</small><b class="md">${v('med')}</b></div><div class="stat"><small>Q₃</small><b class="q1">${v('q3')}</b></div></div>`}
+function sortedLine(st){if(!st||st.few)return 'Tambah sekurang-kurangnya 4 data untuk melihat plot kotak.';const n=st.n,s=st.s;
+ const lo=n>>1,hiS=(n+1)>>1;const mark=(i)=>{const inLo=i<lo,inHi=i>=hiS;const half=inLo?[0,lo]:inHi?[hiS,n]:null;let c='';
+  if(n%2&&i===(n-1)/2)c='md';else if(!(n%2)&&(i===n/2-1||i===n/2))c='md';
+  if(half){const m=half[1]-half[0],a=half[0];if(m%2&&i===a+(m-1)/2)c='q1';if(!(m%2)&&(i===a+m/2-1||i===a+m/2))c='q1'}
+  return c?`<span class="${c}">${s[i]}</span>`:s[i]};
+ return 'Tersusun: '+s.map((_,i)=>mark(i)).join(', ')}
+function renderInfo(){
+ let h='';
+ if(S.m==='bina'){const st=stats(S.A);
+  h=`<b class="t">Bina plot kotak</b>${statBox(st)}<div class="eq">${sortedLine(st)}</div><div class="tip">Ketik untuk tambah ● · seret ● untuk ubah nilai · seret ke zon merah untuk buang. <span class="q1">Q₁, Q₃</span> dan <span class="md">median</span> diwarnakan.</div>`}
+ if(S.m==='banding'){const a=stats(S.A),b=stats(S.B);
+  const row=(st,c,n)=>`<div class="eq"><span class="${c}">${n}</span>: julat ${st&&st.n>1?f2(st.mx-st.mn):'–'} · JAK ${st&&!st.few?f2(st.jak):'–'} · median ${st&&!st.few?f2(st.med):'–'}</div>`;
+  let concl='';if(a&&b&&!a.few&&!b.few){concl=a.jak===b.jak?'JAK sama: 50% data di tengah sama terserak.':`Set <b class="${a.jak<b.jak?'ca':'cb'}">${a.jak<b.jak?'A':'B'}</b> lebih tertumpu (JAK lebih kecil).`}
+  h=`<b class="t">Banding dua set data</b>${row(a,'ca','Set A')}${row(b,'cb','Set B')}<div class="tip">${concl||'Ketik di lajur A (atas) atau B (bawah) untuk menambah data.'}</div>`}
+ if(S.m==='cabaran'){const st=stats(S.A),G=S.goal,ok=check(st);
+  h=`<b class="t">Cabaran: padankan plot kotak hijau</b><div class="chk">${G.list.map((c,i)=>`<span class="${ok[i]?'ok':'no'}">${ok[i]?'✓':'○'} ${c[0]}</span>`).join('')}</div>${statBox(st)}`;
+  h+=ok.every(Boolean)?`<div class="eq ok">✓ Hebat! Plot kotak anda sepadan. Skor: ${S.score}</div>`:`<div class="tip">Bina data supaya plot kotak anda sama dengan plot kotak hijau putus-putus. Skor: ${S.score}</div>`}
+ info.innerHTML=h}
+function check(st){return S.goal.list.map(([,f])=>!!st&&!st.few&&f(st))}
+function newGoal(){let d,st;do{const n=7+Math.floor(Math.random()*4);d=[];for(let i=0;i<n;i++)d.push(1+Math.floor(Math.random()*19));st=stats(d)}while(st.jak<3||st.jul<8||new Set(d).size<5);
+ S.goal=Object.assign({},st,{list:[[`min ${f2(st.mn)}`,s=>s.mn===st.mn],[`Q₁ ${f2(st.q1)}`,s=>s.q1===st.q1],[`median ${f2(st.med)}`,s=>s.med===st.med],[`Q₃ ${f2(st.q3)}`,s=>s.q3===st.q3],[`maks ${f2(st.mx)}`,s=>s.mx===st.mx]]});
+ S.A=[];S.done=false;render()}
+function rawak(n){const a=[];for(let i=0;i<n;i++)a.push(1+Math.floor(Math.random()*18));return a}
+function setCtrl(){
+ if(S.m==='bina'){ctrl.innerHTML=`<button class="chip" id="ek">+ Pencilan (20)</button><button class="chip" id="bu">Buang terakhir</button><button class="big alt" id="ko">Kosongkan</button><button class="big" id="rw">Data rawak</button>`;
+  ek.onclick=()=>{if(S.A.filter(v=>v===MAXV).length<10){S.A.push(MAXV);snd('ketik');render()}};bu.onclick=()=>{S.A.pop();render()};ko.onclick=()=>{S.A=[];render()};rw.onclick=()=>{S.A=rawak(9+Math.floor(Math.random()*4));snd('ketik');render()}}
+ if(S.m==='banding'){ctrl.innerHTML=`<button class="chip" id="ra">Rawak A</button><button class="chip" id="rb">Rawak B</button><button class="big alt" id="ko">Kosongkan</button><button class="big" id="ct">Contoh</button>`;
+  ra.onclick=()=>{S.A=rawak(9);render()};rb.onclick=()=>{S.B=rawak(9);render()};ko.onclick=()=>{S.A=[];S.B=[];render()};ct.onclick=()=>{S.A=[6,8,9,9,10,10,11,12,13];S.B=[2,4,6,9,10,12,15,17,19];snd('ketik');render()}}
+ if(S.m==='cabaran'){ctrl.innerHTML=`<button class="big alt" id="ko" style="grid-column:span 2">Kosongkan</button><button class="big" id="nb" style="grid-column:span 2">Cabaran baharu</button>`;
+  ko.onclick=()=>{S.A=[];S.done=false;render()};nb.onclick=newGoal}}
+function afterChange(){if(S.m!=='cabaran')return;const ok=check(stats(S.A)).every(Boolean);if(ok&&!S.done){S.done=true;S.score++;snd('menang');if(window.FX)FX.stars(document.getElementById('stage'),14)}else if(!ok)S.done=false}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));S.m=b.dataset.m;
+ if(S.m==='bina')S.A=[2,5,6,7,7,9,10,12,13,18];
+ if(S.m==='banding'){S.A=[6,8,9,9,10,10,11,12,13];S.B=[2,4,6,9,10,12,15,17,19]}
+ setCtrl();if(S.m==='cabaran'){newGoal();return}render()});
+/* ---------- tetikus + sentuh ---------- */
+let drag=null,down=null;
+function pt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+const valAt=x=>Math.max(0,Math.min(MAXV,Math.round((x-L)/U)));
+const laneAt=y=>{for(const k of ['A','B'])if(LAY[k]&&y>=LAY[k].lo&&y<LAY[k].hi)return k;return null};
+svg.addEventListener('pointerdown',e=>{e.preventDefault();const p=pt(e),h=e.target.closest('.d');
+ if(h){drag={set:h.dataset.s,i:+h.dataset.i,x:p.x,y:p.y,rm:false};svg.setPointerCapture(e.pointerId);render();return}
+ down={x:p.x,y:p.y}});
+svg.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();const p=pt(e);drag.x=Math.max(L-10,Math.min(X(MAXV)+10,p.x));drag.y=Math.max(10,Math.min(374,p.y));drag.rm=p.y>360;render()});
+function up(e){
+ if(drag){const p=pt(e),arr=S[drag.set];if(drag.rm){arr.splice(drag.i,1);snd('ketik')}else{const v=valAt(p.x),lim=S.m==='banding'?7:11;if(arr.filter((x,j)=>x===v&&j!==drag.i).length<lim)arr[drag.i]=v;snd('langkah')}drag=null;afterChange();render();return}
+ if(down){const p=pt(e),ln=laneAt(p.y);if(Math.abs(p.x-down.x)<12&&ln&&p.y<LAY[ln].ax+10){const v=valAt(p.x),arr=S[ln],lim=S.m==='banding'?7:11;if(arr.filter(x=>x===v).length<lim&&arr.length<30){arr.push(v);snd('ketik');afterChange();render()}else snd('salah')}down=null}}
+svg.addEventListener('pointerup',up);svg.addEventListener('pointercancel',()=>{drag=null;down=null;render()});
+setCtrl();render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>
