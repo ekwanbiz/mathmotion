@@ -431,7 +431,7 @@ function viewTayang() {
   if (it.t === 'slaid' || it.t === 'cikgu') content = `<div class="stage" id="stage" style="--c:${subColVar(it)}">${itemSlideHTML(it)}</div>`;
   else if (it.t === 'sim') content = `<div class="tero"><iframe class="simframe" src="simulasi/${it.k}.html" title="Simulasi ${SIMNAME[it.k]}"></iframe></div>`;
   else if (it.t === 'lat') content = viewLatItem(it);
-  else if (it.t === 'game') content = `<div class="main" id="main">${viewGames()}</div>`;
+  else if (it.t === 'game') { let g = viewGames(); if (ajShared()) g = g.replace(/<a [^>]*href="#\/[^"]*"[^>]*>[^<]*<\/a>/g, ''); content = `<div class="main" id="main">${g}</div>`; }
   const dots = pl.items.map((x, k) => `<button type="button" class="ajdot${k === AJ.i ? ' on' : ''}" data-jump="${k}" style="--c:var(--${AJT[x.t][1]});opacity:${k <= AJ.i ? 1 : .4}" aria-label="Item ${k + 1}: ${esc(itemName(x))}"></button>`).join('');
   const cols = [['rd', 'Merah'], ['am', 'Kuning'], ['tx', isLight() ? 'Hitam' : 'Putih']];
   const tools = `<div class="ajpen" role="toolbar" aria-label="Pen conteng">
@@ -587,7 +587,7 @@ async function ajShareOpen(pl) {
 function viewShareModal(M) {
   return `<div class="ajm-bg"><section class="ajm ajshare" role="dialog" aria-modal="true" aria-label="Kongsi link pelan">
     <div class="ajm-h"><h2>Kongsi link</h2><button type="button" class="ib" id="ajmX" aria-label="Tutup">${IC.x}</button></div>
-    <p class="ajhint" style="font-size:16px">Guru yang buka link ini akan nampak pelan <b style="color:var(--tx)">${esc(M.name)}</b> sahaja. Mereka boleh tayang terus, atau simpan salinan untuk diubah.</p>
+    <p class="ajhint" style="font-size:16px">Guru yang buka link ini akan nampak pelan <b style="color:var(--tx)">${esc(M.name)}</b> sahaja. Mereka hanya boleh tayang pelan ini. Mereka tidak dapat membuka bahagian lain ISOMOVE atau mengubah pelan.</p>
     <label class="ajf"><span>LINK</span><textarea id="ajLink" rows="3" readonly>${esc(M.link)}</textarea></label>
     ${M.img ? '<p class="ajwarn">Gambar yang dimuat naik tidak disertakan dalam link. Slaid Gambar + teks akan dipaparkan tanpa gambar.</p>' : ''}
     <p class="ajhint">Link ini menyimpan pelan seperti sekarang. Jika pelan diubah, cipta link baharu.</p>
@@ -616,13 +616,13 @@ function viewKongsi(code) {
   const light = isLight();
   const head = `<header class="hdr"><span class="wm">ISO<span>MOVE</span></span><div class="end" style="margin-left:auto"><button type="button" class="ib" id="themeBtn" aria-label="${light ? 'Tukar ke mod gelap' : 'Tukar ke mod cerah'}">${light ? IC.moon : IC.sun}</button></div></header>`;
   let body;
-  if (AJK.err) body = `<div class="kgcard"><p class="eyebrow">PELAN DIKONGSI</p><h1 class="h1">Link tidak sah</h1><p class="lead">Link ini rosak atau tidak lengkap. Minta guru yang berkongsi menghantar semula link.</p><a class="btn sec" href="#/ajar">Buka ISOMOVE</a></div>`;
+  if (AJK.err) body = `<div class="kgcard"><p class="eyebrow">PELAN DIKONGSI</p><h1 class="h1">Link tidak sah</h1><p class="lead">Link ini rosak atau tidak lengkap. Minta guru yang berkongsi menghantar semula link.</p></div>`;
   else if (!AJK.plan) body = `<div class="kgcard"><p class="lead">Membuka pelan…</p></div>`;
   else {
     const pl = AJK.plan;
     body = `<div class="kgcard"><p class="eyebrow">PELAN DIKONGSI · BAB 11 TRANSFORMASI ISOMETRI</p><h1 class="h1">${esc(pl.name)}</h1><p class="lead">${pl.items.length} item. Tekan Tayang untuk mula mengajar dengan pelan ini.</p>
       <ol class="kglist">${pl.items.map((it, k) => `<li><span class="n">${k + 1}</span>${typeChip(it.t)}<span>${esc(itemName(it))}</span></li>`).join('')}</ol>
-      <div class="kgbtns"><button type="button" class="btn pri big" id="kgPlay"${pl.items.length ? '' : ' disabled'}>${IC.play} Tayang</button><button type="button" class="btn sec big" id="kgSave">${ajIcon.plus} Simpan ke pelan saya</button></div></div>`;
+      <div class="kgbtns"><button type="button" class="btn pri big" id="kgPlay"${pl.items.length ? '' : ' disabled'}>${IC.play} Tayang</button></div></div>`;
   }
   return `<div class="app kgpage">${head}<main class="main" id="main"><div class="wrap kgwrap">${body}</div></main></div>`;
 }
@@ -631,12 +631,5 @@ function bindKongsi() {
   if (t) t.onclick = () => { const l = !isLight(); document.documentElement.classList.toggle('light', l); LS.set('mathmotion-mode', l ? 'cerah' : 'gelap'); setMeta(); render(true); };
   const pl = AJK.plan; if (!pl) return;
   document.getElementById('kgPlay').onclick = () => ajStart(0);
-  document.getElementById('kgSave').onclick = () => {
-    const d = ajData(); let name = pl.name;
-    if (d.plans.some(p => p.name === name)) name += ' (salinan)';
-    const np = { id: 'p' + Date.now(), name, items: JSON.parse(JSON.stringify(pl.items)) };
-    d.plans.push(np); d.cur = np.id; AJS.sel = 0; ajSave();
-    location.hash = '#/ajar'; setTimeout(() => toast('Disimpan ke pelan anda: ' + name), 50);
-  };
 }
 IC.ajar = ajIcon.ajar;
