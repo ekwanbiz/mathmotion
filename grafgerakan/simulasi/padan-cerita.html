@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Padan Cerita · Bab 7</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#061410;--sf:#0D211B;--sf2:#122C24;--sf3:#081A15;--bd:#1A3D32;--bd2:#245344;--tx:#E9FFF7;--mu:#9CCBB9;--mu2:#6A9988;--c1:#34D399;--c2:#38BDF8;--c3:#FB923C;--gold:#FBBF24;--ok:#34D399;--bad:#F87171;
+ --surface:#0D211B;--border:#245344;--text:#E9FFF7;--muted:#9CCBB9;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#03261b}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative;display:flex}
+.stage>svg{width:100%;height:100%;display:block}
+.cards{flex:1;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:8px;padding:8px;min-height:0}
+.card{position:relative;min-height:0;background:var(--sf);border:2px solid var(--bd2);border-radius:14px;padding:0;overflow:hidden}
+.card svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.card .k{position:absolute;left:8px;top:6px;z-index:2;width:26px;height:26px;border-radius:9px;background:var(--sf2);border:1px solid var(--bd2);font-weight:900;font-size:14px;display:flex;align-items:center;justify-content:center}
+.card.ok,.opt.ok{border-color:var(--ok);background:#34d39922}.card.no,.opt.no{border-color:var(--bad);background:#f8717122}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:11px 14px;line-height:1.45;font-size:15px;min-height:70px}
+.info b.t{display:block;font-size:17px;color:var(--c1);margin-bottom:2px}
+.info .story{font-size:17px;font-weight:700}
+.info .tip{color:var(--mu);font-size:13px;margin-top:4px}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.info .ex{font-size:13.5px;line-height:1.4;color:var(--tx)}.info .ex b{color:var(--gold)}
+.stage{min-height:150px}
+.nextb{margin-top:6px;background:var(--c1);border:0;color:#03261b;border-radius:11px;padding:8px 16px;font-weight:900}
+.ctrl{display:flex;flex-direction:column;gap:7px}
+.seg{display:flex;gap:6px}
+.seg button{flex:1;background:var(--sf);border:2px solid var(--bd2);border-radius:12px;padding:9px 2px;font-weight:800;font-size:14px}
+.seg button.on{background:var(--c2);border-color:var(--c2);color:#04263a}
+.opt{display:flex;gap:9px;align-items:flex-start;text-align:left;background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:8px 10px;font-weight:700;font-size:14px;line-height:1.35}
+.opt .k{flex:none;width:24px;height:24px;border-radius:8px;background:var(--sf2);border:1px solid var(--bd2);font-weight:900;display:flex;align-items:center;justify-content:center;font-size:13px}
+.opt:disabled,.card:disabled{cursor:default;color:inherit}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.45fr) minmax(340px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .info .story{font-size:19px}.opt{font-size:15px;padding:10px 12px}
+}
+@media(max-height:700px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.info{padding:8px 11px;font-size:14px;min-height:60px}.info .story{font-size:15px}.opt{padding:6px 9px;font-size:13px}.seg button{padding:7px 2px}}
+@media(max-width:420px){.modes button{font-size:13px;padding:10px 3px}.opt{font-size:12.5px;padding:6px 8px;line-height:1.3}.info .ex{font-size:12.5px}.info b.t{font-size:15px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#34D399;color:#03261b;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #34d39944">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mod">
+   <button data-m="cg" class="on" role="tab">📖 Cerita → Graf</button>
+   <button data-m="gc" role="tab">📈 Graf → Cerita</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const stage=document.getElementById('stage'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const TX='#E9FFF7',MU='#9CCBB9',MU2='#6A9988',GRID='#163428',GOLD='#FBBF24',C2='#38BDF8',C3='#FB923C';
+const snd=n=>{if(window.FX)FX.play(n)};
+const NAMA=['Aiman','Siti','Mei Ling','Ravi','Nurul','Daniel','Kavitha','Hafiz'];
+const rnd=n=>Math.floor(Math.random()*n),pk=a=>a[rnd(a.length)],shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=rnd(i+1);[a[i],a[j]]=[a[j],a[i]]}return a};
+/* ---------- langkah gerakan ---------- */
+// Graf jarak-masa: jarak (0..6) selepas setiap langkah
+const JM={
+ cepat:{f:d=>d+3,ok:d=>d<=3,s:'bergerak laju menjauhi rumah',e:'Garis naik dengan curam: laju tinggi, menjauhi rumah.'},
+ perlahan:{f:d=>d+1,ok:d=>d<=5,s:'bergerak perlahan menjauhi rumah',e:'Garis naik dengan landai: laju rendah, menjauhi rumah.'},
+ pegun:{f:d=>d,ok:d=>true,s:'berhenti seketika',e:'Garis mengufuk: jarak tidak berubah, jadi pegun.'},
+ balik:{f:d=>0,ok:d=>d>0,s:'pulang ke rumah',e:'Garis turun ke paksi masa: kembali ke rumah (jarak = 0).'}
+};
+// Graf laju-masa: laju (0..3) selepas setiap langkah
+const LM={
+ pecut:{f:v=>3,ok:v=>v<3,s:'memecut',e:'Garis naik: laju bertambah (pecutan).'},
+ seragam:{f:v=>v,ok:v=>v>0,s:'bergerak dengan laju seragam',e:'Garis mengufuk di atas paksi masa: laju seragam.'},
+ perlahan:{f:v=>1,ok:v=>v>=2,s:'memperlahankan kenderaan',e:'Garis turun tetapi laju belum sifar: nyahpecutan.'},
+ berhenti:{f:v=>0,ok:v=>v>0,s:'membrek hingga berhenti',e:'Garis turun hingga laju = 0: nyahpecutan hingga berhenti.'},
+ pegun:{f:v=>0,ok:v=>v===0,s:'pegun seketika',e:'Garis pada paksi masa: laju = 0, jadi pegun.'}
+};
+let M='cg',J='jm',Q=null,score=0,tot=0,streak=0;
+function allSeq(){
+ const B=J==='jm'?JM:LM,keys=Object.keys(B),out=[];
+ const starts=J==='jm'?[0]:[0,2];
+ starts.forEach(s0=>keys.forEach(a=>keys.forEach(b=>keys.forEach(c=>{
+  const sq=[a,b,c];if(a===b||b===c)return;let y=s0;const ys=[y];
+  for(const k of sq){if(!B[k].ok(y))return;y=B[k].f(y);ys.push(y)}
+  if(J==='jm'&&sq.filter(k=>k==='pegun').length>1)return;
+  out.push({s0,sq,ys})}))));
+ return out;
+}
+const key=o=>o.s0+':'+o.sq.join(',');
+function story(o,name){
+ const B=J==='jm'?JM:LM,p=o.sq.map(k=>B[k].s);
+ if(J==='jm')return `${name} ${p[0]}, kemudian ${p[1]}, dan akhirnya ${p[2]}.`;
+ return `${name} ${o.s0===0?'bermula dari keadaan pegun':'sedang bergerak perlahan'}. Dia ${p[0]}, kemudian ${p[1]}, dan akhirnya ${p[2]}.`;
+}
+function newQ(){
+ const all=allSeq(),ans=pk(all);
+ const diff=o=>o.sq.reduce((n,k,i)=>n+(k!==ans.sq[i]),0)+(o.s0!==ans.s0);
+ const near=shuf(all.filter(o=>key(o)!==key(ans)&&diff(o)<=2)),far=shuf(all.filter(o=>key(o)!==key(ans)&&diff(o)>2));
+ const opts=shuf([ans].concat(near.concat(far).slice(0,3)));
+ Q={ans,opts,c:opts.indexOf(ans),name:pk(NAMA),done:false,pick:-1};
+ render();
+}
+/* ---------- lukis graf kecil ---------- */
+function graf(o,w,h,big){
+ const ymax=J==='jm'?6:3,x0=big?44:26,x1=w-(big?20:12),y0=big?34:30,y1=h-(big?36:22);
+ const X=i=>x0+(x1-x0)*i/3,Y=v=>y1-(y1-y0)*v/(ymax*1.1);
+ let g='';
+ for(let i=1;i<=3;i++)g+=`<line x1="${X(i)}" y1="${y0}" x2="${X(i)}" y2="${y1}" stroke="${GRID}" stroke-width="1.5" stroke-dasharray="4 4"/>`;
+ g+=`<line x1="${x0}" y1="${y1}" x2="${x1+6}" y2="${y1}" stroke="${MU}" stroke-width="2.4"/><line x1="${x0}" y1="${y1}" x2="${x0}" y2="${y0-8}" stroke="${MU}" stroke-width="2.4"/>`;
+ const fs=big?14:11;
+ g+=`<text x="${x0+4}" y="${y0-14}" fill="${MU}" font-size="${fs}" font-weight="800" font-family="Inter,Arial">${J==='jm'?'jarak':'laju'}</text><text x="${x1+4}" y="${y1+(big?20:14)}" fill="${MU}" font-size="${fs}" font-weight="800" text-anchor="end" font-family="Inter,Arial">masa</text>`;
+ const pts=o.ys.map((v,i)=>`${X(i).toFixed(1)},${Y(v).toFixed(1)}`).join(' ');
+ g+=`<polyline points="${pts}" fill="none" stroke="${GOLD}" stroke-width="${big?5:4}" stroke-linejoin="round" stroke-linecap="round"/>`;
+ if(big)o.ys.slice(1).forEach((v,i)=>g+=`<text x="${((X(i)+X(i+1))/2).toFixed(1)}" y="${y1+18}" fill="${MU2}" font-size="13" font-weight="800" text-anchor="middle" font-family="Inter,Arial">${i+1}</text>`);
+ return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMidYMid meet" aria-label="Graf ${J==='jm'?'jarak':'laju'}-masa">${g}</svg>`;
+}
+function render(){
+ if(!Q)return;
+ const L='ABCD';
+ if(M==='cg'){
+  stage.innerHTML=`<div class="cards">${Q.opts.map((o,i)=>`<button class="card${Q.done?(i===Q.c?' ok':i===Q.pick?' no':''):''}" data-i="${i}" ${Q.done?'disabled':''} aria-label="Graf ${L[i]}"><span class="k">${L[i]}</span>${graf(o,220,150,false)}</button>`).join('')}</div>`;
+  stage.querySelectorAll('.card').forEach(b=>b.onclick=()=>answer(+b.dataset.i,b));
+ }else{
+  const r=stage.getBoundingClientRect();stage.innerHTML=graf(Q.ans,Math.max(300,r.width||400),Math.max(200,r.height||300),true);
+ }
+ ctrlRender();infoRender();
+}
+function ctrlRender(){
+ let h=`<div class="seg" role="group" aria-label="Jenis graf"><button data-j="jm" class="${J==='jm'?'on':''}">Graf jarak-masa</button><button data-j="lm" class="${J==='lm'?'on':''}">Graf laju-masa</button></div>`;
+ if(M==='gc')h+=Q.opts.map((o,i)=>`<button class="opt${Q.done?(i===Q.c?' ok':i===Q.pick?' no':''):''}" data-i="${i}" ${Q.done?'disabled':''}><span class="k">${'ABCD'[i]}</span><span>${story(o,Q.name)}</span></button>`).join('');
+ ctrl.innerHTML=h;
+ ctrl.querySelectorAll('[data-j]').forEach(b=>b.onclick=()=>{J=b.dataset.j;newQ()});
+ ctrl.querySelectorAll('.opt').forEach(b=>b.onclick=()=>answer(+b.dataset.i,b));
+}
+function explain(){const B=J==='jm'?JM:LM;return `<div class="ex">${Q.ans.sq.map((k,i)=>`<b>${i+1}.</b> ${B[k].e}`).join(' ')}</div>`}
+function infoRender(){
+ const sc=`Skor: ${score}/${tot}${streak>=3?' · 🔥 '+streak+' berturut-turut':''}`;
+ if(!Q.done){
+  info.innerHTML=M==='cg'?`<b class="t">Graf manakah sepadan dengan cerita ini?</b><div class="story">${story(Q.ans,Q.name)}</div><div class="tip">${sc}</div>`
+   :`<b class="t">Cerita manakah sepadan dengan graf ${J==='jm'?'jarak':'laju'}-masa ini?</b><div class="tip">Baca graf mengikut peringkat 1, 2, 3 dari kiri ke kanan. ${sc}</div>`;
+  return}
+ const ok=Q.pick===Q.c;
+ info.innerHTML=`<b class="t">${ok?'<span class="ok">✓ Betul!</span>':'<span class="no">✗ Jawapan: '+'ABCD'[Q.c]+'</span>'}</b>${explain()}<button class="nextb" id="nx">Seterusnya ▶</button> <span class="tip">${sc}</span>`;
+ document.getElementById('nx').onclick=newQ;
+}
+function answer(i,el){
+ if(Q.done)return;Q.done=true;Q.pick=i;tot++;
+ if(i===Q.c){score++;streak++;snd('betul');if(window.FX)FX.stars(el,10)}else{streak=0;snd('salah');if(window.FX&&FX.shake)FX.shake(el)}
+ render();
+}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));M=b.dataset.m;newQ()});
+new ResizeObserver(()=>{if(M==='gc'&&Q)render()}).observe(stage);
+newQ();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

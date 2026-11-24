@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Kereta &amp; Graf · Bab 7</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#07101E;--sf:#0F1A2D;--sf2:#16243B;--sf3:#0A1424;--bd:#1E2F4D;--bd2:#2A4168;--tx:#EAF2FF;--mu:#9FB3D1;--mu2:#6F86A8;--c1:#38BDF8;--c2:#FB923C;--c3:#A78BFA;--gold:#FBBF24;--ok:#34D399;--bad:#F87171;
+ --surface:#0F1A2D;--border:#2A4168;--text:#EAF2FF;--muted:#9FB3D1;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#04263a}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:11px 14px;line-height:1.45;font-size:15px;min-height:70px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:2px}
+.info .row{display:flex;flex-wrap:wrap;gap:4px 14px;font-weight:700}
+.info .row b{color:var(--gold)}
+.info .tip{color:var(--mu);font-size:13px;margin-top:4px}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.info .sg{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;font-size:14px;font-weight:700;margin-top:4px}
+.info .sg span:nth-child(odd){color:var(--mu)}
+.ctrl{display:flex;flex-direction:column;gap:8px}
+.btns{display:flex;gap:8px}
+.big{flex:1;background:var(--c2);border:0;color:#2a1203;border-radius:13px;padding:13px 6px;font-weight:900;font-size:16px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.big:disabled{opacity:.45;cursor:not-allowed}
+.pl{display:flex;align-items:center;gap:8px;background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:5px 6px 5px 12px}
+.pl .lb{flex:1;font-weight:800;font-size:14px;color:var(--mu);line-height:1.2}
+.pl .lb small{display:block;font-weight:700;font-size:12px;color:var(--mu2)}
+.pl .val{min-width:92px;text-align:center;font-weight:900;font-size:16px}
+.pl button{width:44px;height:40px;border-radius:11px;border:2px solid var(--bd2);background:var(--sf2);font-weight:900;font-size:20px;line-height:1}
+.pl button:disabled{opacity:.35}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.45fr) minmax(330px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:22px}.info .sg{font-size:15px}
+}
+@media(max-width:420px){.info .sg{font-size:13px}.pl{padding:2px 5px 2px 10px}.pl button{height:34px}.ctrl{gap:6px}}
+@media(max-height:700px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.info{padding:8px 11px;font-size:14px;min-height:60px}.info b.t{font-size:16px}.big{padding:10px 4px}.pl button{height:34px}.pl{padding:3px 5px 3px 10px}}
+@media(max-width:420px){.modes button{font-size:13.5px;padding:10px 3px}.pl .val{min-width:80px;font-size:15px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#38BDF8;color:#04263a;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #38bdf844">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mod">
+   <button data-m="pandu" class="on" role="tab">🚗 Pandu</button>
+   <button data-m="rancang" role="tab">🧩 Rancang</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" aria-label="Jalan, kereta dan graf jarak-masa"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),stage=document.getElementById('stage'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const C1='#38BDF8',C2='#FB923C',C3='#A78BFA',GOLD='#FBBF24',OK='#34D399',BAD='#F87171',TX='#EAF2FF',MU='#9FB3D1',MU2='#6F86A8',GRID='#1A2A45',BG3='#0A1424';
+const DMAX=100;                       // panjang jalan (m)
+const SEGT=5;                         // tempoh setiap peringkat (s) dalam mod Rancang
+let M='pandu',W=400,H=400;
+const P={rec:[[0,0]],t:0,d:0,target:0,run:false,done:false,last:0,drag:false};
+const R={v:[6,0,-4],t:0,play:false};
+const f1=n=>{const v=Math.round(n*10)/10;return (Object.is(v,-0)?0:v).toFixed(1)};
+const fmt=n=>{const v=Math.round(n*100)/100;return v<0?'−'+(-v):''+(v===0?0:v)};
+const snd=n=>{if(window.FX)FX.play(n)};
+function T(x,y,s,c=TX,z=13,w=800,a='middle'){return `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" fill="${c}" font-size="${z}" font-weight="${w}" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="${BG3}" stroke-width="4" stroke-linejoin="round">${s}</text>`}
+function L(x1,y1,x2,y2,c,w=2,d=''){return `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"${d?` stroke-dasharray="${d}"`:''}/>`}
+/* ---------- susun atur: jalan di atas, graf di bawah ---------- */
+function lay(){
+ const pad=14,roadH=Math.min(96,Math.max(62,H*.2));
+ const gx0=54,gx1=W-24,gy0=roadH+56,gy1=H-40;
+ return {rx0:62,rx1:W-30,ry:roadH*.62,gx0,gx1,gy0,gy1,pad};
+}
+function carSVG(x,y,flip){
+ const s=flip?-1:1;
+ return `<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) scale(${s} 1)"><rect x="-22" y="-16" width="44" height="16" rx="6" fill="${C2}" stroke="#fff" stroke-width="2"/><path d="M-12 -16 L-6 -27 L9 -27 L15 -16 Z" fill="${C2}" stroke="#fff" stroke-width="2" stroke-linejoin="round"/><rect x="-4" y="-24" width="11" height="7" rx="2" fill="#bfe9ff"/><circle cx="-12" cy="1" r="6" fill="#111" stroke="#fff" stroke-width="2"/><circle cx="12" cy="1" r="6" fill="#111" stroke="#fff" stroke-width="2"/></g>`;
+}
+function road(G,d,flip){
+ const X=v=>G.rx0+(G.rx1-G.rx0)*v/DMAX;let g='';
+ g+=`<rect x="${G.rx0-14}" y="${G.ry-4}" width="${G.rx1-G.rx0+28}" height="22" rx="11" fill="#1B2A44"/>`;
+ g+=L(G.rx0,G.ry+7,G.rx1,G.ry+7,'#ffffff44',2,'10 9');
+ for(let v=0;v<=DMAX;v+=25){g+=L(X(v),G.ry+18,X(v),G.ry+24,MU2,2)+T(X(v),G.ry+34,v+' m',MU,11,700)}
+ g+=T(G.rx0-36,G.ry+4,'🏠',TX,24,400);
+ g+=`<g class="car" style="cursor:grab">${carSVG(X(d),G.ry+3,flip)}<rect x="${(X(d)-34).toFixed(1)}" y="${G.ry-40}" width="68" height="62" fill="transparent"/></g>`;
+ return g;
+}
+function axes(G,tmax){
+ const X=t=>G.gx0+(G.gx1-G.gx0)*t/tmax,Y=d=>G.gy1-(G.gy1-G.gy0)*d/DMAX;let g='';
+ const st=tmax>16?5:tmax>8?1:1;
+ for(let t=0;t<=tmax;t+=(tmax>16?5:5)){g+=L(X(t),Y(0),X(t),Y(DMAX),GRID,1.2)+T(X(t),G.gy1+14,''+t,MU,11,700)}
+ for(let d=0;d<=DMAX;d+=25){g+=L(X(0),Y(d),X(tmax),Y(d),GRID,1.2)+T(G.gx0-7,Y(d),''+d,MU,11,700,'end')}
+ g+=L(G.gx0,G.gy1,G.gx1+8,G.gy1,MU,2.2)+L(G.gx0,G.gy1,G.gx0,G.gy0-12,MU,2.2);
+ g+=T(G.gx0-2,G.gy0-22,'Jarak dari rumah (m)',TX,12,800,'start')+T(G.gx1+6,G.gy1+30,'Masa (s)',TX,12,800,'end');
+ return {g,X,Y};
+}
+/* ================= Mod PANDU ================= */
+const TMAX=20;
+function panduDraw(){
+ const G=lay(),A=axes(G,TMAX);let g=A.g;
+ const pts=P.rec.map(([t,d])=>`${A.X(t).toFixed(1)},${A.Y(d).toFixed(1)}`).join(' ');
+ g+=`<polyline points="${pts}" fill="none" stroke="${GOLD}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>`;
+ g+=`<circle cx="${A.X(P.t).toFixed(1)}" cy="${A.Y(P.d).toFixed(1)}" r="7" fill="${C2}" stroke="#fff" stroke-width="2"/>`;
+ const v=vNow();
+ g+=road(G,P.d,v<-0.3);
+ if(!P.run&&!P.done)g+=T((G.gx0+G.gx1)/2,(G.gy0+G.gy1)/2,'Seret kereta 🚗 untuk mula',MU,15,800);
+ svg.innerHTML=g;
+}
+function dAt(t){const r=P.rec;if(t<=0)return r[0][1];for(let i=r.length-1;i>=0;i--)if(r[i][0]<=t)return r[i][1];return r[0][1]}
+function vNow(){if(P.t<0.3)return 0;const w=Math.min(.6,P.t);return (P.d-dAt(P.t-w))/w}
+function totalDist(){let s=0;for(let i=1;i<P.rec.length;i++)s+=Math.abs(P.rec[i][1]-P.rec[i-1][1]);return s}
+function pegunTime(){let s=0;for(let i=1;i<P.rec.length;i++){const dt=P.rec[i][0]-P.rec[i-1][0];if(dt>0&&Math.abs(P.rec[i][1]-P.rec[i-1][1])/dt<0.4)s+=dt}return s}
+function panduInfo(){
+ const v=vNow(),av=Math.abs(v),st=av<0.4?'<span style="color:#FBBF24">pegun</span>':v>0?'menjauhi rumah':'kembali ke rumah';
+ if(P.done){const D=totalDist();info.innerHTML=`<b class="t">Perjalanan tamat (${TMAX} s)</b><div class="sg"><span>Jarak akhir dari rumah</span><span>${f1(P.d)} m</span><span>Jumlah jarak dilalui</span><span>${f1(D)} m</span><span>Tempoh pegun (lebih kurang)</span><span>${f1(pegunTime())} s</span><span>Laju purata</span><span style="color:#FBBF24">${f1(D)} ÷ ${TMAX} = ${f1(D/TMAX)} m/s</span></div><div class="tip">Bahagian graf yang <b>mengufuk</b> = pegun. Bahagian yang <b>lebih curam</b> = laju lebih tinggi.</div>`;return}
+ info.innerHTML=`<b class="t">Pandu kereta & lihat graf</b><div class="row"><span>Masa <b>${f1(P.t)} s</b></span><span>Jarak <b>${f1(P.d)} m</b></span><span>Laju <b>${f1(av)} m/s</b></span></div><div class="tip">${P.run?'Keadaan: '+st+'. Kecerunan graf = laju.':'Seret kereta ke kanan (menjauhi rumah), berhenti, atau seret ke kiri (kembali). Graf jarak-masa dilukis serta-merta.'}</div>`;
+}
+function panduCtrl(){
+ ctrl.innerHTML=`<div class="btns"><button class="big" id="go">${P.run?'⏸ Jeda':P.done?'↺ Pandu semula':P.t>0?'▶ Sambung':'▶ Mula masa'}</button><button class="big alt" id="rs">↺ Semula</button></div>`;
+ document.getElementById('go').onclick=()=>{if(P.done){panduReset();return}P.run?stop():start()};
+ document.getElementById('rs').onclick=panduReset;
+}
+function panduReset(){P.rec=[[0,0]];P.t=0;P.d=0;P.target=0;P.run=false;P.done=false;panduCtrl();render()}
+let raf=0;
+function start(){if(P.done)return;P.run=true;P.last=performance.now();panduCtrl();cancelAnimationFrame(raf);raf=requestAnimationFrame(tick)}
+function stop(){P.run=false;cancelAnimationFrame(raf);panduCtrl();render()}
+function tick(now){
+ if(!P.run)return;
+ const dt=Math.min(.05,(now-P.last)/1000);P.last=now;
+ const md=22*dt,diff=P.target-P.d;P.d+=Math.max(-md,Math.min(md,diff));
+ P.t=Math.min(TMAX,P.t+dt);
+ const lr=P.rec[P.rec.length-1];if(P.t-lr[0]>=.05||P.t>=TMAX)P.rec.push([P.t,P.d]);
+ if(P.t>=TMAX){P.run=false;P.done=true;snd('menang');if(window.FX)FX.stars(stage,12);panduCtrl();render();return}
+ render();raf=requestAnimationFrame(tick);
+}
+/* ================= Mod RANCANG ================= */
+const RT=SEGT*3;
+function planPts(){const p=[[0,0]];let d=0;R.v.forEach((v,i)=>{d+=v*SEGT;p.push([(i+1)*SEGT,d])});return p}
+function rancangDraw(){
+ const G=lay(),A=axes(G,RT),p=planPts();let g=A.g;
+ const cols=[C1,GOLD,C3];
+ for(let i=0;i<3;i++){const a=p[i],b=p[i+1],c=R.v[i]===0?GOLD:R.v[i]>0?C1:'#F472B6';
+  g+=L(A.X(a[0]),A.Y(a[1]),A.X(b[0]),A.Y(b[1]),c,5);
+  // segi tiga kecerunan
+  if(R.v[i]!==0){g+=L(A.X(a[0]),A.Y(a[1]),A.X(b[0]),A.Y(a[1]),MU2,1.6,'5 4')+L(A.X(b[0]),A.Y(a[1]),A.X(b[0]),A.Y(b[1]),MU2,1.6,'5 4')}
+  const mx=(A.X(a[0])+A.X(b[0]))/2,my=(A.Y(a[1])+A.Y(b[1]))/2;
+  g+=T(mx,my-16,R.v[i]===0?'pegun':Math.abs(R.v[i])+' m/s',c,13,900);
+ }
+ p.forEach(([t,d])=>g+=`<circle cx="${A.X(t).toFixed(1)}" cy="${A.Y(d).toFixed(1)}" r="4.5" fill="${TX}"/>`);
+ const tt=R.t,seg=Math.min(2,Math.floor(tt/SEGT)),d=p[seg][1]+R.v[seg]*(tt-seg*SEGT);
+ if(R.play||R.t>0)g+=`<circle cx="${A.X(tt).toFixed(1)}" cy="${A.Y(d).toFixed(1)}" r="7" fill="${C2}" stroke="#fff" stroke-width="2"/>`+L(A.X(tt),A.Y(0),A.X(tt),A.Y(DMAX),C2,1.5,'4 4');
+ g+=road(G,d,R.v[seg]<0);
+ svg.innerHTML=g;
+}
+function rancangInfo(){
+ const p=planPts();let rows='';let D=0;
+ for(let i=0;i<3;i++){const dd=p[i+1][1]-p[i][1];D+=Math.abs(dd);const v=R.v[i];
+  rows+=`<span>${i*SEGT}–${(i+1)*SEGT} s</span><span>${v===0?'<span style="color:#FBBF24">pegun</span> · kecerunan 0':`${fmt(dd)} ÷ ${SEGT} = ${fmt(dd/SEGT)} · <span style="color:${v>0?C1:'#F472B6'}">${v>0?'menjauhi':'kembali'} ${Math.abs(v)} m/s</span>`}</span>`}
+ info.innerHTML=`<b class="t">Kecerunan = laju</b><div class="sg">${rows}<span>Jumlah jarak</span><span>${fmt(D)} m</span><span>Laju purata</span><span style="color:#FBBF24">${fmt(D)} ÷ ${RT} ${Math.abs(D/RT*100-Math.round(D/RT*100))>1e-6?'≈':'='} ${fmt(D/RT)} m/s</span></div>`;
+}
+function limits(i){
+ // laju peringkat i mesti mengekalkan kereta dalam 0 – DMAX m pada setiap peringkat seterusnya
+ const ok=v=>{const t=R.v.slice();t[i]=v;let d=0;for(const x of t){d+=x*SEGT;if(d<0||d>DMAX)return false}return true};
+ return [ok(R.v[i]-1),ok(R.v[i]+1)];
+}
+function rancangCtrl(){
+ let h='';
+ for(let i=0;i<3;i++){const [dn,up]=limits(i),v=R.v[i];
+  h+=`<div class="pl"><span class="lb">Peringkat ${i+1}<small>${i*SEGT}–${(i+1)*SEGT} s</small></span><button data-i="${i}" data-s="-1" ${dn&&!R.play?'':'disabled'} aria-label="Kurangkan">−</button><span class="val" style="color:${v===0?GOLD:v>0?C1:'#F472B6'}">${v===0?'Pegun':v>0?'→ '+v+' m/s':'← '+(-v)+' m/s'}</span><button data-i="${i}" data-s="1" ${up&&!R.play?'':'disabled'} aria-label="Tambahkan">+</button></div>`}
+ h+=`<div class="btns"><button class="big" id="go" ${R.play?'disabled':''}>▶ Main perjalanan</button><button class="big alt" id="rw" ${R.play?'disabled':''}>🎲 Rawak</button></div>`;
+ ctrl.innerHTML=h;
+ ctrl.querySelectorAll('.pl button').forEach(b=>b.onclick=()=>{const i=+b.dataset.i;R.v[i]+=+b.dataset.s;R.t=0;rancangCtrl();render()});
+ document.getElementById('go').onclick=play;
+ document.getElementById('rw').onclick=()=>{for(let n=0;n<200;n++){const v=[1+Math.floor(Math.random()*8),Math.random()<.5?0:Math.floor(Math.random()*5),-Math.floor(Math.random()*9)];let d=0,ok=true;for(const x of v){d+=x*SEGT;if(d<0||d>DMAX)ok=false}if(ok){R.v=v;break}}R.t=0;rancangCtrl();render()};
+}
+function play(){R.play=true;R.t=0;rancangCtrl();const t0=performance.now(),dur=RT*1000*.45;
+ const st=now=>{R.t=Math.min(RT,(now-t0)/dur*RT);render();if(R.t<RT)requestAnimationFrame(st);else{R.play=false;snd('menang');rancangCtrl();render()}};requestAnimationFrame(st)}
+/* ================= lukis ================= */
+function render(){
+ W=stage.clientWidth||400;H=stage.clientHeight||400;svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+ if(M==='pandu'){panduDraw();panduInfo()}else{rancangDraw();rancangInfo()}
+}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));
+ if(P.run)stop();M=b.dataset.m;if(M==='pandu')panduCtrl();else{R.t=0;rancangCtrl()}render()});
+/* ---------- seret kereta (tetikus + sentuh) ---------- */
+function svgX(e){const r=svg.getBoundingClientRect();return (e.clientX-r.left)*W/r.width}
+function svgY(e){const r=svg.getBoundingClientRect();return (e.clientY-r.top)*H/r.height}
+svg.addEventListener('pointerdown',e=>{
+ if(M!=='pandu'||P.done)return;const G=lay();
+ if(svgY(e)>G.ry+46)return;            // hanya kawasan jalan
+ e.preventDefault();P.drag=true;svg.setPointerCapture(e.pointerId);
+ P.target=Math.max(0,Math.min(DMAX,(svgX(e)-G.rx0)/(G.rx1-G.rx0)*DMAX));
+ if(!P.run)start();
+});
+svg.addEventListener('pointermove',e=>{if(!P.drag)return;e.preventDefault();const G=lay();P.target=Math.max(0,Math.min(DMAX,(svgX(e)-G.rx0)/(G.rx1-G.rx0)*DMAX))});
+const end=()=>{P.drag=false};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+document.addEventListener('keydown',e=>{if(M!=='pandu'||P.done)return;if(e.key==='ArrowRight'){P.target=Math.min(DMAX,P.target+5);if(!P.run)start()}if(e.key==='ArrowLeft'){P.target=Math.max(0,P.target-5);if(!P.run)start()}});
+new ResizeObserver(()=>render()).observe(stage);
+panduCtrl();render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Luas &amp; Pecutan · Bab 7</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#120B06;--sf:#1D130B;--sf2:#291A0F;--sf3:#160D07;--bd:#3B2716;--bd2:#4F351E;--tx:#FFF3E8;--mu:#D2B193;--mu2:#9B7B5F;--c1:#FB923C;--c2:#38BDF8;--c3:#A78BFA;--gold:#FBBF24;--ok:#34D399;--bad:#F87171;
+ --surface:#1D130B;--border:#4F351E;--text:#FFF3E8;--muted:#D2B193;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#2a1203}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:10px 13px;line-height:1.4;font-size:14.5px;min-height:70px}
+.info b.t{display:block;font-size:17px;color:var(--c1);margin-bottom:3px}
+.info .sg{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;font-size:13.5px;font-weight:700}
+.info .sg span:nth-child(odd){color:var(--mu);white-space:nowrap}
+.info .tot{margin-top:5px;padding:6px 9px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:800;font-size:14.5px}
+.info .tot b{color:var(--gold)}
+.info .tip{color:var(--mu);font-size:12.5px;margin-top:4px}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.ctrl{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.chip{background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:12px 4px;font-weight:800;font-size:14.5px}
+.chip.on{background:var(--c1);border-color:var(--c1);color:#2a1203}
+.big{background:var(--c2);border:0;color:#04263a;border-radius:13px;padding:12px 6px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.45fr) minmax(340px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:16px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:21px}.info .sg{font-size:15px}.info .tot{font-size:16px}
+}
+@media(max-height:700px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.info{padding:7px 10px;min-height:60px}.info b.t{font-size:15px}.chip,.big{padding:9px 3px}}
+@media(max-width:420px){.modes button{font-size:13.5px;padding:10px 3px}.chip,.big{font-size:13.5px}.info .sg{font-size:12.5px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#FB923C;color:#2a1203;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #fb923c44">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mod">
+   <button data-m="teroka" class="on" role="tab">📈 Teroka</button>
+   <button data-m="cabaran" role="tab">🎯 Cabaran Jarak</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" aria-label="Graf laju-masa dengan bucu yang boleh diseret"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),stage=document.getElementById('stage'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const TX='#FFF3E8',MU='#D2B193',MU2='#9B7B5F',GRID='#2A1C10',BG3='#160D07',GOLD='#FBBF24',OK='#34D399',BAD='#F87171',C1='#FB923C',C2='#38BDF8';
+const TM=20,VM=30;
+let W=400,H=400,M='teroka',showA=true,showK=false;
+let pts=[[0,0],[4,20],[12,20],[20,0]];
+const CH={D:0,done:false,score:0,tot:0};
+const fmt=n=>{const v=Math.round(n*100)/100;return v<0?'−'+(-v):''+(v===0?0:v)};
+const fa=n=>(Math.abs(n*100-Math.round(n*100))>1e-6?'≈ ':'')+fmt(n);
+const snd=n=>{if(window.FX)FX.play(n)};
+function T(x,y,s,c=TX,z=13,w=800,a='middle'){return `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" fill="${c}" font-size="${z}" font-weight="${w}" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="${BG3}" stroke-width="4" stroke-linejoin="round">${s}</text>`}
+function L(x1,y1,x2,y2,c,w=2,d=''){return `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"${d?` stroke-dasharray="${d}"`:''}/>`}
+function G(){const x0=50,x1=W-22,y0=34,y1=H-38;return {x0,x1,y0,y1,X:t=>x0+(x1-x0)*t/TM,Y:v=>y1-(y1-y0)*v/VM}}
+const segs=()=>[0,1,2].map(i=>{const [a,b]=[pts[i],pts[i+1]],dt=b[0]-a[0],dv=b[1]-a[1];return {a,b,dt,dv,acc:dv/dt,area:(a[1]+b[1])/2*dt}});
+const col=acc=>Math.abs(acc)<1e-9?GOLD:acc>0?OK:BAD;
+const shape=s=>s.a[1]===0&&s.b[1]===0?'tiada luas':s.a[1]===s.b[1]?'segi empat tepat':(s.a[1]===0||s.b[1]===0)?'segi tiga':'trapezium';
+function draw(){
+ W=stage.clientWidth||400;H=stage.clientHeight||400;svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+ const g0=G();let g='';
+ const stT=W<420?4:2;
+ for(let t=0;t<=TM;t+=2)g+=L(g0.X(t),g0.Y(0),g0.X(t),g0.Y(VM),GRID,1.2)+(t%stT===0?T(g0.X(t),g0.y1+14,''+t,MU,11,700):'');
+ for(let v=0;v<=VM;v+=5)g+=L(g0.X(0),g0.Y(v),g0.X(TM),g0.Y(v),GRID,1.2)+T(g0.x0-7,g0.Y(v),''+v,MU,11,700,'end');
+ const S=segs();
+ if(showA)S.forEach(s=>{const c=col(s.acc);g+=`<polygon points="${g0.X(s.a[0])},${g0.Y(0)} ${g0.X(s.a[0])},${g0.Y(s.a[1])} ${g0.X(s.b[0])},${g0.Y(s.b[1])} ${g0.X(s.b[0])},${g0.Y(0)}" fill="${c}" fill-opacity=".22"/>`;
+  if(s.area>0&&g0.X(s.b[0])-g0.X(s.a[0])>34){const my=g0.Y(Math.max(2,(s.a[1]+s.b[1])/4));g+=T((g0.X(s.a[0])+g0.X(s.b[0]))/2,my,fmt(s.area)+' m',c,13,900)}});
+ g+=L(g0.x0,g0.y1,g0.x1+10,g0.y1,MU,2.2)+L(g0.x0,g0.y1,g0.x0,g0.y0-14,MU,2.2);
+ g+=T(g0.x0-2,g0.y0-22,'Laju (m/s)',TX,12,800,'start')+T(g0.x1+8,g0.y1+30,'Masa (s)',TX,12,800,'end');
+ if(showK)S.forEach(s=>{if(s.dv===0)return;const c=col(s.acc);g+=L(g0.X(s.a[0]),g0.Y(s.a[1]),g0.X(s.b[0]),g0.Y(s.a[1]),c,1.8,'5 4')+L(g0.X(s.b[0]),g0.Y(s.a[1]),g0.X(s.b[0]),g0.Y(s.b[1]),c,1.8,'5 4');
+  g+=T((g0.X(s.a[0])+g0.X(s.b[0]))/2,g0.Y(s.a[1])+(s.dv>0?-10:-10),s.dt+' s',MU,11,800)+T(g0.X(s.b[0])+(s.dv>0?6:-6),(g0.Y(s.a[1])+g0.Y(s.b[1]))/2,fmt(s.dv),c,11,800,s.dv>0?'start':'end')});
+ g+=`<polyline points="${pts.map(p=>g0.X(p[0])+','+g0.Y(p[1])).join(' ')}" fill="none" stroke="${TX}" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>`;
+ S.forEach((s,i)=>{const mx=(g0.X(s.a[0])+g0.X(s.b[0]))/2,my=(g0.Y(s.a[1])+g0.Y(s.b[1]))/2;g+=T(mx,my-15,(Math.abs(s.acc*100-Math.round(s.acc*100))>1e-6?'≈ ':'')+(s.acc>0?'+':'')+fmt(s.acc)+' m/s²',col(s.acc),12,900)});
+ pts.forEach((p,i)=>{const lock=M==='cabaran'&&(i===0||i===3);const x=g0.X(p[0]),y=g0.Y(p[1]);
+  g+=`<g class="h" data-i="${i}" style="cursor:${lock?'default':'grab'}"><circle cx="${x}" cy="${y}" r="24" fill="transparent"/><circle cx="${x}" cy="${y}" r="${lock?6:10}" fill="${lock?MU2:C1}" stroke="#fff" stroke-width="${lock?2:3}"/></g>`;
+  if(!lock)g+=T(x+(i===3?-12:i===0?12:0),y-(p[1]>VM-4?-22:20),`(${p[0]}, ${p[1]})`,C2,12,900,i===3?'end':i===0?'start':'middle')});
+ if(M==='cabaran'){const D=S.reduce((a,s)=>a+s.area,0);g+=T(g0.x1-4,g0.y0+4,'Sasaran: '+CH.D+' m',GOLD,15,900,'end')}
+ svg.innerHTML=g;
+}
+function showInfo(){
+ const S=segs(),D=S.reduce((a,s)=>a+s.area,0);
+ const nm=s=>Math.abs(s.acc)<1e-9?'laju seragam':s.acc>0?'pecutan':'nyahpecutan';
+ let rows='';S.forEach(s=>{rows+=`<span>${s.a[0]}–${s.b[0]} s</span><span><span style="color:${col(s.acc)}">${nm(s)} ${fa(s.acc)} m/s²</span> · ${shape(s)} ${fmt(s.area)} m</span>`});
+ if(M==='cabaran'){
+  const hit=Math.abs(D-CH.D)<1e-9;
+  info.innerHTML=`<b class="t">Cabaran: jumlah jarak = ${CH.D} m</b><div class="tip">Kereta bermula dan berakhir dalam keadaan pegun. Seret dua bucu tengah sehingga luas di bawah graf = ${CH.D} m.</div><div class="tot">Jarak sekarang = <b>${fmt(D)} m</b> ${CH.done?(hit?'<span class="ok">✓ Tepat!</span>':''):hit?'<span class="ok">← tekan Semak</span>':D>CH.D?'<span class="no">terlalu jauh</span>':'<span class="no">belum cukup</span>'}</div><div class="tip">Skor: ${CH.score}/${CH.tot}</div>`;
+  const sb=document.getElementById('sm');if(sb)sb.textContent=CH.done?'Seterusnya ▶':'✓ Semak';
+  return}
+ info.innerHTML=`<b class="t">Kecerunan = pecutan · Luas = jarak</b><div class="sg">${rows}</div><div class="tot">Jumlah jarak = <b>${fmt(D)} m</b> · Laju purata = ${fmt(D)} ÷ ${TM} = <b>${fmt(D/TM)} m/s</b></div><div class="tip">Seret bucu ● untuk ubah graf. Hijau: pecutan · Kuning: laju seragam · Merah: nyahpecutan.</div>`;
+}
+function setCtrl(){
+ if(M==='cabaran'){
+  ctrl.innerHTML=`<button class="chip ${showK?'on':''}" id="k">Kecerunan</button><button class="big" id="sm">✓ Semak</button><button class="big alt" id="nx">Sasaran baharu</button>`;
+  document.getElementById('sm').onclick=semak;document.getElementById('nx').onclick=newCh;
+ }else{
+  ctrl.innerHTML=`<button class="chip ${showA?'on':''}" id="a">Luas</button><button class="chip ${showK?'on':''}" id="k">Kecerunan</button><button class="big alt" id="rw">🎲 Rawak</button>`;
+  document.getElementById('a').onclick=()=>{showA=!showA;setCtrl();render()};
+  document.getElementById('rw').onclick=()=>{const t1=2+Math.floor(Math.random()*6),t2=t1+3+Math.floor(Math.random()*(15-t1-3)),r5=()=>5*Math.floor(Math.random()*7);pts=[[0,Math.random()<.5?0:r5()],[t1,10+5*Math.floor(Math.random()*4)],[t2,10+5*Math.floor(Math.random()*4)],[TM,Math.random()<.6?0:r5()]];render()};
+ }
+ document.getElementById('k').onclick=()=>{showK=!showK;setCtrl();render()};
+}
+function newCh(){
+ // sasaran daripada graf rawak yang boleh dicapai (bucu integer)
+ const t1=2+Math.floor(Math.random()*6),t2=t1+2+Math.floor(Math.random()*(17-t1-2)),v1=5+Math.floor(Math.random()*21),v2=5+Math.floor(Math.random()*21);
+ const tgt=[[0,0],[t1,v1],[t2,v2],[TM,0]];let D=0;for(let i=0;i<3;i++)D+=(tgt[i][1]+tgt[i+1][1])/2*(tgt[i+1][0]-tgt[i][0]);
+ if(!Number.isInteger(D)){newCh();return}
+ CH.D=D;CH.done=false;pts=[[0,0],[5,10],[15,10],[TM,0]];if(Math.abs(150-D)<1e-9)pts=[[0,0],[5,12],[15,12],[TM,0]];render();
+}
+function semak(){
+ if(CH.done){newCh();return}
+ const D=segs().reduce((a,s)=>a+s.area,0),ok=Math.abs(D-CH.D)<1e-9;CH.tot++;
+ if(ok){CH.score++;CH.done=true;snd('menang');if(window.FX)FX.stars(stage,14)}else{snd('salah');if(window.FX&&FX.shake)FX.shake(info)}
+ render();if(!ok)info.innerHTML+=`<div class="no" style="margin-top:4px">Belum tepat: ${fmt(D)} m ≠ ${CH.D} m. Ubah bucu dan cuba lagi.</div>`;
+}
+function render(){draw();showInfo()}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));M=b.dataset.m;
+ if(M==='cabaran'){showA=true;newCh()}else pts=[[0,0],[4,20],[12,20],[20,0]];setCtrl();render()});
+/* ---------- seret bucu (tetikus + sentuh) ---------- */
+let drag=-1;
+function svgPt(e){const r=svg.getBoundingClientRect();return [(e.clientX-r.left)*W/r.width,(e.clientY-r.top)*H/r.height]}
+svg.addEventListener('pointerdown',e=>{const h=e.target.closest('.h');if(!h)return;const i=+h.dataset.i;if(M==='cabaran'&&(i===0||i===3))return;e.preventDefault();drag=i;svg.setPointerCapture(e.pointerId)});
+svg.addEventListener('pointermove',e=>{if(drag<0)return;e.preventDefault();const g0=G(),[x,y]=svgPt(e);
+ let v=Math.round((g0.y1-y)/(g0.y1-g0.y0)*VM);v=Math.max(0,Math.min(VM,v));
+ let t=pts[drag][0];if(drag===1||drag===2){t=Math.round((x-g0.x0)/(g0.x1-g0.x0)*TM);t=Math.max(pts[drag-1][0]+1,Math.min(pts[drag+1][0]-1,t))}
+ if(t!==pts[drag][0]||v!==pts[drag][1]){pts[drag]=[t,v];if(M==='cabaran')CH.done=false;if(window.FX)FX.play('detik');render()}});
+const end=()=>{drag=-1};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+new ResizeObserver(()=>draw()).observe(stage);
+setCtrl();render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>
