@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Kotak Nilai Tempat · Bab 2</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--sf:#131C2E;--sf2:#1A2540;--sf3:#0E1626;--bd:#22304A;--bd2:#2E3F5E;--tx:#E6EDF7;--mu:#94A3B8;--mu2:#64748B;--c1:#38BDF8;--c2:#FB923C;--c3:#A78BFA;--gold:#FBBF24;--ok:#34D399;--bad:#F87171;
+ --surface:#131C2E;--border:#2E3F5E;--text:#E6EDF7;--muted:#94A3B8;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff06 1px,transparent 1px),linear-gradient(90deg,#ffffff06 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#03202e}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:11px 14px;line-height:1.5;font-size:15px;min-height:70px}
+.info b.t{display:block;font-size:19px;color:var(--c1);margin-bottom:2px}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.info .eq{margin-top:6px;padding:7px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:700;overflow-wrap:anywhere}
+.ctrl{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.step{display:flex;align-items:center;justify-content:space-between;background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:4px;grid-column:1/-1}
+.ctrl.two{grid-template-columns:1fr 1fr}
+.step button{width:46px;height:42px;border:0;border-radius:10px;background:var(--sf2);font-size:22px;font-weight:900}
+.step span{font-weight:900;font-size:17px}
+.big{background:var(--c1);border:0;color:#03202e;border-radius:13px;padding:13px 6px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+sub{font-size:.65em}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.35fr) minmax(330px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:23px}
+}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.info{padding:8px 11px;min-height:60px;font-size:14px}.info b.t{font-size:17px}.big{padding:10px 4px}.step button{height:36px}}
+@media(max-width:420px){.big{font-size:13.5px}.modes button{font-size:13.5px;padding:10px 3px}.info{font-size:14px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#38BDF8;color:#03202e;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #38bdf844">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mod">
+   <button data-m="bina" class="on" role="tab">🧮 Bina nombor</button>
+   <button data-m="cabaran" role="tab">🎯 Cabaran</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" viewBox="0 0 400 400" aria-label="Kotak nilai tempat interaktif"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl">
+  <div class="step"><button id="bm" aria-label="Kurangkan asas">−</button><span id="bl">Asas 5</span><button id="bp" aria-label="Tambah asas">+</button></div>
+  <button class="big alt" id="clr">Kosongkan</button><button class="big alt" id="rnd">Rawak</button><button class="big" id="act">Cabaran baharu</button>
+ </div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),info=document.getElementById('info');
+const BL='#38BDF8',OR='#FB923C',PU='#A78BFA',GOLD='#FBBF24',OK='#34D399',BAD='#F87171',TX='#E6EDF7',MU='#94A3B8',SF='#131C2E',BD='#2E3F5E',NAV='#0E1626',PK='#F472B6';
+const COLS=[PU,OK,OR,BL];// warna tiang b³, b², b¹, b⁰
+const SUP='⁰¹²³';
+const WORD={2:'dua',3:'tiga',4:'empat',5:'lima',6:'enam',7:'tujuh',8:'lapan',9:'sembilan',10:'sepuluh'};
+const snd=n=>{if(window.FX)FX.play(n)};
+const NC=4,X0=20,CW=90,TOP=58,BOT=318;
+let S={m:'bina',b:5,d:[0,0,0,0],msg:'',anim:null,target:0,score:0,tot:0,solved:false};
+const val=()=>S.d.reduce((t,d,i)=>t+d*S.b**(NC-1-i),0);
+const numStr=()=>{const s=S.d.join('').replace(/^0+(?=.)/,'');return s};
+function T(x,y,t,c=TX,s=18,a='middle',w=800){return `<text x="${x}" y="${y}" fill="${c}" font-size="${s}" font-weight="${w}" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif">${t}</text>`}
+function R(x,y,w,h,f,s,rx=12,sw=2){return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="${f}" stroke="${s}" stroke-width="${sw}"/>`}
+const beadY=(j)=>BOT-22-j*Math.min(26,(BOT-TOP-60)/Math.max(1,S.b-1));
+function draw(){
+ const b=S.b;let g='';
+ for(let i=0;i<NC;i++){
+  const x=X0+i*CW,p=NC-1-i,c=COLS[i];
+  g+=`<g class="col" data-i="${i}" style="cursor:pointer">`+R(x+4,TOP,CW-8,BOT-TOP,c+'12',c+'88',14,2)+`</g>`;
+  g+=T(x+CW/2,20,`${b}${SUP[p]}`,c,19)+T(x+CW/2,42,String(b**p),MU,14,'middle',700);
+  g+=`<line x1="${x+CW/2}" y1="${TOP+16}" x2="${x+CW/2}" y2="${BOT-8}" stroke="${MU}" stroke-width="3" pointer-events="none"/>`;
+  for(let j=0;j<S.d[i];j++)g+=`<ellipse cx="${x+CW/2}" cy="${beadY(j)}" rx="30" ry="11" fill="${c}" stroke="${NAV}" stroke-width="2" pointer-events="none"/>`;
+  g+=T(x+CW/2,BOT+24,String(S.d[i]),TX,28,'middle',900);
+  g+=`<g class="mn" data-i="${i}" style="cursor:pointer"><circle cx="${x+CW/2-22}" cy="${BOT+60}" r="17" fill="${SF}" stroke="${BD}" stroke-width="2"/>${T(x+CW/2-22,BOT+61,'−',TX,22,'middle',900)}</g>`;
+  g+=`<g class="pl" data-i="${i}" style="cursor:pointer"><circle cx="${x+CW/2+22}" cy="${BOT+60}" r="17" fill="${c}33" stroke="${c}" stroke-width="2"/>${T(x+CW/2+22,BOT+61,'+',TX,22,'middle',900)}</g>`;
+ }
+ if(S.anim)g+=S.anim;
+ svg.innerHTML=g;
+}
+function digitsTxt(){const b=S.b;return S.d.map((d,i)=>`<span style="color:${COLS[i]}">${d}</span>`).join('')+`<sub>${b}</sub>`}
+function expand(){const b=S.b,parts=[],vals=[];S.d.forEach((d,i)=>{const p=NC-1-i;if(d){parts.push(`${d}×${b**p}`);vals.push(d*b**p)}});return parts.length?`${parts.join(' + ')} = ${vals.length>1?vals.join(' + ')+' = ':''}${val()}`:'0'}
+function showInfo(){
+ const b=S.b;
+ if(S.m==='bina'){
+  info.innerHTML=`<b class="t">${numStr()}<sub>${b}</sub> = ${val()}</b>Asas ${b}: setiap tiang memuatkan paling banyak ${b-1} manik.<div class="eq">${expand()}</div><div class="tip">${S.msg||`Ketik tiang atau + untuk menambah manik. Manik ke-${b} pada satu tiang akan dikumpulkan menjadi 1 manik pada tiang di kirinya.`}</div>`;
+ }else{
+  const v=val(),ok=v===S.target;
+  info.innerHTML=`<b class="t">Bina ${S.target} dalam asas ${WORD[b]}</b>Nombor anda: ${digitsTxt()} = <b>${v}</b> ${ok?'<span class="ok">✓ Tepat!</span>':v>S.target?'<span class="no">terlalu besar</span>':'<span style="color:var(--mu)">belum cukup</span>'}<div class="tip">${S.msg||'Mulakan dengan tiang paling kiri: berapa kali nilai tempat itu muat dalam sasaran?'} · Skor: ${S.score}/${S.tot}</div>`;
+ }
+}
+function render(){draw();showInfo()}
+// animasi kumpul: b manik bergerak ke tiang kiri
+function flyCarry(i,done){
+ const x1=X0+i*CW+CW/2,x0=X0+(i-1)*CW+CW/2,c=COLS[i],t0=performance.now(),D=520,y1=beadY(S.b-1),y0=beadY(S.d[i-1]);
+ const step=now=>{const k=Math.min(1,(now-t0)/D),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
+  const x=x1+(x0-x1)*e,y=y1+(y0-y1)*e-Math.sin(Math.PI*e)*60;
+  S.anim=`<ellipse cx="${x}" cy="${y}" rx="30" ry="11" fill="${c}" stroke="${GOLD}" stroke-width="3"/>`+T((x1+x0)/2,TOP+30,`${S.b} manik → 1`,GOLD,16);
+  draw();if(k<1)requestAnimationFrame(step);else{S.anim=null;done()}};
+ requestAnimationFrame(step);
+}
+let busy=false;
+function add(i,keep){
+ if(busy)return;const b=S.b;
+ if(S.d[i]<b-1){S.d[i]++;if(!keep)S.msg='';snd('ketik');render();check();return}
+ if(i===0){S.msg=`Tiang ${b}³ sudah penuh (${b-1} manik). Nombor tidak boleh melebihi 4 digit di sini.`;snd('salah');render();return}
+ // kumpul: b manik → 1 manik di kiri
+ busy=true;S.d[i]=b;draw();snd('langkah');
+ flyCarry(i,()=>{S.d[i]=0;S.msg=`${b} manik pada tiang ${b}${SUP[NC-1-i]} dikumpulkan menjadi 1 manik pada tiang ${b}${SUP[NC-i]} (kerana ${b} × ${b**(NC-1-i)} = ${b**(NC-i)}).`;busy=false;add(i-1,true)});
+}
+function sub(i){
+ if(busy)return;const b=S.b;
+ if(S.d[i]>0){S.d[i]--;S.msg='';snd('ketik');render();check();return}
+ let k=i-1;while(k>=0&&S.d[k]===0)k--;
+ if(k<0){S.msg='Tiada manik untuk dikeluarkan.';snd('salah');render();return}
+ // pecah: 1 manik dari kiri → b manik
+ S.d[k]--;for(let j=k+1;j<i;j++)S.d[j]=b-1;S.d[i]=b-1;
+ S.msg=`Tiada manik pada tiang ini, jadi 1 manik dari tiang ${b}${SUP[NC-1-k]} dipecahkan (pinjam) kepada ${b} manik di kanan, kemudian 1 manik dikeluarkan.`;
+ snd('langkah');render();check();
+}
+function check(){
+ if(S.m!=='cabaran'||S.solved)return;
+ if(val()===S.target){S.solved=true;S.score++;S.tot++;snd('betul');if(window.FX)FX.stars(document.getElementById('stage'),14);S.msg=`Syabas! ${S.target} = ${numStr()}<sub>${S.b}</sub>. Tekan "Cabaran baharu".`;showInfo()}
+}
+function newTarget(){const b=S.b;S.d=[0,0,0,0];S.target=b+Math.floor(Math.random()*(Math.min(b**4-1,600)-b));S.solved=false;S.msg='';render()}
+function setBase(nb){
+ nb=Math.max(2,Math.min(10,nb));if(nb===S.b)return;
+ const v=val();S.b=nb;
+ if(S.m==='bina'){if(v<nb**4){let m=v;for(let i=NC-1;i>=0;i--){S.d[i]=m%nb;m=Math.floor(m/nb)}S.msg=`Nilai ${v} dikekalkan dan ditulis semula dalam asas ${WORD[nb]}.`}else{S.d=[0,0,0,0];S.msg=`Nilai ${v} terlalu besar untuk 4 tiang asas ${WORD[nb]}, kotak dikosongkan.`}render()}
+ else{if(S.tot&&!S.solved)S.tot++;newTarget()}
+ document.getElementById('bl').textContent='Asas '+nb;snd('ketik');
+}
+svg.addEventListener('pointerdown',e=>{
+ const g=e.target.closest('.col,.mn,.pl');if(!g)return;e.preventDefault();
+ const i=+g.dataset.i;if(g.classList.contains('mn'))sub(i);else add(i);
+});
+document.getElementById('bm').onclick=()=>setBase(S.b-1);
+document.getElementById('bp').onclick=()=>setBase(S.b+1);
+document.getElementById('clr').onclick=()=>{S.d=[0,0,0,0];S.msg='';snd('ketik');render()};
+document.getElementById('rnd').onclick=()=>{
+ if(S.m==='cabaran'){const b=S.b,t=[];let m=S.target;for(let i=NC-1;i>=0;i--){t[i]=m%b;m=Math.floor(m/b)}
+  const i=t.findIndex((d,k)=>d!==S.d[k]);
+  S.msg=i<0?'Sudah tepat!':`Petunjuk: ${b**(NC-1-i)} muat ${t[i]} kali dalam baki, jadi tiang ${b}${SUP[NC-1-i]} perlu ${t[i]} manik.`;snd('ketik');showInfo();return}
+ S.d=S.d.map(()=>Math.floor(Math.random()*S.b));if(S.d[0]&&Math.random()<.5)S.d[0]=0;S.msg='';snd('langkah');render()};
+document.getElementById('act').onclick=()=>{if(S.m!=='cabaran')return;if(!S.solved)S.tot++;newTarget();snd('langkah')};
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));S.m=b.dataset.m;
+ document.getElementById('act').style.display=S.m==='cabaran'?'':'none';
+ document.getElementById('ctrl').classList.toggle('two',S.m!=='cabaran');
+ document.getElementById('rnd').textContent=S.m==='cabaran'?'Petunjuk':'Rawak';
+ if(S.m==='cabaran'){S.score=0;S.tot=0;newTarget()}else{S.msg='';render()}
+});
+document.getElementById('act').style.display='none';document.getElementById('ctrl').classList.add('two');
+S.d=[0,2,3,1];render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

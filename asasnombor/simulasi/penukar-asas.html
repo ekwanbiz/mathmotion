@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Penukar Asas · Bab 2</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--sf:#131C2E;--sf2:#1A2540;--sf3:#0E1626;--bd:#22304A;--bd2:#2E3F5E;--tx:#E6EDF7;--mu:#94A3B8;--mu2:#64748B;--c1:#FB923C;--c2:#38BDF8;--c3:#A78BFA;--gold:#FBBF24;--ok:#34D399;--bad:#F87171;
+ --surface:#131C2E;--border:#2E3F5E;--text:#E6EDF7;--muted:#94A3B8;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff06 1px,transparent 1px),linear-gradient(90deg,#ffffff06 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#2a1203}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:11px 14px;line-height:1.5;font-size:15px;min-height:70px}
+.info b.t{display:block;font-size:19px;color:var(--c1);margin-bottom:2px}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.ctrl{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.step{display:flex;align-items:center;justify-content:space-between;gap:4px;background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:4px}
+.step.w3{grid-column:span 3}.step.w2{grid-column:span 2}
+.step button{min-width:40px;height:40px;border:0;border-radius:10px;background:var(--sf2);font-size:17px;font-weight:900;padding:0 6px}
+.step span{font-weight:900;font-size:17px;text-align:center;flex:1;white-space:nowrap}
+.big{background:var(--c1);border:0;color:#2a1203;border-radius:13px;padding:13px 6px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.chip{background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:12px 4px;font-weight:800;font-size:17px}
+.chip.ok{border-color:var(--ok);background:#34d39922}.chip.no{border-color:var(--bad);background:#f8717122}
+.ctrl.q4{grid-template-columns:1fr 1fr}
+sub{font-size:.65em}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.35fr) minmax(330px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:23px}
+}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.info{padding:8px 11px;min-height:60px;font-size:14px}.info b.t{font-size:17px}.big{padding:10px 4px}.step button{height:34px}.chip{padding:9px 3px}}
+@media(max-width:420px){.big{font-size:13.5px}.modes button{font-size:13px;padding:10px 3px}.info{font-size:14px}.step button{min-width:34px;font-size:15px}.step span{font-size:15px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#FB923C;color:#2a1203;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #fb923c44">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mod">
+   <button data-m="bahagi" class="on" role="tab">➗ Ke asas n</button>
+   <button data-m="tempat" role="tab">✖️ Ke asas 10</button>
+   <button data-m="cabaran" role="tab">❓ Cabaran</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" viewBox="0 0 400 400" aria-label="Penukar asas interaktif"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const OR='#FB923C',BL='#38BDF8',PU='#A78BFA',GOLD='#FBBF24',OK='#34D399',BAD='#F87171',TX='#E6EDF7',MU='#94A3B8',SF='#131C2E',BD='#2E3F5E',NAV='#0E1626',PK='#F472B6';
+const COLS=[PU,OK,OR,BL];
+const SUP='⁰¹²³⁴⁵⁶⁷⁸⁹';
+const WORD={2:'dua',3:'tiga',4:'empat',5:'lima',6:'enam',7:'tujuh',8:'lapan',9:'sembilan',10:'sepuluh'};
+const snd=n=>{if(window.FX)FX.play(n)};
+const rnd=n=>Math.floor(Math.random()*n);
+function T(x,y,t,c=TX,s=18,a='middle',w=800){return `<text x="${x}" y="${y}" fill="${c}" font-size="${s}" font-weight="${w}" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif">${t}</text>`}
+function R(x,y,w,h,f,s,rx=12,sw=2){return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="${f}" stroke="${s}" stroke-width="${sw}"/>`}
+const SB=(s,b,sz)=>`<tspan>${s}</tspan><tspan dy="${sz*.32}" font-size="${sz*.6}">${b}</tspan>`;
+let S={m:'bahagi',n:45,b:3,k:0,anim:0,d:[0,2,1,3],b2:4,q:null,score:0,tot:0,streak:0};
+/* ---------- MOD 1: pembahagian berulang ---------- */
+function rows(n,b){const r=[];let m=n;while(m){r.push([m,Math.floor(m/b),m%b]);m=Math.floor(m/b)}return r}
+function ladderSVG(n,b,k,showArrow){
+ const R0=rows(n,b),L=R0.length,rh=Math.min(36,268/(L+1)),fs=Math.min(22,rh*.62),x0=70,y0=30;let g='';
+ g+=T(200,16,`${n} ÷ ${b} berulang kali`,MU,14,'middle',700);
+ for(let i=0;i<Math.max(1,Math.min(k,L));i++){
+  const [m]=R0[i],y=y0+i*rh+rh/2;
+  g+=T(x0,y,String(b),OR,fs)+`<line x1="${x0+16}" y1="${y-rh/2+3}" x2="${x0+16}" y2="${y+rh/2-2}" stroke="${MU}" stroke-width="2.5"/>`+T(x0+28,y,String(m),TX,fs,'start')+`<line x1="${x0+16}" y1="${y+rh/2-1}" x2="${x0+120}" y2="${y+rh/2-1}" stroke="${MU}" stroke-width="2.5"/>`;
+ }
+ for(let i=0;i<Math.min(k,L);i++){
+  const [,q,r]=R0[i],y=y0+(i+1)*rh+rh/2;
+  g+=T(x0+28,y,String(q),i===L-1?MU:TX,fs,'start');
+  g+=R(x0+150,y-rh/2+3,96,rh-6,GOLD+'1f',GOLD,8,1.5)+T(x0+198,y,`baki ${r}`,GOLD,fs*.8);
+ }
+ if(k>=L){
+  const top=y0+rh+4,bot=y0+L*rh+rh-4;
+  if(showArrow)g+=`<path d="M${x0+262} ${bot} V${top}" stroke="${OK}" stroke-width="4" fill="none"/><path d="M${x0+254} ${top+10} L${x0+262} ${top} L${x0+270} ${top+10}" stroke="${OK}" stroke-width="4" fill="none" stroke-linecap="round"/>`+T(x0+278,(top+bot)/2,'baca',OK,13,'start')+T(x0+278,(top+bot)/2+16,'ke atas',OK,13,'start');
+  const s=n.toString(b);
+  g+=R(40,338,320,52,OK+'1a',OK,16,2.5)+T(200,365,`${n} = `+SB(s,b,28),OK,28);
+ }
+ return g}
+function infoBahagi(){
+ const R0=rows(S.n,S.b),L=R0.length,k=Math.min(S.k,L),s=S.n.toString(S.b);
+ let t;
+ if(k===0)t=`Tekan <b>Langkah ▶</b> untuk membahagi ${S.n} dengan ${S.b}.`;
+ else if(k<L){const [m,q,r]=R0[k-1];t=`${m} ÷ ${S.b} = ${q} baki ${r} (${m} = ${q} × ${S.b} + ${r}). Teruskan membahagi hasil bahagi ${q}.`}
+ else t=`Hasil bahagi menjadi 0, jadi berhenti. Baca baki <b>dari bawah ke atas</b>: ${s.split('').join(', ')}.`;
+ info.innerHTML=`<b class="t">${S.n} → asas ${WORD[S.b]}</b>${t}<div class="tip">${k>=L?`Semak: ${s.split('').map((d,i)=>`${d}×${S.b}${SUP[s.length-1-i]}`).join(' + ')} = ${S.n} ✓`:'Ubah nombor dan asas dengan butang di bawah.'}</div>`}
+/* ---------- MOD 2: nilai tempat ---------- */
+function tempatSVG(){
+ const b=S.b2,n=4;let g='',x0=24,cw=88;const vals=S.d.map((d,i)=>d*b**(n-1-i)),vmax=Math.max(1,...vals);
+ g+=T(200,16,'Ketik digit untuk menukar nilainya',MU,14,'middle',700);
+ for(let i=0;i<n;i++){
+  const x=x0+i*cw,p=n-1-i,c=COLS[i],d=S.d[i],v=vals[i];
+  g+=T(x+cw/2,46,`${b}${SUP[p]} = ${b**p}`,c,15);
+  g+=`<g class="dg" data-i="${i}" style="cursor:pointer">`+R(x+8,62,cw-16,72,c+'22',c,14,2.5)+T(x+cw/2,99,String(d),TX,40,'middle',900)+`</g>`;
+  g+=T(x+cw/2,150,'▲ ketik',MU,11,'middle',600);
+  const h=Math.max(2,v/vmax*96);
+  g+=R(x+22,290-h,cw-44,h,c+'55',c,6,2)+T(x+cw/2,172,`${d}×${b**p}`,MU,14,'middle',700)+T(x+cw/2,310,String(v),c,18);
+ }
+ g+=`<line x1="24" y1="292" x2="376" y2="292" stroke="${MU}" stroke-width="2"/>`;
+ const tot=vals.reduce((a,c)=>a+c,0),s=S.d.join('').replace(/^0+(?=.)/,'');
+ g+=R(30,330,340,56,OR+'1a',OR,16,2.5)+T(200,358,SB(s,b,26)+`<tspan dy="${-26*.32}"> = ${tot}</tspan>`,OR,26);
+ return g}
+function infoTempat(){
+ const b=S.b2,s=S.d.join('').replace(/^0+(?=.)/,''),tot=S.d.reduce((t,d,i)=>t+d*b**(3-i),0);
+ const parts=S.d.map((d,i)=>[d,3-i]).filter(([d])=>d).map(([d,p])=>`${d}(${b**p})`);
+ info.innerHTML=`<b class="t">${s}<sub>${b}</sub> = ${tot}</b>Nilai nombor = hasil tambah (digit × nilai tempat).<div class="tip">${parts.length?parts.join(' + ')+' = '+tot:'Semua digit 0.'} · Digit dalam asas ${WORD[b]} hanya 0 hingga ${b-1}.</div>`}
+/* ---------- MOD 3: cabaran ---------- */
+function newQ(){
+ const type=rnd(2);let q;
+ if(type===0){const b=2+rnd(8),n=b===2?6+rnd(40):b<5?10+rnd(80):20+rnd(200),s=n.toString(b);
+  const c=new Set([s]),opts=[s];const alt=[s.split('').reverse().join('').replace(/^0+/,''),(n+1).toString(b),(n-1).toString(b),(n+b).toString(b),(n+2).toString(b)];
+  for(const a of alt.sort(()=>Math.random()-.5)){if(a&&!c.has(a)&&opts.length<4){c.add(a);opts.push(a)}}
+  q={type,n,b,ans:s,opts:opts.sort(()=>Math.random()-.5).map(o=>o+'<sub>'+b+'</sub>'),c:0,txt:`Tukar ${n} kepada asas ${WORD[b]}.`}}
+ else{const b=2+rnd(8);let s=String(1+rnd(b-1));const L=b===2?4+rnd(3):3;for(let i=1;i<L;i++)s+=rnd(b);const v=parseInt(s,b);
+  const c=new Set([v]),opts=[v];const alt=[s.split('').reduce((t,d)=>t+ +d,0),parseInt(s,Math.min(10,b+1)),v+b,v-1,v+1,+s];
+  for(const a of alt.sort(()=>Math.random()-.5)){if(a>0&&!c.has(a)&&opts.length<4){c.add(a);opts.push(a)}}
+  q={type,s,b,ans:v,opts:opts.sort(()=>Math.random()-.5).map(String),c:0,txt:`Tukar ${s}<sub>${b}</sub> kepada asas sepuluh.`}}
+ q.c=q.opts.indexOf(q.type===0?q.ans+'<sub>'+q.b+'</sub>':String(q.ans));q.done=false;S.q=q;
+ setCtrl();render();
+ info.innerHTML=`<b class="t">${q.txt}</b>Pilih jawapan yang betul.<div class="tip">Skor: ${S.score}/${S.tot}${S.streak>=3?' · 🔥 '+S.streak+' berturut-turut':''}</div>`}
+function cabSVG(){
+ const q=S.q;if(!q)return '';
+ if(!q.done)return R(30,120,340,120,SF,OR,20,2.5)+T(200,180,q.type===0?`${q.n} → asas ${q.b}`:SB(q.s,q.b,34)+`<tspan dy="${-34*.32}"> → asas 10</tspan>`,TX,34)+T(200,300,'?',MU,60,'middle',900);
+ if(q.type===0)return ladderSVG(q.n,q.b,99,true);
+ const s=q.s,b=q.b,L=s.length;let g=T(200,30,'Jalan kerja',MU,15,'middle',700);
+ s.split('').forEach((d,i)=>{const p=L-1-i,y=70+i*(260/L);g+=R(40,y-18,320,36,SF,BD,10,1.5)+T(60,y,d,COLS[i%4],22,'start')+T(110,y,`× ${b}${SUP[p]} (${b**p})`,MU,18,'start',700)+T(340,y,String(+d*b**p),TX,20,'end')});
+ g+=R(40,338,320,52,OK+'1a',OK,16,2.5)+T(200,365,SB(s,b,26)+`<tspan dy="${-26*.32}"> = ${q.ans}</tspan>`,OK,26);
+ return g}
+function answer(i,btn){
+ const q=S.q;if(q.done)return;q.done=true;S.tot++;const ok=i===q.c;
+ if(ok){S.score++;S.streak++;snd('betul');if(window.FX)FX.stars(btn,10)}else{S.streak=0;snd('salah')}
+ ctrl.querySelectorAll('.chip').forEach((b,k)=>{if(k===q.c)b.classList.add('ok');else if(b===btn)b.classList.add('no');b.disabled=true});
+ render();
+ info.innerHTML=`<b class="t">${ok?'<span class="ok">✓ Betul!</span>':'<span class="no">✗ Jawapan: '+q.opts[q.c]+'</span>'}</b>${q.type===0?'Bahagi berulang, baca baki dari bawah.':'Darab setiap digit dengan nilai tempat, kemudian tambah.'}<div class="tip">Skor: ${S.score}/${S.tot}</div><button class="big" id="nx" style="margin-top:8px;padding:9px 18px">Seterusnya ▶</button>`;
+ document.getElementById('nx').onclick=newQ}
+/* ---------- kawalan ---------- */
+let timer=0;
+function stepOnce(){const L=rows(S.n,S.b).length;if(S.k>=L)return false;S.k++;S.anim=1;snd(S.k>=L?'betul':'langkah');render();return true}
+function setCtrl(){
+ ctrl.className='ctrl';
+ if(S.m==='bahagi'){
+  ctrl.innerHTML=`<div class="step w3"><button data-dn="-100">−100</button><button data-dn="-10">−10</button><button data-dn="-1">−1</button><span id="nv">${S.n}</span><button data-dn="1">+1</button><button data-dn="10">+10</button><button data-dn="100">+100</button></div>
+  <div class="step"><button id="bm">−</button><span>asas ${S.b}</span><button id="bp">+</button></div><button class="big alt" id="all">Semua</button><button class="big" id="st">Langkah ▶</button>`;
+  ctrl.querySelectorAll('[data-dn]').forEach(b=>b.onclick=()=>{S.n=Math.max(1,Math.min(999,S.n+ +b.dataset.dn));S.k=0;snd('ketik');setCtrl();render()});
+  document.getElementById('bm').onclick=()=>{S.b=Math.max(2,S.b-1);S.k=0;snd('ketik');setCtrl();render()};
+  document.getElementById('bp').onclick=()=>{S.b=Math.min(9,S.b+1);S.k=0;snd('ketik');setCtrl();render()};
+  document.getElementById('st').onclick=()=>{if(!stepOnce()){S.k=0;render()}};
+  document.getElementById('all').onclick=()=>{clearInterval(timer);timer=setInterval(()=>{if(!stepOnce())clearInterval(timer)},420)};
+ }
+ if(S.m==='tempat'){
+  ctrl.innerHTML=`<div class="step w3"><button id="bm">−</button><span>asas ${S.b2}</span><button id="bp">+</button></div><button class="big alt" id="z">Kosongkan</button><button class="big alt" id="rw">Rawak</button><button class="big" id="sw">Semak ➗</button>`;
+  document.getElementById('bm').onclick=()=>{S.b2=Math.max(2,S.b2-1);S.d=S.d.map(d=>Math.min(d,S.b2-1));snd('ketik');setCtrl();render()};
+  document.getElementById('bp').onclick=()=>{S.b2=Math.min(10,S.b2+1);snd('ketik');setCtrl();render()};
+  document.getElementById('z').onclick=()=>{S.d=[0,0,0,0];snd('ketik');render()};
+  document.getElementById('rw').onclick=()=>{S.d=S.d.map(()=>rnd(S.b2));snd('langkah');render()};
+  document.getElementById('sw').onclick=()=>{const v=S.d.reduce((t,d,i)=>t+d*S.b2**(3-i),0);if(!v)return;S.n=Math.min(999,v);S.b=S.b2===10?2:Math.min(9,S.b2);S.k=0;pickMode('bahagi')};
+ }
+ if(S.m==='cabaran'&&S.q){
+  ctrl.className='ctrl q4';
+  ctrl.innerHTML=S.q.opts.map((o,i)=>`<button class="chip" data-i="${i}">${o}</button>`).join('');
+  ctrl.querySelectorAll('.chip').forEach(b=>b.onclick=()=>answer(+b.dataset.i,b));
+ }
+}
+function render(){
+ if(S.m==='bahagi'){svg.innerHTML=ladderSVG(S.n,S.b,S.k,true);infoBahagi();const st=document.getElementById('st');if(st)st.textContent=S.k>=rows(S.n,S.b).length?'Ulang ↺':'Langkah ▶'}
+ if(S.m==='tempat'){svg.innerHTML=tempatSVG();infoTempat()}
+ if(S.m==='cabaran')svg.innerHTML=cabSVG();
+}
+svg.addEventListener('pointerdown',e=>{const g=e.target.closest('.dg');if(!g||S.m!=='tempat')return;e.preventDefault();const i=+g.dataset.i;S.d[i]=(S.d[i]+1)%S.b2;snd('ketik');render()});
+function pickMode(m){
+ clearInterval(timer);S.m=m;
+ document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x.dataset.m===m));
+ if(m==='cabaran'){S.score=0;S.tot=0;S.streak=0;newQ();return}
+ setCtrl();render()}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>pickMode(b.dataset.m));
+setCtrl();render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

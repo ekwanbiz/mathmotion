@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Tambah &amp; Tolak Asas · Bab 2</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--sf:#131C2E;--sf2:#1A2540;--sf3:#0E1626;--bd:#22304A;--bd2:#2E3F5E;--tx:#E6EDF7;--mu:#94A3B8;--mu2:#64748B;--c1:#34D399;--c2:#38BDF8;--c3:#A78BFA;--gold:#FBBF24;--ok:#34D399;--bad:#F87171;
+ --surface:#131C2E;--border:#2E3F5E;--text:#E6EDF7;--muted:#94A3B8;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff06 1px,transparent 1px),linear-gradient(90deg,#ffffff06 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+button:disabled{opacity:.45;cursor:default}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#03261a}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:11px 14px;line-height:1.5;font-size:15px;min-height:70px}
+.info b.t{display:block;font-size:19px;color:var(--c1);margin-bottom:2px}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.ctrl{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.step{display:flex;align-items:center;justify-content:space-between;background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:4px;grid-column:span 2}
+.step button{width:46px;height:40px;border:0;border-radius:10px;background:var(--sf2);font-size:22px;font-weight:900}
+.step span{font-weight:900;font-size:17px}
+.big{background:var(--c1);border:0;color:#03261a;border-radius:13px;padding:13px 6px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.big.op{background:var(--sf2);border:2px solid #FB923C;color:#FB923C;font-size:17px;padding:6px}
+sub{font-size:.65em}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.35fr) minmax(330px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:23px}
+}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.info{padding:8px 11px;min-height:60px;font-size:14px}.info b.t{font-size:17px}.big{padding:10px 4px}.step button{height:34px}}
+@media(max-width:420px){.big{font-size:13.5px}.modes button{font-size:13.5px;padding:10px 3px}.info{font-size:14px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#34D399;color:#03261a;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #34d39944">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mod">
+   <button data-m="teroka" class="on" role="tab">🔢 Langkah demi langkah</button>
+   <button data-m="cabaran" role="tab">❓ Cabaran</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" viewBox="0 0 400 400" aria-label="Penambahan dan penolakan bentuk lajur dalam pelbagai asas"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl">
+  <div class="step"><button id="bm" aria-label="Kurangkan asas">−</button><span id="bl">Asas 5</span><button id="bp" aria-label="Tambah asas">+</button></div>
+  <button class="big op" id="op" aria-label="Tukar operasi">+ tambah</button>
+  <button class="big alt" id="rw">Rawak</button><button class="big alt" id="all">Semua</button><button class="big" id="st">Langkah ▶</button>
+ </div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),info=document.getElementById('info');
+const OR='#FB923C',BL='#38BDF8',PU='#A78BFA',GOLD='#FBBF24',OK='#34D399',BAD='#F87171',TX='#E6EDF7',MU='#94A3B8',SF='#131C2E',BD='#2E3F5E',NAV='#0E1626',PK='#F472B6',DIM='#334155';
+const WORD={2:'dua',3:'tiga',4:'empat',5:'lima',6:'enam',7:'tujuh',8:'lapan',9:'sembilan'};
+const NAMA=['sa','kedua','ketiga','keempat','kelima'];
+const snd=n=>{if(window.FX)FX.play(n)};
+const rnd=n=>Math.floor(Math.random()*n);
+function T(x,y,t,c=TX,s=18,a='middle',w=800){return `<text x="${x}" y="${y}" fill="${c}" font-size="${s}" font-weight="${w}" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif">${t}</text>`}
+function R(x,y,w,h,f,s,rx=12,sw=2){return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="${f}" stroke="${s}" stroke-width="${sw}"/>`}
+const cx=k=>338-k*64; // k = indeks lajur dari kanan
+const YC=52,YA=118,YB=186,YL=222,YR=262;
+// A, B: tatasusunan digit dari kanan (4 digit)
+let S={m:'teroka',b:5,op:'+',A:[2,4,3,0],B:[3,1,2,0],k:0,R:[],W:null,mark:[],carry:0,msg:'',anim:null,guess:[0,0,0,0,0],done:false,score:0,tot:0};
+const num=a=>a.reduce((t,d,i)=>t+d*S.b**i,0);
+const str=a=>{const s=a.slice().reverse().join('').replace(/^0+(?=.)/,'');return s};
+const valid=()=>S.op==='+'||num(S.A)>=num(S.B);
+function reset(){S.k=0;S.R=[];S.W=S.A.slice();S.mark=[];S.carry=0;S.msg='';S.anim=null;S.guess=[0,0,0,0,0];S.done=false}
+function result(){const v=S.op==='+'?num(S.A)+num(S.B):num(S.A)-num(S.B);const r=[];let m=v;for(let i=0;i<5;i++){r.push(m%S.b);m=Math.floor(m/S.b)}return {v,r}}
+const cols=()=>S.op==='+'?5:4;
+function finished(){return S.k>=4&&(S.op==='−'||S.k>=5||!S.carry)}
+function draw(){
+ const b=S.b;let g='';
+ // lajur diserlahkan
+ if(S.m==='teroka'&&S.k<5&&!finished())g+=R(cx(S.k)-28,YC-24,56,YR-YC+50,GOLD+'14',GOLD,12,2);
+ for(let k=0;k<4;k++){
+  const x=cx(k),lead=k>0&&S.A.slice(k).every(d=>!d);
+  g+=`<g class="dA" data-k="${k}" style="cursor:pointer">`+R(x-24,YA-26,48,52,SF,BD,10,1.5)+T(x,YA+1,S.A[k],lead?DIM:TX,32,'middle',900)+`</g>`;
+  const leadB=k>0&&S.B.slice(k).every(d=>!d);
+  g+=`<g class="dB" data-k="${k}" style="cursor:pointer">`+R(x-24,YB-26,48,52,SF,BD,10,1.5)+T(x,YB+1,S.B[k],leadB?DIM:TX,32,'middle',900)+`</g>`;
+ }
+ g+=T(cx(4),YB+1,S.op,OR,36,'middle',900);
+ g+=T(cx(0)+42,YA+12,String(b),MU,14,'start')+T(cx(0)+42,YB+12,String(b),MU,14,'start');
+ g+=`<line x1="${cx(4)-30}" y1="${YL}" x2="${cx(0)+40}" y2="${YL}" stroke="${MU}" stroke-width="3"/><line x1="${cx(4)-30}" y1="${YR+34}" x2="${cx(0)+40}" y2="${YR+34}" stroke="${MU}" stroke-width="3"/>`;
+ // bawa / pinjam
+ S.mark.forEach(([k,t,c])=>{g+=R(cx(k)-22,YC-16,44,32,c+'26',c,16,2)+T(cx(k),YC+1,t,c,t.length>2?13:17,'middle',900)});
+ if(S.op==='−'&&S.W)for(let k=0;k<4;k++)if(S.W[k]!==S.A[k])g+=`<line x1="${cx(k)-14}" y1="${YA+14}" x2="${cx(k)+14}" y2="${YA-14}" stroke="${PK}" stroke-width="3"/>`;
+ // hasil
+ if(S.m==='teroka'){for(let k=0;k<5;k++)if(S.R[k]!=null)g+=T(cx(k),YR+2,S.R[k],OK,34,'middle',900)}
+ else{const n=S.op==='+'?5:4,{r}=result();for(let k=0;k<n;k++){const c=S.done?(S.guess[k]===r[k]?OK:BAD):GOLD;g+=`<g class="gR" data-k="${k}" style="cursor:pointer">`+R(cx(k)-24,YR-26,48,52,c+'1f',c,10,2)+T(cx(k),YR+2,S.guess[k],S.done?c:TX,30,'middle',900)+`</g>`;if(S.done&&S.guess[k]!==r[k])g+=T(cx(k),YR+50,r[k],OK,17,'middle',900)}}
+ g+=T(cx(0)+42,YR+12,String(b),OK,14,'start');
+ // semakan asas sepuluh
+ const a=num(S.A),c=num(S.B);
+ g+=R(20,336,360,52,SF,BD,14,1.5)+T(200,362,valid()?`Asas 10: ${a} ${S.op} ${c} = ${S.m==='cabaran'&&!S.done?'?':S.op==='+'?a+c:a-c}`:'Nombor atas mesti ≥ nombor bawah',valid()?MU:BAD,17,'middle',700);
+ if(S.anim)g+=S.anim;
+ svg.innerHTML=g;
+}
+function showInfo(){
+ const b=S.b,{v,r}=result(),rs=r.slice(0,5).reverse().join('').replace(/^0+(?=.)/,'');
+ const head=`${str(S.A)}<sub>${b}</sub> ${S.op} ${str(S.B)}<sub>${b}</sub>`;
+ if(S.m==='teroka'){
+  info.innerHTML=`<b class="t">${head}${finished()?` = ${rs}<sub>${b}</sub>`:''}</b>${S.msg||(S.op==='+'?`Dalam asas ${WORD[b]}, jika hasil tambah satu lajur ≥ ${b}, tulis (hasil − ${b}) dan <b>bawa 1</b>.`:`Dalam asas ${WORD[b]}, 1 yang dipinjam daripada lajur kiri bernilai <b>${b}</b>.`)}<div class="tip">Ketik digit untuk mengubahnya. Tekan <b>Langkah ▶</b> untuk mengira lajur demi lajur.</div>`;
+ }else{
+  info.innerHTML=`<b class="t">Kira ${head}</b>${S.msg||'Ketik kotak jawapan (kuning) untuk menukar digit, kemudian tekan <b>Semak</b>.'}<div class="tip">Skor: ${S.score}/${S.tot} · Digit asas ${WORD[b]}: 0 hingga ${b-1}</div>`;
+ }
+}
+function render(){draw();showInfo()}
+function fly(x0,y0,x1,y1,txt,col,done){
+ const t0=performance.now(),D=520;
+ const f=now=>{const k=Math.min(1,(now-t0)/D),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2,y=y0+(y1-y0)*e-Math.sin(Math.PI*e)*30,x=x0+(x1-x0)*e;S.anim=R(x-20,y-15,40,30,col+'33',col,15,2)+T(x,y+1,txt,col,16,'middle',900);draw();if(k<1)requestAnimationFrame(f);else{S.anim=null;done()}};
+ requestAnimationFrame(f);
+}
+let busy=false;
+function step(){
+ if(busy||!valid())return false;
+ const b=S.b,k=S.k;
+ if(finished())return false;
+ if(S.op==='+'){
+  if(k===4){S.R[4]=S.carry;S.msg=`Bawa 1 ditulis sebagai digit paling kiri.`;S.k=5;S.carry=0;snd('betul');render();return true}
+  const t=S.A[k]+S.B[k]+S.carry,had=S.carry;
+  const lastCol=k>=3||(S.A.slice(k+1).every(d=>!d)&&S.B.slice(k+1).every(d=>!d)&&t<b);
+  if(t>=b){S.R[k]=t-b;S.carry=1;S.msg=`Lajur ${NAMA[k]}: ${S.A[k]} + ${S.B[k]}${had?' + 1':''} = ${t} = 1(${b}) + ${t-b} → tulis <b>${t-b}</b>, bawa <b>1</b>.`;
+   busy=true;snd('langkah');render();fly(cx(k),YR,cx(k+1),YC,'1',GOLD,()=>{S.mark.push([k+1,'1',GOLD]);S.k++;busy=false;if(finished())snd('betul');render()});return true}
+  S.R[k]=t;S.carry=0;S.msg=`Lajur ${NAMA[k]}: ${S.A[k]} + ${S.B[k]}${had?' + 1':''} = ${t} &lt; ${b} → tulis <b>${t}</b>.`;S.k++;
+  if(lastCol)S.k=Math.max(S.k,4);
+  snd(finished()?'betul':'ketik');render();return true;
+ }
+ // tolak
+ const W=S.W;
+ if(k>=4)return false;
+ if(W[k]<S.B[k]){
+  let j=k+1;const chain=[];while(W[j]===0){W[j]=b-1;chain.push(j);j++}W[j]-=1;
+  const before=W[k];W[k]+=b;
+  S.mark=S.mark.filter(m=>m[0]<k||m[0]>j);for(let q=k+1;q<=j;q++)S.mark.push([q,String(W[q]),PK]);
+  S.mark=S.mark.filter(m=>m[0]!==k);S.mark.push([k,String(W[k]),PK]);
+  S.R[k]=W[k]-S.B[k];
+  S.msg=`Lajur ${NAMA[k]}: ${before} &lt; ${S.B[k]}, pinjam 1 daripada lajur ${NAMA[j]}${chain.length?` (melalui lajur ${chain.map(q=>NAMA[q]).join(', ')} yang menjadi ${b-1})`:''}. ${before} + ${b} = ${W[k]}, ${W[k]} − ${S.B[k]} = <b>${S.R[k]}</b>.`;
+  busy=true;snd('langkah');render();fly(cx(j),YC,cx(k),YA-34,'+'+b,PK,()=>{busy=false;S.k++;if(S.W.slice(S.k).every(d=>!d)&&S.B.slice(S.k).every(d=>!d))S.k=4;render();if(finished())snd('betul')});return true;
+ }
+ S.R[k]=W[k]-S.B[k];S.msg=`Lajur ${NAMA[k]}: ${W[k]} − ${S.B[k]} = <b>${S.R[k]}</b>.`;S.k++;
+ if(S.W.slice(S.k).every(d=>!d)&&S.B.slice(S.k).every(d=>!d))S.k=4;
+ snd(finished()?'betul':'ketik');render();return true;
+}
+let timer=0;
+function setBtns(){
+ const st=document.getElementById('st'),all=document.getElementById('all'),rw=document.getElementById('rw');
+ if(S.m==='teroka'){rw.textContent='Rawak';all.textContent='Semua';st.textContent=finished()?'Ulang ↺':'Langkah ▶'}
+ else{rw.textContent='Soalan baharu';all.textContent='Kosongkan';st.textContent='Semak'}
+}
+const _render=render;render=function(){_render();setBtns()};
+function randomize(){
+ const b=S.b;
+ for(let t=0;t<60;t++){
+  S.A=[rnd(b),rnd(b),rnd(b),1+rnd(b-1)];S.B=[rnd(b),rnd(b),rnd(b),rnd(2)?rnd(b):0];
+  if(S.op==='−'&&num(S.B)>=num(S.A))continue;
+  if(S.op==='+'&&!S.A.some((d,i)=>d+S.B[i]>=b))continue;
+  if(S.op==='−'&&!S.A.some((d,i)=>d<S.B[i]))continue;
+  break;
+ }
+ reset();
+}
+document.getElementById('st').onclick=()=>{
+ if(S.m==='cabaran'){if(S.done||!valid())return;S.done=true;S.tot++;const {r}=result(),n=S.op==='+'?5:4,ok=r.slice(0,n).every((d,i)=>d===S.guess[i]);
+  if(ok){S.score++;snd('betul');if(window.FX)FX.stars(document.getElementById('stage'),14);S.msg='<span class="ok">✓ Betul! Syabas.</span> Tekan "Soalan baharu".'}
+  else{snd('salah');const rs=r.slice(0,n).reverse().join('').replace(/^0+(?=.)/,'');S.msg=`<span class="no">✗ Belum tepat.</span> Jawapan: ${rs}<sub>${S.b}</sub>. Digit hijau kecil menunjukkan digit yang betul.`}
+  render();return}
+ clearInterval(timer);if(finished()){reset();render();return}step()};
+document.getElementById('all').onclick=()=>{
+ if(S.m==='cabaran'){S.guess=[0,0,0,0,0];S.done=false;S.msg='';render();return}
+ clearInterval(timer);if(finished())reset();timer=setInterval(()=>{if(busy)return;if(!step())clearInterval(timer)},700)};
+document.getElementById('rw').onclick=()=>{clearInterval(timer);randomize();snd('langkah');render()};
+document.getElementById('op').onclick=()=>{clearInterval(timer);S.op=S.op==='+'?'−':'+';document.getElementById('op').textContent=S.op==='+'?'+ tambah':'− tolak';if(!valid()){const t=S.A;S.A=S.B;S.B=t;if(!S.A[3]&&!valid())randomize()}reset();snd('ketik');render()};
+function setBase(nb){nb=Math.max(2,Math.min(9,nb));if(nb===S.b)return;clearInterval(timer);S.b=nb;S.A=S.A.map(d=>Math.min(d,nb-1));S.B=S.B.map(d=>Math.min(d,nb-1));if(!valid())randomize();document.getElementById('bl').textContent='Asas '+nb;reset();snd('ketik');render()}
+document.getElementById('bm').onclick=()=>setBase(S.b-1);
+document.getElementById('bp').onclick=()=>setBase(S.b+1);
+svg.addEventListener('pointerdown',e=>{
+ const g=e.target.closest('.dA,.dB,.gR');if(!g||busy)return;e.preventDefault();const k=+g.dataset.k;
+ if(g.classList.contains('gR')){if(S.done)return;S.guess[k]=(S.guess[k]+1)%S.b;snd('ketik');render();return}
+ if(S.m==='cabaran')return;
+ clearInterval(timer);
+ const arr=g.classList.contains('dA')?S.A:S.B;arr[k]=(arr[k]+1)%S.b;reset();snd('ketik');render();
+});
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{
+ clearInterval(timer);document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));S.m=b.dataset.m;
+ if(S.m==='cabaran'){S.score=0;S.tot=0}randomize();render()});
+reset();render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>
