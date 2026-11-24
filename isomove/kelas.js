@@ -45,7 +45,7 @@ function cq(level, types) {
 function cqView(q, shown, bigOpts) {
   let fig = q.fig;
   if (shown && q.reveal) fig = fig.replace('</svg>', q.reveal + '</svg>');
-  const opts = q.opts.map((t, i) => `<div class="kopt${shown ? (i === q.c ? ' right' : ' dim') : ''}"><span class="k" style="background:var(--${['rd', 'tr', 'gr', 'am'][i]})">${'ABCD'[i]}</span><span>${t}</span></div>`).join('');
+  const opts = q.opts.map((t, i) => `<div class="kopt${shown ? (i === q.c ? ' right' : ' dim') : ''}"><span class="k">${'ABCD'[i]}</span><span>${t}</span></div>`).join('');
   return `<div class="kq${bigOpts ? ' big' : ''}"><div class="gfig">${fig}${q.legend ? '<p class="kleg"><b style="color:var(--tr)">Biru</b>: objek · <b style="color:var(--pa)">Oren</b>: imej</p>' : ''}</div>
     <div class="kqr"><h1 class="qtext">${q.q}</h1><div class="kopts">${opts}</div></div></div>`;
 }

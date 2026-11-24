@@ -412,8 +412,9 @@ g.rv.hid{visibility:hidden}
 .kopts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .kopt{min-height:72px;padding:6px 16px;border-radius:18px;border:2px solid var(--bd);background:var(--surf);display:flex;align-items:center;gap:14px;font-family:var(--head);font-weight:700;font-size:clamp(19px,2vw,28px);transition:opacity .3s}
 .kq.big .kopt{min-height:84px;font-size:clamp(22px,2.4vw,34px)}
-.kopt .k{flex:none;width:42px;height:42px;border-radius:12px;color:var(--on);display:flex;align-items:center;justify-content:center;font-family:var(--body,Inter),sans-serif;font-size:19px;font-weight:800}
+.kopt .k{flex:none;width:42px;height:42px;border-radius:12px;background:var(--surf2);border:1.5px solid var(--bd);color:var(--tx);display:flex;align-items:center;justify-content:center;font-family:var(--body,Inter),sans-serif;font-size:19px;font-weight:800}
 .kopt.right{border:3px solid var(--gr);background:color-mix(in srgb,var(--gr) 14%,var(--surf))}
+.kopt.right .k{background:var(--gr);border-color:var(--gr);color:var(--on)}
 .kopt.dim{opacity:.38}
 .kleg{margin:6px 0 0;text-align:center;font-size:14px;color:var(--mu)}
 .kteam{min-height:68px;padding:0 14px;border-radius:16px;border:2px solid var(--bd);background:var(--surf);color:var(--tx);display:flex;align-items:center;gap:12px;text-align:left}
