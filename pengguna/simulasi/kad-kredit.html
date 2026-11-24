@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Kad Kredit · Bab 3</title>
+<link rel="icon" href="../logo.svg" type="image/svg+xml">
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#140B05;--sf:#21140A;--sf2:#2B1A0D;--sf3:#180E07;--bd:#41291A;--bd2:#553620;--tx:#FFF3E8;--mu:#D7B293;--mu2:#A07E63;--c1:#FF9A3D;--c2:#3DDC84;--c3:#FFC93C;--rd:#FF6B7A;--c4:#4FD1FF;--ok:#3DDC84;--bad:#FF6B7A;
+ --surface:#21140A;--border:#553620;--text:#FFF3E8;--muted:#D7B293;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:9px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:5px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:14.5px;padding:10px 4px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#2a1203}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:10px 14px;line-height:1.45;font-size:15px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:2px}
+.info .row{display:flex;flex-wrap:wrap;gap:2px 16px;font-weight:700}
+.info .c1{color:var(--c1)}.info .c2{color:var(--c2)}.info .c3{color:var(--c3)}.info .rd{color:var(--rd)}.info .c4{color:var(--c4)}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.info .eq{margin-top:5px;padding:7px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:700;font-size:14.5px}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.ctrl{display:flex;flex-direction:column;gap:6px}
+.line{display:flex;gap:8px;align-items:center}
+.line label{font-weight:800;color:var(--mu);font-size:14px;white-space:nowrap;min-width:118px}
+.line label b{color:var(--tx)}
+.line input[type=range]{flex:1;min-width:0;accent-color:var(--c1);height:28px}
+.seg{display:flex;gap:5px;flex:1}
+.seg button{flex:1;background:var(--sf);border:2px solid var(--bd2);border-radius:11px;padding:8px 2px;font-weight:800;font-size:13.5px}
+.seg button.on{background:var(--c1);border-color:var(--c1);color:#2a1203}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.chip{background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:12px 4px;font-weight:800;font-size:15px}
+.chip.ok{border-color:var(--ok);background:#3ddc8422}.chip.no{border-color:var(--bad);background:#ff6b7a22}
+.nextb{margin-top:6px;background:var(--c1);border:0;color:#2a1203;border-radius:11px;padding:8px 16px;font-weight:900}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.45fr) minmax(340px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:16px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:22px}.info .eq{font-size:16px}
+}
+@media(max-height:620px){.wrap{gap:6px;padding-top:6px}.modes button{padding:7px 3px;font-size:13.5px}.info{padding:7px 11px;font-size:13.5px}.info b.t{font-size:16px}.chip{padding:8px 3px}.line input[type=range]{height:24px}}
+@media(max-width:420px){.modes button{font-size:13px;padding:9px 2px}.line label{min-width:106px;font-size:13px}.info{font-size:14px}.info .eq{font-size:13.5px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(12px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#FF9A3D;color:#2a1203;border-radius:14px;padding:11px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #ff9a3d44">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mod">
+   <button data-m="bulan" class="on" role="tab">💳 Satu Bulan</button>
+   <button data-m="lama" role="tab">📅 Berbulan</button>
+   <button data-m="cabaran" role="tab">❓ Cabaran</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" aria-label="Rajah penyata kad kredit"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),stage=document.getElementById('stage'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const C1='#FF9A3D',C2='#3DDC84',C3='#FFC93C',RD='#FF6B7A',C4='#4FD1FF',MU='#D7B293',MU2='#A07E63',TX='#FFF3E8',HALO='#180E07';
+let S={m:'bulan',B:2400,pay:120,rate:18,B2:3000,fix:300,cur:12,q:null,score:0,tot:0,streak:0};
+const snd=n=>{if(window.FX)FX.play(n)};
+const grp=s=>s.replace(/\B(?=(\d{3})+(?!\d))/g,' ');
+const rnd2=x=>Math.round((x+1e-9)*100)/100;
+function rm(x,force){x=rnd2(x);const neg=x<0;x=Math.abs(x);let s;if(Number.isInteger(x)&&!force)s=grp(String(x));else{const [a,b]=x.toFixed(2).split('.');s=grp(a)+'.'+b}return(neg?'−':'')+'RM'+s}
+const T=(x,y,t,c=TX,s=14,w=800,a='middle')=>`<text x="${(+x).toFixed(1)}" y="${(+y).toFixed(1)}" fill="${c}" font-size="${s}" font-weight="${w}" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="${HALO}" stroke-width="4" stroke-linejoin="round">${t}</text>`;
+/* ---------- peraturan (dipermudah, ikut buku teks) ---------- */
+const minPay=B=>B<=50?B:Math.max(rnd2(B*0.05),50);                 // 5% atau RM50, yang lebih tinggi
+const lateFee=B=>Math.min(Math.max(rnd2(B*0.01),10),100);           // 1%, min RM10, maks RM100
+const finCharge=(sisa,rate)=>rnd2(sisa*rate/100/12);                 // kadar setahun ÷ 12
+function month(B,pay,rate){pay=Math.min(pay,B);const mn=minPay(B),late=pay+1e-9<mn?lateFee(B):0,sisa=rnd2(B-pay),fc=sisa>0?finCharge(sisa,rate):0;return{mn,late,sisa,fc,baru:rnd2(sisa+fc+late)}}
+let G=null;
+/* ================= Mod 1: satu bulan ================= */
+function drawBulan(){
+ const w=stage.clientWidth||320,h=stage.clientHeight||300;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+ const M=month(S.B,S.pay,S.rate),L=18,R=w-18,bw=R-L,big=Math.max(S.B,M.baru)*1.02,sx=v=>bw*v/big;
+ const rowH=Math.max(28,Math.min(54,(h-40)/6.4)),gap=(h-16-rowH*5)/5.5;let y=12+gap;let g='';
+ const row=(lab,v,col,x0,wid,txt)=>{let s=T(L,y-10,lab,MU,13,800,'start');s+=`<rect x="${L+x0}" y="${y}" width="${Math.max(2,wid)}" height="${rowH-14}" rx="8" fill="${col}44" stroke="${col}" stroke-width="2.5"/>`;
+  const tx=L+x0+wid+8,inside=tx>R-90;s+=T(inside?L+x0+wid-8:tx,y+(rowH-14)/2,txt,inside?TX:col,15,900,inside?'end':'start');y+=rowH+gap;return s};
+ g+=row('Baki tertunggak',S.B,C1,0,sx(S.B),rm(S.B,true));
+ // baris bayaran: boleh diseret
+ const py=y;g+=T(L,y-10,'Bayaran (seret ●) · minimum '+rm(M.mn),C2,13,800,'start');
+ g+=`<rect x="${L}" y="${y}" width="${sx(S.B)}" height="${rowH-14}" rx="8" fill="#ffffff08" stroke="${MU2}" stroke-width="1.5" stroke-dasharray="5 5"/>`;
+ g+=`<rect x="${L}" y="${y}" width="${Math.max(2,sx(S.pay))}" height="${rowH-14}" rx="8" fill="${C2}55" stroke="${C2}" stroke-width="2.5"/>`;
+ const mx=L+sx(M.mn);g+=`<line x1="${mx}" y1="${y-4}" x2="${mx}" y2="${y+rowH-10}" stroke="${C3}" stroke-width="3"/>`;
+ const hx=L+sx(S.pay);g+=`<g id="hd" style="cursor:ew-resize"><rect x="${hx-26}" y="${y-14}" width="52" height="${rowH+14}" fill="transparent"/><circle cx="${hx}" cy="${y+(rowH-14)/2}" r="13" fill="${C2}" stroke="#fff" stroke-width="3"/></g>`;
+ G={L,sx,big,bw,py,rowH};y+=rowH+gap;
+ const sisaX=sx(S.pay);
+ g+=row('Caj kewangan ('+S.rate+'% ÷ 12)',M.fc,RD,sisaX,sx(M.fc),M.fc?'+'+rm(M.fc,true):'RM0');
+ g+=row('Caj lewat bayaran',M.late,RD,sisaX+sx(M.fc),sx(M.late),M.late?'+'+rm(M.late,true):'RM0');
+ g+=row('Baki bulan depan',M.baru,M.baru>S.B?RD:M.baru>0?C3:C2,0,sx(M.baru),rm(M.baru,true));
+ svg.innerHTML=g}
+function infoBulan(){
+ const M=month(S.B,S.pay,S.rate);let st,cls;
+ if(S.pay>=S.B){st='Bayar penuh: tiada caj kewangan dan tiada caj lewat. 👍';cls='ok'}
+ else if(!M.late){st='Bayaran minimum dibuat: tiada caj lewat, tetapi baki dikenakan caj kewangan.';cls='c3'}
+ else{st='Bayaran kurang daripada minimum: caj lewat dan caj kewangan dikenakan!';cls='no'}
+ info.innerHTML=`<b class="t">Baki ${rm(S.B)} · bayar ${rm(S.pay)}</b><div class="${cls}" style="font-weight:800">${st}</div>
+ <div class="eq">Minimum = 5% × ${grp(String(S.B))} = ${rm(rnd2(S.B*0.05),true)} → ${rm(M.mn,true)}${M.fc?`<br>Caj kewangan = ${grp(String(M.sisa))} × ${S.rate}% ÷ 12 = ${rm(M.fc,true)}`:''}${M.late?`<br>Caj lewat = 1% × ${grp(String(S.B))} = ${rm(rnd2(S.B*0.01),true)} → ${rm(M.late,true)}`:''}</div>
+ <div class="tip">Peraturan dalam simulasi: bayaran minimum 5% atau RM50 (yang lebih tinggi); caj lewat 1% (RM10 hingga RM100).</div>`}
+/* ================= Mod 2: berbulan ================= */
+function schedule(B,rate,fixed){const bal=[B];let paid=0,fc=0,b=B,k=0;
+ while(b>0.004&&k<480){const p=Math.min(b,fixed?Math.max(fixed,minPay(b)):minPay(b));const sisa=rnd2(b-p),f=finCharge(sisa,rate);paid+=p;fc+=f;b=rnd2(sisa+f);bal.push(b);k++}
+ return{bal,paid:rnd2(paid),fc:rnd2(fc),n:k,done:b<=0.004}}
+function drawLama(){
+ const w=stage.clientWidth||320,h=stage.clientHeight||300;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+ const A=schedule(S.B2,S.rate,0),Bf=schedule(S.B2,S.rate,S.fix),N=Math.max(12,Math.min(A.n,240)),L=58,R=w-16,Tp=24,Bt=h-34;
+ const X=k=>L+(R-L)*k/N,Y=v=>Bt-(Bt-Tp)*v/(S.B2*1.05);let g='';
+ for(let i=0;i<=4;i++){const v=S.B2*i/4;g+=`<line x1="${L}" y1="${Y(v)}" x2="${R}" y2="${Y(v)}" stroke="#ffffff10"/>`+T(L-6,Y(v),grp(String(Math.round(v))),MU2,11.5,700,'end')}
+ const st=N<=24?6:N<=60?12:N<=120?24:48;for(let k=0;k<=N;k+=st)g+=T(X(k),Bt+15,String(k),MU2,11.5,700);
+ g+=T(R,Bt+29,'bulan',MU,12,700,'end');
+ g+=`<line x1="${L}" y1="${Bt}" x2="${R}" y2="${Bt}" stroke="${MU}" stroke-width="2"/><line x1="${L}" y1="${Bt}" x2="${L}" y2="${Tp-4}" stroke="${MU}" stroke-width="2"/>`;
+ const pl=(arr,c)=>`<polyline points="${arr.slice(0,N+1).map((v,k)=>X(k).toFixed(1)+','+Y(v).toFixed(1)).join(' ')}" fill="none" stroke="${c}" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>`;
+ g+=pl(A.bal,RD)+pl(Bf.bal,C2);
+ const c=Math.min(S.cur,N),xs=X(c),va=A.bal[Math.min(c,A.bal.length-1)],vf=Bf.bal[Math.min(c,Bf.bal.length-1)];
+ g+=`<line x1="${xs}" y1="${Tp-4}" x2="${xs}" y2="${Bt}" stroke="${C3}" stroke-width="2" stroke-dasharray="5 5"/>`;
+ g+=`<circle cx="${xs}" cy="${Y(va)}" r="7" fill="${RD}" stroke="${HALO}" stroke-width="2"/><circle cx="${xs}" cy="${Y(vf)}" r="7" fill="${C2}" stroke="${HALO}" stroke-width="2"/>`;
+ g+=`<g style="cursor:ew-resize"><circle cx="${xs}" cy="${Tp+2}" r="12" fill="${C3}" stroke="#fff" stroke-width="3"/></g>`;
+ g+=T(R-4,Tp+8,'bayar minimum sahaja',RD,13,800,'end')+T(R-4,Tp+26,'bayar '+rm(S.fix)+' sebulan',C2,13,800,'end');
+ G={L,R,N};svg.innerHTML=g}
+function infoLama(){
+ const A=schedule(S.B2,S.rate,0),Bf=schedule(S.B2,S.rate,S.fix),c=S.cur;
+ const yrs=n=>n>=12?`${Math.floor(n/12)} tahun${n%12?' '+n%12+' bulan':''}`:n+' bulan';
+ info.innerHTML=`<b class="t">Hutang ${rm(S.B2)} tanpa belian baharu</b>
+ <div class="row"><span class="rd">Minimum: ${A.done?yrs(A.n):'> 40 tahun'}, caj ${rm(A.fc,true)}</span></div>
+ <div class="row"><span class="c2">${rm(S.fix)} sebulan: ${yrs(Bf.n)}, caj ${rm(Bf.fc,true)}</span></div>
+ <div class="eq">Bulan ke-${c}: baki <span class="rd">${rm(A.bal[Math.min(c,A.bal.length-1)],true)}</span> vs <span class="c2">${rm(Bf.bal[Math.min(c,Bf.bal.length-1)],true)}</span></div>
+ <div class="tip">Seret penanda <b class="c3">●</b>. Bayaran minimum mengecil apabila baki mengecil, jadi hutang lambat habis dan caj kewangan bertambah.</div>`}
+/* ================= Mod 3: cabaran ================= */
+const ri=(a,b)=>a+Math.floor(Math.random()*(b-a+1)),pick=a=>a[Math.floor(Math.random()*a.length)];
+function newQ(){
+ const kind=pick(['min','min','late','fc','baru']);let q,ans,wr,work,B;
+ if(kind==='min'){B=pick([ri(4,19)*50,ri(12,120)*100]);const a=minPay(B);q=`Baki tertunggak kad kredit ialah ${rm(B)}. Berapakah bayaran minimum? (5% atau RM50, yang lebih tinggi)`;ans=a;wr=[rnd2(B*0.05),50,rnd2(B*0.1),rnd2(B*0.01),rnd2(B*0.05)+50];work=`5% × ${grp(String(B))} = ${rm(rnd2(B*0.05),true)}<br>Bandingkan dengan RM50 → bayaran minimum = ${rm(a,true)}`}
+ if(kind==='late'){B=pick([ri(5,9)*100,ri(10,99)*100,ri(110,250)*100]);const a=lateFee(B);q=`Baki tertunggak ${rm(B)}. Bayaran minimum tidak dibuat sebelum tarikh akhir. Berapakah caj lewat bayaran? (1%, min RM10, maks RM100)`;ans=a;wr=[rnd2(B*0.01),10,100,rnd2(B*0.05)];work=`1% × ${grp(String(B))} = ${rm(rnd2(B*0.01),true)} → caj lewat = ${rm(a,true)}`}
+ if(kind==='fc'){const sisa=ri(4,60)*100,r=pick([15,18]);const a=finCharge(sisa,r);q=`Baki yang tidak dibayar ialah ${rm(sisa)}. Kadar caj kewangan ${r}% setahun. Berapakah caj kewangan bagi sebulan?`;ans=a;wr=[rnd2(sisa*r/100),rnd2(sisa*r/100/365),rnd2(a*2),rnd2(sisa*0.01)];work=`${grp(String(sisa))} × ${r}% ÷ 12 = ${rm(a,true)}`}
+ if(kind==='baru'){B=ri(10,60)*100;const M=month(B,minPay(B),18);q=`Baki ${rm(B)}, anda membuat bayaran minimum sahaja. Kadar caj kewangan 18% setahun. Berapakah baki bulan depan?`;ans=M.baru;wr=[M.sisa,rnd2(B+M.fc),rnd2(M.baru+lateFee(B)),rnd2(B-M.mn)+rnd2(B*0.18)];work=`Minimum = ${rm(M.mn,true)} → sisa = ${rm(M.sisa,true)}<br>Caj kewangan = ${grp(String(M.sisa))} × 1.5% = ${rm(M.fc,true)}<br>Baki = ${rm(M.baru,true)}`}
+ const f=v=>rm(v,true),opts=[ans];for(const x of wr){const v=rnd2(x);if(v>0&&!opts.some(o=>f(o)===f(v))&&opts.length<4)opts.push(v)}
+ let k=1;while(opts.length<4){const v=rnd2(ans+k*(ans>100?25:5));if(!opts.some(o=>f(o)===f(v)))opts.push(v);k++}
+ S.q={q,ans,opts:opts.sort(()=>Math.random()-.5),work,f,done:false};setCtrl();drawCab();
+ info.innerHTML=`<b class="t">${q}</b><div class="tip">Skor: ${S.score}/${S.tot}${S.streak>=3?' · 🔥 '+S.streak+' berturut-turut':''}</div>`}
+function drawCab(){
+ const w=stage.clientWidth||320,h=stage.clientHeight||300;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+ const cw=Math.min(w*0.8,(h-40)*1.55),ch=cw/1.6,x=(w-cw)/2,y=(h-ch)/2,s=cw/320;let g='';
+ g+=`<rect x="${x}" y="${y}" width="${cw}" height="${ch}" rx="${18*s}" fill="${C1}2a" stroke="${C1}" stroke-width="${4*s}"/>`;
+ g+=`<rect x="${x+24*s}" y="${y+44*s}" width="${44*s}" height="${34*s}" rx="${6*s}" fill="${C3}55" stroke="${C3}" stroke-width="${2.5*s}"/>`;
+ g+=T(x+24*s,y+120*s,'**** **** **** 2026',TX,18*s,800,'start');
+ g+=`<circle cx="${x+cw-60*s}" cy="${y+ch-34*s}" r="${17*s}" fill="${RD}99"/><circle cx="${x+cw-40*s}" cy="${y+ch-34*s}" r="${17*s}" fill="${C3}99"/>`;
+ g+=T(x+cw-24*s,y+60*s,S.q&&S.q.done?S.q.f(S.q.ans):'?',TX,(S.q&&S.q.done?22:34)*s,900,'end');
+ svg.innerHTML=g}
+function answer(i,btn){
+ const Q=S.q;if(Q.done)return;Q.done=true;S.tot++;const ok=Q.opts[i]===Q.ans;
+ if(ok){S.score++;S.streak++;snd('betul');if(window.FX)FX.stars(btn,10)}else{S.streak=0;snd('salah');if(window.FX&&FX.shake)FX.shake(btn)}
+ ctrl.querySelectorAll('.chip').forEach((b,j)=>{if(Q.opts[j]===Q.ans)b.classList.add('ok');else if(b===btn)b.classList.add('no');b.disabled=true});
+ drawCab();
+ info.innerHTML=`<b class="t">${ok?'<span class="ok">✓ Betul!</span>':'<span class="no">✗ Jawapan: '+Q.f(Q.ans)+'</span>'}</b><div class="eq">${Q.work}</div><div class="tip">Skor: ${S.score}/${S.tot}${S.streak>=3?' · 🔥 '+S.streak+' berturut-turut':''}</div><button class="nextb" id="nx">Seterusnya ▶</button>`;
+ document.getElementById('nx').onclick=newQ}
+/* ================= kawalan ================= */
+function setCtrl(){
+ if(S.m==='bulan'){
+  ctrl.innerHTML=`<div class="line"><label>Baki: <b id="vB">${rm(S.B)}</b></label><input type="range" id="sB" min="100" max="10000" step="50" value="${S.B}" aria-label="Baki tertunggak"></div>
+  <div class="line"><label>Bayar: <b id="vp">${rm(S.pay)}</b></label><input type="range" id="sp" min="0" max="${S.B}" step="10" value="${S.pay}" aria-label="Jumlah bayaran"></div>
+  <div class="line"><label>Pilih pantas:</label><div class="seg"><button data-q="penuh">Penuh</button><button data-q="min">Minimum</button><button data-q="tiada">Tiada</button></div></div>`;
+  const sB=document.getElementById('sB'),sp=document.getElementById('sp');
+  sB.oninput=()=>{S.B=+sB.value;sp.max=S.B;S.pay=Math.min(S.pay,S.B);sp.value=S.pay;upd()};
+  sp.oninput=()=>{S.pay=+sp.value;upd()};
+  ctrl.querySelectorAll('[data-q]').forEach(b=>b.onclick=()=>{const k=b.dataset.q;S.pay=k==='penuh'?S.B:k==='min'?Math.ceil(minPay(S.B)):0;sp.value=S.pay;upd()})}
+ if(S.m==='lama'){
+  ctrl.innerHTML=`<div class="line"><label>Hutang: <b id="vB2">${rm(S.B2)}</b></label><input type="range" id="sB2" min="500" max="10000" step="100" value="${S.B2}" aria-label="Hutang awal"></div>
+  <div class="line"><label>Kadar: <b id="vR">${S.rate}%</b></label><input type="range" id="sR" min="12" max="18" step="1" value="${S.rate}" aria-label="Kadar caj kewangan setahun"></div>
+  <div class="line"><label>Bayar tetap: <b id="vF">${rm(S.fix)}</b></label><input type="range" id="sF" min="100" max="1500" step="50" value="${S.fix}" aria-label="Bayaran tetap sebulan"></div>`;
+  ['sB2','sR','sF'].forEach(id=>document.getElementById(id).oninput=()=>{S.B2=+document.getElementById('sB2').value;S.rate=+document.getElementById('sR').value;S.fix=+document.getElementById('sF').value;
+   document.getElementById('vB2').textContent=rm(S.B2);document.getElementById('vR').textContent=S.rate+'%';document.getElementById('vF').textContent=rm(S.fix);render()})}
+ if(S.m==='cabaran'&&S.q){
+  ctrl.innerHTML=`<div class="opts">${S.q.opts.map((o,i)=>`<button class="chip" data-o="${i}">${S.q.f(o)}</button>`).join('')}</div>`;
+  ctrl.querySelectorAll('.chip').forEach(b=>b.onclick=()=>answer(+b.dataset.o,b))}
+}
+function upd(){const a=document.getElementById('vB'),b=document.getElementById('vp');if(a)a.textContent=rm(S.B);if(b)b.textContent=rm(S.pay);render()}
+function render(){
+ if(S.m==='bulan'){drawBulan();infoBulan()}
+ if(S.m==='lama'){drawLama();infoLama()}
+ if(S.m==='cabaran')drawCab();
+}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));S.m=b.dataset.m;
+ if(S.m==='cabaran'){newQ();return}
+ setCtrl();render()});
+/* ---------- seret (tetikus + sentuh) ---------- */
+let drag=false;
+function svgPt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+function moveTo(e){const p=svgPt(e);
+ if(S.m==='bulan'){const v=Math.max(0,Math.min(S.B,Math.round((p.x-G.L)/G.bw*G.big/10)*10));if(v!==S.pay){S.pay=v;const sp=document.getElementById('sp');if(sp)sp.value=v;upd()}}
+ if(S.m==='lama'){const k=Math.max(0,Math.min(G.N,Math.round((p.x-G.L)/(G.R-G.L)*G.N)));if(k!==S.cur){S.cur=k;render()}}}
+svg.addEventListener('pointerdown',e=>{if(!G||S.m==='cabaran')return;if(S.m==='bulan'&&!e.target.closest('#hd')){const p=svgPt(e);if(Math.abs(p.y-(G.py+(G.rowH-14)/2))>G.rowH)return}
+ e.preventDefault();drag=true;svg.setPointerCapture(e.pointerId);moveTo(e)});
+svg.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();moveTo(e)});
+const end=()=>{if(drag)snd('ketik');drag=false};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+new ResizeObserver(()=>render()).observe(stage);
+setCtrl();render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

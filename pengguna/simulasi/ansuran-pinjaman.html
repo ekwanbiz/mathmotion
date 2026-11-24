@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Ansuran Pinjaman · Bab 3</title>
+<link rel="icon" href="../logo.svg" type="image/svg+xml">
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#060F1A;--sf:#0D1B2B;--sf2:#122438;--sf3:#09141F;--bd:#1B3350;--bd2:#254466;--tx:#E8F4FF;--mu:#9EC3E0;--mu2:#6A8FAD;--c1:#4FD1FF;--c2:#FF9A3D;--c3:#FFC93C;--rd:#FF6B7A;--c4:#3DDC84;--ok:#3DDC84;--bad:#FF6B7A;
+ --surface:#0D1B2B;--border:#254466;--text:#E8F4FF;--muted:#9EC3E0;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:9px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:5px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:14.5px;padding:10px 4px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#04263a}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:10px 14px;line-height:1.45;font-size:15px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:2px}
+.info .row{display:flex;flex-wrap:wrap;gap:2px 16px;font-weight:700}
+.info .c1{color:var(--c1)}.info .c2{color:var(--c2)}.info .c3{color:var(--c3)}.info .rd{color:var(--rd)}.info .c4{color:var(--c4)}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.info .eq{margin-top:5px;padding:7px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:700;font-size:14.5px}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.ctrl{display:flex;flex-direction:column;gap:6px}
+.line{display:flex;gap:8px;align-items:center}
+.line label{font-weight:800;color:var(--mu);font-size:14px;white-space:nowrap;min-width:118px}
+.line label b{color:var(--tx)}
+.line input[type=range]{flex:1;min-width:0;accent-color:var(--c1);height:28px}
+.seg{display:flex;gap:5px;flex:1}
+.seg button{flex:1;background:var(--sf);border:2px solid var(--bd2);border-radius:11px;padding:8px 2px;font-weight:800;font-size:13.5px}
+.seg button.on{background:var(--c1);border-color:var(--c1);color:#04263a}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.chip{background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:12px 4px;font-weight:800;font-size:15px}
+.chip.ok{border-color:var(--ok);background:#3ddc8422}.chip.no{border-color:var(--bad);background:#ff6b7a22}
+.nextb{margin-top:6px;background:var(--c1);border:0;color:#04263a;border-radius:11px;padding:8px 16px;font-weight:900}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.45fr) minmax(340px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:16px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:22px}.info .eq{font-size:16px}
+}
+@media(max-height:620px){.wrap{gap:6px;padding-top:6px}.modes button{padding:7px 3px;font-size:13.5px}.info{padding:7px 11px;font-size:13.5px}.info b.t{font-size:16px}.chip{padding:8px 3px}.line input[type=range]{height:24px}}
+@media(max-width:420px){.modes button{font-size:13px;padding:9px 2px}.line label{min-width:106px;font-size:13px}.info{font-size:14px}.info .eq{font-size:13.5px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(12px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#4FD1FF;color:#04263a;border-radius:14px;padding:11px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #4fd1ff44">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mod">
+   <button data-m="kereta" class="on" role="tab">🚗 Pinjaman</button>
+   <button data-m="banding" role="tab">⚖️ Banding Tempoh</button>
+   <button data-m="cabaran" role="tab">❓ Cabaran</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" aria-label="Rajah pinjaman dan ansuran"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),stage=document.getElementById('stage'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const C1='#4FD1FF',C2='#FF9A3D',C3='#FFC93C',RD='#FF6B7A',C4='#3DDC84',MU='#9EC3E0',MU2='#6A8FAD',TX='#E8F4FF',HALO='#09141F';
+let S={m:'kereta',H:60000,dp:10,r:3,t:5,P2:30000,r2:4,sel:5,q:null,score:0,tot:0,streak:0};
+const snd=n=>{if(window.FX)FX.play(n)};
+const grp=s=>s.replace(/\B(?=(\d{3})+(?!\d))/g,' ');
+const rnd2=x=>Math.round((x+1e-9)*100)/100;
+function rm(x,force){x=rnd2(x);const neg=x<0;x=Math.abs(x);let s;if(Number.isInteger(x)&&!force)s=grp(String(x));else{const [a,b]=x.toFixed(2).split('.');s=grp(a)+'.'+b}return(neg?'−':'')+'RM'+s}
+const ns=x=>{x=rnd2(x);return Number.isInteger(x)?grp(String(x)):grp(x.toFixed(2).split('.')[0])+'.'+x.toFixed(2).split('.')[1]};
+const T=(x,y,t,c=TX,s=14,w=800,a='middle')=>`<text x="${(+x).toFixed(1)}" y="${(+y).toFixed(1)}" fill="${c}" font-size="${s}" font-weight="${w}" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="${HALO}" stroke-width="4" stroke-linejoin="round">${t}</text>`;
+const loan=(P,r,t)=>{const I=rnd2(P*r/100*t),A=rnd2(P+I);return{I,A,m:rnd2(A/(12*t))}};
+let G=null;
+/* ================= Mod 1: pinjaman kereta ================= */
+function drawKereta(){
+ const w=stage.clientWidth||320,h=stage.clientHeight||300;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+ const D=rnd2(S.H*S.dp/100),P=S.H-D,Lo=loan(P,S.r,S.t),L=16,R=w-16,bw=R-L,big=Math.max(S.H,Lo.A),sx=v=>bw*v/big;
+ const bh=Math.max(26,Math.min(40,h*0.1));let g='',y=26;
+ g+=T(L,y-12,'Harga kereta '+rm(S.H),MU,13,800,'start');
+ g+=`<rect x="${L}" y="${y}" width="${sx(D)}" height="${bh}" rx="7" fill="${C4}44" stroke="${C4}" stroke-width="2.5"/>`;
+ g+=`<rect x="${L+sx(D)}" y="${y}" width="${sx(P)}" height="${bh}" rx="7" fill="${C1}44" stroke="${C1}" stroke-width="2.5"/>`;
+ if(sx(D)>70)g+=T(L+sx(D)/2,y+bh/2,'Pendahuluan',C4,12,800);
+ g+=T(L+sx(D)+sx(P)/2,y+bh/2,'Pinjaman '+rm(P),TX,13,900);
+ const hx=L+sx(D);g+=`<g id="hd" style="cursor:ew-resize"><rect x="${hx-24}" y="${y-10}" width="48" height="${bh+20}" fill="transparent"/><circle cx="${hx}" cy="${y+bh/2}" r="12" fill="${C4}" stroke="#fff" stroke-width="3"/></g>`;
+ G={L,sx,bw,big,y,bh};
+ y+=bh+34;
+ g+=T(L,y-12,'Jumlah bayaran balik, A = P + Prt',MU,13,800,'start');
+ g+=`<rect x="${L}" y="${y}" width="${sx(P)}" height="${bh}" rx="7" fill="${C1}44" stroke="${C1}" stroke-width="2.5"/>`;
+ g+=`<rect x="${L+sx(P)}" y="${y}" width="${Math.max(2,sx(Lo.I))}" height="${bh}" rx="7" fill="${C2}55" stroke="${C2}" stroke-width="2.5"/>`;
+ g+=T(L+sx(P)/2,y+bh/2,'P',TX,13,900);const fx=L+sx(P)+sx(Lo.I)/2;g+=T(sx(Lo.I)>80?fx:L+sx(P)-8,y+bh/2,'faedah '+rm(Lo.I),sx(Lo.I)>80?TX:C2,12.5,900,sx(Lo.I)>80?'middle':'end');
+ y+=bh+30;
+ // grid ansuran: t baris × 12 bulan
+ const gh=h-y-30,cell=Math.min(bw/12,gh/S.t),cw=cell,chh=cell;
+ g+=T(L,y-12,`${12*S.t} ansuran × ${rm(Lo.m,true)}`,C3,13,800,'start');
+ for(let i=0;i<S.t;i++)for(let j=0;j<12;j++)g+=`<rect x="${L+j*cw+1.5}" y="${y+i*chh+1.5}" width="${cw-3}" height="${chh-3}" rx="${Math.min(6,cw/5)}" fill="${C3}33" stroke="${C3}" stroke-width="1.5"/>`;
+ g+=T(L,y+S.t*chh+14,'setiap petak = 1 bulan, setiap baris = 1 tahun',MU2,11.5,700,'start');
+ svg.innerHTML=g}
+function infoKereta(){
+ const D=rnd2(S.H*S.dp/100),P=S.H-D,Lo=loan(P,S.r,S.t);
+ info.innerHTML=`<b class="t">Ansuran bulanan: ${rm(Lo.m,true)}</b>
+ <div class="eq">P = ${ns(S.H)} − ${S.dp}% × ${ns(S.H)} = ${rm(P)}<br>Faedah = ${ns(P)} × ${S.r/100} × ${S.t} = ${rm(Lo.I,true)}<br>A = ${ns(P)} + ${ns(Lo.I)} = ${rm(Lo.A,true)}<br>Ansuran = ${ns(Lo.A)} ÷ ${12*S.t} = ${rm(Lo.m,true)}</div>
+ <div class="tip">Seret ● untuk ubah wang pendahuluan. Faedah kadar rata dikira atas pinjaman asal sepanjang tempoh.</div>`}
+/* ================= Mod 2: banding tempoh ================= */
+function drawBanding(){
+ const w=stage.clientWidth||320,h=stage.clientHeight||300;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+ const L=52,R=w-52,Tp=34,Bt=h-36,cols=[1,2,3,4,5,6,7,8,9].map(t=>({t,...loan(S.P2,S.r2,t)}));
+ const nice=v=>{const p=Math.pow(10,Math.floor(Math.log10(v))),k=v/p;return(k<=1?1:k<=2?2:k<=2.5?2.5:k<=5?5:10)*p},top=v=>4*nice(v/4);
+ const mMax=top(cols[0].m*1.05),iMax=top(cols[8].I*1.08),bw=(R-L)/9;let g='';
+ const Ym=v=>Bt-(Bt-Tp)*v/mMax,Yi=v=>Bt-(Bt-Tp)*v/iMax;
+ g+=T(L-6,Tp-18,'ansuran',C1,12,800,'start')+T(R+6,Tp-18,'faedah',C2,12,800,'end');
+ for(let i=0;i<=4;i++){const v=mMax*i/4;g+=`<line x1="${L}" y1="${Ym(v)}" x2="${R}" y2="${Ym(v)}" stroke="#ffffff10"/>`+T(L-5,Ym(v),grp(String(Math.round(v))),C1,10.5,700,'end')+T(R+5,Ym(v),grp(String(Math.round(iMax*i/4))),C2,10.5,700,'start')}
+ cols.forEach((c,i)=>{const x=L+i*bw+bw*0.16,ww=bw*0.68,y=Ym(c.m),on=c.t===S.sel;
+  g+=`<rect x="${x}" y="${y}" width="${ww}" height="${Bt-y}" rx="6" fill="${C1}${on?'88':'33'}" stroke="${C1}" stroke-width="${on?3.5:2}"/>`;
+  g+=T(x+ww/2,Bt+15,String(c.t),on?TX:MU,13,800)});
+ g+=T((L+R)/2,Bt+30,'tempoh (tahun)',MU,12,700);
+ g+=`<polyline points="${cols.map((c,i)=>(L+i*bw+bw/2).toFixed(1)+','+Yi(c.I).toFixed(1)).join(' ')}" fill="none" stroke="${C2}" stroke-width="3.5"/>`;
+ cols.forEach((c,i)=>g+=`<circle cx="${L+i*bw+bw/2}" cy="${Yi(c.I)}" r="${c.t===S.sel?8:5}" fill="${C2}" stroke="${HALO}" stroke-width="2"/>`);
+ g+=`<line x1="${L}" y1="${Bt}" x2="${R}" y2="${Bt}" stroke="${MU}" stroke-width="2"/>`;
+ G={L,R,bw};svg.innerHTML=g}
+function infoBanding(){
+ const c=loan(S.P2,S.r2,S.sel);
+ info.innerHTML=`<b class="t">Tempoh ${S.sel} tahun (${12*S.sel} bulan)</b>
+ <div class="row"><span class="c1">Ansuran: ${rm(c.m,true)}</span><span class="c2">Jumlah faedah: ${rm(c.I,true)}</span></div>
+ <div class="eq">A = ${ns(S.P2)} + ${ns(S.P2)} × ${S.r2/100} × ${S.sel} = ${rm(c.A,true)}</div>
+ <div class="tip">Ketik atau seret pada bar. Tempoh panjang → ansuran rendah, tetapi jumlah faedah tinggi.</div>`}
+/* ================= Mod 3: cabaran ================= */
+const ri=(a,b)=>a+Math.floor(Math.random()*(b-a+1)),pick=a=>a[Math.floor(Math.random()*a.length)];
+function newQ(){
+ const kind=pick(['m','m','A','I','P']);let q,ans,wr,work;
+ const P=pick([6000,8000,10000,12000,15000,20000,24000,30000,36000,48000,60000]),r=pick([3,3.5,4,4.5,5,6]),t=pick([2,3,4,5,6]),Lo=loan(P,r,t);
+ if(kind==='m'){q=`Pinjaman ${rm(P)} pada kadar faedah ${r}% setahun selama ${t} tahun. Berapakah ansuran bulanannya?`;ans=Lo.m;wr=[rnd2(P/(12*t)),rnd2(Lo.A/t),rnd2((P+P*r/100)/(12*t)),rnd2(Lo.A/12)];work=`A = ${ns(P)} + ${ns(P)} × ${r/100} × ${t} = ${rm(Lo.A,true)}<br>Ansuran = ${ns(Lo.A)} ÷ ${12*t} = ${rm(Lo.m,true)}`}
+ if(kind==='A'){q=`Pinjaman peribadi ${rm(P)} dengan kadar faedah ${r}% setahun selama ${t} tahun. Berapakah jumlah bayaran balik?`;ans=Lo.A;wr=[Lo.I,rnd2(P+P*r/100),rnd2(P*Math.pow(1+r/100,t)),rnd2(P+2*Lo.I)];work=`A = P + Prt = ${ns(P)} + ${ns(P)} × ${r/100} × ${t} = ${rm(Lo.A,true)}`}
+ if(kind==='I'){q=`Berapakah jumlah faedah bagi pinjaman ${rm(P)} pada kadar ${r}% setahun selama ${t} tahun?`;ans=Lo.I;wr=[rnd2(P*r/100),Lo.A,rnd2(P*r*t/1000),rnd2(Lo.I/12)];work=`Faedah = Prt = ${ns(P)} × ${r/100} × ${t} = ${rm(Lo.I,true)}`}
+ if(kind==='P'){const Hh=pick([40000,50000,60000,80000,90000,100000,120000]),d=pick([10,15,20]),Pk=Hh-Hh*d/100;q=`Harga sebuah kereta ${rm(Hh)}. Wang pendahuluan ${d}%. Berapakah jumlah pinjaman?`;ans=Pk;wr=[Hh*d/100,Hh,Hh+Hh*d/100,Hh-d*100];work=`Pendahuluan = ${d}% × ${ns(Hh)} = ${rm(Hh*d/100)}<br>Pinjaman = ${ns(Hh)} − ${ns(Hh*d/100)} = ${rm(Pk)}`}
+ const f=v=>rm(v,!Number.isInteger(rnd2(v))),opts=[ans];for(const x of wr){const v=rnd2(x);if(v>0&&!opts.some(o=>f(o)===f(v))&&opts.length<4)opts.push(v)}
+ let k=1;while(opts.length<4){const v=rnd2(ans+k*(ans>1000?100:10));if(!opts.some(o=>f(o)===f(v)))opts.push(v);k++}
+ S.q={q,ans,opts:opts.sort(()=>Math.random()-.5),work,f,done:false};setCtrl();drawCab();
+ info.innerHTML=`<b class="t">${q}</b><div class="tip">Skor: ${S.score}/${S.tot}${S.streak>=3?' · 🔥 '+S.streak+' berturut-turut':''}</div>`}
+function drawCab(){
+ const w=stage.clientWidth||320,h=stage.clientHeight||300;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+ const s=Math.min(w/340,h/230),cx=w/2,cy=h/2+10*s;let g='';
+ g+=`<path d="M${cx-140*s} ${cy+20*s} L${cx-120*s} ${cy-20*s} L${cx-70*s} ${cy-30*s} L${cx-40*s} ${cy-70*s} L${cx+60*s} ${cy-70*s} L${cx+100*s} ${cy-30*s} L${cx+140*s} ${cy-20*s} L${cx+150*s} ${cy+20*s} Z" fill="${C1}2a" stroke="${C1}" stroke-width="${4*s}" stroke-linejoin="round"/>`;
+ g+=`<path d="M${cx-32*s} ${cy-62*s} L${cx-62*s} ${cy-30*s} L${cx+8*s} ${cy-30*s} L${cx+8*s} ${cy-62*s} Z M${cx+18*s} ${cy-62*s} L${cx+18*s} ${cy-30*s} L${cx+88*s} ${cy-30*s} L${cx+56*s} ${cy-62*s} Z" fill="${C1}55"/>`;
+ [-85,95].forEach(dx=>g+=`<circle cx="${cx+dx*s}" cy="${cy+22*s}" r="${24*s}" fill="${HALO}" stroke="${MU}" stroke-width="${5*s}"/><circle cx="${cx+dx*s}" cy="${cy+22*s}" r="${8*s}" fill="${MU}"/>`);
+ g+=T(cx,cy-100*s,S.q&&S.q.done?S.q.f(S.q.ans):'?',S.q&&S.q.done?C3:TX,(S.q&&S.q.done?24:36)*s,900);
+ svg.innerHTML=g}
+function answer(i,btn){
+ const Q=S.q;if(Q.done)return;Q.done=true;S.tot++;const ok=Q.opts[i]===Q.ans;
+ if(ok){S.score++;S.streak++;snd('betul');if(window.FX)FX.stars(btn,10)}else{S.streak=0;snd('salah');if(window.FX&&FX.shake)FX.shake(btn)}
+ ctrl.querySelectorAll('.chip').forEach((b,j)=>{if(Q.opts[j]===Q.ans)b.classList.add('ok');else if(b===btn)b.classList.add('no');b.disabled=true});
+ drawCab();
+ info.innerHTML=`<b class="t">${ok?'<span class="ok">✓ Betul!</span>':'<span class="no">✗ Jawapan: '+Q.f(Q.ans)+'</span>'}</b><div class="eq">${Q.work}</div><div class="tip">Skor: ${S.score}/${S.tot}${S.streak>=3?' · 🔥 '+S.streak+' berturut-turut':''}</div><button class="nextb" id="nx">Seterusnya ▶</button>`;
+ document.getElementById('nx').onclick=newQ}
+/* ================= kawalan ================= */
+function line(id,lab,val,min,max,step,v,aria){return `<div class="line"><label>${lab}: <b id="v${id}">${val}</b></label><input type="range" id="s${id}" min="${min}" max="${max}" step="${step}" value="${v}" aria-label="${aria}"></div>`}
+function setCtrl(){
+ if(S.m==='kereta'){
+  ctrl.innerHTML=line('H','Harga',rm(S.H),20000,150000,1000,S.H,'Harga kereta')+line('d','Pendahuluan',S.dp+'%',0,30,5,S.dp,'Peratus wang pendahuluan')+line('r','Kadar',S.r+'%',1.5,8,0.5,S.r,'Kadar faedah setahun')+line('t','Tempoh',S.t+' tahun',1,9,1,S.t,'Tempoh pinjaman dalam tahun');
+  ['H','d','r','t'].forEach(k=>document.getElementById('s'+k).oninput=()=>{S.H=+sv('H');S.dp=+sv('d');S.r=+sv('r');S.t=+sv('t');lab();render()})}
+ if(S.m==='banding'){
+  ctrl.innerHTML=line('P','Pinjaman',rm(S.P2),5000,100000,1000,S.P2,'Jumlah pinjaman')+line('R','Kadar',S.r2+'%',1.5,8,0.5,S.r2,'Kadar faedah setahun');
+  ['P','R'].forEach(k=>document.getElementById('s'+k).oninput=()=>{S.P2=+sv('P');S.r2=+sv('R');lab();render()})}
+ if(S.m==='cabaran'&&S.q){
+  ctrl.innerHTML=`<div class="opts">${S.q.opts.map((o,i)=>`<button class="chip" data-o="${i}">${S.q.f(o)}</button>`).join('')}</div>`;
+  ctrl.querySelectorAll('.chip').forEach(b=>b.onclick=()=>answer(+b.dataset.o,b))}
+}
+const sv=k=>document.getElementById('s'+k).value;
+function lab(){const st=(k,t)=>{const e=document.getElementById('v'+k);if(e)e.textContent=t};st('H',rm(S.H));st('d',S.dp+'%');st('r',S.r+'%');st('t',S.t+' tahun');st('P',rm(S.P2));st('R',S.r2+'%')}
+function render(){
+ if(S.m==='kereta'){drawKereta();infoKereta()}
+ if(S.m==='banding'){drawBanding();infoBanding()}
+ if(S.m==='cabaran')drawCab();
+}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));S.m=b.dataset.m;
+ if(S.m==='cabaran'){newQ();return}
+ setCtrl();render()});
+/* ---------- seret (tetikus + sentuh) ---------- */
+let drag=false;
+function svgPt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+function moveTo(e){const p=svgPt(e);
+ if(S.m==='kereta'){const v=Math.max(0,Math.min(30,Math.round((p.x-G.L)/G.sx(S.H)*100/5)*5));if(v!==S.dp){S.dp=v;const s=document.getElementById('sd');if(s)s.value=v;lab();snd('detik');render()}}
+ if(S.m==='banding'){const t=Math.max(1,Math.min(9,Math.floor((p.x-G.L)/G.bw)+1));if(t!==S.sel){S.sel=t;snd('detik');render()}}}
+svg.addEventListener('pointerdown',e=>{if(!G||S.m==='cabaran')return;if(S.m==='kereta'){const p=svgPt(e);if(Math.abs(p.y-(G.y+G.bh/2))>G.bh)return}
+ e.preventDefault();drag=true;svg.setPointerCapture(e.pointerId);moveTo(e)});
+svg.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();moveTo(e)});
+const end=()=>{drag=false};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+new ResizeObserver(()=>render()).observe(stage);
+setCtrl();render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

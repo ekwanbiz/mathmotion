@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Faedah Bertumbuh · Bab 3</title>
+<link rel="icon" href="../logo.svg" type="image/svg+xml">
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#07130E;--sf:#0E1F17;--sf2:#14291F;--sf3:#0A1812;--bd:#1D3A2C;--bd2:#28503D;--tx:#EAFBF2;--mu:#A3CDB8;--mu2:#6F9984;--c1:#34D399;--c2:#4FD1FF;--c3:#FFC93C;--pk:#FF7AB6;--ok:#3DDC84;--bad:#FF6B7A;
+ --surface:#0E1F17;--border:#28503D;--text:#EAFBF2;--muted:#A3CDB8;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:9px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:5px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:14.5px;padding:10px 4px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#03231a}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:10px 14px;line-height:1.45;font-size:15px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:2px}
+.info .row{display:flex;flex-wrap:wrap;gap:2px 16px;font-weight:700}
+.info .c1{color:var(--c1)}.info .c2{color:var(--c2)}.info .c3{color:var(--c3)}.info .pk{color:var(--pk)}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.info .eq{margin-top:5px;padding:7px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:700;font-size:14.5px}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.ctrl{display:flex;flex-direction:column;gap:6px}
+.line{display:flex;gap:8px;align-items:center}
+.line label{font-weight:800;color:var(--mu);font-size:14px;white-space:nowrap;min-width:92px}
+.line label b{color:var(--tx)}
+.line input[type=range]{flex:1;min-width:0;accent-color:var(--c1);height:28px}
+.seg{display:flex;gap:5px;flex:1}
+.seg button{flex:1;background:var(--sf);border:2px solid var(--bd2);border-radius:11px;padding:8px 2px;font-weight:800;font-size:13.5px}
+.seg button.on{background:var(--c1);border-color:var(--c1);color:#03231a}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.chip{background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:12px 4px;font-weight:800;font-size:15px}
+.chip.ok{border-color:var(--ok);background:#3ddc8422}.chip.no{border-color:var(--bad);background:#ff6b7a22}
+.nextb{margin-top:6px;background:var(--c1);border:0;color:#03231a;border-radius:11px;padding:8px 16px;font-weight:900}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.45fr) minmax(340px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:16px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:22px}.info .eq{font-size:16px}
+}
+@media(max-height:620px){.wrap{gap:6px;padding-top:6px}.modes button{padding:7px 3px;font-size:13.5px}.info{padding:7px 11px;font-size:13.5px}.info b.t{font-size:16px}.chip{padding:8px 3px}.line input[type=range]{height:24px}}
+@media(max-width:420px){.modes button{font-size:13px;padding:9px 2px}.line label{min-width:84px;font-size:13px}.info{font-size:14px}.info .eq{font-size:13.5px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(12px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#34D399;color:#03231a;border-radius:14px;padding:11px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #34d39944">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mod">
+   <button data-m="banding" class="on" role="tab">📈 Mudah vs Kompaun</button>
+   <button data-m="kerap" role="tab">🔁 Kekerapan</button>
+   <button data-m="cabaran" role="tab">❓ Cabaran</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" aria-label="Graf nilai matang simpanan"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),stage=document.getElementById('stage'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const C1='#34D399',C2='#4FD1FF',C3='#FFC93C',PK='#FF7AB6',MU='#A3CDB8',MU2='#6F9984',TX='#EAFBF2',HALO='#0A1812';
+const NL=['tahunan','setiap 6 bulan','setiap suku tahun','bulanan'],NV=[1,2,4,12];
+let S={m:'banding',P:5000,r:6,t:10,ni:0,cur:10,q:null,score:0,tot:0,streak:0};
+const snd=n=>{if(window.FX)FX.play(n)};
+const grp=s=>s.replace(/\B(?=(\d{3})+(?!\d))/g,' ');
+const rnd2=x=>Math.round((x+1e-9)*100)/100;
+function rm(x,force){x=rnd2(x);const neg=x<0;x=Math.abs(x);const s=(Number.isInteger(x)&&!force)?grp(String(x)):(()=>{const [a,b]=x.toFixed(2).split('.');return grp(a)+'.'+b})();return(neg?'−':'')+'RM'+s}
+const simple=(P,r,t)=>P*(1+r/100*t);
+const comp=(P,r,t,n)=>P*Math.pow(1+r/100/n,n*t);
+const T=(x,y,t,c=TX,s=14,w=800,a='middle')=>`<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" fill="${c}" font-size="${s}" font-weight="${w}" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="${HALO}" stroke-width="4" stroke-linejoin="round">${t}</text>`;
+function nice(v){const p=Math.pow(10,Math.floor(Math.log10(v))),k=v/p;return (k<=1?1:k<=2?2:k<=2.5?2.5:k<=5?5:10)*p}
+let G=null;
+/* ================= Mod 1: mudah vs kompaun ================= */
+function drawBanding(){
+ const w=stage.clientWidth||320,h=stage.clientHeight||300;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+ const n=NV[S.ni],L=64,R=w-18,Tp=30,Bt=h-36;
+ const vmax=Math.max(comp(S.P,S.r,S.t,n),simple(S.P,S.r,S.t))*1.05,step=nice((vmax)/4),ymax=Math.ceil(vmax/step)*step;
+ const X=t=>L+(R-L)*t/S.t,Y=v=>Bt-(Bt-Tp)*v/ymax;G={L,R,X,Tp,Bt};
+ let g='';
+ for(let v=0;v<=ymax+1e-6;v+=step){g+=`<line x1="${L}" y1="${Y(v)}" x2="${R}" y2="${Y(v)}" stroke="#ffffff10"/>`+T(L-6,Y(v),v>=1000?grp(String(Math.round(v))):String(v),MU2,12,700,'end')}
+ const ts=S.t<=10?1:S.t<=20?2:5;
+ for(let t=0;t<=S.t;t+=ts)g+=T(X(t),Bt+16,String(t),MU2,12,700);
+ g+=T(R,Bt+30,'tahun',MU,12,700,'end')+T(L-4,Tp-16,'RM',MU,12,700,'end');
+ g+=`<line x1="${L}" y1="${Bt}" x2="${R}" y2="${Bt}" stroke="${MU}" stroke-width="2"/><line x1="${L}" y1="${Bt}" x2="${L}" y2="${Tp-6}" stroke="${MU}" stroke-width="2"/>`;
+ // prinsipal
+ g+=`<line x1="${L}" y1="${Y(S.P)}" x2="${R}" y2="${Y(S.P)}" stroke="${MU2}" stroke-width="2" stroke-dasharray="6 6"/>`+T(L+6,Y(S.P)+13,'P',MU2,13,800,'start');
+ // garis mudah
+ g+=`<line x1="${X(0)}" y1="${Y(S.P)}" x2="${X(S.t)}" y2="${Y(simple(S.P,S.r,S.t))}" stroke="${C2}" stroke-width="4" stroke-linecap="round"/>`;
+ // lengkung kompaun (tangga mengikut tempoh pengkompaunan)
+ let d=`M${X(0)} ${Y(S.P)}`;const K=n*S.t;
+ for(let k=1;k<=K;k++){const t0=(k-1)/n,t1=k/n,v0=comp(S.P,S.r,t0,n),v1=comp(S.P,S.r,t1,n);d+=`H${X(t1).toFixed(1)}V${Y(v1).toFixed(1)}`}
+ g+=`<path d="${d}" fill="none" stroke="${C1}" stroke-width="3" stroke-linejoin="round" opacity=".55"/>`;
+ let pts=[];for(let k=0;k<=K;k++)pts.push(`${X(k/n).toFixed(1)},${Y(comp(S.P,S.r,k/n,n)).toFixed(1)}`);
+ g+=`<polyline points="${pts.join(' ')}" fill="none" stroke="${C1}" stroke-width="4.5" stroke-linejoin="round" stroke-linecap="round"/>`;
+ // kursor masa
+ const c=S.cur,xs=X(c),ys=Y(simple(S.P,S.r,c)),yc=Y(comp(S.P,S.r,Math.floor(c*n+1e-9)/n,n));
+ g+=`<line x1="${xs}" y1="${Tp-4}" x2="${xs}" y2="${Bt}" stroke="${C3}" stroke-width="2" stroke-dasharray="5 5"/>`;
+ g+=`<line x1="${xs}" y1="${ys}" x2="${xs}" y2="${yc}" stroke="${PK}" stroke-width="4"/>`;
+ g+=`<circle cx="${xs}" cy="${ys}" r="7" fill="${C2}" stroke="${HALO}" stroke-width="2"/><circle cx="${xs}" cy="${yc}" r="7" fill="${C1}" stroke="${HALO}" stroke-width="2"/>`;
+ g+=`<g id="hd" style="cursor:ew-resize"><rect x="${xs-24}" y="${Tp-26}" width="48" height="${Bt-Tp+30}" fill="transparent"/><circle cx="${xs}" cy="${Tp-12}" r="12" fill="${C3}" stroke="#fff" stroke-width="3"/></g>`;
+ const lx=xs>w*0.6?xs-12:xs+12,la=xs>w*0.6?'end':'start';
+ g+=T(lx,yc-(yc<Tp+30?-16:16),'kompaun',C1,13,800,la)+T(lx,ys+16,'mudah',C2,13,800,la);
+ svg.innerHTML=g}
+function infoBanding(){
+ const n=NV[S.ni],c=S.cur,ms=simple(S.P,S.r,c),mc=comp(S.P,S.r,Math.floor(c*n+1e-9)/n,n);
+ const fullC=comp(S.P,S.r,S.t,n),fullS=simple(S.P,S.r,S.t);
+ info.innerHTML=`<b class="t">Selepas ${c} tahun</b>
+ <div class="row"><span class="c2">Mudah: ${rm(ms,true)}</span><span class="c1">Kompaun: ${rm(mc,true)}</span><span class="pk">Beza: ${rm(mc-ms,true)}</span></div>
+ <div class="eq"><span class="c2">I = Prt = ${grp(String(S.P))} × ${S.r/100} × ${c} = ${rm(ms-S.P,true)}</span><br><span class="c1">MV = ${grp(String(S.P))}(1 + ${S.r/100}/${n})<sup>${n} × ${c}</sup> = ${rm(mc,true)}</span></div>
+ <div class="tip">Seret penanda <b class="c3">●</b> untuk baca nilai pada tahun lain. Faedah kompaun ${NL[S.ni]} (n = ${n}). Pada tahun ke-${S.t}: kompaun ${rm(fullC,true)}, mudah ${rm(fullS,true)}.</div>`}
+/* ================= Mod 2: kekerapan ================= */
+const KN=[[1,'Tahunan'],[2,'6 bulan'],[4,'Suku tahun'],[12,'Bulanan'],[365,'Harian']];
+function drawKerap(){
+ const w=stage.clientWidth||320,h=stage.clientHeight||300;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+ const L=16,R=w-16,Tp=40,Bt=h-44,vals=KN.map(([n])=>comp(S.P,S.r,S.t,n)),vs=simple(S.P,S.r,S.t);
+ const lo=S.P,hi=Math.max(...vals,vs),bw=(R-L)/6;
+ const Y=v=>Bt-(Bt-Tp)*(0.12+0.88*(v-lo)/(hi-lo||1));
+ let g=T(w/2,18,`P = ${rm(S.P)}, r = ${S.r}% setahun, t = ${S.t} tahun`,MU,13,800);
+ const all=[['Mudah',vs,C2]].concat(KN.map(([n,l],i)=>[l+' (n='+n+')',vals[i],C1]));
+ all.forEach(([l,v,c],i)=>{const x=L+i*bw+bw*0.14,bwi=bw*0.72,y=Y(v);
+  g+=`<rect x="${x}" y="${y}" width="${bwi}" height="${Bt-y}" rx="6" fill="${c}${i===0?'33':'44'}" stroke="${c}" stroke-width="2.5"/>`;
+  const lab=v>=100000?grp(String(Math.round(v))):rm(v,true).replace('RM','');
+  g+=T(x+bwi/2,y-12,lab,c,bw<70?10.5:13,800);
+  const parts=l.split(' (');g+=T(x+bwi/2,Bt+14,parts[0],MU,bw<70?10.5:12.5,800)+(parts[1]?T(x+bwi/2,Bt+30,'('+parts[1],MU2,bw<70?10:12,700):'');
+ });
+ g+=`<line x1="${L}" y1="${Bt}" x2="${R}" y2="${Bt}" stroke="${MU}" stroke-width="2"/>`;
+ svg.innerHTML=g}
+function infoKerap(){
+ const v1=comp(S.P,S.r,S.t,1),v12=comp(S.P,S.r,S.t,12),vs=simple(S.P,S.r,S.t);
+ info.innerHTML=`<b class="t">Lebih kerap dikompaun → nilai matang lebih tinggi</b>
+ <div class="row"><span class="c2">Mudah: ${rm(vs,true)}</span><span class="c1">Tahunan: ${rm(v1,true)}</span><span class="c1">Bulanan: ${rm(v12,true)}</span></div>
+ <div class="tip">Faedah kompaun dikira atas prinsipal <b>dan</b> faedah terkumpul. Tambah tempoh atau kadar dan lihat jurang dengan faedah mudah membesar.</div>`}
+/* ================= Mod 3: cabaran ================= */
+const ri=(a,b)=>a+Math.floor(Math.random()*(b-a+1)),pick=a=>a[Math.floor(Math.random()*a.length)];
+function newQ(){
+ const kind=pick(['I','MVs','MVc','t']);let q,ans,wr,work;
+ if(kind==='I'||kind==='MVs'){const P=pick([1000,2000,2500,4000,5000,6000,8000,10000,12000,15000]),r=pick([2,2.5,3,3.5,4,5,6]),t=pick([2,3,4,5,6]);const I=rnd2(P*r/100*t);
+  if(kind==='I'){q=`RM${grp(String(P))} disimpan dengan faedah mudah ${r}% setahun selama ${t} tahun. Berapakah faedahnya?`;ans=I;wr=[rnd2(P*r/100),rnd2(P+I),rnd2(I*2),rnd2(P*r*t/1000)];work=`I = ${grp(String(P))} × ${r/100} × ${t} = ${rm(I)}`}
+  else{q=`RM${grp(String(P))} disimpan dengan faedah mudah ${r}% setahun selama ${t} tahun. Berapakah nilai matangnya?`;ans=rnd2(P+I);wr=[I,rnd2(P+P*r/100),rnd2(P+2*I),rnd2(P*Math.pow(1+r/100,t))];work=`I = ${grp(String(P))} × ${r/100} × ${t} = ${rm(I)}<br>MV = ${grp(String(P))} + ${grp(String(I))} = ${rm(P+I)}`}}
+ else if(kind==='MVc'){const P=pick([1000,2000,5000,8000,10000]),r=pick([4,5,6,8]),n=pick([1,2,4]),t=pick([2,3]);const v=rnd2(comp(P,r,t,n));
+  q=`RM${grp(String(P))} disimpan dengan faedah ${r}% setahun dikompaun ${NL[NV.indexOf(n)]} selama ${t} tahun. Berapakah nilai matangnya?`;ans=v;wr=[rnd2(simple(P,r,t)),rnd2(P*Math.pow(1+r/100,n*t)),rnd2(comp(P,r,t,n)-P),rnd2(P*Math.pow(1+r/100/n,t))];work=`MV = ${grp(String(P))}(1 + ${r/100}/${n})<sup>${n} × ${t}</sup> = ${rm(v,true)}`}
+ else{const P=pick([2000,4000,5000,8000,10000]),r=pick([2,4,5]),t=pick([2,3,4,5,6]);const I=rnd2(P*r/100*t);
+  q=`Simpanan RM${grp(String(P))} memperoleh faedah mudah ${rm(I)} pada kadar ${r}% setahun. Berapa tahunkah tempoh simpanan itu?`;ans=t;wr=[t+1,t-1,t*2,t+2].filter(x=>x>0);work=`t = I ÷ (P × r) = ${grp(String(I))} ÷ (${grp(String(P))} × ${r/100}) = ${t} tahun`}
+ const isT=kind==='t',fmtO=v=>isT?v+' tahun':rm(v,!Number.isInteger(v)||kind==='MVc');
+ const opts=[ans];for(const x of wr){const v=isT?x:rnd2(x);if(v>0&&!opts.some(o=>fmtO(o)===fmtO(v))&&opts.length<4)opts.push(v)}
+ let k=1;while(opts.length<4){const v=isT?ans+k+2:rnd2(ans*(1+0.07*k));if(!opts.some(o=>fmtO(o)===fmtO(v)))opts.push(v);k++}
+ S.q={q,ans,opts:opts.sort(()=>Math.random()-.5),work,fmtO,done:false};
+ setCtrl();drawCab();
+ info.innerHTML=`<b class="t">${q}</b><div class="tip">Skor: ${S.score}/${S.tot}${S.streak>=3?' · 🔥 '+S.streak+' berturut-turut':''}</div>`}
+function drawCab(){
+ const w=stage.clientWidth||320,h=stage.clientHeight||300;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+ const cx=w/2,cy=h/2,s=Math.min(w,h)/300;let g='';
+ // tabung + syiling
+ g+=`<ellipse cx="${cx}" cy="${cy+10*s}" rx="${88*s}" ry="${64*s}" fill="${C1}22" stroke="${C1}" stroke-width="${4*s}"/>`;
+ g+=`<rect x="${cx-30*s}" y="${cy-60*s}" width="${60*s}" height="${10*s}" rx="${4*s}" fill="${C1}"/>`;
+ g+=`<line x1="${cx-56*s}" y1="${cy+66*s}" x2="${cx-56*s}" y2="${cy+86*s}" stroke="${C1}" stroke-width="${10*s}" stroke-linecap="round"/><line x1="${cx+56*s}" y1="${cy+66*s}" x2="${cx+56*s}" y2="${cy+86*s}" stroke="${C1}" stroke-width="${10*s}" stroke-linecap="round"/>`;
+ g+=`<circle cx="${cx+50*s}" cy="${cy-6*s}" r="${6*s}" fill="${C1}"/>`;
+ g+=`<circle cx="${cx}" cy="${cy-96*s}" r="${20*s}" fill="${C3}33" stroke="${C3}" stroke-width="${4*s}"/>`+T(cx,cy-95*s,'RM',C3,15*s,900);
+ if(S.q&&S.q.done)g+=T(cx,cy+12*s,S.q.fmtO(S.q.ans),TX,Math.min(30,22*s),900);else g+=T(cx,cy+12*s,'?',TX,40*s,900);
+ svg.innerHTML=g}
+function answer(i,btn){
+ const Q=S.q;if(Q.done)return;Q.done=true;S.tot++;const ok=Q.opts[i]===Q.ans;
+ if(ok){S.score++;S.streak++;snd('betul');if(window.FX)FX.stars(btn,10)}else{S.streak=0;snd('salah');if(window.FX&&FX.shake)FX.shake(btn)}
+ ctrl.querySelectorAll('.chip').forEach((b,j)=>{if(Q.opts[j]===Q.ans)b.classList.add('ok');else if(b===btn)b.classList.add('no');b.disabled=true});
+ drawCab();
+ info.innerHTML=`<b class="t">${ok?'<span class="ok">✓ Betul!</span>':'<span class="no">✗ Jawapan: '+Q.fmtO(Q.ans)+'</span>'}</b><div class="eq">${Q.work}</div><div class="tip">Skor: ${S.score}/${S.tot}${S.streak>=3?' · 🔥 '+S.streak+' berturut-turut':''}</div><button class="nextb" id="nx">Seterusnya ▶</button>`;
+ document.getElementById('nx').onclick=newQ}
+/* ================= kawalan ================= */
+function sliders(){
+ return `<div class="line"><label>P: <b id="vP">${rm(S.P)}</b></label><input type="range" id="sP" min="1000" max="20000" step="500" value="${S.P}" aria-label="Prinsipal"></div>
+ <div class="line"><label>r: <b id="vr">${S.r}%</b></label><input type="range" id="sr" min="1" max="12" step="0.5" value="${S.r}" aria-label="Kadar faedah setahun"></div>
+ <div class="line"><label>t: <b id="vt">${S.t} tahun</b></label><input type="range" id="st" min="1" max="20" step="1" value="${S.t}" aria-label="Tempoh dalam tahun"></div>`}
+function bindSliders(){
+ const up=()=>{S.P=+document.getElementById('sP').value;S.r=+document.getElementById('sr').value;const nt=+document.getElementById('st').value;if(nt!==S.t){S.t=nt;S.cur=Math.min(S.cur,S.t);if(S.cur===0)S.cur=S.t}
+  document.getElementById('vP').textContent=rm(S.P);document.getElementById('vr').textContent=S.r+'%';document.getElementById('vt').textContent=S.t+' tahun';render()};
+ ['sP','sr','st'].forEach(id=>document.getElementById(id).oninput=up)}
+function setCtrl(){
+ if(S.m==='banding'){
+  ctrl.innerHTML=sliders()+`<div class="line"><label>Kompaun:</label><div class="seg">${['Tahunan','6 bulan','Suku','Bulanan'].map((l,i)=>`<button data-n="${i}" class="${i===S.ni?'on':''}">${l}</button>`).join('')}</div></div>`;
+  bindSliders();ctrl.querySelectorAll('[data-n]').forEach(b=>b.onclick=()=>{S.ni=+b.dataset.n;setCtrl();render()})}
+ if(S.m==='kerap'){ctrl.innerHTML=sliders();bindSliders()}
+ if(S.m==='cabaran'&&S.q){
+  ctrl.innerHTML=`<div class="opts">${S.q.opts.map((o,i)=>`<button class="chip" data-o="${i}">${S.q.fmtO(o)}</button>`).join('')}</div>`;
+  ctrl.querySelectorAll('.chip').forEach(b=>b.onclick=()=>answer(+b.dataset.o,b))}
+}
+function render(){
+ if(S.m==='banding'){drawBanding();infoBanding()}
+ if(S.m==='kerap'){drawKerap();infoKerap()}
+ if(S.m==='cabaran')drawCab();
+}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));S.m=b.dataset.m;
+ if(S.m==='cabaran'){newQ();return}
+ setCtrl();render()});
+/* ---------- seret penanda masa (tetikus + sentuh) ---------- */
+let drag=false;
+function svgPt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+function moveTo(e){const p=svgPt(e);const t=Math.max(0,Math.min(S.t,Math.round((p.x-G.L)/(G.R-G.L)*S.t)));if(t!==S.cur){S.cur=t;snd('detik');render()}}
+svg.addEventListener('pointerdown',e=>{if(S.m!=='banding'||!G)return;e.preventDefault();drag=true;svg.setPointerCapture(e.pointerId);moveTo(e)});
+svg.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();moveTo(e)});
+const end=()=>{drag=false};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+new ResizeObserver(()=>render()).observe(stage);
+setCtrl();render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>
