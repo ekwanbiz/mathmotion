@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Tangen Bulatan · Bab 6</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#07101C;--sf:#0E1B2C;--sf2:#132438;--sf3:#0A1524;--bd:#1D3350;--bd2:#28466B;--tx:#EAF4FF;--mu:#9FB6D0;--mu2:#6F89A8;--c1:#4ADE9A;--c2:#FF9A4D;--c3:#B79CFF;--gold:#FFD166;--ok:#3DDC84;--bad:#FF6B7A;
+ --surface:#0E1B2C;--border:#28466B;--text:#EAF4FF;--muted:#9FB6D0;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 4px;border-radius:12px;white-space:nowrap}
+.modes button.on{background:var(--c1);color:#04281a}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.stage svg{width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:12px 14px;min-height:74px;line-height:1.5;font-size:15px}
+.info b.t{display:block;font-size:19px;color:var(--c1);margin-bottom:2px}
+.info .tip{color:var(--mu);font-size:13px;margin-top:4px}
+.info .row{display:flex;flex-wrap:wrap;gap:6px 14px;font-weight:700}
+.info .row b.c{color:var(--c1)}.info .row b.o{color:var(--c2)}.info .row b.g{color:var(--gold)}.info .row b.p{color:var(--c3)}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.info .eq{margin-top:6px;padding:8px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:700}
+.ctrl{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.chip{background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:12px 4px;font-weight:800;font-size:15px}
+.chip.on{background:var(--c1);border-color:var(--c1);color:#04281a}
+.chip.ok{border-color:var(--ok);background:#3ddc8422}.chip.no{border-color:var(--bad);background:#ff6b7a22}
+.big{background:var(--c2);border:0;color:#2a1203;border-radius:13px;padding:13px 6px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.nextb{margin-top:8px;background:var(--c1);border:0;color:#04281a;border-radius:11px;padding:9px 16px;font-weight:900}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.35fr) minmax(320px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:24px}
+ .info .eq{font-size:17px}
+}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.chip{padding:9px 3px;font-size:14px}.info{padding:8px 11px;min-height:62px;font-size:14px}.info b.t{font-size:17px}.big{padding:10px 4px}}
+@media(max-width:420px){.chip,.big{font-size:13.5px}.modes button{font-size:12.5px;padding:10px 2px}.modes{gap:3px}.modes .e{display:none}.info{font-size:14px;padding:10px 12px}.info b.t{font-size:17px}}
+.modes .e{font-style:normal}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#4ADE9A;color:#04281a;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #4ade9a44">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mod">
+   <button data-m="jejari" class="on" role="tab"><i class="e">⊥ </i>Jejari</button>
+   <button data-m="dua" role="tab"><i class="e">📍 </i>Dua Tangen</button>
+   <button data-m="ss" role="tab"><i class="e">🔺 </i>Selang-seli</button>
+   <button data-m="cabaran" role="tab"><i class="e">❓ </i>Cabaran</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" viewBox="0 0 400 400" aria-label="Rajah bulatan dan tangen"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const CX=200,CY=200,R=150,JEJ=5,CM=R/JEJ; // jejari = 5 cm
+const C1='#4FC3F7',C2='#FF9A4D',C3='#B79CFF',GR='#4ADE9A',GOLD='#FFD166',PINK='#FF7AB6',BASE='#9FB6D0',OK='#3DDC84',TXT='#EAF4FF',SF3='#0A1524';
+let S={m:'jejari',a:60,t:1.2,px:380,py:170,b:40,c:160,q:null,score:0,tot:0,streak:0};
+const rad=d=>d*Math.PI/180;
+const norm=a=>((a%360)+360)%360;
+const P=a=>({x:CX+R*Math.cos(rad(a)),y:CY-R*Math.sin(rad(a))});
+const off=(a,k)=>({x:CX+(R+k)*Math.cos(rad(a)),y:CY-(R+k)*Math.sin(rad(a))});
+const snd=n=>{if(window.FX)FX.play(n)};
+const O={x:CX,y:CY};
+function lbl(x,y,t,c=TXT,s=20){return `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" fill="${c}" font-size="${s}" font-weight="900" text-anchor="middle" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="${SF3}" stroke-width="5" stroke-linejoin="round">${t}</text>`}
+function ln(p,q,c,w=4,dash=''){return `<line x1="${p.x.toFixed(1)}" y1="${p.y.toFixed(1)}" x2="${q.x.toFixed(1)}" y2="${q.y.toFixed(1)}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"${dash?` stroke-dasharray="${dash}"`:''}/>`}
+function dot(p,c,r=6){return `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${r}" fill="${c}" stroke="${SF3}" stroke-width="2"/>`}
+function handle(id,a,name,col=C1){const p=P(a),o=off(a,28);return `<g class="h" data-h="${id}" style="cursor:grab"><circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="30" fill="transparent"/><circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="12" fill="${col}" stroke="#fff" stroke-width="3"/></g>${lbl(o.x,o.y,name)}`}
+function unit(v){const L=Math.hypot(v.x,v.y)||1;return{x:v.x/L,y:v.y/L}}
+/* tanda sudut di V antara arah ke p dan q; refl = sudut refleks */
+function angMark(V,p,q,r,col,txt,refl=false,ld=0){
+ const u=unit({x:p.x-V.x,y:p.y-V.y}),w=unit({x:q.x-V.x,y:q.y-V.y});
+ const a={x:V.x+u.x*r,y:V.y+u.y*r},b={x:V.x+w.x*r,y:V.y+w.y*r};
+ let sw=u.x*w.y-u.y*w.x>0?1:0,lg=0;if(refl){sw=1-sw;lg=1}
+ const d=`M${a.x.toFixed(1)} ${a.y.toFixed(1)} A${r} ${r} 0 ${lg} ${sw} ${b.x.toFixed(1)} ${b.y.toFixed(1)}`;
+ let g=`<path d="M${V.x.toFixed(1)} ${V.y.toFixed(1)} L${d.slice(1)} Z" fill="${col}" fill-opacity=".22"/><path d="${d}" fill="none" stroke="${col}" stroke-width="3"/>`;
+ if(txt){let bi=unit({x:u.x+w.x,y:u.y+w.y});if(Math.hypot(u.x+w.x,u.y+w.y)<1e-3)bi={x:-u.y,y:u.x};if(refl)bi={x:-bi.x,y:-bi.y};const k=ld||r+18;g+=lbl(V.x+bi.x*k,V.y+bi.y*k,txt,col,17)}
+ return g}
+function rightMark(V,p,q,k=14){const u=unit({x:p.x-V.x,y:p.y-V.y}),w=unit({x:q.x-V.x,y:q.y-V.y});return `<path d="M${V.x+u.x*k} ${V.y+u.y*k}l${w.x*k} ${w.y*k}l${-u.x*k} ${-u.y*k}" fill="none" stroke="${TXT}" stroke-width="2.5"/>`}
+function base(showO=true){return `<circle cx="${CX}" cy="${CY}" r="${R}" fill="#ffffff06" stroke="${BASE}" stroke-width="3"/>`+(showO?`<circle cx="${CX}" cy="${CY}" r="5" fill="${BASE}"/>`:'')}
+function arcPath(d1,d2,col,w=8){const a=P(d1),b=P(d2),sp=norm(d2-d1);return `<path d="M${a.x.toFixed(1)} ${a.y.toFixed(1)} A${R} ${R} 0 ${sp>180?1:0} 0 ${b.x.toFixed(1)} ${b.y.toFixed(1)}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round" opacity=".85"/>`}
+/* lengkok AB yang TIDAK mengandungi C: pulangkan [mula, akhir, darjah] (lawan jam) */
+function arcNot(a,b,c){const sp=norm(b-a);if(norm(c-a)<sp)return[b,a,360-sp];return[a,b,sp]}
+const f1=n=>(Math.round(n*10)/10).toFixed(1);
+const tdir=a=>({x:-Math.sin(rad(a)),y:-Math.cos(rad(a))}); // arah tangen (lawan jam) di skrin
+/* ================= Mod 1: tangen ⊥ jejari ================= */
+// S.a = titik ketangenan A (darjah), S.t = kedudukan P pada tangen (unit jejari, boleh negatif)
+function clampT(){const A=P(S.a),u=tdir(S.a);let t=S.t;const ok=t=>{const x=A.x+u.x*t*R,y=A.y+u.y*t*R;return x>=14&&x<=386&&y>=14&&y<=386};let k=0;while(!ok(t)&&k<40){t*=0.92;k++}if(!ok(t)){t=-S.t;k=0;while(!ok(t)&&k<40){t*=0.92;k++}}S.t=Math.abs(t)<0.05?0.05*Math.sign(t||1):t}
+function jejSVG(){
+ clampT();const A=P(S.a),u=tdir(S.a),Pp={x:A.x+u.x*S.t*R,y:A.y+u.y*S.t*R};let g=base(false);
+ g+=ln({x:A.x-u.x*260,y:A.y-u.y*260},{x:A.x+u.x*260,y:A.y+u.y*260},GR,5);
+ g+=`<polygon points="${CX},${CY} ${A.x.toFixed(1)},${A.y.toFixed(1)} ${Pp.x.toFixed(1)},${Pp.y.toFixed(1)}" fill="${GR}1c"/>`;
+ g+=ln(O,A,C2,4)+ln(O,Pp,BASE,3,'8 6')+rightMark(A,O,Pp,15);
+ g+=`<circle cx="${CX}" cy="${CY}" r="5" fill="${BASE}"/>`;
+ const oa=unit({x:A.x-CX,y:A.y-CY});g+=lbl(CX-oa.x*18,CY-oa.y*18,'O',BASE,17);
+ g+=lbl((CX+A.x)/2-u.x*16*Math.sign(S.t||1),(CY+A.y)/2-u.y*16*Math.sign(S.t||1),'5 cm',C2,15);
+ g+=dot(A,TXT,7);const ao=off(S.a,24);g+=lbl(ao.x-u.x*14*Math.sign(S.t||1),ao.y-u.y*14*Math.sign(S.t||1),'A');
+ g+=handle('a',S.a,'',C3);
+ g+=`<g class="h" data-h="p" style="cursor:grab"><circle cx="${Pp.x.toFixed(1)}" cy="${Pp.y.toFixed(1)}" r="30" fill="transparent"/><circle cx="${Pp.x.toFixed(1)}" cy="${Pp.y.toFixed(1)}" r="12" fill="${GOLD}" stroke="#fff" stroke-width="3"/></g>`;
+ const po=unit({x:Pp.x-CX,y:Pp.y-CY});g+=lbl(Pp.x+po.x*26,Pp.y+po.y*26,'P',GOLD);
+ return g}
+function jejInfo(){
+ const pa=Math.round(Math.abs(S.t)*JEJ*10)/10,sq=Math.round((25+pa*pa)*100)/100,op=Math.sqrt(sq);
+ info.innerHTML=`<b class="t">Tangen ⊥ jejari: ∠OAP = 90°</b><div class="row"><span>OA = <b class="o">5.0 cm</b></span><span>AP = <b class="g">${f1(pa)} cm</b></span><span>OP = <b class="c">${f1(op)} cm</b></span></div><div class="eq">OP² = OA² + AP² = 5² + ${f1(pa)}² = ${sq} → OP ≈ ${f1(op)} cm</div><div class="tip">Seret ● A untuk memusingkan tangen dan ● P di sepanjang tangen. Sudut di antara tangen dan jejari sentiasa 90°.</div>`}
+/* ================= Mod 2: dua tangen dari titik luar ================= */
+function tanPts(px,py){const dx=px-CX,dy=py-CY,d=Math.hypot(dx,dy),th=Math.atan2(dy,dx),al=Math.acos(R/d);
+ return{d,A:{x:CX+R*Math.cos(th-al),y:CY+R*Math.sin(th-al)},B:{x:CX+R*Math.cos(th+al),y:CY+R*Math.sin(th+al)},al:al*180/Math.PI}}
+function duaSVG(){
+ const Pp={x:S.px,y:S.py},T=tanPts(S.px,S.py);let g=base(false);
+ g+=`<polygon points="${CX},${CY} ${T.A.x.toFixed(1)},${T.A.y.toFixed(1)} ${Pp.x.toFixed(1)},${Pp.y.toFixed(1)} ${T.B.x.toFixed(1)},${T.B.y.toFixed(1)}" fill="${GR}14"/>`;
+ g+=ln(EXT(Pp,T.A,70),Pp,GR,5)+ln(EXT(Pp,T.B,70),Pp,GR,5);
+ g+=ln(O,T.A,C2,4)+ln(O,T.B,C2,4)+ln(O,Pp,BASE,3,'8 6')+rightMark(T.A,O,Pp,13)+rightMark(T.B,O,Pp,13);
+ const apo=90-T.al,aob=2*T.al;
+ g+=angMark(Pp,T.A,O,T.d>300?54:42,GOLD,'')+angMark(Pp,O,T.B,T.d>300?46:34,GOLD,'');
+ g+=angMark(O,T.A,T.B,24,PINK,Math.round(aob)+'°',false,44);
+ g+=`<circle cx="${CX}" cy="${CY}" r="5" fill="${BASE}"/>`;
+ const op=unit({x:Pp.x-CX,y:Pp.y-CY});g+=lbl(CX-op.x*18,CY-op.y*18,'O',BASE,17);
+ g+=dot(T.A,TXT,7)+dot(T.B,TXT,7);
+ const la=unit({x:T.A.x-CX,y:T.A.y-CY}),lb=unit({x:T.B.x-CX,y:T.B.y-CY});
+ g+=lbl(T.A.x+la.x*22,T.A.y+la.y*22,'A')+lbl(T.B.x+lb.x*22,T.B.y+lb.y*22,'B');
+ g+=`<g class="h" data-h="P" style="cursor:grab"><circle cx="${Pp.x.toFixed(1)}" cy="${Pp.y.toFixed(1)}" r="30" fill="transparent"/><circle cx="${Pp.x.toFixed(1)}" cy="${Pp.y.toFixed(1)}" r="12" fill="${GOLD}" stroke="#fff" stroke-width="3"/></g>`+lbl(Pp.x+op.x*26,Pp.y+op.y*26,'P',GOLD);
+ return g}
+function EXT(p,q,k){const u=unit({x:q.x-p.x,y:q.y-p.y});return{x:q.x+u.x*k,y:q.y+u.y*k}}
+function duaInfo(){
+ const T=tanPts(S.px,S.py),pa=Math.sqrt(T.d*T.d-R*R)/CM,apb=180-2*T.al;
+ info.innerHTML=`<b class="t">Dua tangen dari titik luar P</b><div class="row"><span>PA = <b class="g">${f1(pa)} cm</b></span><span>PB = <b class="g">${f1(pa)} cm</b></span><span>OP = <b class="c">${f1(T.d/CM)} cm</b></span></div><div class="row"><span>∠APO = ∠BPO = <b class="g">${f1(apb/2)}°</b></span><span>∠AOB = <b style="color:${PINK}">${f1(2*T.al)}°</b></span></div><div class="eq">∠AOB + ∠APB = ${f1(2*T.al)}° + ${f1(apb)}° = 180° ✓</div><div class="tip">Seret ● P ke mana-mana di luar bulatan. PA sentiasa sama dengan PB.</div>`}
+/* ================= Mod 3: tembereng selang-seli ================= */
+// tangen di A (bawah, 270°), T ke kanan; S.b, S.c pada lilitan
+function ssSVG(){
+ const A=P(270),B=P(S.b),C=P(S.c),Tt={x:A.x+160,y:A.y},Ss={x:A.x-160,y:A.y};let g=base(false);
+ g+=ln({x:A.x-220,y:A.y},{x:A.x+220,y:A.y},GR,5);
+ g+=`<polygon points="${A.x},${A.y} ${B.x.toFixed(1)},${B.y.toFixed(1)} ${C.x.toFixed(1)},${C.y.toFixed(1)}" fill="${C1}1a"/>`;
+ g+=ln(A,B,C2,4.5)+ln(C,A,C1,4)+ln(C,B,C1,4);
+ const tab=norm(S.b-270)/2,acb=tab; // lengkok AB (sebelah T) = 2 × ∠TAB
+ g+=angMark(A,Tt,B,tab<30?70:48,GOLD,tab+'°')+angMark(C,A,B,tab<30?60:36,GOLD,acb+'°');
+ g+=lbl(A.x,A.y+24,'A')+lbl(A.x+190,A.y-18,'T',GR)+lbl(A.x-190,A.y-18,'S',GR);
+ g+=handle('b',S.b,'B')+handle('c',S.c,'C',C3);
+ return g}
+function ssInfo(){
+ const tab=norm(S.b-270)/2;
+ info.innerHTML=`<b class="t">Sudut dalam tembereng selang-seli</b><div class="row"><span>∠TAB = <b class="g">${tab}°</b></span><span>∠ACB = <b class="g">${tab}°</b></span><span>∠SAC = ∠ABC = <b class="c">${(norm(270-S.c)+0)/2}°</b></span></div><div class="eq">Sudut di antara tangen dan perentas = sudut dalam tembereng selang-seli</div><div class="tip">Seret ● B untuk mengubah perentas AB, dan ● C di sepanjang lengkok major. ∠ACB sentiasa sama dengan ∠TAB.</div>`}
+/* ================= Mod 4: cabaran ================= */
+const rnd=n=>Math.floor(Math.random()*n);
+const TRI=[[3,4,5],[5,12,13],[6,8,10],[8,15,17],[9,12,15],[7,24,25]];
+function newQ(){
+ const jenis=['jej','pyt','dua','ss'][rnd(4)];let q,ans,wr,why,u='°',fig={};
+ if(jenis==='jej'){const x=42+rnd(28);q=`PA ialah tangen di A dan ∠AOP = ${x}°. Berapakah ∠APO?`;ans=90-x;wr=[x,180-x,90+x,2*x];why=`∠OAP = 90°, maka ∠APO = 180° − 90° − ${x}° = ${ans}°`;fig={phi:x,two:false,oL:x+'°',pL:'?'}}
+ if(jenis==='pyt'){const[a,b,c]=TRI[rnd(TRI.length)];q=`PA ialah tangen di A. OA = ${a} cm dan OP = ${c} cm. Berapakah PA?`;ans=b;u=' cm';wr=[c-a,c+a,a,b+2];why=`PA = √(${c}² − ${a}²) = √${b*b} = ${b} cm`;fig={phi:Math.acos(a/c)*180/Math.PI,two:false,oL:'',pL:'',lens:[a+' cm',c+' cm']}}
+ if(jenis==='dua'){const x=2*(15+rnd(36));q=`PA dan PB ialah tangen dan ∠APB = ${x}°. Berapakah ∠AOB?`;ans=180-x;wr=[x,2*x,360-x,90-x/2];why=`∠AOB = 360° − 90° − 90° − ${x}° = ${ans}°`;fig={phi:90-x/2,two:true,pL:x+'°',oL:'?'}}
+ if(jenis==='ss'){const x=30+rnd(50);q=`SAT ialah tangen di A dan ∠TAB = ${x}°. Berapakah ∠ACB?`;ans=x;wr=[90-x,180-x,2*x,90+x];why=`∠ACB = ∠TAB = ${x}° (tembereng selang-seli)`;fig={ss:x}}
+ const opts=[ans];wr.forEach(w=>{if(w>0&&w<360&&w===Math.round(w)&&!opts.includes(w)&&opts.length<4)opts.push(w)});let k=5;while(opts.length<4){if(!opts.includes(ans+k))opts.push(ans+k);k+=5}
+ S.q={jenis,q,ans,why,u,fig,opts:opts.sort(()=>Math.random()-.5),done:false};
+ setCtrl();render();
+ info.innerHTML=`<b class="t">${q}</b><div class="tip">O ialah pusat bulatan. Skor: ${S.score}/${S.tot}${S.streak>=3?' · 🔥 '+S.streak+' berturut-turut':''}</div>`}
+function cabSVG(){
+ const Q=S.q;if(!Q)return base();const F=Q.fig,show=Q.done;
+ if(F.ss!=null){const A=P(270),B=P(270+2*F.ss),C=P(270+2*F.ss+(360-2*F.ss)/2),Tt={x:A.x+160,y:A.y};let g=base(false)+ln({x:A.x-220,y:A.y},{x:A.x+220,y:A.y},GR,5)+ln(A,B,C2,4.5)+ln(C,A,C1,4)+ln(C,B,C1,4)+angMark(A,Tt,B,F.ss<30?70:48,GOLD,F.ss+'°')+angMark(C,A,B,F.ss<30?60:36,GOLD,show?Q.ans+'°':'?');
+  g+=dot(A,TXT,7)+dot(B,TXT,7)+dot(C,TXT,7)+lbl(A.x,A.y+24,'A')+lbl(A.x+190,A.y-18,'T',GR)+lbl(A.x-190,A.y-18,'S',GR);const bo=off(270+2*F.ss,24),co=off(270+2*F.ss+(360-2*F.ss)/2,24);g+=lbl(bo.x,bo.y,'B')+lbl(co.x,co.y,'C');return g}
+ // rajah tangen: O dianjak ke kiri supaya P muat
+ const ph=rad(F.phi),r=Math.min(110,240*Math.cos(ph)),ox=135,oy=200,d=r/Math.cos(ph),Oo={x:ox,y:oy},Pp={x:ox+d,y:oy},A={x:ox+r*Math.cos(ph),y:oy-r*Math.sin(ph)},B={x:ox+r*Math.cos(ph),y:oy+r*Math.sin(ph)};
+ let g=`<circle cx="${ox}" cy="${oy}" r="${r}" fill="#ffffff06" stroke="${BASE}" stroke-width="3"/>`;
+ g+=ln(A,Pp,GR,5)+ln(Oo,A,C2,4)+rightMark(A,Oo,Pp,13);
+ if(F.two)g+=ln(B,Pp,GR,5)+ln(Oo,B,C2,4)+rightMark(B,Oo,Pp,13);else g+=ln(Oo,Pp,BASE,3,'8 6');
+ if(F.two){g+=angMark(Pp,A,B,30,GOLD,F.pL,false,50)+angMark(Oo,A,B,24,PINK,show?Q.ans+'°':'?',false,44)}
+ else if(F.oL){g+=angMark(Oo,A,Pp,26,C2,F.oL,false,46)+angMark(Pp,A,Oo,44,GR,show?Q.ans+'°':'?',false,64)}
+ if(F.lens){g+=lbl((ox+A.x)/2-18,(oy+A.y)/2-6,F.lens[0],C2,15)+lbl((ox+Pp.x)/2,oy+20,F.lens[1],BASE,15)+lbl((A.x+Pp.x)/2+12,(A.y+Pp.y)/2-14,show?Q.ans+' cm':'?',GR,16)}
+ g+=dot(Oo,BASE,5)+lbl(ox-18,oy,'O',BASE,17)+dot(A,TXT,7)+lbl(A.x,A.y-22,'A')+dot(Pp,GOLD,7)+lbl(Pp.x+18,Pp.y,'P',GOLD);
+ if(F.two)g+=dot(B,TXT,7)+lbl(B.x,B.y+24,'B');
+ return g}
+function answer(o,btn){
+ const Q=S.q;if(Q.done)return;Q.done=true;S.tot++;const ok=o===Q.ans;
+ if(ok){S.score++;S.streak++;snd('betul');if(window.FX)FX.stars(btn,10)}else{S.streak=0;snd('salah');if(window.FX&&FX.shake)FX.shake(btn)}
+ ctrl.querySelectorAll('.chip').forEach(b=>{if(+b.dataset.o===Q.ans)b.classList.add('ok');else if(b===btn)b.classList.add('no');b.disabled=true});
+ render();
+ info.innerHTML=`<b class="t">${ok?'<span class="ok">✓ Betul!</span>':'<span class="no">✗ Jawapan: '+Q.ans+Q.u+'</span>'}</b><div class="eq">${Q.why}</div><div class="tip">Skor: ${S.score}/${S.tot}${S.streak>=3?' · 🔥 '+S.streak+' berturut-turut':''}</div><button class="nextb" id="nx">Seterusnya ▶</button>`;
+ document.getElementById('nx').onclick=newQ}
+/* ================= Lukis & kawalan ================= */
+function render(){
+ if(S.m==='jejari'){svg.innerHTML=jejSVG();jejInfo()}
+ if(S.m==='dua'){svg.innerHTML=duaSVG();duaInfo()}
+ if(S.m==='ss'){svg.innerHTML=ssSVG();ssInfo()}
+ if(S.m==='cabaran')svg.innerHTML=cabSVG();
+}
+function setCtrl(){
+ if(S.m==='jejari'){
+  ctrl.innerHTML=`<button class="big alt" id="pus">Pusing tangen ↻</button><button class="big" id="rw">Kedudukan rawak</button>`;
+  document.getElementById('pus').onclick=()=>{S.a=norm(S.a-30);snd('langkah');render()};
+  document.getElementById('rw').onclick=()=>{S.a=2*rnd(180);S.t=(Math.random()<.5?-1:1)*(0.4+Math.random()*0.8);render()};
+ }
+ if(S.m==='dua'){
+  ctrl.innerHTML=`<button class="big alt" id="jauh">P jauh</button><button class="big alt" id="dekat">P dekat</button>`;
+  document.getElementById('jauh').onclick=()=>{S.px=385;S.py=200;render()};
+  document.getElementById('dekat').onclick=()=>{S.px=355;S.py=95;render()};
+ }
+ if(S.m==='ss'){
+  ctrl.innerHTML=`<button class="big alt" id="bk">∠TAB kecil</button><button class="big alt" id="bb">∠TAB besar</button>`;
+  document.getElementById('bk').onclick=()=>{S.b=330;S.c=150;render()};
+  document.getElementById('bb').onclick=()=>{S.b=60;S.c=200;render()};
+ }
+ if(S.m==='cabaran'&&S.q){
+  ctrl.innerHTML=S.q.opts.map(o=>`<button class="chip" data-o="${o}">${o}${S.q.u}</button>`).join('');
+  ctrl.querySelectorAll('.chip').forEach(b=>b.onclick=()=>answer(+b.dataset.o,b));
+ }
+}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));S.m=b.dataset.m;
+ if(S.m==='cabaran'){newQ();return}
+ setCtrl();render()});
+/* ---------- Seret (tetikus + sentuh) ---------- */
+let drag=null;
+function svgPt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+svg.addEventListener('pointerdown',e=>{const h=e.target.closest('.h');if(!h)return;e.preventDefault();drag=h.dataset.h;svg.setPointerCapture(e.pointerId)});
+svg.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();const p=svgPt(e);
+ const ang=(Math.round(norm(Math.atan2(-(p.y-CY),p.x-CX)*180/Math.PI)/2)*2)%360;
+ if(S.m==='jejari'){
+  if(drag==='a'){S.a=ang;render();return}
+  const A=P(S.a),u=tdir(S.a);let t=((p.x-A.x)*u.x+(p.y-A.y)*u.y)/R;t=Math.max(-1.3,Math.min(1.3,t));
+  const Pp={x:A.x+u.x*t*R,y:A.y+u.y*t*R};if(Pp.x<14||Pp.x>386||Pp.y<14||Pp.y>386)return; // kekal dalam rajah
+  S.t=Math.abs(t)<0.05?0.05*Math.sign(t||1):t;render();return}
+ if(S.m==='dua'){let x=Math.max(14,Math.min(386,p.x)),y=Math.max(14,Math.min(386,p.y));if(Math.hypot(x-CX,y-CY)<R+30)return;S.px=x;S.py=y;render();return}
+ if(S.m==='ss'){
+  if(drag==='b'){const k=norm(ang-270);if(k<20||k>=norm(S.c-270)-14)return;S.b=ang}
+  if(drag==='c'){const k=norm(ang-270);if(k<=norm(S.b-270)+14||k>340)return;S.c=ang}
+  render()}
+});
+const end=()=>{drag=null};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+svg.addEventListener('dragstart',e=>e.preventDefault());
+setCtrl();render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

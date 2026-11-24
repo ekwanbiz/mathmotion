@@ -613,3 +613,5 @@ g.rv.hid{visibility:hidden}
 @media (max-width:1250px){.pelbtn{padding:0 14px 0 11px;font-size:14px}}
 @media (max-width:1120px){.pelbtn .tl{display:none}.pelbtn .ts{display:inline}}
 @media (max-width:900px){.pelbtn{height:40px;padding:0 12px 0 10px;font-size:13px}}
+/* Telefon: tajuk bab panjang dipotong (…) supaya butang Pelan & tema tidak terkeluar */
+@media (max-width:900px){.hdr .wm2{flex:1 1 auto;min-width:0}.hdr .wm2 small{max-width:none}.hdr .end{flex:none}}
