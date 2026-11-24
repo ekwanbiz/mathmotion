@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Neraca Min · Bab 12</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#07130F;--sf:#0F1F19;--sf2:#152A22;--sf3:#0A1813;--bd:#1F3A2F;--bd2:#2A4D3F;--tx:#E8FFF5;--mu:#9CC7B4;--mu2:#6A9783;--c1:#3DDC84;--c2:#FFD166;--ok:#3DDC84;--bad:#FF6B7A;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#05250f}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.stage svg{width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:11px 14px;line-height:1.45;font-size:15px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:2px}
+.info .row{display:flex;flex-wrap:wrap;gap:4px 14px;font-weight:700}
+.info .row b{color:var(--c2)}
+.info .tip{color:var(--mu);font-size:13px;margin-top:5px}
+.info .eq{margin-top:6px;padding:7px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:700;font-size:14px}
+.ok{color:var(--ok);font-weight:800}.no{color:var(--bad);font-weight:800}
+.ctrl{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.chip{background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:12px 4px;font-weight:800;font-size:15px}
+.big{background:var(--c1);border:0;color:#05250f;border-radius:13px;padding:12px 6px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.45fr) minmax(330px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:16px}.ctrl{grid-area:c;align-self:end;grid-template-columns:1fr 1fr}
+ .info b.t{font-size:22px}
+}
+@media(max-height:700px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.chip,.big{padding:9px 3px;font-size:14px}.info{padding:8px 11px;font-size:14px}.info b.t{font-size:16px}}
+@media(max-width:420px){.chip,.big{font-size:13px}.modes button{font-size:13px;padding:10px 3px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#3DDC84;color:#05250f;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #3ddc8444">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mod">
+   <button data-m="teroka" class="on" role="tab">⚖️ Teroka</button>
+   <button data-m="cabaran" role="tab">🎯 Cari Titik Imbang</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" viewBox="0 0 600 360" aria-label="Neraca pembaris berpemberat"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const L=55,U=49,BY=230,MAXV=10,BH=22,BW=30;
+const GOLD='#FFD166',GR='#3DDC84',TX='#E8FFF5',MU='#9CC7B4',BL='#4FB3FF',PK='#FF7AB6',BAD='#FF6B7A';
+const X=v=>L+v*U;
+const snd=n=>{if(window.FX)FX.play(n)};
+const f2=n=>{const v=Math.round(n*100)/100;return (Object.is(v,-0)?0:v).toString()};
+const sum=a=>a.reduce((s,x)=>s+x,0);
+let S={m:'teroka',d:[2,3,3,5,7],p:5,auto:true,ok:false,score:0,tot:0,ang:0};
+const mean=()=>S.d.length?sum(S.d)/S.d.length:0;
+function lbl(x,y,t,c=TX,s=17,a='middle'){return `<text x="${x}" y="${y}" fill="${c}" font-size="${s}" font-weight="800" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="#0A1813" stroke-width="5" stroke-linejoin="round">${t}</text>`}
+function torque(){return sum(S.d.map(v=>v-S.p))}
+function render(){
+ if(S.auto&&S.m==='teroka')S.p=mean();
+ const T=torque(),tgt=Math.max(-13,Math.min(13,T*2.2));
+ S.ang=tgt;
+ const px=X(S.p);let g='';
+ // lantai & titik imbang
+ g+=`<line x1="20" y1="${BY+64}" x2="580" y2="${BY+64}" stroke="${MU}" stroke-width="3" opacity=".5"/>`;
+ g+=`<g class="fu" style="cursor:ew-resize"><rect x="${px-34}" y="${BY+4}" width="68" height="70" fill="transparent"/><polygon points="${px},${BY+10} ${px-24},${BY+64} ${px+24},${BY+64}" fill="${GR}" stroke="#0A1813" stroke-width="2.5"/></g>`;
+ g+=lbl(px,BY+82,'titik imbang '+f2(S.p),GR,15);
+ // rasuk berputar
+ let b=`<rect x="${X(0)-20}" y="${BY-2}" width="${X(MAXV)-X(0)+40}" height="12" rx="5" fill="#C9A66B" stroke="#0A1813" stroke-width="2"/>`;
+ for(let v=0;v<=MAXV;v++)b+=`<line x1="${X(v)}" y1="${BY-2}" x2="${X(v)}" y2="${BY+5}" stroke="#3b2a12" stroke-width="2"/><text x="${X(v)}" y="${BY+24}" fill="${TX}" font-size="14" font-weight="800" text-anchor="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="#0A1813" stroke-width="4">${v}</text>`;
+ b+=`<rect class="tap" x="${X(0)-20}" y="${BY-150}" width="${X(MAXV)-X(0)+40}" height="160" fill="transparent"/>`;
+ const k={};
+ S.d.forEach((v,i)=>{const j=k[v]||0;k[v]=j+1;const dd=drag&&drag.i===i;const x=dd?drag.x:X(v),y=BY-2-(j+1)*BH;
+  b+=`<g class="w" data-i="${i}" style="cursor:grab"><rect x="${x-BW/2-6}" y="${y-4}" width="${BW+12}" height="${BH+8}" fill="transparent"/><rect x="${x-BW/2}" y="${y+1}" width="${BW}" height="${BH-3}" rx="5" fill="${v>S.p+1e-9?BL:v<S.p-1e-9?PK:GOLD}" stroke="#0A1813" stroke-width="2"/></g>`});
+ g+=`<g transform="rotate(${S.ang.toFixed(2)} ${px} ${BY+10})">${b}</g>`;
+ // anak panah min
+ const mx=X(mean());
+ if(S.m==='teroka'||S.ok)g+=`<line x1="${mx}" y1="34" x2="${mx}" y2="54" stroke="${GOLD}" stroke-width="3"/>`+lbl(Math.min(Math.max(mx,80),520),22,'min = '+f2(mean()),GOLD,16);
+ svg.innerHTML=g;
+ renderInfo(T)}
+function renderInfo(T){
+ const n=S.d.length,m=mean(),bal=Math.abs(T)<1e-6;
+ const kiri=S.d.filter(v=>v<S.p).map(v=>f2(S.p-v)),kanan=S.d.filter(v=>v>S.p).map(v=>f2(v-S.p));
+ const st=bal?'<span class="ok">⚖️ Seimbang</span>':T>0?'<span class="no">Condong ke kanan</span>':'<span class="no">Condong ke kiri</span>';
+ let h='';
+ if(S.m==='teroka'){
+  h=`<b class="t">Min ialah titik imbang</b><div class="row"><span>Data: <b>${S.d.length?S.d.slice().sort((a,b)=>a-b).join(', '):'–'}</b></span></div>`;
+  h+=`<div class="row"><span>Min = ${sum(S.d)} ÷ ${n} = <b>${f2(m)}</b></span><span>${st}</span></div>`;
+  h+=`<div class="eq">Jarak kiri: ${kiri.join(' + ')||'0'} = ${f2(sum(kiri.map(Number)))}<br>Jarak kanan: ${kanan.join(' + ')||'0'} = ${f2(sum(kanan.map(Number)))}</div>`;
+  h+=`<div class="tip">Ketik pada rasuk untuk tambah pemberat · seret pemberat untuk alih · seret segi tiga hijau untuk ubah titik imbang. Pada min, jumlah jarak ke kiri = jumlah jarak ke kanan.</div>`}
+ else{
+  h=`<b class="t">Seret ▲ sehingga rasuk seimbang</b><div class="row"><span>Data: <b>${S.d.slice().sort((a,b)=>a-b).join(', ')}</b></span><span>${st}</span></div>`;
+  if(S.ok)h+=`<div class="eq ok">✓ Seimbang! Min = ${sum(S.d)} ÷ ${n} = ${f2(m)}</div>`;
+  else h+=`<div class="tip">Titik imbang bergerak 0.1 setiap langkah. Anggarkan dahulu, kemudian semak dengan kiraan.</div>`;
+  h+=`<div class="tip">Skor: ${S.score}/${S.tot}</div>`}
+ info.innerHTML=h}
+function setCtrl(){
+ if(S.m==='teroka'){
+  ctrl.innerHTML=`<button class="chip" id="p1">Semua + 1</button><button class="chip" id="m1">Semua − 1</button><button class="chip" id="ek">+ Pemberat ekstrem</button><button class="chip" id="bu">Buang terakhir</button><button class="big alt" id="au">${S.auto?'Lepaskan titik imbang':'Letak di min'}</button><button class="big" id="rw">Data rawak</button>`;
+  ctrl.style.gridTemplateColumns='';
+  document.getElementById('p1').onclick=()=>shift(1);document.getElementById('m1').onclick=()=>shift(-1);
+  document.getElementById('ek').onclick=()=>{if(S.d.length<16){S.d.push(10);snd('ketik');render()}};
+  document.getElementById('bu').onclick=()=>{if(S.d.length>1){S.d.pop();render()}};
+  document.getElementById('au').onclick=()=>{S.auto=!S.auto;if(S.auto)snd('menang');setCtrl();render()};
+  document.getElementById('rw').onclick=()=>{rawak();render()};
+ } else {
+  ctrl.innerHTML=`<button class="chip" id="kk">◀ 0.1</button><button class="chip" id="kn">0.1 ▶</button><button class="big" id="sm" style="grid-column:span 2">Soalan baharu</button>`;
+  document.getElementById('kk').onclick=()=>nudge(-.1);document.getElementById('kn').onclick=()=>nudge(.1);document.getElementById('sm').onclick=newQ;
+ }}
+function shift(k){if(S.d.some(v=>v+k<0||v+k>MAXV)){snd('salah');return}S.d=S.d.map(v=>v+k);if(!S.auto)S.p=Math.max(0,Math.min(MAXV,S.p+k));snd('langkah');render()}
+function rawak(){const n=4+Math.floor(Math.random()*4);S.d=[];for(let i=0;i<n;i++)S.d.push(Math.floor(Math.random()*11))}
+function newQ(){do{rawak()}while(Math.abs(mean()*10-Math.round(mean()*10))>1e-9||new Set(S.d).size<3);
+ S.p=Math.random()<.5?1:9;S.ok=false;S.tot++;render()}
+function nudge(k){if(S.m!=='cabaran'||S.ok)return;S.p=Math.round(Math.max(0,Math.min(MAXV,S.p+k))*10)/10;check();render()}
+function check(){if(S.m==='cabaran'&&!S.ok&&Math.abs(S.p-mean())<1e-6){S.ok=true;S.score++;snd('menang');if(window.FX)FX.stars(document.getElementById('stage'),14)}}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));S.m=b.dataset.m;
+ if(S.m==='cabaran'){setCtrl();newQ();return}
+ S.auto=true;S.d=[2,3,3,5,7];setCtrl();render()});
+/* ---------- seret ---------- */
+let drag=null,down=null;
+function pt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+svg.addEventListener('pointerdown',e=>{e.preventDefault();const p=pt(e);
+ if(e.target.closest('.fu')){if(S.m==='teroka'&&S.auto){S.auto=false;setCtrl()}if(S.m==='cabaran'&&S.ok)return;drag={fu:true};svg.setPointerCapture(e.pointerId);return}
+ const w=e.target.closest('.w');if(w&&S.m==='teroka'){drag={i:+w.dataset.i,x:p.x};svg.setPointerCapture(e.pointerId);return}
+ if(e.target.closest('.tap')&&S.m==='teroka')down={x:p.x}});
+svg.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();const p=pt(e);
+ if(drag.fu){S.p=Math.round(Math.max(0,Math.min(MAXV,(p.x-L)/U))*10)/10;check();render();return}
+ drag.x=Math.max(X(0),Math.min(X(MAXV),p.x));render()});
+svg.addEventListener('pointerup',e=>{const p=pt(e);
+ if(drag){if(!drag.fu){S.d[drag.i]=Math.max(0,Math.min(MAXV,Math.round((p.x-L)/U)));snd('langkah')}drag=null;render();return}
+ if(down){if(Math.abs(p.x-down.x)<12){const v=Math.max(0,Math.min(MAXV,Math.round((p.x-L)/U)));if(S.d.length<16&&S.d.filter(x=>x===v).length<6){S.d.push(v);snd('ketik');render()}else snd('salah')}down=null}});
+svg.addEventListener('pointercancel',()=>{drag=null;down=null;render()});
+setCtrl();render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

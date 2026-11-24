@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Plot Titik · Bab 12</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0A1018;--sf:#121B27;--sf2:#18243A;--sf3:#0D1520;--bd:#22324A;--bd2:#2E4262;--tx:#EAF2FF;--mu:#A3B6CF;--mu2:#6F84A0;--c1:#4FB3FF;--mod:#FF7AB6;--med:#FFD166;--min:#3DDC84;--ok:#3DDC84;--bad:#FF6B7A;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#03182b}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.stage svg{width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:11px 14px;line-height:1.45;font-size:15px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:4px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.stat{background:var(--sf2);border:1px solid var(--bd2);border-radius:11px;padding:6px 8px;text-align:center}
+.stat small{display:block;color:var(--mu);font-size:12px;font-weight:700}
+.stat b{font-size:19px}
+.info .tip{color:var(--mu);font-size:13px;margin-top:6px}
+.info .eq{margin-top:6px;padding:7px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:700;font-size:14px}
+.ok{color:var(--ok);font-weight:800}.no{color:var(--bad);font-weight:800}
+.ctrl{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.chip{background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:12px 4px;font-weight:800;font-size:15px}
+.chip.hot{border-color:var(--c1)}
+.big{background:var(--c1);border:0;color:#03182b;border-radius:13px;padding:12px 6px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.chk{display:flex;flex-wrap:wrap;gap:6px 14px;font-weight:700;margin-top:4px}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.45fr) minmax(330px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:16px}.ctrl{grid-area:c;align-self:end;grid-template-columns:1fr 1fr}
+ .info b.t{font-size:22px}.stat b{font-size:22px}
+}
+@media(max-height:700px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.chip,.big{padding:9px 3px;font-size:14px}.info{padding:8px 11px;font-size:14px}.info b.t{font-size:16px}}
+@media(max-width:420px){.chip,.big{font-size:13px}.modes button{font-size:13px;padding:10px 3px}.stat b{font-size:17px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#4FB3FF;color:#03182b;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #4fb3ff44">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mod">
+   <button data-m="bina" class="on" role="tab">● Bina Data</button>
+   <button data-m="ubah" role="tab">± Kesan Perubahan</button>
+   <button data-m="cabaran" role="tab">❓ Cabaran</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" viewBox="0 0 600 360" aria-label="Plot titik interaktif"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const L=40,U=26,AX=292,GAP=21,MAXV=20,MAXS=11;
+const MOD='#FF7AB6',MED='#FFD166',MIN='#3DDC84',C1='#4FB3FF',MU='#A3B6CF',MU2='#6F84A0',TX='#EAF2FF',BAD='#FF6B7A';
+const X=v=>L+v*U;
+const snd=n=>{if(window.FX)FX.play(n)};
+let S={m:'bina',d:[3,5,5,6,7,7,7,9,10],prev:null,goal:null,done:false,score:0};
+const f2=n=>{const v=Math.round(n*100)/100;return (Object.is(v,-0)?0:v).toString()};
+const sum=a=>a.reduce((s,x)=>s+x,0);
+const srt=a=>a.slice().sort((p,q)=>p-q);
+function stats(a){
+ if(!a.length)return null;
+ const s=srt(a),n=s.length,med=(s[(n-1)>>1]+s[n>>1])/2,mean=sum(a)/n,c={};a.forEach(v=>c[v]=(c[v]||0)+1);
+ const mx=Math.max(...Object.values(c)),keys=Object.keys(c).map(Number);
+ let mod=keys.filter(k=>c[k]===mx).sort((p,q)=>p-q);if(keys.length>1&&keys.every(k=>c[k]===mx))mod=[];
+ return{n,med,mean,mod,c,s}}
+const modTxt=m=>m.length?m.join(' dan '):'tiada';
+function lbl(x,y,t,c=TX,s=18,a='middle'){return `<text x="${x}" y="${y}" fill="${c}" font-size="${s}" font-weight="800" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="#0D1520" stroke-width="5" stroke-linejoin="round">${t}</text>`}
+function render(){
+ const st=stats(S.d);let g='';
+ // zon buang
+ if(drag)g+=`<rect x="10" y="${AX+40}" width="580" height="16" rx="8" fill="${BAD}${drag.rm?'66':'22'}"/>`+lbl(300,AX+48,'Seret ke sini untuk buang',drag.rm?TX:BAD,12);
+ // paksi
+ g+=`<line x1="${L-16}" y1="${AX}" x2="${X(MAXV)+16}" y2="${AX}" stroke="${MU}" stroke-width="3"/>`;
+ for(let v=0;v<=MAXV;v++){g+=`<line x1="${X(v)}" y1="${AX-6}" x2="${X(v)}" y2="${AX+6}" stroke="${MU}" stroke-width="2"/>`;g+=`<text x="${X(v)}" y="${AX+24}" fill="${MU}" font-size="14" font-weight="700" text-anchor="middle" font-family="Inter,Arial,sans-serif">${v}</text>`}
+ // bayang sebelum (mod ubah)
+ if(S.m==='ubah'&&S.prev){const p=stats(S.prev);if(p)g+=`<polygon points="${X(p.mean)},${AX+8} ${X(p.mean)-11},${AX+26} ${X(p.mean)+11},${AX+26}" fill="none" stroke="${MIN}" stroke-width="2" stroke-dasharray="4 3"/>`}
+ if(st){
+  // median
+  g+=`<line x1="${X(st.med)}" y1="28" x2="${X(st.med)}" y2="${AX-4}" stroke="${MED}" stroke-width="3" stroke-dasharray="8 6"/>`+lbl(Math.min(Math.max(X(st.med),70),530),18,'median '+f2(st.med),MED,15);
+ }
+ // titik
+ const k={};
+ S.d.forEach((v,i)=>{const j=k[v]||0;k[v]=j+1;const y=AX-14-j*GAP,isMod=st&&st.mod.includes(v),dd=drag&&drag.i===i;
+  g+=`<g class="d" data-i="${i}" style="cursor:grab"><circle cx="${dd?drag.x:X(v)}" cy="${dd?drag.y:y}" r="18" fill="transparent"/><circle cx="${dd?drag.x:X(v)}" cy="${dd?drag.y:y}" r="${dd?11:9.5}" fill="${isMod?MOD:C1}" stroke="#0D1520" stroke-width="2.5"/></g>`});
+ if(st){
+  g+=`<polygon points="${X(st.mean)},${AX+8} ${X(st.mean)-11},${AX+26} ${X(st.mean)+11},${AX+26}" fill="${MIN}" stroke="#0D1520" stroke-width="2"/>`;
+  g+=lbl(Math.min(Math.max(X(st.mean),60),540),AX+40,'min '+f2(st.mean),MIN,14);
+ } else g+=lbl(300,150,'Ketik di atas garis nombor untuk menambah data',MU,18);
+ svg.innerHTML=g;
+ renderInfo(st)}
+function statBox(st){return `<div class="stats"><div class="stat"><small>n</small><b>${st?st.n:0}</b></div><div class="stat"><small>Mod</small><b style="color:var(--mod)">${st?modTxt(st.mod):'–'}</b></div><div class="stat"><small>Median</small><b style="color:var(--med)">${st?f2(st.med):'–'}</b></div><div class="stat"><small>Min</small><b style="color:var(--min)">${st?f2(st.mean):'–'}</b></div></div>`}
+function renderInfo(st){
+ let h='';
+ if(S.m==='bina'){
+  h=`<b class="t">Bina set data anda</b>${statBox(st)}`;
+  if(st)h+=`<div class="eq">Min = ${sum(S.d)} ÷ ${st.n} = ${f2(st.mean)}${st.n<=14?`<br>Tersusun: ${st.s.join(', ')}`:''}</div>`;
+  h+=`<div class="tip">Ketik untuk tambah ● · seret ● ke kiri/kanan untuk ubah nilai · seret ke bawah untuk buang. Cuba tambah <b>nilai ekstrem</b> dan lihat min bergerak!</div>`}
+ if(S.m==='ubah'){
+  const p=S.prev?stats(S.prev):null;
+  h=`<b class="t">Kesan perubahan seragam</b>${statBox(st)}`;
+  if(p&&st)h+=`<div class="eq">Sebelum → selepas: mod ${modTxt(p.mod)} → ${modTxt(st.mod)} · median ${f2(p.med)} → ${f2(st.med)} · min ${f2(p.mean)} → ${f2(st.mean)}<br><span style="color:var(--c1)">${S.last}</span></div>`;
+  h+=`<div class="tip">Tekan butang untuk mengubah <b>setiap</b> nilai. Segi tiga putus-putus menunjukkan min sebelum perubahan.</div>`}
+ if(S.m==='cabaran'){
+  const G=S.goal,ok=checkGoal(st);
+  h=`<b class="t">Cabaran: bina set data dengan</b><div class="chk">${G.map((c,i)=>`<span class="${ok[i]?'ok':'no'}">${ok[i]?'✓':'○'} ${c[0]}</span>`).join('')}</div>${statBox(st)}`;
+  if(ok.every(Boolean))h+=`<div class="eq ok">✓ Hebat! Semua syarat dipenuhi. Skor: ${S.score}</div>`;
+  else h+=`<div class="tip">Ketik untuk tambah ●, seret untuk ubah, seret ke bawah untuk buang. Skor: ${S.score}</div>`}
+ info.innerHTML=h}
+function checkGoal(st){return S.goal.map(([,f])=>!!st&&f(st))}
+function newGoal(){
+ let d,st;do{const n=5+Math.floor(Math.random()*4);d=[];for(let i=0;i<n;i++)d.push(2+Math.floor(Math.random()*13));st=stats(d)}while(st.mod.length!==1||!Number.isInteger(st.mean)||st.mod[0]===st.mean);
+ const n=st.n,mo=st.mod[0],me=st.med,mn=st.mean;
+ S.goal=[[`${n} data`,s=>s.n===n],[`mod = ${mo}`,s=>s.mod.length===1&&s.mod[0]===mo],[`median = ${f2(me)}`,s=>s.med===me],[`min = ${mn}`,s=>Math.abs(s.mean-mn)<1e-9]];
+ S.d=[];S.done=false;render()}
+function apply(fn,txt){const nd=S.d.map(fn);if(nd.some(v=>v<0||v>MAXV||!Number.isInteger(v))){snd('salah');S.last='Tidak dapat: ada nilai yang akan keluar dari garis nombor 0 – 20.';render();return}S.prev=S.d.slice();S.d=nd;S.last=txt;snd('langkah');render()}
+function setCtrl(){
+ if(S.m==='bina'){
+  ctrl.innerHTML=`<button class="chip" id="ek">+ Nilai ekstrem</button><button class="chip" id="bu">Buang terakhir</button><button class="big alt" id="ko">Kosongkan</button><button class="big" id="rw">Data rawak</button>`;
+  ek.onclick=()=>{S.d.push(MAXV);snd('ketik');render()};bu.onclick=()=>{S.d.pop();render()};ko.onclick=()=>{S.d=[];render()};rw.onclick=()=>{rawak();snd('ketik');render()};
+ }
+ if(S.m==='ubah'){
+  ctrl.innerHTML=`<button class="chip" id="p2">Setiap nilai + 2</button><button class="chip" id="m2">Setiap nilai − 2</button><button class="chip" id="x2">Setiap nilai × 2</button><button class="big" id="rw">Data rawak</button>`;
+  p2.onclick=()=>apply(v=>v+2,'Setiap nilai + 2: mod, median dan min semuanya + 2.');
+  m2.onclick=()=>apply(v=>v-2,'Setiap nilai − 2: mod, median dan min semuanya − 2.');
+  x2.onclick=()=>apply(v=>v*2,'Setiap nilai × 2: mod, median dan min semuanya × 2.');
+  rw.onclick=()=>{rawak(6);S.prev=null;S.last='';render()};
+ }
+ if(S.m==='cabaran'){
+  ctrl.innerHTML=`<button class="big alt" id="ko" style="grid-column:span 2">Kosongkan</button><button class="big" id="nb" style="grid-column:span 2">Cabaran baharu</button>`;
+  ko.onclick=()=>{S.d=[];render()};nb.onclick=newGoal;
+ }
+ ctrl.querySelectorAll('[id]').forEach(b=>{})}
+function rawak(hi=10){const n=7+Math.floor(Math.random()*5);S.d=[];for(let i=0;i<n;i++)S.d.push(1+Math.floor(Math.random()*hi))}
+function afterChange(){if(S.m==='cabaran'){const st=stats(S.d);if(st&&checkGoal(st).every(Boolean)&&!S.done){S.done=true;S.score++;snd('menang');if(window.FX)FX.stars(document.getElementById('stage'),14)}else if(!(st&&checkGoal(st).every(Boolean)))S.done=false}}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));S.m=b.dataset.m;
+ if(S.m==='cabaran'){setCtrl();newGoal();return}
+ if(S.m==='ubah'){S.d=[2,4,4,5,6,6,6,8];S.prev=null;S.last=''}
+ if(S.m==='bina')S.d=[3,5,5,6,7,7,7,9,10];
+ setCtrl();render()});
+/* ---------- tetikus + sentuh ---------- */
+let drag=null,down=null;
+function pt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+const valAt=x=>Math.max(0,Math.min(MAXV,Math.round((x-L)/U)));
+svg.addEventListener('pointerdown',e=>{e.preventDefault();const p=pt(e),h=e.target.closest('.d');
+ if(h){drag={i:+h.dataset.i,x:p.x,y:p.y,rm:false};svg.setPointerCapture(e.pointerId);render();return}
+ down={x:p.x,y:p.y}});
+svg.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();const p=pt(e);drag.x=Math.max(L-10,Math.min(X(MAXV)+10,p.x));drag.y=Math.max(20,Math.min(352,p.y));drag.rm=p.y>AX+34;render()});
+function up(e){
+ if(drag){const p=pt(e);if(drag.rm){S.d.splice(drag.i,1);snd('ketik')}else{S.d[drag.i]=valAt(p.x);snd('langkah')}drag=null;afterChange();render();return}
+ if(down){const p=pt(e);if(Math.abs(p.x-down.x)<12&&p.y<AX+12&&p.y>20){const v=valAt(p.x);if(S.d.filter(x=>x===v).length<MAXS&&S.d.length<40){S.d.push(v);snd('ketik');afterChange();render()}else snd('salah')}down=null}}
+svg.addEventListener('pointerup',up);svg.addEventListener('pointercancel',()=>{drag=null;down=null;render()});
+setCtrl();render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Data Terkumpul · Bab 12</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0E0A18;--sf:#181226;--sf2:#211936;--sf3:#120D1E;--bd:#2E2447;--bd2:#3E3160;--tx:#F1ECFF;--mu:#B5A8D6;--mu2:#7F72A3;--c1:#A78BFA;--mod:#FF7AB6;--min:#3DDC84;--gold:#FFD166;--ok:#3DDC84;--bad:#FF6B7A;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button,select{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:9px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#1a0f3a}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.stage svg{width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:10px 12px;line-height:1.4;font-size:15px}
+.info b.t{display:block;font-size:17px;color:var(--c1);margin-bottom:4px}
+.info .tip{color:var(--mu);font-size:13px;margin-top:5px}
+.info .eq{margin-top:6px;padding:7px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:700;font-size:14px}
+.ok{color:var(--ok);font-weight:800}.no{color:var(--bad);font-weight:800}
+table{width:100%;border-collapse:collapse;font-size:14.5px;font-weight:700}
+th{color:var(--mu);font-size:12px;text-align:center;padding:2px 2px 4px;font-weight:800}
+td{text-align:center;padding:2px;border-top:1px solid var(--bd)}
+tr.mod td{color:var(--mod)}
+td .fb{display:inline-flex;align-items:center;gap:4px}
+.pm{width:30px;height:28px;border-radius:9px;border:2px solid var(--bd2);background:var(--sf2);font-weight:900;font-size:16px;line-height:1;padding:0}
+tfoot td{border-top:2px solid var(--bd2);color:var(--gold)}
+.ctrl{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.chip{background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:11px 4px;font-weight:800;font-size:15px}
+.chip.ok{border-color:var(--ok);background:#3ddc8422}.chip.no{border-color:var(--bad);background:#ff6b7a22}
+.big{background:var(--c1);border:0;color:#1a0f3a;border-radius:13px;padding:11px 6px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.ctrl.four{grid-template-columns:1fr 1fr}
+.nextb{margin-top:6px;background:var(--c1);border:0;color:#1a0f3a;border-radius:11px;padding:8px 16px;font-weight:900}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.3fr) minmax(360px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:14px}.ctrl{grid-area:c;align-self:end}
+ table{font-size:16px}.info b.t{font-size:20px}
+}
+@media(max-height:700px){.wrap{gap:6px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.chip,.big{padding:8px 3px;font-size:14px}.info{padding:7px 10px;font-size:14px}.pm{height:25px}}
+@media(max-width:420px){.chip,.big{font-size:13px}.modes button{font-size:13px;padding:10px 3px}table{font-size:13px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#A78BFA;color:#1a0f3a;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #a78bfa44">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mod">
+   <button data-m="bina" class="on" role="tab">📊 Jadual &amp; Histogram</button>
+   <button data-m="cabaran" role="tab">❓ Cabaran</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" viewBox="0 0 600 340" aria-label="Histogram data terkumpul"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const CTX=[{nm:'Jisim (kg)',u:'kg',a0:30,w:5,f:[2,5,9,6,3]},{nm:'Markah',u:'',a0:1,w:10,f:[3,6,10,8,4]},{nm:'Masa (minit)',u:'minit',a0:10,w:10,f:[4,9,7,3,2]}];
+const L=60,R=580,T=30,B=270,FMAX=15;
+const MOD='#FF7AB6',MIN='#3DDC84',C1='#A78BFA',MU='#B5A8D6',MU2='#7F72A3',TX='#F1ECFF',GOLD='#FFD166';
+const snd=n=>{if(window.FX)FX.play(n)};
+const f2=n=>{const v=Math.round(n*100)/100;return (Object.is(v,-0)?0:v).toString()};
+const sum=a=>a.reduce((s,x)=>s+x,0);
+let S={m:'bina',c:0,f:CTX[0].f.slice(),q:null,score:0,tot:0};
+const ctx=()=>CTX[S.c];
+const cls=()=>{const c=ctx();return S.f.map((_,i)=>[c.a0+i*c.w,c.a0+i*c.w+c.w-1])};
+const mids=()=>cls().map(([a,b])=>(a+b)/2);
+function calc(f){const m=mids(),sf=sum(f),sfx=sum(f.map((x,i)=>x*m[i])),mx=Math.max(...f),mi=f.map((x,i)=>x===mx&&mx>0?i:-1).filter(i=>i>=0);return{m,sf,sfx,mean:sf?sfx/sf:null,mi}}
+function lbl(x,y,t,c=TX,s=16,a='middle'){return `<text x="${x}" y="${y}" fill="${c}" font-size="${s}" font-weight="800" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="#120D1E" stroke-width="5" stroke-linejoin="round">${t}</text>`}
+function render(){
+ const f=S.m==='cabaran'&&S.q?S.q.f:S.f,cl=cls(),C=calc(f),n=f.length,cw=(R-L)/n,Y=v=>B-v/FMAX*(B-T);
+ let g='';
+ for(let v=0;v<=FMAX;v+=3)g+=`<line x1="${L}" y1="${Y(v)}" x2="${R}" y2="${Y(v)}" stroke="#2E2447" stroke-width="1.5"/><text x="${L-8}" y="${Y(v)}" fill="${MU2}" font-size="13" font-weight="700" text-anchor="end" dominant-baseline="middle" font-family="Inter,Arial,sans-serif">${v}</text>`;
+ f.forEach((v,i)=>{const x=L+i*cw,hl=C.mi.includes(i)&&(S.m==='bina'||(S.q&&S.q.done));
+  g+=`<g class="bar" data-i="${i}" style="cursor:ns-resize"><rect x="${x}" y="${T-10}" width="${cw}" height="${B-T+10}" fill="transparent"/><rect x="${x+1}" y="${Y(v)}" width="${cw-2}" height="${B-Y(v)}" fill="${hl?MOD:C1}" fill-opacity=".85" stroke="#120D1E" stroke-width="2"/>${S.m==='bina'?`<rect x="${x+cw/2-16}" y="${Y(v)-5}" width="32" height="10" rx="5" fill="${TX}" opacity=".75"/>`:''}</g>`;
+  g+=lbl(x+cw/2,Y(v)-(S.m==='bina'?18:12),v,hl?MOD:TX,15);
+  g+=`<text x="${x+cw/2}" y="${B+18}" fill="${MU}" font-size="14" font-weight="700" text-anchor="middle" font-family="Inter,Arial,sans-serif">${cl[i][0]}–${cl[i][1]}</text>`});
+ g+=`<line x1="${L}" y1="${B}" x2="${R}" y2="${B}" stroke="${MU}" stroke-width="3"/><line x1="${L}" y1="${B}" x2="${L}" y2="${T-14}" stroke="${MU}" stroke-width="3"/>`;
+ g+=`<text x="${(L+R)/2}" y="${B+42}" fill="${MU}" font-size="14" font-weight="700" text-anchor="middle" font-family="Inter,Arial,sans-serif">${ctx().nm}</text><text x="${L-4}" y="${T-22}" fill="${MU}" font-size="13" font-weight="700" font-family="Inter,Arial,sans-serif">Kekerapan</text>`;
+ // garis min: kelas i meliputi [a-0.5, b+0.5]
+ if(C.mean!==null&&(S.m==='bina'||(S.q&&S.q.done))){const c=ctx(),lo=c.a0-.5,hi=c.a0+n*c.w-.5,mx=L+(C.mean-lo)/(hi-lo)*(R-L);
+  g+=`<line x1="${mx}" y1="${T-4}" x2="${mx}" y2="${B}" stroke="${MIN}" stroke-width="3.5" stroke-dasharray="9 6"/>`+lbl(Math.min(Math.max(mx,110),510),T-14,'min = '+f2(C.mean),MIN,15)}
+ svg.innerHTML=g;
+ if(S.m==='bina')renderTable(C,cl);}
+function renderTable(C,cl){
+ const c=ctx();
+ let h=`<b class="t">${C.mi.length>1?'Kelas mod: '+C.mi.map(i=>cl[i].join(' – ')).join(' dan '):C.mi.length?'Kelas mod: '+cl[C.mi[0]].join(' – ')+(c.u?' '+c.u:''):'Tiada data'}</b>`;
+ h+=`<table><thead><tr><th>${c.nm}</th><th>Kekerapan, <i>f</i></th><th>Titik tengah, <i>x</i></th><th><i>fx</i></th></tr></thead><tbody>`;
+ S.f.forEach((v,i)=>{h+=`<tr class="${C.mi.includes(i)?'mod':''}"><td>${cl[i][0]} – ${cl[i][1]}</td><td><span class="fb"><button class="pm" data-d="-1" data-i="${i}" aria-label="Kurangkan">−</button><span style="min-width:22px">${v}</span><button class="pm" data-d="1" data-i="${i}" aria-label="Tambah">+</button></span></td><td>${f2(C.m[i])}</td><td>${f2(v*C.m[i])}</td></tr>`});
+ h+=`</tbody><tfoot><tr><td>Jumlah</td><td>Σf = ${C.sf}</td><td></td><td>Σfx = ${f2(C.sfx)}</td></tr></tfoot></table>`;
+ h+=`<div class="eq">Min = Σfx ÷ Σf = ${f2(C.sfx)} ÷ ${C.sf} = <span style="color:var(--min)">${C.mean===null?'–':f2(C.mean)}</span></div>`;
+ info.innerHTML=h;
+ info.querySelectorAll('.pm').forEach(b=>b.onclick=()=>{const i=+b.dataset.i,v=S.f[i]+ +b.dataset.d;if(v<0||v>FMAX){snd('salah');return}S.f[i]=v;snd('ketik');render()})}
+function setCtrl(){
+ if(S.m==='bina'){
+  ctrl.className='ctrl';
+  ctrl.innerHTML=CTX.map((c,i)=>`<button class="chip" data-c="${i}" style="${i===S.c?'border-color:var(--c1);background:#a78bfa26':''}">${c.nm}</button>`).join('');
+  ctrl.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>{S.c=+b.dataset.c;S.f=CTX[S.c].f.slice();setCtrl();render()});
+ } else if(S.q){
+  ctrl.className='ctrl four';
+  ctrl.innerHTML=S.q.opts.map((o,i)=>`<button class="chip" data-o="${i}">${o}</button>`).join('');
+  ctrl.querySelectorAll('[data-o]').forEach(b=>b.onclick=()=>answer(+b.dataset.o,b));
+ }}
+function newQ(){
+ S.c=Math.floor(Math.random()*CTX.length);let f,C;
+ do{f=[0,0,0,0,0].map(()=>1+Math.floor(Math.random()*12));C=calc(f)}while(C.mi.length!==1||Math.abs(C.mean*100-Math.round(C.mean*100))>1e-6);
+ const cl=cls(),jenis=Math.random()<.4?'mod':'min';let ans,wr;
+ if(jenis==='mod'){ans=cl[C.mi[0]].join(' – ');wr=cl.map(c=>c.join(' – ')).filter(t=>t!==ans);wr.sort(()=>Math.random()-.5);wr=wr.slice(0,2).concat([String(Math.max(...f))])}
+ else{ans=f2(C.mean);const up=sum(f.map((x,i)=>x*cl[i][1]))/C.sf,lw=sum(f.map((x,i)=>x*cl[i][0]))/C.sf;wr=[f2(up),f2(lw),f2(C.sfx/5)];wr=wr.filter((w,i)=>w!==ans&&wr.indexOf(w)===i);let k=1;while(wr.length<3){const t=f2(C.mean+k*1.5);if(t!==ans&&!wr.includes(t))wr.push(t);k++}}
+ const opts=[ans].concat(wr.slice(0,3)).sort(()=>Math.random()-.5);
+ S.q={f,jenis,ans,opts,c:opts.indexOf(ans),done:false,C};S.tot++;
+ setCtrl();render();
+ info.innerHTML=`<b class="t">${jenis==='mod'?'Apakah kelas mod?':'Hitung min anggaran.'}</b><div class="tip">${jenis==='min'?'Petua: guna titik tengah setiap kelas, kemudian Σfx ÷ Σf.':'Petua: cari palang yang paling tinggi.'} Skor: ${S.score}/${S.tot-1}</div>`}
+function answer(o,btn){
+ const Q=S.q;if(Q.done)return;Q.done=true;const ok=o===Q.c;
+ if(ok){S.score++;snd('betul');if(window.FX)FX.stars(btn,10)}else snd('salah');
+ ctrl.querySelectorAll('.chip').forEach((b,i)=>{if(i===Q.c)b.classList.add('ok');else if(b===btn)b.classList.add('no');b.disabled=true});
+ render();
+ const cl=cls(),C=Q.C;
+ const w=Q.jenis==='mod'?`Kekerapan tertinggi = ${Math.max(...Q.f)}, maka kelas mod = <b>${Q.ans}</b>`:`Titik tengah: ${C.m.map(f2).join(', ')}<br>Σf = ${C.sf}, Σfx = ${Q.f.map((x,i)=>x+'('+f2(C.m[i])+')').join(' + ')} = ${f2(C.sfx)}<br>Min = ${f2(C.sfx)} ÷ ${C.sf} = <b>${Q.ans}</b>`;
+ info.innerHTML=`<b class="t">${ok?'<span class="ok">✓ Betul!</span>':'<span class="no">✗ Jawapan: '+Q.ans+'</span>'}</b><div class="eq">${w}</div><div class="tip">Skor: ${S.score}/${S.tot}</div><button class="nextb" id="nx">Seterusnya ▶</button>`;
+ document.getElementById('nx').onclick=newQ}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));S.m=b.dataset.m;
+ if(S.m==='cabaran'){newQ();return}
+ S.q=null;S.f=CTX[S.c].f.slice();setCtrl();render()});
+/* ---------- seret palang ---------- */
+let drag=null;
+function pt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+const fAt=y=>Math.max(0,Math.min(FMAX,Math.round((B-y)/(B-T)*FMAX)));
+svg.addEventListener('pointerdown',e=>{if(S.m!=='bina')return;const b=e.target.closest('.bar');if(!b)return;e.preventDefault();drag=+b.dataset.i;svg.setPointerCapture(e.pointerId);const v=fAt(pt(e).y);if(v!==S.f[drag]){S.f[drag]=v;snd('ketik');render()}});
+svg.addEventListener('pointermove',e=>{if(drag===null)return;e.preventDefault();const v=fAt(pt(e).y);if(v!==S.f[drag]){S.f[drag]=v;snd('ketik');render()}});
+const end=()=>{drag=null};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+setCtrl();render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>
