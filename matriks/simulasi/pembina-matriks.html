@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Pembina Matriks · Bab 2</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--sf:#131C2E;--sf2:#1A2540;--bd:#22304A;--tx:#E6EDF7;--mu:#94A3B8;--tr:#38BDF8;--pk:#F472B6;--am:#FBBF24;--gr:#34D399;--pu:#A78BFA;--rd:#F87171;font-family:Inter,system-ui,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;width:100%;max-width:1200px;margin:0 auto;padding:8px 12px calc(10px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:8px}
+h1{margin:0;font-size:clamp(18px,2.6vw,26px);font-weight:800}h1 span{color:var(--am)}
+.hint{margin:0;color:var(--mu);font-size:clamp(13px,1.6vw,16px)}
+.main{flex:1;min-height:0;display:grid;grid-template-columns:1.2fr 1fr;gap:12px}
+@media (max-width:760px){.main{grid-template-columns:1fr;grid-template-rows:minmax(0,1.15fr) auto}}
+.card{background:var(--sf);border:2px solid var(--bd);border-radius:20px;padding:12px;min-height:0;display:flex;flex-direction:column;gap:8px;overflow:hidden}
+.stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
+.stage svg{width:100%;height:100%;max-height:100%}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{background:var(--sf2);border:2px solid var(--bd);border-radius:14px;padding:9px 14px;font-weight:800;min-height:44px}
+.btn.on{border-color:var(--am);color:var(--am)}
+.st{display:flex;align-items:center;gap:6px;background:var(--sf2);border:2px solid var(--bd);border-radius:14px;padding:3px 6px}
+.st b{min-width:34px;text-align:center;font-size:18px}.st span{color:var(--mu);font-weight:700;font-size:14px;padding-left:4px}
+.st button{width:40px;height:40px;border-radius:10px;border:0;background:var(--bd);font-size:22px;font-weight:800}
+.info{font-size:clamp(14px,1.8vw,19px);line-height:1.45;font-weight:600}
+.info b{color:var(--am)}
+.mx{display:inline-grid;gap:2px 14px;text-align:center;vertical-align:middle;padding:2px 10px;border-left:3px solid var(--tr);border-right:3px solid var(--tr);border-radius:10px;font-weight:800}
+.top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(10px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#8F9BFF;color:#10133a;border-radius:14px;padding:10px 20px;font:900 16px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #8f9bff44">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+<div class="top"><div><h1>Pembina <span>Matriks</span></h1><p class="hint">Ubah saiz jadual, ketik satu sel dan ubah nilainya. Lihat matriks, peringkat dan unsur <i>a</i><sub>ij</sub>.</p></div><span id="sndslot" style="display:flex"></span></div>
+<div class="main">
+<div class="card"><div class="stage" id="stage"></div></div>
+<div class="card">
+<div class="row"><div id="sr"></div><div id="sc"></div></div>
+<div class="row"><div id="sv"></div><button class="btn" id="rnd">Nilai rawak</button></div>
+<div class="info" id="info"></div>
+</div></div></div>
+<script>
+const snd=n=>{if(window.FX&&FX.play)FX.play(n)};
+const f=n=>(n<0?'−'+(-n):''+n);
+const $=id=>document.getElementById(id);
+const mxh=M=>`<span class="mx" style="grid-template-columns:repeat(${M[0].length},auto)">${M.map(r=>r.map(v=>`<span>${typeof v==='string'?v:f(v)}</span>`).join('')).join('')}</span>`;
+function stp(id,lab,get,set,lo,hi){const e=$(id);e.className='st';e.innerHTML=`<span>${lab}</span><button aria-label="kurang">−</button><b></b><button aria-label="tambah">+</button>`;const [m,,p]=[...e.querySelectorAll('button,b')];const b=e.querySelector('b');const up=()=>{b.textContent=f(get())};e.querySelectorAll('button')[0].onclick=()=>{if(get()>lo){set(get()-1);snd('klik');draw()}};e.querySelectorAll('button')[1].onclick=()=>{if(get()<hi){set(get()+1);snd('klik');draw()}};e.up=up;up();return e}
+
+const RN=['Kedai A','Kedai B','Kedai C','Kedai D'],CN=['Nasi lemak','Roti canai','Mi goreng','Kuih'];
+let m=2,n=3,si=0,sj=0,V=[[25,30,18,12],[40,22,35,9],[15,28,20,31],[33,11,26,17]];
+function draw(){
+ if(si>=m)si=m-1;if(sj>=n)sj=n-1;
+ const W=640,H=420,cw=Math.min(120,360/n),rh=44,L=130,T=36;let s='';
+ for(let j=0;j<n;j++)s+=`<text x="${L+cw*j+cw/2}" y="${T-14}" fill="${j===sj?'#F472B6':'#94A3B8'}" font-size="14" font-weight="800" text-anchor="middle">${CN[j]}</text>`;
+ for(let i=0;i<m;i++){s+=`<text x="10" y="${T+rh*i+rh/2+5}" fill="${i===si?'#38BDF8':'#94A3B8'}" font-size="15" font-weight="800">${RN[i]}</text>`;
+  for(let j=0;j<n;j++){const on=i===si&&j===sj;s+=`<g class="cell" data-i="${i}" data-j="${j}" style="cursor:pointer"><rect x="${L+cw*j+3}" y="${T+rh*i+3}" width="${cw-6}" height="${rh-6}" rx="8" fill="${on?'#2a2410':'#1A2540'}" stroke="${on?'#FBBF24':i===si?'#38BDF8':j===sj?'#F472B6':'#22304A'}" stroke-width="2.5"/><text x="${L+cw*j+cw/2}" y="${T+rh*i+rh/2+6}" fill="#E6EDF7" font-size="18" font-weight="800" text-anchor="middle" pointer-events="none">${V[i][j]}</text></g>`}}
+ const y0=T+rh*m+40;s+=`<path d="M320 ${y0-26}v22m-10-10l10 12 10-12" stroke="#FBBF24" stroke-width="3.5" fill="none" stroke-linecap="round"/>`;
+ const mw=n*62+20,mx0=320-mw/2+20,mh=m*40;
+ s+=`<text x="${mx0-14}" y="${y0+mh/2+6}" fill="#E6EDF7" font-size="24" font-weight="800" text-anchor="end">J =</text><path d="M${mx0+10} ${y0}H${mx0}V${y0+mh}H${mx0+10}M${mx0+mw-10} ${y0}H${mx0+mw}V${y0+mh}H${mx0+mw-10}" stroke="#38BDF8" stroke-width="3.5" fill="none"/>`;
+ for(let i=0;i<m;i++)for(let j=0;j<n;j++){const on=i===si&&j===sj;s+=`<text x="${mx0+10+62*j+31}" y="${y0+40*i+27}" fill="${on?'#FBBF24':'#E6EDF7'}" font-size="21" font-weight="800" text-anchor="middle">${V[i][j]}</text>`}
+ $('stage').innerHTML=`<svg viewBox="0 0 ${W} ${Math.max(H,y0+mh+16)}" role="img" aria-label="Jadual dan matriks">${s}</svg>`;
+ $('stage').querySelectorAll('.cell').forEach(g=>g.onclick=()=>{si=+g.dataset.i;sj=+g.dataset.j;snd('klik');draw()});
+ ['sr','sc','sv'].forEach(k=>$(k).up&&$(k).up());
+ const kind=m===1?'matriks baris':n===1?'matriks lajur':m===n?'matriks segi empat sama':'';
+ $('info').innerHTML=`Peringkat: <b>${m} × ${n}</b> (${m} baris, ${n} lajur)${kind?' · '+kind:''}<br>Sel dipilih: <b><i>a</i><sub>${si+1}${sj+1}</sub> = ${V[si][sj]}</b><br><span style="color:#38BDF8">baris ke-${si+1}</span> (${RN[si]}), <span style="color:#F472B6">lajur ke-${sj+1}</span> (${CN[sj]})<br>Bilangan unsur: <b>${m*n}</b>`;
+}
+stp('sr','Baris',()=>m,v=>m=v,1,4);stp('sc','Lajur',()=>n,v=>n=v,1,4);stp('sv','Nilai',()=>V[si][sj],v=>V[si][sj]=v,0,99);
+$('rnd').onclick=()=>{V=V.map(r=>r.map(()=>Math.floor(Math.random()*50)+1));snd('klik');draw()};
+draw();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script>(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});})();</script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Bulatan Unit · Bab 6</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--sf:#131C2E;--sf2:#18233A;--sf3:#0E1626;--bd:#22304A;--bd2:#2E3F5E;--tx:#E6EDF7;--mu:#94A3B8;--mu2:#64748B;--pu:#A78BFA;--tr:#38BDF8;--am:#FBBF24;--gr:#34D399;--pk:#F472B6;--rd:#F87171;
+ --surface:#131C2E;--border:#2E3F5E;--text:#E6EDF7;--muted:#94A3B8;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:center}
+.top h1{flex:1;margin:0;font-size:19px;font-weight:800;color:var(--pu)}
+.top .snd-btn{min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.stage svg{width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:10px 14px;line-height:1.45;font-size:15px}
+.info .row{display:flex;flex-wrap:wrap;gap:4px 16px;font-weight:700}
+.info .tip{color:var(--mu);font-size:13px;margin-top:4px}
+.ctrl{display:flex;flex-wrap:wrap;gap:8px}
+.chip{flex:1;min-width:64px;background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:11px 6px;font-weight:800;font-size:15px}
+.chip.on{background:var(--pu);border-color:var(--pu);color:#0B1220}
+.sl{flex:1 1 30%;min-width:150px;background:var(--sf);border:1px solid var(--bd);border-radius:13px;padding:6px 12px;font-weight:800;font-size:14px}
+.sl input{width:100%;accent-color:var(--pu);height:26px}
+@media (min-width:900px){.wrap{grid-template-columns:minmax(0,1fr) 340px;grid-template-rows:auto minmax(0,1fr) auto}.top{grid-column:1/3}.stage{grid-row:2/4}.info{grid-column:2}.ctrl{grid-column:2;align-content:start}}
+</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#A78BFA;color:#140d2e;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #a78bfa44">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+<div class="top"><h1>Bulatan Unit</h1><span id="sndslot"></span></div>
+<div class="stage"><svg id="sv" viewBox="0 0 400 400" role="img" aria-label="Bulatan unit: seret titik P"></svg></div>
+<div class="info" id="info"></div>
+<div class="ctrl"><button class="chip" id="m1">−1°</button><button class="chip" id="p1">+1°</button><button class="chip on" id="snap">Lompat 15°</button><button class="chip" id="khas">Sudut khas</button></div>
+</div>
+<script>
+const R=d=>d*Math.PI/180,S=d=>Math.sin(R(d)),C=d=>Math.cos(R(d));
+const fm=(v,dp=4)=>{let r=+v.toFixed(dp);if(Object.is(r,-0)||Math.abs(r)<1e-9)r=0;return(r<0?'−':'')+Math.abs(r)};
+const suk=t=>t%90===0?null:t<90?1:t<180?2:t<270?3:4,ROM=['','I','II','III','IV'];
+const refA=t=>{const q=suk(t);return q===1?t:q===2?180-t:q===3?t-180:360-t};
+const snd=n=>{if(window.FX)FX.play(n)};
+const svg=document.getElementById('sv');
+function svgPt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+
+let th=50,snap=true;const CX=200,CY=200,RR=140;
+const KH=[0,30,45,60,90,120,135,150,180,210,225,240,270,300,315,330];
+function render(){
+ const px=CX+RR*C(th),py=CY-RR*S(th),q=suk(th);
+ let s='';
+ const qcol=['','#34D399','#F472B6','#FBBF24','#38BDF8'];
+ [[1,0],[2,90],[3,180],[4,270]].forEach(([k,a])=>{const on=q===k;s+=`<path d="M${CX} ${CY} L${CX+RR*C(a)} ${CY-RR*S(a)} A${RR} ${RR} 0 0 0 ${CX+RR*C(a+90)} ${CY-RR*S(a+90)} Z" fill="${qcol[k]}" opacity="${on?.16:.04}"/>`;
+  const m=a+45;s+=`<text x="${CX+RR*.62*C(m)}" y="${CY-RR*.62*S(m)+(k<3?-28:28)}" fill="${qcol[k]}" opacity="${on?1:.5}" font-size="14" font-weight="800" text-anchor="middle" dominant-baseline="central">${['','Semua +','sin +','tan +','kos +'][k]}</text>`});
+ s+=`<line x1="30" y1="${CY}" x2="370" y2="${CY}" stroke="#94A3B8" stroke-width="2"/><line x1="${CX}" y1="30" x2="${CX}" y2="370" stroke="#94A3B8" stroke-width="2"/>`;
+ s+=`<circle cx="${CX}" cy="${CY}" r="${RR}" fill="none" stroke="#2E3F5E" stroke-width="3"/>`;
+ let d='';const n=Math.max(2,Math.round(th/4));for(let k=0;k<=n;k++){const a=th*k/n;d+=(k?'L':'M')+(CX+30*C(a)).toFixed(1)+' '+(CY-30*S(a)).toFixed(1)}
+ s+=`<path d="${d}" fill="none" stroke="#FBBF24" stroke-width="3"/>`;
+ s+=`<line x1="${px}" y1="${py}" x2="${px}" y2="${CY}" stroke="#F472B6" stroke-width="3.5" stroke-dasharray="6 5"/><line x1="${CX}" y1="${CY}" x2="${px}" y2="${CY}" stroke="#34D399" stroke-width="4"/>`;
+ s+=`<line x1="${CX}" y1="${CY}" x2="${px}" y2="${py}" stroke="#A78BFA" stroke-width="4.5" stroke-linecap="round"/>`;
+ s+=`<text x="${Math.max(70,Math.min(330,px))}" y="${py+(py<=CY?-22:28)}" fill="#E6EDF7" font-size="14" font-weight="800" text-anchor="middle" paint-order="stroke" stroke="#0E1626" stroke-width="5">P(${fm(C(th),3)}, ${fm(S(th),3)})</text>`;
+ s+=`<g class="h" style="cursor:grab"><circle cx="${px}" cy="${py}" r="24" fill="transparent"/><circle cx="${px}" cy="${py}" r="11" fill="#FBBF24" stroke="#0E1626" stroke-width="3"/></g>`;
+ s+=`<text x="372" y="${CY-12}" fill="#94A3B8" font-size="14" font-weight="700" text-anchor="end">x</text><text x="${CX+10}" y="40" fill="#94A3B8" font-size="14" font-weight="700">y</text>`;
+ svg.innerHTML=s;
+ const t=Math.abs(C(th))<1e-9?'tidak tertakrif':fm(S(th)/C(th));
+ const qs=q?`Sukuan ${ROM[q]} · sudut rujukan α = ${refA(th)}°`:'Pada paksi (bukan dalam mana-mana sukuan)';
+ document.getElementById('info').innerHTML=`<div class="row"><span style="color:#FBBF24">θ = ${th}°</span><span style="color:#A78BFA">${qs}</span></div><div class="row"><span style="color:#F472B6">sin θ = ${fm(S(th))}</span><span style="color:#34D399">kos θ = ${fm(C(th))}</span><span style="color:#38BDF8">tan θ = ${t}</span></div><div class="tip">Seret titik kuning. sin θ = koordinat-y, kos θ = koordinat-x, tan θ = y ÷ x.</div>`;
+ document.getElementById('snap').classList.toggle('on',snap);
+}
+let drag=false;
+svg.addEventListener('pointerdown',e=>{if(!e.target.closest('.h'))return;e.preventDefault();drag=true;svg.setPointerCapture(e.pointerId)});
+svg.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();const p=svgPt(e);let a=Math.atan2(-(p.y-CY),p.x-CX)*180/Math.PI;if(a<0)a+=360;a=snap?Math.round(a/15)*15:Math.round(a);if(a>=360)a=snap?0:359;if(a!==th){th=a;render()}});
+const end=()=>{if(drag)snd('ketik');drag=false};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+document.getElementById('m1').onclick=()=>{th=(th+359)%360;render()};
+document.getElementById('p1').onclick=()=>{th=(th+1)%360;render()};
+document.getElementById('snap').onclick=()=>{snap=!snap;render()};
+document.getElementById('khas').onclick=()=>{const i=KH.indexOf(th);th=KH[(i+1)%KH.length];snd('ketik');render()};
+render();
+
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script>(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});})();</script>
+</body>
+</html>

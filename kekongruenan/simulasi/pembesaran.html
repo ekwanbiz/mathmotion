@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Pembesaran · Bab 5</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--sf:#131C2E;--sf3:#0E1626;--bd:#22304A;--tx:#E6EDF7;--mu:#94A3B8;--tr:#38BDF8;--pk:#F472B6;--gr:#34D399;--am:#FBBF24;--pu:#A78BFA;--rd:#F87171;--grid:#1E2A40;
+ font-family:Inter,"Segoe UI",system-ui,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+button,select,input{font:inherit;color:inherit;touch-action:manipulation}
+button{cursor:pointer}
+.wrap{flex:1;min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr) auto auto;gap:8px;padding:8px 12px calc(10px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+h1{margin:0;font-size:20px;display:flex;align-items:center;gap:10px;justify-content:space-between}
+h1 span{color:var(--c,var(--pk))}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;display:flex}
+.stage svg{width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.ctrl{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:8px 12px}
+.ctrl label{font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px;flex:1;min-width:200px}
+.ctrl input[type=range]{flex:1;accent-color:var(--pk);height:28px}
+.ctrl select{flex:1;min-width:0;width:100%;background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:8px;font-weight:700}
+.btn{background:var(--bg);border:1px solid var(--bd);border-radius:12px;padding:9px 14px;font-weight:700}
+.btn.on{background:var(--c,var(--pk));color:#0B1220;border-color:transparent}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:10px 14px;font-size:15px;line-height:1.45;min-height:56px}
+.info b{color:var(--am)}
+@media(min-width:900px){.wrap{grid-template-columns:minmax(0,1fr) 340px;grid-template-rows:auto minmax(0,1fr) auto}h1{grid-column:1/3}.stage{grid-row:2/4}.ctrl{align-content:flex-start}.info{grid-column:2}}
+</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(10px + env(safe-area-inset-top)) 12px 0;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#38BDF8;color:#0B1220;border-radius:14px;padding:10px 20px;font:900 16px Inter,system-ui,sans-serif;text-decoration:none">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap" style="--c:var(--pk)">
+<h1><span>Pembesaran</span><b id="sndslot"></b></h1>
+<div class="stage"><svg id="sv" viewBox="-10.6 -10.6 21.2 21.2"></svg></div>
+<div class="ctrl"><label>k = <b id="kv" style="min-width:44px">2</b><input id="k" type="range" min="-3" max="3" step="0.5" value="2"></label>
+<button class="btn" id="rs">Set semula</button></div>
+<div class="info" id="inf"></div></div>
+<script>
+const NS='http://www.w3.org/2000/svg';
+const snd=n=>{if(window.FX)FX.play(n)};
+const fm=v=>{v=Math.round(v*100)/100;if(Object.is(v,-0))v=0;return (v<0?'−':'')+Math.abs(v)};
+function grid(R){let s='';for(let i=-R;i<=R;i++){s+=`<line x1="${i}" y1="${-R}" x2="${i}" y2="${R}" stroke="var(--grid)" stroke-width="${i?0.04:0.08}" ${i?'':'style="stroke:var(--mu)"'}/><line x1="${-R}" y1="${i}" x2="${R}" y2="${i}" stroke="var(--grid)" stroke-width="${i?0.04:0.08}" ${i?'':'style="stroke:var(--mu)"'}/>`}return s}
+const poly=(p,c,dash)=>`<polygon points="${p.map(q=>q[0]+','+(-q[1])).join(' ')}" fill="${c}" fill-opacity=".25" stroke="${c}" stroke-width=".12" stroke-linejoin="round" ${dash?'stroke-dasharray=".3 .2"':''}/>`;
+const area=p=>Math.abs(p.reduce((s,q,i)=>{const r=p[(i+1)%p.length];return s+q[0]*r[1]-r[0]*q[1]},0))/2;
+
+const R=10,sv=document.getElementById('sv'),kI=document.getElementById('k');
+let C=[-4,-3],OB=[[-2,-2],[0,-2],[-2,1]],drag=null;
+function img(p,k){return[C[0]+k*(p[0]-C[0]),C[1]+k*(p[1]-C[1])]}
+function draw(){const k=+kI.value;document.getElementById('kv').textContent=fm(k);const IM=OB.map(p=>img(p,k));
+let s=grid(R);OB.forEach((p,i)=>{const q=IM[i];s+=`<line x1="${C[0]}" y1="${-C[1]}" x2="${q[0]}" y2="${-q[1]}" stroke="var(--am)" stroke-width=".06" stroke-dasharray=".25 .2"/>`});
+s+=poly(OB,'var(--tr)')+(k?poly(IM,'var(--pk)'):'');OB.forEach((p,i)=>{s+=`<circle cx="${p[0]}" cy="${-p[1]}" r=".42" fill="var(--tr)" data-v="${i}" style="cursor:grab"/>`;s+=`<text x="${p[0]+.45}" y="${-p[1]-.45}" font-size=".7" font-weight="700" fill="var(--tr)">${'ABC'[i]}</text><text x="${IM[i][0]+.45}" y="${-IM[i][1]-.45}" font-size=".7" font-weight="700" fill="var(--pk)">${'ABC'[i]}′</text>`});
+s+=`<circle cx="${C[0]}" cy="${-C[1]}" r=".55" fill="var(--am)" stroke="#fff" stroke-width=".1" data-v="c" style="cursor:grab"/><text x="${C[0]+.6}" y="${-C[1]+1}" font-size=".7" font-weight="700" fill="var(--am)">O</text>`;
+sv.innerHTML=s;const ao=area(OB),ai=area(IM);
+const jen=k===0?'k = 0: semua titik imej jatuh pada pusat.':k<0?'k negatif: imej di <b>sebelah bertentangan</b> pusat dan songsang.':Math.abs(k)<1?'0 &lt; k &lt; 1: imej <b>lebih kecil</b>.':k===1?'k = 1: imej sama dengan objek.':'k &gt; 1: imej <b>lebih besar</b>.';
+document.getElementById('inf').innerHTML=`Pusat O(${fm(C[0])}, ${fm(C[1])}) · A(${fm(OB[0][0])}, ${fm(OB[0][1])}) → A′(${fm(IM[0][0])}, ${fm(IM[0][1])})<br>${jen}<br>Luas objek = ${fm(ao)} · Luas imej = k² × ${fm(ao)} = ${fm(k*k)} × ${fm(ao)} = <b>${fm(ai)}</b> unit²`}
+function pt(e){const r=sv.getBoundingClientRect(),m=sv.getScreenCTM().inverse(),P=new DOMPoint(e.clientX,e.clientY).matrixTransform(m);return[Math.max(-R,Math.min(R,Math.round(P.x))),Math.max(-R,Math.min(R,Math.round(-P.y)))]}
+sv.addEventListener('pointerdown',e=>{const v=e.target.dataset&&e.target.dataset.v;if(v==null)return;drag=v;sv.setPointerCapture(e.pointerId);e.preventDefault()});
+sv.addEventListener('pointermove',e=>{if(drag==null)return;const p=pt(e);if(drag==='c'){if(p[0]!==C[0]||p[1]!==C[1]){C=p;draw()}}else{const o=OB[drag];if(p[0]!==o[0]||p[1]!==o[1]){OB[drag]=p;draw()}}});
+sv.addEventListener('pointerup',()=>{if(drag!=null)snd('klik');drag=null});
+kI.oninput=()=>{draw();snd('klik')};
+document.getElementById('rs').onclick=()=>{C=[-4,-3];OB=[[-2,-2],[0,-2],[-2,1]];kI.value=2;draw()};
+draw();</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+</body></html>

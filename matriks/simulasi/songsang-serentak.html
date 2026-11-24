@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Songsang & Serentak · Bab 2</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--sf:#131C2E;--sf2:#1A2540;--bd:#22304A;--tx:#E6EDF7;--mu:#94A3B8;--tr:#38BDF8;--pk:#F472B6;--am:#FBBF24;--gr:#34D399;--pu:#A78BFA;--rd:#F87171;font-family:Inter,system-ui,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;width:100%;max-width:1200px;margin:0 auto;padding:8px 12px calc(10px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:8px}
+h1{margin:0;font-size:clamp(18px,2.6vw,26px);font-weight:800}h1 span{color:var(--am)}
+.hint{margin:0;color:var(--mu);font-size:clamp(13px,1.6vw,16px)}
+.main{flex:1;min-height:0;display:grid;grid-template-columns:1.2fr 1fr;gap:12px}
+@media (max-width:760px){.main{grid-template-columns:1fr;grid-template-rows:minmax(0,1.15fr) auto}}
+.card{background:var(--sf);border:2px solid var(--bd);border-radius:20px;padding:12px;min-height:0;display:flex;flex-direction:column;gap:8px;overflow:hidden}
+.stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
+.stage svg{width:100%;height:100%;max-height:100%}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{background:var(--sf2);border:2px solid var(--bd);border-radius:14px;padding:9px 14px;font-weight:800;min-height:44px}
+.btn.on{border-color:var(--am);color:var(--am)}
+.st{display:flex;align-items:center;gap:6px;background:var(--sf2);border:2px solid var(--bd);border-radius:14px;padding:3px 6px}
+.st b{min-width:34px;text-align:center;font-size:18px}.st span{color:var(--mu);font-weight:700;font-size:14px;padding-left:4px}
+.st button{width:40px;height:40px;border-radius:10px;border:0;background:var(--bd);font-size:22px;font-weight:800}
+.info{font-size:clamp(14px,1.8vw,19px);line-height:1.45;font-weight:600}
+.info b{color:var(--am)}
+.mx{display:inline-grid;gap:2px 14px;text-align:center;vertical-align:middle;padding:2px 10px;border-left:3px solid var(--tr);border-right:3px solid var(--tr);border-radius:10px;font-weight:800}
+.top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(10px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#8F9BFF;color:#10133a;border-radius:14px;padding:10px 20px;font:900 16px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #8f9bff44">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+<div class="top"><div><h1>Songsang <span>&amp;</span> Serentak</h1><p class="hint">Ubah pekali dua persamaan. Lihat penentu, matriks songsang dan titik persilangan dua garis.</p></div><span id="sndslot" style="display:flex"></span></div>
+<div class="main">
+<div class="card"><div class="stage" id="stage"></div></div>
+<div class="card">
+<div class="row" style="gap:6px"><div id="a"></div><div id="b"></div><div id="e"></div></div>
+<div class="row" style="gap:6px"><div id="c"></div><div id="d"></div><div id="g"></div></div>
+<div class="info" id="info"></div>
+</div></div></div>
+<script>
+const snd=n=>{if(window.FX&&FX.play)FX.play(n)};
+const f=n=>(n<0?'−'+(-n):''+n);
+const $=id=>document.getElementById(id);
+const mxh=M=>`<span class="mx" style="grid-template-columns:repeat(${M[0].length},auto)">${M.map(r=>r.map(v=>`<span>${typeof v==='string'?v:f(v)}</span>`).join('')).join('')}</span>`;
+function stp(id,lab,get,set,lo,hi){const e=$(id);e.className='st';e.innerHTML=`<span>${lab}</span><button aria-label="kurang">−</button><b></b><button aria-label="tambah">+</button>`;const [m,,p]=[...e.querySelectorAll('button,b')];const b=e.querySelector('b');const up=()=>{b.textContent=f(get())};e.querySelectorAll('button')[0].onclick=()=>{if(get()>lo){set(get()-1);snd('klik');draw()}};e.querySelectorAll('button')[1].onclick=()=>{if(get()<hi){set(get()+1);snd('klik');draw()}};e.up=up;up();return e}
+
+const K={a:2,b:1,e:7,c:1,d:-1,g:2};
+const gcd=(a,b)=>{a=Math.abs(a);b=Math.abs(b);while(b)[a,b]=[b,a%b];return a};
+const fr=(n,d)=>{if(d<0){n=-n;d=-d}const g=gcd(n,d)||1;n/=g;d/=g;return d===1?f(n):(n<0?'−':'')+Math.abs(n)+'/'+d};
+const eq=(p,q,k)=>`${p===1?'':p===-1?'−':f(p)}x ${q<0?'−':'+'} ${Math.abs(q)===1?'':Math.abs(q)}y = ${f(k)}`.replace(/^0x \+ /,'').replace(/^0x − /,'−');
+function draw(){
+ const {a,b,c,d,e,g}=K,D=a*d-b*c,W=420,H=420,R=8,X=v=>W/2+v*W/(2*R),Y=v=>H/2-v*H/(2*R);
+ let s='';for(let i=-R;i<=R;i++){s+=`<line x1="${X(i)}" y1="0" x2="${X(i)}" y2="${H}" stroke="#1E2A40"/><line x1="0" y1="${Y(i)}" x2="${W}" y2="${Y(i)}" stroke="#1E2A40"/>`;if(i&&i%2===0)s+=`<text x="${X(i)}" y="${Y(0)+16}" fill="#64748B" font-size="12" text-anchor="middle">${f(i)}</text><text x="${X(0)-6}" y="${Y(i)+4}" fill="#64748B" font-size="12" text-anchor="end">${f(i)}</text>`}
+ s+=`<line x1="0" y1="${Y(0)}" x2="${W}" y2="${Y(0)}" stroke="#94A3B8" stroke-width="2"/><line x1="${X(0)}" y1="0" x2="${X(0)}" y2="${H}" stroke="#94A3B8" stroke-width="2"/>`;
+ const line=(p,q,k,col)=>{if(q!==0)return `<line x1="${X(-R)}" y1="${Y((k+p*R)/q)}" x2="${X(R)}" y2="${Y((k-p*R)/q)}" stroke="${col}" stroke-width="4"/>`;if(p!==0)return `<line x1="${X(k/p)}" y1="0" x2="${X(k/p)}" y2="${H}" stroke="${col}" stroke-width="4"/>`;return ''};
+ s+=line(a,b,e,'#38BDF8')+line(c,d,g,'#F472B6');
+ let info=`<span style="color:#38BDF8">${eq(a,b,e)}</span><br><span style="color:#F472B6">${eq(c,d,g)}</span><br>`;
+ info+=`${mxh([[a,b],[c,d]])}${mxh([['x'],['y']])} = ${mxh([[e],[g]])}<br>Penentu = (${f(a)})(${f(d)}) − (${f(b)})(${f(c)}) = <b>${f(D)}</b><br>`;
+ if(D!==0){const x=d*e-b*g,y=-c*e+a*g;info+=`<i>A</i><sup>−1</sup> = ${D===1?'':D===-1?'−':'1/'+(D<0?'('+f(D)+')':D)+' '}${mxh([[d,-b],[-c,a]])}<br>${mxh([['x'],['y']])} = <i>A</i><sup>−1</sup>${mxh([[e],[g]])} → <b>x = ${fr(x,D)}, y = ${fr(y,D)}</b>`;
+  const px=x/D,py=y/D;if(Math.abs(px)<=R&&Math.abs(py)<=R)s+=`<circle cx="${X(px)}" cy="${Y(py)}" r="8" fill="#FBBF24" stroke="#0B1220" stroke-width="3"/><text x="${X(px)+12}" y="${Y(py)-12}" fill="#FBBF24" font-size="18" font-weight="800" paint-order="stroke" stroke="#0B1220" stroke-width="5">(${fr(x,D)}, ${fr(y,D)})</text>`;}
+ else info+=`<b style="color:#F87171">Penentu = 0: tiada matriks songsang.</b> Garis selari atau bertindih, tiada penyelesaian unik.`;
+ $('stage').innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Graf dua garis lurus">${s}</svg>`;
+ $('info').innerHTML=info;['a','b','e','c','d','g'].forEach(k=>$(k).up&&$(k).up());
+}
+[['a','a'],['b','b'],['e','=1'],['c','c'],['d','d'],['g','=2']].forEach(([k,l])=>stp(k,l,()=>K[k],v=>K[k]=v,-9,9));
+draw();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script>(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});})();</script>
+</body>
+</html>

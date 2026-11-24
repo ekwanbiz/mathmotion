@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Baris × Lajur · Bab 2</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--sf:#131C2E;--sf2:#1A2540;--bd:#22304A;--tx:#E6EDF7;--mu:#94A3B8;--tr:#38BDF8;--pk:#F472B6;--am:#FBBF24;--gr:#34D399;--pu:#A78BFA;--rd:#F87171;font-family:Inter,system-ui,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;width:100%;max-width:1200px;margin:0 auto;padding:8px 12px calc(10px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:8px}
+h1{margin:0;font-size:clamp(18px,2.6vw,26px);font-weight:800}h1 span{color:var(--am)}
+.hint{margin:0;color:var(--mu);font-size:clamp(13px,1.6vw,16px)}
+.main{flex:1;min-height:0;display:grid;grid-template-columns:1.2fr 1fr;gap:12px}
+@media (max-width:760px){.main{grid-template-columns:1fr;grid-template-rows:minmax(0,1.15fr) auto}}
+.card{background:var(--sf);border:2px solid var(--bd);border-radius:20px;padding:12px;min-height:0;display:flex;flex-direction:column;gap:8px;overflow:hidden}
+.stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
+.stage svg{width:100%;height:100%;max-height:100%}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{background:var(--sf2);border:2px solid var(--bd);border-radius:14px;padding:9px 14px;font-weight:800;min-height:44px}
+.btn.on{border-color:var(--am);color:var(--am)}
+.st{display:flex;align-items:center;gap:6px;background:var(--sf2);border:2px solid var(--bd);border-radius:14px;padding:3px 6px}
+.st b{min-width:34px;text-align:center;font-size:18px}.st span{color:var(--mu);font-weight:700;font-size:14px;padding-left:4px}
+.st button{width:40px;height:40px;border-radius:10px;border:0;background:var(--bd);font-size:22px;font-weight:800}
+.info{font-size:clamp(14px,1.8vw,19px);line-height:1.45;font-weight:600}
+.info b{color:var(--am)}
+.mx{display:inline-grid;gap:2px 14px;text-align:center;vertical-align:middle;padding:2px 10px;border-left:3px solid var(--tr);border-right:3px solid var(--tr);border-radius:10px;font-weight:800}
+.top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(10px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#8F9BFF;color:#10133a;border-radius:14px;padding:10px 20px;font:900 16px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #8f9bff44">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+<div class="top"><div><h1>Baris <span>×</span> Lajur</h1><p class="hint">Ketik satu unsur jawapan untuk melihat baris <i>A</i> × lajur <i>B</i>. Ketik unsur <i>A</i> atau <i>B</i> lalu ubah nilainya.</p></div><span id="sndslot" style="display:flex"></span></div>
+<div class="main">
+<div class="card"><div class="stage" id="stage"></div></div>
+<div class="card">
+<div class="row"><div id="sv"></div><button class="btn" id="bt">B: 2 × 2</button><button class="btn" id="an">▶ Animasi</button></div>
+<div class="info" id="info"></div>
+</div></div></div>
+<script>
+const snd=n=>{if(window.FX&&FX.play)FX.play(n)};
+const f=n=>(n<0?'−'+(-n):''+n);
+const $=id=>document.getElementById(id);
+const mxh=M=>`<span class="mx" style="grid-template-columns:repeat(${M[0].length},auto)">${M.map(r=>r.map(v=>`<span>${typeof v==='string'?v:f(v)}</span>`).join('')).join('')}</span>`;
+function stp(id,lab,get,set,lo,hi){const e=$(id);e.className='st';e.innerHTML=`<span>${lab}</span><button aria-label="kurang">−</button><b></b><button aria-label="tambah">+</button>`;const [m,,p]=[...e.querySelectorAll('button,b')];const b=e.querySelector('b');const up=()=>{b.textContent=f(get())};e.querySelectorAll('button')[0].onclick=()=>{if(get()>lo){set(get()-1);snd('klik');draw()}};e.querySelectorAll('button')[1].onclick=()=>{if(get()<hi){set(get()+1);snd('klik');draw()}};e.up=up;up();return e}
+
+let A=[[2,1],[3,4]],B=[[5,0],[-1,2]],ri=0,rj=0,sel=['A',0,0],tm=null;
+const mul=(A,B)=>A.map(r=>B[0].map((_,j)=>r.reduce((s,v,k)=>s+v*B[k][j],0)));
+function mat(M,x,y,col,id,hlFn){const cw=56,rh=50,w=M[0].length*cw+16,h=M.length*rh;let s=`<path d="M${x+10} ${y}H${x}V${y+h}H${x+10}M${x+w-10} ${y}H${x+w}V${y+h}H${x+w-10}" stroke="${col}" stroke-width="3.5" fill="none"/>`;
+ M.forEach((r,i)=>r.forEach((v,j)=>{const c=hlFn(i,j);s+=`<g class="c" data-m="${id}" data-i="${i}" data-j="${j}" style="cursor:pointer"><rect x="${x+8+cw*j+3}" y="${y+rh*i+3}" width="${cw-6}" height="${rh-6}" rx="9" fill="${c?'#1A2540':'transparent'}" stroke="${c||'transparent'}" stroke-width="2.5"/><text x="${x+8+cw*j+cw/2}" y="${y+rh*i+rh/2+7}" fill="${c||'#E6EDF7'}" font-size="21" font-weight="800" text-anchor="middle" pointer-events="none">${f(v)}</text></g>`}));return [s,w]}
+function draw(){
+ const R=mul(A,B);if(rj>=B[0].length)rj=0;
+ let s='',x=20;const y=60;
+ let [a,wa]=mat(A,x,y,'#94A3B8','A',(i,j)=>sel[0]==='A'&&sel[1]===i&&sel[2]===j?'#FBBF24':i===ri?'#38BDF8':'');s+=`<text x="${x+wa/2}" y="${y-18}" fill="#38BDF8" font-size="20" font-weight="800" text-anchor="middle">A</text>`+a;x+=wa+24;
+ let [b,wb]=mat(B,x,y,'#94A3B8','B',(i,j)=>sel[0]==='B'&&sel[1]===i&&sel[2]===j?'#FBBF24':j===rj?'#F472B6':'');s+=`<text x="${x+wb/2}" y="${y-18}" fill="#F472B6" font-size="20" font-weight="800" text-anchor="middle">B</text>`+b;x+=wb+14;
+ s+=`<text x="${x+10}" y="${y+57}" fill="#E6EDF7" font-size="30" font-weight="800" text-anchor="middle">=</text>`;x+=30;
+ let [c,wc]=mat(R,x,y,'#94A3B8','R',(i,j)=>i===ri&&j===rj?'#FBBF24':'');s+=`<text x="${x+wc/2}" y="${y-18}" fill="#FBBF24" font-size="20" font-weight="800" text-anchor="middle">AB</text>`+c;
+ const W=x+wc+20,terms=A[ri].map((v,k)=>`(${f(v)})(${f(B[k][rj])})`).join(' + ');
+ s+=`<text x="${W/2}" y="${y+150}" fill="#E6EDF7" font-size="20" font-weight="800" text-anchor="middle">${terms}</text><text x="${W/2}" y="${y+186}" fill="#FBBF24" font-size="24" font-weight="800" text-anchor="middle">= ${f(R[ri][rj])}</text>`;
+ $('stage').innerHTML=`<svg viewBox="0 0 ${W} ${y+210}" role="img" aria-label="Pendaraban matriks">${s}</svg>`;
+ $('stage').querySelectorAll('.c').forEach(g=>g.onclick=()=>{const m=g.dataset.m,i=+g.dataset.i,j=+g.dataset.j;if(m==='R'){ri=i;rj=j}else{sel=[m,i,j];if(m==='A')ri=i;else rj=j}snd('klik');draw()});
+ $('sv').up&&$('sv').up();
+ $('info').innerHTML=`<i>A</i> (2 × 2) × <i>B</i> (2 × ${B[0].length}) → <i>AB</i> (2 × ${B[0].length})<br>Unsur <b>(${ri+1}, ${rj+1})</b> = <span style="color:#38BDF8">baris ${ri+1} <i>A</i></span> × <span style="color:#F472B6">lajur ${rj+1} <i>B</i></span><br>= ${terms} = <b>${f(R[ri][rj])}</b><br>Unsur dipilih untuk diubah: <b>${sel[0]}</b> (${sel[1]+1}, ${sel[2]+1})`;
+}
+const M=()=>sel[0]==='A'?A:B;
+stp('sv','Nilai',()=>M()[sel[1]][sel[2]],v=>M()[sel[1]][sel[2]]=v,-9,9);
+$('bt').onclick=()=>{B=B[0].length===2?B.map(r=>[r[0]]):B.map((r,i)=>[r[0],i?2:0]);if(sel[0]==='B')sel=['B',0,0];$('bt').textContent='B: 2 × '+B[0].length;snd('klik');draw()};
+$('an').onclick=()=>{clearInterval(tm);let k=0;const N=2*B[0].length;ri=0;rj=0;draw();tm=setInterval(()=>{k++;if(k>=N){clearInterval(tm);snd('betul');return}ri=Math.floor(k/B[0].length);rj=k%B[0].length;snd('klik');draw()},1200)};
+draw();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script>(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});})();</script>
+</body>
+</html>
