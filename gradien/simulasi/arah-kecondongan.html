@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Arah Kecondongan · GRADIEN</title>
+<style>
+:root{--bg:#14100A;--sf:#1E1810;--sf2:#282012;--sf3:#17120B;--bd:#3A2E18;--bd2:#4C3C1F;--tx:#FFF6E0;--mu:#D2BC8A;--mu2:#A08B5E;--c1:#FFC93C;--c2:#4FD1FF;--c3:#FF6FA8;--gold:#FFD166;--ok:#3DDC84;--bad:#FF6B7A;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.modes{display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#2a1f00}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:11px 14px;line-height:1.5;font-size:15px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:2px}
+.info .f{font-weight:800;font-size:17px}.info .f b{color:var(--c2)}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.info .ok{color:var(--ok)}.info .no{color:var(--bad)}
+.ctrl{display:flex;flex-direction:column;gap:8px}
+.line{display:flex;gap:8px;align-items:center}
+.line label{font-weight:800;color:var(--mu);font-size:14px;white-space:nowrap;min-width:64px}
+.line input[type=range]{flex:1;accent-color:var(--c1);height:28px}
+.seg{display:flex;gap:6px;flex:1}
+.seg button{flex:1;background:var(--sf);border:2px solid var(--bd2);border-radius:12px;padding:10px 2px;font-weight:800;font-size:14.5px}
+.seg button.on{background:var(--c1);border-color:var(--c1);color:#2a1f00}
+.btns{display:flex;gap:8px}
+.big{flex:1;background:var(--c2);border:0;color:#04263a;border-radius:13px;padding:13px 6px;font-weight:900;font-size:16px}
+.big.alt{flex:.6;background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.big.ok{background:var(--ok);color:#06240f}.big.no{background:var(--bad);color:#2a0609}
+.big:disabled{opacity:.45}
+.nextb{margin-top:6px;background:var(--c1);border:0;color:#2a1f00;border-radius:11px;padding:8px 16px;font-weight:900}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.45fr) minmax(330px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .modes{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:22px}.info .f{font-size:19px}
+}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.info{padding:8px 11px;font-size:13.5px}.info .f{font-size:15px}.info b.t{font-size:16px}.big{padding:10px 4px}.seg button{padding:7px 2px}}
+.c1{color:var(--c1)}.c2{color:var(--c2)}.c3{color:var(--c3)}.info .f small{color:var(--mu);font-weight:700}.tip2{color:var(--mu);font-size:13.5px;text-align:center;padding:6px}
+.q4{font-size:13px!important;padding:11px 2px!important;flex:1!important}.big.lab{font-size:20px;color:#17120B}@media(max-width:400px){.q4{font-size:12px!important}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#FF6FA8;color:#3a0620;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #FF6FA844">&#8592; Kembali ke GRADIEN</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="modes" role="tablist"><button data-m="putar" class="on" role="tab">🔄 Putar Garis</button><button data-m="cabaran" role="tab">🎯 Cabaran</button></div>
+ <div class="stage" id="stage"><svg id="svg" aria-label="Satah Cartes"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),stage=document.getElementById('stage'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const M='−',N=v=>v<0?M+(-v):String(v),gcd=(a,b)=>b?gcd(b,a%b):Math.abs(a);
+function frac(n,d){if(d<0){n=-n;d=-d}const g=gcd(Math.abs(n),d)||1;n/=g;d/=g;return(n<0?M:'')+Math.abs(n)+(d===1?'':'/'+d)}
+const R=6;let mode='putar',H={x:3,y:2},drag=false,G=null,walk=0,raf=null,C=null,score=0,tot=0;
+const COL={pos:'#FFC93C',neg:'#FF6B7A',zero:'#4FD1FF',und:'#FF6FA8'};
+const T=(x,y,t,c='#FFF6E0',s=13,w=800,a='middle')=>`<text x="${x}" y="${y}" fill="${c}" font-size="${s}" font-weight="${w}" text-anchor="${a}" dominant-baseline="middle" font-family="Arial" paint-order="stroke" stroke="#17120B" stroke-width="4">${t}</text>`;
+function frame(){const w=stage.clientWidth||300,h=stage.clientHeight||300;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+ const u=Math.min((w-24)/(2*R+1),(h-24)/(2*R+1)),cx=w/2,cy=h/2;G={u,cx,cy,X:x=>cx+x*u,Y:y=>cy-y*u};
+ let g=`<clipPath id="cl"><rect x="${cx-(R+.5)*u}" y="${cy-(R+.5)*u}" width="${(2*R+1)*u}" height="${(2*R+1)*u}"/></clipPath>`;
+ for(let i=-R;i<=R;i++)g+=`<line x1="${G.X(i)}" y1="${G.Y(-R-.5)}" x2="${G.X(i)}" y2="${G.Y(R+.5)}" stroke="#ffffff10"/><line x1="${G.X(-R-.5)}" y1="${G.Y(i)}" x2="${G.X(R+.5)}" y2="${G.Y(i)}" stroke="#ffffff10"/>`;
+ return g+`<line x1="${G.X(-R-.5)}" y1="${cy}" x2="${G.X(R+.5)}" y2="${cy}" stroke="#D2BC8A" stroke-width="2"/><line x1="${cx}" y1="${G.Y(-R-.5)}" x2="${cx}" y2="${G.Y(R+.5)}" stroke="#D2BC8A" stroke-width="2"/>`}
+const kind=(a,b)=>a===0?'und':b===0?'zero':(b/a>0?'pos':'neg');
+function seg(a,b,col,wd=5){const {X,Y}=G;if(a===0)return`<line x1="${X(0)}" y1="${Y(-R-1)}" x2="${X(0)}" y2="${Y(R+1)}" stroke="${col}" stroke-width="${wd}" clip-path="url(#cl)"/>`;const m=b/a;return`<line x1="${X(-R-1)}" y1="${Y(-m*(R+1))}" x2="${X(R+1)}" y2="${Y(m*(R+1))}" stroke="${col}" stroke-width="${wd}" clip-path="url(#cl)"/>`}
+function drawPutar(){let g=frame();const {X,Y}=G,a=H.x,b=H.y,k=kind(a,b),col=COL[k];
+ g+=seg(a,b,col);
+ if(a&&b){const s=a<0?-1:1;g+=`<line x1="${X(0)}" y1="${Y(0)}" x2="${X(a)}" y2="${Y(0)}" stroke="#FF6FA8" stroke-width="3" stroke-dasharray="6 4"/><line x1="${X(a)}" y1="${Y(0)}" x2="${X(a)}" y2="${Y(b)}" stroke="#4FD1FF" stroke-width="3" stroke-dasharray="6 4"/>`}
+ // pejalan kaki
+ let wx,wy,em='🚶';if(k==='und'){wx=0;wy=-R+walk*2*R;em='🧗'}else{const m=b/a;wx=-R+walk*2*R;wy=m*wx;if(Math.abs(wy)>R){wy=Math.sign(wy)*R;wx=wy/m}}
+ g+=`<text x="${X(wx)}" y="${Y(wy)-14}" font-size="${Math.max(22,G.u*.9)}" text-anchor="middle" dominant-baseline="middle">${em}</text>`;
+ g+=`<g id="hd" style="cursor:grab"><circle cx="${X(a)}" cy="${Y(b)}" r="24" fill="transparent"/><circle cx="${X(a)}" cy="${Y(b)}" r="10" fill="${col}" stroke="#fff" stroke-width="3"/></g>`;
+ svg.innerHTML=g}
+function infoPutar(){const a=H.x,b=H.y,k=kind(a,b);
+ const txt={pos:['Positif','Garis <b>naik</b> ke kanan ↗'],neg:['Negatif','Garis <b>turun</b> ke kanan ↘'],zero:['Sifar','Garis <b>mengufuk</b> (mendatar) →'],und:['Tidak tertakrif','Garis <b>mencancang</b> (tegak) ↑']}[k];
+ info.innerHTML=`<b class="t" style="color:${COL[k]}">${txt[0]}</b><div class="f">m = <span class="c2">${N(b)}</span> ÷ <span class="c3">${N(a)}</span> = <b>${a===0?'tidak tertakrif':frac(b,a)}</b></div><div class="tip">${txt[1]}. Seret titik ● untuk putar garis.</div>`}
+function loop(){walk=(walk+.004)%1;if(mode==='putar')drawPutar();raf=requestAnimationFrame(loop)}
+/* ---------- Cabaran ---------- */
+const POOL=[[1,3],[1,2],[1,1],[2,1],[3,1],[1,-3],[1,-2],[1,-1],[2,-1],[3,-1],[1,0],[0,1]];
+function newQ(){let ls;do{ls=POOL.slice().sort(()=>Math.random()-.5).slice(0,3)}while(new Set(ls.map(([a,b])=>a?b/a:'u')).size<3);
+ const types=['curam','landai','pos','neg'].filter(t=>{if(t==='curam'||t==='landai')return!ls.some(([a])=>a===0);const n=ls.filter(([a,b])=>kind(a,b)===t).length;return n===1});
+ const t=types[Math.floor(Math.random()*types.length)];let ans;
+ if(t==='curam'||t==='landai'){const v=ls.map(([a,b])=>Math.abs(b/a));const best=t==='curam'?Math.max(...v):Math.min(...v);if(v.filter(x=>x===best).length>1)return newQ();ans=v.indexOf(best)}
+ else ans=ls.findIndex(([a,b])=>kind(a,b)===t);
+ const q={curam:'Garis manakah paling <b>curam</b>?',landai:'Garis manakah paling <b>landai</b>?',pos:'Garis manakah mempunyai kecerunan <b>positif</b>?',neg:'Garis manakah mempunyai kecerunan <b>negatif</b>?'}[t];
+ C={ls,ans,q,done:false,pick:-1};drawC();
+ info.innerHTML=`<b class="t">${q}</b><div class="tip">Skor: ${score}/${tot}</div>`;
+ ctrl.innerHTML=`<div class="btns">${['A','B','C'].map((l,i)=>`<button class="big lab" data-i="${i}" style="background:${['#FFC93C','#4FD1FF','#FF6FA8'][i]}">${l}</button>`).join('')}</div>`;
+ ctrl.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>answer(+b.dataset.i))}
+function drawC(){let g=frame();const {X,Y}=G,cols=['#FFC93C','#4FD1FF','#FF6FA8'];
+ C.ls.forEach(([a,b],i)=>{g+=seg(a,b,cols[i],C.done&&i===C.ans?8:5);const tt=[R-.4,-(R-.4),R-2.8][i];let ex,ey;if(a===0){ex=0;ey=tt}else{const m=b/a;ex=tt;ey=m*ex;if(Math.abs(ey)>R-.4){ey=Math.sign(ey)*(R-.4);ex=ey/m}}
+  g+=`<circle cx="${X(ex)}" cy="${Y(ey)}" r="14" fill="${cols[i]}"/>`+T(X(ex),Y(ey)+1,'ABC'[i],'#17120B',14,900).replace('stroke="#17120B"','stroke="'+cols[i]+'"');
+  if(C.done)g+=T(X(ex)+(ex>0?-24:24),Y(ey)+(ey>0?22:-22),'m = '+(a===0?'∞':frac(b,a)),cols[i],13,900)});
+ svg.innerHTML=g}
+function answer(i){if(C.done)return;C.done=true;tot++;const ok=i===C.ans;if(ok)score++;drawC();
+ info.innerHTML=`<b class="t">${ok?'<span class="ok">✓ Betul!</span>':'<span class="no">✗ Jawapan: '+'ABC'[C.ans]+'</span>'}</b><div class="tip">Nilai mutlak kecerunan lebih besar → lebih curam. Positif naik ke kanan, negatif turun ke kanan. Skor: ${score}/${tot}</div><button class="nextb" id="nx">Seterusnya ▶</button>`;
+ ctrl.querySelectorAll('button').forEach(b=>b.disabled=true);document.getElementById('nx').onclick=newQ}
+function setPutar(){ctrl.innerHTML=`<div class="btns">${[['↗ Positif',2,1],['↘ Negatif',2,-2],['→ Sifar',3,0],['↑ Tak tertakrif',0,3]].map(([t,a,b])=>`<button class="big alt q4" data-a="${a}" data-b="${b}">${t}</button>`).join('')}</div>`;
+ ctrl.querySelectorAll('.q4').forEach(b=>b.onclick=()=>{H={x:+b.dataset.a,y:+b.dataset.b};infoPutar()})}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));mode=b.dataset.m;
+ if(mode==='cabaran')newQ();else{setPutar();infoPutar()}});
+function pt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;const q=p.matrixTransform(svg.getScreenCTM().inverse());return{x:Math.max(-R,Math.min(R,Math.round((q.x-G.cx)/G.u))),y:Math.max(-R,Math.min(R,Math.round((G.cy-q.y)/G.u)))}}
+svg.addEventListener('pointerdown',e=>{if(mode!=='putar'||!e.target.closest('#hd'))return;e.preventDefault();drag=true;svg.setPointerCapture(e.pointerId)});
+svg.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();const p=pt(e);if(p.x===0&&p.y===0)return;if(p.x!==H.x||p.y!==H.y){H=p;infoPutar()}});
+const end=()=>{drag=false};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+new ResizeObserver(()=>{if(mode==='cabaran'&&C)drawC()}).observe(stage);
+setPutar();infoPutar();loop();
+</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

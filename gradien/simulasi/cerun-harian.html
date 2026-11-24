@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Cerun Harian · GRADIEN</title>
+<style>
+:root{--bg:#14100A;--sf:#1E1810;--sf2:#282012;--sf3:#17120B;--bd:#3A2E18;--bd2:#4C3C1F;--tx:#FFF6E0;--mu:#D2BC8A;--mu2:#A08B5E;--c1:#FFC93C;--c2:#4FD1FF;--c3:#FF6FA8;--gold:#FFD166;--ok:#3DDC84;--bad:#FF6B7A;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.modes{display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#2a1f00}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:11px 14px;line-height:1.5;font-size:15px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:2px}
+.info .f{font-weight:800;font-size:17px}.info .f b{color:var(--c2)}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.info .ok{color:var(--ok)}.info .no{color:var(--bad)}
+.ctrl{display:flex;flex-direction:column;gap:8px}
+.line{display:flex;gap:8px;align-items:center}
+.line label{font-weight:800;color:var(--mu);font-size:14px;white-space:nowrap;min-width:64px}
+.line input[type=range]{flex:1;accent-color:var(--c1);height:28px}
+.seg{display:flex;gap:6px;flex:1}
+.seg button{flex:1;background:var(--sf);border:2px solid var(--bd2);border-radius:12px;padding:10px 2px;font-weight:800;font-size:14.5px}
+.seg button.on{background:var(--c1);border-color:var(--c1);color:#2a1f00}
+.btns{display:flex;gap:8px}
+.big{flex:1;background:var(--c2);border:0;color:#04263a;border-radius:13px;padding:13px 6px;font-weight:900;font-size:16px}
+.big.alt{flex:.6;background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.big.ok{background:var(--ok);color:#06240f}.big.no{background:var(--bad);color:#2a0609}
+.big:disabled{opacity:.45}
+.nextb{margin-top:6px;background:var(--c1);border:0;color:#2a1f00;border-radius:11px;padding:8px 16px;font-weight:900}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.45fr) minmax(330px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .modes{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:22px}.info .f{font-size:19px}
+}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.info{padding:8px 11px;font-size:13.5px}.info .f{font-size:15px}.info b.t{font-size:16px}.big{padding:10px 4px}.seg button{padding:7px 2px}}
+.c1{color:var(--c1)}.c2{color:var(--c2)}.c3{color:var(--c3)}.info .f small{color:var(--mu);font-weight:700}.tip2{color:var(--mu);font-size:13.5px;text-align:center;padding:6px}
+.modes button{font-size:14.5px}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#FF6FA8;color:#3a0620;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #FF6FA844">&#8592; Kembali ke GRADIEN</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="modes" role="tablist" id="ssel"></div>
+ <div class="stage" id="stage"><svg id="svg" aria-label="Rajah cerun"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl"><div class="btns"><button class="big" id="go">▶ Golek bola</button><button class="big alt" id="rs">↺ Semula</button></div></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),stage=document.getElementById('stage'),info=document.getElementById('info'),go=document.getElementById('go');
+const M='−',gcd=(a,b)=>b?gcd(b,a%b):Math.abs(a);
+function frac(n,d){if(d<0){n=-n;d=-d}const g=gcd(Math.abs(n),d)||1;n/=g;d/=g;return(n<0?M:'')+Math.abs(n)+(d===1?'':'/'+d)}
+const SC=[{n:'🦽 Ramp',jc:1,jm:6,fill:'#4C3C1F',top:'#D2BC8A'},{n:'🪜 Tangga',jc:6,jm:4,fill:'#4a2f1f',top:'#e0a46b'}];
+let si=0,JC=1,JM=6,ball=0,anim=null,drag=false,G=null;
+const T=(x,y,t,c='#FFF6E0',s=14,w=800,a='middle')=>`<text x="${x}" y="${y}" fill="${c}" font-size="${s}" font-weight="${w}" text-anchor="${a}" dominant-baseline="middle" font-family="Arial" paint-order="stroke" stroke="#17120B" stroke-width="4">${t}</text>`;
+function draw(){const w=stage.clientWidth||300,h=stage.clientHeight||300;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+ const u=Math.min((w-70)/11,(h-80)/9),ox=Math.max(34,(w-u*10)/2-10),oy=h-44,X=x=>ox+x*u,Y=y=>oy-y*u;G={u,ox,oy};
+ let g='';for(let i=0;i<=10;i++)g+=`<line x1="${X(i)}" y1="${Y(0)}" x2="${X(i)}" y2="${Y(8.4)}" stroke="#ffffff08"/>`;for(let j=0;j<=8;j++)g+=`<line x1="${X(0)}" y1="${Y(j)}" x2="${X(10.4)}" y2="${Y(j)}" stroke="#ffffff08"/>`;
+ const S=SC[si];
+ g+=`<path d="M${X(0)} ${Y(0)}L${X(JM)} ${Y(0)}L${X(JM)} ${Y(JC)}Z" fill="${S.fill}"/>`;
+ if(si===1&&JC>0){let d='';const n=Math.max(2,JM);for(let k=0;k<n;k++){const x0=JM*k/n,x1=JM*(k+1)/n,y1=JC*(k+1)/n;d+=`M${X(x0)} ${Y(JC*k/n)}V${Y(y1)}H${X(x1)}`}g+=`<path d="${d}" fill="none" stroke="${S.top}" stroke-width="3"/>`}
+ g+=`<line x1="${X(-0.6)}" y1="${Y(0)}" x2="${X(10.6)}" y2="${Y(0)}" stroke="#D2BC8A" stroke-width="3"/>`;
+ g+=`<line x1="${X(0)}" y1="${Y(0)}" x2="${X(JM)}" y2="${Y(JC)}" stroke="#FFC93C" stroke-width="6" stroke-linecap="round"/>`;
+ // jarak mencancang & mengufuk
+ if(JC>0){g+=`<line x1="${X(JM)}" y1="${Y(0)}" x2="${X(JM)}" y2="${Y(JC)}" stroke="#4FD1FF" stroke-width="4" stroke-dasharray="7 5"/>`;g+=`<path d="M${X(JM)-12} ${Y(0)}v-12h12" fill="none" stroke="#4FD1FF" stroke-width="2"/>`;
+  const lx=X(JM)+10;g+=T(lx,Y(JC/2)-10,'mencancang','#4FD1FF',13,800,'start')+T(lx,Y(JC/2)+9,JC+' m','#4FD1FF',17,900,'start')}
+ g+=`<line x1="${X(0)}" y1="${Y(0)+14}" x2="${X(JM)}" y2="${Y(0)+14}" stroke="#FF6FA8" stroke-width="3"/><path d="M${X(0)} ${Y(0)+8}v12M${X(JM)} ${Y(0)+8}v12" stroke="#FF6FA8" stroke-width="3"/>`+T((X(0)+X(JM))/2,Y(0)+30,'mengufuk '+JM+' m','#FF6FA8',14);
+ // bola
+ const L=Math.hypot(JM,JC),bx=JM*(1-ball),by=JC*(1-ball),r=Math.max(9,u*.32),nx=-JC/L,ny=JM/L;
+ g+=`<circle cx="${X(bx)+nx*r}" cy="${Y(by+ny*r/u)}" r="${r}" fill="#FF6B7A" stroke="#fff" stroke-width="2"/>`;
+ g+=`<g id="hd" style="cursor:grab"><circle cx="${X(JM)}" cy="${Y(JC)}" r="26" fill="transparent"/><circle cx="${X(JM)}" cy="${Y(JC)}" r="11" fill="#FFC93C" stroke="#fff" stroke-width="3"/></g>`;
+ svg.innerHTML=g}
+function showInfo(){const m=JC/JM,lvl=JC===0?'Rata — tiada kecuraman':m<.5?'Landai':m<=1?'Sederhana curam':'Sangat curam';
+ info.innerHTML=`<div class="f">Kecerunan = <span class="c1">mencancang</span> ÷ <span class="c2">mengufuk</span> = <span class="c1">${JC}</span> ÷ <span class="c2">${JM}</span> = <b>${frac(JC,JM)}</b>${JC%JM&&JC?` <small>(≈ ${(Math.round(m*100)/100)})</small>`:''}</div><div class="tip"><b>${lvl}</b> · Seret titik ● untuk ubah cerun. Nilai kecerunan besar = lebih curam.</div>`}
+function roll(){if(anim||JC===0){if(JC===0)info.querySelector('.tip').innerHTML='<b>Rata</b> — kecerunan 0, bola tidak bergolek.';return}
+ const L=Math.hypot(JM,JC),sin=JC/L,T0=Math.min(6000,Math.max(450,420*Math.sqrt(2*L/sin)/2.2)),t0=performance.now();go.disabled=true;
+ const step=now=>{const p=Math.min(1,(now-t0)/T0);ball=p*p;draw();if(p<1)anim=requestAnimationFrame(step);else{anim=null;go.disabled=false;info.querySelector('.tip').innerHTML=`Masa turun ≈ <b>${(T0/1000).toFixed(1)} s</b>. Cuba cerun lebih curam — bola lebih laju!`}};anim=requestAnimationFrame(step)}
+go.onclick=roll;document.getElementById('rs').onclick=()=>{if(anim)return;const S=SC[si];JC=S.jc;JM=S.jm;ball=0;draw();showInfo()};
+const ssel=document.getElementById('ssel');ssel.innerHTML=SC.map((s,i)=>`<button data-s="${i}" class="${i===si?'on':''}">${s.n}</button>`).join('');
+ssel.querySelectorAll('button').forEach(b=>b.onclick=()=>{if(anim)return;si=+b.dataset.s;ssel.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));const S=SC[si];JC=S.jc;JM=S.jm;ball=0;draw();showInfo()});
+function pt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+svg.addEventListener('pointerdown',e=>{if(!e.target.closest('#hd')||anim)return;e.preventDefault();drag=true;svg.setPointerCapture(e.pointerId)});
+svg.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();const p=pt(e);const jm=Math.max(1,Math.min(10,Math.round((p.x-G.ox)/G.u))),jc=Math.max(0,Math.min(8,Math.round((G.oy-p.y)/G.u)));if(jm!==JM||jc!==JC){JM=jm;JC=jc;ball=0;draw();showInfo()}});
+const end=()=>{drag=false};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+new ResizeObserver(()=>draw()).observe(stage);draw();showInfo();
+</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>
