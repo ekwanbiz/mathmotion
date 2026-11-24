@@ -122,7 +122,9 @@ for s in S: counts[s['sub']]=counts.get(s['sub'],0)+1
 idx={}; out=[]
 for s in S:
     idx[s['sub']]=idx.get(s['sub'],0)+1
-    out.append({'sub':s['sub'],'n':idx[s['sub']],'N':counts[s['sub']],'kicker':s['kicker'],'title':s['title'],'body':s['body'],'fig':s['fig'],'full':''})
+    nb=lambda t: re.sub(r'(\d) (?=\d{3}\b)', '\\1\u00a0', t)  # ruang tak putus dalam nombor (RM240 000)
+    assert '<svg' not in s['body']
+    out.append({'sub':s['sub'],'n':idx[s['sub']],'N':counts[s['sub']],'kicker':s['kicker'],'title':nb(s['title']),'body':nb(s['body']),'fig':s['fig'],'full':''})
 subs=[{'no':k,'name':v[0],'col':v[1]} for k,v in SUB.items()]
 body=json.dumps(out,ensure_ascii=False)
 ALLOWED={x.lower() for x in [BG,SURF,NAV,BD,TX,MU,GRID,DIM]+list(C.values())}

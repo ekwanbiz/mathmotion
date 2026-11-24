@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Deduktibel &amp; Ko-insurans · Bab 3</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--sf:#131C2E;--sf3:#0E1626;--bd:#22304A;--tx:#E6EDF7;--mu:#94A3B8;--c1:#34D399;--rd:#F87171;--am:#FBBF24;--gr:#34D399;--tr:#38BDF8;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg)}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
+.wrap{flex:1;min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr);gap:8px;padding:8px 12px calc(10px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:center;justify-content:space-between}
+.top h1{margin:0;font-size:19px;color:var(--c1)}
+.main{min-height:0;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(280px,1fr);gap:10px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;display:flex}
+.stage svg{width:100%;height:100%;display:block;touch-action:none;user-select:none}
+.side{min-height:0;display:flex;flex-direction:column;gap:8px;overflow:auto}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:10px 14px;font-size:15px;line-height:1.45}
+.card b.t{display:block;font-size:16px;color:var(--c1);margin-bottom:2px}
+label{display:block;font-weight:700;font-size:14px;margin:4px 0 0}
+input[type=range]{width:100%;height:30px;accent-color:var(--c1);margin:0}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips button{border:1px solid var(--bd);background:var(--sf3);border-radius:12px;padding:6px 11px;font-weight:800;font-size:14px;min-height:36px}
+.chips button.on{background:var(--c1);color:#0B1220;border-color:var(--c1)}
+.w{color:var(--mu);font-size:14px}
+.w b{color:var(--tx)}
+@media (max-width:760px){.main{grid-template-columns:1fr;grid-template-rows:minmax(150px,1fr) auto}.side{overflow:visible}.card{padding:7px 11px;font-size:13px}.top h1{font-size:16px}label{font-size:13px;margin:1px 0 0}input[type=range]{height:24px}.chips button{min-height:30px;padding:4px 9px;font-size:13px}.w{font-size:12.5px}}
+</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(10px + env(safe-area-inset-top)) 12px 0;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#38BDF8;color:#0B1220;border-radius:14px;padding:9px 18px;font:900 16px Inter,system-ui,sans-serif;text-decoration:none">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+<div class="top"><h1>Deduktibel &amp; Ko-insurans</h1><span id="sndslot" style="display:flex"></span></div>
+<div class="main">
+<div class="stage"><svg id="sv" viewBox="0 0 600 400" aria-label="Bar kerugian: bahagian syarikat insurans dan pemegang polisi"></svg></div>
+<div class="side">
+<div class="card"><div class="chips" id="mod"><button data-m="0">Harta (kebakaran)</button><button data-m="1">Perubatan</button></div>
+<div id="ctl"></div></div>
+<div class="card" id="out"></div>
+</div></div></div>
+<script>const $=id=>document.getElementById(id);const snd=n=>{if(window.FX)FX.play&&FX.play(n)};
+const nf=v=>{const r=Math.round(v*100)/100,s=Number.isInteger(r)?String(r):r.toFixed(2),[a,b]=s.split('.');return a.replace(/\B(?=(\d{3})+(?!\d))/g,' ')+(b?'.'+b:'')};
+const RM=v=>'RM'+nf(Object.is(v,-0)?0:v);
+const T=(x,y,t,c,s=16,a='middle')=>`<text x="${x}" y="${y}" fill="${c}" font-size="${s}" font-weight="700" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,sans-serif">${t}</text>`;
+function svgPt(svg,e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+function drag(svg,onMove){let on=false;svg.addEventListener('pointerdown',e=>{on=true;svg.setPointerCapture(e.pointerId);onMove(svgPt(svg,e))});svg.addEventListener('pointermove',e=>{if(on)onMove(svgPt(svg,e))});const off=()=>{if(on){on=false;snd('ketik')}};svg.addEventListener('pointerup',off);svg.addEventListener('pointercancel',off)}
+// keadaan
+const S={m:0,v:400000,p:80,beli:240000,L:40000,d:2000,kos:20500,md:500,a:80};
+const X0=40,XW=520;
+function ctl(){
+ document.querySelectorAll('#mod button').forEach(b=>b.classList.toggle('on',+b.dataset.m===S.m));
+ if(S.m===0)$('ctl').innerHTML=`<label>Nilai harta: <span id="vv"></span></label><input id="v" type="range" min="100000" max="800000" step="10000">
+ <label>Jumlah insurans dibeli: <span id="bv"></span></label><input id="b" type="range" min="10000" max="800000" step="10000">
+ <label>Kerugian (seret bar): <span id="lv"></span></label><input id="l" type="range" min="1000" max="800000" step="1000">
+ <label>Ko-insurans</label><div class="chips" id="pc">${[70,75,80,90].map(p=>`<button data-p="${p}">${p}%</button>`).join('')}</div>
+ <label>Deduktibel</label><div class="chips" id="dc">${[0,500,1000,2000,5000].map(p=>`<button data-d="${p}">${RM(p)}</button>`).join('')}</div>`;
+ else $('ctl').innerHTML=`<label>Kos rawatan (seret bar): <span id="kv"></span></label><input id="k" type="range" min="100" max="50000" step="100">
+ <label>Ko-insurans (syarikat/pemegang polisi)</label><div class="chips" id="ac">${[70,75,80,90].map(p=>`<button data-a="${p}">${p}/${100-p}</button>`).join('')}</div>
+ <label>Deduktibel</label><div class="chips" id="mdc">${[0,300,500,1000].map(p=>`<button data-md="${p}">${RM(p)}</button>`).join('')}</div>`;
+ const on=(id,f)=>{const e=$(id);if(e)e.oninput=ev=>{f(+ev.target.value);draw()}};
+ on('v',x=>{S.v=x;S.L=Math.min(S.L,S.v);S.beli=Math.min(S.beli,S.v)});on('b',x=>{S.beli=Math.min(x,S.v)});on('l',x=>{S.L=Math.min(x,S.v)});on('k',x=>{S.kos=x});
+ const ch=(id,k)=>{const e=$(id);if(e)e.onclick=ev=>{const b=ev.target.closest('button');if(!b)return;S[k]=+b.dataset[k];snd('ketik');draw()}};
+ ch('pc','p');ch('dc','d');ch('ac','a');ch('mdc','md');
+ draw();
+}
+$('mod').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.m=+b.dataset.m;snd('ketik');ctl()};
+drag($('sv'),pt=>{const f=Math.max(0,Math.min(1,(pt.x-X0)/XW));if(S.m===0){S.L=Math.max(1000,Math.round(f*S.v/1000)*1000)}else{S.kos=Math.max(100,Math.round(f*50000/100)*100)}draw()});
+function calc(){
+ if(S.m===0){const need=S.v*S.p/100,cukup=S.beli>=need,ratio=cukup?1:S.beli/need,raw=ratio*S.L-S.d,pay=Math.max(0,Math.min(S.beli,raw));
+  return {tot:S.L,max:S.v,pay,own:S.L-pay,need,cukup,ratio,raw};}
+ const af=Math.max(0,S.kos-S.md),pay=af*S.a/100;return {tot:S.kos,max:50000,pay,own:S.kos-pay,af};
+}
+function draw(){
+ const c=calc();
+ if(S.m===0){$('v').value=S.v;$('b').value=S.beli;$('b').max=S.v;$('l').value=S.L;$('l').max=S.v;$('vv').textContent=RM(S.v);$('bv').textContent=RM(S.beli);$('lv').textContent=RM(S.L);
+  document.querySelectorAll('#pc button').forEach(b=>b.classList.toggle('on',+b.dataset.p===S.p));document.querySelectorAll('#dc button').forEach(b=>b.classList.toggle('on',+b.dataset.d===S.d));}
+ else{$('k').value=S.kos;$('kv').textContent=RM(S.kos);document.querySelectorAll('#ac button').forEach(b=>b.classList.toggle('on',+b.dataset.a===S.a));document.querySelectorAll('#mdc button').forEach(b=>b.classList.toggle('on',+b.dataset.md===S.md));}
+ // rajah
+ let s=T(300,30,S.m===0?`Nilai harta ${RM(S.v)}`:'Kos rawatan (skala hingga RM50 000)','#94A3B8',17);
+ s+=`<rect x="${X0}" y="70" width="${XW}" height="70" rx="10" fill="none" stroke="#22304A" stroke-width="2" stroke-dasharray="6 6"/>`;
+ const w=XW*c.tot/c.max,wp=c.tot?w*c.pay/c.tot:0;
+ s+=`<rect x="${X0}" y="70" width="${wp.toFixed(1)}" height="70" rx="8" fill="#34D399" fill-opacity=".45" stroke="#34D399" stroke-width="2"/>`;
+ s+=`<rect x="${(X0+wp).toFixed(1)}" y="70" width="${(w-wp).toFixed(1)}" height="70" rx="8" fill="#F87171" fill-opacity=".45" stroke="#F87171" stroke-width="2"/>`;
+ s+=`<line x1="${(X0+w).toFixed(1)}" y1="58" x2="${(X0+w).toFixed(1)}" y2="152" stroke="#FBBF24" stroke-width="4" stroke-linecap="round"/><circle cx="${(X0+w).toFixed(1)}" cy="155" r="11" fill="#FBBF24"/>`;
+ s+=T(Math.min(Math.max(X0+w,90),510),178,(S.m===0?'Kerugian ':'Kos ')+RM(c.tot),'#FBBF24',17);
+ if(S.m===0){const xn=X0+XW*S.p/100,xb=X0+XW*Math.min(1,S.beli/S.v);
+  s+=`<line x1="${xn}" y1="206" x2="${xn}" y2="236" stroke="#38BDF8" stroke-width="3"/>`+T(xn,252,`Perlu dibeli ${S.p}%: ${RM(c.need)}`,'#38BDF8',14,xn>380?'end':'middle');
+  s+=`<rect x="${X0}" y="212" width="${(xb-X0).toFixed(1)}" height="18" rx="6" fill="${c.cukup?'#34D399':'#FBBF24'}" fill-opacity=".6"/>`+T(X0,274,`Dibeli: ${RM(S.beli)} ${c.cukup?'(mencukupi)':'(tidak mencukupi)'}`,c.cukup?'#34D399':'#FBBF24',14,'start');}
+ // legenda
+ s+=`<rect x="60" y="306" width="18" height="18" rx="4" fill="#34D399"/>`+T(88,315,`Syarikat insurans: ${RM(c.pay)}`,'#E6EDF7',18,'start');
+ s+=`<rect x="60" y="342" width="18" height="18" rx="4" fill="#F87171"/>`+T(88,351,`Pemegang polisi: ${RM(c.own)}`,'#E6EDF7',18,'start');
+ s+=T(300,388,'Seret bar kuning ke kiri / ke kanan','#94A3B8',13);
+ $('sv').innerHTML=s;
+ // pengiraan
+ let h;
+ if(S.m===0){h=`<b class="t">Pengiraan pampasan</b><div class="w">Perlu dibeli = ${S.p}% × ${nf(S.v)} = <b>${RM(c.need)}</b><br>`;
+  h+=c.cukup?`${RM(S.beli)} ≥ ${RM(c.need)} → mencukupi<br>Pampasan = ${nf(S.L)} − ${nf(S.d)} = <b>${RM(c.raw)}</b>`:`${RM(S.beli)} &lt; ${RM(c.need)} → tidak mencukupi<br>Pampasan = (${nf(S.beli)} ÷ ${nf(c.need)}) × ${nf(S.L)} − ${nf(S.d)} = <b>${RM(c.raw)}</b>`;
+  if(c.raw>S.beli)h+=`<br>Had: tidak melebihi jumlah dibeli, ${RM(S.beli)}`;if(c.raw<0)h+='<br>Kerugian kecil: tiada pampasan';h+='</div>';}
+ else{h=`<b class="t">Pengiraan bayaran</b><div class="w">Selepas deduktibel = ${nf(S.kos)} − ${nf(S.md)} = <b>${RM(c.af)}</b><br>Syarikat = ${S.a}% × ${nf(c.af)} = <b>${RM(c.pay)}</b><br>Pemegang polisi = ${nf(Math.min(S.md,S.kos))} + ${100-S.a}% × ${nf(c.af)} = <b>${RM(c.own)}</b></div>`;}
+ $('out').innerHTML=h;
+}
+ctl();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+</body></html>

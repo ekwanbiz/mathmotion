@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Premium Insurans Hayat · Bab 3</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--sf:#131C2E;--sf3:#0E1626;--bd:#22304A;--tx:#E6EDF7;--mu:#94A3B8;--c1:#38BDF8;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg)}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
+.wrap{flex:1;min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr);gap:8px;padding:8px 12px calc(10px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:center;justify-content:space-between}
+.top h1{margin:0;font-size:19px;color:var(--c1)}
+.main{min-height:0;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(280px,1fr);gap:10px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;display:flex}
+.stage svg{width:100%;height:100%;display:block;touch-action:none;user-select:none}
+.side{min-height:0;display:flex;flex-direction:column;gap:8px;overflow:auto}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:10px 14px;font-size:15px;line-height:1.45}
+.card b.t{display:block;font-size:16px;color:var(--c1);margin-bottom:2px}
+.big{font-size:24px;font-weight:800}
+label{display:block;font-weight:700;font-size:14px;margin:4px 0 0}
+input[type=range]{width:100%;height:30px;accent-color:var(--c1);margin:0}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.chips button{border:1px solid var(--bd);background:var(--sf3);border-radius:12px;padding:6px 11px;font-weight:800;font-size:14px;min-height:36px}
+.chips button.on{background:var(--c1);color:#0B1220;border-color:var(--c1)}
+.w{color:var(--mu);font-size:14px}.w b{color:var(--tx)}
+@media (max-width:760px){.main{grid-template-columns:1fr;grid-template-rows:minmax(150px,1fr) auto}.side{overflow:visible}.card{padding:7px 11px;font-size:13px}.big{font-size:19px}.top h1{font-size:16px}label{font-size:13px;margin:1px 0 0}input[type=range]{height:24px}.chips button{min-height:30px;padding:4px 9px;font-size:13px}.w{font-size:12.5px}}
+</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(10px + env(safe-area-inset-top)) 12px 0;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#38BDF8;color:#0B1220;border-radius:14px;padding:9px 18px;font:900 16px Inter,system-ui,sans-serif;text-decoration:none">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+<div class="top"><h1>Premium Insurans Hayat</h1><span id="sndslot" style="display:flex"></span></div>
+<div class="main">
+<div class="stage"><svg id="sv" viewBox="0 0 600 400" aria-label="Graf bar kadar premium mengikut umur"></svg></div>
+<div class="side">
+<div class="card"><div class="chips" id="jc"><button data-j="0">Lelaki</button><button data-j="1">Perempuan</button></div>
+<div class="chips" id="rc"><button data-r="0">Bukan perokok</button><button data-r="1">Perokok</button></div>
+<label for="u">Umur (seret bar): <span id="uv"></span> tahun</label><input id="u" type="range" min="0" max="5" step="1">
+<label for="n">Nilai muka: <span id="nv"></span></label><input id="n" type="range" min="10000" max="500000" step="10000"></div>
+<div class="card"><b class="t">Pengiraan premium</b><div class="w" id="w"></div><div class="big" id="p"></div></div>
+</div></div></div>
+<script>const $=id=>document.getElementById(id);const snd=n=>{if(window.FX)FX.play&&FX.play(n)};
+const nf=v=>{const r=Math.round(v*100)/100,s=Number.isInteger(r)?String(r):r.toFixed(2),[a,b]=s.split('.');return a.replace(/\B(?=(\d{3})+(?!\d))/g,' ')+(b?'.'+b:'')};
+const RM2=v=>{const [a,b]=(Math.round(v*100)/100).toFixed(2).split('.');return 'RM'+a.replace(/\B(?=(\d{3})+(?!\d))/g,' ')+'.'+b};
+const T=(x,y,t,c,s=16,a='middle')=>`<text x="${x}" y="${y}" fill="${c}" font-size="${s}" font-weight="700" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,sans-serif">${t}</text>`;
+function svgPt(svg,e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+function drag(svg,onMove){let on=false;svg.addEventListener('pointerdown',e=>{on=true;svg.setPointerCapture(e.pointerId);onMove(svgPt(svg,e))});svg.addEventListener('pointermove',e=>{if(on)onMove(svgPt(svg,e))});const off=()=>{if(on){on=false;snd('ketik')}};svg.addEventListener('pointerup',off);svg.addEventListener('pointercancel',off)}
+// contoh jadual kadar premium tahunan per RM1 000 (sama seperti soalan bab)
+const UMUR=[20,25,30,35,40,45];
+const K=[[[1.18,1.24,1.33,1.48,1.76,2.31],[1.54,1.66,1.81,2.05,2.53,3.37]],[[0.98,1.03,1.10,1.24,1.47,1.90],[1.18,1.25,1.35,1.54,1.86,2.46]]];
+const S={j:0,r:0,u:2,n:150000};
+const X0=70,BW=80,Y0=320,H=240,MAX=3.5;
+$('jc').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.j=+b.dataset.j;snd('ketik');draw()};
+$('rc').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.r=+b.dataset.r;snd('ketik');draw()};
+$('u').oninput=e=>{S.u=+e.target.value;draw()};$('n').oninput=e=>{S.n=+e.target.value;draw()};
+drag($('sv'),p=>{const i=Math.max(0,Math.min(5,Math.floor((p.x-X0+10)/(BW+10))));if(i!==S.u){S.u=i;draw()}});
+function draw(){
+ const k=K[S.j][S.r][S.u],unit=S.n/1000,pt=Math.round(unit*k*100)/100,pb=pt/12;
+ document.querySelectorAll('#jc button').forEach(b=>b.classList.toggle('on',+b.dataset.j===S.j));
+ document.querySelectorAll('#rc button').forEach(b=>b.classList.toggle('on',+b.dataset.r===S.r));
+ $('u').value=S.u;$('uv').textContent=UMUR[S.u];$('n').value=S.n;$('nv').textContent='RM'+nf(S.n);
+ let s=T(300,26,`Kadar premium per RM1 000 · ${S.j?'Perempuan':'Lelaki'}, ${S.r?'perokok':'bukan perokok'}`,'#94A3B8',16);
+ for(let g=0;g<=3;g++){const y=Y0-H*g/MAX;s+=`<line x1="${X0-8}" y1="${y}" x2="560" y2="${y}" stroke="#1E2A40" stroke-width="1"/>`+T(X0-14,y,'RM'+g,'#94A3B8',13,'end');}
+ K[S.j][S.r].forEach((v,i)=>{const x=X0+i*(BW+10),h=H*v/MAX,on=i===S.u,ghost=K[S.j][1-S.r][i];
+  s+=`<rect x="${x+BW*0.62}" y="${Y0-H*ghost/MAX}" width="${BW*0.3}" height="${H*ghost/MAX}" rx="4" fill="${S.r?'#34D399':'#F87171'}" fill-opacity=".25"/>`;
+  s+=`<rect x="${x}" y="${Y0-h}" width="${BW*0.6}" height="${h}" rx="6" fill="${on?'#FBBF24':'#38BDF8'}" fill-opacity="${on?.95:.55}"/>`;
+  s+=T(x+BW*0.3,Y0-h-14,v.toFixed(2),on?'#FBBF24':'#E6EDF7',on?17:14)+T(x+BW*0.45,Y0+20,UMUR[i],on?'#FBBF24':'#94A3B8',16);});
+ s+=T(320,Y0+44,'Umur (tahun)','#94A3B8',14);
+ s+=`<rect x="80" y="372" width="14" height="14" rx="3" fill="${S.r?'#34D399':'#F87171'}" fill-opacity=".5"/>`+T(100,379,S.r?'bar kecil: jika bukan perokok':'bar kecil: jika perokok','#94A3B8',13,'start')+T(560,379,'Seret / ketik bar umur','#94A3B8',13,'end');
+ $('sv').innerHTML=s;
+ $('w').innerHTML=`Kadar = <b>${RM2(k)}</b> per RM1 000<br>Bilangan unit = ${nf(S.n)} ÷ 1 000 = <b>${nf(unit)}</b><br>Premium tahunan = ${nf(unit)} × ${k.toFixed(2)} = <b>${RM2(pt)}</b><br>Premium bulanan ≈ ${nf(pt)} ÷ 12 = <b>${RM2(pb)}</b>`;
+ $('p').innerHTML=`<span style="color:#FBBF24">${RM2(pt)}</span> <span style="font-size:15px;color:#94A3B8">setahun</span>`;
+}
+draw();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+</body></html>
