@@ -74,12 +74,12 @@ const GAMES=[
  {id:'gasing',name:'Gasing Juara',dunia:'GELANGGANG KELANTAN',d:'Jawapan betul beri gasing pusingan tambahan. Siapa paling lama?',col:'#FB923C',sky:'linear-gradient(#78350F 70%,#A16207 70%)'},
  {id:'wau',name:'Wau Terbang',dunia:'PANTAI TIMUR',d:'Terbangkan wau melalui cincin jawapan.',col:'#F472B6',sky:'linear-gradient(#FDBA74 70%,#FDE68A 70%)'},
  {id:'bola',name:'Bola Sepak',dunia:'PADANG SEKOLAH',d:'Tendang bola ke gol jawapan.',col:'#38BDF8',sky:'linear-gradient(#38BDF8 70%,#16A34A 70%)'},
- {name:'Sampan Laju',dunia:'SUNGAI & BAKAU',d:'Kayuh, elak buaya, ambil pelampung jawapan.',col:'#34D399',sky:'linear-gradient(#0E7490 70%,#155E75 70%)'},
- {name:'Kejar Kancil',dunia:'HUTAN HUJAN',d:'Lompat dahan dan kejar jawapan.',col:'#34D399',sky:'linear-gradient(#14532D 70%,#166534 70%)'},
+ {id:'sampan',name:'Sampan Laju',dunia:'SUNGAI & BAKAU',d:'Kayuh, elak buaya, ambil pelampung jawapan.',col:'#34D399',sky:'linear-gradient(#0E7490 70%,#155E75 70%)'},
+ {id:'kancil',name:'Kejar Kancil',dunia:'HUTAN HUJAN',d:'Lari dalam hutan, kemudian lompat ke belakang buaya yang ada jawapan betul.',col:'#34D399',sky:'linear-gradient(#14532D 70%,#166534 70%)'},
+ {id:'pasar',name:'Pasar Malam',dunia:'GERAI MALAM',d:'Layan pelanggan dengan menyerahkan barang berlabel jawapan betul.',col:'#E879F9',sky:'linear-gradient(#1E1B4B 70%,#7C2D12 70%)'},
  {name:'Panjat Kelapa',dunia:'KAMPUNG PANTAI',d:'Panjat pokok kelapa. Pilih dahan jawapan betul untuk terus naik.',col:'#FBBF24',sky:'linear-gradient(#67E8F9 70%,#FDE68A 70%)'},
  {name:'Roket Sains',dunia:'PELANCARAN LANGKAWI',d:'Isi bahan api dengan jawapan betul. Makin betul, makin tinggi roket terbang.',col:'#F87171',sky:'linear-gradient(#FDBA74 70%,#475569 70%)'},
- {name:'Penyu Pulang',dunia:'PANTAI TERENGGANU',d:'Bawa anak penyu ke laut melalui laluan jawapan betul.',col:'#2DD4BF',sky:'linear-gradient(#0EA5E9 66%,#FDE68A 66%)'},
- {name:'Pasar Malam',dunia:'GERAI MALAM',d:'Layan pelanggan dengan menyerahkan barang berlabel jawapan betul.',col:'#E879F9',sky:'linear-gradient(#1E1B4B 70%,#7C2D12 70%)'}];
+ {name:'Penyu Pulang',dunia:'PANTAI TERENGGANU',d:'Bawa anak penyu ke laut melalui laluan jawapan betul.',col:'#2DD4BF',sky:'linear-gradient(#0EA5E9 66%,#FDE68A 66%)'}];
 const P=new URLSearchParams(location.search);
 const ASAS={id:'asas',t:0,n:'',tajuk:'Kira Pantas'};
 let pilih=P.get('b')==='asas'?ASAS:(SENARAI.find(s=>s.id===P.get('b'))||null), ting=pilih?pilih.t:(P.get('t')!=null&&P.get('t')!==''?+P.get('t'):1);
