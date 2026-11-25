@@ -16,8 +16,25 @@ const TPL = {
   isi: ['Tajuk + isi', 'Poin keluar satu demi satu'],
   soalan: ['Soalan cepat', 'Soalan, kemudian tunjuk jawapan'],
   gambar: ['Gambar', 'Tajuk + gambar sendiri'],
-  papan: ['Papan kosong / grid', 'Ruang tulis & lukis dengan pen']
+  papan: ['Papan kosong / grid', 'Ruang tulis & lukis dengan pen'],
+  pautan: ['Pautan / video', 'Link YouTube atau laman web']
 };
+// pautan: hanya https; YouTube dimainkan dalam slaid
+const ajUrl = u => { try { const x = new URL(String(u || '').trim()); return x.protocol === 'https:' ? x.href : ''; } catch (e) { return ''; } };
+function ajYt(u) {
+  const h = ajUrl(u); if (!h) return null;
+  const x = new URL(h), host = x.hostname.replace(/^(www|m|music)\./, '');
+  let id = '';
+  if (host === 'youtu.be') id = x.pathname.slice(1).split('/')[0];
+  else if (host === 'youtube.com' || host === 'youtube-nocookie.com') {
+    if (x.pathname === '/watch') id = x.searchParams.get('v') || '';
+    else { const m = x.pathname.match(/^\/(embed|shorts|live|v)\/([^/?#]+)/); if (m) id = m[2]; }
+  }
+  if (!/^[\w-]{11}$/.test(id)) return null;
+  const t = x.searchParams.get('t') || x.searchParams.get('start') || '';
+  let st = 0; const tm = String(t).match(/^(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s?)?$/); if (t && tm) st = (+tm[1] || 0) * 3600 + (+tm[2] || 0) * 60 + (+tm[3] || 0);
+  return { id, st };
+}
 const SIMNAME = Object.fromEntries(SIMLIST.map(s => [s[0], s[1]]));
 const strip = s => String(s || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 const ajIcon = {
@@ -76,13 +93,13 @@ function itemName(it) {
   if (it.t === 'sim') return 'Simulasi ' + (SIMNAME[it.k] || '');
   if (it.t === 'lat') { const subs = [...new Set(it.ids.map(id => id.split('-')[0]))].join(', '); return `Latihan ${subs} · ${it.ids.length} soalan`; }
   if (it.t === 'game') return GMODES[it.g || '60'][0];
-  if (it.t === 'cikgu') return `${TPL[it.tpl][0]}: ${strip(it.title || it.q) || 'Tanpa tajuk'}`;
+  if (it.t === 'cikgu') return `${TPL[it.tpl][0]}: ${strip(it.title || it.q || it.link) || 'Tanpa tajuk'}`;
   return '';
 }
 const typeChip = (t, extra = '') => `<span class="ajtype" style="--c:var(--${AJT[t][1]})${extra}">${AJT[t][0]}</span>`;
 
 /* ---------- slaid cikgu ---------- */
-function cikguHTML(it) {
+function cikguHTML(it, pv) {
   const kick = esc(it.kick || '');
   const title = esc(it.title || '');
   if (it.tpl === 'isi') {
@@ -98,6 +115,15 @@ function cikguHTML(it) {
     const x = it.x != null ? it.x : 50, y = it.y != null ? it.y : 50, w = it.w || 60;
     return `<div class="slide full cs cs-pic" style="--c:var(--pu)"><h1 class="sl-title">${title || 'Tajuk'}</h1>
       <div class="cs-imgbox">${it.img ? `<img class="cs-img" src="${it.img}" alt="${title || 'Gambar'}" draggable="false" style="left:${x}%;top:${y}%;width:${w}%">` : '<div class="cs-noimg">Tiada gambar</div>'}</div></div>`;
+  }
+  if (it.tpl === 'pautan') {
+    const url = ajUrl(it.link), yt = ajYt(url), btn = esc(it.btn || (yt ? 'Buka di YouTube' : 'Buka pautan'));
+    let host = ''; try { host = url ? new URL(url).hostname.replace(/^www\./, '') : ''; } catch (e) { }
+    if (yt) return `<div class="slide full cs cs-link" style="--c:var(--pu)"><h1 class="sl-title">${title || 'Video'}</h1>
+      <div class="cs-vid">${pv ? `<img src="https://i.ytimg.com/vi/${yt.id}/hqdefault.jpg" alt="" class="cs-thumb"><span class="cs-play" aria-hidden="true"></span>` : `<iframe src="https://www.youtube-nocookie.com/embed/${yt.id}?rel=0${yt.st ? '&start=' + yt.st : ''}" title="${title || 'Video YouTube'}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`}</div>
+      <a class="cs-linkbtn sm" href="${esc(url)}" target="_blank" rel="noopener noreferrer">${btn} ↗</a></div>`;
+    return `<div class="slide full cs cs-link" style="--c:var(--pu)"><h1 class="sl-title">${title || 'Pautan'}</h1>
+      <div class="cs-linkbox">${url ? `<a class="cs-linkbtn" href="${esc(url)}" target="_blank" rel="noopener noreferrer">${btn} ↗</a><span class="cs-host">${esc(host)}</span>` : '<div class="cs-noimg">Tiada pautan</div>'}</div></div>`;
   }
   // papan
   const bg = it.bg || 'grid';
@@ -117,7 +143,7 @@ function viewSusun() {
   const d = ajData(), pl = ajPlan();
   if (AJS.sel >= pl.items.length) AJS.sel = pl.items.length - 1;
   const opts = d.plans.map(p => `<option value="${p.id}"${p.id === d.cur ? ' selected' : ''}>${esc(p.name)}</option>`).join('');
-  const cats = [['slaid', 'Slaid nota', `${SLIDES.length} slaid · ${SUBS.length} subtopik`], ['sim', 'Simulasi', SIMLIST.map(s => s[1]).join(' · ')], ['lat', 'Latihan', 'Pilih soalan dari bank'], ['game', 'Game', '4 pilihan game'], ['cikgu', 'Slaid baharu', '4 templat']];
+  const cats = [['slaid', 'Slaid nota', `${SLIDES.length} slaid · ${SUBS.length} subtopik`], ['sim', 'Simulasi', SIMLIST.map(s => s[1]).join(' · ')], ['lat', 'Latihan', 'Pilih soalan dari bank'], ['game', 'Game', '4 pilihan game'], ['cikgu', 'Slaid baharu', '5 templat']];
   const catBtns = cats.map(([k, t, s]) => `<button type="button" class="ajcat${AJS.cat === k ? ' on' : ''}" data-cat="${k}" style="--c:var(--${AJT[k][1]})"><span class="ab">${k === 'cikgu' ? '+' : AJT[k][0].slice(0, 2)}</span><span><b>${t}</b><small>${s}</small></span></button>`).join('');
   let lib = '';
   if (AJS.cat === 'slaid') {
@@ -207,13 +233,15 @@ function viewModal() {
   if (it.tpl === 'gambar') fields = f('fTitle', 'TAJUK', it.title)
     + `<label class="btn sec ajimg">${ajIcon.img}<span>${it.img ? 'Tukar gambar' : 'Muat naik gambar'}</span><input type="file" id="fImg" accept="image/*" hidden></label>`
     + (it.img ? `<label class="ajf"><span>SAIZ GAMBAR</span><input type="range" id="fSz" min="15" max="100" value="${it.w || 60}"></label><p class="ajhint" style="margin:0">Seret gambar dalam pratonton untuk ubah kedudukan.</p><button type="button" class="btn sec" id="fImgX" style="min-height:44px">Buang gambar</button>` : '');
+  if (it.tpl === 'pautan') fields = f('fTitle', 'TAJUK', it.title) + f('fLink', 'PAUTAN (cth. https://youtu.be/…)', it.link) + f('fBtn', 'TEKS BUTANG (pilihan)', it.btn)
+    + `<p class="ajhint" style="margin:0" id="fLinkMsg">${it.link && !ajUrl(it.link) ? 'Pautan mesti bermula dengan https://' : ajYt(it.link) ? 'Video YouTube akan dimainkan dalam slaid (perlu internet).' : 'Laman web dibuka dalam tab baharu.'}</p>`;
   if (it.tpl === 'papan') fields = f('fTitle', 'TAJUK (pilihan)', it.title) + `<div class="ajf"><span>LATAR</span><div class="opts" style="grid-template-columns:repeat(3,minmax(0,1fr))">${[['kosong', 'Kosong'], ['grid', 'Grid'], ['cartes', 'Satah Cartes']].map(([k, t]) => `<button type="button" class="opt" data-bg="${k}" aria-pressed="${(it.bg || 'grid') === k}" style="--c:var(--pu)">${t}</button>`).join('')}</div></div>`;
   return `<div class="ajm-bg"><section class="ajm" role="dialog" aria-modal="true" aria-label="Slaid baharu">
     <div class="ajm-h">${typeChip('cikgu')}<h2>${M.edit != null ? 'Ubah slaid' : 'Slaid baharu'}</h2><button type="button" class="ib" id="ajmX" aria-label="Tutup">${IC.x}</button></div>
     <div class="ajtpls" role="group" aria-label="Templat">${tp}</div>
     <div class="ajm-b cikgu">
       <div class="ajform">${fields}<button type="button" class="btn pri" id="ajmOk" style="--tr:var(--pu);margin-top:auto">${M.edit != null ? 'Simpan perubahan' : 'Tambah ke pelan'}</button></div>
-      <div class="ajform"><span class="ajh">PRATONTON</span><div class="ajpv" id="ajmPv" style="--c:var(--pu)"><div class="ajpv-in"><div class="stage">${cikguHTML(it)}</div></div></div></div>
+      <div class="ajform"><span class="ajh">PRATONTON</span><div class="ajpv" id="ajmPv" style="--c:var(--pu)"><div class="ajpv-in"><div class="stage">${cikguHTML(it, true)}</div></div></div></div>
     </div></section></div>`;
 }
 
@@ -249,7 +277,7 @@ function validItem(it) {
   if (it.t === 'slaid') return !!slideOf(it);
   if (it.t === 'sim') return !!SIMNAME[it.k];
   if (it.t === 'lat') return Array.isArray(it.ids);
-  if (it.t === 'cikgu') return !!TPL[it.tpl];
+  if (it.t === 'cikgu') return !!TPL[it.tpl] && (it.tpl !== 'pautan' || !!ajUrl(it.link));
   if (it.t === 'game') return !it.g || !!GMODES[it.g];
   return true;
 }
@@ -340,9 +368,10 @@ function bindModal(pl) {
     return;
   }
   const it = M.it;
-  const pv = () => { const b = document.getElementById('ajmPv'); b.firstElementChild.innerHTML = `<div class="stage">${cikguHTML(it)}</div>`; fitPreviews(); };
+  const pv = () => { const b = document.getElementById('ajmPv'); b.firstElementChild.innerHTML = `<div class="stage">${cikguHTML(it, true)}</div>`; fitPreviews(); };
   const bindF = (id, key) => { const el = document.getElementById(id); if (el) el.oninput = () => { it[key] = el.value; pv(); }; };
-  bindF('fKick', 'kick'); bindF('fTitle', 'title'); bindF('fText', 'text'); bindF('fQ', 'q'); bindF('fAns', 'ans');
+  bindF('fKick', 'kick'); bindF('fTitle', 'title'); bindF('fBtn', 'btn');
+  const fl = document.getElementById('fLink'); if (fl) fl.oninput = () => { it.link = fl.value.trim(); const m = document.getElementById('fLinkMsg'); if (m) m.textContent = it.link && !ajUrl(it.link) ? 'Pautan mesti bermula dengan https://' : ajYt(it.link) ? 'Video YouTube akan dimainkan dalam slaid (perlu internet).' : 'Laman web dibuka dalam tab baharu.'; pv(); }; bindF('fText', 'text'); bindF('fQ', 'q'); bindF('fAns', 'ans');
   if (it.tpl === 'soalan' && it.kick == null) it.kick = 'SOALAN CEPAT';
   root.querySelectorAll('[data-tpl]').forEach(b => b.onclick = () => { it.tpl = b.dataset.tpl; if (it.tpl === 'soalan' && !it.kick) it.kick = 'SOALAN CEPAT'; render(true); });
   root.querySelectorAll('[data-bg]').forEach(b => b.onclick = () => { it.bg = b.dataset.bg; render(true); });
@@ -362,7 +391,8 @@ function bindModal(pl) {
     pvBox.addEventListener('pointermove', mv); pvBox.addEventListener('pointerup', up); pvBox.addEventListener('pointercancel', up);
   });
   document.getElementById('ajmOk').onclick = () => {
-    const keep = { isi: ['kick', 'title', 'text'], soalan: ['kick', 'q', 'ans'], gambar: ['title', 'img', 'x', 'y', 'w'], papan: ['title', 'bg'] }[it.tpl];
+    const keep = { isi: ['kick', 'title', 'text'], soalan: ['kick', 'q', 'ans'], gambar: ['title', 'img', 'x', 'y', 'w'], papan: ['title', 'bg'], pautan: ['title', 'link', 'btn'] }[it.tpl];
+    if (it.tpl === 'pautan' && !ajUrl(it.link)) { toast('Masukkan pautan yang bermula dengan https://'); return; }
     const item = { t: 'cikgu', tpl: it.tpl }; keep.forEach(k => { if (it[k] != null && it[k] !== '') item[k] = it[k]; });
     AJS.modal = null;
     if (M.edit != null) { pl.items[M.edit] = item; if (ajSave()) toast('Slaid dikemas kini'); render(true); }
