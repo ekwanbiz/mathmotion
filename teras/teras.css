@@ -575,6 +575,29 @@ g.rv.hid{visibility:hidden}
 }
 @media (max-height:620px) and (min-width:901px){.sl-svg{max-height:calc(100dvh - 200px)}}
 
+/* ---------- Jana RPH ---------- */
+.ajrph{max-width:980px}
+.ajrph .ajm-h h2{flex:1}
+.rphnote{margin:0;padding:10px 20px;background:color-mix(in srgb,var(--am) 12%,transparent);color:var(--tx);font-size:14px}
+.rphwrap{overflow:auto;padding:18px 20px 22px;flex:1;min-height:0}
+.rphdoc{outline:none}
+.rphtab{width:100%;border-collapse:collapse;font-size:15px;line-height:1.55}
+.rphtab th,.rphtab td{border:1px solid var(--bd);padding:10px 12px;vertical-align:top;text-align:left}
+.rphtab th{width:170px;background:var(--surf2);font-weight:700}
+.rphtab ol{margin:4px 0 10px;padding-left:22px}
+.rphb{display:inline-block;min-width:120px;border-bottom:1.5px dashed var(--mu)}
+.ajrphb{border-color:var(--pu);color:var(--pu)}
+@media(max-width:640px){.ajrph .ajm-h .btn span{display:none}.ajrph .ajm-h h2{font-size:18px}.ajrph .ajm-h .btn{min-width:46px;padding:0 12px}.rphtab,.rphtab tbody,.rphtab tr,.rphtab th,.rphtab td{display:block;width:auto}.rphtab tr{margin-bottom:10px}.rphtab th{border-bottom:0}}
+@media print{
+ .rphprint{color:#14152B;font-family:Inter,sans-serif;font-size:11pt}
+ .rphprint h1{font-family:'Space Grotesk',sans-serif;font-size:15pt;margin:0 0 5mm}
+ .rphprint table{width:100%;border-collapse:collapse}
+ .rphprint th,.rphprint td{border:1px solid #9AA3B5;padding:2.5mm 3mm;vertical-align:top;text-align:left}
+ .rphprint th{width:38mm;background:#F1F4F9}
+ .rphprint ol{margin:1mm 0 2mm;padding-left:6mm}
+ .rphprint tr{break-inside:avoid}
+ .rphprint .rphb{display:inline-block;min-width:35mm;border-bottom:1px solid #14152B}
+}
 /* ---------- Cetak ---------- */
 @media print{
  .wsdoc{--tx:#14152B;--mu:#55607A;--surf:#FFFFFF;--surf2:#F4F6FB;--diag:#FFFFFF;--bd:#D5DCE8;--grid:#C9D2E0;--dim:#C3CBDA;--tr:#0284C7;--pa:#EA580C;--pu:#7C3AED;--am:#B45309;--gr:#059669;--pk:#DB2777;--rd:#DC2626;--on:#FFFFFF;color:#14152B;font-family:Inter,sans-serif;font-size:11.5pt;-webkit-print-color-adjust:exact;print-color-adjust:exact}

@@ -43,6 +43,8 @@ const ajIcon = {
   down: sv('<path d="M12 5v14M6 13l6 6 6-6"/>', 18),
   drag: sv('<path d="M9 6h.01M15 6h.01M9 12h.01M15 12h.01M9 18h.01M15 18h.01"/>', 20, ' stroke-width="3.4"'),
   plus: sv('<path d="M12 5v14M5 12h14"/>', 18),
+  doc: sv('<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/>', 18),
+  print: sv('<path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/>', 18),
   share: sv('<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/>', 18),
   copy: sv('<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/>', 18),
   edit: sv('<path d="M4 20h4L19 9l-4-4L4 16z"/>', 18),
@@ -173,6 +175,7 @@ function viewSusun() {
         <button type="button" class="ib" id="ajRen" aria-label="Namakan semula pelan">${ajIcon.edit}</button>
         <button type="button" class="ib" id="ajDelPlan" aria-label="Padam pelan ini">${ajIcon.trash}</button>
         <button type="button" class="btn sec" id="ajShare"${pl.items.length ? '' : ' disabled'}>${ajIcon.share}<span>Kongsi link</span></button>
+        ${BAB.rph ? `<button type="button" class="btn sec ajrphb" id="ajRph"${pl.items.length ? '' : ' disabled'}>${ajIcon.doc}<span>Jana RPH</span></button>` : ''}
       </div>
       <button type="button" class="btn pri big ajgo" id="ajGo"${pl.items.length ? '' : ' disabled'}>${IC.play} Mula Mengajar</button>
     </div>
@@ -206,6 +209,7 @@ function viewPratonton(pl) {
 function viewModal() {
   const M = AJS.modal;
   if (M.type === 'share') return viewShareModal(M);
+  if (M.type === 'rph') return viewRphModal(M);
   if (M.type === 'lat') {
     const bank = wsBank(), B = bankById();
     const list = bank.filter(q => q.sub === M.sub && (M.lvl === 'all' || q.lvl === M.lvl));
@@ -299,6 +303,7 @@ function bindSusun() {
     d.cur = d.plans[0].id; AJS.sel = 0; ajSave(); render(true);
   };
   document.getElementById('ajShare').onclick = () => ajShareOpen(pl);
+  const rb = document.getElementById('ajRph'); if (rb) rb.onclick = () => { AJS.modal = { type: 'rph', pl }; render(true); };
   document.getElementById('ajGo').onclick = () => ajStart(0);
   const from = document.getElementById('ajFrom'); if (from) from.onclick = () => ajStart(AJS.sel);
   const ed = document.getElementById('ajEdit');
@@ -340,6 +345,7 @@ function bindSusun() {
     });
   });
   if (AJS.modal && AJS.modal.type === 'share') bindShareModal();
+  if (AJS.modal && AJS.modal.type === 'rph') bindRphModal();
   else if (AJS.modal) bindModal(pl);
 }
 function bindModal(pl) {
@@ -653,6 +659,86 @@ function bindShareModal() {
   };
   const nb = document.getElementById('ajNative');
   if (nb) nb.onclick = () => navigator.share({ title: 'Pelan ' + APPNAME + ': ' + M.name, text: 'Pelan mengajar ' + APPNAME + ': ' + M.name, url: M.link }).catch(() => {});
+}
+/* =================== JANA RPH (BAB.rph) =================== */
+const rphLine = '<span class="rphb">&nbsp;</span>';
+function rphAct(it, induksi) {
+  const t = x => `<i>${esc(strip(x))}</i>`;
+  if (it.t === 'sim') return `Murid meneroka Simulasi ${t(SIMNAME[it.k] || '')} dan menerangkan dapatan mereka.`;
+  if (it.t === 'lat') {
+    const bk = bankById(), qs = it.ids.map(id => bk[id]).filter(Boolean), c = l => qs.filter(q => q.lvl === l).length;
+    const subs = [...new Set(it.ids.map(id => id.split('-')[0]))].join(', ');
+    const lv = [[c('m'), 'mudah'], [c('s'), 'sederhana'], [c('k'), 'sukar']].filter(x => x[0]).map(x => x.join(' ')).join(', ');
+    return `Murid menjawab Latihan ${subs} (${it.ids.length} soalan${lv ? ': ' + lv : ''})${it.work ? ' dan menyemak jalan kerja' : ''}.`;
+  }
+  if (it.t === 'game') return `Murid bermain game ${t(GMODES[it.g || '60'][0])}.`;
+  if (it.t === 'cikgu') {
+    if (it.tpl === 'isi') return `Guru menerangkan ${t(it.title || 'isi pelajaran')}.`;
+    if (it.tpl === 'soalan') return `Murid menjawab soalan cepat: ${t(it.q || '')}`;
+    if (it.tpl === 'gambar') return `Murid memerhati gambar ${t(it.title || '')} dan berbincang.`;
+    if (it.tpl === 'papan') return `Guru dan murid menyelesaikan contoh di papan${it.title ? ' ' + t(it.title) : ''}.`;
+    if (it.tpl === 'pautan') return ajYt(it.link) ? `Murid menonton video ${t(it.title || 'YouTube')}.` : `Murid meneroka laman ${t(it.title || it.link)}.`;
+  }
+  return '';
+}
+function rphSteps(items, induksi) {
+  const out = [];
+  for (let i = 0; i < items.length; i++) {
+    const it = items[i];
+    if (it.t === 'slaid') {
+      const run = [it]; while (items[i + 1] && items[i + 1].t === 'slaid') run.push(items[++i]);
+      const names = run.map(x => { const sl = slideOf(x); return `<i>${esc(sl ? strip(sl.title) : '')}</i>`; });
+      const list = names.length > 1 ? names.slice(0, -1).join(', ') + ' dan ' + names[names.length - 1] : names[0];
+      out.push(induksi && run.length === 1 ? `Guru menayangkan slaid ${list} dan bersoal jawab dengan murid.` : `Guru menerangkan ${list} menggunakan slaid nota.`);
+    } else { const a = rphAct(it, induksi); if (a) out.push(a); }
+  }
+  return out;
+}
+function rphHTML(pl) {
+  const items = pl.items.filter(validItem);
+  let a = 1; while (items[a] && items[a].t === 'cikgu') a++;
+  const ind = items.slice(0, Math.min(a, items.length));
+  let end = items.length > ind.length + 1 ? items.length - 1 : items.length;
+  const dev = items.slice(ind.length, end), pen = items.slice(end);
+  const subs = [...new Set(items.flatMap(it => it.t === 'slaid' ? [it.sub] : it.t === 'lat' ? it.ids.map(id => id.split('-')[0]) : []))].sort((x, y) => parseFloat(x.split('.')[1]) - parseFloat(y.split('.')[1]));
+  const subName = n => { const o = SUBS.find(x => x.no === n); return o ? o.name : ''; };
+  const sk = subs.length ? subs.map(n => `${n} ${esc(subName(n))}`).join('<br>') : rphLine;
+  const lc = t => t ? t.charAt(0).toLowerCase() + t.slice(1) : '';
+  const obj = subs.length ? `Pada akhir PdP, murid dapat:<ol>${subs.map(n => `<li>memahami ${esc(lc(subName(n)))}: ${esc(lc(SUBDESC[n] || ''))};</li>`).join('')}</ol>` : `Pada akhir PdP, murid dapat: ${rphLine}`;
+  const ol = arr => `<ol>${arr.map(x => `<li>${x}</li>`).join('')}</ol>`;
+  const penS = rphSteps(pen, false).concat(['Guru merumus isi penting pelajaran.']);
+  const akt = `<b>Set induksi</b>${ol(rphSteps(ind, true))}${dev.length ? `<b>Perkembangan</b>${ol(rphSteps(dev, false))}` : ''}<b>Penutup</b>${ol(penS)}`;
+  const sims = [...new Set(items.filter(i => i.t === 'sim').map(i => 'Simulasi ' + SIMNAME[i.k]))];
+  const parts = [items.some(i => i.t === 'slaid') ? 'slaid nota' : ''].concat(sims, items.some(i => i.t === 'lat') ? ['latihan'] : [], [...new Set(items.filter(i => i.t === 'game').map(i => GMODES[i.g || '60'][0]))]).filter(Boolean);
+  const vid = items.some(i => i.t === 'cikgu' && i.tpl === 'pautan' && ajYt(i.link)), web = items.some(i => i.t === 'cikgu' && i.tpl === 'pautan' && !ajYt(i.link));
+  const bbm = `TerokaMath${parts.length ? ' (' + esc(parts.join(', ')) + ')' : ''}${vid ? ', video YouTube' : ''}${web ? ', laman web' : ''}, LCD / telefon pintar`;
+  const rows = [['Mata pelajaran', 'Matematik'], ['Tingkatan / Kelas', `Tingkatan ${BAB.ting} · ${rphLine}`], ['Tarikh / Masa', `${rphLine} · ${rphLine}`], ['Bilangan murid', rphLine],
+    ['Bab / Tajuk', `Bab ${BAB.no} · ${esc(BAB.tajuk)}`], ['Standard Kandungan', sk], ['Objektif', obj], ['Aktiviti', akt], ['BBM', bbm],
+    ['Refleksi', `${rphLine} / ${rphLine} murid mencapai objektif.<br>Catatan: ${rphLine}${rphLine}`]];
+  return `<table class="rphtab"><tbody>${rows.map(([k, v]) => `<tr><th scope="row">${k}</th><td>${v}</td></tr>`).join('')}</tbody></table>`;
+}
+function viewRphModal(M) {
+  return `<div class="ajm-bg"><section class="ajm ajrph" role="dialog" aria-modal="true" aria-label="Rancangan Pengajaran Harian">
+    <div class="ajm-h"><span class="ajtype" style="--c:var(--pu)">RPH</span><h2>Rancangan Pengajaran Harian</h2>
+      <button type="button" class="btn sec" id="rphCopy">${ajIcon.copy}<span>Salin</span></button>
+      <button type="button" class="btn pri" id="rphPrint">${ajIcon.print}<span>Cetak / PDF</span></button>
+      <button type="button" class="ib" id="ajmX" aria-label="Tutup">${IC.x}</button></div>
+    <p class="rphnote">Dijana daripada pelan <b>${esc(M.pl.name)}</b> (${M.pl.items.length} item). Klik mana-mana teks untuk ubah sebelum salin atau cetak.</p>
+    <div class="rphwrap"><div class="rphdoc" id="rphDoc" contenteditable="true" spellcheck="false">${rphHTML(M.pl)}</div></div></section></div>`;
+}
+function bindRphModal() {
+  const close = () => { AJS.modal = null; render(true); };
+  document.getElementById('ajmX').onclick = close;
+  document.querySelector('.ajm-bg').addEventListener('click', e => { if (e.target.classList.contains('ajm-bg')) close(); });
+  const doc = document.getElementById('rphDoc');
+  document.getElementById('rphCopy').onclick = () => {
+    const html = `<table border="1" cellpadding="6" style="border-collapse:collapse">${doc.querySelector('table').innerHTML}</table>`;
+    const text = [...doc.querySelectorAll('tr')].map(r => r.cells[0].innerText.trim() + ': ' + r.cells[1].innerText.replace(/ /g, '____').trim()).join('\n\n');
+    const done = () => toast('RPH disalin. Tampal ke Word atau e-RPH.');
+    if (window.ClipboardItem && navigator.clipboard && navigator.clipboard.write) navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([html], { type: 'text/html' }), 'text/plain': new Blob([text], { type: 'text/plain' }) })]).then(done, () => { navigator.clipboard.writeText(text).then(done); });
+    else { const r = document.createRange(); r.selectNodeContents(doc); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); document.execCommand('copy'); sel.removeAllRanges(); done(); }
+  };
+  document.getElementById('rphPrint').onclick = () => printDoc(`<div class="rphprint"><h1>Rancangan Pengajaran Harian</h1>${doc.innerHTML}</div>`, WS_PAGE);
 }
 function viewKongsi(code) {
   if (AJK.code !== code) {
