@@ -3,7 +3,7 @@
    Muat soalan bab yang dipilih (aras mudah sahaja), urus nyawa, markah, jeda dan tamat.
    Setiap game (lari.js, tembak.js …) daftar GAMEDEF dan guna objek TMG. */
 const TMG = {
-  MAX: 15, NYAWA: 3,
+  MAX: 10, NYAWA: 3, SELANG: 15000,
   P: new URLSearchParams(location.search),
   qn: 0, betulN: 0, skor: 0, combo: 0, nyawa: 3, over: false, Q: null, recent: [],
   $: id => document.getElementById(id),
@@ -47,7 +47,7 @@ TMG.nextQ = () => {
   TMG.$('qno').textContent = 'SOALAN ' + TMG.qn + '/' + TMG.MAX;
   TMG.$('qtx').innerHTML = q.html;
   TMG.$('qfig').innerHTML = q.fig;
-  TMG.$('qbox').classList.remove('ok', 'no');
+  TMG.$('qbox').classList.remove('ok', 'no', 'amar');
   return q;
 };
 
@@ -59,6 +59,11 @@ TMG.lukisHud = () => {
   TMG.$('skor').textContent = TMG.skor.toLocaleString('ms-MY').replace(/,/g, ' ');
 };
 TMG.bunyi = k => { try { snd(k); } catch (e) {} };
+TMG.ding = () => { try { const C = SND.ctx || (SND.ctx = new (window.AudioContext || window.webkitAudioContext)()); const o = C.createOscillator(), v = C.createGain(), t = C.currentTime; o.type = 'triangle'; o.frequency.setValueAtTime(1320, t); o.frequency.setValueAtTime(1760, t + .05); v.gain.setValueAtTime(.08, t); v.gain.exponentialRampToValueAtTime(.001, t + .16); o.connect(v); v.connect(C.destination); o.start(t); o.stop(t + .2); } catch (e) {} };
+TMG.kutip = n => { TMG.skor += n; TMG.ding(); TMG.lukisHud(); };
+// jalur atas semasa tiada soalan
+TMG.rehat = () => { TMG.Q = null; TMG.$('qno').textContent = ''; TMG.$('qtx').innerHTML = GAMEDEF.rehat; TMG.$('qfig').innerHTML = ''; TMG.$('qbox').classList.remove('ok', 'no', 'amar'); };
+TMG.amaran = () => { TMG.$('qno').textContent = 'SOALAN ' + (TMG.qn + 1) + '/' + TMG.MAX; TMG.$('qtx').innerHTML = 'Soalan datang!'; TMG.$('qbox').classList.add('amar'); TMG.bunyi('tap'); };
 TMG.tanda = ok => { const b = TMG.$('qbox'); b.classList.remove('ok', 'no'); void b.offsetWidth; b.classList.add(ok ? 'ok' : 'no'); };
 TMG.betul = () => { TMG.combo++; TMG.betulN++; TMG.skor += 100 + 20 * (TMG.combo - 1); TMG.bunyi(TMG.combo >= 3 ? 'combo' : 'ok'); TMG.tanda(true); TMG.lukisHud(); return TMG.semak(); };
 TMG.salah = () => { TMG.combo = 0; TMG.nyawa--; TMG.bunyi('no'); TMG.tanda(false); TMG.lukisHud(); return TMG.semak(); };
@@ -71,7 +76,7 @@ TMG.kad = html => { const l = TMG.$('lapis'); l.innerHTML = `<div class="kad">${
 TMG.tutupKad = () => { TMG.$('lapis').hidden = true; };
 TMG.tagHTML = () => `<span class="tg">${GAMEDEF.nama.toUpperCase()} · BAB ${TMG.bab.n}</span>`;
 TMG.mulaKad = () => {
-  const l = TMG.kad(`${TMG.tagHTML()}<h1>${GAMEDEF.nama}</h1><p>${tgEsc(TMG.bab.tajuk)} · Tingkatan ${TMG.bab.t}</p><p>${TMG.touch ? GAMEDEF.caraSentuh : GAMEDEF.cara}</p><p>${TMG.MAX} soalan · ${TMG.NYAWA} nyawa</p><button class="pri" id="kMula">Mula</button>`);
+  const l = TMG.kad(`${TMG.tagHTML()}<h1>${GAMEDEF.nama}</h1><p>${tgEsc(TMG.bab.tajuk)} · Tingkatan ${TMG.bab.t}</p><p>${TMG.touch ? GAMEDEF.caraSentuh : GAMEDEF.cara}</p><p>${TMG.NYAWA} nyawa · ${TMG.MAX} soalan sepanjang permainan</p><button class="pri" id="kMula">Mula</button>`);
   l.querySelector('#kMula').onclick = () => { TMG.tutupKad(); TMG.bunyi('tap'); TMG.mula(); };
 };
 TMG.jeda = () => {
@@ -96,7 +101,7 @@ const tgEsc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;
 /* ---------- mula / ulang ---------- */
 TMG.mula = () => {
   Object.assign(TMG, { qn: 0, betulN: 0, skor: 0, combo: 0, nyawa: TMG.NYAWA, over: false, recent: [] });
-  TMG.lukisHud(); TMG.$('hud').hidden = false;
+  TMG.lukisHud(); TMG.$('hud').hidden = false; TMG.rehat();
   if (!TMG.game) {
     TMG.game = new Phaser.Game({ type: Phaser.AUTO, parent: 'stage', width: 1280, height: 720, backgroundColor: '#0B1220', scale: { mode: Phaser.Scale.NONE }, scene: [GAMEDEF.scene], audio: { noAudio: true }, banner: false, input: { activePointers: 3 } });
   } else TMG.scene.scene.restart();

@@ -36,3 +36,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 #pusing{position:fixed;inset:0;background:#0B1220;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;z-index:9}
 #pusing div{display:flex;flex-direction:column;gap:8px;font-size:16px;color:var(--mu)}#pusing b{font-size:22px;color:var(--tx)}
 #pusing[hidden],[hidden]{display:none!important}
+.q.amar{animation:amar .5s ease-in-out 3 alternate}
+.q.amar #qtx{color:var(--ac)}
+@keyframes amar{to{background:color-mix(in srgb,var(--ac) 35%,#0B1220)}}
+.q .tag:empty{display:none}
