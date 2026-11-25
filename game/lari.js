@@ -95,13 +95,18 @@ class LariScene extends Phaser.Scene {
     }
   }
   nilai() {
-    const c = this.gate; c.judged = true;
-    const ok = this.lane === c.q.c;
-    c.papan[c.q.c].setTint(0x86EFAC);
-    if (!ok && c.papan[this.lane]) c.papan[this.lane].setTint(0xFCA5A5);
-    if (ok) { this.letup(LR_PX + 40, LR_LANE[this.lane], 0x34D399); this.speed = Math.min(280, this.speed + 9); }
-    else this.cameras.main.shake(220, .006);
+    const c = this.gate; c.judged = true; this.gate = null;
+    const ok = this.lane === c.q.c, x = c.x, y = LR_LANE[this.lane], sebelum = TMG.skor;
     const end = ok ? TMG.betul() : TMG.salah();
+    // papan yang dilanggar pecah; papan lain pudar
+    c.list.forEach(o => this.tweens.add({ targets: o, alpha: 0, duration: 250, onComplete: () => o.setVisible(false) }));
+    this.time.delayedCall(300, () => c.destroy());
+    if (c.papan[this.lane]) this.letup(x, y, ok ? 0x34D399 : 0xF87171);
+    if (ok) {
+      this.speed = Math.min(280, this.speed + 9);
+      const t = this.add.text(LR_PX + 20, y - 60, '+' + (TMG.skor - sebelum), { fontFamily: '"Space Grotesk", sans-serif', fontSize: '40px', fontStyle: '700', color: '#34D399', stroke: '#0B1220', strokeThickness: 6 }).setOrigin(.5);
+      this.tweens.add({ targets: t, y: y - 130, alpha: 0, duration: 800, ease: 'Quad.easeOut', onComplete: () => t.destroy() });
+    } else this.cameras.main.shake(220, .006);
     if (!end) this.time.delayedCall(650, () => this.soalanBaru());
   }
   letup(x, y, col) {
@@ -118,8 +123,8 @@ class LariScene extends Phaser.Scene {
     if (this.deco.length && this.deco[0].x < -100) { this.deco.shift().destroy(); this.tambahDeco(this.deco[this.deco.length - 1].x + Phaser.Math.Between(260, 380)); }
     if (this.gate) {
       this.gate.x -= v;
-      if (!this.gate.judged && this.gate.x <= LR_PX + 30 && !TMG.over) this.nilai();
-      if (this.gate.x < -200) { this.gate.destroy(); this.gate = null; }
+      if (!this.gate.judged && this.gate.x <= LR_PX + 140 && !TMG.over) this.nilai();
+      if (this.gate && this.gate.x < -200) { this.gate.destroy(); this.gate = null; }
     }
     for (const b of this.boxes) {
       b.x -= v;
