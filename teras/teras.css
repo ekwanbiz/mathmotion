@@ -587,6 +587,12 @@ g.rv.hid{visibility:hidden}
 .rphtab ol{margin:4px 0 10px;padding-left:22px}
 .rphb{display:inline-block;min-width:120px;border-bottom:1.5px dashed var(--mu)}
 .ajrphb{border-color:var(--pu);color:var(--pu)}
+.rphed{border-color:var(--pu);color:var(--pu)}
+.btn.rphdone{background:var(--pu);border-color:var(--pu);color:#fff}
+.rphdoc.ed td{outline:2px dashed var(--pu);outline-offset:-4px;background:color-mix(in srgb,var(--pu) 6%,transparent);cursor:text}
+.rphdoc.ed td:focus{outline-style:solid}
+.rphdoc.ed .rphb{border-bottom-color:var(--pu);background:color-mix(in srgb,var(--pu) 12%,transparent);border-radius:4px}
+.rphreset{margin-top:14px;background:none;border:0;color:var(--mu);text-decoration:underline;font:inherit;font-size:14px;cursor:pointer;padding:8px 0;min-height:44px}
 @media(max-width:640px){.ajrph .ajm-h .btn span{display:none}.ajrph .ajm-h h2{font-size:18px}.ajrph .ajm-h .btn{min-width:46px;padding:0 12px}.rphtab,.rphtab tbody,.rphtab tr,.rphtab th,.rphtab td{display:block;width:auto}.rphtab tr{margin-bottom:10px}.rphtab th{border-bottom:0}}
 @media print{
  .rphprint{color:#14152B;font-family:Inter,sans-serif;font-size:11pt}

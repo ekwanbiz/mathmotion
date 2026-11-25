@@ -718,27 +718,44 @@ function rphHTML(pl) {
   return `<table class="rphtab"><tbody>${rows.map(([k, v]) => `<tr><th scope="row">${k}</th><td>${v}</td></tr>`).join('')}</tbody></table>`;
 }
 function viewRphModal(M) {
+  const pl = M.pl, ed = !!M.ed, saved = typeof pl.rph === 'string' && pl.rph;
+  const body = saved ? pl.rph : rphHTML(pl);
   return `<div class="ajm-bg"><section class="ajm ajrph" role="dialog" aria-modal="true" aria-label="Rancangan Pengajaran Harian">
     <div class="ajm-h"><span class="ajtype" style="--c:var(--pu)">RPH</span><h2>Rancangan Pengajaran Harian</h2>
-      <button type="button" class="btn sec" id="rphCopy">${ajIcon.copy}<span>Salin</span></button>
-      <button type="button" class="btn pri" id="rphPrint">${ajIcon.print}<span>Cetak / PDF</span></button>
+      <button type="button" class="btn ${ed ? 'pri rphdone' : 'sec rphed'}" id="rphEdit">${ed ? IC.check || '✓' : ajIcon.edit}<span>${ed ? 'Siap' : 'Ubah'}</span></button>
+      ${ed ? '' : `<button type="button" class="btn sec" id="rphCopy">${ajIcon.copy}<span>Salin</span></button>
+      <button type="button" class="btn pri" id="rphPrint">${ajIcon.print}<span>Cetak / PDF</span></button>`}
       <button type="button" class="ib" id="ajmX" aria-label="Tutup">${IC.x}</button></div>
-    <p class="rphnote">Dijana daripada pelan <b>${esc(M.pl.name)}</b> (${M.pl.items.length} item). Klik mana-mana teks untuk ubah sebelum salin atau cetak.</p>
-    <div class="rphwrap"><div class="rphdoc" id="rphDoc" contenteditable="true" spellcheck="false">${rphHTML(M.pl)}</div></div></section></div>`;
+    <p class="rphnote">${ed ? 'Taip terus dalam kotak bergaris ungu. Tekan <b>Siap</b> untuk simpan.' : saved ? `RPH ini telah diubah oleh cikgu dan disimpan untuk pelan <b>${esc(pl.name)}</b>.` : `Dijana daripada pelan <b>${esc(pl.name)}</b> (${pl.items.length} item). Tekan <b>Ubah</b> untuk edit.`}</p>
+    <div class="rphwrap"><div class="rphdoc${ed ? ' ed' : ''}" id="rphDoc">${body}</div>
+      ${saved && !ed ? `<button type="button" class="rphreset" id="rphReset">Jana semula dari pelan</button>` : ''}</div></section></div>`;
 }
 function bindRphModal() {
-  const close = () => { AJS.modal = null; render(true); };
+  const M = AJS.modal, doc = document.getElementById('rphDoc');
+  const save = () => { M.pl.rph = doc.innerHTML; ajSave(); };
+  const close = () => { if (M.ed) save(); AJS.modal = null; render(true); };
   document.getElementById('ajmX').onclick = close;
   document.querySelector('.ajm-bg').addEventListener('click', e => { if (e.target.classList.contains('ajm-bg')) close(); });
-  const doc = document.getElementById('rphDoc');
-  document.getElementById('rphCopy').onclick = () => {
+  if (M.ed) {
+    doc.querySelectorAll('td').forEach(td => { td.contentEditable = 'true'; td.spellcheck = false; });
+    const first = doc.querySelector('td'); if (first) first.focus();
+  }
+  document.getElementById('rphEdit').onclick = () => {
+    if (M.ed) { doc.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable')); save(); M.ed = false; render(true); toast('RPH disimpan'); }
+    else { M.ed = true; render(true); }
+  };
+  const rs = document.getElementById('rphReset');
+  if (rs) rs.onclick = () => { if (confirm('Buang semua perubahan dan jana semula RPH dari pelan ini?')) { delete M.pl.rph; ajSave(); render(true); toast('RPH dijana semula'); } };
+  const cp = document.getElementById('rphCopy');
+  if (cp) cp.onclick = () => {
     const html = `<table border="1" cellpadding="6" style="border-collapse:collapse">${doc.querySelector('table').innerHTML}</table>`;
     const text = [...doc.querySelectorAll('tr')].map(r => r.cells[0].innerText.trim() + ': ' + r.cells[1].innerText.replace(/ /g, '____').trim()).join('\n\n');
     const done = () => toast('RPH disalin. Tampal ke Word atau e-RPH.');
     if (window.ClipboardItem && navigator.clipboard && navigator.clipboard.write) navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([html], { type: 'text/html' }), 'text/plain': new Blob([text], { type: 'text/plain' }) })]).then(done, () => { navigator.clipboard.writeText(text).then(done); });
     else { const r = document.createRange(); r.selectNodeContents(doc); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); document.execCommand('copy'); sel.removeAllRanges(); done(); }
   };
-  document.getElementById('rphPrint').onclick = () => printDoc(`<div class="rphprint"><h1>Rancangan Pengajaran Harian</h1>${doc.innerHTML}</div>`, WS_PAGE);
+  const pr = document.getElementById('rphPrint');
+  if (pr) pr.onclick = () => printDoc(`<div class="rphprint"><h1>Rancangan Pengajaran Harian</h1>${doc.innerHTML}</div>`, WS_PAGE);
 }
 function viewKongsi(code) {
   if (AJK.code !== code) {
