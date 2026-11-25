@@ -116,7 +116,7 @@ TMG.pusing = () => { TMG.$('pusing').hidden = !(TMG.touch && innerHeight > inner
   document.title = 'Game · Bab ' + TMG.bab.n + ' ' + TMG.bab.tajuk + ' · TerokaMath';
   try {
     await tgMuat('../' + TMG.bab.id + '/bab.js'); await tgMuat('../teras/asas.js'); await tgMuat('../' + TMG.bab.id + '/soalan.js');
-    await tgMuat('lib/phaser.min.js'); await tgMuat(TMG.gid + '.js');
+    await tgMuat('lib/phaser.min.js'); if (window.tmPatchPhaser) tmPatchPhaser(); await tgMuat(TMG.gid + '.js');
     await Promise.all([document.fonts.load('700 30px "Space Grotesk"'), document.fonts.load('800 20px Inter')]).catch(() => {});
   } catch (e) { TMG.ralat('Gagal memuatkan game. Semak sambungan internet dan cuba lagi.'); return; }
   if (typeof gq !== 'function') { TMG.ralat('Bab ini belum ada soalan untuk game.'); return; }

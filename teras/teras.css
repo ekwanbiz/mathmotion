@@ -708,3 +708,4 @@ html.light{--lat-am:#FEF3C7;--lat-tr:#E0F2FE;--lat-gr:#DCFCE7;--lat-pk:#FCE7F3}
 .rtopik summary{cursor:pointer;font-weight:700;font-size:15px;color:var(--mu);min-height:32px;display:flex;align-items:center}
 .rtopik .ktypes{margin-top:8px}
 .ktypes.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}@media (max-width:640px){.ktypes.two{grid-template-columns:minmax(0,1fr)}}
+.langbtn b{font-family:var(--head);font-size:14px;font-weight:800;letter-spacing:.04em}

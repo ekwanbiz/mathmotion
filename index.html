@@ -81,6 +81,7 @@ html.light{--bg:#FFFFFF;--card:#FFFFFF;--line:#E5E5E5;--h:#3C3C3C;--p:#6B6B6B;--
 .note{color:var(--mu);font-size:14px;line-height:1.5;margin:0}
 </style>
 <style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+<script src="teras/bahasa.js"></script>
 <script>
 (function(){try{var m=localStorage.getItem('mathmotion-mode');if(m==='cerah'||(!m&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches))document.documentElement.classList.add('light')}catch(e){}})();
 </script>
@@ -178,7 +179,7 @@ function home(){const light=document.documentElement.classList.contains('light')
  <header class="top"><a class="brand" href="#/">${LOGO(40)}<b>Teroka<span>Math</span></b></a>
   <a class="ck gm" href="game/" aria-label="Game"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="11" rx="5"/><path d="M7 10.5v4M5 12.5h4"/><circle cx="16" cy="11.5" r="1" fill="currentColor"/><circle cx="18.5" cy="14" r="1" fill="currentColor"/></svg><span class="tx">GAME</span></a>
   <a class="ck sq" href="#/pasang" aria-label="Cara pasang di telefon">${I.phone}</a>
-  <button class="ck sq" id="mode" aria-label="${light?'Tukar ke mod gelap':'Tukar ke mod cerah'}">${light?I.moon:I.sun}</button></header>
+  ${typeof tmLangBtn==='function'?tmLangBtn('ck sq langbtn'):''}<button class="ck sq" id="mode" aria-label="${light?'Tukar ke mod gelap':'Tukar ke mod cerah'}">${light?I.moon:I.sun}</button></header>
  <section class="hero"><h1>Teroka. Faham. Kuasai.</h1><p>Pilih tingkatan, kemudian pilih bab.</p></section>
  <div class="tabs" role="tablist" aria-label="Tingkatan">${[1,2,3,4,5].map(t=>`<button role="tab" data-t="${t}" aria-selected="${tab===t}" aria-label="Tingkatan ${t}"${tab===t?` style="background:${TCOL[t-1]}"`:''}><b>${t}</b><small>TINGKATAN</small></button>`).join('')}</div>
  <div class="grid" id="grid">${chapters(tab).map(cardHTML).join('')}</div></main>`}
@@ -189,7 +190,7 @@ function pasang(){return`<main class="pg"><a class="back" href="#/">${I.left} Ke
  <section><h2>Komputer (Chrome / Edge)</h2><ol><li>Buka <b>ekwanbiz.github.io/mathmotion</b>.</li><li>Tekan ikon <b>Pasang</b> di hujung bar alamat.</li><li>Tekan <b>Pasang</b>.</li></ol></section></div>
  <p class="note">Selepas dibuka sekali dengan internet, semua bab dimuat turun dan boleh digunakan tanpa internet.</p></main>`}
 function bindHome(){
- document.getElementById('mode').onclick=()=>{const h=document.documentElement,l=!h.classList.contains('light');h.classList.toggle('light',l);LS.set('mathmotion-mode',l?'cerah':'gelap');setTheme();render()};
+ if(typeof tmBindLang==='function')tmBindLang();document.getElementById('mode').onclick=()=>{const h=document.documentElement,l=!h.classList.contains('light');h.classList.toggle('light',l);LS.set('mathmotion-mode',l?'cerah':'gelap');setTheme();render()};
  document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{tab=+b.dataset.t;LS.set('mathmotion-tab',String(tab));render()});
  document.querySelectorAll('[data-app]').forEach(a=>a.addEventListener('click',()=>LS.set('mathmotion-last',a.dataset.app)));
  document.querySelectorAll('[data-soon]').forEach(d=>d.onclick=()=>toast('Bab '+d.dataset.soon+' akan datang. Nantikan!'))}

@@ -13,6 +13,7 @@ function shell(tab, inner) {
     <nav class="tabs" aria-label="Tab utama">${TABS.filter(t => t[0] !== 'ajar').map(([k, t, sh]) => `<a href="#/${k}"${k === 'ajar' ? ' class="hl"' : ''}${k === tab ? ' aria-current="page"' : ''}>${IC[k]}${sh ? `<span class="tl">${t}</span><span class="ts">${sh}</span>` : `<span>${t}</span>`}</a>`).join('')}</nav>
     <div class="end">
       <a class="pelbtn" href="#/ajar"${tab === 'ajar' ? ' aria-current="page"' : ''}>${IC.play}<span class="tl">Pelan Mengajar</span><span class="ts">Pelan</span></a>
+      ${typeof tmLangBtn === 'function' ? tmLangBtn() : ''}
       <button type="button" class="ib" id="themeBtn" aria-label="${light ? 'Tukar ke mod gelap' : 'Tukar ke mod cerah'}">${light ? IC.moon : IC.sun}</button>
       ${fsOk ? `<button type="button" class="ib fsbtn" id="fsBtn" aria-label="Skrin penuh">${IC.fs}</button>` : ''}
     </div>
@@ -20,6 +21,7 @@ function shell(tab, inner) {
   <main class="main" id="main">${inner}</main></div>`;
 }
 function bindShell() {
+  if (typeof tmBindLang === 'function') tmBindLang();
   const t = document.getElementById('themeBtn');
   if (t) t.onclick = () => {
     const l = !isLight();
