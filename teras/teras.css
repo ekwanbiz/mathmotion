@@ -586,8 +586,6 @@ g.rv.hid{visibility:hidden}
 .rphtab th{width:170px;background:var(--surf2);font-weight:700}
 .rphtab ol{margin:4px 0 10px;padding-left:22px}
 .rphb{display:inline-block;min-width:120px;border-bottom:1.5px dashed var(--mu)}
-.btn.ajrphb{background:color-mix(in srgb,var(--pu) 14%,var(--surf));border:2px solid var(--pu);color:var(--pu);font-weight:800}
-.btn.ajrphb:hover{background:color-mix(in srgb,var(--pu) 22%,var(--surf))}
 .rphed{border-color:var(--pu);color:var(--pu)}
 .btn.rphdone{background:var(--pu);border-color:var(--pu);color:#fff}
 .rphdoc.ed td{outline:2px dashed var(--pu);outline-offset:-4px;background:color-mix(in srgb,var(--pu) 6%,transparent);cursor:text}

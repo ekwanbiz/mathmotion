@@ -175,7 +175,7 @@ function viewSusun() {
         <button type="button" class="ib" id="ajRen" aria-label="Namakan semula pelan">${ajIcon.edit}</button>
         <button type="button" class="ib" id="ajDelPlan" aria-label="Padam pelan ini">${ajIcon.trash}</button>
         <button type="button" class="btn sec" id="ajShare"${pl.items.length ? '' : ' disabled'}>${ajIcon.share}<span>Kongsi link</span></button>
-        ${BAB.rph ? `<button type="button" class="btn sec ajrphb" id="ajRph"${pl.items.length ? '' : ' disabled'}>${ajIcon.doc}<span>Jana RPH</span></button>` : ''}
+        ${BAB.rph ? `<button type="button" class="btn sec" id="ajRph"${pl.items.length ? '' : ' disabled'}>${ajIcon.doc}<span>Jana RPH</span></button>` : ''}
       </div>
       <button type="button" class="btn pri big ajgo" id="ajGo"${pl.items.length ? '' : ' disabled'}>${IC.play} Mula Mengajar</button>
     </div>
