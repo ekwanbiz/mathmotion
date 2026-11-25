@@ -25,92 +25,51 @@ button,a{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 a{color:var(--link)}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .logoM path{stroke-linecap:round}
-/* ---------- Muka depan ---------- */
-.splash{height:100vh;height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:calc(24px + env(safe-area-inset-top)) 22px calc(24px + env(safe-area-inset-bottom));background-image:linear-gradient(#80808010 1px,transparent 1px),linear-gradient(90deg,#80808010 1px,transparent 1px);background-size:32px 32px;text-align:center}
-.biglogo{width:132px;height:132px;border-radius:34px;background:var(--card);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;box-shadow:0 0 70px #7C7CFF33}
-.splash h1{margin:0;font-size:42px;font-weight:900;letter-spacing:-1px}
-.splash h1 span{color:var(--accTx)}
-.tag{margin:6px 0 0;font-size:19px;font-weight:800}
-.sub{margin:6px 0 0;font-size:14px;color:var(--mu)}
-.dots{display:flex;gap:8px}.dots i{width:12px;height:12px;border-radius:6px;display:block}
-.btns{width:100%;max-width:420px;display:flex;flex-direction:column;gap:12px;margin-top:6px}
-.btn{display:flex;align-items:center;justify-content:center;gap:10px;height:56px;border-radius:16px;font-size:18px;font-weight:900;text-decoration:none;border:0;cursor:pointer}
-.btn.pri{background:var(--acc);color:#0B0C18;box-shadow:0 10px 30px #7C7CFF44}
-.btn.sec{background:var(--card);border:1px solid var(--bd);color:var(--tx);font-size:17px;font-weight:800}
-.off{margin:0;font-size:12px;color:var(--mu);display:flex;align-items:center;gap:6px}
-/* ---------- Utama ---------- */
-.home{height:100vh;height:100dvh;display:flex;flex-direction:column;gap:12px;padding:calc(14px + env(safe-area-inset-top)) 16px calc(14px + env(safe-area-inset-bottom));max-width:1240px;margin:0 auto}
-.top{display:flex;align-items:center;gap:8px;min-height:44px}
-.gm{height:42px;padding:0 14px;flex:none;border-radius:21px;border:1.5px solid #FBBF24;background:#FBBF241f;color:var(--tx);display:flex;align-items:center;gap:7px;font-weight:800;font-size:15px;text-decoration:none}
-@media(max-width:480px){.gm{padding:0 11px;font-size:14px}.gm svg{display:none}}
-@media(max-width:420px){.brand b{font-size:20px!important}.brand small{font-size:10.5px!important}}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--tx);margin-right:auto;min-width:0}
-.brand .bt{display:flex;flex-direction:column;line-height:1.1;min-width:0}.brand small{font-size:12px;font-weight:700;color:var(--mu);margin-top:3px;white-space:nowrap}.brand b{font-size:24px;font-weight:900;letter-spacing:-.4px;white-space:nowrap}.brand b span{color:var(--accTx)}
-.pill{display:flex;align-items:center;gap:6px;height:40px;padding:0 12px;border-radius:20px;background:var(--starBg);border:1px solid var(--starBd);font-weight:900;color:var(--star)}
-.ib{width:42px;height:42px;flex:none;border-radius:21px;border:1px solid var(--bd);background:var(--card);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--tx);text-decoration:none}
-.search{display:flex;align-items:center;gap:10px;height:46px;padding:0 14px;border-radius:14px;background:var(--card);border:1px solid var(--bd);box-shadow:var(--shadow)}
-.search input{flex:1;min-width:0;border:0;background:none;color:var(--tx);font-weight:600;font-size:16px;outline:none}
-.search input::placeholder{color:var(--mu)}
-.clear{border:0;background:none;color:var(--mu);font-size:20px;width:34px;height:34px;cursor:pointer}
-.cont{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:18px;text-decoration:none;color:var(--tx);border:1.5px solid}
-.cont .g{width:44px;height:44px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;flex:none;color:#0B0C18}
-.cont .t{flex:1;display:flex;flex-direction:column;gap:1px;min-width:0}.cont .t small{font-size:11px;font-weight:800;letter-spacing:1px}.cont .t b{font-size:16px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tn{display:none}
-@media(max-width:620px){.tabs .tw{display:none}.tabs .tn{display:inline}}
-.tabs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;padding:5px;border-radius:16px;background:var(--card);border:1px solid var(--bd);box-shadow:var(--shadow)}
-.tabs button{height:40px;border:0;border-radius:12px;background:none;color:var(--mu);font-weight:800;font-size:15px;cursor:pointer}
-.tabs button[aria-selected="true"]{background:var(--acc);color:#0B0C18;font-weight:900}
-.grid{flex:1;min-height:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:minmax(0,1fr);gap:8px}
-.card{position:relative;display:flex;flex-direction:column;gap:5px;padding:10px;border-radius:16px;text-decoration:none;color:var(--tx);background:var(--card);border:1.5px solid var(--bd);box-shadow:var(--shadow);min-height:0;overflow:hidden;text-align:left;cursor:pointer;font:inherit}
-.card:active{transform:scale(.97)}
-.card .gl{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px;color:#0B0C18;flex:none}
-.card .bb{font-size:10.5px;font-weight:800;color:var(--mu);letter-spacing:.5px}
-.card .nm{font-size:12.5px;font-weight:900;line-height:1.15}
-.card .tp{font-size:12px;color:var(--mu);line-height:1.35;display:none}
-.card .lrow{display:flex;align-items:center;gap:10px}
-.card .lcol{display:flex;flex-direction:column;align-items:center;gap:4px;flex:none}
-.card .lname{font-family:"Space Grotesk",Inter,system-ui,sans-serif;font-size:11px;font-weight:800;letter-spacing:.06em;line-height:1;color:var(--tx)}
-.card .lname span{color:var(--m1)}
-html.light .card .lname span{color:var(--m2)}
-.card .lgimg{width:38px;height:38px;border-radius:10px;flex:none}
-.card .lbab{font-size:11px;font-weight:800;line-height:1.25;color:var(--tx)}
-@media(max-width:899px){.card .lrow{flex-direction:column;align-items:flex-start;gap:5px}.card .lgimg{width:30px;height:30px;border-radius:8px}.card .lname{font-size:10px}}
-@media(max-height:700px) and (max-width:499px){.card.lg{gap:2px}.card .lrow{flex-direction:column;align-items:flex-start;gap:2px;flex-basis:100%}.card .lgimg{width:18px;height:18px;border-radius:5px}.card .lbab{font-size:8.5px;line-height:1.1}.card .lcol{flex-direction:row;gap:4px}.card .lname{font-size:8px}}
-.cont .g img{width:100%;height:100%;border-radius:inherit}
-.card .st{position:absolute;top:8px;right:8px;font-size:11px;font-weight:900;color:var(--star)}
-.card.soon{background:transparent;border-style:dashed;color:var(--ghost);box-shadow:none;cursor:default}
-.card.soon .gl{background:var(--card2);color:var(--ghost)}
-.card.soon .nm{font-weight:800}
-.empty{grid-column:1/-1;display:flex;align-items:center;justify-content:center;color:var(--mu);font-weight:700;text-align:center;padding:20px}
+@font-face{font-family:'Nunito';font-weight:700;font-display:swap;src:url('teras/fonts/nunito-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:'Nunito';font-weight:800;font-display:swap;src:url('teras/fonts/nunito-latin-800-normal.woff2') format('woff2')}
+@font-face{font-family:'Nunito';font-weight:900;font-display:swap;src:url('teras/fonts/nunito-latin-900-normal.woff2') format('woff2')}
+body{font-family:Nunito,Inter,"Segoe UI",system-ui,sans-serif}
+:root{--line:#2B2C4A;--h:#F1F0FF;--p:#A9A8CF;--bab:#6CC4F5;--brandM:#8B8BFF}
+html.light{--bg:#FFFFFF;--card:#FFFFFF;--line:#E5E5E5;--h:#3C3C3C;--p:#6B6B6B;--bab:#1580C2;--brandM:#4F46E5}
+/* ---------- Utama (gaya B) ---------- */
+.home{max-width:1240px;margin:0 auto;padding-bottom:calc(28px + env(safe-area-inset-bottom))}
+.top{display:flex;align-items:center;gap:8px;padding:calc(12px + env(safe-area-inset-top)) 16px 12px;border-bottom:2px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--h);margin-right:auto;min-width:0}
+.brand b{font-size:24px;font-weight:900;letter-spacing:-.3px;white-space:nowrap}.brand b span{color:var(--brandM)}
+.ck{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:46px;min-width:46px;padding:0 16px;border-radius:14px;border:2px solid var(--line);border-bottom-width:5px;background:var(--card);color:var(--p);font:inherit;font-weight:900;font-size:15px;letter-spacing:.06em;text-decoration:none;cursor:pointer;flex:none}
+.ck.sq{padding:0}
+.ck:active{transform:translateY(3px);border-bottom-width:2px}
+.ck.gm{background:#FFC800;border-color:#D9A600;color:#4A2F00}
+@media(max-width:480px){.ck.gm .tx{display:none}.ck.gm{padding:0}.brand b{font-size:21px}}
+.hero{text-align:center;padding:22px 16px 6px}
+.hero h1{margin:0;font-size:28px;font-weight:900;color:var(--h);line-height:1.15}
+.hero p{margin:6px 0 0;font-size:15px;font-weight:700;color:var(--p)}
+.tabs{display:flex;justify-content:center;gap:6px;padding:14px 12px}
+.tabs button{flex:1 1 0;min-width:0;padding:0;max-width:120px;height:62px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;border-radius:16px;border:2px solid var(--line);border-bottom-width:6px;background:var(--card);color:var(--h);font:inherit;cursor:pointer}
+.tabs button b{font-size:22px;font-weight:900;line-height:1}.tabs button small{font-size:8.5px;font-weight:800;letter-spacing:.02em}
+@media(min-width:420px){.tabs button small{font-size:10px;letter-spacing:.08em}}
+.tabs button[aria-selected="true"]{color:#FFFFFF;border-color:rgba(0,0,0,.22)}
+.tabs button:active{transform:translateY(4px);border-bottom-width:2px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:4px 16px}
+.card{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 10px;border-radius:20px;background:var(--card);border:2px solid var(--line);border-bottom-width:6px;text-decoration:none;text-align:center;color:var(--h);cursor:pointer;font:inherit}
+.card:active{transform:translateY(4px);border-bottom-width:2px}
+.card .lgimg{width:64px;height:64px;border-radius:18px}
+.card .bb{font-size:12px;font-weight:900;letter-spacing:.08em;color:var(--bab)}
+.card .nm{font-size:14px;font-weight:800;line-height:1.25}
+.card .gl{width:64px;height:64px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;color:#0B0C18}
+.card .st{position:absolute;top:8px;right:10px;font-size:12px;font-weight:900;color:var(--star)}
+.card.soon{border-style:dashed;color:var(--ghost);cursor:default}.card.soon .gl{background:var(--card2);color:var(--ghost)}
 .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);background:var(--tx);color:var(--bg);padding:12px 18px;border-radius:14px;font-weight:800;opacity:0;transition:.25s;pointer-events:none;z-index:9}
 .toast.on{opacity:1;transform:translateX(-50%)}
-@media(max-height:760px){
- .home{gap:9px}
- .grid{gap:6px}
- .card{padding:7px;gap:3px;border-radius:13px}
- .card .gl{width:30px;height:30px;font-size:13px;border-radius:9px}
- .card .nm{font-size:11px}.card .bb{font-size:9.5px}
- .card .lgimg{width:30px;height:30px;border-radius:8px}.card .lbab{font-size:9.5px}
- .search{height:42px}.tabs button{height:36px}.cont{padding:7px 12px}.cont .g{width:38px;height:38px}
-}
-@media(max-height:760px) and (min-width:500px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
-@media(max-height:700px) and (max-width:499px){.card{flex-direction:row;flex-wrap:wrap;align-content:flex-start;column-gap:6px}.card .gl{width:26px;height:26px;font-size:12px}.card .bb{align-self:center}.card .nm{flex-basis:100%}}
-@media(max-width:370px){.brand b{font-size:20px}.brand small{font-size:11px}.pill{padding:0 9px}.ib{width:38px;height:38px}}
+@media(min-width:600px){.grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;padding:8px 24px}.top{padding-left:24px;padding-right:24px}}
 @media(min-width:900px){
- .home{padding:26px 36px 30px;gap:16px}
- .brand b{font-size:26px}
- .search{max-width:520px}
- .tabs{max-width:640px;width:100%}
- .tabs button{white-space:nowrap;padding:0 10px}
- .grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
- .card{padding:16px;gap:7px;border-radius:18px}
- .card .gl{width:46px;height:46px;font-size:18px;border-radius:13px}
- .card .nm{font-size:17px}.card .bb{font-size:12px}.card .tp{display:block}
- .card .lgimg{width:54px;height:54px;border-radius:14px}.card .lbab{font-size:15px}.card .lname{font-size:14px}.card .lcol{gap:6px}
- .tabs{max-width:640px}
- .cont .g{width:52px;height:52px;font-size:24px}.cont .t b{font-size:19px}
+ .top{padding:18px 40px}.brand b{font-size:28px}
+ .hero{padding:36px 40px 8px}.hero h1{font-size:40px}.hero p{font-size:17px}
+ .tabs{gap:14px;padding:20px 40px}.tabs button{flex:0 0 120px;height:78px}.tabs button b{font-size:28px}.tabs button small{font-size:12px}
+ .grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:18px;padding:8px 40px}
+ .card{padding:22px 14px;gap:10px}.card .lgimg,.card .gl{width:84px;height:84px;border-radius:22px}.card .nm{font-size:16px}
 }
-@media(min-width:900px) and (max-height:760px){.card .tp{display:none}.card{padding:12px}}
+@media(hover:hover){.card:hover,.ck:hover,.tabs button:hover{filter:brightness(1.04)}}
 /* ---------- Cara Pasang ---------- */
 .pg{max-width:760px;margin:0 auto;min-height:100vh;min-height:100dvh;padding:calc(16px + env(safe-area-inset-top)) 18px calc(20px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:14px}
 .back{align-self:flex-start;display:flex;align-items:center;gap:8px;height:48px;padding:0 18px;border-radius:14px;background:var(--acc);color:#0B0C18;font-weight:900;text-decoration:none}
@@ -191,7 +150,7 @@ const BAB={
 const LS={get(k,d){try{const v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
 function starsOf(a){if(!a.key)return 0;try{const o=JSON.parse(localStorage.getItem(a.key)||'null');return o&&+o.stars||0}catch(e){return 0}}
 const totalStars=()=>APPS.reduce((s,a)=>s+starsOf(a),0);
-let tab=+LS.get('mathmotion-tab','2');if(!(tab>=1&&tab<=5))tab=2;let query='';
+let tab=+LS.get('mathmotion-tab','2');if(!(tab>=1&&tab<=5))tab=2;
 /* =================== Ikon =================== */
 const LOGO=(s=34)=>`<svg class="logoM" width="${s}" height="${s}" viewBox="0 0 96 96" aria-hidden="true"><circle cx="48" cy="48" r="34" fill="none" stroke="currentColor" stroke-opacity=".28" stroke-width="3"/><polygon points="48,10 54.5,41.5 48,48 41.5,41.5" fill="#2EE6A6"/><polygon points="86,48 54.5,54.5 48,48 54.5,41.5" fill="#FF8A3D"/><polygon points="48,86 41.5,54.5 48,48 54.5,54.5" fill="#B57BFF"/><polygon points="10,48 41.5,41.5 48,48 41.5,54.5" fill="#FFC93C"/><circle cx="48" cy="48" r="4.5" fill="currentColor"/></svg>`;
 const I={
@@ -206,38 +165,24 @@ const I={
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 /* =================== Data kad =================== */
 function chapters(t){return BAB[t].map((nm,i)=>{const bab=i+1,app=APPS.find(a=>a.where.some(([tt,b])=>tt===t&&b===bab));return{t,bab,nm,app}})}
+const TCOL=['#3F8F02','#1580C2','#9B4FE0','#C26A00','#D93636'];
 function cardHTML(c){
- if(!c.app)return`<div class="card soon" aria-disabled="true" data-soon="${c.bab}"><span class="gl">${c.bab}</span><span class="bb">BAB ${c.bab}</span><span class="nm">${esc(c.nm)}</span><span class="tp">Akan datang</span></div>`;
+ if(!c.app)return`<div class="card soon" aria-disabled="true" data-soon="${c.bab}"><span class="gl">${c.bab}</span><span class="bb">BAB ${c.bab}</span><span class="nm">${esc(c.nm)}</span></div>`;
  const a=c.app,s=starsOf(a);
- if(a.logo)return`<a class="card lg" href="${a.path}" data-app="${a.id}" aria-label="${esc(a.name)}, Tingkatan ${c.t} Bab ${c.bab}, ${esc(c.nm)}"><span class="lrow"><span class="lcol"><img class="lgimg" src="${a.logo}" alt="" width="46" height="46"></span><span class="lbab">Bab ${c.bab} : ${esc(c.nm)}</span></span>${s?`<span class="st">★ ${s}</span>`:''}</a>`;
- return`<a class="card" href="${a.path}" data-app="${a.id}" aria-label="${esc(a.name)}, Tingkatan ${c.t} Bab ${c.bab}, ${esc(c.nm)}"><span class="gl" style="background:${a.col}">${a.glyph}</span><span class="bb">BAB ${c.bab}</span><span class="nm">${a.name}</span><span class="tp">${esc(c.nm)}</span>${s?`<span class="st">★ ${s}</span>`:''}</a>`}
-function gridHTML(){
- const q=query.trim().toLowerCase();
- if(q){const res=[];[1,2,3,4,5].forEach(t=>chapters(t).forEach(c=>{const hay=(c.nm+' '+(c.app?c.app.name+' '+c.app.topic+' '+c.app.kw:'')).toLowerCase();if(q.split(/\s+/).every(w=>hay.includes(w)))res.push(c)}));
-  return res.length?res.map(cardHTML).join(''):`<div class="empty">Tiada bab ditemui untuk “${esc(query)}”.</div>`}
- return chapters(tab).map(cardHTML).join('')}
+ const pic=a.logo?`<img class="lgimg" src="${a.logo}" alt="" width="84" height="84">`:`<span class="gl" style="background:${a.col}">${a.glyph}</span>`;
+ return`<a class="card" href="${a.path}" data-app="${a.id}" aria-label="Tingkatan ${c.t} Bab ${c.bab}, ${esc(c.nm)}">${pic}<span class="bb">BAB ${c.bab}</span><span class="nm">${esc(c.nm)}</span>${s?`<span class="st">★ ${s}</span>`:''}</a>`}
 /* =================== Paparan =================== */
 const app=document.getElementById('app');
-function splash(){const n=APPS.length,bab=APPS.reduce((s,a)=>s+a.where.length,0);
- return`<main class="splash"><div class="biglogo">${LOGO(96,9)}</div>
- <div><h1>Teroka<span>Math</span></h1><p class="tag"><span style="color:#2EE6A6">Teroka.</span> <span style="color:#FF8A3D">Faham.</span> <span style="color:#E0A800">Kuasai.</span></p><p class="sub">Simulasi Matematik Tingkatan 1 hingga 5</p></div>
- <div class="dots" aria-hidden="true">${APPS.map(a=>`<i style="background:${a.col}"></i>`).join('')}</div>
- <p class="sub" style="margin:0">${bab} bab siap</p>
- <div class="btns"><a class="btn pri" href="#/utama">Jom Mula! ${I.arrow}</a><a class="btn sec" href="#/pasang">${I.phone} Cara Pasang di Telefon</a></div>
- <p class="off">${I.wifi} Boleh digunakan tanpa internet</p></main>`}
-function contHTML(){const last=LS.get('mathmotion-last','');const a=APPS.find(x=>x.id===last);if(!a)return'';
- const w=a.where.find(x=>x[0]===2)||a.where[0];
- return`<a class="cont" href="${a.path}" data-app="${a.id}" style="background:${a.col}1a;border-color:${a.col}"><span class="g" style="background:${a.col}">${a.logo?`<img src="${a.logo}" alt="">`:a.glyph}</span><span class="t"><small style="color:var(--orange)">TERUSKAN</small><b>Bab ${w[1]} · ${esc(BAB[w[0]][w[1]-1])}</b></span><span style="color:${a.col}">${I.arrow}</span></a>`}
 function home(){const light=document.documentElement.classList.contains('light');
  return`<main class="home">
- <header class="top"><a class="brand" href="#/">${LOGO(46,13)}<span class="bt"><b>Teroka<span>Math</span></b><small>Teroka. Faham. Kuasai.</small></span></a>
-  <a class="gm" href="game/"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="11" rx="5"/><path d="M7 10.5v4M5 12.5h4"/><circle cx="16" cy="11.5" r="1" fill="currentColor"/><circle cx="18.5" cy="14" r="1" fill="currentColor"/></svg>Game</a>
-  <a class="ib" href="#/pasang" aria-label="Cara pasang di telefon">${I.phone}</a>
-  <button class="ib" id="mode" aria-label="${light?'Tukar ke mod gelap':'Tukar ke mod cerah'}">${light?I.moon:I.sun}</button></header>
- <label class="search"><span style="color:var(--mu);display:flex">${I.search}</span><span class="sr">Cari topik</span><input id="q" type="search" placeholder="Cari topik… (cth: pecutan)" value="${esc(query)}" autocomplete="off" enterkeyhint="search">${query?'<button class="clear" id="clr" aria-label="Kosongkan carian">×</button>':''}</label>
- ${query?'':`<div class="tabs" role="tablist" aria-label="Tingkatan">${[1,2,3,4,5].map(t=>`<button role="tab" data-t="${t}" aria-selected="${tab===t}" aria-label="Tingkatan ${t}"><span class="tw">Tingkatan </span><span class="tn">T</span>${t}</button>`).join('')}</div>`}
- <div class="grid" id="grid">${gridHTML()}</div></main>`}
-function pasang(){return`<main class="pg"><a class="back" href="#/utama">${I.left} Kembali</a><h1>Cara Pasang TerokaMath</h1>
+ <header class="top"><a class="brand" href="#/">${LOGO(40)}<b>Teroka<span>Math</span></b></a>
+  <a class="ck gm" href="game/" aria-label="Game"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="11" rx="5"/><path d="M7 10.5v4M5 12.5h4"/><circle cx="16" cy="11.5" r="1" fill="currentColor"/><circle cx="18.5" cy="14" r="1" fill="currentColor"/></svg><span class="tx">GAME</span></a>
+  <a class="ck sq" href="#/pasang" aria-label="Cara pasang di telefon">${I.phone}</a>
+  <button class="ck sq" id="mode" aria-label="${light?'Tukar ke mod gelap':'Tukar ke mod cerah'}">${light?I.moon:I.sun}</button></header>
+ <section class="hero"><h1>Teroka. Faham. Kuasai.</h1><p>Pilih tingkatan, kemudian pilih bab.</p></section>
+ <div class="tabs" role="tablist" aria-label="Tingkatan">${[1,2,3,4,5].map(t=>`<button role="tab" data-t="${t}" aria-selected="${tab===t}" aria-label="Tingkatan ${t}"${tab===t?` style="background:${TCOL[t-1]}"`:''}><b>${t}</b><small>TINGKATAN</small></button>`).join('')}</div>
+ <div class="grid" id="grid">${chapters(tab).map(cardHTML).join('')}</div></main>`}
+function pasang(){return`<main class="pg"><a class="back" href="#/">${I.left} Kembali</a><h1>Cara Pasang TerokaMath</h1>
  <p class="note">Pasang sekali sahaja. Semua bab boleh dibuka dari dalam TerokaMath, termasuk tanpa internet.</p>
  <div class="how"><section><h2>Android (Chrome)</h2><ol><li>Buka <b>ekwanbiz.github.io/mathmotion</b> dalam Chrome.</li><li>Tekan menu <b>⋮</b> di atas kanan.</li><li>Pilih <b>Tambah ke skrin utama</b> / <b>Pasang aplikasi</b>.</li><li>Tekan <b>Pasang</b>.</li></ol></section>
  <section><h2>iPhone / iPad (Safari)</h2><ol><li>Buka <b>ekwanbiz.github.io/mathmotion</b> dalam Safari.</li><li>Tekan butang <b>Kongsi</b> (petak dengan anak panah ke atas).</li><li>Pilih <b>Add to Home Screen</b>.</li><li>Tekan <b>Add</b>.</li></ol></section>
@@ -246,18 +191,15 @@ function pasang(){return`<main class="pg"><a class="back" href="#/utama">${I.lef
 function bindHome(){
  document.getElementById('mode').onclick=()=>{const h=document.documentElement,l=!h.classList.contains('light');h.classList.toggle('light',l);LS.set('mathmotion-mode',l?'cerah':'gelap');setTheme();render()};
  document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{tab=+b.dataset.t;LS.set('mathmotion-tab',String(tab));render()});
- const q=document.getElementById('q');q.oninput=()=>{const pos=q.selectionStart;query=q.value;render();const n=document.getElementById('q');n.focus();try{n.setSelectionRange(pos,pos)}catch(e){}};
- const c=document.getElementById('clr');if(c)c.onclick=()=>{query='';render()};
  document.querySelectorAll('[data-app]').forEach(a=>a.addEventListener('click',()=>LS.set('mathmotion-last',a.dataset.app)));
  document.querySelectorAll('[data-soon]').forEach(d=>d.onclick=()=>toast('Bab '+d.dataset.soon+' akan datang. Nantikan!'))}
 let tt;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),1800)}
-function setTheme(){const m=document.querySelector('meta[name="theme-color"]');if(m)m.content=document.documentElement.classList.contains('light')?'#F4F5FB':'#0B0C18'}
+function setTheme(){const m=document.querySelector('meta[name="theme-color"]');if(m)m.content=document.documentElement.classList.contains('light')?'#FFFFFF':'#0B0C18'}
 function render(){const h=location.hash.replace(/^#/,'')||'/';
- if(h.startsWith('/utama')){app.innerHTML=home();bindHome();document.title='Utama · TerokaMath'}
- else if(h.startsWith('/pasang')){app.innerHTML=pasang();document.title='Cara Pasang · TerokaMath'}
- else{app.innerHTML=splash();document.title='TerokaMath – Simulasi Matematik'}}
-window.addEventListener('hashchange',()=>{query='';render();scrollTo(0,0)});
-window.addEventListener('pageshow',()=>{if(location.hash.startsWith('#/utama'))render()});
+ if(h.startsWith('/pasang')){app.innerHTML=pasang();document.title='Cara Pasang · TerokaMath'}
+ else{app.innerHTML=home();bindHome();document.title='TerokaMath – Simulasi Matematik'}}
+window.addEventListener('hashchange',()=>{render();scrollTo(0,0)});
+window.addEventListener('pageshow',()=>{if(!location.hash.startsWith('#/pasang'))render()});
 setTheme();render();
 if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 </script>
