@@ -10,8 +10,6 @@ const BAB = {
   logo: 'logo.svg',
   key: 'isomove-v2',                // storan tetapan & rekod (jangan tukar)
   ajarKey: 'isomove-ajar',          // storan pelan Mula Mengajar (jangan tukar)
-  rph: true,                        // butang Jana RPH dalam Pelan (cubaan: Bab 11 T2 sahaja)
-  fmt: true,                        // format warna/saiz/tebal dalam Slaid baharu (cubaan: Bab 11 T2 sahaja)
   g60: {                            // teks peraturan Cabaran 60 Saat
     soalan: 'Ada soalan <b>pilih jawapan</b> dan soalan <b>ketik pada grid</b>.',
     lepas: 'Selepas menjawab, lihat animasi transformasi yang betul.'

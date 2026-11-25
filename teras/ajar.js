@@ -188,7 +188,7 @@ function viewSusun() {
         <button type="button" class="ib" id="ajRen" aria-label="Namakan semula pelan">${ajIcon.edit}</button>
         <button type="button" class="ib" id="ajDelPlan" aria-label="Padam pelan ini">${ajIcon.trash}</button>
         <button type="button" class="btn sec" id="ajShare"${pl.items.length ? '' : ' disabled'}>${ajIcon.share}<span>Kongsi link</span></button>
-        ${BAB.rph ? `<button type="button" class="btn sec" id="ajRph"${pl.items.length ? '' : ' disabled'}>${ajIcon.doc}<span>Jana RPH</span></button>` : ''}
+        ${BAB.rph !== false ? `<button type="button" class="btn sec" id="ajRph"${pl.items.length ? '' : ' disabled'}>${ajIcon.doc}<span>Jana RPH</span></button>` : ''}
       </div>
       <button type="button" class="btn pri big ajgo" id="ajGo"${pl.items.length ? '' : ' disabled'}>${IC.play} Mula Mengajar</button>
     </div>
@@ -244,7 +244,7 @@ function viewModal() {
   // slaid cikgu
   const it = M.it, tp = Object.keys(TPL).map(k => `<button type="button" class="ajtpl${it.tpl === k ? ' on' : ''}" data-tpl="${k}" aria-pressed="${it.tpl === k}"><b>${TPL[k][0]}</b><small>${TPL[k][1]}</small></button>`).join('');
   const FK = { fTitle: 'title', fText: 'text', fQ: 'q', fAns: 'ans' };
-  const fr = id => { const k = FK[id]; if (!BAB.fmt || !k) return ''; const cf = (it.fmt && it.fmt[k]) || {};
+  const fr = id => { const k = FK[id]; if (BAB.fmt === false || !k) return ''; const cf = (it.fmt && it.fmt[k]) || {};
     return `<div class="fmtrow" role="group" aria-label="Format ${k}">${FMT_C.map(([c, n]) => `<button type="button" class="fmc" data-fk="${k}" data-fc="${c}" aria-label="Warna ${n}" aria-pressed="${(cf.c || '') === c}" style="--dot:${c ? `var(--${c})` : 'var(--tx)'}"></button>`).join('')}<span class="fmsep"></span>${FMT_S.map(([z, n]) => `<button type="button" class="fms" data-fk="${k}" data-fs="${z}" aria-pressed="${(cf.s || '') === z}" title="${n}">${n === 'Sangat besar' ? 'XL' : n === 'Besar' ? 'L' : n === 'Kecil' ? 'S' : 'M'}</button>`).join('')}<span class="fmsep"></span><button type="button" class="fms fmb" data-fk="${k}" data-fb="1" aria-pressed="${!!cf.b}" aria-label="Tebal">B</button></div>`; };
   const f = (id, label, val, rows) => (rows ? `<label class="ajf"><span>${label}</span><textarea id="${id}" rows="${rows}">${esc(val || '')}</textarea></label>` : `<label class="ajf"><span>${label}</span><input type="text" id="${id}" value="${esc(val || '')}"></label>`) + fr(id);
   let fields = '';
@@ -256,7 +256,7 @@ function viewModal() {
   if (it.tpl === 'pautan') fields = f('fTitle', 'TAJUK', it.title) + f('fLink', 'PAUTAN (cth. https://youtu.be/…)', it.link) + f('fBtn', 'TEKS BUTANG (pilihan)', it.btn)
     + `<p class="ajhint" style="margin:0" id="fLinkMsg">${it.link && !ajUrl(it.link) ? 'Pautan mesti bermula dengan https://' : ajYt(it.link) ? 'Video YouTube akan dimainkan dalam slaid (perlu internet).' : 'Laman web dibuka dalam tab baharu.'}</p>`;
   if (it.tpl === 'papan') fields = f('fTitle', 'TAJUK (pilihan)', it.title) + `<div class="ajf"><span>LATAR</span><div class="opts" style="grid-template-columns:repeat(3,minmax(0,1fr))">${[['kosong', 'Kosong'], ['grid', 'Grid'], ['cartes', 'Satah Cartes']].map(([k, t]) => `<button type="button" class="opt" data-bg="${k}" aria-pressed="${(it.bg || 'grid') === k}" style="--c:var(--pu)">${t}</button>`).join('')}</div></div>`;
-  if (BAB.fmt) fields += `<div class="ajf"><span>LATAR SLAID</span><div class="fmtrow">${FMT_L.map(([l, n, v]) => `<button type="button" class="fml" data-fl="${l}" aria-pressed="${(it.lat || '') === l}" aria-label="Latar ${n}" title="${n}" style="--sw:${v ? `var(--lat-${l})` : 'var(--bg)'}"></button>`).join('')}</div></div>`;
+  if (BAB.fmt !== false) fields += `<div class="ajf"><span>LATAR SLAID</span><div class="fmtrow">${FMT_L.map(([l, n, v]) => `<button type="button" class="fml" data-fl="${l}" aria-pressed="${(it.lat || '') === l}" aria-label="Latar ${n}" title="${n}" style="--sw:${v ? `var(--lat-${l})` : 'var(--bg)'}"></button>`).join('')}</div></div>`;
   return `<div class="ajm-bg"><section class="ajm" role="dialog" aria-modal="true" aria-label="Slaid baharu">
     <div class="ajm-h">${typeChip('cikgu')}<h2>${M.edit != null ? 'Ubah slaid' : 'Slaid baharu'}</h2><button type="button" class="ib" id="ajmX" aria-label="Tutup">${IC.x}</button></div>
     <div class="ajtpls" role="group" aria-label="Templat">${tp}</div>
@@ -419,7 +419,7 @@ function bindModal(pl) {
     pvBox.addEventListener('pointermove', mv); pvBox.addEventListener('pointerup', up); pvBox.addEventListener('pointercancel', up);
   });
   document.getElementById('ajmOk').onclick = () => {
-    const keep = { isi: ['kick', 'title', 'text'], soalan: ['kick', 'q', 'ans'], gambar: ['title', 'img', 'x', 'y', 'w'], papan: ['title', 'bg'], pautan: ['title', 'link', 'btn'] }[it.tpl].concat(BAB.fmt || it.fmt || it.lat ? ['fmt', 'lat'] : []);
+    const keep = { isi: ['kick', 'title', 'text'], soalan: ['kick', 'q', 'ans'], gambar: ['title', 'img', 'x', 'y', 'w'], papan: ['title', 'bg'], pautan: ['title', 'link', 'btn'] }[it.tpl].concat(['fmt', 'lat']);
     if (it.tpl === 'pautan' && !ajUrl(it.link)) { toast('Masukkan pautan yang bermula dengan https://'); return; }
     const item = { t: 'cikgu', tpl: it.tpl }; keep.forEach(k => { if (it[k] != null && it[k] !== '') item[k] = it[k]; });
     AJS.modal = null;
@@ -689,7 +689,7 @@ function rphAct(it, induksi) {
   if (it.t === 'sim') return `Murid meneroka Simulasi ${t(SIMNAME[it.k] || '')} dan menerangkan dapatan mereka.`;
   if (it.t === 'lat') {
     const bk = bankById(), qs = it.ids.map(id => bk[id]).filter(Boolean), c = l => qs.filter(q => q.lvl === l).length;
-    const subs = [...new Set(it.ids.map(id => id.split('-')[0]))].join(', ');
+    const subs = [...new Set(it.ids.map(id => (BAB.gabung || {})[id.split('-')[0]] || id.split('-')[0]))].join(', ');
     const lv = [[c('m'), 'mudah'], [c('s'), 'sederhana'], [c('k'), 'sukar']].filter(x => x[0]).map(x => x.join(' ')).join(', ');
     return `Murid menjawab Latihan ${subs} (${it.ids.length} soalan${lv ? ': ' + lv : ''})${it.work ? ' dan menyemak jalan kerja' : ''}.`;
   }
@@ -722,11 +722,14 @@ function rphHTML(pl) {
   const ind = items.slice(0, Math.min(a, items.length));
   let end = items.length > ind.length + 1 ? items.length - 1 : items.length;
   const dev = items.slice(ind.length, end), pen = items.slice(end);
-  const subs = [...new Set(items.flatMap(it => it.t === 'slaid' ? [it.sub] : it.t === 'lat' ? it.ids.map(id => id.split('-')[0]) : []))].sort((x, y) => parseFloat(x.split('.')[1]) - parseFloat(y.split('.')[1]));
+  const G = BAB.gabung || {}, to = k => G[k] || k;
+  const subs = [...new Set(items.flatMap(it => it.t === 'slaid' ? [to(it.sub)] : it.t === 'lat' ? it.ids.map(id => to(id.split('-')[0])) : []))].filter(n => SUBS.some(x => x.no === n)).sort((x, y) => parseFloat(x.split('.')[1]) - parseFloat(y.split('.')[1]));
   const subName = n => { const o = SUBS.find(x => x.no === n); return o ? o.name : ''; };
   const sk = subs.length ? subs.map(n => `${n} ${esc(subName(n))}`).join('<br>') : rphLine;
-  const lc = t => t ? t.charAt(0).toLowerCase() + t.slice(1) : '';
-  const obj = subs.length ? `Pada akhir PdP, murid dapat:<ol>${subs.map(n => `<li>memahami ${esc(lc(subName(n)))}: ${esc(lc(SUBDESC[n] || ''))};</li>`).join('')}</ol>` : `Pada akhir PdP, murid dapat: ${rphLine}`;
+  const KEEP = /^(Cartes|Malaysia|Pascal|Fibonacci|Pythagoras|Euler|Venn|KWSP|SST|LHDN)$/;
+  const lc = t => String(t || '').split(' ').map(w => /^[A-Z][a-zà-ÿ]+[,:;]?$/.test(w) && !KEEP.test(w.replace(/[,:;]$/, '')) ? w.charAt(0).toLowerCase() + w.slice(1) : w).join(' ');
+  const descOf = n => { const ks = Object.keys(typeof SUBDESC === 'object' ? SUBDESC : {}).filter(k => to(k) === n); return ks.map(k => SUBDESC[k]).filter(Boolean).join('; '); };
+  const obj = subs.length ? `Pada akhir PdP, murid dapat:<ol>${subs.map(n => { const d = descOf(n); return `<li>memahami ${esc(lc(subName(n)))}${d ? ': ' + esc(lc(d)) : ''};</li>`; }).join('')}</ol>` : `Pada akhir PdP, murid dapat: ${rphLine}`;
   const ol = arr => `<ol>${arr.map(x => `<li>${x}</li>`).join('')}</ol>`;
   const penS = rphSteps(pen, false).concat(['Guru merumus isi penting pelajaran.']);
   const akt = `<b>Set induksi</b>${ol(rphSteps(ind, true))}${dev.length ? `<b>Perkembangan</b>${ol(rphSteps(dev, false))}` : ''}<b>Penutup</b>${ol(penS)}`;
