@@ -830,7 +830,7 @@ B3.k64 = r => {
 const GEN = {
   '6.1': {
     m: [() => B3.namaBentuk(b3RG), () => B3.kiraFEV(b3RG), () => B3.kiraFEV(b3RG), () => B3.ciri(b3RG), () => B3.ciriNama(b3RG), () => B3.keratan(b3RG), () => B3.bs(b3RG, B3BS1)],
-    s: [() => B3.nGon(b3RG), () => B3.dariFEV(b3RG), () => B3.euler(b3RG)],
+    s: [() => B3.nGon(b3RG), () => B3.dariFEV(b3RG)], // rumus Euler dibuang: tiada dalam DSKP T2
     k: [() => B3.k61(b3RG)]
   },
   '6.2': {
@@ -888,7 +888,7 @@ WG.k64 = () => B3.k64(b3RW);
 
 // [aras, penjana, bilangan] — 30 soalan setiap subtopik (18 mudah, 9 sederhana, 3 sukar)
 const WSPLAN = {
-  '6.1': [['m', 'namaBentuk', 4], ['m', 'kiraFEV', 5], ['m', 'ciri', 3], ['m', 'ciriNama', 2], ['m', 'keratan', 2], ['m', 'bs1', 2], ['s', 'nGon', 4], ['s', 'dariFEV', 3], ['s', 'euler', 2], ['k', 'k61', 3]],
+  '6.1': [['m', 'namaBentuk', 4], ['m', 'kiraFEV', 5], ['m', 'ciri', 3], ['m', 'ciriNama', 2], ['m', 'keratan', 2], ['m', 'bs1', 2], ['s', 'nGon', 4], ['s', 'dariFEV', 5], ['k', 'k61', 3]],
   '6.2': [['m', 'netNama', 7], ['m', 'netKubus', 4], ['m', 'netLain', 3], ['m', 'lukis', 4], ['s', 'netBertentang', 3], ['s', 'netSil', 3], ['s', 'netKuboid', 3], ['k', 'k62', 3]],
   '6.3': [['m', 'lp_kubus', 2], ['m', 'lp_kuboid', 3], ['m', 'lp_prisma', 2], ['m', 'lp_piramid', 2], ['m', 'lp_silinder', 3], ['m', 'lp_kon', 3], ['m', 'lp_sfera', 3], ['s', 'lpCari', 5], ['s', 'lpPyth', 2], ['s', 'lpBuka', 2], ['k', 'k63', 3]],
   '6.4': [['m', 'iv_kuboid', 2], ['m', 'iv_kubus', 1], ['m', 'iv_prisma', 2], ['m', 'iv_prismaA', 1], ['m', 'iv_silinder', 3], ['m', 'iv_piramid', 2], ['m', 'iv_kon', 2], ['m', 'iv_sfera', 2], ['m', 'unit', 3], ['s', 'ivCari', 4], ['s', 'pindah', 3], ['s', 'ivTrap', 2], ['k', 'k64', 3]]

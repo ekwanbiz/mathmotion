@@ -30,3 +30,7 @@ const SUBSIM = { '12.1.1': 'plot-titik', '12.1.2': 'neraca-min', '12.1.3': 'data
 
 /* ---------- simulasi TEROKA: [fail dalam simulasi/, nama, warna] ---------- */
 const SIMLIST = [['plot-titik', 'Plot Titik', 'tr'], ['neraca-min', 'Neraca Min', 'gr'], ['data-terkumpul', 'Data Terkumpul', 'pu']];
+
+// Subtopik disatukan ikut nombor SK DSKP (12.1 ada SP 12.1.1–12.1.7) – lihat teras/lembaran.js gabungSub()
+BAB.gabung = {"12.1.1": "12.1", "12.1.2": "12.1", "12.1.3": "12.1", "12.1.4": "12.1"};
+BAB.gabungNama = {"12.1": "Sukatan Kecenderungan Memusat"};
