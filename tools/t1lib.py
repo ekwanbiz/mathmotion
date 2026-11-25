@@ -76,3 +76,18 @@ def finish(SUB,OUT,expect,extra_ok=()):
     assert counts==expect,counts
     open(OUT,'w').write('/* Dijana oleh skrip tools. Jangan sunting dengan tangan. */\nwindow.SUBS='+json.dumps(subs,ensure_ascii=False)+';\nwindow.SLIDES='+body+';\n')
     print(len(out),'slaid ->',OUT)
+
+def barmodel(rows, unit=None, title='', note='', label='Model bar'):
+    """rows: [(nama, bil_unit, warna, teks_dalam_unit)]; unit: teks nilai satu unit (pilihan)"""
+    s = BOX(); mx = max(r[1] for r in rows); cw = min(60, 290 / mx); x0 = 120; y = 60 if title else 40
+    if title: s += T(250, 34, title, TX, 19)
+    for nm, n, col, tx in rows:
+        s += T(x0 - 14, y + 24, nm, col, 18, 'end')
+        for k in range(n):
+            s += RECT(x0 + k * cw, y, cw, 48, col, NAV, 3, 4)
+            if tx: s += T(x0 + k * cw + cw / 2, y + 24, tx, col, 15)
+        s += T(x0 + n * cw + 10, y + 24, f'{n} unit', MU, 15, 'start')
+        y += 74
+    if unit: s += T(250, y + 20, unit, AM, 20)
+    if note: s += T(250, y + 56, note, GR, 19)
+    return svg(s, label)
