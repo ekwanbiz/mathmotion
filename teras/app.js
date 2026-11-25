@@ -42,7 +42,7 @@ function viewSplash() {
     <h1>${BAB.tajuk}</h1>
     <p class="slogan">${BAB.slogan.map(([t, c]) => `<span style="color:var(--${c})">${t}</span>`).join(' ')}</p>
     <p class="sub">Bab ${BAB.no} · Tingkatan ${BAB.ting}</p>
-    <a class="btn pri big" href="#/ajar">Jom Mula! ${IC.arrow}</a>
+    <a class="btn pri big" href="#/nota">Jom Mula! ${IC.arrow}</a>
   </main>`;
 }
 
