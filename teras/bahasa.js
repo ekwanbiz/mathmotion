@@ -117,6 +117,12 @@ const TMX = {
   'Kira Pantas': 'Quick Maths', 'Kira Pantas: tambah, tolak, darab dan bahagi': 'Quick Maths: addition, subtraction, multiplication and division', 'Tambah, tolak, darab dan bahagi': 'Addition, subtraction, multiplication and division',
   'soalan tambah, tolak, darab dan bahagi. Makin lama makin susah. Terus pilih game': 'addition, subtraction, multiplication and division questions. It gets harder as you play. Choose a game',
   'Soalan asas tambah, tolak, darab dan bahagi': 'Basic addition, subtraction, multiplication and division questions',
+  'Panjat Kelapa': 'Coconut Climb', 'KAMPUNG PANTAI': 'SEASIDE VILLAGE', 'Panjat pokok kelapa. Pilih dahan jawapan betul untuk terus naik': 'Climb the coconut tree. Pick the branch with the correct answer to keep climbing',
+  'Roket Sains': 'Science Rocket', 'PELANCARAN LANGKAWI': 'LANGKAWI LAUNCH', 'Isi bahan api dengan jawapan betul. Makin betul, makin tinggi roket terbang': 'Fuel up with correct answers. The more you get right, the higher the rocket flies',
+  'Gasing Juara': 'Spinning Top Champion', 'GELANGGANG KELANTAN': 'KELANTAN ARENA', 'Jawapan betul beri gasing pusingan tambahan. Siapa paling lama?': 'Correct answers give the top extra spin. Who lasts the longest?',
+  'Kereta Api Jawapan': 'Answer Train', 'LANDASAN KTM': 'KTM RAILWAY', 'Tukar landasan ke stesen yang ada jawapan betul': 'Switch tracks to the station with the correct answer',
+  'Penyu Pulang': 'Turtle Homecoming', 'PANTAI TERENGGANU': 'TERENGGANU BEACH', 'Bawa anak penyu ke laut melalui laluan jawapan betul': 'Guide the baby turtle to the sea along the correct-answer path',
+  'Pasar Malam': 'Night Market', 'GERAI MALAM': 'NIGHT STALLS', 'Layan pelanggan dengan menyerahkan barang berlabel jawapan betul': 'Serve customers by handing over the item labelled with the correct answer',
   // nama bab (halaman utama & kepala bab)
   'Nombor Nyata': 'Real Numbers', 'Faktor & Gandaan': 'Factors & Multiples', 'Nisbah, Kadar & Perkadaran': 'Ratios, Rates & Proportions', 'Ungkapan Algebra': 'Algebraic Expressions', 'Persamaan & Ketaksamaan Linear': 'Linear Equations & Inequalities',
   'Garis & Sudut': 'Lines & Angles', 'Segi Tiga & Sisi Empat': 'Triangles & Quadrilaterals', 'Pengendalian Data': 'Data Handling', 'Pola & Jujukan': 'Patterns & Sequences', 'Pola dan Jujukan': 'Patterns and Sequences', 'Pemfaktoran & Pecahan Algebra': 'Factorisation & Algebraic Fractions',
