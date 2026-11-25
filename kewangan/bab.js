@@ -29,3 +29,7 @@ const SUBSIM = { '10.1.1': 'matlamat-smart', '10.1.2': 'aliran-tunai', '10.1.3':
 
 /* ---------- simulasi TEROKA: [fail dalam simulasi/, nama, warna] ---------- */
 const SIMLIST = [['matlamat-smart', 'Matlamat SMART', 'tr'], ['aliran-tunai', 'Aliran Tunai', 'gr'], ['nilai-pelan', 'Penilai Pelan', 'am']];
+
+// DSKP SK 10.1 hanya ada SP 10.1.1 dan 10.1.2 – 10.1.3 (menilai pelan) disatukan ke 10.1.2 (lihat teras/lembaran.js gabungSub())
+BAB.gabung = {"10.1.3": "10.1.2"};
+BAB.gabungNama = {"10.1.2": "Pelan Kewangan Peribadi"};
