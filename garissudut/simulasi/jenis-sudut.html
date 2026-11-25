@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Jenis Sudut · Bab 6</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--sf:#131C2E;--sf3:#0E1626;--bd:#22304A;--tx:#E6EDF7;--mu:#94A3B8;--grid:#1E2A40;--c1:#FBBF24;--c2:#F472B6;--c3:#FBBF24;--ok:#34D399;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg)}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
+.wrap{flex:1;min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:10px;padding:10px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:center;justify-content:space-between}
+.top h1{margin:0;font-size:19px;color:var(--c1)}
+.main{min-height:0;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(260px,1fr);gap:10px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;display:flex}
+.stage svg{width:100%;height:100%;display:block;touch-action:none;user-select:none}
+.side{min-height:0;display:flex;flex-direction:column;gap:10px}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:12px 14px;font-size:15px;line-height:1.5}
+.card b.t{display:block;font-size:17px;color:var(--c1);margin-bottom:4px}
+.big{font-size:24px;font-weight:800;letter-spacing:.3px}
+label{display:block;font-weight:700;font-size:15px;margin:6px 0 2px}
+input[type=range]{width:100%;height:34px;accent-color:var(--c1)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips button{border:1px solid var(--bd);background:var(--sf3);border-radius:12px;padding:8px 12px;font-weight:800;font-size:15px;min-height:40px}
+.chips button.on{background:var(--c1);color:#0B1220;border-color:var(--c1)}
+@media (max-width:760px){.main{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto}.card{padding:9px 12px;font-size:14px}.big{font-size:19px}.top h1{font-size:16px}label{margin:2px 0 0}input[type=range]{height:28px}}
+.list{font-size:20px;font-weight:800;line-height:1.6}
+.chips button.off{opacity:.45}
+.go{border:0;border-radius:12px;padding:10px 14px;font-weight:900;font-size:15px;background:var(--c1);color:#0B1220;min-height:42px}
+</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(12px + env(safe-area-inset-top)) 12px 0;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#FBBF24;color:#0B1220;border-radius:14px;padding:10px 20px;font:900 16px Inter,system-ui,sans-serif;text-decoration:none">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+<div class="top"><h1>Jenis Sudut</h1><span id="sndslot" style="display:flex"></span></div>
+<div class="main">
+<div class="stage"><svg id="sv" viewBox="0 0 600 420" aria-label="Jenis sudut"></svg></div>
+<div class="side">
+<div class="card"><label for="a" id="al"></label><input type="range" id="a" min="1" max="360" value="65"></div>
+<div class="card"><div class="big" id="eq"></div><div id="sub" style="margin-top:6px"></div></div>
+</div></div>
+</div>
+<script>const $=id=>document.getElementById(id);const snd=n=>{if(window.FX)FX.play&&FX.play(n)};
+const nf=v=>{const r=Math.round(v*100)/100;return (Object.is(r,-0)?0:r).toLocaleString('ms-MY',{maximumFractionDigits:2})};
+const T=(x,y,t,c,s=16,a='middle')=>`<text x="${x}" y="${y}" fill="${c}" font-size="${s}" font-weight="700" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,sans-serif">${t}</text>`;
+const L=(x1,y1,x2,y2,c,w=2,d='')=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${c}" stroke-width="${w}" ${d?`stroke-dasharray="${d}"`:''} stroke-linecap="round"/>`;
+function svgPt(svg,e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+function drag(svg,onMove){let on=false;svg.addEventListener('pointerdown',e=>{on=true;svg.setPointerCapture(e.pointerId);onMove(svgPt(svg,e))});svg.addEventListener('pointermove',e=>{if(on)onMove(svgPt(svg,e))});const off=()=>{if(on){on=false;snd('ketik')}};svg.addEventListener('pointerup',off);svg.addEventListener('pointercancel',off)}
+const sv=$('sv');$('a').oninput=draw;
+const P=(c,r,d)=>[c[0]+r*Math.cos(d*Math.PI/180),c[1]-r*Math.sin(d*Math.PI/180)];
+const jen=a=>a<90?['Sudut tirus','#38BDF8']:a===90?['Sudut tegak','#34D399']:a<180?['Sudut cakah','#FBBF24']:a===180?['Sudut pada garis lurus','#A78BFA']:a<360?['Sudut refleks','#F472B6']:['Sudut putaran lengkap','#F87171'];
+function draw(){const a=+$('a').value,[nm,col]=jen(a),c=[300,230];$('al').textContent='Saiz sudut = '+a+'°';
+ const p1=P(c,170,0),p2=P(c,170,a),q0=P(c,60,0),q1=P(c,60,a),lg=a>180?1:0;
+ let s=`<line x1="${c[0]}" y1="${c[1]}" x2="${p1[0]}" y2="${p1[1]}" stroke="#E6EDF7" stroke-width="5" stroke-linecap="round"/>`;
+ if(a<360)s+=`<line x1="${c[0]}" y1="${c[1]}" x2="${p2[0].toFixed(1)}" y2="${p2[1].toFixed(1)}" stroke="#E6EDF7" stroke-width="5" stroke-linecap="round"/>`;
+ if(a===90)s+=`<path d="M${c[0]+22} ${c[1]} L${c[0]+22} ${c[1]-22} L${c[0]} ${c[1]-22}" fill="none" stroke="${col}" stroke-width="4"/>`;
+ else if(a===360)s+=`<circle cx="${c[0]}" cy="${c[1]}" r="60" fill="none" stroke="${col}" stroke-width="4"/>`;
+ else s+=`<path d="M${c[0]} ${c[1]} L${q0[0]} ${q0[1]} A60 60 0 ${lg} 0 ${q1[0].toFixed(1)} ${q1[1].toFixed(1)} Z" fill="${col}" fill-opacity=".18" stroke="${col}" stroke-width="3"/>`;
+ const m=P(c,95,a/2);s+=T(m[0],m[1],a+'°',col,22)+`<circle cx="${c[0]}" cy="${c[1]}" r="6" fill="#E6EDF7"/>`+T(300,40,nm,col,26);
+ sv.innerHTML=s;
+ $('eq').innerHTML=`<span style="color:${col}">${nm}</span>`;
+ const r=[];if(a<90)r.push('Pelengkap: <b>'+(90-a)+'°</b> (jumlah 90°)');if(a<180)r.push('Penggenap: <b>'+(180-a)+'°</b> (jumlah 180°)');if(a<360)r.push('Konjugat: <b>'+(360-a)+'°</b> (jumlah 360°)');
+ $('sub').innerHTML=r.join('<br>')||'<span style="color:var(--mu)">Satu pusingan lengkap.</span>'}
+draw();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+</body></html>
