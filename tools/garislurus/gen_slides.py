@@ -1,7 +1,10 @@
 # Penjana slaid NOTA GARIS LURUS (Tingkatan 3 Bab 9 Garis Lurus) -> garislurus/slides.js
 # Jalankan:  python3 tools/garislurus/gen_slides.py
 # Gunakan HANYA warna palet gelap di bawah supaya mod cerah ditukar automatik oleh themed().
-import json, os, html, math, re
+import json, os, html, math, re, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from fxsvg import fx_svg, has_fx   # pecahan bertingkat dalam rajah (25 Nov)
+import mathfmt
 from fractions import Fraction as F
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -47,10 +50,8 @@ def ANS(t):
 def NOTE(t, lab='Ingat:'):
     return f'<div class="sl-note"><b>{lab}</b> {t}</div>'
 def FR(a, b):
-    """Pecahan bertingkat dalam teks slaid."""
-    return ('<span style="display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; '
-            'line-height: 1.1; font-size: 0.85em; margin: 0 2px; white-space: nowrap"><span style="padding: 0 4px; border-bottom: 2px solid currentColor">'
-            f'{a}</span><span>{b}</span></span>')
+    """Pecahan bertingkat dalam teks slaid (gaya .fr dalam teras.css)."""
+    return mathfmt.FR(a, b)
 def FRV(fr):
     """Nilai Fraction sebagai pecahan bertingkat (atau nombor bulat)."""
     fr = F(fr)
@@ -79,6 +80,9 @@ def r1(v): return round(v, 1)
 def T(x, y, t, col=TX, size=20, anchor='middle', weight=700, italic=False, halo=True):
     it = ' font-style="italic"' if italic else ''
     ha = f' paint-order="stroke" stroke="{NAV}" stroke-width="6" stroke-linejoin="round"' if halo else ''
+    t = ''.join(GTOK.get(ch, ch) for ch in str(t))
+    if has_fx(t):
+        return fx_svg(x, y, t, col, size, anchor, f' {FONT} font-weight="{weight}"{it}{ha}')
     return (f'<text x="{r1(x)}" y="{r1(y)}" fill="{col}" {FONT} font-size="{size}" font-weight="{weight}"{it} '
             f'text-anchor="{anchor}" dominant-baseline="middle"{ha}>{t}</text>')
 
@@ -192,6 +196,9 @@ class Plane:
 
 
 # ---------- pembantu persamaan ----------
+# glyph pecahan dalam teks rajah -> penanda pecahan bertingkat (fxsvg)
+GTOK = {'½': '\x011\x022\x03', '⅓': '\x011\x023\x03', '⅔': '\x012\x023\x03', '¼': '\x011\x024\x03', '¾': '\x013\x024\x03',
+        '⅕': '\x011\x025\x03', '⅖': '\x012\x025\x03', '⅗': '\x013\x025\x03', '⅘': '\x014\x025\x03', '⅙': '\x011\x026\x03', '⅚': '\x015\x026\x03', '⅛': '\x011\x028\x03'}
 VULG = {(1, 2): '½', (1, 3): '⅓', (2, 3): '⅔', (1, 4): '¼', (3, 4): '¾', (1, 5): '⅕', (2, 5): '⅖', (3, 5): '⅗', (4, 5): '⅘', (1, 6): '⅙', (5, 6): '⅚', (1, 8): '⅛'}
 X_, Y_ = '<i>x</i>', '<i>y</i>'
 def _coef(m, var, html_=True):
@@ -280,7 +287,7 @@ fig += T(pl.X(4) - 4, pl.Y(3) + 26, 'y = ½x + 1', GR, 19, 'end')
 fig += T(pl.X(0) + 14, pl.Y(1) + 22, '(0, 1)', PU, 18, 'start')
 add(sb, 'KONSEP', 'Maksud nilai m dan c',
     BUL([f'Ketiga-tiga garis mempunyai <i>c</i> = 1, jadi semuanya menyilang paksi-<i>y</i> di {B("(0, 1)", PU)}.',
-         f'Nilai <i>m</i> menentukan arah dan kecuraman: {B("m = 2", TR)} naik curam, {B("m = ½", GR)} naik landai, {B("m = −1", RD)} turun ke kanan.',
+         f'Nilai <i>m</i> menentukan arah dan kecuraman: {B("m = 2", TR)} naik curam, <b style="color: {GR}">m = {FR(1, 2)}</b> naik landai, {B("m = −1", RD)} turun ke kanan.',
          'Jika <i>m</i> sama tetapi <i>c</i> berbeza, garis-garis itu <b>selari</b>.'], col)
     + TABLE(['Persamaan', '<i>m</i>', '<i>c</i>'], [[EQ(mm, cc), FRV(mm), fs(cc)] for mm, cc, _, _ in fam], col, rv=True),
     svg(fig, 'Tiga garis melalui (0, 1) dengan kecerunan 2, −1 dan ½'))
@@ -302,7 +309,7 @@ add(sb, 'CONTOH BERLANGKAH', 'Mengenal pasti m dan c',
     + TABLE(['Persamaan', 'Susun semula', '<i>m</i>', '<i>c</i>'], [[a, b, FRV(p), fs(q)] for a, b, p, q in ex], col, rv=True)
     + BUL(['Susun semula supaya <i>y</i> berada di kiri: tulis sebutan <i>x</i> dahulu, kemudian pemalar.',
            'Jika pekali <i>y</i> bukan 1, bahagikan <b>setiap sebutan</b> dengan pekali itu.'], col)
-    + NOTE('Bagi <i>y</i> = 4 − <i>x</i>/2: <i>m</i> = −½ (bukan 4). Kecerunan ialah pekali <i>x</i>.'),
+    + NOTE(f'Bagi <i>y</i> = 4 − {FR("<i>x</i>", 2)}: <i>m</i> = −{FR(1, 2)} (bukan 4). Kecerunan ialah pekali <i>x</i>.'),
     svg(fig, 'Garis y = 4 − x/2 dengan pintasan-y 4 dan turun 1 unit bagi setiap 2 unit ke kanan'))
 
 # 4 Contoh: tulis persamaan dari graf
@@ -395,7 +402,7 @@ fig = (pl.draw() + LN(pl, m, c, AM)
        + T(pl.X(4) + 4, pl.Y(0) + 22, 'pintasan-x = 4', GR, 18, 'start')
        + T(pl.X(0) + 14, pl.Y(-2) + 20, 'pintasan-y = −2', PU, 18, 'start')
        + T(pl.X(1.2), pl.Y(2.6), 'x/4 + y/(−2) = 1', AM, 21, italic=True))
-add(sb, 'CONTOH BERLANGKAH', 'Bentuk pintasan x/a + y/b = 1',
+add(sb, 'CONTOH BERLANGKAH', f'Bentuk pintasan {FR("<i>x</i>", "<i>a</i>")} + {FR("<i>y</i>", "<i>b</i>")} = 1',
     P(f'Garis lurus {FR("<i>x</i>", 4)} − {FR("<i>y</i>", 2)} = 1. Nyatakan pintasan-<i>x</i> dan pintasan-<i>y</i>, kemudian tulis persamaan dalam bentuk <i>y</i> = <i>mx</i> + <i>c</i>.', True)
     + STEPS([f'Tulis sebagai {FR("<i>x</i>", 4)} + {FR("<i>y</i>", "−2")} = 1: pintasan-<i>x</i> = 4, pintasan-<i>y</i> = −2',
              f'Darab setiap sebutan dengan 4: {AMF(1, -2, 4)}',
@@ -443,7 +450,7 @@ fig = CARDS([('2x + 3y = 12  →  x/2 + y/3 = 1', False), ('2x + 3y = 12  →  x
              ('x/5 + y/3 = 2  →  pintasan-x = 5', False)], 50, 84, 58, 19, '✓  sebelah kanan mesti 1 dahulu')
 add(sb, 'KESILAPAN BIASA', 'Jangan terkeliru',
     BUL([f'{B("Pekali sebagai penyebut", RD)} ✗ → bahagi kedua-dua belah dengan <i>c</i> dahulu supaya kanan = 1.',
-         f'{B("Lupa tanda negatif", RD)} ✗ → bagi <i>ax</i> + <i>by</i> = <i>c</i>, <i>m</i> = −<i>a</i>/<i>b</i>.',
+         f'{B("Lupa tanda negatif", RD)} ✗ → bagi <i>ax</i> + <i>by</i> = <i>c</i>, <i>m</i> = −' + FR('<i>a</i>', '<i>b</i>') + '.',
          f'{B("Baca pintasan sebelum kanan = 1", RD)} ✗ → {FR("<i>x</i>", 5)} + {FR("<i>y</i>", 3)} = 2 ialah {FR("<i>x</i>", 10)} + {FR("<i>y</i>", 6)} = 1.'], col)
     + NOTE('Semak jawapan dengan menggantikan <i>x</i> = 0 dan <i>y</i> = 0 ke dalam persamaan asal.', 'Petua:'),
     svg(fig, 'Contoh jawapan betul dan salah semasa menukar bentuk persamaan'))
@@ -860,7 +867,7 @@ add(sb, 'STRATEGI', 'Langkah menyelesaikan masalah',
 add(sb, 'RINGKASAN', 'Ringkasan bab Garis Lurus', '', '',
     TABLE(['Perkara', 'Rumus / Kaedah'],
           [['Bentuk kecerunan-pintasan', '<i>y</i> = <i>mx</i> + <i>c</i> &nbsp;(<i>m</i> = kecerunan, <i>c</i> = pintasan-<i>y</i>)'],
-           ['Bentuk am', '<i>ax</i> + <i>by</i> = <i>c</i> &nbsp;→&nbsp; <i>m</i> = −<i>a</i>/<i>b</i>'],
+           ['Bentuk am', '<i>ax</i> + <i>by</i> = <i>c</i> &nbsp;→&nbsp; <i>m</i> = −' + FR('<i>a</i>', '<i>b</i>')],
            ['Bentuk pintasan', f'{FR("<i>x</i>", "<i>a</i>")} + {FR("<i>y</i>", "<i>b</i>")} = 1 &nbsp;(<i>a</i> = pintasan-<i>x</i>, <i>b</i> = pintasan-<i>y</i>)'],
            ['Titik pada garis', 'koordinat memuaskan persamaan'],
            ['Garis selari', '<i>m</i>₁ = <i>m</i>₂'],

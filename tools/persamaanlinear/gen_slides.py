@@ -2,6 +2,7 @@
 import os, sys
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 from t1lib import *
+from mathfmt import FR, RT, SFR, SRT
 OUT = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'persamaanlinear', 'slides.js'))
 SUB = {'5.1': ('Persamaan Linear dalam Satu Pemboleh Ubah', TR), '5.2': ('Ketaksamaan Linear dalam Satu Pemboleh Ubah', PK)}
 I = lambda t: f'<i>{t}</i>'
@@ -51,7 +52,7 @@ def sign(lim, label):
 c = TR
 add('5.1', '5.1 Persamaan linear', 'Ciri persamaan linear dalam satu pemboleh ubah',
     DEF(f'<b>Persamaan linear dalam satu pemboleh ubah</b> mempunyai tanda “=”, <b>satu</b> pemboleh ubah sahaja, dan kuasa pemboleh ubah itu ialah <b>1</b>.', c)
-    + TABLE(['Contoh', 'Persamaan linear satu pemboleh ubah?'], [[f'2{I("x")} + 5 = 11', 'Ya'], [f'{I("y")}/3 − 1 = 4', 'Ya'], [f'{I("x")}² + 1 = 10', 'Tidak (kuasa 2)'], [f'{I("x")} + {I("y")} = 7', 'Tidak (dua pemboleh ubah)'], [f'3{I("x")} + 4', 'Tidak (tiada “=”, hanya ungkapan)']], c), balance(['x', 'x', 1, 1, 1, 1, 1], [1] * 11, 'Neraca seimbang 2x + 5 = 11', '2x + 5 = 11'))
+    + TABLE(['Contoh', 'Persamaan linear satu pemboleh ubah?'], [[f'2{I("x")} + 5 = 11', 'Ya'], [f'{FR(I("y"), 3)} − 1 = 4', 'Ya'], [f'{I("x")}² + 1 = 10', 'Tidak (kuasa 2)'], [f'{I("x")} + {I("y")} = 7', 'Tidak (dua pemboleh ubah)'], [f'3{I("x")} + 4', 'Tidak (tiada “=”, hanya ungkapan)']], c), balance(['x', 'x', 1, 1, 1, 1, 1], [1] * 11, 'Neraca seimbang 2x + 5 = 11', '2x + 5 = 11'))
 add('5.1', '5.1 Membentuk persamaan', 'Membentuk persamaan linear',
     TABLE(['Pernyataan / situasi', 'Persamaan'], [[f'Hasil tambah suatu nombor dan 8 ialah 15', f'{I("x")} + 8 = 15'], ['Tiga kali suatu nombor ditolak 4 ialah 20', f'3{I("x")} − 4 = 20'], ['Harga 5 buah buku ialah RM35', f'5{I("b")} = 35'], ['Umur Ali 6 tahun lagi ialah 19 tahun', f'{I("u")} + 6 = 19']], c)
     + NOTE(f'Sebaliknya: 2{I("n")} = 18 boleh bermaksud “dua kali suatu nombor ialah 18”.'), '')
@@ -63,7 +64,7 @@ add('5.1', '5.1 Menyelesaikan', 'Menyelesaikan persamaan: kekalkan keseimbangan'
     balance(['x', 'x'], [1] * 6, 'Neraca 2x = 6 selepas buang 5 di kedua-dua belah', '2x = 6'))
 assert 3 * (4 - 2) == 6 and (2 * 5 + 2) / 3 == 4 and 4 * 2 - 3 == 5
 add('5.1', 'Contoh 1', 'Persamaan dengan kurungan dan pecahan',
-    TABLE(['Persamaan', 'Langkah', 'Jawapan'], [[f'3({I("x")} − 2) = 6', f'Bahagi 3: {I("x")} − 2 = 2', f'{I("x")} = 4'], [f'({I("y")} + 2)/3 = 4', f'Darab 3: {I("y")} + 2 = 12', f'{I("y")} = 10'], [f'5{I("k")} − 3 = 2{I("k")} + 9', f'Kumpul: 5{I("k")} − 2{I("k")} = 9 + 3, 3{I("k")} = 12', f'{I("k")} = 4']], c)
+    TABLE(['Persamaan', 'Langkah', 'Jawapan'], [[f'3({I("x")} − 2) = 6', f'Bahagi 3: {I("x")} − 2 = 2', f'{I("x")} = 4'], [f'{FR(f"{I("y")} + 2", 3)} = 4', f'Darab 3: {I("y")} + 2 = 12', f'{I("y")} = 10'], [f'5{I("k")} − 3 = 2{I("k")} + 9', f'Kumpul: 5{I("k")} − 2{I("k")} = 9 + 3, 3{I("k")} = 12', f'{I("k")} = 4']], c)
     + NOTE('Pindahkan sebutan ke sebelah yang lain dengan operasi songsang (tambah ↔ tolak, darab ↔ bahagi).'), '')
 assert (64 - 4) / 3 == 20
 add('5.1', 'Contoh 2', 'Masalah harian',
@@ -84,7 +85,7 @@ add('5.2', '5.2 Operasi', 'Operasi pada kedua-dua belah ketaksamaan',
     + NOTE('Darab atau bahagi dengan nombor <b>negatif</b> → simbol ketaksamaan bertukar arah. Jika a &lt; b, maka −a &gt; −b.', 'Penting:'), '')
 assert (13 - 1) / 3 == 4 and -2 * -3 == 6
 add('5.2', 'Contoh 1', 'Menyelesaikan ketaksamaan linear',
-    TABLE(['Ketaksamaan', 'Langkah', 'Penyelesaian'], [[f'3{I("x")} + 1 &lt; 13', f'3{I("x")} &lt; 12', f'{I("x")} &lt; 4'], [f'5 − 2{I("x")} ≤ 11', f'−2{I("x")} ≤ 6, bahagi −2 (tukar arah)', f'{I("x")} ≥ −3'], [f'{I("x")}/4 + 2 &gt; 3', f'{I("x")}/4 &gt; 1', f'{I("x")} &gt; 4']], c),
+    TABLE(['Ketaksamaan', 'Langkah', 'Penyelesaian'], [[f'3{I("x")} + 1 &lt; 13', f'3{I("x")} &lt; 12', f'{I("x")} &lt; 4'], [f'5 − 2{I("x")} ≤ 11', f'−2{I("x")} ≤ 6, bahagi −2 (tukar arah)', f'{I("x")} ≥ −3'], [f'{FR(I("x"), 4)} + 2 &gt; 3', f'{FR(I("x"), 4)} &gt; 1', f'{I("x")} &gt; 4']], c),
     nline(-3, True, True, 'Garis nombor x lebih daripada atau sama dengan negatif 3'))
 add('5.2', 'Contoh 2', 'Ketaksamaan linear serentak',
     P(f'Cari penyelesaian sepunya bagi 2{I("x")} − 1 &gt; 3 dan {I("x")} + 4 ≤ 9. Seterusnya, senaraikan integer yang memuaskan.')

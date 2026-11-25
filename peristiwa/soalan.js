@@ -12,11 +12,11 @@ const prAdd = (...qs) => qs.reduce((a, b) => prQ(a[0] * b[1] + b[0] * a[1], a[1]
 const prSub = (a, b) => prQ(a[0] * b[1] - b[0] * a[1], a[1] * b[1]);
 const prOneMinus = a => prSub([1, 1], a);
 const prEqQ = (a, b) => a[0] === b[0] && a[1] === b[1];
-// teks pecahan termudah ("0", "1", "3/10")
-const prF = q => (q[0] === 0 ? '0' : q[1] === 1 ? String(q[0]) : `${q[0]}/${q[1]}`).replace(/^-/, '−');
+// teks pecahan termudah ("0", "1", atau pecahan bertingkat fr())
+const prF = q => (q[0] === 0 ? '0' : q[1] === 1 ? String(q[0]).replace(/^-/, '−') : (q[0] < 0 ? '−' : '') + fr(Math.abs(q[0]), q[1]));
 const prFr = (n, d) => prF(prQ(n, d));
-// "n/d" diikuti bentuk termudah jika berbeza
-const prEq = (n, d) => { const s = prFr(n, d), raw = `${n}/${d}`; return s === raw ? raw : `${raw} = ${s}`; };
+// n per d (bertingkat) diikuti bentuk termudah jika berbeza
+const prEq = (n, d) => { const s = prFr(n, d), raw = fr(n, d); return s === raw ? raw : `${raw} = ${s}`; };
 // perpuluhan tepat bagi pecahan berpenyebut 2^a 5^b (cth [23, 50] → "0.46")
 function prDec(q) {
   for (let k = 0, p = 1; k <= 8; k++, p *= 10) {
@@ -48,7 +48,25 @@ const PRNAMA = ['Amir', 'Siti', 'Mei Ling', 'Ravi', 'Aisyah', 'Daniel', 'Farah',
 const prNama2 = r => { const a = r.p(PRNAMA); let b; do b = r.p(PRNAMA); while (b === a); return [a, b]; };
 
 /* =================== rajah (warna tema var(--…)) =================== */
-const prT = (x, y, t, c = 'tx', sz = 15, a = 'middle', w = 700) => `<text x="${+(+x).toFixed(1)}" y="${+(+y).toFixed(1)}" style="fill:var(--${c})" font-size="${sz}" font-weight="${w}" font-family="Space Grotesk, sans-serif" text-anchor="${a}" dominant-baseline="central">${t}</text>`;
+const prT0 = (x, y, t, c = 'tx', sz = 15, a = 'middle', w = 700) => `<text x="${+(+x).toFixed(1)}" y="${+(+y).toFixed(1)}" style="fill:var(--${c})" font-size="${sz}" font-weight="${w}" font-family="Space Grotesk, sans-serif" text-anchor="${a}" dominant-baseline="central">${t}</text>`;
+// prT: jika teks ada fr() (pecahan bertingkat), lukis pecahan dengan svgFr
+function prT(x, y, t, c = 'tx', sz = 15, a = 'middle', w = 700) {
+  const raw = String(t);
+  if (!/class="fr"/.test(raw)) return prT0(x, y, t, c, sz, a, w);
+  const parts = mathPlain(raw).split(/(\d+\/\d+)/), fs = sz * .92, gap = sz * .12;
+  const segs = parts.map((p, i) => {
+    if (i % 2) { const [n, d] = p.split('/'); return { f: [n, d], w: Math.max(mathW(n, fs), mathW(d, fs)) + 10 + 2 * gap }; }
+    const lead = p.length - p.trimStart().length, trail = p.length - p.trimEnd().length, core = p.trim();
+    return { core, lead: lead * sz * .28, trail: trail * sz * .28, w: core ? mathW(core, sz) : 0 };
+  });
+  const tot = segs.reduce((v, g) => v + g.w + (g.lead || 0) + (g.trail || 0), 0);
+  let cx = a === 'start' ? +x : a === 'end' ? x - tot : x - tot / 2, s = '';
+  segs.forEach(g => {
+    if (g.f) { s += svgFr(+(cx + gap).toFixed(1), +y, g.f[0], g.f[1], `var(--${c})`, fs, 'start'); cx += g.w; return; }
+    cx += g.lead; if (g.core) s += prT0(cx, y, g.core, c, sz, 'start', w); cx += g.w + g.trail;
+  });
+  return s;
+}
 const prSvg = (W, H, s, label) => `<svg viewBox="0 0 ${Math.round(W)} ${Math.round(H)}" role="img" aria-label="${esc(label)}" font-family="Inter, sans-serif">${s}</svg>`;
 const prL = (x1, y1, x2, y2, c, w = 2.5) => `<line x1="${+x1.toFixed(1)}" y1="${+y1.toFixed(1)}" x2="${+x2.toFixed(1)}" y2="${+y2.toFixed(1)}" style="stroke:var(--${c})" stroke-width="${w}" stroke-linecap="round"/>`;
 const PRCOL = { merah: 'rd', biru: 'tr', hijau: 'gr', kuning: 'am', ungu: 'pu', oren: 'pa' };
@@ -56,10 +74,10 @@ const PRCN = ['merah', 'biru', 'hijau', 'kuning', 'ungu'];   // tiada oren: suka
 
 // gambar rajah pokok dua peringkat: o = { s1:[{t,p,c}], s2:[[{t,p,c}]], outs?:[teks], hi?:[indeks daun], head?:[3 tajuk] }
 function prTreeFig(o, label) {
-  const L = prSum(o.s2.map(b => b.length)), top = o.head ? 30 : 10, gap = L > 6 ? 30 : 36;
+  const L = prSum(o.s2.map(b => b.length)), top = o.head ? 30 : 10, isF = t => /class="fr"/.test(String(t || '')), hasF = o.s1.some(a => isF(a.p)) || o.s2.some(b => b.some(c => isF(c.p))), gap = (L > 6 ? 30 : 36) + (hasF ? 12 : 0), fo = hasF ? 6 : 0;
   const xr = 14, x1 = 122, x2 = 232, xo = 270;
   const ly = prRange(0, L - 1).map(i => top + gap * (i + .5));
-  const ow = o.outs ? Math.max(...o.outs.map(t => String(t).length)) * 8.2 + 16 : 0;
+  const ow = o.outs ? Math.max(...o.outs.map(t => mathPlain(String(t)).length), o.head ? String(o.head[2] || 'Kesudahan').length : 0) * 8.2 + 16 : 0;
   const W = o.outs ? xo + ow + 6 : x2 + 30, H = top + gap * L + 8;
   const hi = new Set(o.hi || []);
   let s = '', k = 0;
@@ -77,11 +95,11 @@ function prTreeFig(o, label) {
   k = 0;
   o.s1.forEach((a, i) => {
     s += prT(x1, n1y[i], a.t, a.c, 17);
-    if (a.p) s += prT((xr + x1) / 2 - 4, (ry + n1y[i]) / 2 + (n1y[i] < ry ? -11 : 12), a.p, 'am', 13);
+    if (a.p) s += prT((xr + x1) / 2 - 4, (ry + n1y[i]) / 2 + (n1y[i] < ry ? -11 - fo : 12 + fo), a.p, 'am', 13);
     o.s2[i].forEach((b, j) => {
       const y = ly[k + j];
       s += prT(x2, y, b.t, b.c, 17);
-      if (b.p) s += prT((x1 + x2) / 2 + 2, (n1y[i] + y) / 2 + (y < n1y[i] - 1 ? -10 : y > n1y[i] + 1 ? 11 : -10), b.p, 'am', 13);
+      if (b.p) s += prT((x1 + x2) / 2 + 2, (n1y[i] + y) / 2 + (y < n1y[i] - 1 ? -10 - fo : y > n1y[i] + 1 ? 11 + fo : -10 - fo), b.p, 'am', 13);
       if (o.outs) {
         if (hi.has(k + j)) s += `<rect x="${xo - 4}" y="${+(y - 13).toFixed(1)}" width="${+ow.toFixed(1)}" height="26" rx="7" style="fill:var(--gr);fill-opacity:.16;stroke:var(--gr)" stroke-width="1.5"/>`;
         s += prT(xo + 4, y, o.outs[k + j], hi.has(k + j) ? 'gr' : 'tx', 14, 'start', 600);
@@ -236,7 +254,7 @@ const QV = {
     ({ op, ev }) => ({ q: `Dua biji dadu adil dilambung. Jadual di bawah menunjukkan ${op} dua nombor yang diperoleh. Cari kebarangkalian mendapat ${ev}.` }),
     ({ op, ev }) => ({ q: `Jadual di bawah menunjukkan ruang sampel apabila dua biji dadu dilambung; setiap sel ialah ${op} dua nombor. Hitung P(A), dengan A ialah peristiwa mendapat ${ev}.` }),
     ({ op, ev, nA, ans }) => ({ q: `Berdasarkan jadual ${op} dua biji dadu di bawah, nyatakan n(A) dan P(A) bagi peristiwa A, iaitu mendapat ${ev}.`, ans: `n(A) = ${nA}, P(A) = ${ans}` }),
-    ({ op, ev, nA, ans }) => { const N = vnama(); return Object.assign({ q: `Dua biji dadu dilambung. Jadual di bawah menunjukkan ${op} dua nombor. ${N} berkata kebarangkalian mendapat ${ev} ialah ${nA}/${36 - nA}. Adakah ${N} betul?` }, salah(N, ans, `Penyebut mestilah n(S) = 36, bukan bilangan sel yang tidak memenuhi syarat (${36 - nA}).`)); }
+    ({ op, ev, nA, ans }) => { const N = vnama(); return Object.assign({ q: `Dua biji dadu dilambung. Jadual di bawah menunjukkan ${op} dua nombor. ${N} berkata kebarangkalian mendapat ${ev} ialah ${fr(nA, 36 - nA)}. Adakah ${N} betul?` }, salah(N, ans, `Penyebut mestilah n(S) = 36, bukan bilangan sel yang tidak memenuhi syarat (${36 - nA}).`)); }
   ],
   k91: [
     ({ c3 }) => ({ q: `Tiga keping syiling dilambung serentak. G mewakili gambar dan A mewakili angka. (a) Nyatakan n(S). (b) Senaraikan kesudahan bagi peristiwa mendapat ${c3.ev}. (c) Cari kebarangkalian mendapat ${c3.ev}.`, ans: `(a) 8 (b) ${c3.As} (c) ${c3.p}`, work: ['(a) n(S) = 2 × 2 × 2 = 8', `(b) ${c3.As}, n = ${c3.k}`, `(c) P = ${prEq(c3.k, 8)}`] }),
@@ -483,7 +501,7 @@ PR.jenis = (r, k) => {
 };
 const PRDEV = [['nombor 6', 1], ['nombor genap', 3], ['nombor perdana', 3], ['nombor lebih besar daripada 4', 2], ['gandaan 3', 2], ['nombor kurang daripada 5', 4], ['faktor bagi 6', 4]];
 const PRDARAB = [
-  r => { const [nm, n] = r.p(PRDEV), c = r.p(['gambar', 'angka']); return { x: `Sekeping syiling dan sebiji dadu adil dilambung.`, ev: `mendapat ${c} dan ${nm}`, pa: [1, 2], pb: prQ(n, 6), w0: [`P(${c}) = 1/2`, `P(${nm}) = ${prEq(n, 6)}`] }; },
+  r => { const [nm, n] = r.p(PRDEV), c = r.p(['gambar', 'angka']); return { x: `Sekeping syiling dan sebiji dadu adil dilambung.`, ev: `mendapat ${c} dan ${nm}`, pa: [1, 2], pb: prQ(n, 6), w0: [`P(${c}) = ${fr(1, 2)}`, `P(${nm}) = ${prEq(n, 6)}`] }; },
   r => { let a, b; do { a = r.i(10, 19) * 5; b = r.i(5, 9) * 10; } while (a === b); const [A, Bn] = prNama2(r); return { x: `Kebarangkalian ${A} lulus ujian memandu ialah ${prHs(a)} dan kebarangkalian ${Bn} lulus ujian memandu ialah ${prHs(b)}. Keputusan mereka tidak bersandar.`, ev: `kedua-dua mereka lulus`, pa: prH(a), pb: prH(b), dec: true, w0: [] }; },
   r => { const n1 = r.p([4, 5, 6, 8]), k1 = r.i(1, n1 - 1), n2 = r.p([3, 4, 5, 6]), k2 = r.i(1, n2 - 1); return { x: `Pemutar P dibahagikan kepada ${n1} sektor sama besar dengan ${k1} sektor berwarna merah. Pemutar Q dibahagikan kepada ${n2} sektor sama besar dengan ${k2} sektor berwarna merah. Kedua-dua pemutar diputar sekali.`, ev: 'kedua-dua jarum berhenti pada sektor merah', pa: prQ(k1, n1), pb: prQ(k2, n2), w0: [`P(P merah) = ${prEq(k1, n1)}`, `P(Q merah) = ${prEq(k2, n2)}`] }; },
   r => { let a, b; do { a = prQ(r.i(1, 6), r.p([3, 4, 5, 7])); b = prQ(r.i(1, 5), r.p([2, 3, 6, 8])); } while (a[0] >= a[1] || b[0] >= b[1]); return { x: `A dan B ialah dua peristiwa tak bersandar dengan P(A) = ${prF(a)} dan P(B) = ${prF(b)}.`, ev: 'kedua-dua peristiwa A dan B berlaku', pa: a, pb: b, w0: [] }; },
@@ -505,13 +523,13 @@ PR.dengan = (r, k) => {
   const B = prBag(r), D = prDrawEv(r, B, k == null ? r.i(0, 2) : k % 3);
   const p = prMul(prQ(...D.f[0]), prQ(...D.f[1])), w = prMul(prQ(...D.g[0]), prQ(...D.g[1]));
   const ans = prF(p), wrong = prEqQ(p, w) ? prF(prMul(prQ(...D.f[0]), prQ(D.f[1][0], D.f[1][1] + 1))) : prF(w);
-  return GEN_LQ('dengan', { B, ev: D.ev, ans, wrong, work: [`Jumlah ${B.cx.o} = ${B.t}. Dengan pemulangan, peristiwa tak bersandar.`, `P = ${D.f[0][0]}/${D.f[0][1]} × ${D.f[1][0]}/${D.f[1][1]}`, `= ${ans}`] }, { fig: prBagFig(B.parts) });
+  return GEN_LQ('dengan', { B, ev: D.ev, ans, wrong, work: [`Jumlah ${B.cx.o} = ${B.t}. Dengan pemulangan, peristiwa tak bersandar.`, `P = ${fr(D.f[0][0], D.f[0][1])} × ${fr(D.f[1][0], D.f[1][1])}`, `= ${ans}`] }, { fig: prBagFig(B.parts) });
 };
 PR.tanpa = (r, k) => {
   const B = prBag(r), D = prDrawEv(r, B, k == null ? r.i(0, 2) : k % 3);
   const p = prMul(prQ(...D.g[0]), prQ(...D.g[1])), w = prMul(prQ(...D.f[0]), prQ(...D.f[1]));
   const ans = prF(p), wrong = prF(w), num = D.g[0][0] * D.g[1][0], den = D.g[0][1] * D.g[1][1];
-  return GEN_LQ('tanpa', { B, ev: D.ev, ans, wrong, work: [`Cabutan pertama: ${D.g[0][0]}/${D.g[0][1]}. Tanpa pemulangan, tinggal ${B.t - 1} ${B.cx.o}.`, `Cabutan kedua: ${D.g[1][0]}/${D.g[1][1]}`, `P = ${D.g[0][0]}/${D.g[0][1]} × ${D.g[1][0]}/${D.g[1][1]} = ${prEq(num, den)}`] }, { fig: prBagFig(B.parts) });
+  return GEN_LQ('tanpa', { B, ev: D.ev, ans, wrong, work: [`Cabutan pertama: ${fr(D.g[0][0], D.g[0][1])}. Tanpa pemulangan, tinggal ${B.t - 1} ${B.cx.o}.`, `Cabutan kedua: ${fr(D.g[1][0], D.g[1][1])}`, `P = ${fr(D.g[0][0], D.g[0][1])} × ${fr(D.g[1][0], D.g[1][1])} = ${prEq(num, den)}`] }, { fig: prBagFig(B.parts) });
 };
 const PRTIGA = [
   r => { const c = r.p(['gambar', 'angka']); return { x: 'Tiga keping syiling dilambung serentak.', ev: `mendapat ${c} pada ketiga-tiga syiling`, ps: [[1, 2], [1, 2], [1, 2]] }; },
@@ -538,7 +556,7 @@ PR.k92 = r => {
   const B = prBag(r, true, 11), [c1, c2] = B.cs, [a, b] = B.n, t = B.t, o = B.cx.o, L1 = c1[0].toUpperCase(), L2 = c2[0].toUpperCase() === L1 ? c2.slice(0, 2).toUpperCase() : c2[0].toUpperCase();
   const p11 = prQ(a * (a - 1), t * (t - 1)), p22 = prQ(b * (b - 1), t * (t - 1)), p12 = prQ(a * b, t * (t - 1));
   const same = prAdd(p11, p22), diff = prAdd(p12, p12), atl = prOneMinus(p22);
-  const lab = (n, d) => `${n}/${d}`;
+  const lab = (n, d) => `${fr(n, d)}`;
   const s1 = [{ t: L1, p: lab(a, t), c: PRCOL[c1] }, { t: L2, p: lab(b, t), c: PRCOL[c2] }];
   const s2a = [[{ t: L1, p: '?', c: PRCOL[c1] }, { t: L2, p: '?', c: PRCOL[c2] }], [{ t: L1, p: '?', c: PRCOL[c1] }, { t: L2, p: '?', c: PRCOL[c2] }]];
   const s2b = [[{ t: L1, p: lab(a - 1, t - 1), c: PRCOL[c1] }, { t: L2, p: lab(b, t - 1), c: PRCOL[c2] }], [{ t: L1, p: lab(a, t - 1), c: PRCOL[c1] }, { t: L2, p: lab(b - 1, t - 1), c: PRCOL[c2] }]];
@@ -547,11 +565,11 @@ PR.k92 = r => {
   const tt = {
     B, c1, same: prF(same), diff: prF(diff), atl: prF(atl),
     work: [`(a) Cabutan kedua: selepas ${L1}: ${lab(a - 1, t - 1)} dan ${lab(b, t - 1)}; selepas ${L2}: ${lab(a, t - 1)} dan ${lab(b - 1, t - 1)}`,
-      `(b) P(sama warna) = ${a}/${t} × ${a - 1}/${t - 1} + ${b}/${t} × ${b - 1}/${t - 1} = ${a * (a - 1)}/${t * (t - 1)} + ${b * (b - 1)}/${t * (t - 1)} = ${prF(same)}`,
-      `(c) P(sekurang-kurangnya satu ${c1}) = 1 − P(${L2}, ${L2}) = 1 − ${b * (b - 1)}/${t * (t - 1)} = ${prF(atl)}`],
+      `(b) P(sama warna) = ${fr(a, t)} × ${fr(a - 1, t - 1)} + ${fr(b, t)} × ${fr(b - 1, t - 1)} = ${fr(a * (a - 1), t * (t - 1))} + ${fr(b * (b - 1), t * (t - 1))} = ${prF(same)}`,
+      `(c) P(sekurang-kurangnya satu ${c1}) = 1 − P(${L2}, ${L2}) = 1 − ${fr(b * (b - 1), t * (t - 1))} = ${prF(atl)}`],
     work2: [`(a) Cabutan kedua: selepas ${L1}: ${lab(a - 1, t - 1)} dan ${lab(b, t - 1)}; selepas ${L2}: ${lab(a, t - 1)} dan ${lab(b - 1, t - 1)}`,
-      `(b) P(berlainan warna) = ${a}/${t} × ${b}/${t - 1} + ${b}/${t} × ${a}/${t - 1} = ${2 * a * b}/${t * (t - 1)} = ${prF(diff)}`,
-      `(c) P(sekurang-kurangnya satu ${c1}) = 1 − P(${L2}, ${L2}) = 1 − ${b * (b - 1)}/${t * (t - 1)} = ${prF(atl)}`]
+      `(b) P(berlainan warna) = ${fr(a, t)} × ${fr(b, t - 1)} + ${fr(b, t)} × ${fr(a, t - 1)} = ${fr(2 * a * b, t * (t - 1))} = ${prF(diff)}`,
+      `(c) P(sekurang-kurangnya satu ${c1}) = 1 − P(${L2}, ${L2}) = 1 − ${fr(b * (b - 1), t * (t - 1))} = ${prF(atl)}`]
   };
   const v = vq('k92', { t: tt });
   return { q: v.q + ` (${legend})`, ans: v.ans, work: v.work, fig: prTreeFig({ s1, s2: s2a, outs, head }, 'Gambar rajah pokok tidak lengkap'), figAns: prTreeFig({ s1, s2: s2b, outs, head }, 'Gambar rajah pokok lengkap') };
@@ -591,7 +609,7 @@ PR.atauTSE = (r, k) => {
   const nA = d.A.A.length, nB = d.B.A.length, nI = d.I.length, nU = d.U.length;
   if (nA + nB - nI !== nU) throw new Error('kesatuan');
   const ans = prFr(nU, n), wrong = prFr(nA + nB, n);
-  return GEN_LQ('atauTSE', { x: c.x, a: d.A.nm, b: d.B.nm, ans, wrong, work: [`A = ${prSet(d.A.A)}, B = ${prSet(d.B.A)}, A ∩ B = ${prSet(d.I)}`, `P(A ∪ B) = ${nA}/${n} + ${nB}/${n} − ${nI}/${n}`, `= ${prEq(nU, n)}`] });
+  return GEN_LQ('atauTSE', { x: c.x, a: d.A.nm, b: d.B.nm, ans, wrong, work: [`A = ${prSet(d.A.A)}, B = ${prSet(d.B.A)}, A ∩ B = ${prSet(d.I)}`, `P(A ∪ B) = ${fr(nA, n)} + ${fr(nB, n)} − ${fr(nI, n)}`, `= ${prEq(nU, n)}`] });
 };
 const PRVENN = [['meminati bola sepak', 'meminati badminton', 'Bola sepak', 'Badminton'], ['memiliki basikal', 'memiliki telefon pintar', 'Basikal', 'Telefon'], ['menyertai Kelab Sains', 'menyertai Kelab Seni', 'Sains', 'Seni'], ['suka membaca novel', 'suka membaca komik', 'Novel', 'Komik']];
 PR.venn = (r, k) => {
@@ -618,9 +636,9 @@ PR.k93 = r => {
     if (!E.length) continue;
     const C = r.p(E), nA = d.A.A.length, nB = d.B.A.length, nI = d.I.length, nC = C.A.length;
     c = { lo: 1, hi, a: d.A.nm, b: d.B.nm, c: C.nm, Is: prSet(d.I), pU: prFr(d.U.length, hi), pAC: prFr(nA + nC, hi),
-      work: [`A = ${prSet(d.A.A)}, B = ${prSet(d.B.A)}, C = ${prSet(C.A)}`, `(a) A ∩ B = ${prSet(d.I)}`, `(b) P(A ∪ B) = ${nA}/${hi} + ${nB}/${hi} − ${nI}/${hi} = ${prEq(d.U.length, hi)}`, `(c) A ∩ C = ∅, maka P(A ∪ C) = ${nA}/${hi} + ${nC}/${hi} = ${prEq(nA + nC, hi)}`] };
+      work: [`A = ${prSet(d.A.A)}, B = ${prSet(d.B.A)}, C = ${prSet(C.A)}`, `(a) A ∩ B = ${prSet(d.I)}`, `(b) P(A ∪ B) = ${fr(nA, hi)} + ${fr(nB, hi)} − ${fr(nI, hi)} = ${prEq(d.U.length, hi)}`, `(c) A ∩ C = ∅, maka P(A ∪ C) = ${fr(nA, hi)} + ${fr(nC, hi)} = ${prEq(nA + nC, hi)}`] };
   } while (!c && tries < 60);
-  if (!c) c = { lo: 1, hi: 20, a: 'nombor genap', b: 'nombor gandaan 3', c: 'nombor gandaan 5 yang ganjil', Is: '{6, 12, 18}', pU: '13/20', pAC: '3/5', work: ['A = {2, 4, 6, 8, 10, 12, 14, 16, 18, 20}, B = {3, 6, 9, 12, 15, 18}, C = {5, 15}', '(a) A ∩ B = {6, 12, 18}', '(b) P(A ∪ B) = 10/20 + 6/20 − 3/20 = 13/20', '(c) A ∩ C = ∅, maka P(A ∪ C) = 10/20 + 2/20 = 12/20 = 3/5'] };
+  if (!c) c = { lo: 1, hi: 20, a: 'nombor genap', b: 'nombor gandaan 3', c: 'nombor gandaan 5 yang ganjil', Is: '{6, 12, 18}', pU: fr(13, 20), pAC: fr(3, 5), work: ['A = {2, 4, 6, 8, 10, 12, 14, 16, 18, 20}, B = {3, 6, 9, 12, 15, 18}, C = {5, 15}', '(a) A ∩ B = {6, 12, 18}', `(b) P(A ∪ B) = ${fr(10, 20)} + ${fr(6, 20)} − ${fr(3, 20)} = ${fr(13, 20)}`, `(c) A ∩ C = ∅, maka P(A ∪ C) = ${fr(10, 20)} + ${fr(2, 20)} = ${fr(12, 20)} = ${fr(3, 5)}`] };
   const t = r.p([30, 32, 35, 36, 40]), A = r.i(10, 18), B = r.i(8, 15), I = r.i(2, Math.min(A, B) - 3), o = t - (A + B - I);
   const v = { t, A, B, I, pU: prFr(A + B - I, t), pO: prFr(o, t), work: [`(a) Sains sahaja = ${A} − ${I} = ${A - I}, Matematik sahaja = ${B} − ${I} = ${B - I}, kedua-dua = ${I}, tiada kelab = ${t} − ${A + B - I} = ${o}`, `(b) n(Sains atau Matematik) = ${A} + ${B} − ${I} = ${A + B - I}, P = ${prEq(A + B - I, t)}`, `(c) P(tiada kelab) = ${prEq(o, t)}`] };
   const q = vq('k93', { c, v });
@@ -664,7 +682,7 @@ PR.dadu2 = (r, k) => {
   const nI = PRDICE.filter(([a, b]) => e.A(a, b) && e.B(a, b)).length, nU = PRDICE.filter(([a, b]) => e.A(a, b) || e.B(a, b)).length;
   if (nA + nB - nI !== nU) throw new Error('dadu2');
   const ans = prFr(nU, 36);
-  const work = [`n(S) = 36; n(${e.la}) = ${nA}, n(${e.lb}) = ${nB}`, nI ? `Tidak saling eksklusif: n(kedua-duanya) = ${nI}` : 'Saling eksklusif: tiada kesudahan sepunya', nI ? `P = ${nA}/36 + ${nB}/36 − ${nI}/36 = ${prEq(nU, 36)}` : `P = ${nA}/36 + ${nB}/36 = ${prEq(nU, 36)}`];
+  const work = [`n(S) = 36; n(${e.la}) = ${nA}, n(${e.lb}) = ${nB}`, nI ? `Tidak saling eksklusif: n(kedua-duanya) = ${nI}` : 'Saling eksklusif: tiada kesudahan sepunya', nI ? `P = ${fr(nA, 36)} + ${fr(nB, 36)} − ${fr(nI, 36)} = ${prEq(nU, 36)}` : `P = ${fr(nA, 36)} + ${fr(nB, 36)} = ${prEq(nU, 36)}`];
   return GEN_LQ('dadu2', { ev: e.ev, ans, work });
 };
 function prDuaTree(D, full, hiIdx) {
@@ -683,8 +701,8 @@ PR.samaWarna = (r, k) => {
   const pS = prQ(a * (a - 1) + b * (b - 1), t * (t - 1)), pD = prQ(2 * a * b, t * (t - 1));
   const ans = prF(diff ? pD : pS), wrong = prF(diff ? prQ(a * b, t * (t - 1)) : prQ(a * (a - 1), t * (t - 1)));
   const ev = diff ? `kedua-dua ${B.cx.o} berlainan warna` : `kedua-dua ${B.cx.o} sama warna`;
-  const work = diff ? [`Berlainan warna: (${c1}, ${c2}) atau (${c2}, ${c1})`, `P = ${a}/${t} × ${b}/${t - 1} + ${b}/${t} × ${a}/${t - 1}`, `= ${a * b}/${t * (t - 1)} + ${a * b}/${t * (t - 1)} = ${prEq(2 * a * b, t * (t - 1))}`]
-    : [`Sama warna: (${c1}, ${c1}) atau (${c2}, ${c2})`, `P = ${a}/${t} × ${a - 1}/${t - 1} + ${b}/${t} × ${b - 1}/${t - 1}`, `= ${a * (a - 1)}/${t * (t - 1)} + ${b * (b - 1)}/${t * (t - 1)} = ${prEq(a * (a - 1) + b * (b - 1), t * (t - 1))}`];
+  const work = diff ? [`Berlainan warna: (${c1}, ${c2}) atau (${c2}, ${c1})`, `P = ${fr(a, t)} × ${fr(b, t - 1)} + ${fr(b, t)} × ${fr(a, t - 1)}`, `= ${fr(a * b, t * (t - 1))} + ${fr(a * b, t * (t - 1))} = ${prEq(2 * a * b, t * (t - 1))}`]
+    : [`Sama warna: (${c1}, ${c1}) atau (${c2}, ${c2})`, `P = ${fr(a, t)} × ${fr(a - 1, t - 1)} + ${fr(b, t)} × ${fr(b - 1, t - 1)}`, `= ${fr(a * (a - 1), t * (t - 1))} + ${fr(b * (b - 1), t * (t - 1))} = ${prEq(a * (a - 1) + b * (b - 1), t * (t - 1))}`];
   return GEN_LQ('samaWarna', { B, ev, ans, wrong: wrong === ans ? prF(prQ(b * (b - 1), t * (t - 1))) : wrong, work }, { fig: prBagFig(B.parts) });
 };
 PR.pemain = (r, k) => {
@@ -706,7 +724,7 @@ PR.k94 = r => {
   const dd = { x: D.C.x, both: D.C.both, one: D.C.one, atl: D.C.atl, pBoth: d(D.both), pOne: d(D.one), pAtl: d(D.atl), work: [`(a) ${d(D.P)} × ${d(D.Q)} = ${d(D.both)}`, `(b) ${d(D.P)} × ${d(D.Qn)} + ${d(D.Pn)} × ${d(D.Q)} = ${d(D.oa)} + ${d(D.ob)} = ${d(D.one)}`, `(c) 1 − ${d(D.Pn)} × ${d(D.Qn)} = 1 − ${d(D.none)} = ${d(D.atl)}`] };
   const B = prBag(r, true, 12), [a, b] = B.n, t = B.t, [c1, c2] = B.cs;
   const p11 = prQ(a * (a - 1), t * (t - 1)), same = prQ(a * (a - 1) + b * (b - 1), t * (t - 1)), atl = prOneMinus(prQ(b * (b - 1), t * (t - 1)));
-  const bb = { B, c1, p11: prF(p11), same: prF(same), atl: prF(atl), work: [`(a) ${a}/${t} × ${a - 1}/${t - 1} = ${prEq(a * (a - 1), t * (t - 1))}`, `(b) ${a * (a - 1)}/${t * (t - 1)} + ${b}/${t} × ${b - 1}/${t - 1} = ${a * (a - 1)}/${t * (t - 1)} + ${b * (b - 1)}/${t * (t - 1)} = ${prF(same)}`, `(c) 1 − P(kedua-dua ${c2}) = 1 − ${b * (b - 1)}/${t * (t - 1)} = ${prF(atl)}`] };
+  const bb = { B, c1, p11: prF(p11), same: prF(same), atl: prF(atl), work: [`(a) ${fr(a, t)} × ${fr(a - 1, t - 1)} = ${prEq(a * (a - 1), t * (t - 1))}`, `(b) ${fr(a * (a - 1), t * (t - 1))} + ${fr(b, t)} × ${fr(b - 1, t - 1)} = ${fr(a * (a - 1), t * (t - 1))} + ${fr(b * (b - 1), t * (t - 1))} = ${prF(same)}`, `(c) 1 − P(kedua-dua ${c2}) = 1 − ${fr(b * (b - 1), t * (t - 1))} = ${prF(atl)}`] };
   const v = vq('k94', { w, d: dd, b: bb });
   if (/lewat ke sekolah/.test(v.q)) {
     const s1 = [{ t: 'H', p: d(P), c: 'tr' }, { t: 'H′', p: d(Pn), c: 'pk' }];

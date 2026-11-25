@@ -250,6 +250,19 @@ NN.masalah13 = (r, idx) => {
   return GEN_LQ('masalah', { q: `Sebuah kubus kecil mempunyai isi padu ${s ** 3} cm³. Beberapa kubus kecil disusun untuk membentuk sebuah kubus besar dengan isi padu ${big ** 3} cm³. Berapakah bilangan kubus kecil yang diperlukan?`, ans: `${m ** 3} kubus`, work: [`Sisi kubus kecil = ∛${s ** 3} = ${s} cm; sisi kubus besar = ∛${big ** 3} = ${big} cm`, `Kubus kecil pada satu sisi = ${big} ÷ ${s} = ${m}`, `Bilangan = ${m}³ = ${m ** 3}`] });
 };
 
+/* ---------- pecahan bertingkat & punca kuasa (25 Nov) ----------
+   Penjana di atas menulis teks biasa (3/4, 2½, √25, ∛(−8)); nnFx menukarnya kepada fr()/rt() pada output akhir.
+   Data dalaman (NNPOOL, perbandingan label) kekal teks biasa. Tiada rajah (fig) dalam bab ini. */
+const nnFx = s => typeof s !== 'string' ? s : s
+  .replace(/(\d+)½/g, (m, w) => w + fr(1, 2))
+  .replace(/\b(\d+)\/(\d+)\b/g, (m, a, b) => fr(a, b))
+  .replace(/\ba\/b\b/g, () => fr('a', 'b'))
+  .replace(/∛\(−(\d+)\)/g, (m, n) => rt('−' + n, 3))
+  .replace(/∛(\d+)/g, (m, n) => rt(n, 3))
+  .replace(/√(\d+)/g, (m, n) => rt(n));
+const nnFixQ = q => { if (!q || typeof q !== 'object') return q; Object.keys(q).forEach(k => { if (k === 'fig') return; const v = q[k]; if (typeof v === 'string') q[k] = nnFx(v); else if (Array.isArray(v)) q[k] = v.map(nnFx); }); return q; };
+Object.keys(NN).forEach(k => { const f = NN[k]; NN[k] = (...a) => nnFixQ(f(...a)); });
+
 /* =================== GEN: Latihan Kelas =================== */
 const GEN = {
   '1.1': { m: [() => NN.kelas(nnRG), () => NN.tukar(nnRG), () => NN.banding(nnRG)], s: [() => NN.susun(nnRG)], k: [() => NN.campur(nnRG)] },
@@ -301,6 +314,7 @@ const CQGEN = {
     return nnMcq(`Nilai bagi ${L2[0]} ialah`, nnM(L2[1]), L2[2].map(x => nnM(x)));
   }
 };
+Object.keys(CQGEN).forEach(k => { const f = CQGEN[k]; CQGEN[k] = L => nnFixQ(f(L)); });
 const CQT = { nisbah: 'Nombor nisbah & tak nisbah', operasi: 'Gabungan operasi', kuasa: 'Kuasa & punca kuasa' };
 function gq(level) { return CQGEN[pick(Object.keys(CQT))](Math.max(0, Math.min(2, level | 0))); }
 function cq(level, types) { const pool = (types && types.length ? types : Object.keys(CQT)).filter(t => CQGEN[t]); return CQGEN[pick(pool.length ? pool : Object.keys(CQT))](Math.max(0, Math.min(2, level | 0))); }

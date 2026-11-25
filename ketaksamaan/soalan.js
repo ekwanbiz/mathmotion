@@ -191,8 +191,8 @@ const ktRel = (r, X, Y) => {
     () => [`Bilangan ${X} melebihi bilangan ${Y} selebih-lebihnya ${k + 2}.`, ktH(1, -1, k + 2, '<='), `x − y ≥ ${k + 2}`, `"Selebih-lebihnya" bermaksud ≤, maka x − y ≤ ${k + 2}.`],
     () => [`Jumlah ${X} dan ${Y} tidak melebihi ${n}.`, ktH(1, 1, n, '<='), `x + y &lt; ${n}`, `"Tidak melebihi" bermaksud ≤ (boleh sama dengan ${n}).`],
     () => [`Jumlah ${X} dan ${Y} sekurang-kurangnya ${n}.`, ktH(1, 1, n, '>='), `x + y &gt; ${n}`, `"Sekurang-kurangnya" bermaksud ≥ (boleh sama dengan ${n}).`],
-    () => [`Nisbah bilangan ${X} kepada bilangan ${Y} sekurang-kurangnya ${a} : ${b}.`, ktH(b, -a, 0, '>='), `${ktTerm(a, 'x', true)} ≥ ${b}y`, `x/y ≥ ${a}/${b}, darab silang: ${b}x ≥ ${ktTerm(a, 'y', true)}.`],
-    () => [`Nisbah bilangan ${X} kepada bilangan ${Y} selebih-lebihnya ${a} : ${b}.`, ktH(b, -a, 0, '<='), `${ktTerm(a, 'x', true)} ≤ ${b}y`, `x/y ≤ ${a}/${b}, darab silang: ${b}x ≤ ${ktTerm(a, 'y', true)}.`],
+    () => [`Nisbah bilangan ${X} kepada bilangan ${Y} sekurang-kurangnya ${a} : ${b}.`, ktH(b, -a, 0, '>='), `${ktTerm(a, 'x', true)} ≥ ${b}y`, `${fr('x', 'y')} ≥ ${fr(a, b)}, darab silang: ${b}x ≥ ${ktTerm(a, 'y', true)}.`],
+    () => [`Nisbah bilangan ${X} kepada bilangan ${Y} selebih-lebihnya ${a} : ${b}.`, ktH(b, -a, 0, '<='), `${ktTerm(a, 'x', true)} ≤ ${b}y`, `${fr('x', 'y')} ≤ ${fr(a, b)}, darab silang: ${b}x ≤ ${ktTerm(a, 'y', true)}.`],
     () => [`Bilangan ${Y} tidak kurang daripada ${k + 3}.`, ktH(0, 1, k + 3, '>='), `y &lt; ${k + 3}`, `"Tidak kurang daripada" bermaksud ≥, maka y ≥ ${k + 3}.`],
     () => [`Bilangan ${X} kurang daripada ${n}.`, ktH(1, 0, n, '<'), `x ≤ ${n}`, `"Kurang daripada" tidak termasuk ${n}, maka x &lt; ${n}.`]
   ])();
@@ -406,8 +406,8 @@ KT.k61 = r => {
   const v = vq('k61', { p, q, n, a, b, x0, le, ge, lhs });
   return { q: v.q, ans: v.ans, work: v.work };
 };
-// pecahan ringkas untuk jalan kerja (contoh 22/3)
-function ktFrS(n, d) { const g = ktGcd(n, d) || 1; n /= g; d /= g; return d === 1 ? fmt(n) : `${fmt(n)}/${d}`; }
+// pecahan ringkas (bertingkat) untuk jalan kerja, contoh 22 per 3
+function ktFrS(n, d) { const g = ktGcd(n, d) || 1; n /= g; d /= g; return d === 1 ? fmt(n) : (n < 0 ? '−' : '') + fr(Math.abs(n), d); }
 
 /* ---------- 6.2 ---------- */
 KT.frasa2 = r => {

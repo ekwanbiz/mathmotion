@@ -1,7 +1,9 @@
 # Penjana slaid NOTA CIRCMOTION (Tingkatan 2 Bab 5 Bulatan) -> circmotion/slides.js
 # Jalankan:  python3 tools/circmotion/gen_slides.py
 # Gunakan HANYA warna palet gelap di bawah supaya mod cerah ditukar automatik oleh themed().
-import json, os, html, math
+import json, os, html, math, sys
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+from mathfmt import RT
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUTFILE = os.path.normpath(os.path.join(HERE, '..', '..', 'circmotion', 'slides.js'))
@@ -322,7 +324,7 @@ add('5.2', 'CONTOH BERLANGKAH', 'Mencari panjang perentas',
     P('Jejari bulatan ialah 5 cm. Jarak perentas AB dari pusat O ialah 3 cm. Cari panjang AB.')
     + STEPS(['OM ⊥ AB, maka M ialah titik tengah AB dan ∆OMA bersudut tegak di M.',
              'Teorem Pythagoras: AM² = OA² − OM² = 5² − 3² = 25 − 9 = 16',
-             'AM = √16 = 4 cm, maka AB = 2 × 4 = 8 cm'], col)
+             'AM = '+RT('16')+' = 4 cm, maka AB = 2 × 4 = 8 cm'], col)
     + ANS('AB = 8 cm'),
     svg(fig, 'Bulatan berjejari 5 cm, perentas AB berjarak 3 cm dari pusat O'))
 
@@ -345,7 +347,7 @@ add('5.2', 'CONTOH BERLANGKAH', 'Mencari jarak perentas dari pusat',
     P('Jejari bulatan ialah 10 cm dan panjang perentas PQ ialah 16 cm. Cari jarak PQ dari pusat O.')
     + STEPS(['OM ⊥ PQ, maka PM = MQ = 16 ÷ 2 = 8 cm.',
              'Dalam ∆OMQ: OM² = OQ² − MQ² = 10² − 8² = 100 − 64 = 36',
-             'OM = √36 = 6 cm'], col)
+             'OM = '+RT('36')+' = 6 cm'], col)
     + ANS('Jarak PQ dari pusat O = 6 cm')
     + NOTE('Untuk mencari <b>jejari</b>, guna OQ² = OM² + MQ².'),
     svg(fig, 'Bulatan berjejari 10 cm, perentas PQ sepanjang 16 cm'))

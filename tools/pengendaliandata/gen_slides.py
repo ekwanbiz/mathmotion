@@ -2,6 +2,7 @@
 import os, sys, math
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 from t1lib import *
+from mathfmt import FR, RT, SFR, SRT
 OUT = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'pengendaliandata', 'slides.js'))
 SUB = {'8.1': ('Pengendalian dan Analisis Data', TR)}
 
@@ -82,7 +83,7 @@ add('8.1', '8.1 Carta palang', 'Carta palang berkelompok dan bertindan',
     svg(bars(['A', 'B', 'C'], [[12, 15, 10], [16, 13, 18]], [TR, PK], 30, 5, 'Kelas', 'Bilangan murid', True, ['Lelaki', 'Perempuan']), 'Carta palang bertindan'))
 assert 90 / 360 * 40 == 10
 add('8.1', '8.1 Carta pai', 'Carta pai',
-    BUL(['Sudut sektor = (kekerapan ÷ jumlah) × 360°.', '40 murid, 10 suka bola sepak: 10/40 × 360° = <b>90°</b>.', 'Bilangan = (sudut ÷ 360°) × jumlah.'], c),
+    BUL(['Sudut sektor = (kekerapan ÷ jumlah) × 360°.', f'40 murid, 10 suka bola sepak: {FR(10, 40)} × 360° = <b>90°</b>.', 'Bilangan = (sudut ÷ 360°) × jumlah.'], c),
     pie([('Bola sepak', 10, TR), ('Badminton', 15, AM), ('Bola jaring', 9, PK), ('Lain-lain', 6, GR)]))
 add('8.1', '8.1 Graf garis dan plot titik', 'Graf garis dan plot titik',
     BUL(['<b>Graf garis</b>: menunjukkan perubahan data mengikut masa (trend).', '<b>Plot titik</b>: setiap titik mewakili satu data pada garis nombor; mudah melihat nilai paling kerap.'], c),
@@ -105,7 +106,7 @@ add('8.1', '8.1 Tafsiran beretika', 'Perwakilan data yang beretika',
 assert 72 / 360 * 500 == 100 and 100 * 3 == 300
 add('8.1', 'Contoh 1', 'Masalah harian: carta pai perbelanjaan',
     P('Carta pai menunjukkan perbelanjaan bulanan RM500 seorang murid. Sektor makanan bersudut 144° dan sektor buku 72°. (a) Berapakah belanja makanan? (b) Berapa lebih belanja makanan berbanding buku?')
-    + STEPS(['Makanan = 144/360 × RM500 = RM200', 'Buku = 72/360 × RM500 = RM100', 'Beza = RM200 − RM100'], c) + ANS('(a) RM200 (b) RM100'),
+    + STEPS([f'Makanan = {FR(144, 360)} × RM500 = RM200', f'Buku = {FR(72, 360)} × RM500 = RM100', 'Beza = RM200 − RM100'], c) + ANS('(a) RM200 (b) RM100'),
     pie([('Makanan', 144, AM), ('Buku', 72, TR), ('Pengangkutan', 90, PK), ('Simpanan', 54, GR)]))
 assert 144 / 360 * 500 == 200
 

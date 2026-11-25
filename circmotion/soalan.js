@@ -8,8 +8,8 @@ const bn = x => String(Math.round(x * 1e4) / 1e4);                       // nomb
 const b2 = x => (Math.round(x * 100 + 1e-7) / 100).toFixed(2);            // bundar 2 tempat perpuluhan
 const blDp2 = x => Math.abs(x * 100 - Math.round(x * 100)) < 1e-6;        // ≤ 2 tempat perpuluhan?
 const blPiV = pi => (pi === 7 ? 22 / 7 : 3.142);
-const blPiS = pi => (pi === 7 ? '22/7' : '3.142');
-const blPiQ = pi => (pi === 7 ? 'Guna π = 22/7.' : 'Guna π = 3.142 dan beri jawapan betul kepada dua tempat perpuluhan.');
+const blPiS = pi => (pi === 7 ? fr(22, 7) : '3.142');
+const blPiQ = pi => (pi === 7 ? ('Guna π = ' + fr(22, 7) + '.') : 'Guna π = 3.142 dan beri jawapan betul kepada dua tempat perpuluhan.');
 const blAns = (pi, x, u) => `${pi === 7 ? bn(x) : b2(x)} ${u}`;
 const blRes = (pi, x, u) => {
   if (pi === 7) return `= ${bn(x)} ${u}`;
@@ -199,13 +199,13 @@ const QV = {
     ({ j, ab, A, B }) => ({ q: `Perentas ${A}${B} yang panjangnya ${ab} cm terletak dalam sebuah bulatan berpusat O berjejari ${j} cm. Cari jarak perentas itu dari O.` }),
     ({ j, ab, A, B, M }) => ({ q: `Dalam rajah di bawah, O${M} berserenjang dengan perentas ${A}${B}. Diberi ${A}${B} = ${ab} cm dan jejari bulatan = ${j} cm. Hitung panjang O${M}.` }),
     ({ j, ab }) => ({ q: `Sebuah roda berjejari ${j} cm mempunyai sebatang palang lurus sepanjang ${ab} cm yang kedua-dua hujungnya menyentuh bingkai roda. Berapakah jarak palang itu dari pusat roda?` }),
-    ({ j, ab, d, h, A, B, M }) => { const N = vnama(); return Object.assign({ q: `Perentas ${A}${B} = ${ab} cm dalam bulatan berjejari ${j} cm. ${N} mengira O${M} dengan √(${j}² − ${ab}²). Adakah kaedah ${N} betul?` }, salah(N, `O${M} = ${d} cm`, `${N} perlu guna separuh perentas, ${A}${M} = ${h} cm, bukan ${ab} cm.`)); }
+    ({ j, ab, d, h, A, B, M }) => { const N = vnama(); return Object.assign({ q: `Perentas ${A}${B} = ${ab} cm dalam bulatan berjejari ${j} cm. ${N} mengira O${M} dengan ${rt(`${j}² − ${ab}²`)}. Adakah kaedah ${N} betul?` }, salah(N, `O${M} = ${d} cm`, `${N} perlu guna separuh perentas, ${A}${M} = ${h} cm, bukan ${ab} cm.`)); }
   ],
   pitaJej: [
     ({ ab, d, A, B }) => ({ q: `Perentas ${A}${B} sepanjang ${ab} cm berada ${d} cm dari pusat bulatan O. Cari jejari bulatan itu.` }),
     ({ ab, d, A, B, M }) => ({ q: `Dalam rajah di bawah, O${M} berserenjang dengan ${A}${B}, ${A}${B} = ${ab} cm dan O${M} = ${d} cm. Hitung panjang O${A}.` }),
-    ({ ab, d, j, h }) => ({ q: `Sebiji pinggan bulat telah pecah. Pada serpihannya, seorang murid mengukur satu perentas sepanjang ${ab} cm. Jarak perentas itu dari pusat pinggan ialah ${d} cm. Berapakah diameter pinggan itu?`, ans: `${2 * j} cm`, work: [`Separuh perentas = ${ab} ÷ 2 = ${h} cm.`, `Jejari = √(${h}² + ${d}²) = √${h * h + d * d} = ${j} cm.`, `Diameter = 2 × ${j} = ${2 * j} cm.`] }),
-    ({ ab, d, j, h }) => { const N = vnama(); return Object.assign({ q: `Perentas sepanjang ${ab} cm berada ${d} cm dari pusat bulatan. ${N} mengira jejari dengan √(${ab}² + ${d}²). Adakah kaedah ${N} betul?` }, salah(N, `Jejari = ${j} cm`, `${N} perlu guna separuh perentas, iaitu ${h} cm.`)); }
+    ({ ab, d, j, h }) => ({ q: `Sebiji pinggan bulat telah pecah. Pada serpihannya, seorang murid mengukur satu perentas sepanjang ${ab} cm. Jarak perentas itu dari pusat pinggan ialah ${d} cm. Berapakah diameter pinggan itu?`, ans: `${2 * j} cm`, work: [`Separuh perentas = ${ab} ÷ 2 = ${h} cm.`, `Jejari = ${rt(`${h}² + ${d}²`)} = ${rt(h * h + d * d)} = ${j} cm.`, `Diameter = 2 × ${j} = ${2 * j} cm.`] }),
+    ({ ab, d, j, h }) => { const N = vnama(); return Object.assign({ q: `Perentas sepanjang ${ab} cm berada ${d} cm dari pusat bulatan. ${N} mengira jejari dengan ${rt(`${ab}² + ${d}²`)}. Adakah kaedah ${N} betul?` }, salah(N, `Jejari = ${j} cm`, `${N} perlu guna separuh perentas, iaitu ${h} cm.`)); }
   ],
   duaPer: [
     ({ j, ab, cd, same }) => ({ q: `Perentas AB dan CD adalah selari dalam sebuah bulatan berpusat O yang berjejari ${j} cm. AB = ${ab} cm dan CD = ${cd} cm. Kedua-dua perentas berada pada ${same ? 'sebelah yang sama' : 'sebelah yang bertentangan'} dengan pusat O. Cari jarak di antara dua perentas itu.` }),
@@ -214,8 +214,8 @@ const QV = {
   ],
   diaSer: [
     ({ j, ab }) => ({ q: `Dalam rajah di bawah, diameter CD berserenjang dengan perentas AB di M. Jejari bulatan ialah ${j} cm dan AB = ${ab} cm. Cari panjang MD.` }),
-    ({ j, ab, d }) => ({ q: `Diameter CD sebuah bulatan berpusat O berserenjang dengan perentas AB di M. Diberi jejari = ${j} cm dan AB = ${ab} cm. Hitung panjang CM.`, ans: `${j + d} cm`, work: [`AM = ${ab} ÷ 2 = ${ab / 2} cm.`, `OM = √(${j}² − ${ab / 2}²) = ${d} cm.`, `CM = CO + OM = ${j} + ${d} = ${j + d} cm.`] }),
-    ({ j, ab, d }) => ({ q: `Sebuah terowong air berbentuk bulatan mempunyai jejari ${j} m. Permukaan air di dalam terowong itu membentuk perentas selebar ${ab} m di bawah pusat. Berapakah kedalaman air yang paling dalam?`, ans: `${j - d} m`, work: [`Separuh lebar permukaan air = ${ab} ÷ 2 = ${ab / 2} m.`, `Jarak permukaan air dari pusat = √(${j}² − ${ab / 2}²) = ${d} m.`, `Kedalaman = ${j} − ${d} = ${j - d} m.`] })
+    ({ j, ab, d }) => ({ q: `Diameter CD sebuah bulatan berpusat O berserenjang dengan perentas AB di M. Diberi jejari = ${j} cm dan AB = ${ab} cm. Hitung panjang CM.`, ans: `${j + d} cm`, work: [`AM = ${ab} ÷ 2 = ${ab / 2} cm.`, `OM = ${rt(`${j}² − ${ab / 2}²`)} = ${d} cm.`, `CM = CO + OM = ${j} + ${d} = ${j + d} cm.`] }),
+    ({ j, ab, d }) => ({ q: `Sebuah terowong air berbentuk bulatan mempunyai jejari ${j} m. Permukaan air di dalam terowong itu membentuk perentas selebar ${ab} m di bawah pusat. Berapakah kedalaman air yang paling dalam?`, ans: `${j - d} m`, work: [`Separuh lebar permukaan air = ${ab} ÷ 2 = ${ab / 2} m.`, `Jarak permukaan air dari pusat = ${rt(`${j}² − ${ab / 2}²`)} = ${d} m.`, `Kedalaman = ${j} − ${d} = ${j - d} m.`] })
   ],
 
   /* ---------- 5.3 Lilitan dan Luas ---------- */
@@ -238,28 +238,28 @@ const QV = {
   cariJL: [
     ({ L, u, pt }) => ({ q: `Lilitan sebuah bulatan ialah ${L} ${u}. Cari jejari bulatan itu. ${pt}` }),
     ({ L, u, pt }) => ({ q: `Sebuah gelung rotan mempunyai lilitan ${L} ${u}. Berapakah jejari gelung itu? ${pt}` }),
-    ({ L, u, j, pt }) => ({ q: `Lilitan sebuah bulatan ialah ${L} ${u}. Cari diameter bulatan itu. ${pt}`, ans: `${bn(2 * j)} ${u}`, work: ['Lilitan = πd.', `d = ${L} ÷ ${pt.includes('22/7') ? '22/7' : '3.142'}`, `= ${bn(2 * j)} ${u}`] }),
+    ({ L, u, j, pt }) => ({ q: `Lilitan sebuah bulatan ialah ${L} ${u}. Cari diameter bulatan itu. ${pt}`, ans: `${bn(2 * j)} ${u}`, work: ['Lilitan = πd.', `d = ${L} ÷ ${pt.includes(fr(22, 7)) ? fr(22, 7) : '3.142'}`, `= ${bn(2 * j)} ${u}`] }),
     ({ L, u, j, pt }) => { const N = vnama(); return Object.assign({ q: `Lilitan sebuah bulatan ialah ${L} ${u}. ${N} berkata jejari bulatan itu ialah ${bn(2 * j)} ${u}. Adakah ${N} betul? ${pt}` }, salah(N, `${bn(j)} ${u}`, `${bn(2 * j)} ${u} ialah diameter; jejari = diameter ÷ 2.`)); }
   ],
   cariJA: [
     ({ A, u, pt }) => ({ q: `Luas sebuah bulatan ialah ${A} ${u}². Cari jejari bulatan itu. ${pt}` }),
     ({ A, u, pt }) => ({ q: `Sebuah kolam berbentuk bulatan mempunyai luas permukaan ${A} ${u}². Berapakah jejari kolam itu? ${pt}` }),
-    ({ A, u, j, pt }) => ({ q: `Luas sebuah bulatan ialah ${A} ${u}². Cari diameter bulatan itu. ${pt}`, ans: `${bn(2 * j)} ${u}`, work: [`j² = ${A} ÷ ${pt.includes('22/7') ? '22/7' : '3.142'} = ${bn(j * j)}`, `j = √${bn(j * j)} = ${bn(j)} ${u}`, `Diameter = 2 × ${bn(j)} = ${bn(2 * j)} ${u}`] }),
+    ({ A, u, j, pt }) => ({ q: `Luas sebuah bulatan ialah ${A} ${u}². Cari diameter bulatan itu. ${pt}`, ans: `${bn(2 * j)} ${u}`, work: [`j² = ${A} ÷ ${pt.includes(fr(22, 7)) ? fr(22, 7) : '3.142'} = ${bn(j * j)}`, `j = ${rt(bn(j * j))} = ${bn(j)} ${u}`, `Diameter = 2 × ${bn(j)} = ${bn(2 * j)} ${u}`] }),
     ({ A, u, j, pt }) => { const N = vnama(); return Object.assign({ q: `Luas sebuah bulatan ialah ${A} ${u}². ${N} berkata jejarinya ialah ${bn(j * j)} ${u}. Adakah ${N} betul? ${pt}` }, salah(N, `${bn(j)} ${u}`, `${N} lupa mencari punca kuasa dua: j² = ${bn(j * j)}, maka j = ${bn(j)}.`)); }
   ],
   lengkok: [
     ({ j, th, A, B, pt }) => ({ q: `Rajah di bawah menunjukkan sektor ${A}O${B} dengan jejari ${j} cm dan ∠${A}O${B} = ${th}°. Cari panjang lengkok ${A}${B}. ${pt}` }),
     ({ j, th, pt }) => ({ q: `Hitung panjang lengkok bagi sebuah bulatan berjejari ${j} cm yang mencangkum sudut ${th}° di pusat. ${pt}` }),
     ({ j, th, pt }) => ({ q: `Jarum minit sebuah jam dinding panjangnya ${j} cm. Jarum itu berputar sebanyak ${th}°. Berapakah panjang lengkok yang dilalui oleh hujung jarum itu? ${pt}` }),
-    ({ j, th, ans, pt }) => { const N = vnama(); return Object.assign({ q: `${N} mengira panjang lengkok bagi sektor berjejari ${j} cm dan bersudut ${th}° dengan rumus ${th}°/360° × πj². Adakah kaedah ${N} betul? Jika tidak, cari panjang lengkok yang betul. ${pt}` }, salah(N, ans, 'Rumus itu untuk luas sektor. Panjang lengkok = θ/360° × 2πj.')); },
-    ({ j, th, pt }) => ({ q: `Lengkapkan: Panjang lengkok = ${th}°/360° × 2 × π × ${j} = ___ cm. ${pt}` })
+    ({ j, th, ans, pt }) => { const N = vnama(); return Object.assign({ q: `${N} mengira panjang lengkok bagi sektor berjejari ${j} cm dan bersudut ${th}° dengan rumus ${fr(`${th}°`, '360°')} × πj². Adakah kaedah ${N} betul? Jika tidak, cari panjang lengkok yang betul. ${pt}` }, salah(N, ans, ('Rumus itu untuk luas sektor. Panjang lengkok = ' + fr('θ', '360°') + ' × 2πj.'))); },
+    ({ j, th, pt }) => ({ q: `Lengkapkan: Panjang lengkok = ${fr(`${th}°`, '360°')} × 2 × π × ${j} = ___ cm. ${pt}` })
   ],
   sektor: [
     ({ j, th, A, B, pt }) => ({ q: `Rajah di bawah menunjukkan sektor ${A}O${B} dengan jejari ${j} cm dan ∠${A}O${B} = ${th}°. Cari luas sektor ${A}O${B}. ${pt}` }),
     ({ j, th, pt }) => ({ q: `Hitung luas sektor sebuah bulatan berjejari ${j} cm jika sudut di pusat sektor itu ialah ${th}°. ${pt}` }),
     ({ j, th, pt }) => ({ q: `Sebiji kek berbentuk bulatan berjejari ${j} cm. Sepotong kek berbentuk sektor dengan sudut ${th}° dipotong. Hitung luas permukaan atas potongan kek itu. ${pt}` }),
-    ({ j, th, ans, pt }) => { const N = vnama(); return Object.assign({ q: `${N} mengira luas sektor berjejari ${j} cm dan bersudut ${th}° dengan rumus ${th}°/360° × 2πj. Adakah kaedah ${N} betul? Jika tidak, cari luas yang betul. ${pt}` }, salah(N, ans, 'Rumus itu untuk panjang lengkok. Luas sektor = θ/360° × πj².')); },
-    ({ j, th, pt }) => ({ q: `Lengkapkan: Luas sektor = ${th}°/360° × π × ${j}² = ___ cm². ${pt}` })
+    ({ j, th, ans, pt }) => { const N = vnama(); return Object.assign({ q: `${N} mengira luas sektor berjejari ${j} cm dan bersudut ${th}° dengan rumus ${fr(`${th}°`, '360°')} × 2πj. Adakah kaedah ${N} betul? Jika tidak, cari luas yang betul. ${pt}` }, salah(N, ans, ('Rumus itu untuk panjang lengkok. Luas sektor = ' + fr('θ', '360°') + ' × πj².'))); },
+    ({ j, th, pt }) => ({ q: `Lengkapkan: Luas sektor = ${fr(`${th}°`, '360°')} × π × ${j}² = ___ cm². ${pt}` })
   ],
   sudutL: [
     ({ j, L, A, B, pt }) => ({ q: `Panjang lengkok ${A}${B} bagi sebuah bulatan berpusat O yang berjejari ${j} cm ialah ${L} cm. Cari ∠${A}O${B}. ${pt}` }),
@@ -274,32 +274,32 @@ const QV = {
   jejL: [
     ({ L, th, pt }) => ({ q: `Panjang lengkok minor sebuah bulatan ialah ${L} cm dan sudut di pusatnya ${th}°. Cari jejari bulatan itu. ${pt}` }),
     ({ L, th, pt }) => ({ q: `Sebuah bandul berayun melalui sudut ${th}°. Hujungnya melalui lengkok sepanjang ${L} cm. Berapakah panjang bandul itu? ${pt}` }),
-    ({ L, th, j, pt }) => ({ q: `Sektor bersudut ${th}° mempunyai panjang lengkok ${L} cm. Cari diameter bulatan itu. ${pt}`, ans: `${2 * j} cm`, work: [`${th}°/360° × 2 × 22/7 × j = ${L}`, `j = ${j} cm`, `Diameter = 2 × ${j} = ${2 * j} cm`] })
+    ({ L, th, j, pt }) => ({ q: `Sektor bersudut ${th}° mempunyai panjang lengkok ${L} cm. Cari diameter bulatan itu. ${pt}`, ans: `${2 * j} cm`, work: [`${fr(`${th}°`, '360°')} × 2 × ${fr(22, 7)} × j = ${L}`, `j = ${j} cm`, `Diameter = 2 × ${j} = ${2 * j} cm`] })
   ],
   roda: [
-    ({ D, n, m }) => ({ q: `Diameter sebuah roda basikal ialah ${D} cm. Hitung jarak, dalam m, yang dilalui oleh basikal itu apabila rodanya berputar ${n} kali. Guna π = 22/7.`, ans: `${bn(m)} m` }),
-    ({ D, n, m }) => ({ q: `Sebuah roda pengukur jalan berdiameter ${D} cm berputar ${n} kali di sepanjang sebatang jalan. Berapakah panjang jalan itu, dalam meter? Guna π = 22/7.`, ans: `${bn(m)} m` }),
-    ({ D, n, m, c }) => ({ q: `Roda sebuah kereta sorong mempunyai diameter ${D} cm. Berapakah bilangan putaran lengkap roda itu untuk bergerak sejauh ${bn(m)} m? Guna π = 22/7.`, ans: `${n} putaran`, work: [`Lilitan roda = πd = 22/7 × ${D} = ${c} cm.`, `${bn(m)} m = ${bn(m * 100)} cm.`, `Bilangan putaran = ${bn(m * 100)} ÷ ${c} = ${n}.`] })
+    ({ D, n, m }) => ({ q: `Diameter sebuah roda basikal ialah ${D} cm. Hitung jarak, dalam m, yang dilalui oleh basikal itu apabila rodanya berputar ${n} kali. Guna π = ${fr(22, 7)}.`, ans: `${bn(m)} m` }),
+    ({ D, n, m }) => ({ q: `Sebuah roda pengukur jalan berdiameter ${D} cm berputar ${n} kali di sepanjang sebatang jalan. Berapakah panjang jalan itu, dalam meter? Guna π = ${fr(22, 7)}.`, ans: `${bn(m)} m` }),
+    ({ D, n, m, c }) => ({ q: `Roda sebuah kereta sorong mempunyai diameter ${D} cm. Berapakah bilangan putaran lengkap roda itu untuk bergerak sejauh ${bn(m)} m? Guna π = ${fr(22, 7)}.`, ans: `${n} putaran`, work: [`Lilitan roda = πd = ${fr(22, 7)} × ${D} = ${c} cm.`, `${bn(m)} m = ${bn(m * 100)} cm.`, `Bilangan putaran = ${bn(m * 100)} ÷ ${c} = ${n}.`] })
   ],
   trek: [
-    ({ Pj, D, per }) => ({ q: `Rajah di bawah menunjukkan sebuah trek larian yang terdiri daripada dua garis lurus sepanjang ${Pj} m dan dua separuh bulatan berdiameter ${D} m. Hitung perimeter trek itu. Guna π = 22/7.`, ans: `${bn(per)} m` }),
-    ({ Pj, D, area }) => ({ q: `Rajah di bawah menunjukkan sebuah padang berbentuk segi empat tepat ${Pj} m × ${D} m dengan separuh bulatan pada kedua-dua hujungnya. Hitung luas padang itu. Guna π = 22/7.`, ans: `${bn(area)} m²`, work: [`Luas segi empat tepat = ${Pj} × ${D} = ${Pj * D} m².`, `Dua separuh bulatan = satu bulatan: 22/7 × ${D / 2}² = ${bn(area - Pj * D)} m².`, `Luas padang = ${Pj * D} + ${bn(area - Pj * D)} = ${bn(area)} m².`] }),
-    ({ Pj, D, per, n }) => ({ q: `Seorang atlet berlari ${n} pusingan mengelilingi trek di bawah. Trek itu terdiri daripada dua garis lurus sepanjang ${Pj} m dan dua separuh bulatan berdiameter ${D} m. Berapakah jumlah jarak larian atlet itu? Guna π = 22/7.`, ans: `${bn(n * per)} m`, work: [`Satu pusingan = 2 × ${Pj} + 22/7 × ${D} = ${bn(per)} m.`, `Jumlah jarak = ${n} × ${bn(per)} = ${bn(n * per)} m.`] })
+    ({ Pj, D, per }) => ({ q: `Rajah di bawah menunjukkan sebuah trek larian yang terdiri daripada dua garis lurus sepanjang ${Pj} m dan dua separuh bulatan berdiameter ${D} m. Hitung perimeter trek itu. Guna π = ${fr(22, 7)}.`, ans: `${bn(per)} m` }),
+    ({ Pj, D, area }) => ({ q: `Rajah di bawah menunjukkan sebuah padang berbentuk segi empat tepat ${Pj} m × ${D} m dengan separuh bulatan pada kedua-dua hujungnya. Hitung luas padang itu. Guna π = ${fr(22, 7)}.`, ans: `${bn(area)} m²`, work: [`Luas segi empat tepat = ${Pj} × ${D} = ${Pj * D} m².`, `Dua separuh bulatan = satu bulatan: ${fr(22, 7)} × ${D / 2}² = ${bn(area - Pj * D)} m².`, `Luas padang = ${Pj * D} + ${bn(area - Pj * D)} = ${bn(area)} m².`] }),
+    ({ Pj, D, per, n }) => ({ q: `Seorang atlet berlari ${n} pusingan mengelilingi trek di bawah. Trek itu terdiri daripada dua garis lurus sepanjang ${Pj} m dan dua separuh bulatan berdiameter ${D} m. Berapakah jumlah jarak larian atlet itu? Guna π = ${fr(22, 7)}.`, ans: `${bn(n * per)} m`, work: [`Satu pusingan = 2 × ${Pj} + ${fr(22, 7)} × ${D} = ${bn(per)} m.`, `Jumlah jarak = ${n} × ${bn(per)} = ${bn(n * per)} m.`] })
   ],
   gelang: [
-    ({ R, r }) => ({ q: `Rajah di bawah menunjukkan dua bulatan sepusat berjejari ${R} cm dan ${r} cm. Hitung luas kawasan berlorek di antara dua bulatan itu. Guna π = 22/7.`, ans: `${bn(22 / 7 * (R * R - r * r))} cm²` }),
-    ({ R, r }) => ({ q: `Sebuah kolam bulat berjejari ${r} m dikelilingi oleh laluan pejalan kaki selebar ${R - r} m. Cari luas laluan itu. Guna π = 22/7.`, ans: `${bn(22 / 7 * (R * R - r * r))} m²`, pre: [`Jejari luar = ${r} + ${R - r} = ${R} m.`] }),
-    ({ R, r }) => ({ q: `Sebuah cincin logam berbentuk gelang mempunyai jejari luar ${R} mm dan jejari dalam ${r} mm. Cari luas permukaan cincin itu. Guna π = 22/7.`, ans: `${bn(22 / 7 * (R * R - r * r))} mm²` })
+    ({ R, r }) => ({ q: `Rajah di bawah menunjukkan dua bulatan sepusat berjejari ${R} cm dan ${r} cm. Hitung luas kawasan berlorek di antara dua bulatan itu. Guna π = ${fr(22, 7)}.`, ans: `${bn(22 / 7 * (R * R - r * r))} cm²` }),
+    ({ R, r }) => ({ q: `Sebuah kolam bulat berjejari ${r} m dikelilingi oleh laluan pejalan kaki selebar ${R - r} m. Cari luas laluan itu. Guna π = ${fr(22, 7)}.`, ans: `${bn(22 / 7 * (R * R - r * r))} m²`, pre: [`Jejari luar = ${r} + ${R - r} = ${R} m.`] }),
+    ({ R, r }) => ({ q: `Sebuah cincin logam berbentuk gelang mempunyai jejari luar ${R} mm dan jejari dalam ${r} mm. Cari luas permukaan cincin itu. Guna π = ${fr(22, 7)}.`, ans: `${bn(22 / 7 * (R * R - r * r))} mm²` })
   ],
   pizza: [
-    ({ j, n }) => ({ q: `Sebiji pizza berbentuk bulatan berjejari ${j} cm dipotong kepada ${n} keping sektor yang sama besar. Hitung luas sekeping pizza. Guna π = 22/7.`, ans: `${bn(22 / 7 * j * j / n)} cm²`, work: [`Sudut setiap keping = 360° ÷ ${n} = ${bn(360 / n)}°.`, `Luas sekeping = 1/${n} × 22/7 × ${j}²`, `= ${bn(22 / 7 * j * j / n)} cm²`] }),
-    ({ j, n }) => ({ q: `Sebiji pizza berjejari ${j} cm dipotong kepada ${n} keping sektor yang sama besar. Cari panjang tepi lengkok bagi sekeping pizza. Guna π = 22/7.`, ans: `${bn(44 / 7 * j / n)} cm`, work: [`Lilitan pizza = 2 × 22/7 × ${j} = ${bn(44 / 7 * j)} cm.`, `Panjang lengkok sekeping = ${bn(44 / 7 * j)} ÷ ${n} = ${bn(44 / 7 * j / n)} cm.`] }),
-    ({ j, n }) => ({ q: `Sebiji pizza berjejari ${j} cm dipotong kepada ${n} keping sektor yang sama besar. Hitung perimeter sekeping pizza. Guna π = 22/7.`, ans: `${bn(44 / 7 * j / n + 2 * j)} cm`, work: [`Panjang lengkok = 2 × 22/7 × ${j} ÷ ${n} = ${bn(44 / 7 * j / n)} cm.`, `Perimeter = lengkok + 2 jejari = ${bn(44 / 7 * j / n)} + ${2 * j}`, `= ${bn(44 / 7 * j / n + 2 * j)} cm`] })
+    ({ j, n }) => ({ q: `Sebiji pizza berbentuk bulatan berjejari ${j} cm dipotong kepada ${n} keping sektor yang sama besar. Hitung luas sekeping pizza. Guna π = ${fr(22, 7)}.`, ans: `${bn(22 / 7 * j * j / n)} cm²`, work: [`Sudut setiap keping = 360° ÷ ${n} = ${bn(360 / n)}°.`, `Luas sekeping = ${fr(1, n)} × ${fr(22, 7)} × ${j}²`, `= ${bn(22 / 7 * j * j / n)} cm²`] }),
+    ({ j, n }) => ({ q: `Sebiji pizza berjejari ${j} cm dipotong kepada ${n} keping sektor yang sama besar. Cari panjang tepi lengkok bagi sekeping pizza. Guna π = ${fr(22, 7)}.`, ans: `${bn(44 / 7 * j / n)} cm`, work: [`Lilitan pizza = 2 × ${fr(22, 7)} × ${j} = ${bn(44 / 7 * j)} cm.`, `Panjang lengkok sekeping = ${bn(44 / 7 * j)} ÷ ${n} = ${bn(44 / 7 * j / n)} cm.`] }),
+    ({ j, n }) => ({ q: `Sebiji pizza berjejari ${j} cm dipotong kepada ${n} keping sektor yang sama besar. Hitung perimeter sekeping pizza. Guna π = ${fr(22, 7)}.`, ans: `${bn(44 / 7 * j / n + 2 * j)} cm`, work: [`Panjang lengkok = 2 × ${fr(22, 7)} × ${j} ÷ ${n} = ${bn(44 / 7 * j / n)} cm.`, `Perimeter = lengkok + 2 jejari = ${bn(44 / 7 * j / n)} + ${2 * j}`, `= ${bn(44 / 7 * j / n + 2 * j)} cm`] })
   ],
   separuh: [
-    ({ D }) => ({ q: `Rajah di bawah menunjukkan sebuah separuh bulatan berdiameter ${D} cm. Hitung perimeter rajah itu. Guna π = 22/7.`, ans: `${bn(11 / 7 * D + D)} cm`, work: [`Panjang lengkok = ½ × 22/7 × ${D} = ${bn(11 / 7 * D)} cm.`, `Perimeter = lengkok + diameter = ${bn(11 / 7 * D)} + ${D}`, `= ${bn(11 / 7 * D + D)} cm`] }),
-    ({ D }) => ({ q: `Sebuah tingkap berbentuk separuh bulatan mempunyai diameter ${D} cm. Hitung luas tingkap itu. Guna π = 22/7.`, ans: `${bn(11 / 7 * D * D / 4)} cm²`, work: [`Jejari = ${D} ÷ 2 = ${D / 2} cm.`, `Luas = ½ × 22/7 × ${D / 2}²`, `= ${bn(11 / 7 * D * D / 4)} cm²`] }),
-    ({ D }) => { const N = vnama(); return Object.assign({ q: `${N} berkata perimeter sebuah separuh bulatan berdiameter ${D} cm ialah ${bn(11 / 7 * D)} cm. Adakah ${N} betul? Guna π = 22/7.` }, salah(N, `${bn(11 / 7 * D + D)} cm`, `${N} lupa menambah panjang diameter (sisi lurus): ${bn(11 / 7 * D)} + ${D} = ${bn(11 / 7 * D + D)} cm.`)); }
+    ({ D }) => ({ q: `Rajah di bawah menunjukkan sebuah separuh bulatan berdiameter ${D} cm. Hitung perimeter rajah itu. Guna π = ${fr(22, 7)}.`, ans: `${bn(11 / 7 * D + D)} cm`, work: [`Panjang lengkok = ${fr(1, 2)} × ${fr(22, 7)} × ${D} = ${bn(11 / 7 * D)} cm.`, `Perimeter = lengkok + diameter = ${bn(11 / 7 * D)} + ${D}`, `= ${bn(11 / 7 * D + D)} cm`] }),
+    ({ D }) => ({ q: `Sebuah tingkap berbentuk separuh bulatan mempunyai diameter ${D} cm. Hitung luas tingkap itu. Guna π = ${fr(22, 7)}.`, ans: `${bn(11 / 7 * D * D / 4)} cm²`, work: [`Jejari = ${D} ÷ 2 = ${D / 2} cm.`, `Luas = ${fr(1, 2)} × ${fr(22, 7)} × ${D / 2}²`, `= ${bn(11 / 7 * D * D / 4)} cm²`] }),
+    ({ D }) => { const N = vnama(); return Object.assign({ q: `${N} berkata perimeter sebuah separuh bulatan berdiameter ${D} cm ialah ${bn(11 / 7 * D)} cm. Adakah ${N} betul? Guna π = ${fr(22, 7)}.` }, salah(N, `${bn(11 / 7 * D + D)} cm`, `${N} lupa menambah panjang diameter (sisi lurus): ${bn(11 / 7 * D)} + ${D} = ${bn(11 / 7 * D + D)} cm.`)); }
   ]
 };
 
@@ -410,27 +410,27 @@ const blPyFig = (j, d, h, L, show) => {
 };
 BL.pitaPer = r => {
   const { h, d, j } = blTri(r), [A, B, M] = r.p(BLHUR);
-  return GEN_LQ('pitaPer', { j, d, h, A, B, M, ans: `${A}${B} = ${2 * h} cm`, work: blPyW(A, B, M).concat([`${A}${M} = √(${j}² − ${d}²) = √${j * j - d * d} = ${h} cm`, `${A}${B} = 2 × ${h} = ${2 * h} cm`]) }, blPyFig(j, d, h, [A, B, M]));
+  return GEN_LQ('pitaPer', { j, d, h, A, B, M, ans: `${A}${B} = ${2 * h} cm`, work: blPyW(A, B, M).concat([`${A}${M} = ${rt(`${j}² − ${d}²`)} = ${rt(j * j - d * d)} = ${h} cm`, `${A}${B} = 2 × ${h} = ${2 * h} cm`]) }, blPyFig(j, d, h, [A, B, M]));
 };
 BL.pitaJar = r => {
   const { h, d, j } = blTri(r), [A, B, M] = r.p(BLHUR), ab = 2 * h;
-  return GEN_LQ('pitaJar', { j, d, h, ab, A, B, M, ans: `O${M} = ${d} cm`, work: [`${A}${M} = ${ab} ÷ 2 = ${h} cm`, `O${M} = √(${j}² − ${h}²) = √${j * j - h * h} = ${d} cm`] }, blPyFig(j, d, h, [A, B, M]));
+  return GEN_LQ('pitaJar', { j, d, h, ab, A, B, M, ans: `O${M} = ${d} cm`, work: [`${A}${M} = ${ab} ÷ 2 = ${h} cm`, `O${M} = ${rt(`${j}² − ${h}²`)} = ${rt(j * j - h * h)} = ${d} cm`] }, blPyFig(j, d, h, [A, B, M]));
 };
 BL.pitaJej = r => {
   const { h, d, j } = blTri(r), [A, B, M] = r.p(BLHUR), ab = 2 * h;
-  return GEN_LQ('pitaJej', { j, d, h, ab, A, B, M, ans: `${j} cm`, work: [`${A}${M} = ${ab} ÷ 2 = ${h} cm`, `O${A} = √(${h}² + ${d}²) = √${h * h + d * d} = ${j} cm`] }, blPyFig(j, d, h, [A, B, M]));
+  return GEN_LQ('pitaJej', { j, d, h, ab, A, B, M, ans: `${j} cm`, work: [`${A}${M} = ${ab} ÷ 2 = ${h} cm`, `O${A} = ${rt(`${h}² + ${d}²`)} = ${rt(h * h + d * d)} = ${j} cm`] }, blPyFig(j, d, h, [A, B, M]));
 };
 BL.duaPer = r => {
   const j = +r.p(Object.keys(BLDUA)), pr2 = blShuf(r, BLDUA[j]).slice(0, 2), same = r.f() < .5;
   let [[h1, d1], [h2, d2]] = pr2; if (d1 < d2) [[h1, d1], [h2, d2]] = [[h2, d2], [h1, d1]];
   const ab = 2 * h1, cd = 2 * h2, dist = same ? d1 - d2 : d1 + d2;
   const s = blCirc('mu', 3) + blChordIn(d1 / j, ['A', 'B', 'M'], 0, { mp: [20, 100 * d1 / j - 14] }) + blChordIn(d2 / j, ['C', 'D', 'N'], same ? 0 : 180, { c: 'gr', mp: [20, 100 * d2 / j - 14] }) + blO([-18, same ? -12 : 0]);
-  return GEN_LQ('duaPer', { j, ab, cd, same, ans: `${dist} cm`, work: [`Jarak AB dari O: OM = √(${j}² − ${h1}²) = ${d1} cm.`, `Jarak CD dari O: ON = √(${j}² − ${h2}²) = ${d2} cm.`, same ? `Sebelah yang sama: MN = ${d1} − ${d2} = ${dist} cm.` : `Sebelah bertentangan: MN = ${d1} + ${d2} = ${dist} cm.`] }, { fig: blSvg(s, 'Bulatan dengan dua perentas selari') });
+  return GEN_LQ('duaPer', { j, ab, cd, same, ans: `${dist} cm`, work: [`Jarak AB dari O: OM = ${rt(`${j}² − ${h1}²`)} = ${d1} cm.`, `Jarak CD dari O: ON = ${rt(`${j}² − ${h2}²`)} = ${d2} cm.`, same ? `Sebelah yang sama: MN = ${d1} − ${d2} = ${dist} cm.` : `Sebelah bertentangan: MN = ${d1} + ${d2} = ${dist} cm.`] }, { fig: blSvg(s, 'Bulatan dengan dua perentas selari') });
 };
 BL.diaSer = r => {
   const { h, d, j } = blTri(r), ab = 2 * h, t = d / j;
   const s = blCirc('mu', 3) + blLn([0, -100], [0, 100], 'pu', 3) + blChordIn(t, ['A', 'B', 'M'], 0, { mp: [-19, 100 * t - 14] }) + blDot([0, -100]) + blDot([0, 100]) + blTxt([0, -116], 'C') + blTxt([0, 117], 'D') + blO([16, -14]);
-  return GEN_LQ('diaSer', { j, ab, d, ans: `${j - d} cm`, work: [`AM = ${ab} ÷ 2 = ${h} cm.`, `OM = √(${j}² − ${h}²) = ${d} cm.`, `MD = OD − OM = ${j} − ${d} = ${j - d} cm.`] }, { fig: blSvg(s, 'Diameter berserenjang dengan perentas') });
+  return GEN_LQ('diaSer', { j, ab, d, ans: `${j - d} cm`, work: [`AM = ${ab} ÷ 2 = ${h} cm.`, `OM = ${rt(`${j}² − ${h}²`)} = ${d} cm.`, `MD = OD − OM = ${j} − ${d} = ${j - d} cm.`] }, { fig: blSvg(s, 'Diameter berserenjang dengan perentas') });
 };
 
 /* ---------- 5.3 ---------- */
@@ -457,9 +457,9 @@ BL.luas = (r, pi, useD) => {
 BL.cariJ = (r, kind) => {
   kind = kind || (r.f() < .5 ? 'L' : 'A');
   const pi = r.f() < .7 ? 7 : 3, u = r.p(['cm', 'cm', 'm']), j = pi === 7 ? r.p([7, 14, 21, 28, 35]) : r.p([5, 10, 15, 20]), pt = blPiQ(pi);
-  if (kind === 'L') { const L = bn(2 * blPiV(pi) * j); return GEN_LQ('cariJL', { L, u, j, pt, ans: `${j} ${u}`, work: ['Lilitan = 2πj', `2 × ${blPiS(pi)} × j = ${L}`, `j = ${L} ÷ ${bn(2 * blPiV(pi))} = ${j} ${u}`.replace(`÷ ${bn(2 * 22 / 7)}`, '÷ 44/7')] }); }
+  if (kind === 'L') { const L = bn(2 * blPiV(pi) * j); return GEN_LQ('cariJL', { L, u, j, pt, ans: `${j} ${u}`, work: ['Lilitan = 2πj', `2 × ${blPiS(pi)} × j = ${L}`, `j = ${L} ÷ ${bn(2 * blPiV(pi))} = ${j} ${u}`.replace(`÷ ${bn(2 * 22 / 7)}`, ('÷ ' + fr(44, 7)))] }); }
   const A = bn(blPiV(pi) * j * j);
-  return GEN_LQ('cariJA', { A, u, j, pt, ans: `${j} ${u}`, work: [`πj² = ${A}`, `j² = ${A} ÷ ${blPiS(pi)} = ${j * j}`, `j = √${j * j} = ${j} ${u}`] });
+  return GEN_LQ('cariJA', { A, u, j, pt, ans: `${j} ${u}`, work: [`πj² = ${A}`, `j² = ${A} ÷ ${blPiS(pi)} = ${j * j}`, `j = ${rt(j * j)} = ${j} ${u}`] });
 };
 function blArcData(r, pi, easy) {
   for (let t = 0; t < 300; t++) {
@@ -473,28 +473,28 @@ function blArcData(r, pi, easy) {
 BL.lengkok = (r, pi, easy) => {
   pi = pi || r.p([7, 7, 3]);
   const { th, j, L } = blArcData(r, pi, easy), [A, B] = r.p([['A', 'B'], ['P', 'Q'], ['M', 'N'], ['R', 'S']]);
-  return GEN_LQ('lengkok', { j, th, A, B, pt: blPiQ(pi), ans: blAns(pi, L, 'cm'), work: ['Panjang lengkok = θ/360° × 2πj', `= ${th}°/360° × 2 × ${blPiS(pi)} × ${j}`, blRes(pi, L, 'cm')] }, { fig: blSekFig(th, r.i(0, 359), { arc: true, th: `${th}°`, jl: `${j} cm`, L: [A, B], c: 'tr' }) });
+  return GEN_LQ('lengkok', { j, th, A, B, pt: blPiQ(pi), ans: blAns(pi, L, 'cm'), work: [('Panjang lengkok = ' + fr('θ', '360°') + ' × 2πj'), `= ${fr(`${th}°`, '360°')} × 2 × ${blPiS(pi)} × ${j}`, blRes(pi, L, 'cm')] }, { fig: blSekFig(th, r.i(0, 359), { arc: true, th: `${th}°`, jl: `${j} cm`, L: [A, B], c: 'tr' }) });
 };
 BL.sektor = (r, pi, easy) => {
   pi = pi || r.p([7, 7, 3]);
   const { th, j, S } = blArcData(r, pi, easy), [A, B] = r.p([['A', 'B'], ['P', 'Q'], ['M', 'N'], ['R', 'S']]);
-  return GEN_LQ('sektor', { j, th, A, B, pt: blPiQ(pi), ans: blAns(pi, S, 'cm²'), work: ['Luas sektor = θ/360° × πj²', `= ${th}°/360° × ${blPiS(pi)} × ${j}²`, blRes(pi, S, 'cm²')] }, { fig: blSekFig(th, r.i(0, 359), { th: `${th}°`, jl: `${j} cm`, L: [A, B], c: 'gr' }) });
+  return GEN_LQ('sektor', { j, th, A, B, pt: blPiQ(pi), ans: blAns(pi, S, 'cm²'), work: [('Luas sektor = ' + fr('θ', '360°') + ' × πj²'), `= ${fr(`${th}°`, '360°')} × ${blPiS(pi)} × ${j}²`, blRes(pi, S, 'cm²')] }, { fig: blSekFig(th, r.i(0, 359), { th: `${th}°`, jl: `${j} cm`, L: [A, B], c: 'gr' }) });
 };
 BL.sudut = (r, kind) => {
   kind = kind || (r.f() < .5 ? 'L' : 'S');
   let a; do a = blArcData(r, 7); while (kind === 'S' && a.th > 180);
   const { th, j, L, S } = a, [A, B] = r.p([['A', 'B'], ['P', 'Q'], ['M', 'N']]), pt = blPiQ(7), fig = blSekFig(th, r.i(0, 359), { arc: kind === 'L', th: 'θ', jl: `${j} cm`, L: [A, B], c: kind === 'L' ? 'tr' : 'gr' });
-  if (kind === 'L') return GEN_LQ('sudutL', { j, L: bn(L), A, B, pt, ans: `${th}°`, work: [`θ/360° × 2 × 22/7 × ${j} = ${bn(L)}`, `θ/360° × ${bn(44 / 7 * j)} = ${bn(L)}`, `θ = ${bn(L)} ÷ ${bn(44 / 7 * j)} × 360° = ${th}°`] }, { fig });
-  return GEN_LQ('sudutS', { j, S: bn(S), A, B, pt, ans: `${th}°`, work: [`θ/360° × 22/7 × ${j}² = ${bn(S)}`, `θ/360° × ${bn(22 / 7 * j * j)} = ${bn(S)}`, `θ = ${bn(S)} ÷ ${bn(22 / 7 * j * j)} × 360° = ${th}°`] }, { fig });
+  if (kind === 'L') return GEN_LQ('sudutL', { j, L: bn(L), A, B, pt, ans: `${th}°`, work: [`${fr('θ', '360°')} × 2 × ${fr(22, 7)} × ${j} = ${bn(L)}`, `${fr('θ', '360°')} × ${bn(44 / 7 * j)} = ${bn(L)}`, `θ = ${bn(L)} ÷ ${bn(44 / 7 * j)} × 360° = ${th}°`] }, { fig });
+  return GEN_LQ('sudutS', { j, S: bn(S), A, B, pt, ans: `${th}°`, work: [`${fr('θ', '360°')} × ${fr(22, 7)} × ${j}² = ${bn(S)}`, `${fr('θ', '360°')} × ${bn(22 / 7 * j * j)} = ${bn(S)}`, `θ = ${bn(S)} ÷ ${bn(22 / 7 * j * j)} × 360° = ${th}°`] }, { fig });
 };
 BL.jejL = r => {
   let a; do a = blArcData(r, 7); while (a.th >= 180);
   const { th, j, L } = a;
-  return GEN_LQ('jejL', { th, j, L: bn(L), pt: blPiQ(7), ans: `${j} cm`, work: [`${th}°/360° × 2 × 22/7 × j = ${bn(L)}`, `j = ${bn(L)} × 360/${th} ÷ 44/7`, `= ${j} cm`] });
+  return GEN_LQ('jejL', { th, j, L: bn(L), pt: blPiQ(7), ans: `${j} cm`, work: [`${fr(`${th}°`, '360°')} × 2 × ${fr(22, 7)} × j = ${bn(L)}`, `j = ${bn(L)} × ${fr(360, th)} ÷ ${fr(44, 7)}`, `= ${j} cm`] });
 };
 BL.roda = r => {
   const D = r.p([35, 42, 49, 56, 63, 70, 77, 84]), n = r.p([25, 50, 100, 125, 200, 250, 500]), c = 22 * D / 7, m = n * c / 100;
-  return GEN_LQ('roda', { D, n, c, m, work: [`Lilitan roda = πd = 22/7 × ${D} = ${c} cm.`, `Jarak = ${n} × ${c} = ${bn(n * c)} cm.`, `${bn(n * c)} cm ÷ 100 = ${bn(m)} m.`] });
+  return GEN_LQ('roda', { D, n, c, m, work: [`Lilitan roda = πd = ${fr(22, 7)} × ${D} = ${c} cm.`, `Jarak = ${n} × ${c} = ${bn(n * c)} cm.`, `${bn(n * c)} cm ÷ 100 = ${bn(m)} m.`] });
 };
 function blTrekFig(Pj, D) {
   const w = 150, h = 80, x0 = -w / 2, y0 = -h / 2, rr = h / 2;
@@ -504,12 +504,12 @@ function blTrekFig(Pj, D) {
 }
 BL.trek = r => {
   const D = r.p([14, 28, 42, 56, 70]), Pj = r.p([50, 60, 80, 100, 120].filter(v => v > D + 10)), per = 2 * Pj + 22 / 7 * D, area = Pj * D + 22 / 7 * (D / 2) ** 2, n = r.p([2, 3, 4, 5]);
-  return GEN_LQ('trek', { Pj, D, per, area, n, work: [`Dua separuh bulatan = satu lilitan: 22/7 × ${D} = ${bn(22 / 7 * D)} m.`, `Perimeter = 2 × ${Pj} + ${bn(22 / 7 * D)}`, `= ${bn(per)} m`] }, { fig: blTrekFig(Pj, D) });
+  return GEN_LQ('trek', { Pj, D, per, area, n, work: [`Dua separuh bulatan = satu lilitan: ${fr(22, 7)} × ${D} = ${bn(22 / 7 * D)} m.`, `Perimeter = 2 × ${Pj} + ${bn(22 / 7 * D)}`, `= ${bn(per)} m`] }, { fig: blTrekFig(Pj, D) });
 };
 BL.gelang = r => {
   const [R, rr] = r.p([[14, 7], [21, 14], [21, 7], [28, 14], [28, 21], [35, 28], [35, 14], [42, 35]]), ri2 = +(100 * rr / R).toFixed(2);
   const fig = blSvg(`<path d="M-100 0 A100 100 0 1 0 100 0 A100 100 0 1 0 -100 0 Z M-${ri2} 0 A${ri2} ${ri2} 0 1 0 ${ri2} 0 A${ri2} ${ri2} 0 1 0 -${ri2} 0 Z" fill-rule="evenodd" ${blFill('pu', .28, 3)}/>` + blLn([0, 0], blP(35), 'tx', 2.5) + blLn([0, 0], blP(160, ri2), 'tx', 2.5) + blO([0, 16]), 'Dua bulatan sepusat');
-  return GEN_LQ('gelang', { R, r: rr, work: ['Luas berlorek = luas bulatan besar − luas bulatan kecil', `= 22/7 × ${R}² − 22/7 × ${rr}²`, `= ${bn(22 / 7 * R * R)} − ${bn(22 / 7 * rr * rr)} = ${bn(22 / 7 * (R * R - rr * rr))}`] }, { fig });
+  return GEN_LQ('gelang', { R, r: rr, work: ['Luas berlorek = luas bulatan besar − luas bulatan kecil', `= ${fr(22, 7)} × ${R}² − ${fr(22, 7)} × ${rr}²`, `= ${bn(22 / 7 * R * R)} − ${bn(22 / 7 * rr * rr)} = ${bn(22 / 7 * (R * R - rr * rr))}`] }, { fig });
 };
 BL.pizza = r => {
   const [j, n] = r.p([[14, 4], [14, 8], [21, 6], [21, 12], [28, 8], [28, 4], [7, 4], [35, 10]]);
@@ -635,23 +635,23 @@ const CQGEN = {
     }
   ],
   lilitanLuas: [
-    () => { const j = pick([7, 14, 21, 28, 35]), L = 44 * j / 7; return blMcq(`Jejari = ${j} cm. Berapakah lilitan bulatan? (π = 22/7)`, blRFig(`${j} cm`, false), blOpts(L, [L / 2, 2 * L, 22 / 7 * j * j, 22 / 7 * j], blF('cm'))); },
+    () => { const j = pick([7, 14, 21, 28, 35]), L = 44 * j / 7; return blMcq(`Jejari = ${j} cm. Berapakah lilitan bulatan? (π = ${fr(22, 7)})`, blRFig(`${j} cm`, false), blOpts(L, [L / 2, 2 * L, 22 / 7 * j * j, 22 / 7 * j], blF('cm'))); },
     () => {
-      if (Math.random() < .5) { const j = pick([7, 14, 21, 28]), A = 22 / 7 * j * j; return blMcq(`Jejari = ${j} cm. Berapakah luas bulatan? (π = 22/7)`, blRFig(`${j} cm`, false), blOpts(A, [44 / 7 * j, 22 / 7 * 4 * j * j, 22 / 7 * j * 2, A / 2], x => `${bn(x)} cm²`)); }
-      const dd = pick([14, 28, 42, 56]), A = 22 / 7 * dd * dd / 4; return blMcq(`Diameter = ${dd} cm. Berapakah luas bulatan? (π = 22/7)`, blRFig(`${dd} cm`, true), blOpts(A, [22 / 7 * dd * dd, 22 / 7 * dd, 4 * A, A / 2], x => `${bn(x)} cm²`));
+      if (Math.random() < .5) { const j = pick([7, 14, 21, 28]), A = 22 / 7 * j * j; return blMcq(`Jejari = ${j} cm. Berapakah luas bulatan? (π = ${fr(22, 7)})`, blRFig(`${j} cm`, false), blOpts(A, [44 / 7 * j, 22 / 7 * 4 * j * j, 22 / 7 * j * 2, A / 2], x => `${bn(x)} cm²`)); }
+      const dd = pick([14, 28, 42, 56]), A = 22 / 7 * dd * dd / 4; return blMcq(`Diameter = ${dd} cm. Berapakah luas bulatan? (π = ${fr(22, 7)})`, blRFig(`${dd} cm`, true), blOpts(A, [22 / 7 * dd * dd, 22 / 7 * dd, 4 * A, A / 2], x => `${bn(x)} cm²`));
     },
     () => {
       const j = pick([7, 14, 21, 28, 35]);
-      if (Math.random() < .5) return blMcq(`Lilitan sebuah bulatan ialah ${bn(44 * j / 7)} cm. Berapakah jejarinya? (π = 22/7)`, blRFig('j = ?', false), blOpts(j, [2 * j, j / 2, j + 7, 44 * j / 7 / 2], blF('cm')));
-      return blMcq(`Luas sebuah bulatan ialah ${bn(22 / 7 * j * j)} cm². Berapakah jejarinya? (π = 22/7)`, blRFig('j = ?', false), blOpts(j, [j * j, 2 * j, j / 2, j + 7], blF('cm')));
+      if (Math.random() < .5) return blMcq(`Lilitan sebuah bulatan ialah ${bn(44 * j / 7)} cm. Berapakah jejarinya? (π = ${fr(22, 7)})`, blRFig('j = ?', false), blOpts(j, [2 * j, j / 2, j + 7, 44 * j / 7 / 2], blF('cm')));
+      return blMcq(`Luas sebuah bulatan ialah ${bn(22 / 7 * j * j)} cm². Berapakah jejarinya? (π = ${fr(22, 7)})`, blRFig('j = ?', false), blOpts(j, [j * j, 2 * j, j / 2, j + 7], blF('cm')));
     }
   ],
   lengkokSektor: [
-    () => { const { th, j, L } = blArcData(RG, 7, true), mid = ri(0, 359); return blMcq(`Jejari = ${j} cm, sudut = ${th}°. Berapakah panjang lengkok? (π = 22/7)`, blSekFig(th, mid, { arc: true, th: `${th}°`, jl: `${j} cm` }), blOpts(L, [th / 360 * 22 / 7 * j * j, 2 * L, 44 / 7 * j, L / 2], blF('cm'))); },
-    () => { const { th, j, S, L } = blArcData(RG, 7, true), mid = ri(0, 359); return blMcq(`Jejari = ${j} cm, sudut = ${th}°. Berapakah luas sektor? (π = 22/7)`, blSekFig(th, mid, { th: `${th}°`, jl: `${j} cm`, c: 'gr' }), blOpts(S, [L, 2 * S, 22 / 7 * j * j, S / 2], x => `${bn(x)} cm²`)); },
+    () => { const { th, j, L } = blArcData(RG, 7, true), mid = ri(0, 359); return blMcq(`Jejari = ${j} cm, sudut = ${th}°. Berapakah panjang lengkok? (π = ${fr(22, 7)})`, blSekFig(th, mid, { arc: true, th: `${th}°`, jl: `${j} cm` }), blOpts(L, [th / 360 * 22 / 7 * j * j, 2 * L, 44 / 7 * j, L / 2], blF('cm'))); },
+    () => { const { th, j, S, L } = blArcData(RG, 7, true), mid = ri(0, 359); return blMcq(`Jejari = ${j} cm, sudut = ${th}°. Berapakah luas sektor? (π = ${fr(22, 7)})`, blSekFig(th, mid, { th: `${th}°`, jl: `${j} cm`, c: 'gr' }), blOpts(S, [L, 2 * S, 22 / 7 * j * j, S / 2], x => `${bn(x)} cm²`)); },
     () => {
       const { th, j, S, L } = blArcData(RG, 7), mid = ri(0, 359), A = Math.random() < .5;
-      return blMcq(A ? `Jejari = ${j} cm dan panjang lengkok = ${bn(L)} cm. Berapakah θ? (π = 22/7)` : `Jejari = ${j} cm dan luas sektor = ${bn(S)} cm². Berapakah θ? (π = 22/7)`, blSekFig(th, mid, { arc: A, th: 'θ', jl: `${j} cm`, c: A ? 'tr' : 'gr' }), blOpts(th, [360 - th, th / 2, 2 * th, th + 30], x => `${bn(x)}°`));
+      return blMcq(A ? `Jejari = ${j} cm dan panjang lengkok = ${bn(L)} cm. Berapakah θ? (π = ${fr(22, 7)})` : `Jejari = ${j} cm dan luas sektor = ${bn(S)} cm². Berapakah θ? (π = ${fr(22, 7)})`, blSekFig(th, mid, { arc: A, th: 'θ', jl: `${j} cm`, c: A ? 'tr' : 'gr' }), blOpts(th, [360 - th, th / 2, 2 * th, th + 30], x => `${bn(x)}°`));
     }
   ]
 };

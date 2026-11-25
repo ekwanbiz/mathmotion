@@ -2,8 +2,11 @@
 # Jalankan:  python3 tools/indeks/gen_slides.py
 # Gunakan HANYA warna palet gelap di bawah supaya mod cerah ditukar automatik oleh themed().
 # Tatatanda dalam teks: '^{...}' = superskrip (ditukar kepada <sup> dalam HTML dan <tspan> dalam SVG).
-import json, os, html, math, re
+import json, os, html, math, re, sys
 from fractions import Fraction as F
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from fxsvg import fx_html, fx_svg, has_fx   # pecahan bertingkat & punca bergaris atas (25 Nov)
+import mathfmt
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUTFILE = os.path.normpath(os.path.join(HERE, '..', '..', 'indeks', 'slides.js'))
@@ -31,8 +34,8 @@ def iroot(v, n):
 
 # ---------- pembantu teks ----------
 def H(t):
-    """'^{..}' -> <sup>..</sup>"""
-    return re.sub(r'\^\{([^}]*)\}', r'<sup>\1</sup>', t)
+    """'^{..}' -> <sup>..</sup>; a/b -> pecahan bertingkat; √x, ^{n}√x -> punca bergaris atas"""
+    return fx_html(t)
 def P(t, sm=False):
     return f'<p class="sl-p{" sm" if sm else ""}">{H(t)}</p>'
 def DEF(t, col):
@@ -47,9 +50,7 @@ def ANS(t):
 def NOTE(t, lab='Ingat:'):
     return f'<div class="sl-note"><b>{lab}</b> {H(t)}</div>'
 def FR(a, b):
-    return ('<span style="display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; '
-            'line-height: 1.1; font-size: 0.85em; margin: 0 2px; white-space: nowrap"><span style="padding: 0 4px; border-bottom: 2px solid currentColor">'
-            f'{H(str(a))}</span><span>{H(str(b))}</span></span>')
+    return mathfmt.FR(H(str(a)), H(str(b)))
 def FRV(fr):
     fr = F(fr)
     if fr.denominator == 1: return fs(fr)
@@ -77,6 +78,8 @@ def T(x, y, t, col=TX, size=20, anchor='middle', weight=700, italic=False, halo=
     """Teks SVG; '^{..}' menjadi superskrip (tspan naik, saiz kecil)."""
     it = ' font-style="italic"' if italic else ''
     ha = f' paint-order="stroke" stroke="{NAV}" stroke-width="6" stroke-linejoin="round"' if halo else ''
+    if has_fx(t):
+        return fx_svg(x, y, t, col, size, anchor, f' {FONT} font-weight="{weight}"{it}{ha}', supcol)
     up, small = r1(size * 0.42), r1(size * 0.64)
     parts = re.split(r'(\^\{[^}]*\})', t)
     out, raised = '', False
@@ -391,7 +394,7 @@ add('1.2', 'HUKUM 4', 'Indeks sifar dan indeks negatif',
 assert iroot(8, 3) == 2 and 2 ** 2 == 4 and 8 ** 2 == 64 and iroot(64, 3) == 4
 assert iroot(16, 4) == 2 and 2 ** 3 == 8 and iroot(27, 3) == 3
 fig = RECT(14, 14, 472, 442)
-fig += RECT(170, 34, 160, 66, f'{PU}22', PU, 16) + T(250, 70, '8^{2/3}', TX, 34)
+fig += RECT(170, 34, 160, 66, f'{PU}22', PU, 16) + T(250, 76, '8^{2/3}', TX, 34)
 # laluan kiri: punca dahulu
 fig += ARROW((200, 104), (120, 170), TR, 3.5) + T(84, 132, 'punca kuasa', TR, 15) + T(84, 150, 'tiga dahulu', TR, 15)
 fig += RECT(60, 176, 120, 60, SURF, TR, 14) + T(120, 207, '∛8 = 2', TX, 24)
@@ -405,10 +408,10 @@ fig += RECT(320, 306, 120, 60, SURF, PK, 14) + T(380, 337, '∛64 = 4', TX, 24)
 fig += ARROW((180, 368), (220, 400), GR, 3) + ARROW((320, 368), (280, 400), GR, 3)
 fig += RECT(190, 402, 120, 48, f'{GR}1A', GR, 14) + T(250, 427, '4', GR, 28)
 add('1.2', 'HUKUM 5', 'Indeks pecahan',
-    DEF(f'a^{{1/n}} = <sup>n</sup>√a &nbsp;&nbsp;·&nbsp;&nbsp; a^{{m/n}} = (<sup>n</sup>√a)^{{m}} = <sup>n</sup>√(a^{{m}})', col)
+    DEF(f'a^{{1/n}} = ^{{n}}√a &nbsp;&nbsp;·&nbsp;&nbsp; a^{{m/n}} = (^{{n}}√a)^{{m}} = ^{{n}}√(a^{{m}})', col)
     + STEPS(['8^{1/3} = ∛8 = <b>2</b> &nbsp;(kerana 2^{3} = 8)',
              '8^{2/3} = (∛8)^{2} = 2^{2} = <b>4</b>',
-             '16^{3/4} = (<sup>4</sup>√16)^{3} = 2^{3} = <b>8</b>'], col)
+             '16^{3/4} = (^{4}√16)^{3} = 2^{3} = <b>8</b>'], col)
     + NOTE(f'Penyebut indeks = <b>punca kuasa</b>, pengangka = <b>kuasa</b>. Cari punca kuasa dahulu supaya nombor kecil. Cuba: 27^{{−1/3}} = {FR(1, "∛27")} = {FR(1, 3)}.'),
     svg(fig, 'Lapan kuasa dua per tiga: dua laluan, punca kuasa tiga dahulu atau kuasa dua dahulu, kedua-duanya memberi 4'))
 
@@ -449,7 +452,7 @@ add('1.2', 'RINGKASAN', 'Ringkasan hukum indeks',
            ['Bahagi', 'a^{m} ÷ a^{n} = a^{m − n}'],
            ['Kuasa', '(a^{m})^{n} = a^{mn} · (a^{m}b^{n})^{p} = a^{mp}b^{np}'],
            ['Sifar & negatif', f'a^{{0}} = 1 · a^{{−n}} = {FR(1, "a^{n}")}'],
-           ['Pecahan', 'a^{m/n} = (<sup>n</sup>√a)^{m} = <sup>n</sup>√(a^{m})']], col, rv=True)
+           ['Pecahan', 'a^{m/n} = (^{n}√a)^{m} = ^{n}√(a^{m})']], col, rv=True)
     + NOTE('Semua hukum hanya untuk asas yang <b>sama</b> (a ≠ 0). Semak jawapan dengan mengira nilai nombor.', 'Ingat:'),
     svg(fig, 'Kesilapan biasa hukum indeks dan pembetulannya'))
 

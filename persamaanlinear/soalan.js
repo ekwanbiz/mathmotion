@@ -65,7 +65,7 @@ PL.kenal = r => {
   const v = r.p(PLV), a = r.i(2, 9), b = r.i(1, 12), c = r.i(13, 40), k = r.i(0, 5);
   const L = [
     [`${a}${v} + ${b} = ${c}`, 1, `Ada tanda “=”, satu pemboleh ubah (${v}) dan kuasa ${v} ialah 1.`],
-    [`${v}/${a} − ${b} = ${c}`, 1, `Satu pemboleh ubah dengan kuasa 1 dan ada tanda “=”.`],
+    [`${fr(v, a)} − ${b} = ${c}`, 1, `Satu pemboleh ubah dengan kuasa 1 dan ada tanda “=”.`],
     [`${v}² + ${b} = ${c}`, 0, `Kuasa ${v} ialah 2, bukan 1.`],
     [`${a}${v} + ${b}w = ${c}`, 0, `Ada dua pemboleh ubah (${v} dan w).`],
     [`${a}${v} + ${b}`, 0, `Tiada tanda “=”, ini hanya ungkapan algebra.`],
@@ -91,9 +91,9 @@ PL.selesai = (r, lvl) => {
   else if (k === 1) { e = `${a}${v} = ${plM(a * X)}`; w = [`${v} = ${plM(a * X)} ÷ ${a}`]; wrong = a * X - a; }
   else if (k === 2) { const c = a * X + b; e = `${plE([[a, v], [b, '']])} = ${plM(c)}`; w = [`${a}${v} = ${plM(c)} ${b > 0 ? '−' : '+'} ${Math.abs(b)} = ${plM(a * X)}`, `${v} = ${plM(a * X)} ÷ ${a}`]; wrong = (c + b) / a; }
   else if (k === 3) { const m = r.i(2, 5), c = m * (X + b); e = `${m}(${plE([[1, v], [b, '']])}) = ${plM(c)}`; w = [`Bahagi ${m}: ${plE([[1, v], [b, '']])} = ${plM(X + b)}`, `${v} = ${plM(X)}`]; wrong = X + 2 * b; }
-  else if (k === 4) { const d = r.i(2, 5), q = r.i(-3, 6), top = d * q; const bb = top - X; e = `(${plE([[1, v], [bb, '']])})/${d} = ${plM(q)}`; w = [`Darab ${d}: ${plE([[1, v], [bb, '']])} = ${plM(top)}`, `${v} = ${plM(X)}`]; wrong = q - bb; }
+  else if (k === 4) { const d = r.i(2, 5), q = r.i(-3, 6), top = d * q; const bb = top - X; e = `${fr(plE([[1, v], [bb, '']]), d)} = ${plM(q)}`; w = [`Darab ${d}: ${plE([[1, v], [bb, '']])} = ${plM(top)}`, `${v} = ${plM(X)}`]; wrong = q - bb; }
   else if (k === 5) { const p = r.i(a + 1, a + 6), c = (p - a) * X; const B = r.i(1, 9), C = c - B; e = `${p}${v} ${B >= 0 ? '+' : '−'} ${Math.abs(B)} = ${a}${v} ${C >= 0 ? '+' : '−'} ${Math.abs(C)}`; w = [`${p}${v} − ${a}${v} = ${plM(C)} − ${B}`, `${p - a}${v} = ${plM(c)}`, `${v} = ${plM(X)}`]; wrong = (C + B) / (p - a); }
-  else { const d = r.i(2, 4), c = r.i(1, 5), rhs = X / d + c; if (!Number.isInteger(rhs)) return PL.selesai(r, lvl); e = `${v}/${d} + ${c} = ${plM(rhs)}`; w = [`${v}/${d} = ${plM(rhs - c)}`, `${v} = ${plM((rhs - c) * d)}`]; wrong = rhs - c; }
+  else { const d = r.i(2, 4), c = r.i(1, 5), rhs = X / d + c; if (!Number.isInteger(rhs)) return PL.selesai(r, lvl); e = `${fr(v, d)} + ${c} = ${plM(rhs)}`; w = [`${fr(v, d)} = ${plM(rhs - c)}`, `${v} = ${plM((rhs - c) * d)}`]; wrong = rhs - c; }
   if (!Number.isInteger(wrong) || wrong === X) wrong = X + 2;
   return GEN_LQ('selesai', { e, v, sol: plM(X), wrong: plM(wrong), ans: `${v} = ${plM(X)}`, work: w.concat([`${v} = ${plM(X)}`]) });
 };
@@ -107,7 +107,7 @@ PL.masalah1 = (r, idx) => {
 };
 // ---- 5.2 ----
 PL.banding = r => {
-  const L = [['−5', -5], ['−3', -3], ['−1.5', -1.5], ['−1', -1], ['0', 0], ['0.5', .5], ['2', 2], ['−2/3', -2 / 3], ['−0.7', -.7], ['3', 3], ['−4', -4]];
+  const L = [['−5', -5], ['−3', -3], ['−1.5', -1.5], ['−1', -1], ['0', 0], ['0.5', .5], ['2', 2], ['−' + fr(2, 3), -2 / 3], ['−0.7', -.7], ['3', 3], ['−4', -4]];
   let A, B; do { A = r.p(L); B = r.p(L); } while (A[0] === B[0]);
   return GEN_LQ('banding', { a: A[0], b: B[0], ans: `${A[0]} ${A[1] < B[1] ? '&lt;' : '&gt;'} ${B[0]}`, work: [`${A[0]} terletak di ${A[1] < B[1] ? 'kiri' : 'kanan'} ${B[0]} pada garis nombor.`] });
 };
@@ -156,7 +156,7 @@ PL.masalah2 = (r, idx) => {
   if (k === 0) { const fix = r.p([300, 400, 500]), per = r.p([25, 35, 45]), bud = r.p([1200, 1500, 2000]); const t = Math.floor((bud - fix) / per);
     return GEN_LQ('masalah', { q: `Sewa sebuah dewan ialah RM${fix} ditambah RM${per} bagi setiap tetamu. Bajet maksimum ialah RM${String(bud).replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}. Berapakah bilangan tetamu maksimum?`, ans: `${t} orang`, work: [`${fix} + ${per}t ≤ ${bud}`, `${per}t ≤ ${bud - fix} → t ≤ ${(Math.round((bud - fix) / per * 100) / 100)}`, `Integer terbesar: ${t}`] }); }
   if (k === 1) { const m = r.p([60, 70, 75, 80]), a = r.i(55, m + 10), b = r.i(55, m + 10); const need = 3 * m - a - b;
-    return GEN_LQ('masalah', { q: `Untuk mendapat gred A, purata markah tiga ujian mesti sekurang-kurangnya ${m}. Aina mendapat ${a} dan ${b} dalam dua ujian pertama. Berapakah markah minimum ujian ketiga?`, ans: need > 100 ? 'Tidak mungkin (melebihi 100)' : `${Math.max(0, need)}`, work: [`(${a} + ${b} + x)/3 ≥ ${m}`, `${a + b} + x ≥ ${3 * m}`, `x ≥ ${need}`] }); }
+    return GEN_LQ('masalah', { q: `Untuk mendapat gred A, purata markah tiga ujian mesti sekurang-kurangnya ${m}. Aina mendapat ${a} dan ${b} dalam dua ujian pertama. Berapakah markah minimum ujian ketiga?`, ans: need > 100 ? 'Tidak mungkin (melebihi 100)' : `${Math.max(0, need)}`, work: [`${fr(`${a} + ${b} + x`, 3)} ≥ ${m}`, `${a + b} + x ≥ ${3 * m}`, `x ≥ ${need}`] }); }
   if (k === 2) { const cap = r.p([500, 600, 800]), w = r.p([65, 70, 75]), bag = r.p([20, 30, 40]); const n = Math.floor((cap - bag) / w);
     return GEN_LQ('masalah', { q: `Sebuah lif boleh membawa jisim maksimum ${cap} kg. Seorang pekerja membawa barang berjisim ${bag} kg ke dalam lif. Jika jisim purata seorang ialah ${w} kg, berapakah bilangan maksimum orang (termasuk pekerja itu) boleh menaiki lif bersama barang tersebut?`, ans: `${n} orang`, work: [`${w}n + ${bag} ≤ ${cap}`, `n ≤ ${Math.round((cap - bag) / w * 100) / 100}`, `n = ${n}`] }); }
   const save = r.p([15, 20, 25]), have = r.p([40, 60, 80]), goal = r.p([250, 300, 350]); const wk = Math.ceil((goal - have) / save);

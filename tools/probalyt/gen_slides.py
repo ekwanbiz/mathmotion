@@ -69,6 +69,41 @@ def T(x, y, t, col=TX, size=20, anchor='middle', weight=700, italic=False, halo=
     ha = f' paint-order="stroke" stroke="{NAV}" stroke-width="6" stroke-linejoin="round"' if halo else ''
     return (f'<text x="{r1(x)}" y="{r1(y)}" fill="{col}" {FONT} font-size="{size}" font-weight="{weight}"{it} '
             f'text-anchor="{anchor}" dominant-baseline="middle"{ha}>{t}</text>')
+
+import sys as _s; _s.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+from mathfmt import mathW, SFR as _MSFR, SRT as _MSRT
+def SMIX(x, y, parts, col, size=20, anchor='middle', halo=None):
+    # baris campuran teks + pecahan bertingkat/punca (SVG). y = garis tengah. parts: 'teks' | ('f', a, b) | ('r', t[, n])
+    fs = size * .85; ws = []
+    for p in parts:
+        if isinstance(p, str): ws.append(mathW(p, size) * .92)
+        elif p[0] == 'f': ws.append(max(mathW(p[1], fs), mathW(p[2], fs)) + 10)
+        else: ws.append(size * .62 + mathW(p[1], size) + 6 + (size * .3 if len(p) > 2 and p[2] else 0))
+    tot = sum(ws); x0 = x if anchor == 'start' else (x - tot if anchor == 'end' else x - tot / 2); o = ''
+    for p, w in zip(parts, ws):
+        if isinstance(p, str): o += f'<text x="{x0:.1f}" y="{y:.1f}" fill="{col}" font-size="{size}" font-weight="700" text-anchor="start" dominant-baseline="middle" xml:space="preserve">{p}</text>'
+        elif p[0] == 'f': o += _MSFR(x0, y, p[1], p[2], col, fs, 'start')
+        else:
+            n = p[2] if len(p) > 2 else None
+            o += _MSRT(x0 + (size * .3 if n else 0), y + size * .35, p[1], col, size, 'start', n)
+        x0 += w
+    if halo: o = o.replace('<text ', f'<text paint-order="stroke" stroke="{halo}" stroke-width="6" stroke-linejoin="round" ')
+    return o
+
+# T automatik: pecahan "a/b" dalam teks rajah dilukis bertingkat (SMIX)
+import inspect as _insp
+_FRX = re.compile(r'(?<![\w/.])(\d+)/(\d+)(?![\w/]|\.\d)')
+def _autoparts(t):
+    parts = []; pos = 0
+    for m in _FRX.finditer(t): parts += [t[pos:m.start()], ('f', m[1], m[2])]; pos = m.end()
+    parts.append(t[pos:]); return [p for p in parts if p != '']
+_T0 = T
+def T(*a, **k):
+    b = _insp.signature(_T0).bind(*a, **k); b.apply_defaults(); g = b.arguments
+    t = g.get('t')
+    if isinstance(t, str) and _FRX.search(t):
+        return SMIX(g['x'], g['y'], _autoparts(t), g.get('col', TX), g.get('size', 20), g.get('anchor', 'middle'), halo=NAV if g.get('halo', True) else None)
+    return _T0(*a, **k)
 def LINE(p, q, col=TX, sw=4, dash=None, cap='round'):
     d = f' stroke-dasharray="{dash}"' if dash else ''
     return f'<line x1="{r1(p[0])}" y1="{r1(p[1])}" x2="{r1(q[0])}" y2="{r1(q[1])}" stroke="{col}" stroke-width="{sw}" stroke-linecap="{cap}"{d}/>'
@@ -414,7 +449,7 @@ fig += CHECKS([(232, 'P(T) = 2/9', True, 'betul'),
                (436, 'P(T) = 9/2', False, 'terbalik')], 20, 460, 54)
 add('13.2', 'KESILAPAN BIASA', 'Kira semua unsur ruang sampel',
     P(f'Setiap huruf perkataan {B("MATEMATIK", TX)} ditulis pada sekeping kad. Sekeping kad dipilih secara rawak. Cari P(T).', True)
-    + BUL([f'{B("Lupa unsur berulang", RD)}: ada <b>2</b> kad T dan <b>9</b> kad semuanya ✗ 1/6',
+    + BUL([f'{B("Lupa unsur berulang", RD)}: ada <b>2</b> kad T dan <b>9</b> kad semuanya ✗ '+FR(1, 6),
            f'{B("Lupa mengira semua unsur S", RD)}: senaraikan S dengan lengkap.',
            f'{B("Terbalikkan rumus", RD)}: P(A) = <i>n</i>(A) ÷ <i>n</i>(S), bukan sebaliknya.'], col)
     + ANS(f'P(T) = {FRV(pT)}'),

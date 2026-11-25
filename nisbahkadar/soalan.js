@@ -77,7 +77,7 @@ NK.unit = r => {
 NK.pecahan = r => {
   const k = r.i(0, 2);
   if (k === 0) { const [p, q] = r.p([[[1, 2], [3, 4]], [[2, 3], [1, 6]], [[3, 4], [5, 8]], [[1, 3], [2, 5]], [[3, 5], [1, 2]]]); const L = nkL(p[1], q[1]), A = p[0] * L / p[1], B = q[0] * L / q[1], s = nkSimp([A, B]);
-    return GEN_LQ('termudah', { e: `${p[0]}/${p[1]} : ${q[0]}/${q[1]}`, ans: nkR(s), wrong: `${p[0]} : ${q[0]}`, work: [`Darab kedua-dua sebutan dengan GSTK penyebut, ${L}`, `${A} : ${B}`, s[0] !== A ? `Permudahkan: ${nkR(s)}` : `Sudah termudah: ${nkR(s)}`] }); }
+    return GEN_LQ('termudah', { e: `${fr(p[0], p[1])} : ${fr(q[0], q[1])}`, ans: nkR(s), wrong: `${p[0]} : ${q[0]}`, work: [`Darab kedua-dua sebutan dengan GSTK penyebut, ${L}`, `${A} : ${B}`, s[0] !== A ? `Permudahkan: ${nkR(s)}` : `Sudah termudah: ${nkR(s)}`] }); }
   if (k === 1) { const a = r.p([0.4, 0.6, 1.2, 0.8, 2.5, 1.5]), b = r.p([1.5, 0.9, 2, 3.6, 0.5, 1.8]); if (a === b) return NK.pecahan(r); const A = Math.round(a * 10), B = Math.round(b * 10), s = nkSimp([A, B]);
     return GEN_LQ('termudah', { e: `${a} : ${b}`, ans: nkR(s), wrong: `${A} : ${B}`, work: [`Darab dengan 10: ${A} : ${B}`, `Bahagi dengan FSTB ${nkG(A, B)}: ${nkR(s)}`] }); }
   const a = r.p([20, 25, 30, 40, 45, 60, 75]), b = r.p([15, 35, 50, 80, 90, 100]); if (a === b) return NK.pecahan(r); const s = nkSimp([a, b]);
@@ -96,7 +96,7 @@ NK.gabung = (r, idx) => {
     return GEN_LQ('gabung', { q: `Nisbah wang Ali kepada wang Bala ialah ${a} : ${b1}, manakala nisbah wang Bala kepada wang Chong ialah ${b2} : ${c}. Ungkapkan nisbah wang Ali : Bala : Chong dalam bentuk termudah.`, ans: nkR(s), work: [`Samakan sebutan Bala: GSTK bagi ${b1} dan ${b2} = ${L}`, `Ali : Bala = ${A} : ${L}; Bala : Chong = ${L} : ${C}`, `Ali : Bala : Chong = ${nkR([A, L, C])}${nkGs([A, L, C]) > 1 ? ' = ' + nkR(s) : ''}`] });
   }
   if (k === 1) { const [p, q] = r.p([[1, 3], [3, 1], [1, 4], [2, 3], [3, 2], [1, 9], [3, 7], [7, 3], [9, 11], [7, 13], [3, 17], [6, 19], [12, 13]]); const t = p + q;
-    return GEN_LQ('gabung', { q: `Nisbah murid yang suka bola sepak kepada murid yang suka badminton ialah ${p} : ${q}. (a) Lukis model bar. (b) Ungkapkan bilangan murid yang suka bola sepak sebagai pecahan daripada jumlah murid. (c) Ungkapkan sebagai peratusan.`, ans: `(b) ${p}/${t} (c) ${nkD(p / t * 100)}%`, work: [`Bola sepak ${p} unit, badminton ${q} unit, jumlah ${t} unit`, `Pecahan = ${p}/${t}`, `Peratusan = ${p}/${t} × 100% = ${nkD(p / t * 100)}%`] }); }
+    return GEN_LQ('gabung', { q: `Nisbah murid yang suka bola sepak kepada murid yang suka badminton ialah ${p} : ${q}. (a) Lukis model bar. (b) Ungkapkan bilangan murid yang suka bola sepak sebagai pecahan daripada jumlah murid. (c) Ungkapkan sebagai peratusan.`, ans: `(b) ${fr(p, t)} (c) ${nkD(p / t * 100)}%`, work: [`Bola sepak ${p} unit, badminton ${q} unit, jumlah ${t} unit`, `Pecahan = ${fr(p, t)}`, `Peratusan = ${fr(p, t)} × 100% = ${nkD(p / t * 100)}%`] }); }
   const [a, b, c] = nkPrim(r, 3, 6), m = r.i(2, 6);
   return GEN_LQ('gabung', { q: `Sebuah resipi minuman memerlukan sirap, air dan ais dalam nisbah ${a} : ${b} : ${c}. Puan Lim mahu membuat ${m} kali ganda resipi itu dan menggunakan cawan sebagai unit. (a) Nyatakan nisbah setara bagi kuantiti yang digunakan. (b) Berapakah jumlah cawan bahan?`, ans: `(a) ${nkR([a * m, b * m, c * m])} (b) ${(a + b + c) * m} cawan`, work: [`Darab setiap sebutan dengan ${m}: ${nkR([a * m, b * m, c * m])}`, `Jumlah = ${a * m} + ${b * m} + ${c * m} = ${(a + b + c) * m}`] });
 };
@@ -117,7 +117,7 @@ NK.cariX = r => {
   const [a, b] = nkPrim(r, 2, 9), m = r.p([2, 3, 4, 5, 1.5, 2.5]), c = a * m, x = b * m;
   if (!Number.isInteger(c)) return NK.cariX(r);
   const form = r.i(0, 1);
-  const e = form ? `${a}/${b} = ${c}/x` : `${a} : ${b} = ${c} : x`;
+  const e = form ? `${fr(a, b)} = ${fr(c, 'x')}` : `${a} : ${b} = ${c} : x`;
   return GEN_LQ('cariX', { e, ans: `x = ${nkD(x)}`, work: [`Darab silang: ${a} × x = ${b} × ${c}`, `${a}x = ${b * c}`, `x = ${b * c} ÷ ${a} = ${nkD(x)}`] });
 };
 NK.unitari = r => {
@@ -169,7 +169,7 @@ const CQGEN = {
   },
   setara: L => {
     const b = nkPrim(nkRG, 2, 9), m = ri(2, 9), x = b[1] * m;
-    if (L === 2) return nkMcq(`Diberi ${b[0]}/${b[1]} = ${b[0] * m}/x. Nilai x ialah`, x, [x + b[1], b[0] * m + b[1], x - 1, b[1] + m]);
+    if (L === 2) return nkMcq(`Diberi ${fr(b[0], b[1])} = ${fr(b[0] * m, 'x')}. Nilai x ialah`, x, [x + b[1], b[0] * m + b[1], x - 1, b[1] + m]);
     return nkMcq(`${nkR(b)} = ${b[0] * m} : x. Nilai x ialah`, x, [x + m, b[0] * m, b[1] + m, x - b[1]]);
   },
   kadar: L => {

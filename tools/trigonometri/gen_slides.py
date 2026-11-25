@@ -1,7 +1,10 @@
 # Penjana slaid NOTA TRIGONOMETRI (Tingkatan 3 Bab 5 Nisbah Trigonometri) -> trigonometri/slides.js
 # Jalankan:  python3 tools/trigonometri/gen_slides.py
 # Gunakan HANYA warna palet gelap di bawah supaya mod cerah ditukar automatik oleh themed().
-import json, os, html, math, re
+import json, os, html, math, re, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from fxsvg import fx_svg, has_fx, fx_html   # pecahan bertingkat & punca (25 Nov)
+import mathfmt
 from fractions import Fraction as F
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -48,10 +51,8 @@ def ANS(t):
 def NOTE(t, lab='Ingat:'):
     return f'<div class="sl-note"><b>{lab}</b> {t}</div>'
 def FR(a, b):
-    """Pecahan bertingkat dalam teks slaid."""
-    return ('<span style="display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; '
-            'line-height: 1.1; font-size: 0.85em; margin: 0 2px; white-space: nowrap"><span style="padding: 0 4px; border-bottom: 2px solid currentColor">'
-            f'{a}</span><span>{b}</span></span>')
+    """Pecahan bertingkat dalam teks slaid (gaya .fr dalam teras.css)."""
+    return mathfmt.FR(a, b)
 def B(t, col):
     return f'<b style="color: {col}">{t}</b>'
 def TABLE(head, rows, col, rv=False):
@@ -77,6 +78,8 @@ def r1(v): return round(v, 1)
 def T(x, y, t, col=TX, size=20, anchor='middle', weight=700, italic=False, halo=True):
     it = ' font-style="italic"' if italic else ''
     ha = f' paint-order="stroke" stroke="{NAV}" stroke-width="6" stroke-linejoin="round"' if halo else ''
+    if has_fx(t):
+        return fx_svg(x, y, t, col, size, anchor, f' {FONT} font-weight="{weight}"{it}{ha}')
     return (f'<text x="{r1(x)}" y="{r1(y)}" fill="{col}" {FONT} font-size="{size}" font-weight="{weight}"{it} '
             f'text-anchor="{anchor}" dominant-baseline="middle"{ha}>{t}</text>')
 
@@ -165,7 +168,15 @@ def TRI(A, R, Cv, names=None, labs=None, colored=True, th='θ', arc_r=44, fill=T
 
 # ---------- slaid ----------
 S = []
+_RTRE = re.compile(r'√(\((?:[^()<>]|\([^()<>]*\))*\)|\d+(?:\.\d+)?|[A-Za-z](?![A-Za-z]))')
+_GLY = {'½': (1, 2), '⅓': (1, 3), '⅔': (2, 3), '¼': (1, 4), '¾': (3, 4)}
+def HRT(t):
+    """Teks slaid (HTML): √x / √(..) -> punca bergaris atas; ½ ¼ ¾ … -> pecahan bertingkat (25 Nov)."""
+    if not t: return t
+    t = _RTRE.sub(lambda m: mathfmt.RT(m.group(1)[1:-1] if m.group(1).startswith('(') else m.group(1)), t)
+    return ''.join(mathfmt.FR(*_GLY[c]) if c in _GLY else c for c in t)
 def add(sub, kicker, title, body, fig='', full=''):
+    body, full = HRT(body), HRT(full)
     S.append({'sub': sub, 'kicker': kicker, 'title': title, 'body': body, 'fig': fig, 'full': full})
 
 # ===================== 5.1.1 SISI SEGI TIGA BERSUDUT TEGAK =====================
@@ -616,11 +627,11 @@ add('5.1.7', 'KESILAPAN BIASA', 'Elakkan kesilapan ini',
 # 5.1.7-7 Ringkasan bab
 A_, R_, C_ = (70, 270), (420, 270), (420, 70)
 fig = TRI(A_, R_, C_, labs=('hipotenus', 'bertentangan', 'bersebelahan'), lsize=19)
-fig += RECT(30, 316, 440, 134, SURF, BD, 16, 2)
-fig += T(250, 344, 'sin 30° = ½ · kos 60° = ½', MU3, 18, halo=False)
-fig += T(250, 374, 'sin 45° = kos 45° = 1/√2 · tan 45° = 1', MU3, 18, halo=False)
-fig += T(250, 404, 'tan 30° = 1/√3 · tan 60° = √3', MU3, 18, halo=False)
-fig += T(250, 432, 'sin 60° = kos 30° = √3/2', MU3, 18, halo=False)
+fig += RECT(20, 298, 460, 160, SURF, BD, 16, 2)
+for yy, a, b in [(322, 'sin 30° = ½', 'kos 60° = ½'), (360, 'sin 45° = kos 45° = 1/√2', 'tan 45° = 1'),
+                 (398, 'tan 30° = 1/√3', 'tan 60° = √3')]:
+    fig += T(160, yy, a, MU3, 17, halo=False) + T(380, yy, b, MU3, 17, halo=False)
+fig += T(250, 436, 'sin 60° = kos 30° = √3/2', MU3, 17, halo=False)
 add('5.1.7', 'RINGKASAN', 'Ringkasan bab',
     TABLE(['Langkah', 'Tindakan'],
           [['1', 'Lukis rajah, kenal pasti sudut, sisi diberi dan dicari'],

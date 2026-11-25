@@ -2,7 +2,9 @@
 #   -> trigograf/slides.js
 # Jalankan:  python3 tools/trigograf/gen_slides.py
 # Gunakan HANYA warna palet gelap di bawah supaya mod cerah ditukar automatik oleh themed().
-import json, os, html, math, re
+import json, os, html, math, re, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from fxsvg import fx_svg, has_fx, fx_html   # pecahan bertingkat & punca (25 Nov)
 from fractions import Fraction as F
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -100,6 +102,8 @@ def r1(v): return round(v, 1)
 def T(x, y, t, col=TX, size=20, anchor='middle', weight=700, italic=False, halo=True):
     it = ' font-style="italic"' if italic else ''
     ha = f' paint-order="stroke" stroke="{NAV}" stroke-width="6" stroke-linejoin="round"' if halo else ''
+    if has_fx(t):
+        return fx_svg(x, y, t, col, size, anchor, f' {FONT} font-weight="{weight}"{it}{ha}')
     return (f'<text x="{r1(x)}" y="{r1(y)}" fill="{col}" {FONT} font-size="{size}" font-weight="{weight}"{it} '
             f'text-anchor="{anchor}" dominant-baseline="middle"{ha}>{t}</text>')
 def LINE(p, q, col=TX, sw=4, dash=None, cap='round'):
@@ -295,14 +299,14 @@ SP = {0: ('0', '1', '0'), 30: ('½', '√3/2', '1/√3'), 45: ('1/√2', '1/√2
       180: ('0', '−1', '0'), 270: ('−1', '0', 'tidak tertakrif'), 360: ('0', '1', '0')}
 for a, (s_, c_, t_) in SP.items():
     if a in (90, 270): assert abs(cd(a)) < 1e-12
-    rows.append([f'{a}°', s_, c_, t_])
+    rows.append([f'{a}°', fx_html(s_), fx_html(c_), fx_html(t_)])
 assert abs(sd(30) - 0.5) < 1e-12 and abs(cd(60) - 0.5) < 1e-12 and abs(td(45) - 1) < 1e-12 and abs(td(60) - math.sqrt(3)) < 1e-12
 fig = ''
 # segi tiga 45°
 fig += f'<path d="M40 400 L220 400 L220 220 Z" fill="none" stroke="{PU}" stroke-width="4" stroke-linejoin="round"/>'
 fig += T(130, 424, '1', TX, 18) + T(238, 310, '1', TX, 18, 'start') + T(112, 296, '√2', AM, 18) + T(76, 384, '45°', GR, 16) + T(204, 240, '45°', GR, 16, 'end')
 fig += f'<path d="M270 400 L470 400 L470 54 Z" fill="none" stroke="{TR}" stroke-width="4" stroke-linejoin="round"/>'
-fig += T(370, 424, '1', TX, 18) + T(486, 228, '√3', TX, 18, 'start') + T(350, 210, '2', AM, 18) + T(310, 386, '60°', GR, 16) + T(456, 100, '30°', GR, 16, 'end')
+fig += T(370, 424, '1', TX, 18) + T(474, 228, '√3', TX, 17, 'start') + T(350, 210, '2', AM, 18) + T(310, 386, '60°', GR, 16) + T(456, 100, '30°', GR, 16, 'end')
 fig += T(250, 36, 'Segi tiga sudut khas', MU3, 19, halo=False)
 add('6.1', 'SUDUT KHAS', 'Nilai tepat bagi sudut khas',
     TABLE(['θ', 'sin θ', 'kos θ', 'tan θ'], rows, col)
@@ -418,7 +422,7 @@ fig, X, Y = graf([(sd, DIM, '8 7'), (lambda x: sd(2 * x), TR), (lambda x: sd(x) 
 fig += T(X(45), Y(1) - 18, 'sin 2x', TR, 15) + T(X(90) + 30, Y(2) - 12, 'sin x + 1', PU, 15, 'start')
 add('6.2', 'BANDING GRAF', 'Kesan b dan c pada graf',
     TABLE(['Fungsi', 'Amplitud', 'Kala', 'Maks', 'Min'],
-          [['y = sin x', '1', '360°', '1', '−1'], ['y = sin 2x', '1', '180°', '1', '−1'], ['y = sin x + 1', '1', '360°', '2', '0'], ['y = 3 sin ½x', '3', '720°', '3', '−3']], col, rv=True)
+          [['y = sin x', '1', '360°', '1', '−1'], ['y = sin 2x', '1', '180°', '1', '−1'], ['y = sin x + 1', '1', '360°', '2', '0'], [fx_html('y = 3 sin ½x'), '3', '720°', '3', '−3']], col, rv=True)
     + NOTE('<i>b</i> bertambah → kala <b>berkurang</b> (graf dimampatkan secara mengufuk). <i>c</i> tidak mengubah amplitud atau kala.'),
     svg(fig, 'Graf y sama dengan sin x, sin 2x dan sin x tambah 1'))
 

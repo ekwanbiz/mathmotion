@@ -17,11 +17,11 @@ const mxSc = (k, A) => A.map(r => r.map(v => k * v));
 const mxDet = A => A[0][0] * A[1][1] - A[0][1] * A[1][0];
 const mxAdj = A => [[A[1][1], -A[0][1]], [-A[1][0], A[0][0]]];
 const mxEq = (A, B) => JSON.stringify(A) === JSON.stringify(B);
-const mxK = d => (d === 1 ? '' : d === -1 ? '−' : `1/${par(d)} `);
+const mxK = d => (d === 1 ? '' : d === -1 ? '−' : `${fr(1, par(d))} `);
 const mxXY = [['<i>x</i>'], ['<i>y</i>']];
 // songsang sebagai teks HTML
-const mxInvH = A => { const d = mxDet(A), J = mxAdj(A); return J.every(r => r.every(v => v % d === 0)) ? mxH(mxSc(1 / d, J).map(r => r.map(v => v + 0))) : `${d < 0 ? '−' : ''}1/${Math.abs(d)} ${mxH(J)}`; };
-const mxInvT = A => { const d = mxDet(A), J = mxAdj(A); return J.every(r => r.every(v => v % d === 0)) ? mxT(mxSc(1 / d, J).map(r => r.map(v => v + 0))) : `${d < 0 ? '−' : ''}1/${Math.abs(d)} ${mxT(J)}`; };
+const mxInvH = A => { const d = mxDet(A), J = mxAdj(A); return J.every(r => r.every(v => v % d === 0)) ? mxH(mxSc(1 / d, J).map(r => r.map(v => v + 0))) : `${d < 0 ? '−' : ''}${fr(1, Math.abs(d))} ${mxH(J)}`; };
+const mxInvT = A => { const d = mxDet(A), J = mxAdj(A); return J.every(r => r.every(v => v % d === 0)) ? mxT(mxSc(1 / d, J).map(r => r.map(v => v + 0))) : `${d < 0 ? '−' : ''}${fr(1, Math.abs(d))} ${mxT(J)}`; };
 const mxRand = (r, m, n, lo = -6, hi = 9) => Array.from({ length: m }, () => Array.from({ length: n }, () => r.i(lo, hi)));
 const MXRG = { i: (a, b) => ri(a, b), p: a => pick(a), f: () => Math.random(), n: (a, b) => nz(a, b) };
 const MXRW = { i: (a, b) => wri(a, b), p: a => wpick(a), f: () => WR(), n: (a, b) => wnz(a, b) };
@@ -265,7 +265,7 @@ MX.gabung = r => {
 };
 MX.persX = r => {
   const k = r.i(2, 4), X = mxRand(r, 1 + r.i(0, 1), 2, -5, 6), A = mxRand(r, X.length, 2, -8, 8), B = mxAdd(mxSc(k, X), A);
-  return GEN_LQ('persX', { k, A, B, ans: `<i>X</i> = ${mxH(X)}`, work: [`${k}<i>X</i> = ${mxH(B)} − ${mxH(A)} = ${mxH(mxSc(k, X))}`, `<i>X</i> = 1/${k} × ${mxH(mxSc(k, X))} = ${mxH(X)}`] });
+  return GEN_LQ('persX', { k, A, B, ans: `<i>X</i> = ${mxH(X)}`, work: [`${k}<i>X</i> = ${mxH(B)} − ${mxH(A)} = ${mxH(mxSc(k, X))}`, `<i>X</i> = ${fr(1, k)} × ${mxH(mxSc(k, X))} = ${mxH(X)}`] });
 };
 MX.k221 = r => {
   const x = r.n(-5, 6), y = r.n(-5, 6), z = r.n(-4, 5), k = r.i(2, 3), a = r.i(-6, 6), b = r.i(-6, 6), c = r.n(1, 4);

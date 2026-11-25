@@ -2,7 +2,10 @@
 #   -> pengguna/slides.js
 # Jalankan:  python3 tools/pengguna/gen_slides.py
 # Gunakan HANYA warna palet gelap di bawah supaya mod cerah ditukar automatik oleh themed().
-import json, os, html, math, re
+import json, os, html, math, re, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from fxsvg import fx_svg, has_fx, fx_html   # pecahan bertingkat & punca (25 Nov)
+import mathfmt
 from fractions import Fraction as F
 from decimal import Decimal as D, ROUND_HALF_UP
 
@@ -54,10 +57,8 @@ def ANS(t):
 def NOTE(t, lab='Ingat:'):
     return f'<div class="sl-note"><b>{lab}</b> {t}</div>'
 def FR(a, b):
-    """Pecahan bertingkat dalam teks slaid."""
-    return ('<span style="display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; '
-            'line-height: 1.1; font-size: 0.85em; margin: 0 2px; white-space: nowrap"><span style="padding: 0 4px; border-bottom: 2px solid currentColor">'
-            f'{a}</span><span>{b}</span></span>')
+    """Pecahan bertingkat dalam teks slaid (gaya .fr dalam teras.css)."""
+    return mathfmt.FR(a, b)
 def B(t, col):
     return f'<b style="color: {col}">{t}</b>'
 def TABLE(head, rows, col, rv=False, fs=19):
@@ -75,9 +76,11 @@ W, H = 500, 470
 def svg(inner, label, h=H):
     return f'<svg class="sl-svg" viewBox="0 0 {W} {h}" role="img" aria-label="{html.escape(label)}">{inner}</svg>'
 def r1(v): return round(v, 1)
-def T(x, y, t, col=TX, size=20, anchor='middle', weight=700, italic=False, halo=True):
+def T(x, y, t, col=TX, size=20, anchor='middle', weight=700, italic=False, halo=True, fx=True):
     it = ' font-style="italic"' if italic else ''
     ha = f' paint-order="stroke" stroke="{NAV}" stroke-width="6" stroke-linejoin="round"' if halo else ''
+    if fx and has_fx(t):   # fx=False: tarikh (cth 12/29) kekal
+        return fx_svg(x, y, t, col, size, anchor, f' {FONT} font-weight="{weight}"{it}{ha}')
     return (f'<text x="{r1(x)}" y="{r1(y)}" fill="{col}" {FONT} font-size="{size}" font-weight="{weight}"{it} '
             f'text-anchor="{anchor}" dominant-baseline="middle"{ha}>{t}</text>')
 def LINE(p, q, col=TX, sw=4, dash=None, cap='round'):
@@ -313,7 +316,7 @@ fig = (f'<rect x="70" y="30" width="360" height="220" rx="22" fill="{PA}2e" stro
        + RECT(100, 90, 58, 44, f'{AM}55', AM, 8, 2.5)
        + LINE((115, 90), (115, 134), AM, 2) + LINE((143, 90), (143, 134), AM, 2) + LINE((100, 112), (158, 112), AM, 2)
        + T(100, 178, '1234  5678  9012  3456', TX, 22, 'start')
-       + T(100, 220, 'TAMAT 12/29', MU3, 15, 'start', halo=False)
+       + T(100, 220, 'TAMAT 12/29', MU3, 15, 'start', halo=False, fx=False)
        + f'<circle cx="370" cy="214" r="20" fill="{RD}88"/><circle cx="392" cy="214" r="20" fill="{AM}88"/>')
 for i, (t, ok) in enumerate([('Bayar penuh: tiada faedah', True), ('Mata ganjaran', True), ('Caj kewangan tinggi', False), ('Mudah boros', False)]):
     x0 = 20 + (i % 2) * 236; y0 = 280 + (i // 2) * 88

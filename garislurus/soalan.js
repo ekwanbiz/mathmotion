@@ -17,7 +17,7 @@ const glIsInt = a => glR(a)[1] === 1;
 const glSama = (a, b) => { a = glR(a); b = glR(b); return a[0] === b[0] && a[1] === b[1]; };
 const glV = a => { a = glR(a); return a[0] / a[1]; };
 // paparan: pecahan bertingkat kecil (sup/sub), tanda tolak sebenar (−)
-const glS = a => { a = glR(a); if (a[1] === 1) return fmt(a[0]); return (a[0] < 0 ? '−' : '') + `<sup>${Math.abs(a[0])}</sup>⁄<sub>${a[1]}</sub>`; };
+const glS = a => { a = glR(a); if (a[1] === 1) return fmt(a[0]); return (a[0] < 0 ? '−' : '') + fr(Math.abs(a[0]), a[1]); };
 const glT = a => { a = glR(a); return a[1] === 1 ? fmt(a[0]) : (a[0] < 0 ? '−' : '') + Math.abs(a[0]) + '/' + a[1]; };   // teks biasa (rajah SVG)
 const glPr = a => (glV(a) < 0 ? `(${glS(a)})` : glS(a));
 const glPt = (x, y) => `(${glS(x)}, ${glS(y)})`;
@@ -34,7 +34,28 @@ function glAm(a, b, c, x = 'x', y = 'y') {
   return `${s} = ${fmt(c)}`;
 }
 // bentuk pintasan x/a + y/b = 1
-const glFv = (v, a) => `<sup>${v}</sup>⁄<sub>${typeof a === 'number' ? fmt(a) : a}</sub>`;
+const glFv = (v, a) => fr(v, typeof a === 'number' ? fmt(a) : a);
+// teks langkah: (A) / (B), a/b → pecahan bertingkat (25 Nov). Bukan untuk rajah (fig).
+const GLFXOP = String.raw`\((?:[^()]|\([^()]*\))*\)|\d+(?:\.\d+)?|[A-Za-z]+`;
+const GLFXRE = new RegExp(String.raw`(?<![\w.>])(${GLFXOP})( ?)\/\2(${GLFXOP})(?!\w)`);
+const glUnP = x => (/^\((?:[^()]|\([^()]*\))*\)$/.test(x) ? x.slice(1, -1) : x);
+function glFx(s) {
+  if (typeof s !== 'string') return s;
+  s = s.replace(/[½⅓⅔¼¾]/g, c => ({ '½': fr(1, 2), '⅓': fr(1, 3), '⅔': fr(2, 3), '¼': fr(1, 4), '¾': fr(3, 4) }[c]));
+  if (!s.includes('/')) return s;
+  for (let k = 0; k < 20; k++) {
+    const m = s.match(GLFXRE); if (!m) break;
+    if (/^[A-Za-z]{3,}$/.test(m[1]) || /^[A-Za-z]{3,}$/.test(m[3])) break;
+    s = s.slice(0, m.index) + fr(glUnP(m[1]), glUnP(m[3])) + s.slice(m.index + m[0].length);
+  }
+  return s;
+}
+function glFxO(o) {
+  if (typeof o === 'string') return glFx(o);
+  if (Array.isArray(o)) return o.map(glFxO);
+  if (o && typeof o === 'object') for (const k in o) if (!/fig/i.test(k) && k !== 'type') o[k] = glFxO(o[k]);
+  return o;
+}
 const glPin = (a, b) => `${glFv('x', a)} ${b < 0 ? '−' : '+'} ${glFv('y', Math.abs(b))} = 1`;
 // bentuk am integer (a > 0, atau b > 0 jika a = 0) bagi y = mx + c
 function glAmOf(m, c) {
@@ -723,6 +744,7 @@ const GEN = {
   '9.1.7': { m: [() => GL.tafsir(glRG), () => GL.kiraNilai(glRG)], s: [() => GL.bentukPers(glRG), () => GL.bandingPelan(glRG)], k: [() => GL.k117(glRG)] }
 };
 
+for (const sub in GEN) for (const lv in GEN[sub]) GEN[sub][lv] = GEN[sub][lv].map(f => (...a) => glFxO(f(...a)));   // pecahan bertingkat (25 Nov)
 /* =================== WG + WSPLAN: bank Lembaran Kerja (rawak berbenih) =================== */
 const WG = {};
 WG.mcBaca = () => GL.mcBaca(glRW); WG.mcTulis = () => GL.mcTulis(glRW); WG.mcMendatar = i => GL.mcMendatar(glRW, i);
@@ -736,6 +758,7 @@ WG.silangMudah = i => GL.silangMudah(glRW, i); WG.silangGanti = () => GL.silangG
 WG.tafsir = () => GL.tafsir(glRW); WG.kiraNilai = i => GL.kiraNilai(glRW, i); WG.bentukPers = () => GL.bentukPers(glRW); WG.bandingPelan = () => GL.bandingPelan(glRW); WG.k117 = () => GL.k117(glRW);
 
 // [aras, penjana, bilangan] — 30 soalan setiap subtopik (18 mudah, 9 sederhana, 3 sukar)
+for (const k in WG) { const f = WG[k]; WG[k] = (...a) => glFxO(f(...a)); }   // pecahan bertingkat (25 Nov)
 const WSPLAN = {
   '9.1.1': [['m', 'mcBaca', 7], ['m', 'mcTulis', 6], ['m', 'mcMendatar', 5], ['s', 'mcSusun', 5], ['s', 'mcRajah', 4], ['k', 'k111', 3]],
   '9.1.2': [['m', 'amKeMxc', 7], ['m', 'pinBentuk', 6], ['m', 'amPintasan', 5], ['s', 'keBentukAm', 5], ['s', 'keBentukPin', 4], ['k', 'k112', 3]],
@@ -802,7 +825,7 @@ function glCqMake(ty, level) {
   const L = Math.max(0, Math.min(2, level | 0)), fns = CQGEN[ty] || CQGEN.mxc;
   // aras lebih tinggi kadang-kadang mengulang soalan aras lebih rendah supaya pelbagai
   const k = L === 0 ? 0 : Math.random() < .7 ? L : L - 1;
-  return fns[k]();
+  return glFxO(fns[k]());
 }
 function gq(level) {
   const pool = level === 0 ? ['mxc', 'mxc', 'bentuk', 'titik', 'selari', 'persamaan', 'silang'] : Object.keys(CQT);

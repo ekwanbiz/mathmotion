@@ -4,6 +4,93 @@
 // Dimuat selepas teras/asas.js. Semua nama global di sini berawalan "bs" / "BS" supaya tidak bertembung dengan teras.
 
 /* =================== pembantu nombor =================== */
+/* =================== pecahan bertingkat & punca (25 Nov) =================== */
+// bsBt: teks soalan → a/b, ½ … menjadi pecahan bertingkat fr(); √x, √(..), ∛x menjadi rt() bergaris atas.
+// Unit (km/j, m/s, RM/kg …) dan perkataan (dan/atau) tidak diubah. Rajah (fig) tidak disentuh.
+const BSBTG = { '½': [1, 2], '⅓': [1, 3], '⅔': [2, 3], '¼': [1, 4], '¾': [3, 4], '⅕': [1, 5], '⅖': [2, 5], '⅗': [3, 5], '⅘': [4, 5], '⅙': [1, 6], '⅚': [5, 6], '⅛': [1, 8], '⅜': [3, 8], '⅝': [5, 8], '⅞': [7, 8] };
+const BSBTAT = String.raw`(?:\d+(?:\.\d+)?|[A-Za-zθαβ]|\((?:[^()]|\([^()]*\))*\)|\u0004[^\u0006]*\u0006|\u0001[^\u0003]*\u0003)[²³]?`;
+const BSBTRE = new RegExp(String.raw`(?<![\w.>\u0003\u0006])((?:${BSBTAT})+)( ?)\/\2((?:${BSBTAT})+)(?![\w]|\.\d)`);
+const BSBTUN = /^(?:km|m|cm|mm|RM|kg|g|l|ml|sen|kWj|unit|orang|liter)$/, BSBTUD = /^(?:j|jam|s|min|saat|minit|hari|kg|g|m|m²|m³|cm|cm²|cm³|km|l|L|unit|liter|kWj|minggu|bulan|tahun|orang|kotak)$/;
+const bsBtP = x => (/^\((?:[^()]|\([^()]*\))*\)$/.test(x) ? x.slice(1, -1) : x);
+function bsBtTok(s) {
+  s = s.replace(/[½⅓⅔¼¾⅕⅖⅗⅘⅙⅚⅛⅜⅝⅞]/g, c => '\u0001' + BSBTG[c][0] + '\u0002' + BSBTG[c][1] + '\u0003');
+  s = s.replace(/([√∛∜])(\((?:[^()]|\([^()]*\))*\)|\d+(?:\.\d+)?|[A-Za-zθ](?![A-Za-z]))/g, (m, r, x) => '\u0004' + ({ '∛': 3, '∜': 4 }[r] || '') + '\u0005' + bsBtP(x) + '\u0006');
+  let k = 0, m, skip = '';
+  while (k++ < 30 && (m = s.match(BSBTRE))) {
+    const a = m[1], b = m[3];
+    if ((/^[A-Za-z]{3,}$/.test(a) && /^[A-Za-z]{3,}$/.test(b)) || (BSBTUN.test(a) && BSBTUD.test(b)) || (/^[A-Za-z]{2,}$/.test(a) || /^RM/.test(a)) && BSBTUD.test(b)) {
+      skip += s.slice(0, m.index + m[0].length).replace(/\//g, '\u0007'); s = s.slice(m.index + m[0].length); continue;
+    }
+    s = s.slice(0, m.index) + '\u0001' + bsBtP(a) + '\u0002' + bsBtP(b) + '\u0003' + s.slice(m.index + m[0].length);
+  }
+  return (skip + s).replace(/\u0007/g, '/');
+}
+function bsBt(s) {
+  if (typeof s !== 'string' || !/[\/½⅓⅔¼¾⅕⅖⅗⅘⅙⅚⅛⅜⅝⅞√∛∜]/.test(s)) return s;
+  s = bsBtTok(s);
+  for (let k = 0; k < 12 && /[\u0001\u0004]/.test(s); k++)
+    s = s.replace(/\u0001([^\u0001-\u0006]*)\u0002([^\u0001-\u0006]*)\u0003/g, (m, a, b) => fr(a, b))
+      .replace(/\u0004([^\u0001-\u0006]*)\u0005([^\u0001-\u0006]*)\u0006/g, (m, n, x) => rt(x, n));
+  return s;
+}
+// bsBtSvg: teks rajah SVG dengan pecahan bertingkat & punca; y = garis tengah, st = gaya isi (cth 'style="fill:var(--tx)"')
+function bsBtTree(s) {
+  let i = 0;
+  const run = stop => {
+    const out = []; let buf = '';
+    const fl = () => { if (buf) out.push({ t: 's', v: buf }); buf = ''; };
+    while (i < s.length) {
+      const c = s[i];
+      if (stop.includes(c)) break;
+      if (c === '\u0001') { fl(); i++; const a = run('\u0002'); i++; const b = run('\u0003'); i++; out.push({ t: 'f', a, b }); }
+      else if (c === '\u0004') { fl(); i++; const n = run('\u0005'); i++; const k = run('\u0006'); i++; out.push({ t: 'r', n, k }); }
+      else { buf += c; i++; }
+    }
+    fl(); return out;
+  };
+  return run('');
+}
+const bsBtCW = ch => (ch === ' ' ? .27 : /[()[\].,:;'|]/.test(ch) ? .34 : ch === '1' ? .5 : /\d/.test(ch) ? .6 : /[mwMW]/.test(ch) ? .86 : /[−+=×÷<>≤≥]/.test(ch) ? .64 : /[ijlrtf]/.test(ch) ? .32 : /[A-Z]/.test(ch) ? .68 : ch === '°' ? .4 : .57);
+function bsBtMeas(L, z) {
+  let w = 0, up = z * .5, dn = z * .5;
+  L.forEach(n => {
+    if (n.t === 's') n.w = [...n.v].reduce((a, ch) => a + z * bsBtCW(ch), 0);
+    else if (n.t === 'f') { const z2 = z * .8, A = bsBtMeas(n.a, z2), B = bsBtMeas(n.b, z2); n.A = A; n.B = B; n.w = Math.max(A.w, B.w) + z * .24; up = Math.max(up, A.up + A.dn + z * .12); dn = Math.max(dn, B.up + B.dn + z * .12); }
+    else { const K = bsBtMeas(n.k, z), N = bsBtMeas(n.n, z * .5); n.K = K; n.ix = n.n.length ? Math.max(0, N.w - z * .25) : 0; n.w = K.w + z * .76 + n.ix; up = Math.max(up, K.up + z * .14); }
+    w += n.w;
+  });
+  return { w, up, dn };
+}
+function bsBtDraw(L, x, y, z, st, fw) {
+  let o = '';
+  const r = v => +v.toFixed(1), col = (st.match(/var\(--[\w-]+\)|#[0-9a-fA-F]{3,8}/) || ['currentColor'])[0];
+  L.forEach(n => {
+    if (n.t === 's') o += `<text x="${r(x)}" y="${r(y)}" ${st} font-size="${r(z)}" font-weight="${fw}" dominant-baseline="central">${n.v.replace(/ /g, ' ')}</text>`;
+    else if (n.t === 'f') {
+      o += bsBtDraw(n.a, x + (n.w - n.A.w) / 2, y - z * .12 - n.A.dn, z * .8, st, fw) + bsBtDraw(n.b, x + (n.w - n.B.w) / 2, y + z * .12 + n.B.up, z * .8, st, fw);
+      o += `<line x1="${r(x + z * .06)}" y1="${r(y)}" x2="${r(x + n.w - z * .06)}" y2="${r(y)}" style="stroke:${col}" stroke-width="${r(Math.max(1.3, z / 14))}"/>`;
+    } else {
+      const x0 = x + n.ix, rw = z * .62, top = y - n.K.up - z * .1;
+      if (n.n.length) o += bsBtDraw(n.n, x, y - z * .38, z * .5, st, fw);
+      o += `<path d="M${r(x0)} ${r(y + z * .05)} L${r(x0 + rw * .3)} ${r(y - z * .05)} L${r(x0 + rw * .6)} ${r(y + z * .5)} L${r(x0 + rw)} ${r(top)} L${r(x + n.w)} ${r(top)}" fill="none" style="stroke:${col}" stroke-width="${r(Math.max(1.3, z / 13))}" stroke-linejoin="round"/>`;
+      o += bsBtDraw(n.k, x0 + rw + z * .06, y, z, st, fw);
+    }
+    x += n.w;
+  });
+  return o;
+}
+const bsBtW = (t, z) => bsBtMeas(bsBtTree(bsBtTok(String(t))), z).w;
+function bsBtSvg(x, y, t, st, z, anchor = 'middle', fw = 700) {
+  const L = bsBtTree(bsBtTok(String(t))), m = bsBtMeas(L, z), x0 = anchor === 'start' ? x : anchor === 'end' ? x - m.w : x - m.w / 2;
+  return `<g>${bsBtDraw(L, x0, y, z, st, fw)}</g>`;
+}
+function bsBtO(o) {
+  if (typeof o === 'string') return bsBt(o);
+  if (Array.isArray(o)) return o.map(bsBtO);
+  if (o && typeof o === 'object') for (const k in o) if (!/fig|svg|img|^type$|^id$|^key$/i.test(k)) o[k] = bsBtO(o[k]);
+  return o;
+}
+
 const bsGcd = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) [a, b] = [b, a % b]; return a; };
 // nombor kemas: bundar 4 t.p., tiada −0, ribuan dipisah ruang (≥ 10 000)
 const bsN = x => {
@@ -70,7 +157,7 @@ const BSBS2 = [
 
 /* =================== rajah =================== */
 const bsF = v => +(+v).toFixed(1);
-const bsT = (x, y, t, c = 'tx', sz = 16, a = 'middle', w = 700) => `<text x="${bsF(x)}" y="${bsF(y)}" style="fill:var(--${c})" font-size="${sz}" font-weight="${w}" font-family="Inter, sans-serif" text-anchor="${a}" dominant-baseline="central">${t}</text>`;
+const bsT = (x, y, t, c = 'tx', sz = 16, a = 'middle', w = 700) => /[\u0001\u0004]/.test(bsBtTok(String(t))) ? bsBtSvg(x, y, t, `style="fill:var(--${c})" font-family="Inter, sans-serif"`, sz, a, w) : `<text x="${bsF(x)}" y="${bsF(y)}" style="fill:var(--${c})" font-size="${sz}" font-weight="${w}" font-family="Inter, sans-serif" text-anchor="${a}" dominant-baseline="central">${t}</text>`;
 const bsL = (p, q, c, w = 3, dash) => `<line x1="${bsF(p[0])}" y1="${bsF(p[1])}" x2="${bsF(q[0])}" y2="${bsF(q[1])}" style="stroke:var(--${c})" stroke-width="${w}" stroke-linecap="round"${dash ? ' stroke-dasharray="7 6"' : ''}/>`;
 const bsSvg = (w, h, s, label) => `<svg viewBox="0 0 ${bsF(w)} ${bsF(h)}" role="img" aria-label="${esc(label)}" font-family="Inter, sans-serif">${s}</svg>`;
 // segi empat tepat berlabel, dilukis berkadar: items [{w, h, c, t, wl, hl}]
@@ -756,3 +843,8 @@ function cq(level, types) {
   const pool = (types && types.length ? types : Object.keys(CQT)).filter(t => CQGEN[t]);
   return bsCqMake(pick(pool.length ? pool : Object.keys(CQT)), level);
 }
+
+/* pecahan bertingkat & punca (25 Nov): semua soalan Latihan, Lembaran, game & kuiz melalui bsBtO */
+for (const s in GEN) for (const l in GEN[s]) GEN[s][l] = GEN[s][l].map(f => (...a) => bsBtO(f(...a)));
+if (typeof WG === 'object') for (const k in WG) { const f = WG[k]; WG[k] = (...a) => bsBtO(f(...a)); }
+{ const c0 = cq, g0 = gq; cq = (...a) => bsBtO(c0(...a)); gq = (...a) => bsBtO(g0(...a)); }

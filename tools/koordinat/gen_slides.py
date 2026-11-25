@@ -1,7 +1,9 @@
 # Penjana slaid NOTA KOORDINAT (Tingkatan 2 Bab 7 Koordinat) -> koordinat/slides.js
 # Jalankan:  python3 tools/koordinat/gen_slides.py
 # Gunakan HANYA warna palet gelap di bawah supaya mod cerah ditukar automatik oleh themed().
-import json, os, html, math, re
+import json, os, html, math, re, sys
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+from mathfmt import FR as FR_, RT, SFR as SFR_, SRT, mathW
 from fractions import Fraction as F
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -41,10 +43,8 @@ def ANS(t):
 def NOTE(t, lab='Ingat:'):
     return f'<div class="sl-note"><b>{lab}</b> {t}</div>'
 def FR(a, b):
-    """Pecahan bertingkat dalam teks slaid."""
-    return ('<span style="display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; '
-            'line-height: 1.1; font-size: 0.85em; margin: 0 2px; white-space: nowrap"><span style="padding: 0 4px; border-bottom: 2px solid currentColor">'
-            f'{a}</span><span>{b}</span></span>')
+    """Pecahan bertingkat dalam teks slaid (gaya dikongsi .fr, teras/teras.css)."""
+    return FR_(a, b)
 def FRV(fr):
     """Nilai Fraction sebagai pecahan bertingkat (atau nombor bulat)."""
     fr = F(fr)
@@ -184,8 +184,28 @@ class Plane:
 
 # ---------- pembantu khusus bab ----------
 def SQ(t):
-    """Punca kuasa dua dengan garis atas (teks slaid)."""
-    return f'√<span style="border-top: 2px solid currentColor; padding: 0 3px">{t}</span>'
+    """Punca kuasa dua dengan garis atas (gaya dikongsi .rt, teras/teras.css)."""
+    return RT(t)
+def MROW(x, y, parts, col, size=18, anchor='start'):
+    """Baris matematik SVG: parts = teks biasa, ('fr', a, b) atau ('rt', t). y = tengah teks (seperti T).
+    Garis atas √ dipanjangkan sedikit (faktor K) supaya menutup seluruh teks."""
+    K = 1.02
+    def wid(p):
+        if isinstance(p, str): return mathW(p.strip(), size) * .88 + size * .28 * (p.endswith(' ') + p.startswith(' '))
+        if p[0] == 'fr': return max(mathW(p[1], size * .85), mathW(p[2], size * .85)) * K + 10
+        return size * .62 + mathW(p[1], size) * K + 6
+    tot = sum(wid(p) + 2 for p in parts)
+    cx = x if anchor == 'start' else (x - tot if anchor == 'end' else x - tot / 2)
+    s = ''
+    for p in parts:
+        w = wid(p)
+        if isinstance(p, str): s += T(cx + (size * .28 if p.startswith(' ') else 0), y, p.strip(), col, size, 'start')
+        elif p[0] == 'fr': s += SFR_(cx + (w - max(mathW(p[1], size * .85), mathW(p[2], size * .85)) - 10) / 2, y, p[1], p[2], col, round(size * .85, 1), 'start')
+        else:
+            r = SRT(cx, y + size * .35, p[1], col, size, 'start')
+            s += re.sub(r'L([\d.]+) ([\d.]+)" fill="none"', lambda m: f'L{cx + w - 1:.1f} {m.group(2)}" fill="none"', r, count=1)
+        cx += w + 2
+    return s
 def pm(v):
     """Nombor dengan kurungan jika negatif (−)."""
     return f'({fs(v)})' if v < 0 else fs(v)
@@ -306,7 +326,8 @@ add('7.1', 'CONTOH BERLANGKAH', 'Mengira jarak (1)',
 K_, L_ = (-3, -1), (2, 3)
 assert d2(K_, L_) == 41 and f2(math.sqrt(41)) == '6.40'
 pl = Plane(-4, 3, -2, 4)
-fig = (pl.draw() + legs(pl, K_, L_, '5', '4', '√41', hoff=24, voff=-14, doff=(-14, -14))
+fig = (pl.draw() + legs(pl, K_, L_, '5', '4', None, hoff=24, voff=-14)
+       + SRT(pl.X(-0.5) - 14, pl.Y(1) - 14 + 18 * .35, '41', DC, 18, 'end')
        + pl.pt(*K_, 'K(−3, −1)', TX, 0, 26) + pl.pt(*L_, 'L(2, 3)', TX, 14, -14, 'start'))
 add('7.1', 'CONTOH BERLANGKAH', 'Mengira jarak (2)',
     P('Hitung jarak antara K(−3, −1) dan L(2, 3), betul kepada dua tempat perpuluhan.', True)
@@ -323,13 +344,13 @@ assert d2(A_, B_) == 25 and 4 + 3 == 7 and 4 ** 2 - 3 ** 2 == 7
 pl = Plane(-2, 4, -2, 3, (60, 14, 440, 262))
 fig = (legs(pl, A_, B_, '4', '−3', '5', hoff=-20, voff=14, doff=(-12, 14))
        + pl.pt(*A_, 'A(−1, 2)', TX, 0, -22) + pl.pt(*B_, 'B(3, −1)', TX, 0, 24))
-rowsY = [(312, True, '√(4² + (−3)²) = 5', 'betul'), (362, False, '4 + 3 = 7', 'tambah terus'),
-         (412, False, '√(4² − 3²) = √7', 'tolak kuasa dua'), (462 - 2, False, '(−3)² = −9', 'tanda salah')]
+rowsY = [(312, True, [('rt', '4² + (−3)²'), ' = 5'], 'betul'), (362, False, '4 + 3 = 7', 'tambah terus'),
+         (412, False, [('rt', '4² − 3²'), ' = ', ('rt', '7')], 'tolak kuasa dua'), (462 - 2, False, '(−3)² = −9', 'tanda salah')]
 fig2 = ''
 for y, ok, a, why in rowsY:
     fig2 += RECT(30, y - 21, 440, 42, SURF, GR if ok else RD, 12, 2)
     fig2 += (TICK(56, y) if ok else CROSS(56, y))
-    fig2 += T(82, y, a, GR if ok else RD, 19, 'start') + T(452, y, why, MU, 16, 'end')
+    fig2 += (MROW(82, y, a, GR if ok else RD, 19) if isinstance(a, list) else T(82, y, a, GR if ok else RD, 19, 'start')) + T(452, y, why, MU, 16, 'end')
 add('7.1', 'KESILAPAN BIASA', 'Elakkan kesilapan ini',
     P('Jarak antara A(−1, 2) dan B(3, −1):', True)
     + BUL([f'{B("Tambah terus", RD)} jarak mengufuk dan mencancang ✗',
@@ -432,12 +453,12 @@ pl = Plane(0, 9, 1, 8, (60, 14, 440, 262))
 fig = (pl.draw(fs_=13) + LINE(pl.p(*A_), pl.p(*B_), AM, 6) + DOT(pl.p(5, 5), MC, 9)
        + pl.pt(*A_, 'A(2, 7)', TX, 0, -20) + pl.pt(*B_, 'B(8, 3)', TX, 0, 22)
        + T(pl.X(5) + 14, pl.Y(5) - 18, '(5, 5)', MC, 18, 'start'))
-rowsY = [(312, True, '((2 + 8)/2, (7 + 3)/2) = (5, 5)', 'betul'), (362, False, '((8 − 2)/2, (3 − 7)/2) = (3, −2)', 'tolak'),
-         (412, False, '(2 + 8, 7 + 3) = (10, 10)', 'lupa ÷ 2'), (460, False, '((2 + 7)/2, (8 + 3)/2)', 'campur x, y')]
+rowsY = [(312, True, ['(', ('fr', '2 + 8', '2'), ', ', ('fr', '7 + 3', '2'), ') = (5, 5)'], 'betul'), (362, False, ['(', ('fr', '8 − 2', '2'), ', ', ('fr', '3 − 7', '2'), ') = (3, −2)'], 'tolak'),
+         (412, False, '(2 + 8, 7 + 3) = (10, 10)', 'lupa ÷ 2'), (460, False, ['(', ('fr', '2 + 7', '2'), ', ', ('fr', '8 + 3', '2'), ')'], 'campur x, y')]
 for y, ok, a, why in rowsY:
     fig += RECT(30, y - 21, 440, 42, SURF, GR if ok else RD, 12, 2)
     fig += (TICK(56, y) if ok else CROSS(56, y))
-    fig += T(82, y, a, GR if ok else RD, 17, 'start') + T(456, y, why, MU, 15, 'end')
+    fig += (MROW(82, y, a, GR if ok else RD, 17) if isinstance(a, list) else T(82, y, a, GR if ok else RD, 17, 'start')) + T(456, y, why, MU, 15, 'end')
 add('7.2', 'KESILAPAN BIASA', 'Semak kiraan anda',
     P('Titik tengah bagi A(2, 7) dan B(8, 3):', True)
     + BUL([f'{B("Menolak", RD)} koordinat: titik tengah guna <b>tambah</b> ✗',
@@ -578,8 +599,8 @@ fig = (pl.draw(fs_=13) + legs(pl, A_, B_, 'x₂ − x₁', 'y₂ − y₁', None
        + T(pl.X(2.2) - 10, pl.Y(1.72) - 14, 'jarak', DC, 18, 'end')
        + DOT(pl.p(*Mr), MC, 9) + T(pl.X(3.5) - 12, pl.Y(2.5) - 22, 'titik tengah', MC, 18, 'end')
        + pl.pt(*A_, '', TX) + pl.pt(*B_, '', TX))
-fig += RECT(20, 356, 460, 48, SURF, DC, 12, 2) + T(250, 380, 'Jarak = √((x₂ − x₁)² + (y₂ − y₁)²)', DC, 18)
-fig += RECT(20, 414, 460, 48, SURF, MC, 12, 2) + T(250, 438, 'Titik tengah = ((x₁ + x₂)/2, (y₁ + y₂)/2)', MC, 18)
+fig += RECT(20, 356, 460, 48, SURF, DC, 12, 2) + MROW(250, 382, ['Jarak = ', ('rt', '(x₂ − x₁)² + (y₂ − y₁)²')], DC, 18, 'middle')
+fig += RECT(20, 414, 460, 48, SURF, MC, 12, 2) + MROW(250, 436, ['Titik tengah = (', ('fr', 'x₁ + x₂', '2'), ', ', ('fr', 'y₁ + y₂', '2'), ')'], MC, 18, 'middle')
 add('7.3', 'RINGKASAN', 'Ringkasan bab',
     TABLE(['Perkara', 'Rumus'],
           [['Jarak mengufuk / mencancang', 'beza koordinat-<i>x</i> / koordinat-<i>y</i>'],

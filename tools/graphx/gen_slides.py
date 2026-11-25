@@ -1,7 +1,9 @@
 # Penjana slaid NOTA GRAPHX (Tingkatan 2 Bab 8 Graf Fungsi) -> graphx/slides.js
 # Jalankan:  python3 tools/graphx/gen_slides.py
 # Gunakan HANYA warna palet gelap di bawah supaya mod cerah ditukar automatik oleh themed().
-import json, os, html, math, re
+import json, os, html, math, re, sys
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+from mathfmt import FR, RT, SFR, SRT
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUTFILE = os.path.normpath(os.path.join(HERE, '..', '..', 'graphx', 'slides.js'))
@@ -460,7 +462,7 @@ add('8.2', 'KONSEP', 'Bentuk graf fungsi',
     + BUL([f'{B("Linear", PU)} <i>y</i> = <i>ax</i> + <i>b</i> (kuasa 1): <b>garis lurus</b>.',
            f'{B("Kuadratik", AM)} <i>y</i> = <i>ax</i>² + <i>bx</i> + <i>c</i> (kuasa 2): bentuk <b>∪</b> jika <i>a</i> &gt; 0, <b>∩</b> jika <i>a</i> &lt; 0.',
            f'{B("Kubik", GR)} <i>y</i> = <i>ax</i>³ + <i>c</i> (kuasa 3): lengkung berbentuk <b>S</b>.',
-           f'{B("Salingan", PK)} <i>y</i> = {I("a")}/{I("x")} (<i>x</i> di penyebut): <b>dua lengkung</b> yang tidak menyentuh paksi.'], col)
+           f'{B("Salingan", PK)} <i>y</i> = {FR(I("a"), I("x"))} (<i>x</i> di penyebut): <b>dua lengkung</b> yang tidak menyentuh paksi.'], col)
     + NOTE('Tanda <i>a</i> menentukan arah graf. Garis putus-putus dalam rajah menunjukkan <i>a</i> &lt; 0.'),
     svg(fig, 'Empat bentuk graf: linear, kuadratik, kubik dan salingan'))
 
@@ -478,7 +480,7 @@ fig += T(129, 38, '✗ garis bersegi', RD, 17) + T(371, 38, '✓ lengkung licin'
 fig += (RECT(14, 280, 472, 176, SURF, BD, 16)
         + T(40, 316, '✗', RD, 24, 'start') + T(76, 316, '(−2)² = −4', RD, 21, 'start')
         + T(260, 316, '✓', GR, 24, 'start') + T(296, 316, '(−2)² = 4', GR, 21, 'start')
-        + T(40, 368, '✗', RD, 24, 'start') + T(76, 368, 'y = 3/x linear', RD, 19, 'start')
+        + T(40, 368, '✗', RD, 24, 'start') + T(76, 368, 'y =', RD, 19, 'start') + SFR(110, 367, '3', 'x', RD, 19, 'start') + T(140, 368, 'linear', RD, 19, 'start')
         + T(260, 368, '✓', GR, 24, 'start') + T(296, 368, 'salingan', GR, 19, 'start')
         + T(40, 420, '✗', RD, 24, 'start') + T(76, 420, 'plot (2, 5) di (5, 2)', RD, 19, 'start')
         + T(260, 420, '✓', GR, 24, 'start') + T(296, 420, 'x dahulu', GR, 19, 'start'))
@@ -487,7 +489,7 @@ add('8.2', 'AWAS', 'Kesilapan biasa',
          f'{B("✗", RD)} Menyambung titik graf kuadratik atau kubik dengan garis lurus bersegi. Mesti <b>lengkung licin</b>.',
          f'{B("✗", RD)} Salah membaca skala, contohnya menganggap 1 petak = 1 unit sedangkan 1 petak = 2 unit.',
          f'{B("✗", RD)} Memplot (<i>x</i>, <i>y</i>) secara terbalik. Nilai <i>x</i> (mengufuk) dahulu, kemudian <i>y</i>.',
-         f'{B("✗", RD)} Menganggap <i>y</i> = 3/<i>x</i> linear, atau graf salingan menyentuh paksi.'], col),
+         f'{B("✗", RD)} Menganggap <i>y</i> = {FR(3, "<i>x</i>")} linear, atau graf salingan menyentuh paksi.'], col),
     svg(fig, 'Perbandingan graf bersegi yang salah dengan lengkung licin yang betul'))
 
 # 8.2-8 Ringkasan
@@ -506,7 +508,7 @@ add('8.2', 'RINGKASAN', 'Ringkasan: graf fungsi',
           [['<i>y</i> = 4 − 3<i>x</i>', '1', 'Linear', 'garis lurus'],
            ['<i>y</i> = 5 − 2<i>x</i>²', '2', 'Kuadratik', '∩ (<i>a</i> = −2)'],
            ['<i>y</i> = <i>x</i>³ − 4', '3', 'Kubik', 'bentuk S'],
-           ['<i>y</i> = 6/<i>x</i>', '<i>x</i> di penyebut', 'Salingan', 'dua lengkung']], col, fs=18)
+           ['<i>y</i> = ' + FR(6, '<i>x</i>'), '<i>x</i> di penyebut', 'Salingan', 'dua lengkung']], col, fs=18)
     + NOTE('Melukis graf: <b>jadual nilai → skala → plot → sambung</b>. Baca graf dengan garis mencancang dan mengufuk.'),
     svg(fig, 'Langkah melukis dan mengenal graf fungsi'))
 

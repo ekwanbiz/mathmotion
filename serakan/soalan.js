@@ -227,17 +227,17 @@ function skQWork(d) {
 const skJulWork = d => [`Nilai terbesar = ${skN(Math.max(...d))}, nilai terkecil = ${skN(Math.min(...d))}`, `Julat = ${skN(Math.max(...d))} − ${skN(Math.min(...d))} = ${skN(skJul(d))}`];
 function skVarWorkDef(d) {
   const m = skMean(d), n = d.length, t = skSum(d.map(x => (x - m) * (x - m)));
-  return [`${SKXB} = ${skN(skSum(d))} ÷ ${n} = ${skN(m)}`,
+  return [`${SKXB} = ${fr(`${skN(skSum(d))}`, `${n}`)} = ${skN(m)}`,
     `Σ(x − ${SKXB})² = ${d.map(x => `(${skN(x)} − ${skN(m)})²`).join(' + ')}`,
     `= ${d.map(x => skN((x - m) * (x - m))).join(' + ')} = ${skN(t)}`,
-    `${SKV} = ${skN(t)} ÷ ${n} = ${skN(skVar(d))}`];
+    `${SKV} = ${fr(`${skN(t)}`, `${n}`)} = ${skN(skVar(d))}`];
 }
 function skVarWorkAlt(d) {
   const m = skMean(d), n = d.length, t = skSq(d);
-  return [`Σx = ${skPlus(d)} = ${skN(skSum(d))}, ${SKXB} = ${skN(skSum(d))} ÷ ${n} = ${skN(m)}`,
+  return [`Σx = ${skPlus(d)} = ${skN(skSum(d))}, ${SKXB} = ${fr(`${skN(skSum(d))}`, `${n}`)} = ${skN(m)}`,
     `Σx² = ${d.map(x => `${skN(x)}²`).join(' + ')} = ${skN(t)}`,
-    `${SKV} = ${skN(t)} ÷ ${n} − ${skN(m)}² = ${skN(t / n)} − ${skN(m * m)} = ${skN(skVar(d))}`,
-    `σ = √${skN(skVar(d))} = ${skSdT(skVar(d))}`];
+    `${SKV} = ${fr(`${skN(t)}`, `${n}`)} − ${skN(m)}² = ${skN(t / n)} − ${skN(m * m)} = ${skN(skVar(d))}`,
+    `σ = ${rt(skN(skVar(d)))} = ${skSdT(skVar(d))}`];
 }
 
 /* =================== pernyataan betul / salah =================== */
@@ -257,7 +257,7 @@ const SKBS2 = [
   ['Sisihan piawai menggunakan semua nilai dalam set data.', true, 'Setiap nilai digunakan untuk mengira Σ(x − x̄)².'],
   ['Unit varians sama dengan unit data.', false, 'Unit varians ialah kuasa dua unit data. Sisihan piawai mempunyai unit yang sama dengan data.'],
   ['Varians boleh mempunyai nilai negatif.', false, 'Varians ialah purata kuasa dua, jadi tidak mungkin negatif.'],
-  ['Sisihan piawai ialah punca kuasa dua varians.', true, 'σ = √σ²'],
+  ['Sisihan piawai ialah punca kuasa dua varians.', true, 'σ = ' + rt('σ²')],
   ['Sisihan piawai yang kecil menunjukkan data tertumpu berhampiran min.', true, 'Beza setiap data dengan min adalah kecil.'],
   ['Jika semua nilai dalam set data adalah sama, sisihan piawai ialah 0.', true, 'Setiap x − x̄ = 0, maka σ² = 0 dan σ = 0.']
 ];
@@ -361,13 +361,13 @@ const QV = {
   varS: [
     ({ L }) => ({ q: `Hitung varians bagi set data berikut.<br>${L}` }),
     ({ L, ctx }) => ({ q: `Data berikut menunjukkan ${ctx}.<br>${L}<br>Cari varians data itu.` }),
-    ({ L }) => ({ q: `Dengan menggunakan rumus ${SKV} = Σ(x − ${SKXB})² ÷ N, cari varians bagi ${L}.` }),
+    ({ L }) => ({ q: `Dengan menggunakan rumus ${SKV} = ${fr(`Σ(x − ${SKXB})²`, `N`)}, cari varians bagi ${L}.` }),
     ({ L, wrong, ans }) => { const N = vnama(); return Object.assign({ q: `${N} mendapati varians bagi data ${L} ialah ${wrong}. Adakah ${N} betul?` }, salah(N, ans, `${N} tidak mengkuasaduakan beza (x − ${SKXB}). Varians ialah purata kuasa dua beza setiap data dengan min.`)); }
   ],
   sdS: [
     ({ L }) => ({ q: `Hitung sisihan piawai bagi set data berikut.<br>${L}` }),
     ({ L, ctx }) => ({ q: `Data berikut menunjukkan ${ctx}.<br>${L}<br>Cari varians dan sisihan piawai.` }),
-    ({ L }) => ({ q: `Dengan menggunakan rumus ${SKV} = Σx² ÷ N − ${SKXB}², cari sisihan piawai bagi ${L}.` }),
+    ({ L }) => ({ q: `Dengan menggunakan rumus ${SKV} = ${fr(`Σx²`, `N`)} − ${SKXB}², cari sisihan piawai bagi ${L}.` }),
     ({ L, wrong, ans }) => { const N = vnama(); return Object.assign({ q: `${N} berkata sisihan piawai bagi data ${L} ialah ${wrong}. Adakah ${N} betul?` }, salah(N, ans, `${wrong} ialah varians. Sisihan piawai ialah punca kuasa dua varians.`)); }
   ],
   dariJum: [
@@ -378,7 +378,7 @@ const QV = {
   varJadual: [
     ({ x }) => ({ q: `Jadual kekerapan di bawah menunjukkan ${x.toLowerCase()} bagi sekumpulan murid. Hitung varians dan sisihan piawai.` }),
     () => ({ q: 'Cari min, varians dan sisihan piawai bagi data dalam jadual kekerapan di bawah.' }),
-    () => ({ q: `Dengan menggunakan ${SKV} = Σfx² ÷ Σf − ${SKXB}², hitung varians bagi data dalam jadual di bawah.` })
+    () => ({ q: `Dengan menggunakan ${SKV} = ${fr(`Σfx²`, `Σf`)} − ${SKXB}², hitung varians bagi data dalam jadual di bawah.` })
   ],
   bandingSd: [
     ({ la, lb, LA, LB, nm }) => ({ q: `${vcap(nm)} ${la}: ${LA}<br>${vcap(nm)} ${lb}: ${LB}<br>Hitung sisihan piawai bagi setiap set. Data manakah lebih konsisten?` }),
@@ -626,7 +626,7 @@ SK.dariJum = (r) => {
   let n, m, K, v; do { n = r.p([4, 5, 8, 10]); m = r.i(4, 20); K = r.i(n * 2, n * 30); v = K / n; } while (!skClean(v) || !skClean(skSdV(v)));
   const sx = n * m, sx2 = n * m * m + K;
   return GEN_LQ('dariJum', { n, sx, sx2, ans: `Min = ${m}, varians = ${skN(v)}, sisihan piawai = ${skSdT(v)}`,
-    work: [`${SKXB} = Σx ÷ N = ${sx} ÷ ${n} = ${m}`, `${SKV} = Σx² ÷ N − ${SKXB}² = ${sx2} ÷ ${n} − ${m}²`, `= ${skN(sx2 / n)} − ${m * m} = ${skN(v)}`, `σ = √${skN(v)} = ${skSdT(v)}`] });
+    work: [`${SKXB} = ${fr(`Σx`, `N`)} = ${fr(`${sx}`, `${n}`)} = ${m}`, `${SKV} = ${fr(`Σx²`, `N`)} − ${SKXB}² = ${fr(`${sx2}`, `${n}`)} − ${m}²`, `= ${skN(sx2 / n)} − ${m * m} = ${skN(v)}`, `σ = ${rt(skN(v))} = ${skSdT(v)}`] });
 };
 SK.varJadual = (r) => {
   const ctxs = ['Bilangan adik-beradik', 'Bilangan buku dibaca', 'Bilangan gol', 'Saiz kasut'];
@@ -636,8 +636,8 @@ SK.varJadual = (r) => {
   } while (!Number.isInteger(m) || !skClean(sfx2 / sf) || !skClean(v));
   const x = r.p(ctxs);
   return GEN_LQ('varJadual', { x, ans: `Min = ${m}, varians = ${skN(v)}, sisihan piawai = ${skSdT(v)}`,
-    work: [`Σf = ${skPlus(fs)} = ${sf}`, `Σfx = ${xs.map((t, i) => `${t}(${fs[i]})`).join(' + ')} = ${sfx}, ${SKXB} = ${sfx} ÷ ${sf} = ${m}`,
-      `Σfx² = ${xs.map((t, i) => `${t}²(${fs[i]})`).join(' + ')} = ${sfx2}`, `${SKV} = ${sfx2} ÷ ${sf} − ${m}² = ${skN(sfx2 / sf)} − ${m * m} = ${skN(v)}`, `σ = √${skN(v)} = ${skSdT(v)}`] },
+    work: [`Σf = ${skPlus(fs)} = ${sf}`, `Σfx = ${xs.map((t, i) => `${t}(${fs[i]})`).join(' + ')} = ${sfx}, ${SKXB} = ${fr(`${sfx}`, `${sf}`)} = ${m}`,
+      `Σfx² = ${xs.map((t, i) => `${t}²(${fs[i]})`).join(' + ')} = ${sfx2}`, `${SKV} = ${fr(`${sfx2}`, `${sf}`)} − ${m}² = ${skN(sfx2 / sf)} − ${m * m} = ${skN(v)}`, `σ = ${rt(skN(v))} = ${skSdT(v)}`] },
   { fig: skTabFig(x, xs, fs) });
 };
 SK.bandingSd = (r) => {
@@ -645,8 +645,8 @@ SK.bandingSd = (r) => {
   let A, B; do { A = skVarData(r, 5, 10, 20); B = skVarData(r, 5, 8, 24); } while (Math.abs(skVar(A) - skVar(B)) < 3);
   const less = skVar(A) < skVar(B) ? la : lb;
   return GEN_LQ('bandingSd', { la, lb, LA: skL(A), LB: skL(B), nm, ans: `σ ${la} = ${skSdT(skVar(A))}, σ ${lb} = ${skSdT(skVar(B))}. ${less} lebih konsisten (kurang terserak).`,
-    work: [`${la}: ${SKXB} = ${skN(skMean(A))}, ${SKV} = ${skN(skSq(A))} ÷ 5 − ${skN(skMean(A))}² = ${skN(skVar(A))}, σ = ${skSdT(skVar(A))}`,
-      `${lb}: ${SKXB} = ${skN(skMean(B))}, ${SKV} = ${skN(skSq(B))} ÷ 5 − ${skN(skMean(B))}² = ${skN(skVar(B))}, σ = ${skSdT(skVar(B))}`,
+    work: [`${la}: ${SKXB} = ${skN(skMean(A))}, ${SKV} = ${fr(`${skN(skSq(A))}`, `5`)} − ${skN(skMean(A))}² = ${skN(skVar(A))}, σ = ${skSdT(skVar(A))}`,
+      `${lb}: ${SKXB} = ${skN(skMean(B))}, ${SKV} = ${fr(`${skN(skSq(B))}`, `5`)} − ${skN(skMean(B))}² = ${skN(skVar(B))}, σ = ${skSdT(skVar(B))}`,
       `Sisihan piawai ${less} lebih kecil, maka data ${less} lebih tertumpu di sekitar min.`] });
 };
 SK.cariSumX2 = (r) => {
@@ -654,7 +654,7 @@ SK.cariSumX2 = (r) => {
   const q = vq('cariSumX2', { n, m, s, v });
   const sx2 = n * (v + m * m);
   return { q: q.q, ans: /Σx dan/.test(q.q) ? `Σx = ${n * m}, Σx² = ${sx2}` : `Σx² = ${sx2}`,
-    work: [`Σx = N × ${SKXB} = ${n} × ${m} = ${n * m}`, `${SKV} = ${v}`, `Σx² ÷ ${n} − ${m}² = ${v}`, `Σx² ÷ ${n} = ${v + m * m}`, `Σx² = ${n} × ${v + m * m} = ${sx2}`] };
+    work: [`Σx = N × ${SKXB} = ${n} × ${m} = ${n * m}`, `${SKV} = ${v}`, `${fr(`Σx²`, `${n}`)} − ${m}² = ${v}`, `${fr(`Σx²`, `${n}`)} = ${v + m * m}`, `Σx² = ${n} × ${v + m * m} = ${sx2}`] };
 };
 SK.k822 = (r, k) => {
   const d = {};
@@ -672,7 +672,7 @@ SK.k822 = (r, k) => {
   d.q1 = `Kumpulan A terdiri daripada ${nA} orang murid dengan min skor ${mA} dan varians ${vA}. Kumpulan B terdiri daripada ${nB} orang murid dengan min skor ${mB} dan varians ${vB}. Hitung min dan sisihan piawai skor bagi gabungan kedua-dua kumpulan.`;
   d.a1 = `Min = ${M}, sisihan piawai = ${skSdT(V)}`;
   d.w1 = [`A: Σx = ${nA} × ${mA} = ${nA * mA}, Σx² = ${nA}(${vA} + ${mA}²) = ${nA * (vA + mA * mA)}`, `B: Σx = ${nB} × ${mB} = ${nB * mB}, Σx² = ${nB}(${vB} + ${mB}²) = ${nB * (vB + mB * mB)}`,
-    `Gabungan: N = ${N}, Σx = ${SX}, Σx² = ${SX2}`, `${SKXB} = ${SX} ÷ ${N} = ${M}`, `${SKV} = ${SX2} ÷ ${N} − ${M}² = ${skN(SX2 / N)} − ${M * M} = ${skN(V)}`, `σ = √${skN(V)} = ${skSdT(V)}`];
+    `Gabungan: N = ${N}, Σx = ${SX}, Σx² = ${SX2}`, `${SKXB} = ${fr(`${SX}`, `${N}`)} = ${M}`, `${SKV} = ${fr(`${SX2}`, `${N}`)} − ${M}² = ${skN(SX2 / N)} − ${M * M} = ${skN(V)}`, `σ = ${rt(skN(V))} = ${skSdT(V)}`];
   // (2) buang satu nilai
   let n2, m2, v2, y, SXa, SX2a, M2, V2; do {
     n2 = r.p([6, 8, 9, 11]); m2 = r.i(10, 20); v2 = r.i(3, 12); y = r.i(m2 - 6, m2 + 8);
@@ -680,7 +680,7 @@ SK.k822 = (r, k) => {
   } while (!Number.isInteger(M2) || !skClean(V2) || !skClean((SX2a - y * y) / (n2 - 1)) || V2 <= 0 || y === m2);
   d.q2 = `Min dan varians bagi ${n2} nombor masing-masing ialah ${m2} dan ${v2}. (a) Cari Σx dan Σx². (b) Nombor ${y} dikeluarkan daripada set itu. Hitung min dan varians bagi nombor yang tinggal.`;
   d.a2 = `(a) Σx = ${SXa}, Σx² = ${SX2a} (b) Min = ${M2}, varians = ${skN(V2)}`;
-  d.w2 = [`(a) Σx = ${n2} × ${m2} = ${SXa}`, `Σx² = ${n2}(${v2} + ${m2}²) = ${SX2a}`, `(b) Σx baharu = ${SXa} − ${y} = ${SXa - y}, Σx² baharu = ${SX2a} − ${y}² = ${SX2a - y * y}`, `${SKXB} = ${SXa - y} ÷ ${n2 - 1} = ${M2}`, `${SKV} = ${SX2a - y * y} ÷ ${n2 - 1} − ${M2}² = ${skN(V2)}`];
+  d.w2 = [`(a) Σx = ${n2} × ${m2} = ${SXa}`, `Σx² = ${n2}(${v2} + ${m2}²) = ${SX2a}`, `(b) Σx baharu = ${SXa} − ${y} = ${SXa - y}, Σx² baharu = ${SX2a} − ${y}² = ${SX2a - y * y}`, `${SKXB} = ${fr(`${SXa - y}`, `${n2 - 1}`)} = ${M2}`, `${SKV} = ${fr(`${SX2a - y * y}`, `${n2 - 1}`)} − ${M2}² = ${skN(V2)}`];
   const kk = (k == null ? r.i(0, 2) : k) % 3, v = QV.k822[kk](d);
   return { q: v.q, ans: v.ans, work: v.work, fig: '' };
 };
@@ -799,8 +799,8 @@ SK.bandingMinSd = (r) => {
   const less = skVar(A) < skVar(B) ? la : lb;
   return GEN_LQ('bandingMinSd', { la, lb, LA: skL(A), LB: skL(B), nm,
     ans: `${la}: min = ${skN(skMean(A))}, σ = ${skSdT(skVar(A))}; ${lb}: min = ${skN(skMean(B))}, σ = ${skSdT(skVar(B))}. ${less} lebih konsisten kerana sisihan piawai lebih kecil.`,
-    work: [`${la}: ${SKXB} = ${skSum(A)} ÷ 5 = ${skN(skMean(A))}, ${SKV} = ${skN(skSq(A))} ÷ 5 − ${skN(skMean(A))}² = ${skN(skVar(A))}, σ = ${skSdT(skVar(A))}`,
-      `${lb}: ${SKXB} = ${skSum(B)} ÷ 5 = ${skN(skMean(B))}, ${SKV} = ${skN(skSq(B))} ÷ 5 − ${skN(skMean(B))}² = ${skN(skVar(B))}, σ = ${skSdT(skVar(B))}`,
+    work: [`${la}: ${SKXB} = ${fr(`${skSum(A)}`, `5`)} = ${skN(skMean(A))}, ${SKV} = ${fr(`${skN(skSq(A))}`, `5`)} − ${skN(skMean(A))}² = ${skN(skVar(A))}, σ = ${skSdT(skVar(A))}`,
+      `${lb}: ${SKXB} = ${fr(`${skSum(B)}`, `5`)} = ${skN(skMean(B))}, ${SKV} = ${fr(`${skN(skSq(B))}`, `5`)} − ${skN(skMean(B))}² = ${skN(skVar(B))}, σ = ${skSdT(skVar(B))}`,
       `Min hampir sama. Sisihan piawai ${less} lebih kecil, maka ${less} lebih konsisten.`] });
 };
 SK.k824 = (r, k) => {
@@ -810,18 +810,18 @@ SK.k824 = (r, k) => {
   const SX = n * m, SX2 = n * (v + m * m);
   d.q0 = `Bagi ${n} nombor, Σx = ${SX} dan Σx² = ${SX2}. (a) Hitung min dan varians. (b) Nombor ${y} ditambah ke dalam set itu. Hitung min dan varians yang baharu. (c) Adakah set data baharu lebih terserak? Terangkan.`;
   d.a0 = `(a) Min = ${m}, varians = ${v} (b) Min = ${M}, varians = ${skN(V)} (c) ${V > v ? 'Ya, varians bertambah' : 'Tidak, varians berkurang'}`;
-  d.w0 = [`(a) ${SKXB} = ${SX} ÷ ${n} = ${m}; ${SKV} = ${SX2} ÷ ${n} − ${m}² = ${v}`, `(b) Σx = ${SX} + ${y} = ${SX + y}, Σx² = ${SX2} + ${y}² = ${SX2 + y * y}`, `${SKXB} = ${SX + y} ÷ ${n + 1} = ${M}`, `${SKV} = ${SX2 + y * y} ÷ ${n + 1} − ${M}² = ${skN(V)}`, `(c) Varians ${v} → ${skN(V)}`];
+  d.w0 = [`(a) ${SKXB} = ${fr(`${SX}`, `${n}`)} = ${m}; ${SKV} = ${fr(`${SX2}`, `${n}`)} − ${m}² = ${v}`, `(b) Σx = ${SX} + ${y} = ${SX + y}, Σx² = ${SX2} + ${y}² = ${SX2 + y * y}`, `${SKXB} = ${fr(`${SX + y}`, `${n + 1}`)} = ${M}`, `${SKV} = ${fr(`${SX2 + y * y}`, `${n + 1}`)} − ${M}² = ${skN(V)}`, `(c) Varians ${v} → ${skN(V)}`];
   // (1) penskalaan ax + b dan Σx²
   const a = r.i(2, 4), b = r.i(1, 10), m1 = r.i(5, 15), s1 = r.i(2, 5), n1 = r.p([10, 20, 25]);
   const M1 = a * m1 + b, S1 = a * s1;
   d.q1 = `Suatu set ${n1} data mempunyai min ${m1} dan sisihan piawai ${s1}. Setiap data didarab ${a}, kemudian ditambah ${b}. (a) Cari min dan sisihan piawai set data baharu. (b) Hitung Σx² bagi set data baharu.`;
   d.a1 = `(a) Min = ${M1}, sisihan piawai = ${S1} (b) Σx² = ${n1 * (S1 * S1 + M1 * M1)}`;
-  d.w1 = [`(a) Min = ${a}(${m1}) + ${b} = ${M1}`, `Sisihan piawai = ${a} × ${s1} = ${S1} (tambah ${b} tiada kesan)`, `(b) ${SKV} = ${S1}² = ${S1 * S1}`, `Σx² ÷ ${n1} − ${M1}² = ${S1 * S1}`, `Σx² = ${n1}(${S1 * S1} + ${M1 * M1}) = ${n1 * (S1 * S1 + M1 * M1)}`];
+  d.w1 = [`(a) Min = ${a}(${m1}) + ${b} = ${M1}`, `Sisihan piawai = ${a} × ${s1} = ${S1} (tambah ${b} tiada kesan)`, `(b) ${SKV} = ${S1}² = ${S1 * S1}`, `${fr(`Σx²`, `${n1}`)} − ${M1}² = ${S1 * S1}`, `Σx² = ${n1}(${S1 * S1} + ${M1 * M1}) = ${n1 * (S1 * S1 + M1 * M1)}`];
   // (2) pilih wakil: min dan σ dua atlet
   let A, B; do { A = skVarData(r, 5, 11, 17); B = skVarData(r, 5, 10, 20); } while (skMean(B) <= skMean(A) || skVar(B) <= skVar(A) + 3 || skMean(B) - skMean(A) > 2);
   d.q2 = `Masa, dalam saat, bagi 5 larian Atlet P ialah ${skL(A)} dan bagi Atlet Q ialah ${skL(B)}. (a) Hitung min dan sisihan piawai masa setiap atlet. (b) Masa yang lebih singkat adalah lebih baik. Atlet manakah patut dipilih? Wajarkan jawapan anda menggunakan min dan sisihan piawai.`;
   d.a2 = `(a) P: min = ${skN(skMean(A))} s, σ = ${skSdT(skVar(A))} s; Q: min = ${skN(skMean(B))} s, σ = ${skSdT(skVar(B))} s (b) Atlet P, kerana min masanya lebih singkat dan sisihan piawainya lebih kecil (lebih konsisten).`;
-  d.w2 = [`(a) P: ${SKXB} = ${skSum(A)} ÷ 5 = ${skN(skMean(A))}, ${SKV} = ${skN(skSq(A))} ÷ 5 − ${skN(skMean(A))}² = ${skN(skVar(A))}, σ = ${skSdT(skVar(A))}`, `Q: ${SKXB} = ${skSum(B)} ÷ 5 = ${skN(skMean(B))}, ${SKV} = ${skN(skSq(B))} ÷ 5 − ${skN(skMean(B))}² = ${skN(skVar(B))}, σ = ${skSdT(skVar(B))}`, `(b) Min P < min Q dan σ P < σ Q.`];
+  d.w2 = [`(a) P: ${SKXB} = ${fr(`${skSum(A)}`, `5`)} = ${skN(skMean(A))}, ${SKV} = ${fr(`${skN(skSq(A))}`, `5`)} − ${skN(skMean(A))}² = ${skN(skVar(A))}, σ = ${skSdT(skVar(A))}`, `Q: ${SKXB} = ${fr(`${skSum(B)}`, `5`)} = ${skN(skMean(B))}, ${SKV} = ${fr(`${skN(skSq(B))}`, `5`)} − ${skN(skMean(B))}² = ${skN(skVar(B))}, σ = ${skSdT(skVar(B))}`, `(b) Min P < min Q dan σ P < σ Q.`];
   const kk = (k == null ? r.i(0, 2) : k) % 3, v2 = QV.k824[kk](d);
   return { q: v2.q, ans: v2.ans, work: v2.work, fig: '' };
 };

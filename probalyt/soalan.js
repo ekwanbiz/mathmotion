@@ -6,9 +6,9 @@
 /* =================== pembantu nombor, pecahan & set =================== */
 const pbGcd = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) [a, b] = [b, a % b]; return a; };
 // pecahan termudah: 0 → "0", n/n → "1"
-const pbFr = (n, d) => { if (n === 0) return '0'; const g = pbGcd(n, d) || 1; n /= g; d /= g; return d === 1 ? String(n) : `${n}/${d}`; };
+const pbFr = (n, d) => { if (n === 0) return '0'; const g = pbGcd(n, d) || 1; n /= g; d /= g; return d === 1 ? String(n) : `${fr(n, d)}`; };
 // "n/d" diikuti bentuk termudah jika berbeza
-const pbEq = (n, d) => { const s = pbFr(n, d), raw = `${n}/${d}`; return s === raw ? raw : `${raw} = ${s}`; };
+const pbEq = (n, d) => { const s = pbFr(n, d), raw = `${fr(n, d)}`; return s === raw ? raw : `${raw} = ${s}`; };
 const pbNum = x => String(Math.round(x * 1000) / 1000);
 const pbH = h => String(h / 100);                // perseratus → perpuluhan (cth 35 → 0.35)
 const pbSet = a => `{${a.join(', ')}}`;
@@ -176,7 +176,7 @@ const QV = {
     ({ c, e, en }) => ({ q: `${c}. Keputusannya, ${e}. Apakah kebarangkalian eksperimen ${en}? Beri jawapan dalam pecahan termudah.` }),
     ({ c, e, en, f, n, ans }) => { const N = vnama(); return Object.assign({ q: `${c} dan ${e}. ${N} berkata kebarangkalian eksperimen ${en} ialah ${pbFr(f, n - f)}. Adakah ${N} betul?` }, salah(N, ans, `${N} membahagikan dengan bilangan kali peristiwa itu tidak berlaku (${n - f}). Sepatutnya bahagi dengan jumlah cubaan, iaitu ${n}.`)); },
     ({ f, n }) => ({ q: `Lengkapkan: Kebarangkalian eksperimen = kekerapan peristiwa ÷ bilangan cubaan = ${f} ÷ ${n} = ___` }),
-    ({ c, e, en, f, n }) => ({ q: `${c} dan ${e}. Nyatakan kebarangkalian eksperimen ${en} dalam bentuk peratus.`, ans: `${pbNum(100 * f / n)}%`, work: ['Kebarangkalian eksperimen = kekerapan peristiwa ÷ bilangan cubaan', `= ${f}/${n} × 100%`, `= ${pbNum(100 * f / n)}%`] })
+    ({ c, e, en, f, n }) => ({ q: `${c} dan ${e}. Nyatakan kebarangkalian eksperimen ${en} dalam bentuk peratus.`, ans: `${pbNum(100 * f / n)}%`, work: ['Kebarangkalian eksperimen = kekerapan peristiwa ÷ bilangan cubaan', `= ${fr(f, n)} × 100%`, `= ${pbNum(100 * f / n)}%`] })
   ],
   jadual: [
     ({ x, ev }) => ({ q: `Jadual di bawah menunjukkan keputusan ${x}. Hitung kebarangkalian eksperimen ${ev}.` }),
@@ -202,7 +202,7 @@ const QV = {
   ],
   k131: [
     ({ sp }) => ({ q: `Sebuah pemutar empat warna diputar beberapa kali dan keputusannya direkodkan dalam jadual di bawah. (a) Hitung kebarangkalian eksperimen jarum berhenti pada warna ${sp.c}. (b) Jika pemutar itu diputar ${sp.N} kali lagi, anggarkan bilangan kali jarum berhenti pada warna ${sp.c}.`, ans: `(a) ${sp.p} (b) ${sp.E} kali`, work: [`Jumlah cubaan = ${sp.f.join(' + ')} = ${sp.n}`, `(a) Kebarangkalian eksperimen = ${pbEq(sp.k, sp.n)}`, `(b) Kekerapan dijangka = ${sp.p} × ${sp.N} = ${sp.E}`] }),
-    ({ dd }) => ({ q: `${dd.A} melambung sebiji dadu sebanyak ${dd.n} kali dan merekodkan keputusannya dalam jadual di bawah. (a) Hitung kebarangkalian eksperimen mendapat nombor perdana. (b) Kebarangkalian teori mendapat nombor perdana ialah 1/2. Apakah yang perlu ${dd.A} lakukan supaya kebarangkalian eksperimennya lebih hampir kepada 1/2?`, ans: `(a) ${dd.p} (b) Tambahkan bilangan cubaan, iaitu lambung dadu itu lebih banyak kali`, work: [`Nombor perdana: 2, 3 dan 5. Kekerapan = ${dd.f[1]} + ${dd.f[2]} + ${dd.f[4]} = ${dd.k}`, `(a) Kebarangkalian eksperimen = ${pbEq(dd.k, dd.n)}`, '(b) Semakin besar bilangan cubaan, semakin hampir kebarangkalian eksperimen kepada kebarangkalian teori.'] }),
+    ({ dd }) => ({ q: `${dd.A} melambung sebiji dadu sebanyak ${dd.n} kali dan merekodkan keputusannya dalam jadual di bawah. (a) Hitung kebarangkalian eksperimen mendapat nombor perdana. (b) Kebarangkalian teori mendapat nombor perdana ialah ${fr(1, 2)}. Apakah yang perlu ${dd.A} lakukan supaya kebarangkalian eksperimennya lebih hampir kepada ${fr(1, 2)}?`, ans: `(a) ${dd.p} (b) Tambahkan bilangan cubaan, iaitu lambung dadu itu lebih banyak kali`, work: [`Nombor perdana: 2, 3 dan 5. Kekerapan = ${dd.f[1]} + ${dd.f[2]} + ${dd.f[4]} = ${dd.k}`, `(a) Kebarangkalian eksperimen = ${pbEq(dd.k, dd.n)}`, '(b) Semakin besar bilangan cubaan, semakin hampir kebarangkalian eksperimen kepada kebarangkalian teori.'] }),
     ({ mt }) => ({ q: `Sebuah kilang menguji ${mt.s} biji mentol yang dipilih secara rawak dan mendapati ${mt.d} biji rosak. (a) Hitung kebarangkalian eksperimen sebiji mentol rosak. (b) Kilang itu menghasilkan ${mt.B} biji mentol sebulan. Anggarkan bilangan mentol yang tidak rosak.`, ans: `(a) ${mt.p} (b) ${mt.ok} biji`, work: [`(a) Kebarangkalian eksperimen = ${pbEq(mt.d, mt.s)}`, `(b) Anggaran mentol rosak = ${mt.p} × ${mt.B} = ${mt.bad}`, `Mentol tidak rosak = ${mt.B} − ${mt.bad} = ${mt.ok}`] }),
     ({ ar }) => ({ q: `Berdasarkan latihan lepas, kebarangkalian eksperimen ${ar.A} memanah tepat pada sasaran ialah ${ar.pd}. Dalam satu pertandingan, ${ar.A} memanah sebanyak ${ar.N} kali. (a) Anggarkan bilangan kali panahannya tepat pada sasaran. (b) Anggarkan bilangan kali panahannya tersasar.`, ans: `(a) ${ar.hit} kali (b) ${ar.miss} kali`, work: [`(a) ${ar.pd} × ${ar.N} = ${ar.hit}`, `(b) ${ar.N} − ${ar.hit} = ${ar.miss}`] })
   ],
@@ -252,7 +252,7 @@ const QV = {
     ({ c2 }) => ({ q: `Dua keping syiling dilambung serentak. G mewakili gambar dan A mewakili angka. (a) Senaraikan ruang sampel, S. (b) Cari kebarangkalian mendapat ${c2.ev}.`, ans: `(a) S = {(G, G), (G, A), (A, G), (A, A)} (b) ${c2.p}`, work: ['(a) S = {(G, G), (G, A), (A, G), (A, A)}, n(S) = 4', `(b) Kesudahan yang memenuhi: ${c2.L}, n = ${c2.k}`, `P = ${pbEq(c2.k, 4)}`] }),
     ({ cd }) => ({ q: `Sekeping syiling dan sebiji dadu dilambung serentak. G mewakili gambar dan A mewakili angka. (a) Nyatakan bilangan kesudahan yang mungkin, n(S). (b) Senaraikan kesudahan bagi peristiwa mendapat ${cd.ev}. (c) Cari kebarangkalian mendapat ${cd.ev}.`, ans: `(a) 12 (b) ${cd.L} (c) ${cd.p}`, work: ['(a) S = {(G, 1), (G, 2), …, (G, 6), (A, 1), …, (A, 6)}, n(S) = 2 × 6 = 12', `(b) ${cd.L}, n = ${cd.k}`, `(c) P = ${pbEq(cd.k, 12)}`] }),
     ({ kd }) => ({ q: `Sebuah kotak mengandungi ${kd.L} keping kad bernombor ${kd.a} hingga ${kd.b}. Sekeping kad dicabut secara rawak. A ialah peristiwa mendapat ${kd.ev}. (a) Senaraikan unsur A. (b) Cari P(A). (c) Jika cabutan dilakukan sebanyak ${kd.N} kali dan kad dikembalikan setiap kali, ramalkan bilangan kali peristiwa A berlaku.`, ans: `(a) A = ${kd.As} (b) ${kd.p} (c) ${kd.E} kali`, work: [`(a) A = ${kd.As}, n(A) = ${kd.k}`, `(b) P(A) = ${pbEq(kd.k, kd.L)}`, `(c) ${kd.p} × ${kd.N} = ${kd.E}`] }),
-    ({ dd }) => ({ q: `Sebiji dadu adil dilambung. A ialah peristiwa mendapat ${dd.e1} dan B ialah peristiwa mendapat ${dd.e2}. (a) Cari P(A) dan P(B). (b) Peristiwa manakah lebih berkemungkinan berlaku?`, ans: `(a) P(A) = ${dd.p1}, P(B) = ${dd.p2} (b) Peristiwa ${dd.W}`, work: [`A = ${dd.As}, P(A) = ${pbEq(dd.k1, 6)}`, `B = ${dd.Bs}, P(B) = ${pbEq(dd.k2, 6)}`, `Bandingkan: ${dd.k1}/6 dan ${dd.k2}/6. Peristiwa ${dd.W} mempunyai kebarangkalian lebih besar.`] })
+    ({ dd }) => ({ q: `Sebiji dadu adil dilambung. A ialah peristiwa mendapat ${dd.e1} dan B ialah peristiwa mendapat ${dd.e2}. (a) Cari P(A) dan P(B). (b) Peristiwa manakah lebih berkemungkinan berlaku?`, ans: `(a) P(A) = ${dd.p1}, P(B) = ${dd.p2} (b) Peristiwa ${dd.W}`, work: [`A = ${dd.As}, P(A) = ${pbEq(dd.k1, 6)}`, `B = ${dd.Bs}, P(B) = ${pbEq(dd.k2, 6)}`, `Bandingkan: ${fr(dd.k1, 6)} dan ${fr(dd.k2, 6)}. Peristiwa ${dd.W} mempunyai kebarangkalian lebih besar.`] })
   ],
 
   /* ---------- 13.3 Peristiwa Pelengkap ---------- */
@@ -381,7 +381,7 @@ function pbKxData(r, k) {
 }
 PB.kebExp = (r, k) => {
   const d = pbKxData(r, k), ans = pbFr(d.f, d.n);
-  return GEN_LQ('kebExp', Object.assign(d, { ans, work: ['Kebarangkalian eksperimen = kekerapan peristiwa ÷ bilangan cubaan', `= ${d.f}/${d.n}`].concat(pbFr(d.f, d.n) === `${d.f}/${d.n}` ? [] : [`= ${ans}`]) }));
+  return GEN_LQ('kebExp', Object.assign(d, { ans, work: ['Kebarangkalian eksperimen = kekerapan peristiwa ÷ bilangan cubaan', `= ${fr(d.f, d.n)}`].concat(pbFr(d.f, d.n) === `${fr(d.f, d.n)}` ? [] : [`= ${ans}`]) }));
 };
 const PBJAD = [
   r => { const f = pbRange(1, 6).map(() => r.i(4, 18)), E = r.p([['mendapat nombor ' + r.i(1, 6), null], ['mendapat nombor genap', [2, 4, 6]], ['mendapat nombor lebih besar daripada 4', [5, 6]], ['mendapat nombor perdana', [2, 3, 5]]]);
@@ -406,8 +406,8 @@ PB.jangka = (r, k) => {
 PB.cubaan = r => {
   const [A, B] = r.p(PBNAMA2), coin = r.f() < .5;
   let n1, f1, n2, f2, th;
-  if (coin) { th = '1/2'; n1 = r.p([10, 20]); f1 = n1 / 2 + r.p([-3, -2, 2, 3]) * n1 / 10; n2 = r.p([200, 400, 500, 1000]); f2 = n2 / 2 + r.p([-1, 1]) * r.i(1, n2 / 100); }
-  else { th = '1/6'; n1 = r.p([12, 18, 30]); f1 = n1 / 6 + r.p([-1, 2, 3]); n2 = r.p([300, 600, 1200]); f2 = n2 / 6 + r.p([-1, 1]) * r.i(1, n2 / 150); }
+  if (coin) { th = fr(1, 2); n1 = r.p([10, 20]); f1 = n1 / 2 + r.p([-3, -2, 2, 3]) * n1 / 10; n2 = r.p([200, 400, 500, 1000]); f2 = n2 / 2 + r.p([-1, 1]) * r.i(1, n2 / 100); }
+  else { th = fr(1, 6); n1 = r.p([12, 18, 30]); f1 = n1 / 6 + r.p([-1, 2, 3]); n2 = r.p([300, 600, 1200]); f2 = n2 / 6 + r.p([-1, 1]) * r.i(1, n2 / 150); }
   const x = coin ? 'melambung sekeping syiling' : 'melambung sebiji dadu', ev = coin ? 'mendapat gambar' : 'mendapat nombor 6', p1 = pbFr(f1, n1), p2 = pbFr(f2, n2);
   const t = coin ? .5 : 1 / 6, d1 = Math.abs(f1 / n1 - t), d2 = Math.abs(f2 / n2 - t);
   return GEN_LQ('cubaan', { A, B, n1, f1, n2, f2, x, ev, th, p1, p2, work: [`${A}: ${pbEq(f1, n1)} ≈ ${pbNum(f1 / n1)}`, `${B}: ${pbEq(f2, n2)} ≈ ${pbNum(f2 / n2)}`, `Kebarangkalian teori = ${th} ≈ ${pbNum(t)}. Beza: ${A} ≈ ${pbNum(d1)}, ${B} ≈ ${pbNum(d2)}.`, `${B} membuat lebih banyak cubaan, maka kebarangkalian eksperimennya lebih hampir kepada kebarangkalian teori.`] });
@@ -505,12 +505,12 @@ PB.julat = (r, k) => {
 };
 const PBBS2 = [
   ['Nilai kebarangkalian sesuatu peristiwa ialah dari 0 hingga 1, termasuk 0 dan 1.', true, '0 ≤ P(A) ≤ 1.'],
-  ['P(A) = 5/4 adalah mungkin bagi suatu peristiwa A.', false, '5/4 > 1, sedangkan 0 ≤ P(A) ≤ 1.'],
+  [('P(A) = ' + fr(5, 4) + ' adalah mungkin bagi suatu peristiwa A.'), false, (fr(5, 4) + ' > 1, sedangkan 0 ≤ P(A) ≤ 1.')],
   ['Kebarangkalian suatu peristiwa yang pasti berlaku ialah 1.', true, 'n(A) = n(S), maka P(A) = 1.'],
   ['Kebarangkalian suatu peristiwa yang mustahil berlaku ialah 1.', false, 'Peristiwa yang mustahil berlaku mempunyai kebarangkalian 0.'],
   ['P(A) = n(A) ÷ n(S), dengan syarat semua kesudahan sama boleh jadi.', true, 'Ini ialah rumus kebarangkalian teori.'],
-  ['Kebarangkalian mendapat gambar apabila sekeping syiling adil dilambung ialah 1/2.', true, 'S = {Gambar, Angka}, maka P(gambar) = 1/2.'],
-  ['Kebarangkalian mendapat nombor 3 apabila sebiji dadu adil dilambung ialah 1/3.', false, 'Hanya satu daripada enam kesudahan, maka P = 1/6.'],
+  [('Kebarangkalian mendapat gambar apabila sekeping syiling adil dilambung ialah ' + fr(1, 2) + '.'), true, ('S = {Gambar, Angka}, maka P(gambar) = ' + fr(1, 2) + '.')],
+  [('Kebarangkalian mendapat nombor 3 apabila sebiji dadu adil dilambung ialah ' + fr(1, 3) + '.'), false, ('Hanya satu daripada enam kesudahan, maka P = ' + fr(1, 6) + '.')],
   ['Kebarangkalian sesuatu peristiwa boleh bernilai negatif jika peristiwa itu jarang berlaku.', false, 'Kebarangkalian tidak pernah negatif; nilainya antara 0 dan 1.']
 ];
 PB.pPutar = (r, k) => {
@@ -572,7 +572,7 @@ PB.comp = (r, kind) => {
   kind = kind || r.p(['fr', 'fr', 'dec', 'pct']);
   const [ev, evc] = r.p(PBCTX);
   let pa, ans, work;
-  if (kind === 'fr') { let p, q; do { q = r.p([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15, 20]); p = r.i(1, q - 1); } while (pbGcd(p, q) !== 1); pa = `${p}/${q}`; ans = `${q - p}/${q}`; work = ['P(A′) = 1 − P(A)', `= 1 − ${pa}`, `= ${q}/${q} − ${p}/${q}`, `= ${ans}`]; }
+  if (kind === 'fr') { let p, q; do { q = r.p([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15, 20]); p = r.i(1, q - 1); } while (pbGcd(p, q) !== 1); pa = `${fr(p, q)}`; ans = `${fr(q - p, q)}`; work = ['P(A′) = 1 − P(A)', `= 1 − ${pa}`, `= ${fr(q, q)} − ${fr(p, q)}`, `= ${ans}`]; }
   else { let h; do h = r.i(5, 95); while (h % 10 === 0 && r.f() < .7); pa = kind === 'dec' ? pbH(h) : `${h}%`; ans = kind === 'dec' ? pbH(100 - h) : `${100 - h}%`; work = ['P(A′) = 1 − P(A)', kind === 'dec' ? `= 1 − ${pa}` : `= 100% − ${pa}`, `= ${ans}`]; }
   return GEN_LQ('comp', { pa, ans, ev, evc, work });
 };
@@ -617,7 +617,7 @@ PB.vennP = r => {
   const e = pbVData(r, 8, 15), nc = e.C.length, ans = pbFr(nc, e.L), pA = pbFr(e.A.length, e.L);
   const o = GEN_LQ('vennP', { pA, ans, work: [`n(S) = ${e.L}, n(A) = ${e.A.length}, n(A′) = ${nc}`, `P(A′) = ${pbEq(nc, e.L)}`] });
   o.fig = pbVennFig(e.S, e.A, o.q.includes('berlorek') ? 'comp' : '');
-  if (o.q.includes('tunjukkan')) o.work = [`n(S) = ${e.L}, n(A) = ${e.A.length}, n(A′) = ${nc}`, `P(A) = ${pbEq(e.A.length, e.L)}`, `P(A′) = ${pbEq(nc, e.L)}`, `P(A) + P(A′) = ${e.A.length}/${e.L} + ${nc}/${e.L} = ${e.L}/${e.L} = 1`];
+  if (o.q.includes('tunjukkan')) o.work = [`n(S) = ${e.L}, n(A) = ${e.A.length}, n(A′) = ${nc}`, `P(A) = ${pbEq(e.A.length, e.L)}`, `P(A′) = ${pbEq(nc, e.L)}`, `P(A) + P(A′) = ${fr(e.A.length, e.L)} + ${fr(nc, e.L)} = ${fr(e.L, e.L)} = 1`];
   return o;
 };
 const PBCC = [
@@ -629,13 +629,13 @@ const PBCC = [
 PB.cariComp = (r, k) => {
   const c = k == null ? r.p(PBCC) : PBCC[k % PBCC.length];
   let q, p, m; do { q = r.p([3, 4, 5, 6, 8, 10]); p = r.i(1, q - 1); m = r.i(3, 10); } while (pbGcd(p, q) !== 1 || q * m > 60 || 2 * p >= q);
-  const t = q * m, nA = p * m, pc = `${q - p}/${q}`, pa = `${p}/${q}`, wrong = t - nA;
+  const t = q * m, nA = p * m, pc = `${fr(q - p, q)}`, pa = `${fr(p, q)}`, wrong = t - nA;
   return GEN_LQ('cariComp', { c, t, pc, nA, wrong, ans: `${nA} ${c.u}`, work: [`P(A) = 1 − P(A′) = 1 − ${pc} = ${pa}`, `n(A) = P(A) × n(S) = ${pa} × ${t} = ${nA}`] });
 };
 PB.k133 = r => {
   const v = pbRangeData(r, 10, 15); v.ev = v.nm; v.nc = v.C.length; v.p = pbFr(v.nc, v.L);
-  let pw; do { const q = r.p([5, 6, 8, 9, 10, 12]), p = r.i(1, Math.min(3, q - 1)), m = r.i(4, 15); pw = { q, p, m, pc: `${q - p}/${q}`, pa: `${p}/${q}`, k: p * m, t: q * m, ok: pbGcd(p, q) === 1 }; } while (!pw.ok);
-  let bg; do { const q = r.p([5, 7, 8, 9, 11, 12]), p = r.i(1, q - 1), m = r.i(2, 6); bg = { pc: `${q - p}/${q}`, pa: `${p}/${q}`, r: p * m, t: q * m, b: (q - p) * m, ok: pbGcd(p, q) === 1 }; } while (!bg.ok);
+  let pw; do { const q = r.p([5, 6, 8, 9, 10, 12]), p = r.i(1, Math.min(3, q - 1)), m = r.i(4, 15); pw = { q, p, m, pc: `${fr(q - p, q)}`, pa: `${fr(p, q)}`, k: p * m, t: q * m, ok: pbGcd(p, q) === 1 }; } while (!pw.ok);
+  let bg; do { const q = r.p([5, 7, 8, 9, 11, 12]), p = r.i(1, q - 1), m = r.i(2, 6); bg = { pc: `${fr(q - p, q)}`, pa: `${fr(p, q)}`, r: p * m, t: q * m, b: (q - p) * m, ok: pbGcd(p, q) === 1 }; } while (!bg.ok);
   let tj; do { const t = r.p([100, 120, 150, 200, 240, 300]), h = r.p([15, 20, 25, 30, 35, 40, 45]), no = t * h / 100, add = r.p([10, 20, 25, 30, 40, 50]); tj = { t, pd: pbH(h), no, yes: t - no, add, pn: pbFr(no, t + add), ok: Number.isInteger(no) }; } while (!tj.ok);
   const o = vq('k133', { v, pw, bg, tj });
   return { q: o.q, ans: o.ans, work: o.work };
@@ -669,11 +669,11 @@ PB.harian = (r, k) => {
 };
 PB.cariBil = r => {
   let p, q, m; do { q = r.i(3, 10); p = r.i(1, q - 1); m = r.i(2, 6); } while (pbGcd(p, q) !== 1);
-  const rr = p * m, t = q * m, b = t - rr, pf = `${p}/${q}`;
+  const rr = p * m, t = q * m, b = t - rr, pf = `${fr(p, q)}`;
   return GEN_LQ('cariBil', { r: rr, p: pf, b, t });
 };
 PB.tambah = r => {
-  let rr, b, a, k, k2; do { rr = r.i(2, 9); b = r.i(3, 10); k = r.i(1, 6); k2 = r.i(1, b - 1); a = r.i(1, 12); } while (pbFr(rr, rr + b + a) === `${rr}/${rr + b + a}` && r.f() < .8);
+  let rr, b, a, k, k2; do { rr = r.i(2, 9); b = r.i(3, 10); k = r.i(1, 6); k2 = r.i(1, b - 1); a = r.i(1, 12); } while (pbFr(rr, rr + b + a) === `${fr(rr, rr + b + a)}` && r.f() < .8);
   return GEN_LQ('tambah', { r: rr, b, k, k2, a, pt: pbFr(rr, rr + b + a) });
 };
 PB.jadual2 = r => {
@@ -685,9 +685,9 @@ PB.jadual2 = r => {
   return o;
 };
 PB.k134 = r => {
-  let kk; do { const q = r.p([3, 4, 5, 6, 8]), p = r.i(1, q - 1), m = r.i(3, 8); kk = { t: q * m, p: `${p}/${q}`, m: p * m, y: (q - p) * m, x: r.i(1, p * m - 1), ok: pbGcd(p, q) === 1 && p * m >= 2 }; } while (!kk.ok);
-  let t3; do { const D = r.p([12, 20, 24, 30, 15]), dv = pbRange(2, D - 1).filter(d => D % d === 0), d1 = r.p(dv), d2 = r.p(dv); const gr = D - D / d1 - D / d2; t3 = { pr: `1/${d1}`, pb: `1/${d2}`, D, gr, ok: d1 !== d2 && gr > 0 }; if (t3.ok) { t3.pg = pbFr(gr, D); const g = pbGcd(gr, D), m = r.i(1, 4); t3.g = gr / g * m; t3.t = D / g * m; } } while (!t3.ok);
-  let tb; do { const rr = r.i(2, 8), b = r.i(4, 12), q = r.p([2, 3, 4, 5]), p = r.i(1, q - 1); const num = p * (rr + b) - q * rr, den = q - p; tb = { r: rr, b, p, q, pt: `${p}/${q}`, x: num / den, ok: pbGcd(p, q) === 1 && num > 0 && num % den === 0 && num / den <= 30 }; } while (!tb.ok);
+  let kk; do { const q = r.p([3, 4, 5, 6, 8]), p = r.i(1, q - 1), m = r.i(3, 8); kk = { t: q * m, p: `${fr(p, q)}`, m: p * m, y: (q - p) * m, x: r.i(1, p * m - 1), ok: pbGcd(p, q) === 1 && p * m >= 2 }; } while (!kk.ok);
+  let t3; do { const D = r.p([12, 20, 24, 30, 15]), dv = pbRange(2, D - 1).filter(d => D % d === 0), d1 = r.p(dv), d2 = r.p(dv); const gr = D - D / d1 - D / d2; t3 = { pr: `${fr(1, d1)}`, pb: `${fr(1, d2)}`, D, gr, ok: d1 !== d2 && gr > 0 }; if (t3.ok) { t3.pg = pbFr(gr, D); const g = pbGcd(gr, D), m = r.i(1, 4); t3.g = gr / g * m; t3.t = D / g * m; } } while (!t3.ok);
+  let tb; do { const rr = r.i(2, 8), b = r.i(4, 12), q = r.p([2, 3, 4, 5]), p = r.i(1, q - 1); const num = p * (rr + b) - q * rr, den = q - p; tb = { r: rr, b, p, q, pt: `${fr(p, q)}`, x: num / den, ok: pbGcd(p, q) === 1 && num > 0 && num % den === 0 && num / den <= 30 }; } while (!tb.ok);
   const E = r.p([['nombor gandaan 3', [3, 6]], ['nombor perdana', [2, 3, 5]], ['nombor lebih besar daripada 4', [5, 6]], ['nombor 6', [6]], ['faktor bagi 6', [1, 2, 3, 6]]]), k = E[1].length, N = 6 / pbGcd(k, 6) * r.i(4, 20);
   const dg = { A: vnama(), ev: E[0], As: pbSet(E[1]), k, p: pbFr(k, 6), pl: pbFr(6 - k, 6), N, lose: (6 - k) * N / 6 };
   const v = vq('k134', { kk, t3, tb, dg });
@@ -802,13 +802,13 @@ const CQGEN = {
     () => { const e = pbDiceEvent(pbRG, Math.random() < .25), k = e.A.length; return pbMcq(`Sebiji dadu adil dilambung. Berapakah kebarangkalian mendapat ${e.nm}?`, pbDiceFig([1, 2, 3, 4, 5, 6]), pbOptsFr(k, 6, [[k, 6 - k], [6 - k, 6], [1, k], [k + 1, 6], [k, 12]])); },
     () => { const n = pick([4, 5, 6, 8]), sp = pbColSpin(pbRG, n), i = ri(0, 2), k = sp.cnt[i]; return pbMcq(`Pemutar dengan ${n} sektor sama besar diputar sekali. Berapakah kebarangkalian jarum berhenti pada sektor ${sp.cs[i]}?`, sp.fig, pbOptsFr(k, n, [[k, n - k], [n - k, n], [1, 3], [1, n], [k + 1, n]])); },
     () => {
-      if (Math.random() < .5) { const ok = shuffle(['0', '1', '1/2', '3/4', '0.6', '2/5', '0.25', '45%']).slice(0, 3), bad = pick(['5/4', '1.2', '3/2', '120%', '7/5', '1.05']), opts = shuffle([bad, ...ok]); return { type: 'mcq', q: 'Antara berikut, yang manakah <b>BUKAN</b> nilai kebarangkalian?', fig: '', opts, c: opts.indexOf(bad) }; }
-      const [x, ev, t, a, b] = pick(PBJUL), ans = t === 0 ? '0' : t === 1 ? '1' : pbFr(a, b), base = ['0', '1', '1/2', t === 2 ? pbFr(a + 1, b + 1) : pbFr(1, b)];
+      if (Math.random() < .5) { const ok = shuffle(['0', '1', fr(1, 2), fr(3, 4), '0.6', fr(2, 5), '0.25', '45%']).slice(0, 3), bad = pick([fr(5, 4), '1.2', fr(3, 2), '120%', fr(7, 5), '1.05']), opts = shuffle([bad, ...ok]); return { type: 'mcq', q: 'Antara berikut, yang manakah <b>BUKAN</b> nilai kebarangkalian?', fig: '', opts, c: opts.indexOf(bad) }; }
+      const [x, ev, t, a, b] = pick(PBJUL), ans = t === 0 ? '0' : t === 1 ? '1' : pbFr(a, b), base = ['0', '1', fr(1, 2), t === 2 ? pbFr(a + 1, b + 1) : pbFr(1, b)];
       return pbMcq(`${x} Berapakah kebarangkalian ${ev}?`, '', pbOptsT(ans, base));
     }
   ],
   pelengkap: [
-    () => { let p, q; do { q = pick([4, 5, 6, 7, 8, 9, 10, 12]); p = ri(1, q - 1); } while (pbGcd(p, q) !== 1 || 2 * p === q); return pbMcq(`Diberi P(A) = ${p}/${q}. Berapakah P(A′)?`, '', pbOptsFr(q - p, q, [[p, q], [q, p], [q - p, p], [1, q], [q - 1, q]])); },
+    () => { let p, q; do { q = pick([4, 5, 6, 7, 8, 9, 10, 12]); p = ri(1, q - 1); } while (pbGcd(p, q) !== 1 || 2 * p === q); return pbMcq(`Diberi P(A) = ${fr(p, q)}. Berapakah P(A′)?`, '', pbOptsFr(q - p, q, [[p, q], [q, p], [q - p, p], [1, q], [q - 1, q]])); },
     () => {
       let h; do h = ri(5, 95); while (h === 50); const pct = Math.random() < .5, f = v => (pct ? `${v}%` : pbH(v)), ans = f(100 - h);
       const c = [h, 110 - h, 90 - h, 105 - h, 95 - h, h + 10].filter(v => v >= 1 && v <= 99 && v !== 100 - h).map(f);
@@ -820,7 +820,7 @@ const CQGEN = {
   masalah: [
     () => { const B = pbBag(pbRG), i = ri(0, B.parts.length - 1), k = B.parts[i][1]; return pbMcq(`Sebiji guli diambil secara rawak dari balang ini. Berapakah kebarangkalian mendapat guli ${B.parts[i][0]}?`, pbBagFig(B.parts), pbOptsFr(k, B.t, [[k, B.t - k], [B.t - k, B.t], [1, B.parts.length], [1, k], [k, B.t + 1]])); },
     () => { let T, k; do { T = pick([50, 80, 100, 120, 200, 250, 400, 500]); k = ri(2, 10); } while (k >= T / 4); const N = vnama(); return pbMcq(`${T} keping tiket cabutan bertuah dijual. ${N} membeli ${k} keping. Berapakah kebarangkalian ${N} memenangi hadiah utama?`, '', pbOptsFr(k, T, [[1, T], [k, T - k], [T - k, T], [1, k], [k, 100]])); },
-    () => { let p, q, m; do { q = ri(3, 8); p = ri(1, q - 1); m = ri(2, 6); } while (pbGcd(p, q) !== 1); const r0 = p * m, t = q * m, b = t - r0; return pbMcq(`Sebuah beg mengandungi ${r0} biji guli merah dan beberapa biji guli biru. P(merah) = ${p}/${q}. Berapakah bilangan guli biru?`, pbBagFig([['merah', r0], ['biru', '?']]), pbOptsN(b, [t, q - p, r0, b + p, q], v => `${v} biji`)); }
+    () => { let p, q, m; do { q = ri(3, 8); p = ri(1, q - 1); m = ri(2, 6); } while (pbGcd(p, q) !== 1); const r0 = p * m, t = q * m, b = t - r0; return pbMcq(`Sebuah beg mengandungi ${r0} biji guli merah dan beberapa biji guli biru. P(merah) = ${fr(p, q)}. Berapakah bilangan guli biru?`, pbBagFig([['merah', r0], ['biru', '?']]), pbOptsN(b, [t, q - p, r0, b + p, q], v => `${v} biji`)); }
   ]
 };
 const CQT = { eksperimen: 'Kebarangkalian eksperimen', teori: 'Kebarangkalian teori', pelengkap: 'Peristiwa pelengkap', masalah: 'Penyelesaian masalah' };

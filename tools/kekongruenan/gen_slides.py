@@ -1,6 +1,8 @@
 # Penjana slaid NOTA KEKONGRUENAN (Tingkatan 5 Bab 5) -> kekongruenan/slides.js
 # Jalankan:  python3 tools/kekongruenan/gen_slides.py
-import json, os, html, re, math
+import json, os, html, re, math, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from fxsvg import fx_svg, fx_html   # pecahan bertingkat (25 Nov)
 from fractions import Fraction as F
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -155,9 +157,9 @@ lo = 12; k = F(5, 2); li = lo * k * k
 assert li == 75
 add('5.2', 'CONTOH 2', 'Luas imej',
     DEF('Luas imej = <b>k²</b> × luas objek', c)
-    + P('Sebuah segi tiga dengan luas 12 cm² dibesarkan dengan faktor skala 5/2. Cari luas imej.')
-    + STEPS(['k² = (5/2)² = 25/4', 'Luas imej = 25/4 × 12', '= 75'], c) + ANS('75 cm²') + NOTE('Jika k negatif, k² tetap positif: k = −3 → luas × 9.'),
-    svg(POLY([(80, 330), (160, 330), (80, 270)], TR) + POLY([(220, 330), (420, 330), (220, 180)], PK, '22') + T(110, 360, '12 cm²', TR, 18) + T(300, 360, '75 cm²', PK, 18) + T(250, 110, '× (5/2)² = × 25/4', AM, 24), 'Luas imej'))
+    + P('Sebuah segi tiga dengan luas 12 cm² dibesarkan dengan faktor skala '+fx_html('5/2')+'. Cari luas imej.')
+    + STEPS([fx_html('k² = (5/2)² = 25/4'), fx_html('Luas imej = 25/4 × 12'), '= 75'], c) + ANS('75 cm²') + NOTE('Jika k negatif, k² tetap positif: k = −3 → luas × 9.'),
+    svg(POLY([(80, 330), (160, 330), (80, 270)], TR) + POLY([(220, 330), (420, 330), (220, 180)], PK, '22') + T(110, 360, '12 cm²', TR, 18) + T(300, 360, '75 cm²', PK, 18) + fx_svg(250, 110, '× (5/2)² = × 25/4', AM, 24, 'middle', ' font-family="Inter, sans-serif" font-weight="700"'), 'Luas imej'))
 
 add('5.2', 'KESILAPAN BIASA', 'Elakkan kesilapan ini',
     BUL([B('Salah', RD) + ': luas imej = k × luas objek. ' + B('Betul', GR) + ': darab dengan <b>k²</b>.',

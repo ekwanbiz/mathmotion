@@ -112,9 +112,9 @@ PD.sebar = r => {
 PD.pai = r => {
   const tot = r.p([36, 40, 60, 72, 90, 120]), divs = [...Array(tot).keys()].map(k => k + 1).filter(f => (f * 360) % tot === 0 && f < tot / 2), f = r.p(divs), ang = f * 360 / tot;
   const SP = r.s(['Bola sepak', 'Badminton', 'Bola jaring', 'Renang']), item = SP[0].toLowerCase();
-  if (r.i(0, 1) === 0) return pdLQ('kira', { q: `Seramai ${tot} murid ditanya tentang sukan kegemaran. ${f} orang memilih ${item}. Hitung sudut sektor ${item} dalam carta pai.`, ans: `${ang}°`, work: [`${f}/${tot} × 360° = ${ang}°`] });
+  if (r.i(0, 1) === 0) return pdLQ('kira', { q: `Seramai ${tot} murid ditanya tentang sukan kegemaran. ${f} orang memilih ${item}. Hitung sudut sektor ${item} dalam carta pai.`, ans: `${ang}°`, work: [`${fr(f, tot)} × 360° = ${ang}°`] });
   const rest = 360 - ang, a2 = Math.round(rest * .5 / 6) * 6, a3 = rest - a2;
-  return pdLQ('kira', { q: `Carta pai menunjukkan sukan kegemaran ${tot} orang murid. Hitung bilangan murid yang memilih ${item}.`, fig: pdPie([[SP[0], ang], [SP[1], a2], [SP[2], a3]]), ans: `${f}`, work: [`${ang}°/360° × ${tot} = ${f}`] });
+  return pdLQ('kira', { q: `Carta pai menunjukkan sukan kegemaran ${tot} orang murid. Hitung bilangan murid yang memilih ${item}.`, fig: pdPie([[SP[0], ang], [SP[1], a2], [SP[2], a3]]), ans: `${f}`, work: [`${fr(ang + '°', '360°')} × ${tot} = ${f}`] });
 };
 PD.batang = r => {
   const n = r.i(9, 12), lo = r.i(3, 5), d = []; for (let i = 0; i < n; i++) d.push(r.i(lo * 10, lo * 10 + 29)); d.sort((a, b) => a - b);
@@ -130,7 +130,7 @@ PD.garis = r => {
 PD.masalah = (r, idx) => {
   const k = idx == null ? r.i(0, 2) : idx % 3;
   if (k === 0) { const tot = r.p([360, 480, 600, 720, 900]), am = r.p([120, 144, 150, 180]), ab = r.p([60, 72, 90]); const m = am / 360 * tot, b = ab / 360 * tot; const ap = r.p([30, 36, 45]), as = 360 - am - ab - ap;
-    return pdLQ('masalah', { q: `Carta pai menunjukkan perbelanjaan bulanan ${pdRM(tot)} sebuah keluarga. Berapakah beza perbelanjaan makanan dan pengangkutan?`, fig: pdPie([['Makanan', am], ['Pengangkutan', ab], ['Buku', ap], ['Simpanan', as]]), ans: pdRM(m - b), work: [`Makanan = ${am}/360 × ${pdRM(tot)} = ${pdRM(m)}`, `Pengangkutan = ${ab}/360 × ${pdRM(tot)} = ${pdRM(b)}`, `Beza = ${pdRM(m - b)}`] }); }
+    return pdLQ('masalah', { q: `Carta pai menunjukkan perbelanjaan bulanan ${pdRM(tot)} sebuah keluarga. Berapakah beza perbelanjaan makanan dan pengangkutan?`, fig: pdPie([['Makanan', am], ['Pengangkutan', ab], ['Buku', ap], ['Simpanan', as]]), ans: pdRM(m - b), work: [`Makanan = ${fr(am, 360)} × ${pdRM(tot)} = ${pdRM(m)}`, `Pengangkutan = ${fr(ab, 360)} × ${pdRM(tot)} = ${pdRM(b)}`, `Beza = ${pdRM(m - b)}`] }); }
   if (k === 1) { const labs = ['Jan', 'Feb', 'Mac', 'Apr', 'Mei', 'Jun'], v = labs.map(() => r.i(2, 9) * 5), mx = Math.max(...v), mi = v.indexOf(mx);
     return pdLQ('masalah', { q: 'Graf garis menunjukkan bilangan kemalangan jalan raya di sebuah daerah dalam enam bulan. Bulan manakah paling banyak kemalangan, dan berapakah jumlah kemalangan dalam tempoh itu?', fig: pdLine(labs, v, 50, 10, 'Bulan', 'Kemalangan'), ans: `${labs[mi]} (${mx}); jumlah ${v.reduce((a, b) => a + b, 0)}`, work: [`Titik tertinggi: ${labs[mi]} = ${mx}`, `Jumlah = ${v.join(' + ')} = ${v.reduce((a, b) => a + b, 0)}`] }); }
   const labs = ['A', 'B', 'C', 'D'], a = labs.map(() => r.i(3, 10)), b = labs.map(() => r.i(3, 10)), p = r.p([2, 3, 5]);

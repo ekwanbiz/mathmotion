@@ -456,6 +456,42 @@ KO.k73 = r => {
   return GEN_LQ('k73', { h, s, j, o });
 };
 
+/* ---------- pecahan bertingkat & punca kuasa (25 Nov) ----------
+   Penjana di atas menulis teks biasa: √(…), √n, (…)/d, a/b, ½. koFx menukarnya kepada fr()/rt()
+   pada output akhir sahaja (logik dalaman yang membanding teks kekal teks biasa). Rajah SVG tidak disentuh. */
+const koFx = s => {
+  if (typeof s !== 'string' || s.includes('<svg')) return s;
+  const close = (t, i) => { let d = 0; for (let j = i; j < t.length; j++) { if (t[j] === '(') d++; else if (t[j] === ')' && --d === 0) return j; } return -1; };
+  const open = (t, i) => { let d = 0; for (let j = i; j >= 0; j--) { if (t[j] === ')') d++; else if (t[j] === '(' && --d === 0) return j; } return -1; };
+  s = s.replace(/½/g, () => fr(1, 2));
+  // pecahan dahulu: kiri = (…) atau token, kanan = (…) atau token
+  const TOK = /[\w.₀-₉²³π]/;
+  for (let k = 0, i = 0; k < 80; k++) {
+    i = s.indexOf('/', i); if (i < 0) break;
+    if (s[i - 1] === '<' || s[i + 1] === '>' || s[i - 1] === ' ' || s[i + 1] === ' ') { i++; continue; }
+    let a0, num, b1, den;
+    if (s[i - 1] === ')') { a0 = open(s, i - 1); if (a0 < 0) { i++; continue; } num = s.slice(a0 + 1, i - 1); if (s[a0 - 1] === '√') num = s.slice(--a0, i); else if (TOK.test(s[a0 - 1] || '')) { while (a0 > 0 && TOK.test(s[a0 - 1])) a0--; num = s.slice(a0, i); } } // 8(z − 2)/7: pekali ikut pengangka
+    else { a0 = i; while (a0 > 0 && TOK.test(s[a0 - 1])) a0--; if (s[a0 - 1] === '√') a0--; num = s.slice(a0, i); }
+    if (s[i + 1] === '(') { b1 = close(s, i + 1); if (b1 < 0) { i++; continue; } den = s.slice(i + 2, b1); b1++; }
+    else { b1 = i + 1; while (b1 < s.length && TOK.test(s[b1])) b1++; den = s.slice(i + 1, b1); }
+    if (!num || !den || /[<>]/.test(num + den) || /^[a-zA-Z]{3,}$/.test(num) && /^[a-zA-Z]{3,}$/.test(den) || /^(km|cm|mm|RM)$/.test(num) || num === 'm' && den === 's') { i++; continue; } // perkataan (dan/atau) & unit (km/j) kekal
+    const f = fr(num, den); s = s.slice(0, a0) + f + s.slice(b1); i = a0 + f.length;
+  }
+  // kemudian punca kuasa (termasuk di dalam pecahan): √(…) → rt(…), √n → rt(n)
+  for (let k = 0, i; k < 60 && (i = s.search(/√(?!<)/)) >= 0; k++) {
+    if (s[i + 1] === '(') { const j = close(s, i + 1); if (j < 0) break; s = s.slice(0, i) + rt(s.slice(i + 2, j)) + s.slice(j + 1); }
+    else { const m = /^[\d.]*[a-zA-Zπ]*/.exec(s.slice(i + 1)); if (!m[0]) break; s = s.slice(0, i) + rt(m[0]) + s.slice(i + 1 + m[0].length); }
+  }
+  return s;
+};
+const koFixQ = q => {
+  if (typeof q === 'string') return koFx(q);
+  if (Array.isArray(q)) return q.map(koFixQ);
+  if (q && typeof q === 'object') Object.keys(q).forEach(k => { if (k === 'fig' || k === 'figAns') return; q[k] = koFixQ(q[k]); });
+  return q;
+};
+Object.keys(KO).forEach(k => { const f = KO[k]; KO[k] = (...a) => koFixQ(f(...a)); });
+
 /* =================== GEN: Latihan Kelas =================== */
 const GEN = {
   '7.1': {
@@ -599,6 +635,7 @@ const CQGEN = {
     }
   ]
 };
+Object.keys(CQGEN).forEach(t => { CQGEN[t] = CQGEN[t].map(f => (...a) => koFixQ(f(...a))); });
 const CQT = { jarak: 'Jarak dua titik', tengah: 'Titik tengah', hujung: 'Titik hujung', masalah: 'Bentuk & peta' };
 function koCqMake(ty, level) {
   const L = Math.max(0, Math.min(2, level | 0)), fns = CQGEN[ty] || CQGEN.jarak;

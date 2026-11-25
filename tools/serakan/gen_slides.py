@@ -1,7 +1,9 @@
 # Penjana slaid NOTA Bab 8 Sukatan Serakan Data Tak Terkumpul (Tingkatan 4) -> serakan/slides.js
 # Jalankan:  python3 tools/serakan/gen_slides.py
 # Gunakan HANYA warna palet gelap di bawah supaya mod cerah ditukar automatik oleh themed().
-import json, os, html, math, re
+import json, os, html, math, re, sys
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+from mathfmt import FR, RT, SFR, SRT, mathW
 import statistics as st
 from fractions import Fraction as F
 
@@ -53,10 +55,6 @@ def ANS(t):
     return f'<div class="sl-ans rv"><span>JAWAPAN</span> {t}</div>'
 def NOTE(t, lab='Ingat:'):
     return f'<div class="sl-note"><b>{lab}</b> {t}</div>'
-def FR(a, b):
-    return ('<span style="display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; '
-            'line-height: 1.1; font-size: 0.85em; margin: 0 2px; white-space: nowrap"><span style="padding: 0 4px; border-bottom: 2px solid currentColor">'
-            f'{a}</span><span>{b}</span></span>')
 def B(t, col):
     return f'<b style="color: {col}">{t}</b>'
 def TABLE(head, rows, col, rv=False, last_bold=False):
@@ -82,6 +80,28 @@ def T(x, y, t, col=TX, size=20, anchor='middle', weight=700, italic=False, halo=
     ha = f' paint-order="stroke" stroke="{NAV}" stroke-width="6" stroke-linejoin="round"' if halo else ''
     return (f'<text x="{r1(x)}" y="{r1(y)}" fill="{col}" {FONT} font-size="{size}" font-weight="{weight}"{it} '
             f'text-anchor="{anchor}" dominant-baseline="middle"{ha}>{t}</text>')
+def MIX(x, y, parts, col=TX, size=20, anchor='middle'):
+    """Teks rajah bercampur: str, ('f', a, b) pecahan bertingkat, ('r', t[, n]) punca. y = garis tengah (garis pecahan)."""
+    segs = []
+    for p in parts:
+        if isinstance(p, str):
+            lead = (len(p) - len(p.lstrip(' '))) * size * .28; core = p.strip(' '); trail = (len(p) - len(p.rstrip(' '))) * size * .28 if core else 0
+            segs.append(('s', core, lead, mathW(re.sub('[\u0300-\u036f]', '', core), size) if core else 0, trail))
+        elif p[0] == 'f':
+            segs.append(('f', p, size * .2, max(mathW(p[1], size), mathW(p[2], size)) + 10, size * .16))
+        else:
+            segs.append(('r', p, 0, size * .62 + mathW(p[1], size) + 4, size * .1))
+    tot = sum(a + w + b for _, _, a, w, b in segs)
+    cx = x if anchor == 'start' else (x - tot if anchor == 'end' else x - tot / 2)
+    out = ''
+    for i, (k, v, a, w, b) in enumerate(segs):
+        cx += a
+        if k == 's' and v and i == 0 and len(segs) > 1 and anchor != 'start': out += T(cx + w, y, v, col, size, 'end', halo=False)  # rapat dengan pecahan/punca selepasnya
+        elif k == 's' and v: out += T(cx, y, v, col, size, 'start', halo=False)
+        elif k == 'f': out += SFR(cx, y, v[1], v[2], col, size, 'start')
+        elif k == 'r': out += SRT(cx, y + size * .35, v[1], col, size, 'start', v[2] if len(v) > 2 else None)
+        cx += w + b
+    return out
 def LINE(p, q, col=TX, sw=4, dash=None, cap='round'):
     d = f' stroke-dasharray="{dash}"' if dash else ''
     return f'<line x1="{r1(p[0])}" y1="{r1(p[1])}" x2="{r1(q[0])}" y2="{r1(q[1])}" stroke="{col}" stroke-width="{sw}" stroke-linecap="{cap}"{d}/>'
@@ -338,7 +358,7 @@ CASES = [(52, 'Kekunci tidak ditulis', False), (122, 'Kekunci: 4 | 5 bermaksud 4
          (372, 'Daun tidak disusun: 6 | 7 1 3', False), (442, 'Susun daun menaik: 6 | 1 3 7', True)]
 for y, t, ok in CASES:
     fig += RECT(20, y - 28, 460, 56, SURF, GR if ok else RD, 14, 2)
-    fig += (TICK(50, y) if ok else CROSS(50, y)) + T(78, y, t, GR if ok else RD, 18, 'start')
+    fig += (TICK(50, y) if ok else CROSS(50, y)) + (MIX(78, y, t, GR if ok else RD, 18, 'start') if isinstance(t, list) else T(78, y, t, GR if ok else RD, 18, 'start'))
 add('8.1.1', 'KESILAPAN BIASA', 'Elakkan kesilapan ini',
     BUL([f'{B("Lupa menulis kekunci", RD)} ✗ → pembaca tidak tahu nilai sebenar data.',
          f'{B("Menganggap min yang sama bermakna serakan sama", RD)} ✗ → bandingkan julat atau taburan.',
@@ -479,7 +499,7 @@ CASES = [(52, 'Julat 9, 4, 12, 7 = 7 − 9', False), (122, 'Julat = 12 − 4 = 8
          (372, 'Q₁ tanpa menyusun data', False), (442, 'Susun dahulu, kemudian cari Q₁', True)]
 for y, t, ok in CASES:
     fig += RECT(20, y - 28, 460, 56, SURF, GR if ok else RD, 14, 2)
-    fig += (TICK(50, y) if ok else CROSS(50, y)) + T(78, y, t, GR if ok else RD, 18, 'start')
+    fig += (TICK(50, y) if ok else CROSS(50, y)) + (MIX(78, y, t, GR if ok else RD, 18, 'start') if isinstance(t, list) else T(78, y, t, GR if ok else RD, 18, 'start'))
 add('8.2.1', 'KESILAPAN BIASA', 'Elakkan kesilapan ini',
     BUL([f'{B("Julat = data terakhir − data pertama", RD)} ✗ → guna nilai <b>terbesar</b> dan <b>terkecil</b>.',
          f'{B("Menambah Q₁ dan Q₃", RD)} ✗ → JAK ialah <b>beza</b> Q<sub>3</sub> − Q<sub>1</sub>.',
@@ -504,7 +524,7 @@ for i, v in enumerate(DV):
     fig += T((X(6) + X(v)) / 2, y - 20, ('+' if dv > 0 else '−') + str(abs(dv)), SDC, 17)
 add('8.2.2', 'DEFINISI', 'Varians dan sisihan piawai',
     DEF(f'{VAR_}, {SG2}, ialah purata kuasa dua beza setiap data dengan min: {SG2} = {FR("Σ(<i>x</i> − <i>x̄</i>)²", "<i>N</i>")}', col)
-    + DEF(f'{SD_}, σ, ialah punca kuasa dua varians: σ = √{SG2}', col)
+    + DEF(f'{SD_}, σ, ialah punca kuasa dua varians: σ = {RT(SG2)}', col)
     + BUL(['<i>x̄</i> = min, <i>N</i> = bilangan data.',
            'Kuasa dua digunakan supaya beza positif dan negatif tidak saling membatalkan.'], col),
     svg(fig, 'Beza setiap data 3, 4, 7, 10 daripada min 6'))
@@ -523,10 +543,10 @@ fig += LINE((30, 384), (470, 384), BD, 2)
 fig += T(100, 420, 'Σx = 40', TR, 18, halo=False) + T(400, 420, 'Σ = 32', PU, 18, halo=False)
 add('8.2.2', 'CONTOH BERLANGKAH', 'Mengira varians dengan jadual',
     P(f'Cari varians dan sisihan piawai bagi: {nl(D2)}', True)
-    + STEPS(['Min, <i>x̄</i> = 40 ÷ 8 = 5',
+    + STEPS([f'Min, <i>x̄</i> = {FR(40, 8)} = 5',
              'Hitung (<i>x</i> − <i>x̄</i>)² bagi setiap data; hasil tambahnya = 32',
-             f'{SG2} = 32 ÷ 8 = 4',
-             'σ = √4 = 2'], col)
+             f'{SG2} = {FR(32, 8)} = 4',
+             f'σ = {RT(4)} = 2'], col)
     + ANS(f'Varians = <b>4</b>, sisihan piawai = <b>2</b>'),
     svg(fig, 'Jadual x, x tolak min dan kuasa duanya dengan hasil tambah 32'))
 
@@ -536,15 +556,15 @@ sx, sx2 = sum(D3), sum(x * x for x in D3)
 assert sx == 40 and sx2 == 366 and var(D3) == F(46, 5) and F(sx2, 5) - 64 == F(46, 5) and r2(sd(D3)) == '3.03'
 fig = RECT(14, 14, 472, 442)
 fig += T(250, 50, 'Data: 3, 7, 8, 10, 12', MU3, 19, halo=False)
-fig += RECT(40, 84, 420, 70, f'{TR}22', TR, 14, 2.5) + T(250, 119, 'Σx = 40 → x̄ = 40 ÷ 5 = 8', TX, 19, halo=False)
+fig += RECT(40, 84, 420, 70, f'{TR}22', TR, 14, 2.5) + MIX(250, 119, ['Σx = 40 → x̄ = ', ('f', '40', '5'), ' = 8'], TX, 19)
 fig += RECT(40, 170, 420, 70, f'{PU}22', PU, 14, 2.5) + T(250, 205, 'Σx² = 9 + 49 + 64 + 100 + 144 = 366', TX, 17, halo=False)
-fig += RECT(40, 256, 420, 70, f'{SDC}22', SDC, 14, 2.5) + T(250, 291, 'σ² = 366 ÷ 5 − 8² = 9.2', TX, 19, halo=False)
-fig += RECT(40, 342, 420, 70, f'{GR}22', GR, 14, 2.5) + T(250, 377, 'σ = √9.2 = 3.03 (2 t.p.)', TX, 19, halo=False)
+fig += RECT(40, 256, 420, 70, f'{SDC}22', SDC, 14, 2.5) + MIX(250, 291, ['σ² = ', ('f', '366', '5'), ' − 8² = 9.2'], TX, 19)
+fig += RECT(40, 342, 420, 70, f'{GR}22', GR, 14, 2.5) + MIX(250, 377, ['σ = ', ('r', '9.2'), ' = 3.03 (2 t.p.)'], TX, 19)
 add('8.2.2', 'RUMUS', 'Rumus alternatif varians',
     DEF(f'{SG2} = {FR("Σ<i>x</i>²", "<i>N</i>")} − <i>x̄</i>²', col)
     + P('Cari varians dan sisihan piawai bagi data 3, 7, 8, 10, 12.', True)
     + STEPS(['Σ<i>x</i> = 40, <i>x̄</i> = 8', 'Σ<i>x</i>² = 366',
-             f'{SG2} = 366 ÷ 5 − 8² = 73.2 − 64 = 9.2', 'σ = √9.2 = 3.03'], col)
+             f'{SG2} = {FR(366, 5)} − 8² = 73.2 − 64 = 9.2', f'σ = {RT(9.2)} = 3.03'], col)
     + NOTE('Σ<i>x</i>² ialah hasil tambah kuasa dua setiap data, <b>bukan</b> (Σ<i>x</i>)².'),
     svg(fig, 'Langkah rumus alternatif: varians 9.2 dan sisihan piawai 3.03'))
 
@@ -562,13 +582,13 @@ for i, (x, f) in enumerate(zip(XS, FS)):
     for v, x_ in zip([x, f, x * f, x * x * f], cxs): fig += T(x_, y, str(v), TX, 19, halo=False)
 fig += LINE((30, 350), (470, 350), BD, 2)
 fig += T(90, 378, 'Σ', MU, 19, halo=False) + T(190, 378, '20', PA, 19, halo=False) + T(300, 378, '60', GR, 19, halo=False) + T(410, 378, '214', PU, 19, halo=False)
-fig += T(250, 426, 'σ² = 214 ÷ 20 − 3² = 1.7', SDC, 19, halo=False)
+fig += MIX(250, 424, ['σ² = ', ('f', '214', '20'), ' − 3² = 1.7'], SDC, 19)
 add('8.2.2', 'JADUAL KEKERAPAN', 'Varians daripada jadual kekerapan',
     DEF(f'{SG2} = {FR("Σ<i>fx</i>²", "Σ<i>f</i>")} − <i>x̄</i>², dengan <i>x̄</i> = {FR("Σ<i>fx</i>", "Σ<i>f</i>")}', col)
-    + STEPS(['<i>x̄</i> = 60 ÷ 20 = 3',
+    + STEPS([f'<i>x̄</i> = {FR(60, 20)} = 3',
              'Σ<i>fx</i>² = 3 + 20 + 36 + 80 + 75 = 214',
-             f'{SG2} = 214 ÷ 20 − 3² = 10.7 − 9 = 1.7',
-             'σ = √1.7 = 1.30 (2 t.p.)'], col)
+             f'{SG2} = {FR(214, 20)} − 3² = 10.7 − 9 = 1.7',
+             f'σ = {RT(1.7)} = 1.30 (2 t.p.)'], col)
     + NOTE('<i>fx</i>² bermaksud <i>f</i> × <i>x</i>², bukan (<i>fx</i>)².'),
     svg(fig, 'Jadual x, f, fx dan fx kuasa dua dengan varians 1.7'))
 
@@ -588,7 +608,7 @@ add('8.2.2', 'TAFSIRAN', 'Maksud sisihan piawai',
     BUL(['Sisihan piawai <b>kecil</b>: data tertumpu dekat dengan min.',
          'Sisihan piawai <b>besar</b>: data terserak jauh daripada min.'], col)
     + P('Skor Ali: 7, 8, 8, 9, 8. Skor Bala: 5, 10, 9, 6, 10. Kedua-duanya bermin 8.', True)
-    + STEPS(['Ali: σ² = 2 ÷ 5 = 0.4, σ = 0.63', 'Bala: σ² = 22 ÷ 5 = 4.4, σ = 2.10'], col)
+    + STEPS([f'Ali: σ² = {FR(2, 5)} = 0.4, σ = 0.63', f'Bala: σ² = {FR(22, 5)} = 4.4, σ = 2.10'], col)
     + ANS('Ali lebih <b>konsisten</b> kerana sisihan piawainya lebih kecil.'),
     svg(fig, 'Plot titik skor Ali dan Bala dengan jalur sisihan piawai'))
 
@@ -616,14 +636,14 @@ add('8.2.2', 'KELEBIHAN & KEKURANGAN', 'Memilih sukatan serakan',
 # 7 Kesilapan biasa
 assert F(366, 5) - 8 != F(46, 5) and 40 ** 2 == 1600
 fig = ''
-CASES = [(52, 'σ = σ² (lupa punca kuasa dua)', False), (122, 'σ = √σ²', True),
-         (212, 'σ² = Σx² ÷ N − x̄', False), (282, 'σ² = Σx² ÷ N − x̄²', True),
+CASES = [(52, 'σ = σ² (lupa punca kuasa dua)', False), (122, ['σ = ', ('r', 'σ²')], True),
+         (212, ['σ² = ', ('f', 'Σx²', 'N'), ' − x̄'], False), (282, ['σ² = ', ('f', 'Σx²', 'N'), ' − x̄²'], True),
          (372, 'Σx² = (Σx)² = 40² = 1600', False), (442, 'Σx² = 3² + 7² + … = 366', True)]
 for y, t, ok in CASES:
     fig += RECT(20, y - 28, 460, 56, SURF, GR if ok else RD, 14, 2)
-    fig += (TICK(50, y) if ok else CROSS(50, y)) + T(78, y, t, GR if ok else RD, 18, 'start')
+    fig += (TICK(50, y) if ok else CROSS(50, y)) + (MIX(78, y, t, GR if ok else RD, 18, 'start') if isinstance(t, list) else T(78, y, t, GR if ok else RD, 18, 'start'))
 add('8.2.2', 'KESILAPAN BIASA', 'Elakkan kesilapan ini',
-    BUL([f'{B("Lupa punca kuasa dua", RD)} ✗ → sisihan piawai = √varians.',
+    BUL([f'{B("Lupa punca kuasa dua", RD)} ✗ → sisihan piawai = {RT("varians")}.',
          f'{B("Tidak mengkuasaduakan min", RD)} ✗ → tolak <i>x̄</i>², bukan <i>x̄</i>.',
          f'{B("Mengelirukan Σx² dengan (Σx)²", RD)} ✗',
          f'{B("Varians negatif", RD)} ✗ → varians tidak mungkin negatif; semak semula kiraan.'], col),
@@ -722,7 +742,7 @@ CASES = [(52, 'Median sentiasa di tengah kotak', False), (122, 'Median boleh leb
          (372, 'Garis nombor tanpa skala', False), (442, 'Lukis di atas garis nombor berskala', True)]
 for y, t, ok in CASES:
     fig += RECT(20, y - 28, 460, 56, SURF, GR if ok else RD, 14, 2)
-    fig += (TICK(50, y) if ok else CROSS(50, y)) + T(78, y, t, GR if ok else RD, 18, 'start')
+    fig += (TICK(50, y) if ok else CROSS(50, y)) + (MIX(78, y, t, GR if ok else RD, 18, 'start') if isinstance(t, list) else T(78, y, t, GR if ok else RD, 18, 'start'))
 add('8.2.3', 'KESILAPAN BIASA', 'Elakkan kesilapan ini',
     BUL([f'{B("Menganggap median sentiasa di tengah kotak", RD)} ✗',
          f'{B("Menganggap bahagian panjang ada lebih banyak data", RD)} ✗ → setiap bahagian ada ≈ 25% data; bahagian panjang bermakna lebih terserak.',
@@ -810,8 +830,8 @@ fig += T(460, 92, 'x̄ = 45, σ = 1.41', TR, 17, 'end') + T(460, 262, 'x̄ = 46,
 fig += RECT(40, 400, 420, 56, SURF, BD, 14) + T(250, 428, 'σ kecil → lebih konsisten', GR, 18, halo=False)
 add('8.2.4', 'MEMBANDING', 'Membanding dan mentafsir',
     P('Skor Pemain A: 43, 45, 44, 47, 46. Skor Pemain B: 38, 52, 41, 55, 44. Pemain manakah lebih konsisten?', True)
-    + STEPS(['A: <i>x̄</i> = 45, σ² = 10 ÷ 5 = 2, σ = 1.41',
-             'B: <i>x̄</i> = 46, σ² = 210 ÷ 5 = 42, σ = 6.48',
+    + STEPS([f'A: <i>x̄</i> = 45, σ² = {FR(10, 5)} = 2, σ = 1.41',
+             f'B: <i>x̄</i> = 46, σ² = {FR(210, 5)} = 42, σ = 6.48',
              'Min hampir sama, tetapi σ A jauh lebih kecil.'], col)
     + ANS('Pemain A lebih <b>konsisten</b>.')
     + NOTE('Bandingkan min untuk tahap prestasi, dan sisihan piawai untuk kekonsistenan.'),
@@ -824,15 +844,15 @@ assert F(SX2 + 64, 7) - 64 == F(36, 7) and r2(36 / 7) == '5.14' and r2(math.sqrt
 fig = RECT(14, 14, 472, 442)
 fig += T(250, 52, 'N = 6, Σx = 48, Σx² = 420', TX, 20, halo=False)
 fig += RECT(40, 86, 420, 150, f'{TR}1A', TR, 16, 2.5) + T(250, 116, '(a) Sebelum', TR, 19)
-fig += T(250, 156, 'x̄ = 48 ÷ 6 = 8', TX, 18, halo=False) + T(250, 196, 'σ² = 420 ÷ 6 − 8² = 6', TX, 18, halo=False)
+fig += MIX(250, 154, ['x̄ = ', ('f', '48', '6'), ' = 8'], TX, 18) + MIX(250, 198, ['σ² = ', ('f', '420', '6'), ' − 8² = 6'], TX, 18)
 fig += RECT(40, 256, 420, 180, f'{GR}1A', GR, 16, 2.5) + T(250, 286, '(b) Tambah nombor 8', GR, 19)
 fig += T(250, 326, 'Σx = 56, Σx² = 484, N = 7', TX, 18, halo=False) + T(250, 366, 'x̄ = 8', TX, 18, halo=False)
-fig += T(250, 406, 'σ² = 484 ÷ 7 − 64 = 5.14', TX, 18, halo=False)
+fig += MIX(250, 406, ['σ² = ', ('f', '484', '7'), ' − 64 = 5.14'], TX, 18)
 add('8.2.4', 'PENYELESAIAN MASALAH', 'Menggunakan Σx dan Σx²',
     P('Bagi 6 nombor, Σ<i>x</i> = 48 dan Σ<i>x</i>² = 420. (a) Cari min dan sisihan piawai. (b) Nombor 8 ditambah ke dalam set itu. Cari varians baharu.', True)
-    + STEPS(['(a) <i>x̄</i> = 8; σ² = 70 − 64 = 6; σ = √6 = 2.45',
+    + STEPS(['(a) <i>x̄</i> = 8; σ² = 70 − 64 = 6; σ = ' + RT(6) + ' = 2.45',
              '(b) Σ<i>x</i> = 48 + 8 = 56; Σ<i>x</i>² = 420 + 8² = 484',
-             '<i>x̄</i> = 56 ÷ 7 = 8; σ² = 484 ÷ 7 − 8² = 5.14'], col)
+             f'<i>x̄</i> = {FR(56, 7)} = 8; σ² = {FR(484, 7)} − 8² = 5.14'], col)
     + NOTE('Menambah nilai yang <b>sama dengan min</b> mengurangkan varians kerana data lebih tertumpu.'),
     svg(fig, 'Langkah mengira varians sebelum dan selepas nombor 8 ditambah'))
 
@@ -853,7 +873,7 @@ add('8.2.4', 'RINGKASAN', 'Ringkasan bab',
           [['Julat', 'nilai terbesar − nilai terkecil'],
            ['JAK', 'Q<sub>3</sub> − Q<sub>1</sub>'],
            ['Varians', f'{FR("Σ(<i>x</i> − <i>x̄</i>)²", "<i>N</i>")} = {FR("Σ<i>x</i>²", "<i>N</i>")} − <i>x̄</i>²'],
-           ['Sisihan piawai', 'σ = √varians']], col, rv=True),
+           ['Sisihan piawai', 'σ = ' + RT('varians')]], col, rv=True),
     svg(fig, 'Ringkasan kesan perubahan seragam, pencilan dan perbandingan'))
 
 # ---------- tulis fail ----------

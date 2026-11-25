@@ -202,7 +202,7 @@ const PMEKS = [
   { s: 'Bilangan sel yeast ialah {a} dan bertambah empat kali ganda setiap jam.', a: [10, 25, 50], b: 4, ap: 'bilangan sel', tu: 'jam', v: 'N', t: [2, 3] }
 ];
 PM.nilaiEksp = r => {
-  const c = r.p(PMEKS), a = r.p(c.a), t = r.p(c.t), val = a * c.b ** t, bs = c.b === 0.5 ? '½' : '' + c.b;
+  const c = r.p(PMEKS), a = r.p(c.a), t = r.p(c.t), val = a * c.b ** t, bs = c.b === 0.5 ? fr(1, 2) : '' + c.b;
   const model = `${c.v} = ${a}(${bs})ᵗ`;
   return GEN_LQ('nilaiEksp', { s: pmFill(c.s, { a }), model, ap: c.ap, t, tu: c.tu, t0: `${c.v} = ${a} apabila t = 0`, ans: `${c.v} = ${pmN(val)}`, work: [`${model}`, `${c.v} = ${a} × (${bs})^${t} = ${a} × ${pmD(c.b ** t)} = ${pmN(val)}`] });
 };

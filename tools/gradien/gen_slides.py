@@ -1,7 +1,10 @@
 # Penjana slaid NOTA GRADIEN (Tingkatan 2 Bab 10 Kecerunan Garis Lurus) -> gradien/slides.js
 # Jalankan:  python3 tools/gradien/gen_slides.py
 # Gunakan HANYA warna palet gelap di bawah supaya mod cerah ditukar automatik oleh themed().
-import json, os, html, math, re
+import json, os, html, math, re, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from fxsvg import fx_svg, has_fx, fx_html   # pecahan bertingkat & punca (25 Nov)
+import mathfmt
 from fractions import Fraction as F
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -43,10 +46,8 @@ def ANS(t):
 def NOTE(t, lab='Ingat:'):
     return f'<div class="sl-note"><b>{lab}</b> {t}</div>'
 def FR(a, b):
-    """Pecahan bertingkat dalam teks slaid."""
-    return ('<span style="display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; '
-            'line-height: 1.1; font-size: 0.85em; margin: 0 2px; white-space: nowrap"><span style="padding: 0 4px; border-bottom: 2px solid currentColor">'
-            f'{a}</span><span>{b}</span></span>')
+    """Pecahan bertingkat dalam teks slaid (gaya .fr dalam teras.css)."""
+    return mathfmt.FR(a, b)
 def FRV(fr):
     """Nilai Fraction sebagai pecahan bertingkat (atau nombor bulat)."""
     fr = F(fr)
@@ -75,6 +76,8 @@ def r1(v): return round(v, 1)
 def T(x, y, t, col=TX, size=20, anchor='middle', weight=700, italic=False, halo=True):
     it = ' font-style="italic"' if italic else ''
     ha = f' paint-order="stroke" stroke="{NAV}" stroke-width="6" stroke-linejoin="round"' if halo else ''
+    if has_fx(t):
+        return fx_svg(x, y, t, col, size, anchor, f' {FONT} font-weight="{weight}"{it}{ha}')
     return (f'<text x="{r1(x)}" y="{r1(y)}" fill="{col}" {FONT} font-size="{size}" font-weight="{weight}"{it} '
             f'text-anchor="{anchor}" dominant-baseline="middle"{ha}>{t}</text>')
 

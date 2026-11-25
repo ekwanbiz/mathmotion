@@ -2,6 +2,7 @@
 import os, sys, math
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 from t1lib import *
+from mathfmt import FR, RT, SFR, SRT
 OUT = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'nisbahkadar', 'slides.js'))
 SUB = {'3.1': ('Nisbah', PU), '3.2': ('Kadar dan Perkadaran', TR)}
 
@@ -61,12 +62,12 @@ add('3.1', 'Contoh 1', 'Nisbah dengan unit berlainan',
     + NOTE('Nisbah tidak mempunyai unit selepas ditukar kepada unit yang sama.'), '')
 assert (F(1, 2) * 12, F(3, 4) * 12) == (6, 9) and math.gcd(6, 9) == 3
 add('3.1', 'Contoh 2', 'Nisbah pecahan, perpuluhan dan peratusan',
-    TABLE(['Nisbah', 'Langkah', 'Termudah'], [['½ : ¾', 'darab 4 → 2 : 3', '2 : 3'], ['0.6 : 1.5', 'darab 10 → 6 : 15, bahagi 3', '2 : 5'], ['40% : 25%', '40 : 25, bahagi 5', '8 : 5']], c)
+    TABLE(['Nisbah', 'Langkah', 'Termudah'], [[f'{FR(1, 2)} : {FR(3, 4)}', 'darab 4 → 2 : 3', '2 : 3'], ['0.6 : 1.5', 'darab 10 → 6 : 15, bahagi 3', '2 : 5'], ['40% : 25%', '40 : 25, bahagi 5', '8 : 5']], c)
     + NOTE('Pecahan: darab dengan GSTK penyebut. Perpuluhan: darab dengan 10, 100, … dahulu.'), '')
 add('3.1', 'Contoh 3', 'Mewakilkan nisbah dengan model bar',
     P('Dalam sebuah kelas, nisbah murid lelaki kepada murid perempuan ialah 3 : 5. Lukis model bar dan nyatakan pecahan murid lelaki dalam kelas.')
-    + STEPS(['Lelaki 3 unit, perempuan 5 unit', 'Jumlah = 3 + 5 = 8 unit', 'Pecahan lelaki = 3/8'], c) + ANS('3/8 daripada kelas ialah lelaki'),
-    barmodel([('Lelaki', 3, PU, ''), ('Perempuan', 5, PK, '')], 'Jumlah = 8 unit', 'Lelaki = 3/8 kelas', label='Model bar lelaki 3 unit dan perempuan 5 unit'))
+    + STEPS(['Lelaki 3 unit, perempuan 5 unit', 'Jumlah = 3 + 5 = 8 unit', f'Pecahan lelaki = {FR(3, 8)}'], c) + ANS(f'{FR(3, 8)} daripada kelas ialah lelaki'),
+    barmodel([('Lelaki', 3, PU, ''), ('Perempuan', 5, PK, '')], 'Jumlah = 8 unit', '', label='Model bar lelaki 3 unit dan perempuan 5 unit').replace('</svg>', T(236, 262, 'Lelaki =', GR, 19, 'end') + SFR(266, 262, 3, 8, GR, 19) + T(296, 262, 'kelas', GR, 19, 'start') + '</svg>'))
 
 # ===== 3.2 =====
 c = TR
@@ -75,12 +76,12 @@ add('3.2', '3.2 Kadar', 'Kadar: nisbah dua kuantiti berlainan unit',
     + TABLE(['Situasi', 'Kadar'], [['180 km dalam 2 jam', '90 km/j (laju)'], ['RM12 untuk 3 kg', 'RM4 sekilogram (harga)'], ['laju bertambah 20 m/s dalam 4 s', '5 m/s² (pecutan)']], c), speedfig())
 assert 3 * 8 == 24 and 24 / 1.5 == 16
 add('3.2', '3.2 Perkadaran', 'Perkadaran',
-    DEF('<b>Perkadaran</b> ialah persamaan dua nisbah yang setara: <b>a : b = c : d</b> atau a/b = c/d.', c)
+    DEF(f'<b>Perkadaran</b> ialah persamaan dua nisbah yang setara: <b>a : b = c : d</b> atau {FR("a", "b")} = {FR("c", "d")}.', c)
     + BUL(['1 : 4 = 3 : 12 ialah perkadaran.', 'Tukar unit dahulu: 1.5 kg : 500 g = 1500 : 500 = 3 : 1', 'Dalam perkadaran, hasil darab silang adalah sama: a × d = b × c.'], c), crossmul(3, 12, 5, 'Kaedah darab silang 3 per 12 sama dengan 5 per x'))
 assert 12 * 5 // 3 == 20
 add('3.2', 'Contoh 1', 'Mencari nilai tidak diketahui: tiga kaedah',
     P('3 biji tembikai berharga RM12. Berapakah harga 5 biji tembikai?')
-    + TABLE(['Kaedah', 'Pengiraan'], [['Darab silang', '3/12 = 5/x → 3x = 60 → x = 20'], ['Unitari', '1 biji = RM12 ÷ 3 = RM4; 5 biji = RM20'], ['Model bar', '3 unit = RM12, 1 unit = RM4, 5 unit = RM20']], c) + ANS('RM20'),
+    + TABLE(['Kaedah', 'Pengiraan'], [['Darab silang', f'{FR(3, 12)} = {FR(5, "x")} → 3x = 60 → x = 20'], ['Unitari', '1 biji = RM12 ÷ 3 = RM4; 5 biji = RM20'], ['Model bar', '3 unit = RM12, 1 unit = RM4, 5 unit = RM20']], c) + ANS('RM20'),
     barmodel([('3 biji', 3, TR, 'RM4'), ('5 biji', 5, AM, 'RM4')], '1 unit = RM12 ÷ 3 = RM4', '5 unit = RM20', label='Model bar harga tembikai'))
 tot = 24 * 9 // 3; assert tot == 72 and 72 * 2 // 9 == 16
 add('3.2', 'Contoh 2', 'Diberi nisbah tiga kuantiti dan satu nilai',

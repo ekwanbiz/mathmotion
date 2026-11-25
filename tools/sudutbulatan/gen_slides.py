@@ -2,7 +2,10 @@
 # Jalankan:  python3 tools/sudutbulatan/gen_slides.py
 # Gunakan HANYA warna palet gelap di bawah supaya mod cerah ditukar automatik oleh themed().
 # Setiap rajah dibina daripada geometri sebenar dan sudut yang dilabel disemak dengan assert.
-import json, os, html, math, re
+import json, os, html, math, re, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from fxsvg import fx_svg, has_fx, fx_html   # pecahan bertingkat & punca (25 Nov)
+import mathfmt
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUTFILE = os.path.normpath(os.path.join(HERE, '..', '..', 'sudutbulatan', 'slides.js'))
@@ -53,6 +56,8 @@ def r1(v): return round(v, 1)
 def T(x, y, t, col=TX, size=20, anchor='middle', weight=700, italic=False, halo=True):
     it = ' font-style="italic"' if italic else ''
     ha = f' paint-order="stroke" stroke="{NAV}" stroke-width="6" stroke-linejoin="round"' if halo else ''
+    if has_fx(t):
+        return fx_svg(x, y, t, col, size, anchor, f' {FONT} font-weight="{weight}"{it}{ha}')
     return (f'<text x="{r1(x)}" y="{r1(y)}" fill="{col}" {FONT} font-size="{size}" font-weight="{weight}"{it} '
             f'text-anchor="{anchor}" dominant-baseline="middle"{ha}>{t}</text>')
 
@@ -166,7 +171,15 @@ def common_tangents(c1, r1_, c2, r2_):
 
 # ---------- slaid ----------
 S = []
+_RTRE = re.compile(r'√(\((?:[^()<>]|\([^()<>]*\))*\)|\d+(?:\.\d+)?|[A-Za-z](?![A-Za-z]))')
+_GLY = {'½': (1, 2), '⅓': (1, 3), '⅔': (2, 3), '¼': (1, 4), '¾': (3, 4)}
+def HRT(t):
+    """Teks slaid (HTML): √x / √(..) -> punca bergaris atas; ½ ¼ ¾ … -> pecahan bertingkat (25 Nov)."""
+    if not t: return t
+    t = _RTRE.sub(lambda m: mathfmt.RT(m.group(1)[1:-1] if m.group(1).startswith('(') else m.group(1)), t)
+    return ''.join(mathfmt.FR(*_GLY[c]) if c in _GLY else c for c in t)
 def add(sub, kicker, title, body, fig='', full=''):
+    body, full = HRT(body), HRT(full)
     S.append({'sub': sub, 'kicker': kicker, 'title': title, 'body': body, 'fig': fig, 'full': full})
 
 # =====================================================================

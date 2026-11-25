@@ -1,7 +1,9 @@
 # Penjana slaid NOTA PELAN (Tingkatan 3 Bab 7 Pelan dan Dongakan) -> pelan/slides.js
 # Jalankan:  python3 tools/pelan/gen_slides.py
 # Gunakan HANYA warna palet gelap di bawah supaya mod cerah ditukar automatik oleh themed().
-import json, os, html, math, re
+import json, os, html, math, re, sys
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+from mathfmt import FR, RT, SFR, SRT
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUTFILE = os.path.normpath(os.path.join(HERE, '..', '..', 'pelan', 'slides.js'))
@@ -373,7 +375,7 @@ add('7.1', 'MEMBANDING', 'Objek berbanding imejnya',
              ['Panjang tepi 6 cm', '6 cm', '6 cm'],
              ['Luas muka condong', '30 cm²', '24 cm²'],
              ['Sudut di bucu muka', '90°', '90°']], col, rv=True)
-    + NOTE('Tepi yang <b>selari</b> dengan satah kekal sama panjang. Tepi <b>condong</b> menjadi lebih pendek: A′B′ = √(5² − 3²) = 4 cm.'),
+    + NOTE('Tepi yang <b>selari</b> dengan satah kekal sama panjang. Tepi <b>condong</b> menjadi lebih pendek: A′B′ = ' + RT('5² − 3²') + ' = 4 cm.'),
     svg(fig, 'Baji dengan muka condong AB 5 cm; imejnya pada satah mengufuk 4 cm'))
 
 # 7.1-6 Kesilapan biasa

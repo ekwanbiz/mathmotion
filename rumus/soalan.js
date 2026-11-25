@@ -59,14 +59,43 @@ const RUBS1 = [
 const ruT = (x, y, t, c = 'tx', sz = 17, a = 'middle', it) => `<text x="${+x.toFixed(1)}" y="${+y.toFixed(1)}" style="fill:var(--${c})" font-size="${sz}" font-weight="700"${it ? ' font-style="italic"' : ''} font-family="Space Grotesk, sans-serif" text-anchor="${a}" dominant-baseline="central">${t}</text>`;
 // kad rumus: tajuk kecil + baris rumus besar
 function ruCard(lines, title, hl) {
-  const n = lines.length, H = 70 + n * 52;
-  let s = `<rect x="6" y="6" width="308" height="${H - 12}" rx="20" style="fill:var(--surf);stroke:var(--${hl || 'pu'})" stroke-width="2.5"/>`;
-  if (title) s += ruT(160, 34, title, 'mu', 15);
-  lines.forEach((t, i) => {
-    const len = t.replace(/<[^>]+>/g, '').length, sz = Math.max(17, Math.min(32, 280 / (len * 0.56)));
-    s += ruT(160, (title ? 76 : 58) + i * 52, t, i === 0 ? 'tx' : hl || 'pu', +sz.toFixed(1));
-  });
+  // baris rumus dilukis dengan pecahan bertingkat / punca kuasa (ruFx → pokok → SVG), 25 Nov
+  let s = '', y = title ? 54 : 22;
+  const rows = lines.map(t => { const tree = ruTree(ruFx(t)), w1 = ruMW(tree, 20), sz = +Math.max(15, Math.min(32, 20 * 280 / Math.max(w1, 1))).toFixed(1); return { tree, sz, w: ruMW(tree, sz), h: ruMH(tree, sz) }; });
+  rows.forEach((r, i) => { y += r.h[0]; s += ruMD(160 - r.w / 2, y, r.tree, i === 0 ? 'tx' : hl || 'pu', r.sz); y += r.h[1] + 18; });
+  const H = Math.round(Math.max(y + 6, 70 + lines.length * 52 - 20));
+  s = `<rect x="6" y="6" width="308" height="${H - 12}" rx="20" style="fill:var(--surf);stroke:var(--${hl || 'pu'})" stroke-width="2.5"/>` + (title ? ruT(160, 34, title, 'mu', 15) : '') + s;
   return `<svg viewBox="0 0 320 ${H}" role="img" aria-label="Kad rumus" font-family="Inter, sans-serif">${s}</svg>`;
+}
+// pokok matematik daripada markup fr()/rt(): teks | {fr:[atas, bawah]} | {rt:isi, n}
+function ruTree(html) {
+  const el = document.createElement('div'); el.innerHTML = html;
+  const walk = p => [...p.childNodes].map(c => c.nodeType === 3 ? c.textContent : c.classList.contains('fr') ? { fr: [walk(c.children[0]), walk(c.children[1])] } : c.classList.contains('rt') ? { rt: walk(c.querySelector('.rtx')), n: c.querySelector('.rti') ? c.querySelector('.rti').textContent : '' } : c.textContent);
+  return walk(el);
+}
+const ruMW = (ns, sz) => ns.reduce((w, n) => w + (typeof n === 'string' ? mathW(n, sz) : n.fr ? Math.max(ruMW(n.fr[0], sz * .85), ruMW(n.fr[1], sz * .85)) + 8 : sz * .62 + ruMW(n.rt, sz) + 6), 0);
+// [atas, bawah] dari garis tengah
+const ruMH = (ns, sz) => ns.reduce(([u, d], n) => {
+  if (typeof n === 'string') return [Math.max(u, sz * .55), Math.max(d, sz * .45)];
+  if (n.fr) { const a = ruMH(n.fr[0], sz * .85), b = ruMH(n.fr[1], sz * .85); return [Math.max(u, a[0] + a[1] + 3), Math.max(d, b[0] + b[1] + 3)]; }
+  const r = ruMH(n.rt, sz); return [Math.max(u, r[0] + 5), Math.max(d, r[1] + 2)];
+}, [0, 0]);
+function ruMD(x, y, ns, c, sz) {
+  let s = '';
+  ns.forEach(n => {
+    if (typeof n === 'string') { const lead = n.length - n.trimStart().length; if (n.trim()) s += ruT(x + mathW(n.slice(0, lead), sz), y, n.trim(), c, +sz.toFixed(1), 'start'); x += mathW(n, sz); return; }
+    if (n.fr) {
+      const z = sz * .85, wa = ruMW(n.fr[0], z), wb = ruMW(n.fr[1], z), w = Math.max(wa, wb) + 8, ha = ruMH(n.fr[0], z), hb = ruMH(n.fr[1], z);
+      s += ruMD(x + (w - wa) / 2, y - 3 - ha[1], n.fr[0], c, z) + ruMD(x + (w - wb) / 2, y + 3 + hb[0], n.fr[1], c, z);
+      s += `<line x1="${+x.toFixed(1)}" y1="${+y.toFixed(1)}" x2="${+(x + w).toFixed(1)}" y2="${+y.toFixed(1)}" style="stroke:var(--${c})" stroke-width="${+Math.max(1.5, sz / 11).toFixed(1)}"/>`;
+      x += w; return;
+    }
+    const r = ruMH(n.rt, sz), rw = sz * .62, w = rw + ruMW(n.rt, sz) + 6, top = y - r[0] - 5, bot = y + r[1] + 2;
+    if (n.n) s += ruT(x + rw * .2, top + sz * .3, n.n, c, +(sz * .5).toFixed(1));
+    s += `<path d="M${+x.toFixed(1)} ${+(y + sz * .05).toFixed(1)} L${+(x + rw * .3).toFixed(1)} ${+(y - sz * .05).toFixed(1)} L${+(x + rw * .6).toFixed(1)} ${+bot.toFixed(1)} L${+(x + rw).toFixed(1)} ${+top.toFixed(1)} L${+(x + w).toFixed(1)} ${+top.toFixed(1)}" fill="none" style="stroke:var(--${c})" stroke-width="${+Math.max(1.5, sz / 12).toFixed(1)}" stroke-linejoin="round"/>`;
+    s += ruMD(x + rw + 3, y, n.rt, c, sz); x += w;
+  });
+  return s;
 }
 // bentuk geometri berlabel
 function ruShape(kind, a, b) {
@@ -570,6 +599,42 @@ RU.k313 = (r, k) => {
 };
 
 /* =================== GEN: Latihan Kelas =================== */
+/* ---------- pecahan bertingkat & punca kuasa (25 Nov) ----------
+   Penjana di atas menulis teks biasa: √(…), √n, (…)/d, a/b, ½. ruFx menukarnya kepada fr()/rt()
+   pada output akhir sahaja (logik dalaman yang membanding teks kekal teks biasa). Rajah SVG tidak disentuh. */
+const ruFx = s => {
+  if (typeof s !== 'string' || s.includes('<svg')) return s;
+  const close = (t, i) => { let d = 0; for (let j = i; j < t.length; j++) { if (t[j] === '(') d++; else if (t[j] === ')' && --d === 0) return j; } return -1; };
+  const open = (t, i) => { let d = 0; for (let j = i; j >= 0; j--) { if (t[j] === ')') d++; else if (t[j] === '(' && --d === 0) return j; } return -1; };
+  s = s.replace(/½/g, () => fr(1, 2));
+  // pecahan dahulu: kiri = (…) atau token, kanan = (…) atau token
+  const TOK = /[\w.₀-₉²³π]/;
+  for (let k = 0, i = 0; k < 80; k++) {
+    i = s.indexOf('/', i); if (i < 0) break;
+    if (s[i - 1] === '<' || s[i + 1] === '>' || s[i - 1] === ' ' || s[i + 1] === ' ') { i++; continue; }
+    let a0, num, b1, den;
+    if (s[i - 1] === ')') { a0 = open(s, i - 1); if (a0 < 0) { i++; continue; } num = s.slice(a0 + 1, i - 1); if (s[a0 - 1] === '√') num = s.slice(--a0, i); else if (TOK.test(s[a0 - 1] || '')) { while (a0 > 0 && TOK.test(s[a0 - 1])) a0--; num = s.slice(a0, i); } } // 8(z − 2)/7: pekali ikut pengangka
+    else { a0 = i; while (a0 > 0 && TOK.test(s[a0 - 1])) a0--; if (s[a0 - 1] === '√') a0--; num = s.slice(a0, i); }
+    if (s[i + 1] === '(') { b1 = close(s, i + 1); if (b1 < 0) { i++; continue; } den = s.slice(i + 2, b1); b1++; }
+    else { b1 = i + 1; while (b1 < s.length && TOK.test(s[b1])) b1++; den = s.slice(i + 1, b1); }
+    if (!num || !den || /[<>]/.test(num + den) || /^[a-zA-Z]{3,}$/.test(num) && /^[a-zA-Z]{3,}$/.test(den) || /^(km|cm|mm|RM)$/.test(num) || num === 'm' && den === 's') { i++; continue; } // perkataan (dan/atau) & unit (km/j) kekal
+    const f = fr(num, den); s = s.slice(0, a0) + f + s.slice(b1); i = a0 + f.length;
+  }
+  // kemudian punca kuasa (termasuk di dalam pecahan): √(…) → rt(…), √n → rt(n)
+  for (let k = 0, i; k < 60 && (i = s.search(/√(?!<)/)) >= 0; k++) {
+    if (s[i + 1] === '(') { const j = close(s, i + 1); if (j < 0) break; s = s.slice(0, i) + rt(s.slice(i + 2, j)) + s.slice(j + 1); }
+    else { const m = /^[\d.]*[a-zA-Zπ]*/.exec(s.slice(i + 1)); if (!m[0]) break; s = s.slice(0, i) + rt(m[0]) + s.slice(i + 1 + m[0].length); }
+  }
+  return s;
+};
+const ruFixQ = q => {
+  if (typeof q === 'string') return ruFx(q);
+  if (Array.isArray(q)) return q.map(ruFixQ);
+  if (q && typeof q === 'object') Object.keys(q).forEach(k => { if (k === 'fig' || k === 'figAns') return; q[k] = ruFixQ(q[k]); });
+  return q;
+};
+Object.keys(RU).forEach(k => { const f = RU[k]; RU[k] = (...a) => ruFixQ(f(...a)); });
+
 const GEN = {
   '3.1.1': {
     m: [() => RU.beli(ruRG), () => RU.baki(ruRG), () => RU.geo(ruRG), () => RU.kenal(ruRG), () => RU.bs(ruRG, RUBS1)],
@@ -688,6 +753,7 @@ function ruCqCari(pool) {
   }
   return ruCqGanti(0);
 }
+Object.keys(CQGEN).forEach(t => { CQGEN[t] = CQGEN[t].map(f => (...a) => ruFixQ(f(...a))); });
 const CQT = { tulis: 'Menulis rumus', perkara: 'Perkara rumus', ganti: 'Gantian nilai', cari: 'Cari pemboleh ubah' };
 function ruCqMake(ty, level) {
   const L = Math.max(0, Math.min(2, level | 0)), fns = CQGEN[ty] || CQGEN.tulis;

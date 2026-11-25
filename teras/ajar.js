@@ -36,7 +36,7 @@ function ajYt(u) {
   return { id, st };
 }
 const SIMNAME = Object.fromEntries(SIMLIST.map(s => [s[0], s[1]]));
-const strip = s => String(s || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+const strip = s => mathPlain(String(s || '')).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 const ajIcon = {
   ajar: sv('<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M10 8.5v5l4-2.5zM8 21h8M12 17v4"/>'),
   up: sv('<path d="M12 19V5M6 11l6-6 6 6"/>', 18),

@@ -1,6 +1,8 @@
 # Penjana slaid NOTA Bab 7 Sukatan Serakan Data Terkumpul (T5) -> serakanterkumpul/slides.js
 # Jalankan:  python3 tools/serakanterkumpul/gen_slides.py
-import json, os, re, html
+import json, os, re, html, sys
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+from mathfmt import FR as MFR, RT
 from fractions import Fraction as F
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.normpath(os.path.join(HERE, '..', '..', 'serakanterkumpul', 'slides.js'))
@@ -128,18 +130,18 @@ c=PK
 add('7.2','7.2 Sukatan Serakan','Julat & julat antara kuartil',
     DEF('<b>Sukatan serakan</b> menunjukkan sejauh mana data tersebar.',c)
     +BUL([f'<b>Julat</b> = titik tengah kelas tertinggi − titik tengah kelas terendah = {fmt(MID[-1])} − {fmt(MID[0])} = <b>{fmt(JUL)}</b>',
-          '<b>Kuartil pertama Q₁</b> pada kedudukan <i>n</i>/4; <b>kuartil ketiga Q₃</b> pada kedudukan 3<i>n</i>/4 (dibaca daripada ogif).',
+          '<b>Kuartil pertama Q₁</b> pada kedudukan '+MFR('<i>n</i>',4)+'; <b>kuartil ketiga Q₃</b> pada kedudukan '+MFR('3<i>n</i>',4)+' (dibaca daripada ogif).',
           '<b>Julat antara kuartil</b> = Q₃ − Q₁'],c),
     ogif([(10,Q1,'Q₁ = 29.5',GR),(30,Q3,'Q₃ = 45.5',AM)],'Ogif dengan kuartil pertama dan ketiga'))
 add('7.2','Contoh 2','Kuartil & persentil daripada ogif',
     P('Daripada ogif jisim 40 murid, cari Q₁, Q₃, julat antara kuartil dan persentil ke-10, P₁₀.')
-    +STEPS([f'Q₁: kedudukan ¼ × 40 = 10 → Q₁ = {fmt(Q1)} kg',f'Q₃: kedudukan ¾ × 40 = 30 → Q₃ = {fmt(Q3)} kg',f'Julat antara kuartil = {fmt(Q3)} − {fmt(Q1)} = {fmt(Q3-Q1)} kg',f'P₁₀: kedudukan 10/100 × 40 = 4 → P₁₀ = {fmt(P10)} kg'],c)
+    +STEPS([f'Q₁: kedudukan {MFR(1,4)} × 40 = 10 → Q₁ = {fmt(Q1)} kg',f'Q₃: kedudukan {MFR(3,4)} × 40 = 30 → Q₃ = {fmt(Q3)} kg',f'Julat antara kuartil = {fmt(Q3)} − {fmt(Q1)} = {fmt(Q3-Q1)} kg',f'P₁₀: kedudukan {MFR(10,100)} × 40 = 4 → P₁₀ = {fmt(P10)} kg'],c)
     +ANS(f'Julat antara kuartil = {fmt(Q3-Q1)} kg; P₁₀ = {fmt(P10)} kg')
-    +NOTE('Persentil ke-<i>k</i>, P<sub>k</sub>, berada pada kedudukan <i>k</i>/100 × <i>n</i>. Median = Q₂ = P₅₀.'),
+    +NOTE('Persentil ke-<i>k</i>, P<sub>k</sub>, berada pada kedudukan '+MFR('<i>k</i>',100)+' × <i>n</i>. Median = Q₂ = P₅₀.'),
     ogif([(10,Q1,'Q₁',GR),(30,Q3,'Q₃',AM),(4,P10,'P₁₀',TR)],'Ogif dengan kuartil dan persentil ke-10'))
 add('7.2','Contoh 3','Varians & sisihan piawai',
     TABLE(['Titik tengah, x','f','fx','fx²'],[[fmt(x),f,fmt(f*x),fmt(f*x*x)] for x,f in zip(MID,FR)]+[['Jumlah',N,fmt(SFX),fmt(SFX2)]],c,16)
-    +STEPS([f'Min, x̄ = Σfx ÷ Σf = {fmt(SFX)} ÷ {N} = {fmt(MEAN)}',f'Varians, σ² = Σfx²/Σf − x̄² = {fmt(SFX2)}/{N} − {fmt(MEAN)}² = {fmt(VAR)}',f'Sisihan piawai, σ = √{fmt(VAR)} = {SD:.2f}'],c)
+    +STEPS([f'Min, x̄ = Σfx ÷ Σf = {fmt(SFX)} ÷ {N} = {fmt(MEAN)}',f'Varians, σ² = {MFR("Σfx²","Σf")} − x̄² = {MFR(fmt(SFX2),N)} − {fmt(MEAN)}² = {fmt(VAR)}',f'Sisihan piawai, σ = {RT(fmt(VAR))} = {SD:.2f}'],c)
     +ANS(f'σ² = {fmt(VAR)}, σ = {SD:.2f} kg'),
     histo(True,'Histogram data jisim untuk pengiraan varians'))
 BX=lambda v: 50+(float(v)-5)/60*400
@@ -160,9 +162,9 @@ add('7.2','7.2 Sukatan Serakan','Plot kotak',
     svg(bp,'Plot kotak jisim 40 murid'))
 # perbandingan: kelas A sigma 4.2, kelas B sigma 9.8 (tafsiran)
 add('7.2','Kesilapan biasa','Awas & tafsiran',
-    BUL(['<b>Salah:</b> varians = Σfx² ÷ Σf sahaja. <b>Betul:</b> tolak x̄² juga.','<b>Salah:</b> guna had kelas sebagai x. <b>Betul:</b> x ialah <b>titik tengah</b> kelas.','<b>Salah:</b> Q₁ dibaca pada kedudukan 1/4 tanpa darab <i>n</i>. <b>Betul:</b> kedudukan = <i>n</i>/4.'],RD)
+    BUL(['<b>Salah:</b> varians = Σfx² ÷ Σf sahaja. <b>Betul:</b> tolak x̄² juga.','<b>Salah:</b> guna had kelas sebagai x. <b>Betul:</b> x ialah <b>titik tengah</b> kelas.','<b>Salah:</b> Q₁ dibaca pada kedudukan '+MFR(1,4)+' tanpa darab <i>n</i>. <b>Betul:</b> kedudukan = '+MFR('<i>n</i>',4)+'.'],RD)
     +NOTE('Sisihan piawai yang <b>lebih kecil</b> bermaksud data <b>lebih konsisten</b> (kurang tersebar) di sekitar min.','Tafsir:')
-    +TABLE(['Sukatan','Rumus'],[['Julat','x tertinggi − x terendah (titik tengah)'],['Julat antara kuartil','Q₃ − Q₁'],['Varians','σ² = Σfx²/Σf − x̄²'],['Sisihan piawai','σ = √varians']],GR,16),
+    +TABLE(['Sukatan','Rumus'],[['Julat','x tertinggi − x terendah (titik tengah)'],['Julat antara kuartil','Q₃ − Q₁'],['Varians','σ² = '+MFR('Σfx²','Σf')+' − x̄²'],['Sisihan piawai','σ = '+RT('varians')]],GR,16),
     ogif([(20,MED,'median',AM)],'Ogif dengan median'))
 
 # --- tambahan recheck 25 Nov (7.2) ---

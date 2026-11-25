@@ -74,7 +74,7 @@ function lgSt1(r, kind) {
   }
   if (kind === 'punca') {
     const k = r.i(2, 13), n = k * k, c = r.f() < .5 ? k : r.p([2 * k, k + 1, n / 2 | 0]), v = c === k;
-    return { s: `√${n} = ${c}`, ns: `√${n} ≠ ${c}`, v, why: `${k} × ${k} = ${n}, maka √${n} = ${k}.` };
+    return { s: `${rt(n)} = ${c}`, ns: `${rt(n)} ≠ ${c}`, v, why: `${k} × ${k} = ${n}, maka ${rt(n)} = ${k}.` };
   }
   const [s, ns, v, why] = r.p(LGGEO);
   return { s, ns, v, why };
@@ -244,7 +244,7 @@ const LGIND = [
   ['Matahari terbit dari arah timur setiap hari yang direkodkan dalam sejarah. Maka matahari akan terbit dari arah timur esok.', true, true, 'Rekod yang sangat banyak dan konsisten.'],
   ['Harga petrol naik pada bulan Januari. Maka harga petrol akan naik setiap bulan.', false, true, 'Satu bulan sahaja tidak menunjukkan corak.'],
   ['Bas sekolah tiba lewat pada hari Isnin dan Selasa. Maka bas sekolah sentiasa tiba lewat.', false, true, 'Dua hari sahaja ialah sampel yang terlalu kecil.'],
-  ['Dalam 200 kali lambungan, syiling itu menunjukkan angka kira-kira separuh daripada lambungan. Maka kebarangkalian mendapat angka bagi syiling itu ialah kira-kira 1/2.', true, true, 'Sampel yang besar memberi anggaran yang boleh dipercayai.'],
+  ['Dalam 200 kali lambungan, syiling itu menunjukkan angka kira-kira separuh daripada lambungan. Maka kebarangkalian mendapat angka bagi syiling itu ialah kira-kira ' + fr(1, 2) + '.', true, true, 'Sampel yang besar memberi anggaran yang boleh dipercayai.'],
   ['Dua orang pemain bola keranjang sekolah itu lebih tinggi daripada 180 cm. Maka semua murid sekolah itu lebih tinggi daripada 180 cm.', false, true, 'Dua pemain bola keranjang tidak mewakili semua murid.'],
   ['Setiap minggu dalam tahun lalu, kedai Pak Ali menjual lebih daripada 100 buku. Maka minggu depan kedai Pak Ali akan menjual lebih daripada 100 buku.', true, true, 'Corak konsisten selama 52 minggu.'],
   ['Setiap ekor daripada 100 ekor ikan jerung yang dikaji bernafas menggunakan peparu. Maka semua ikan jerung bernafas menggunakan peparu.', true, false, 'Jika premis benar, kesimpulan berkemungkinan besar benar (hujah kuat). Tetapi premis palsu kerana ikan jerung bernafas menggunakan insang.'],
@@ -259,15 +259,30 @@ const LGIND = [
 /* =================== rajah =================== */
 const lgTx = (x, y, t, c = 'tx', sz = 15, a = 'start', w = 700) => `<text x="${+x.toFixed(1)}" y="${+y.toFixed(1)}" style="fill:var(--${c})" font-size="${sz}" font-weight="${w}" font-family="Inter, sans-serif" text-anchor="${a}" dominant-baseline="central">${t}</text>`;
 function lgWrap(t, max) { const w = String(t).split(' '), L = []; let c = ''; w.forEach(x => { if ((c + ' ' + x).trim().length > max) { L.push(c.trim()); c = x; } else c += ' ' + x; }); if (c.trim()) L.push(c.trim()); return L; }
+// satu baris teks rajah; √n dilukis dengan garis atas penuh (svgRt)
+function lgMix(x, y, t, c, sz, w) {
+  const parts = String(t).split(/(√(?:\d+|\([^()]*\)))/);
+  if (parts.length === 1) return lgTx(x, y, t, c, sz, 'start', w);
+  let cx = x, s = '';
+  parts.forEach((p, i) => {
+    if (!p) return;
+    if (i % 2) { const r = p.slice(1).replace(/^\((.*)\)$/, '$1'); s += svgRt(cx, y + sz * .35, r, `var(--${c})`, sz, 'start'); cx += sz * .62 + mathW(r, sz) + 4 + sz * .1; return; }
+    const lead = p.length - p.trimStart().length, core = p.trim();
+    cx += lead * sz * .28;
+    if (core) { s += lgTx(cx, y, core, c, sz, 'start', w); cx += mathW(core, sz); }
+    cx += (p.length - p.trimEnd().length) * sz * .28;
+  });
+  return s;
+}
 // kad bertindan: rows = [[label, teks, warna, nilai?]]
 function lgCards(rows, label) {
   let y = 8, s = '';
   rows.forEach(([lab, txt, c, v]) => {
-    const L = lgWrap(txt, 38), h = 30 + L.length * 20;
+    const L = lgWrap(mathPlain(txt), 38), h = 30 + L.length * 20;
     s += `<rect x="6" y="${y}" width="348" height="${h}" rx="12" style="fill:var(--surf);stroke:var(--${c})" stroke-width="2.5"/>`;
     s += lgTx(18, y + 14, lab, c, 12.5, 'start', 800);
     if (v != null) s += lgTx(342, y + 14, v === true ? 'B' : v === false ? 'P' : v, v === true ? 'gr' : v === false ? 'rd' : 'mu', 15, 'end', 800);
-    L.forEach((l, i) => { s += lgTx(18, y + 36 + i * 20, l, 'tx', 15, 'start', 600); });
+    L.forEach((l, i) => { s += lgMix(18, y + 36 + i * 20, l, 'tx', 15, 600); });
     y += h + 8;
   });
   return `<svg viewBox="0 0 360 ${y}" role="img" aria-label="${esc(label || 'Kad pernyataan')}" font-family="Inter, sans-serif">${s}</svg>`;
@@ -662,7 +677,7 @@ function lgDedNumData(r, t) {
   t = t == null ? r.i(0, 4) : t;
   if (t === 0) { const [n, nm] = r.p(LGPOLI); return { p1: 'Hasil tambah sudut pedalaman sebuah poligon <i>n</i> sisi ialah (<i>n</i> − 2) × 180°.', p2: `Sebuah ${nm} mempunyai ${n} sisi.`, ans: `Hasil tambah sudut pedalaman ${nm} ialah ${(n - 2) * 180}°`, work: [`n = ${n}`, `(${n} − 2) × 180° = ${n - 2} × 180° = ${(n - 2) * 180}°`] }; }
   if (t === 1) { const n = r.p([5, 6, 8, 9, 10, 12]), nm = { 5: 'pentagon', 6: 'heksagon', 8: 'oktagon', 9: 'nonagon', 10: 'dekagon', 12: 'dodekagon' }[n]; return { p1: 'Sudut peluaran sebuah poligon sekata <i>n</i> sisi ialah 360° ÷ <i>n</i>.', p2: `Sebuah ${nm} sekata mempunyai ${n} sisi.`, ans: `Sudut peluaran ${nm} sekata itu ialah ${360 / n}°`, work: [`n = ${n}`, `360° ÷ ${n} = ${360 / n}°`] }; }
-  if (t === 2) { const b = r.i(4, 16), h = r.i(3, 12) * 2; return { p1: 'Luas segi tiga ialah ½ × tapak × tinggi.', p2: `Segi tiga ABC mempunyai tapak ${b} cm dan tinggi ${h} cm.`, ans: `Luas segi tiga ABC ialah ${b * h / 2} cm²`, work: [`½ × ${b} × ${h} = ${b * h / 2}`] }; }
+  if (t === 2) { const b = r.i(4, 16), h = r.i(3, 12) * 2; return { p1: `Luas segi tiga ialah ${fr(1, 2)} × tapak × tinggi.`, p2: `Segi tiga ABC mempunyai tapak ${b} cm dan tinggi ${h} cm.`, ans: `Luas segi tiga ABC ialah ${b * h / 2} cm²`, work: [`${fr(1, 2)} × ${b} × ${h} = ${b * h / 2}`] }; }
   if (t === 3) { const s = r.i(2, 9); return { p1: 'Isi padu kubus bersisi <i>s</i> ialah <i>s</i>³.', p2: `Sebuah kotak berbentuk kubus mempunyai sisi ${s} cm.`, ans: `Isi padu kotak itu ialah ${s * s * s} cm³`, work: [`s = ${s}`, `${s}³ = ${s} × ${s} × ${s} = ${s * s * s}`] }; }
   const a = r.i(2, 9), b = r.i(2, 6), c = r.n(-9, 9), y = b * a + c; return { p1: `Jika x = ${a}, maka y = ${b}x${lgPm(c)}.`, p2: `x = ${a}.`, ans: `y = ${fmt(y)}`, work: ['Bentuk II: antejadian disahkan, maka akibat benar.', `y = ${b}(${a})${lgPm(c)} = ${fmt(y)}`] };
 }

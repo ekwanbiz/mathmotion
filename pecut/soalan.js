@@ -9,7 +9,7 @@ const pcN = x => { let v = Math.round(x * 1000) / 1000; if (v === 0) v = 0; retu
 const pcU = (x, u) => `${pcN(x)} ${u}`;
 const pcP = x => (x < 0 ? `(${pcN(x)})` : pcN(x));
 const pcGcd = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) [a, b] = [b, a % b]; return a; };
-const pcFr = (n, d) => { const g = pcGcd(n, d) || 1; n /= g; d /= g; return d === 1 ? String(n) : `${n}/${d}`; };
+const pcFr = (n, d) => { const g = pcGcd(n, d) || 1; n /= g; d /= g; return d === 1 ? String(n) : fr(n, d); };
 // minit → "2 jam 30 minit"
 const pcJM = m => { const h = Math.floor(m / 60), mm = m % 60; return h && mm ? `${h} jam ${mm} minit` : h ? `${h} jam` : `${mm} minit`; };
 // minit → nilai jam (perpuluhan tepat jika boleh, jika tidak pecahan)
@@ -160,8 +160,8 @@ const QV = {
   masaMinit: [
     ({ S, s, act, d, tm }) => ({ q: `${S} ${act} sejauh ${d} km dalam masa ${tm} minit. Hitung laju ${s} dalam km/j.` }),
     ({ sl, d, tm }) => ({ q: `Berapakah laju, dalam km/j, ${sl} yang melalui jarak ${d} km dalam ${tm} minit?` }),
-    ({ S, s, act, d, tm, ans, wr }) => { const N = vnama(); return Object.assign({ q: `${S} ${act} sejauh ${d} km dalam ${tm} minit. ${N} berkata laju ${s} ialah ${d} ÷ ${tm} = ${wr} km/j. Adakah ${N} betul?` }, salah(N, ans, `${N} tidak menukar minit kepada jam. ${tm} minit = ${tm}/60 jam.`)); },
-    ({ d, tm }) => ({ q: `Lengkapkan: Laju = ${d} km ÷ (${tm}/60) jam = ___ km/j` })
+    ({ S, s, act, d, tm, ans, wr }) => { const N = vnama(); return Object.assign({ q: `${S} ${act} sejauh ${d} km dalam ${tm} minit. ${N} berkata laju ${s} ialah ${d} ÷ ${tm} = ${wr} km/j. Adakah ${N} betul?` }, salah(N, ans, `${N} tidak menukar minit kepada jam. ${tm} minit = ${fr(tm, 60)} jam.`)); },
+    ({ d, tm }) => ({ q: `Lengkapkan: Laju = ${d} km ÷ ${fr(tm, 60)} jam = ___ km/j` })
   ],
   lajuPurata: [
     ({ S, s, A, B, C, d1, d2, t1, t2, r }) => ({ q: `${S} bergerak dari ${A} ke ${B} sejauh ${d1} km dalam masa ${pcJM(t1)}. ${pcCap(s)} berhenti rehat di ${B} selama ${pcJM(r)}, kemudian bergerak sejauh ${d2} km lagi ke ${C} dalam masa ${pcJM(t2)}. Hitung laju purata ${s} bagi seluruh perjalanan.` }),
@@ -236,7 +236,7 @@ const QV = {
   tukarKmj2: [
     ({ sl, s, u, v, tm }) => ({ q: `Laju ${sl} ${u > v ? 'berkurang' : 'bertambah'} daripada ${u} km/j kepada ${v} km/j dalam ${tm} minit. Hitung pecutan ${s} dalam km/j².` }),
     ({ S, u, v, tm }) => ({ q: `${S} ${u > v ? 'menjadi perlahan' : 'memecut'} daripada ${u} km/j kepada ${v} km/j dalam masa ${tm} minit. Berapakah pecutannya dalam km/j²?` }),
-    ({ u, v, tm }) => ({ q: `Lengkapkan: Pecutan = (${v} − ${u}) km/j ÷ (${tm}/60) jam = ___ km/j²` })
+    ({ u, v, tm }) => ({ q: `Lengkapkan: Pecutan = (${v} − ${u}) km/j ÷ ${fr(tm, 60)} jam = ___ km/j²` })
   ],
   grafLM: [
     ({ sl, s, t1 }) => ({ q: `Graf laju-masa di bawah menunjukkan gerakan ${sl}. Hitung pecutan ${s} dalam ${t1} saat pertama.` }),
@@ -326,7 +326,7 @@ PC.masaMinit = r => {
   let v, tm, d; do { tm = r.p([10, 12, 15, 20, 30, 40, 45, 50]); v = r.i(6, 20) * 6; d = v * tm / 60; } while (!Number.isInteger(d) || d < 2);
   const sj = pcSubj(r, 'kmj'), g = pcGcd(tm, 60);
   const wr = pcIsDec(d, tm, 3) ? pcN(d / tm) : `${pcFr(d, tm)}`;
-  return GEN_LQ('masaMinit', Object.assign({}, sj, { d, tm, wr, ans: `${v} km/j`, work: [`${tm} minit = ${tm}/60 jam = ${pcFr(tm, 60)} jam`, `Laju = ${d} km ÷ ${pcFr(tm, 60)} jam`, `= ${d} × ${60 / g} ÷ ${tm / g}`, `= ${v} km/j`] }), { fig: pcTrip(['Mula', 'Tamat'], [{ d: `${d} km`, t: `${tm} minit` }]) });
+  return GEN_LQ('masaMinit', Object.assign({}, sj, { d, tm, wr, ans: `${v} km/j`, work: [`${tm} minit = ${fr(tm, 60)} jam = ${pcFr(tm, 60)} jam`, `Laju = ${d} km ÷ ${pcFr(tm, 60)} jam`, `= ${d} × ${60 / g} ÷ ${tm / g}`, `= ${v} km/j`] }), { fig: pcTrip(['Mula', 'Tamat'], [{ d: `${d} km`, t: `${tm} minit` }]) });
 };
 PC.lajuPurata = r => {
   let v1, v2, t1, t2, rs, d1, d2, D, T;
@@ -336,7 +336,7 @@ PC.lajuPurata = r => {
     d1 = v1 * t1 / 60; d2 = v2 * t2 / 60; D = d1 + d2; T = t1 + rs + t2;
   } while (!Number.isInteger(d1) || !Number.isInteger(d2) || !pcIsDec(D * 60, T, 1));
   const ob = pcObj(r, PCKEND), [A, B, C] = pcTowns(r, 3), avg = D * 60 / T, ans = `${pcN(avg)} km/j`;
-  const work = [`Jumlah jarak = ${d1} + ${d2} = ${D} km`, `Jumlah masa = ${pcJM(t1)} + ${pcJM(rs)} + ${pcJM(t2)} = ${pcJM(T)}${T % 60 ? ` = ${pcJamX(T)} jam` : ''}`, 'Laju purata = jumlah jarak ÷ jumlah masa', `= ${D} ÷ ${pcJamX(T)}`].concat(pcJamX(T).includes('/') ? [`= ${D} × 60 ÷ ${T}`] : []).concat([`= ${pcN(avg)} km/j`]);
+  const work = [`Jumlah jarak = ${d1} + ${d2} = ${D} km`, `Jumlah masa = ${pcJM(t1)} + ${pcJM(rs)} + ${pcJM(t2)} = ${pcJM(T)}${T % 60 ? ` = ${pcJamX(T)} jam` : ''}`, 'Laju purata = jumlah jarak ÷ jumlah masa', `= ${D} ÷ ${pcJamX(T)}`].concat(pcJamX(T).includes('class="fr"') ? [`= ${D} × 60 ÷ ${T}`] : []).concat([`= ${pcN(avg)} km/j`]);
   return GEN_LQ('lajuPurata', Object.assign({}, ob, { A, B, C, d1, d2, t1, t2, r: rs, D, ans, work }), { fig: pcTrip([A, B, C].map(pcHur), [{ d: `${d1} km`, t: pcJM(t1) }, { d: `${d2} km`, t: pcJM(t2) }], { 1: `rehat ${pcJM(rs)}` }) });
 };
 PC.purataLaju = r => {
@@ -441,7 +441,7 @@ PC.tukarMs2 = r => {
 PC.tukarKmj2 = r => {
   const tm = r.p([1, 2, 3, 4, 5, 6, 10, 12, 15]), dvv = 10 * r.i(1, 6), dec = r.f() < .3, ob = pcObj(r, PCKEND);
   const u = dec ? dvv + 10 * r.i(1, 5) : 10 * r.i(0, 5), v = dec ? u - dvv : u + dvv, acc = (v - u) * 60 / tm;
-  return GEN_LQ('tukarKmj2', Object.assign({}, ob, { u, v, tm, ans: dec ? `${pcN(acc)} km/j² (nyahpecutan ${pcN(-acc)} km/j²)` : `${pcN(acc)} km/j²`, work: [`Perubahan laju = ${v} − ${u} = ${pcN(v - u)} km/j`, `${tm} minit = ${tm}/60 jam = ${pcFr(tm, 60)} jam`, `Pecutan = ${pcN(v - u)} ÷ ${pcFr(tm, 60)}`, `= ${pcN(v - u)} × 60 ÷ ${tm}`, `= ${pcN(acc)} km/j²`] }));
+  return GEN_LQ('tukarKmj2', Object.assign({}, ob, { u, v, tm, ans: dec ? `${pcN(acc)} km/j² (nyahpecutan ${pcN(-acc)} km/j²)` : `${pcN(acc)} km/j²`, work: [`Perubahan laju = ${v} − ${u} = ${pcN(v - u)} km/j`, `${tm} minit = ${fr(tm, 60)} jam = ${pcFr(tm, 60)} jam`, `Pecutan = ${pcN(v - u)} ÷ ${pcFr(tm, 60)}`, `= ${pcN(v - u)} × 60 ÷ ${tm}`, `= ${pcN(acc)} km/j²`] }));
 };
 PC.grafLM = (r, k) => {
   let ys, u0, V, t1, t2, t3, xs;

@@ -4,6 +4,9 @@
 # Gunakan HANYA warna palet gelap di bawah supaya mod cerah ditukar automatik oleh themed().
 import json, os, html, math, re
 from fractions import Fraction as F
+import sys
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+from mathfmt import FR, RT, SFR, SRT, mathW
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUTFILE = os.path.normpath(os.path.join(HERE, '..', '..', 'kuadratik', 'slides.js'))
@@ -58,10 +61,6 @@ def ANS(t):
     return f'<div class="sl-ans rv"><span>JAWAPAN</span> {t}</div>'
 def NOTE(t, lab='Ingat:'):
     return f'<div class="sl-note"><b>{lab}</b> {t}</div>'
-def FR(a, b):
-    return ('<span style="display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; '
-            'line-height: 1.1; font-size: 0.85em; margin: 0 2px; white-space: nowrap"><span style="padding: 0 4px; border-bottom: 2px solid currentColor">'
-            f'{a}</span><span>{b}</span></span>')
 def FRV(fr):
     fr = F(fr)
     if fr.denominator == 1: return fs(fr)
@@ -105,6 +104,28 @@ def T(x, y, t, col=TX, size=20, anchor='middle', weight=700, italic=False, halo=
     ha = f' paint-order="stroke" stroke="{NAV}" stroke-width="6" stroke-linejoin="round"' if halo else ''
     return (f'<text x="{r1(x)}" y="{r1(y)}" fill="{col}" {FONT} font-size="{size}" font-weight="{weight}"{it} '
             f'text-anchor="{anchor}" dominant-baseline="middle"{ha}>{t}</text>')
+def MIX(x, y, parts, col=TX, size=20, anchor='middle'):
+    """Teks rajah bercampur: str, ('f', a, b) pecahan bertingkat, ('r', t) punca. y = garis tengah (garis pecahan)."""
+    segs = []
+    for p in parts:
+        if isinstance(p, str):
+            lead = (len(p) - len(p.lstrip(' '))) * size * .28; core = p.strip(' '); trail = (len(p) - len(p.rstrip(' '))) * size * .28 if core else 0
+            segs.append(('s', core, lead, mathW(re.sub('[\u0300-\u036f]', '', core), size) if core else 0, trail))
+        elif p[0] == 'f':
+            segs.append(('f', p, size * .2, max(mathW(p[1], size), mathW(p[2], size)) + 10, size * .16))
+        else:
+            segs.append(('r', p, 0, size * .62 + mathW(p[1], size) + 4, 0))
+    tot = sum(a + w + b for _, _, a, w, b in segs)
+    cx = x if anchor == 'start' else (x - tot if anchor == 'end' else x - tot / 2)
+    out = ''
+    for i, (k, v, a, w, b) in enumerate(segs):
+        cx += a
+        if k == 's' and v and i == 0 and len(segs) > 1 and anchor != 'start': out += T(cx + w, y, v, col, size, 'end')  # rapat dengan pecahan/punca selepasnya
+        elif k == 's' and v: out += T(cx, y, v, col, size, 'start')
+        elif k == 'f': out += SFR(cx, y, v[1], v[2], col, size, 'start')
+        elif k == 'r': out += SRT(cx, y + size * .35, v[1], col, size, 'start', v[2] if len(v) > 2 else None)
+        cx += w + b
+    return out
 def LINE(p, q, col=TX, sw=4, dash=None, cap='round'):
     d = f' stroke-dasharray="{dash}"' if dash else ''
     return f'<line x1="{r1(p[0])}" y1="{r1(p[1])}" x2="{r1(q[0])}" y2="{r1(q[1])}" stroke="{col}" stroke-width="{sw}" stroke-linecap="{cap}"{d}/>'
@@ -187,13 +208,13 @@ col = SUB['1.1.1'][1]
 # 1.1.1-1 Ungkapan kuadratik
 CONTOH = [('2x² + 3x − 5', True, 'kuasa tertinggi 2'), ('x² − 9', True, 'b = 0 boleh'),
           ('4x − 7', False, 'tiada sebutan x²'), ('x³ + 2x²', False, 'ada kuasa 3'),
-          ('x² + 1/x', False, 'ada x pada penyebut'), ('x² + y + 1', False, 'dua pemboleh ubah')]
+          (['x² + ', ('f', '1', 'x')], False, 'ada x pada penyebut'), ('x² + y + 1', False, 'dua pemboleh ubah')]
 fig = T(250, 34, 'Ungkapan kuadratik atau bukan?', MU3, 20, halo=False)
 for i, (e, ok, why) in enumerate(CONTOH):
     y = 88 + i * 64
     fig += RECT(24, y - 26, 452, 52, SURF, GR if ok else RD, 14, 2)
     fig += (TICK(52, y) if ok else CROSS(52, y))
-    fig += T(80, y, e, GR if ok else RD, 21, 'start') + T(456, y, why, MU, 16, 'end', halo=False)
+    fig += (MIX(80, y, e, GR if ok else RD, 21, 'start') if isinstance(e, list) else T(80, y, e, GR if ok else RD, 21, 'start')) + T(456, y, why, MU, 16, 'end', halo=False)
 add('1.1.1', 'DEFINISI', 'Ungkapan kuadratik',
     DEF(f'<b>Ungkapan kuadratik</b> dalam satu pemboleh ubah ialah ungkapan berbentuk <b>{B("<i>a</i>", CA)}{X2} + {B("<i>b</i>", CB)}{X} + {B("<i>c</i>", CC)}</b>, dengan <i>a</i>, <i>b</i> dan <i>c</i> pemalar dan <b><i>a</i> ≠ 0</b>.', col)
     + BUL(['Ada <b>satu</b> pemboleh ubah sahaja.',
@@ -206,14 +227,14 @@ add('1.1.1', 'DEFINISI', 'Ungkapan kuadratik',
 EX = [(3, -5, 2), (-1, 0, 4), (F(1, 2), 6, 0)]
 assert poly_txt(3, -5, 2) == '3x² − 5x + 2' and poly_txt(-1, 0, 4) == '−x² + 4'
 fig = ''
-for i, (e, a, b, c) in enumerate([('3x² − 5x + 2', '3', '−5', '2'), ('4 − x²', '−1', '0', '4'), ('6x + ½x²', '½', '6', '0')]):
+for i, (e, a, b, c) in enumerate([('3x² − 5x + 2', '3', '−5', '2'), ('4 − x²', '−1', '0', '4'), (['6x + ', ('f', '1', '2'), 'x²'], [('f', '1', '2')], '6', '0')]):
     y0 = 18 + i * 148
     fig += RECT(18, y0, 464, 134, SURF, BD, 16, 2)
-    fig += T(250, y0 + 34, e, TX, 26)
+    fig += MIX(250, y0 + 34, e, TX, 24) if isinstance(e, list) else T(250, y0 + 34, e, TX, 26)
     for j, (lab, v, cl) in enumerate([('a', a, CA), ('b', b, CB), ('c', c, CC)]):
         x = 100 + j * 150
         fig += RECT(x - 58, y0 + 66, 116, 50, f'{NAV}', cl, 12, 2.5)
-        fig += T(x, y0 + 92, f'{lab} = {v}', cl, 22, italic=False)
+        fig += MIX(x, y0 + 91, [f'{lab} = '] + v, cl, 20) if isinstance(v, list) else T(x, y0 + 92, f'{lab} = {v}', cl, 22, italic=False)
 add('1.1.1', 'CONTOH BERLANGKAH', 'Mengenal pasti nilai a, b dan c',
     P(f'Bandingkan dengan bentuk {B("<i>a</i>", CA)}{X2} + {B("<i>b</i>", CB)}{X} + {B("<i>c</i>", CC)}. Susun sebutan dahulu jika perlu.', True)
     + STEPS([f'3{X2} − 5{X} + 2: {B("<i>a</i> = 3", CA)}, {B("<i>b</i> = −5", CB)}, {B("<i>c</i> = 2", CC)}',
@@ -312,7 +333,7 @@ LNS = [(F(1, 2), GR, 'y = ½x²'), (1, TR, 'y = x²'), (3, PK, 'y = 3x²')]
 fig = pl.draw()
 for a, cl, lab in LNS:
     fig += pl.curve(lambda x, a=a: float(a) * x * x, cl, 5)
-fig += (T(pl.X(2.3), pl.Y(2.0), 'y = ½x²', GR, 18, 'start') + T(pl.X(2.3), pl.Y(1.3), 'y = x²', TR, 18, 'start')
+fig += (MIX(pl.X(2.3), pl.Y(2.15), ['y = ', ('f', '1', '2'), 'x²'], GR, 17, 'start') + T(pl.X(2.3), pl.Y(1.3), 'y = x²', TR, 18, 'start')
         + T(pl.X(2.3), pl.Y(0.6), 'y = 3x²', PK, 18, 'start'))
 add('1.1.3', 'KONSEP', 'Kesan nilai a: lebar atau sempit',
     P(f'Bandingkan graf <i>y</i> = {FR(1, 2)}{X2}, <i>y</i> = {X2} dan <i>y</i> = 3{X2}.', True)
@@ -573,7 +594,7 @@ fig = (RECT(16, 16, 468, 438, SURF, BD, 18, 2)
        + LINE((192, 194), (308, 240), MU3, 2.5) + LINE((192, 240), (308, 194), MU3, 2.5)
        + T(250, 288, '(2x)(+2) + (x)(−3) = 4x − 3x = x ✓', GR, 18)
        + T(250, 340, '(2x − 3)(x + 2) = 0', TX, 26)
-       + T(250, 400, 'x = 3/2 atau x = −2', PK, 26))
+       + MIX(250, 402, ['x = ', ('f', '3', '2'), ' atau x = −2'], PK, 26))
 add('1.1.6', 'CONTOH BERLANGKAH', 'Apabila a ≠ 1',
     P(f'Selesaikan 2{X2} + {X} = 6.', True)
     + STEPS([f'Bentuk am: 2{X2} + {X} − 6 = 0',

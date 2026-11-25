@@ -9,7 +9,7 @@ const kqGcd = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) [a, b] = [
 const kqFr = (n, d = 1) => {
   if (d < 0) { n = -n; d = -d; }
   const g = kqGcd(n, d) || 1; n /= g; d /= g;
-  return (n < 0 ? '−' : '') + Math.abs(n) + (d === 1 ? '' : '/' + d);
+  return (n < 0 ? '−' : '') + (d === 1 ? String(Math.abs(n)) : fr(Math.abs(n), d));
 };
 const kqPm = s => (s[0] === '−' ? `(${s})` : s);
 // sebutan [pekali, pemboleh ubah] → "2x² − 3x + 1" (ikut susunan yang diberi)
@@ -36,7 +36,7 @@ function kqSub(a, b, c, t) {
   return out.join('');
 }
 const kqSubV = (a, b, c, t) => kqT([[a * t * t, ''], [b * t, ''], [c, '']]);
-const kqAv = a => (a === .5 ? '½' : a === -.5 ? '−½' : fmt(a));
+const kqAv = a => (a === .5 ? fr(1, 2) : a === -.5 ? '−' + fr(1, 2) : fmt(a));
 const kqVal = (a, b, c, t) => a * t * t + b * t + c;
 // rawak: kqRG untuk Latihan Kelas / games, kqRW (berbenih) untuk Lembaran Kerja
 const kqRG = { i: (a, b) => ri(a, b), p: a => pick(a), f: () => Math.random(), n: (a, b) => nz(a, b) };
@@ -46,9 +46,9 @@ const kqTp = a => (a > 0 ? 'minimum' : 'maksimum');
 const kqShape = a => (a > 0 ? '∪' : '∩');
 const kqSide = h => (h < 0 ? 'di sebelah kiri paksi-y' : h > 0 ? 'di sebelah kanan paksi-y' : 'pada paksi-y');
 // pekali a sebagai teks (termasuk ½)
-const kqCa = a => (a === 1 ? '' : a === -1 ? '−' : a === .5 ? '½' : a === -.5 ? '−½' : fmt(a));
+const kqCa = a => (a === 1 ? '' : a === -1 ? '−' : a === .5 ? fr(1, 2) : a === -.5 ? '−' + fr(1, 2) : fmt(a));
 const kqPolyA = (a, b, c) => kqCa(a) + 'x²' + kqT([[1, 'X'], [b, 'x'], [c, '']]).replace(/^X/, '');
-const kqAbsA = a => (Math.abs(a) === .5 ? '½' : String(Math.abs(a)));
+const kqAbsA = a => (Math.abs(a) === .5 ? fr(1, 2) : String(Math.abs(a)));
 
 /* =================== rajah =================== */
 const kqStep = span => [1, 2, 5, 10, 20, 50, 100].find(s => span / s <= 8) || 200;
@@ -111,11 +111,11 @@ const kqBlank = () => kqPlot({ x0: -6, x1: 6, y0: -6, y1: 6, nums: false, grid: 
 /* =================== data bersama =================== */
 const KQBS = [
   ['Jika nilai c dalam f(x) = ax² + bx + c bertambah, graf bergerak ke atas.', true, 'Nilai c ialah pintasan-y; c bertambah, graf bergerak ke atas.'],
-  ['Perubahan nilai c mengubah kedudukan paksi simetri graf.', false, 'Paksi simetri x = −b/(2a) tidak bergantung pada c.'],
+  ['Perubahan nilai c mengubah kedudukan paksi simetri graf.', false, `Paksi simetri x = −${fr('b', '2a')} tidak bergantung pada c.`],
   ['Graf y = 3x² lebih sempit daripada graf y = x².', true, '3 > 1, maka graf y = 3x² lebih sempit.'],
   ['Graf y = −4x² lebih lebar daripada graf y = 2x².', false, 'Abaikan tanda: 4 > 2, maka graf y = −4x² lebih sempit.'],
-  ['Jika a dan b mempunyai tanda yang sama, paksi simetri berada di sebelah kiri paksi-y.', true, 'x = −b/(2a) bernilai negatif apabila a dan b sama tanda.'],
-  ['Jika b = 0, paksi simetri graf ialah paksi-y.', true, 'x = −0/(2a) = 0, iaitu paksi-y.'],
+  ['Jika a dan b mempunyai tanda yang sama, paksi simetri berada di sebelah kiri paksi-y.', true, `x = −${fr('b', '2a')} bernilai negatif apabila a dan b sama tanda.`],
+  ['Jika b = 0, paksi simetri graf ialah paksi-y.', true, `x = −${fr(0, '2a')} = 0, iaitu paksi-y.`],
   ['Nilai a yang negatif menghasilkan graf berbentuk ∪.', false, 'a < 0 menghasilkan graf berbentuk ∩.'],
   ['Perubahan nilai b tidak mengubah pintasan-y graf.', true, 'Pintasan-y ialah c, jadi perubahan b tidak mengubahnya.'],
   ['Graf y = x² + 5 ialah graf y = x² yang bergerak 5 unit ke kanan.', false, 'Graf itu bergerak 5 unit ke atas, bukan ke kanan.'],
@@ -153,7 +153,7 @@ const QV = {
     ({ e, tp }) => ({ q: `Cari persamaan paksi simetri dan koordinat titik ${tp} bagi graf f(x) = ${e}.` }),
     ({ e, tp }) => ({ q: `Bagi fungsi kuadratik f(x) = ${e}, tentukan paksi simetri graf dan titik ${tp}nya.` }),
     ({ e, tp, h, k }) => ({ q: `Graf y = ${e} mempunyai satu titik ${tp}. Cari koordinat titik itu dan nyatakan nilai ${tp} y.`, ans: `Titik ${tp} (${fmt(h)}, ${fmt(k)}); nilai ${tp} ${fmt(k)}` }),
-    ({ e, h, ans }) => { const N = vnama(); return Object.assign({ q: `${N} mendapati paksi simetri graf f(x) = ${e} ialah x = ${fmt(-h)}. Adakah ${N} betul? Seterusnya cari titik maksimum atau minimum graf itu.` }, salah(N, ans, 'Rumus paksi simetri ialah x = −b/(2a); tanda negatif tidak boleh tertinggal.')); }
+    ({ e, h, ans }) => { const N = vnama(); return Object.assign({ q: `${N} mendapati paksi simetri graf f(x) = ${e} ialah x = ${fmt(-h)}. Adakah ${N} betul? Seterusnya cari titik maksimum atau minimum graf itu.` }, salah(N, ans, `Rumus paksi simetri ialah x = −${fr('b', '2a')}; tanda negatif tidak boleh tertinggal.`)); }
   ],
   banyakSatu: [
     ({ e, t }) => ({ q: `Diberi f(x) = ${e}. Cari satu lagi nilai x, selain ${fmt(t)}, supaya f(x) = f(${fmt(t)}).` }),
@@ -166,10 +166,10 @@ const QV = {
     ({ tp }) => ({ q: `Graf y = f(x) ditunjukkan di bawah. Adakah graf itu mempunyai titik maksimum atau minimum? Nyatakan koordinatnya dan persamaan paksi simetri.` })
   ],
   k111: [
-    ({ v1 }) => ({ q: `Diberi fungsi kuadratik f(x) = ${v1.e}. Nyatakan (a) bentuk graf, (b) pintasan-y, (c) persamaan paksi simetri, (d) koordinat titik ${kqTp(v1.a)}.`, ans: `(a) ${kqShape(v1.a)} (b) ${fmt(v1.c)} (c) x = ${fmt(v1.h)} (d) (${fmt(v1.h)}, ${fmt(v1.k)})`, work: [`(a) a = ${fmt(v1.a)} ${v1.a > 0 ? '> 0, bentuk ∪' : '< 0, bentuk ∩'}`, `(b) Pintasan-y = c = ${fmt(v1.c)}`, `(c) x = −(${fmt(v1.b)}) / (2 × ${par(v1.a)}) = ${fmt(v1.h)}`, `(d) f(${fmt(v1.h)}) = ${kqSub(v1.a, v1.b, v1.c, v1.h)} = ${fmt(v1.k)}`] }),
-    ({ v2 }) => ({ q: `Graf fungsi f(x) = x² + px + q mempunyai titik minimum (${fmt(v2.h)}, ${fmt(v2.k)}). Cari nilai p dan nilai q.`, ans: `p = ${fmt(v2.p)}, q = ${fmt(v2.q)}`, work: [`Paksi simetri: x = −p/(2 × 1) = ${fmt(v2.h)}`, `p = ${fmt(v2.p)}`, `f(${fmt(v2.h)}) = ${fmt(v2.k)}: (${fmt(v2.h)})² ${v2.p < 0 ? '−' : '+'} ${Math.abs(v2.p)}(${fmt(v2.h)}) + q = ${fmt(v2.k)}`, `${fmt(v2.h * v2.h + v2.p * v2.h)} + q = ${fmt(v2.k)}, maka q = ${fmt(v2.q)}`] }),
-    ({ v3 }) => ({ q: `Titik (${fmt(v3.x1)}, m) dan (${fmt(v3.x2)}, m) terletak pada graf f(x) = x² + bx + c. Nilai minimum f ialah ${fmt(v3.k)}. Cari (a) persamaan paksi simetri, (b) nilai b dan c, (c) nilai m.`, ans: `(a) x = ${fmt(v3.h)} (b) b = ${fmt(v3.b)}, c = ${fmt(v3.c)} (c) m = ${fmt(v3.m)}`, work: [`(a) Paksi simetri di tengah-tengah: x = (${fmt(v3.x1)} + ${par(v3.x2)}) ÷ 2 = ${fmt(v3.h)}`, `(b) −b/2 = ${fmt(v3.h)} → b = ${fmt(v3.b)}`, `f(${fmt(v3.h)}) = ${fmt(v3.k)}: ${fmt(v3.h * v3.h + v3.b * v3.h)} + c = ${fmt(v3.k)} → c = ${fmt(v3.c)}`, `(c) m = f(${fmt(v3.x1)}) = ${kqSub(1, v3.b, v3.c, v3.x1)} = ${fmt(v3.m)}`] }),
-    ({ v4 }) => ({ q: `Diberi f(x) = ${kqT([[v4.a, 'x²'], [v4.b, 'x']])} + c. Nilai ${kqTp(v4.a)} f ialah ${fmt(v4.k)}. Cari nilai c dan koordinat titik ${kqTp(v4.a)}.`, ans: `c = ${fmt(v4.c)}; titik ${kqTp(v4.a)} (${fmt(v4.h)}, ${fmt(v4.k)})`, work: [`Paksi simetri: x = −(${fmt(v4.b)}) / (2 × ${par(v4.a)}) = ${fmt(v4.h)}`, `f(${fmt(v4.h)}) = ${kqSub(v4.a, v4.b, 0, v4.h)} + c = ${fmt(v4.k)}`, `${fmt(v4.a * v4.h * v4.h + v4.b * v4.h)} + c = ${fmt(v4.k)} → c = ${fmt(v4.c)}`] })
+    ({ v1 }) => ({ q: `Diberi fungsi kuadratik f(x) = ${v1.e}. Nyatakan (a) bentuk graf, (b) pintasan-y, (c) persamaan paksi simetri, (d) koordinat titik ${kqTp(v1.a)}.`, ans: `(a) ${kqShape(v1.a)} (b) ${fmt(v1.c)} (c) x = ${fmt(v1.h)} (d) (${fmt(v1.h)}, ${fmt(v1.k)})`, work: [`(a) a = ${fmt(v1.a)} ${v1.a > 0 ? '> 0, bentuk ∪' : '< 0, bentuk ∩'}`, `(b) Pintasan-y = c = ${fmt(v1.c)}`, `(c) x = ${fr(`−(${fmt(v1.b)})`, `2 × ${par(v1.a)}`)} = ${fmt(v1.h)}`, `(d) f(${fmt(v1.h)}) = ${kqSub(v1.a, v1.b, v1.c, v1.h)} = ${fmt(v1.k)}`] }),
+    ({ v2 }) => ({ q: `Graf fungsi f(x) = x² + px + q mempunyai titik minimum (${fmt(v2.h)}, ${fmt(v2.k)}). Cari nilai p dan nilai q.`, ans: `p = ${fmt(v2.p)}, q = ${fmt(v2.q)}`, work: [`Paksi simetri: x = −${fr('p', '2 × 1')} = ${fmt(v2.h)}`, `p = ${fmt(v2.p)}`, `f(${fmt(v2.h)}) = ${fmt(v2.k)}: (${fmt(v2.h)})² ${v2.p < 0 ? '−' : '+'} ${Math.abs(v2.p)}(${fmt(v2.h)}) + q = ${fmt(v2.k)}`, `${fmt(v2.h * v2.h + v2.p * v2.h)} + q = ${fmt(v2.k)}, maka q = ${fmt(v2.q)}`] }),
+    ({ v3 }) => ({ q: `Titik (${fmt(v3.x1)}, m) dan (${fmt(v3.x2)}, m) terletak pada graf f(x) = x² + bx + c. Nilai minimum f ialah ${fmt(v3.k)}. Cari (a) persamaan paksi simetri, (b) nilai b dan c, (c) nilai m.`, ans: `(a) x = ${fmt(v3.h)} (b) b = ${fmt(v3.b)}, c = ${fmt(v3.c)} (c) m = ${fmt(v3.m)}`, work: [`(a) Paksi simetri di tengah-tengah: x = (${fmt(v3.x1)} + ${par(v3.x2)}) ÷ 2 = ${fmt(v3.h)}`, `(b) −${fr('b', 2)} = ${fmt(v3.h)} → b = ${fmt(v3.b)}`, `f(${fmt(v3.h)}) = ${fmt(v3.k)}: ${fmt(v3.h * v3.h + v3.b * v3.h)} + c = ${fmt(v3.k)} → c = ${fmt(v3.c)}`, `(c) m = f(${fmt(v3.x1)}) = ${kqSub(1, v3.b, v3.c, v3.x1)} = ${fmt(v3.m)}`] }),
+    ({ v4 }) => ({ q: `Diberi f(x) = ${kqT([[v4.a, 'x²'], [v4.b, 'x']])} + c. Nilai ${kqTp(v4.a)} f ialah ${fmt(v4.k)}. Cari nilai c dan koordinat titik ${kqTp(v4.a)}.`, ans: `c = ${fmt(v4.c)}; titik ${kqTp(v4.a)} (${fmt(v4.h)}, ${fmt(v4.k)})`, work: [`Paksi simetri: x = ${fr(`−(${fmt(v4.b)})`, `2 × ${par(v4.a)}`)} = ${fmt(v4.h)}`, `f(${fmt(v4.h)}) = ${kqSub(v4.a, v4.b, 0, v4.h)} + c = ${fmt(v4.k)}`, `${fmt(v4.a * v4.h * v4.h + v4.b * v4.h)} + c = ${fmt(v4.k)} → c = ${fmt(v4.c)}`] })
   ],
 
   /* ---------- 1.1.3 Kesan a, b, c ---------- */
@@ -212,9 +212,9 @@ const QV = {
   ],
   k113: [
     ({ v1 }) => ({ q: `Graf f(x) = x² ${v1.b < 0 ? '−' : '+'} ${Math.abs(v1.b)}x + c mempunyai titik minimum (${fmt(v1.h)}, ${fmt(v1.k)}). (a) Cari nilai c. (b) Nilai c diubah supaya graf hanya menyentuh paksi-x. Cari nilai c yang baharu. (c) Huraikan perubahan pada graf.`, ans: `(a) c = ${fmt(v1.c)} (b) c = ${fmt(v1.c2)} (c) graf bergerak ${Math.abs(v1.k)} unit ke atas`, work: [`(a) f(${fmt(v1.h)}) = ${fmt(v1.h * v1.h + v1.b * v1.h)} + c = ${fmt(v1.k)} → c = ${fmt(v1.c)}`, `(b) Graf menyentuh paksi-x apabila nilai minimum = 0: ${fmt(v1.h * v1.h + v1.b * v1.h)} + c = 0 → c = ${fmt(v1.c2)}`, `(c) c bertambah ${fmt(v1.c2 - v1.c)}, graf bergerak ${Math.abs(v1.k)} unit ke atas; bentuk dan paksi simetri x = ${fmt(v1.h)} tidak berubah.`] }),
-    ({ v2 }) => ({ q: `Diberi f(x) = ${v2.e1} dan g(x) = ${v2.e2}. Bandingkan (a) bentuk graf, (b) paksi simetri, (c) pintasan-y kedua-dua graf.`, ans: `(a) f: ∪, g: ∩ (b) f: x = ${fmt(v2.h1)}, g: x = ${fmt(v2.h2)} (c) sama, iaitu ${fmt(v2.c)}`, work: [`(a) Pekali x²: f ialah 1 > 0 (∪); g ialah −1 < 0 (∩).`, `(b) f: x = −(${fmt(v2.b)})/(2 × 1) = ${fmt(v2.h1)}; g: x = −(${fmt(v2.b)})/(2 × (−1)) = ${fmt(v2.h2)}`, `(c) Kedua-dua graf mempunyai c = ${fmt(v2.c)}.`] }),
-    ({ v3 }) => ({ q: `Graf y = ${v3.e1} berubah menjadi graf y = ${v3.e2}. (a) Pekali manakah yang berubah? (b) Cari paksi simetri setiap graf. (c) Nyatakan hubungan antara kedua-dua graf.`, ans: `(a) b (b) x = ${fmt(v3.h)} dan x = ${fmt(-v3.h)} (c) graf kedua ialah pantulan graf pertama pada paksi-y`, work: [`(a) Hanya b berubah: ${fmt(v3.b)} → ${fmt(-v3.b)}`, `(b) x = −(${fmt(v3.b)})/(2 × ${v3.a}) = ${fmt(v3.h)}; x = −(${fmt(-v3.b)})/(2 × ${v3.a}) = ${fmt(-v3.h)}`, `(c) Bentuk dan pintasan-y (${fmt(v3.c)}) sama, paksi simetri bertentangan: graf kedua ialah pantulan graf pertama pada paksi-y.`] }),
-    ({ v4 }) => ({ q: `Graf f(x) = −x² + ${2 * v4.h}x + c melalui titik (${fmt(v4.x1)}, ${fmt(v4.y1)}). (a) Cari nilai c. (b) Cari titik maksimum graf. (c) Jika c bertambah ${v4.d}, nyatakan titik maksimum yang baharu.`, ans: `(a) c = ${fmt(v4.c)} (b) (${fmt(v4.h)}, ${fmt(v4.k)}) (c) (${fmt(v4.h)}, ${fmt(v4.k + v4.d)})`, work: [`(a) ${fmt(v4.y1)} = −(${fmt(v4.x1)})² + ${2 * v4.h}(${fmt(v4.x1)}) + c → c = ${fmt(v4.c)}`, `(b) x = −${2 * v4.h}/(2 × (−1)) = ${fmt(v4.h)}; f(${fmt(v4.h)}) = ${fmt(v4.k)}`, `(c) Graf bergerak ${v4.d} unit ke atas: (${fmt(v4.h)}, ${fmt(v4.k + v4.d)})`] })
+    ({ v2 }) => ({ q: `Diberi f(x) = ${v2.e1} dan g(x) = ${v2.e2}. Bandingkan (a) bentuk graf, (b) paksi simetri, (c) pintasan-y kedua-dua graf.`, ans: `(a) f: ∪, g: ∩ (b) f: x = ${fmt(v2.h1)}, g: x = ${fmt(v2.h2)} (c) sama, iaitu ${fmt(v2.c)}`, work: [`(a) Pekali x²: f ialah 1 > 0 (∪); g ialah −1 < 0 (∩).`, `(b) f: x = ${fr(`−(${fmt(v2.b)})`, `2 × 1`)} = ${fmt(v2.h1)}; g: x = ${fr(`−(${fmt(v2.b)})`, `2 × (−1)`)} = ${fmt(v2.h2)}`, `(c) Kedua-dua graf mempunyai c = ${fmt(v2.c)}.`] }),
+    ({ v3 }) => ({ q: `Graf y = ${v3.e1} berubah menjadi graf y = ${v3.e2}. (a) Pekali manakah yang berubah? (b) Cari paksi simetri setiap graf. (c) Nyatakan hubungan antara kedua-dua graf.`, ans: `(a) b (b) x = ${fmt(v3.h)} dan x = ${fmt(-v3.h)} (c) graf kedua ialah pantulan graf pertama pada paksi-y`, work: [`(a) Hanya b berubah: ${fmt(v3.b)} → ${fmt(-v3.b)}`, `(b) x = ${fr(`−(${fmt(v3.b)})`, `2 × ${v3.a}`)} = ${fmt(v3.h)}; x = ${fr(`−(${fmt(-v3.b)})`, `2 × ${v3.a}`)} = ${fmt(-v3.h)}`, `(c) Bentuk dan pintasan-y (${fmt(v3.c)}) sama, paksi simetri bertentangan: graf kedua ialah pantulan graf pertama pada paksi-y.`] }),
+    ({ v4 }) => ({ q: `Graf f(x) = −x² + ${2 * v4.h}x + c melalui titik (${fmt(v4.x1)}, ${fmt(v4.y1)}). (a) Cari nilai c. (b) Cari titik maksimum graf. (c) Jika c bertambah ${v4.d}, nyatakan titik maksimum yang baharu.`, ans: `(a) c = ${fmt(v4.c)} (b) (${fmt(v4.h)}, ${fmt(v4.k)}) (c) (${fmt(v4.h)}, ${fmt(v4.k + v4.d)})`, work: [`(a) ${fmt(v4.y1)} = −(${fmt(v4.x1)})² + ${2 * v4.h}(${fmt(v4.x1)}) + c → c = ${fmt(v4.c)}`, `(b) x = ${fr(`−${2 * v4.h}`, '2 × (−1)')} = ${fmt(v4.h)}; f(${fmt(v4.h)}) = ${fmt(v4.k)}`, `(c) Graf bergerak ${v4.d} unit ke atas: (${fmt(v4.h)}, ${fmt(v4.k + v4.d)})`] })
   ],
 
   /* ---------- 1.1.4 Persamaan & Punca ---------- */
@@ -252,7 +252,7 @@ const QV = {
   ],
   k114: [
     ({ v1 }) => ({ q: `Panjang sebuah taman berbentuk segi empat tepat ialah ${v1.p} m lebih daripada lebarnya, x m. Luas taman itu ialah ${v1.q} m². (a) Bentukkan fungsi luas, L(x). (b) Bentukkan persamaan kuadratik dalam bentuk am. (c) Tentusahkan bahawa x = ${v1.r} ialah punca dan jelaskan mengapa punca ${fmt(v1.s)} ditolak.`, ans: `(a) L(x) = x² + ${v1.p}x (b) x² + ${v1.p}x − ${v1.q} = 0 (c) ${v1.r}² + ${v1.p}(${v1.r}) − ${v1.q} = 0; ${fmt(v1.s)} ditolak kerana lebar tidak boleh negatif`, work: [`(a) L(x) = x(x + ${v1.p}) = x² + ${v1.p}x`, `(b) x² + ${v1.p}x = ${v1.q} → x² + ${v1.p}x − ${v1.q} = 0`, `(c) ${v1.r * v1.r} + ${v1.p * v1.r} − ${v1.q} = 0 ✓`, `x = ${fmt(v1.s)} juga memuaskan persamaan tetapi lebar mesti positif.`] }),
-    ({ v2 }) => ({ q: `Diberi ${fmt(v2.r)} ialah punca bagi persamaan 2x² + px ${v2.r < 0 ? '−' : '+'} ${Math.abs(v2.r)} = 0. (a) Cari nilai p. (b) Tentusahkan bahawa x = 1/2 juga ialah punca persamaan itu.`, ans: `(a) p = ${fmt(v2.p)} (b) 2(1/2)² ${v2.p < 0 ? '−' : '+'} ${Math.abs(v2.p)}(1/2) ${v2.r < 0 ? '−' : '+'} ${Math.abs(v2.r)} = 0`, work: [`(a) 2(${fmt(v2.r)})² + p(${fmt(v2.r)}) ${v2.r < 0 ? '−' : '+'} ${Math.abs(v2.r)} = 0`, `${2 * v2.r * v2.r + v2.r} ${v2.r < 0 ? '−' : '+'} ${Math.abs(v2.r)}p = 0 → p = ${fmt(v2.p)}`, `(b) 2(1/4) ${v2.p < 0 ? '−' : '+'} ${kqFr(Math.abs(v2.p), 2)} ${v2.r < 0 ? '−' : '+'} ${Math.abs(v2.r)} = 1/2 ${v2.p < 0 ? '−' : '+'} ${kqFr(Math.abs(v2.p), 2)} ${v2.r < 0 ? '−' : '+'} ${Math.abs(v2.r)} = 0 ✓`] }),
+    ({ v2 }) => ({ q: `Diberi ${fmt(v2.r)} ialah punca bagi persamaan 2x² + px ${v2.r < 0 ? '−' : '+'} ${Math.abs(v2.r)} = 0. (a) Cari nilai p. (b) Tentusahkan bahawa x = ${fr(1, 2)} juga ialah punca persamaan itu.`, ans: `(a) p = ${fmt(v2.p)} (b) 2(${fr(1, 2)})² ${v2.p < 0 ? '−' : '+'} ${Math.abs(v2.p)}(${fr(1, 2)}) ${v2.r < 0 ? '−' : '+'} ${Math.abs(v2.r)} = 0`, work: [`(a) 2(${fmt(v2.r)})² + p(${fmt(v2.r)}) ${v2.r < 0 ? '−' : '+'} ${Math.abs(v2.r)} = 0`, `${2 * v2.r * v2.r + v2.r} ${v2.r < 0 ? '−' : '+'} ${Math.abs(v2.r)}p = 0 → p = ${fmt(v2.p)}`, `(b) 2(${fr(1, 4)}) ${v2.p < 0 ? '−' : '+'} ${kqFr(Math.abs(v2.p), 2)} ${v2.r < 0 ? '−' : '+'} ${Math.abs(v2.r)} = ${fr(1, 2)} ${v2.p < 0 ? '−' : '+'} ${kqFr(Math.abs(v2.p), 2)} ${v2.r < 0 ? '−' : '+'} ${Math.abs(v2.r)} = 0 ✓`] }),
     ({ v3 }) => ({ q: `Persamaan kuadratik x² + bx + c = 0 mempunyai punca ${fmt(v3.r)} dan ${fmt(v3.s)}. (a) Cari nilai b dan c. (b) Nyatakan pintasan-y dan pintasan-x graf y = x² + bx + c. (c) Cari persamaan paksi simetri graf itu.`, ans: `(a) b = ${fmt(v3.b)}, c = ${fmt(v3.c)} (b) pintasan-y ${fmt(v3.c)}; pintasan-x ${fmt(v3.r)} dan ${fmt(v3.s)} (c) x = ${v3.hs}`, work: [`(a) ${kqFac(v3.r)}${kqFac(v3.s)} = 0 → ${kqPoly(1, v3.b, v3.c)} = 0`, `(b) Pintasan-y = c = ${fmt(v3.c)}; punca ialah pintasan-x.`, `(c) x = (${fmt(v3.r)} + ${par(v3.s)}) ÷ 2 = ${v3.hs}`] }),
     ({ v4 }) => ({ q: `Hasil tambah kuasa dua bagi dua nombor bulat positif berturutan ialah ${v4.q}. Katakan nombor yang lebih kecil ialah x. (a) Tunjukkan bahawa x² + x − ${(v4.q - 1) / 2} = 0. (b) Tentusahkan bahawa x = ${v4.r} ialah punca. (c) Nyatakan kedua-dua nombor itu.`, ans: `(a) x² + (x + 1)² = ${v4.q} (b) ${v4.r}² + ${v4.r} − ${(v4.q - 1) / 2} = 0 (c) ${v4.r} dan ${v4.r + 1}`, work: [`(a) x² + (x + 1)² = ${v4.q} → 2x² + 2x + 1 − ${v4.q} = 0 → 2x² + 2x − ${v4.q - 1} = 0`, `Bahagi dengan 2: x² + x − ${(v4.q - 1) / 2} = 0`, `(b) ${v4.r * v4.r} + ${v4.r} − ${(v4.q - 1) / 2} = 0 ✓`, `(c) ${v4.r} dan ${v4.r + 1}; semak: ${v4.r * v4.r} + ${(v4.r + 1) ** 2} = ${v4.q}`] })
   ],
@@ -294,7 +294,7 @@ const QV = {
   ],
   k116: [
     ({ v1 }) => ({ q: `Panjang sekeping papan kenyataan berbentuk segi empat tepat ialah ${v1.p} cm lebih daripada lebarnya. Luasnya ialah ${v1.q} cm². Cari panjang dan lebar papan kenyataan itu.`, ans: `Lebar = ${v1.r} cm, panjang = ${v1.r + v1.p} cm`, work: [`Katakan lebar = x cm: x(x + ${v1.p}) = ${v1.q}`, `x² + ${v1.p}x − ${v1.q} = 0`, `(x − ${v1.r})(x + ${v1.r + v1.p}) = 0`, `x = ${v1.r} atau x = −${v1.r + v1.p} (ditolak kerana lebar mesti positif)`, `Semak: ${v1.r} × ${v1.r + v1.p} = ${v1.q} ✓`] }),
-    ({ v2 }) => ({ q: `Tinggi sebiji bola, h m, t saat selepas dilontar ke atas ialah h(t) = −5t² + ${v2.u}t. (a) Bilakah bola berada pada ketinggian ${v2.H} m? (b) Cari tinggi maksimum bola. (c) Bilakah bola jatuh semula ke tanah?`, ans: `(a) t = ${v2.t1} s dan t = ${v2.t2} s (b) ${v2.hm} m (c) t = ${v2.tl} s`, work: [`(a) −5t² + ${v2.u}t = ${v2.H} → −5t² + ${v2.u}t − ${v2.H} = 0`, `Bahagi dengan −5: t² − ${v2.u / 5}t + ${v2.H / 5} = 0 → (t − ${v2.t1})(t − ${v2.t2}) = 0`, `t = ${v2.t1} (naik) atau t = ${v2.t2} (turun)`, `(b) Paksi simetri t = −${v2.u}/(2 × (−5)) = ${v2.tm}; h(${v2.tm}) = ${v2.hm} m`, `(c) −5t² + ${v2.u}t = 0 → −5t(t − ${v2.tl}) = 0 → t = ${v2.tl} s (t = 0 ialah masa dilontar)`] }),
+    ({ v2 }) => ({ q: `Tinggi sebiji bola, h m, t saat selepas dilontar ke atas ialah h(t) = −5t² + ${v2.u}t. (a) Bilakah bola berada pada ketinggian ${v2.H} m? (b) Cari tinggi maksimum bola. (c) Bilakah bola jatuh semula ke tanah?`, ans: `(a) t = ${v2.t1} s dan t = ${v2.t2} s (b) ${v2.hm} m (c) t = ${v2.tl} s`, work: [`(a) −5t² + ${v2.u}t = ${v2.H} → −5t² + ${v2.u}t − ${v2.H} = 0`, `Bahagi dengan −5: t² − ${v2.u / 5}t + ${v2.H / 5} = 0 → (t − ${v2.t1})(t − ${v2.t2}) = 0`, `t = ${v2.t1} (naik) atau t = ${v2.t2} (turun)`, `(b) Paksi simetri t = ${fr(`−${v2.u}`, '2 × (−5)')} = ${v2.tm}; h(${v2.tm}) = ${v2.hm} m`, `(c) −5t² + ${v2.u}t = 0 → −5t(t − ${v2.tl}) = 0 → t = ${v2.tl} s (t = 0 ialah masa dilontar)`] }),
     ({ v3 }) => ({ q: `Sisi sebuah segi tiga bersudut tegak ialah x cm, (x + ${v3.k}) cm dan hipotenusnya (x + ${2 * v3.k}) cm. (a) Tunjukkan bahawa x² − ${2 * v3.k}x − ${3 * v3.k * v3.k} = 0. (b) Cari nilai x. (c) Hitung perimeter segi tiga itu.`, ans: `(b) x = ${3 * v3.k} (c) ${12 * v3.k} cm`, work: [`(a) x² + (x + ${v3.k})² = (x + ${2 * v3.k})²`, `x² + x² + ${2 * v3.k}x + ${v3.k * v3.k} = x² + ${4 * v3.k}x + ${4 * v3.k * v3.k}`, `x² − ${2 * v3.k}x − ${3 * v3.k * v3.k} = 0`, `(b) (x − ${3 * v3.k})(x + ${v3.k}) = 0 → x = ${3 * v3.k} (x = −${v3.k} ditolak)`, `(c) Sisi: ${3 * v3.k}, ${4 * v3.k}, ${5 * v3.k}; perimeter = ${12 * v3.k} cm`] }),
     ({ v4 }) => ({ q: `Sebuah kolam ${v4.m} m × ${v4.n} m dikelilingi oleh laluan yang sama lebar, x m. Jumlah luas kolam dan laluan ialah ${v4.A} m². (a) Tunjukkan bahawa 2x² + ${v4.m + v4.n}x − ${v4.C} = 0. (b) Cari lebar laluan itu.`, ans: `(b) ${v4.r} m`, work: [`(a) (${v4.m} + 2x)(${v4.n} + 2x) = ${v4.A}`, `4x² + ${2 * (v4.m + v4.n)}x + ${v4.m * v4.n} − ${v4.A} = 0 → 4x² + ${2 * (v4.m + v4.n)}x − ${2 * v4.C} = 0`, `Bahagi dengan 2: 2x² + ${v4.m + v4.n}x − ${v4.C} = 0`, `(b) (x − ${v4.r})(2x + ${2 * v4.r + v4.m + v4.n}) = 0`, `x = ${v4.r} atau x = ${kqFr(-(2 * v4.r + v4.m + v4.n), 2)} (ditolak)`] })
   ]
@@ -317,9 +317,9 @@ KQ.kenal = (r, k) => {
     const t = r.i(0, 4);
     if (t === 0) { e = kqT([[a, 'x³'], [b, 'x²'], [c, '']]); why = 'Kuasa tertinggi x ialah 3, bukan 2.'; }
     else if (t === 1) { e = kqT([[a, 'x'], [c, '']]); why = 'Tiada sebutan x²; kuasa tertinggi x ialah 1.'; }
-    else if (t === 2) { e = `${kqT([[a, 'x²']])} ${b < 0 ? '−' : '+'} ${Math.abs(b)}/x`; why = 'Ada pemboleh ubah x pada penyebut (kuasa −1).'; }
+    else if (t === 2) { e = `${kqT([[a, 'x²']])} ${b < 0 ? '−' : '+'} ${fr(Math.abs(b), 'x')}`; why = 'Ada pemboleh ubah x pada penyebut (kuasa −1).'; }
     else if (t === 3) { e = kqT([[a, 'x²'], [b, 'y'], [c, '']]); why = 'Ada dua pemboleh ubah, x dan y.'; }
-    else { e = `${kqT([[a, 'x²']])} ${b < 0 ? '−' : '+'} ${Math.abs(b) === 1 ? '' : Math.abs(b)}√x`; why = 'Kuasa bagi x dalam √x ialah ½, bukan nombor bulat.'; }
+    else { e = `${kqT([[a, 'x²']])} ${b < 0 ? '−' : '+'} ${Math.abs(b) === 1 ? '' : Math.abs(b)}${rt('x')}`; why = `Kuasa bagi x dalam ${rt('x')} ialah ${fr(1, 2)}, bukan nombor bulat.`; }
   }
   const ans = ok ? `Ya. ${why}` : `Bukan. ${why}`;
   return GEN_LQ('kenal', { e, ok, why, ans, work: [why] });
@@ -350,7 +350,7 @@ function kqVtx(r, as, hr) {
 KQ.paksi = r => {
   const { a, h, k, b, c } = kqVtx(r, [1, 1, 2, -1, -2, 3, -3], 4), tp = kqTp(a), e = kqPoly(a, b, c);
   const ans = `Paksi simetri x = ${fmt(h)}; titik ${tp} (${fmt(h)}, ${fmt(k)})`;
-  const work = [`a = ${fmt(a)}, b = ${fmt(b)}`, `x = −b/(2a) = −(${fmt(b)}) / (2 × ${par(a)}) = ${fmt(h)}`, `f(${fmt(h)}) = ${kqSub(a, b, c, h)} = ${fmt(k)}`, `a ${a > 0 ? '> 0' : '< 0'}, maka (${fmt(h)}, ${fmt(k)}) ialah titik ${tp}.`];
+  const work = [`a = ${fmt(a)}, b = ${fmt(b)}`, `x = −${fr('b', '2a')} = ${fr(`−(${fmt(b)})`, `2 × ${par(a)}`)} = ${fmt(h)}`, `f(${fmt(h)}) = ${kqSub(a, b, c, h)} = ${fmt(k)}`, `a ${a > 0 ? '> 0' : '< 0'}, maka (${fmt(h)}, ${fmt(k)}) ialah titik ${tp}.`];
   const figAns = kqGraf(a, b, c, { vl: [{ x: h, l: `x = ${fmt(h)}` }], pts: [{ x: h, y: k, l: `(${fmt(h)}, ${fmt(k)})`, at: a > 0 ? 's' : 'n' }] });
   return GEN_LQ('paksi', { e, tp, h, k, ans, work }, { figAns });
 };
@@ -358,7 +358,7 @@ KQ.banyakSatu = r => {
   const { a, h, b, c } = kqVtx(r, [1, 1, -1, 2], 3);
   let t; do { t = r.i(h - 4, h + 4); } while (t === h);
   const t2 = 2 * h - t, v = kqVal(a, b, c, t), e = kqPoly(a, b, c);
-  const work = [`f(${fmt(t)}) = ${kqSub(a, b, c, t)} = ${fmt(v)}`, `Paksi simetri: x = −(${fmt(b)}) / (2 × ${par(a)}) = ${fmt(h)}`, `${fmt(t)} berada ${Math.abs(t - h)} unit dari paksi simetri, maka nilai x yang lagi satu = ${fmt(h)} ${t2 > h ? '+' : '−'} ${Math.abs(t - h)} = ${fmt(t2)}`, `Semak: f(${fmt(t2)}) = ${kqSub(a, b, c, t2)} = ${fmt(kqVal(a, b, c, t2))}`, 'Dua nilai x mempunyai imej yang sama: hubungan banyak kepada satu.'];
+  const work = [`f(${fmt(t)}) = ${kqSub(a, b, c, t)} = ${fmt(v)}`, `Paksi simetri: x = ${fr(`−(${fmt(b)})`, `2 × ${par(a)}`)} = ${fmt(h)}`, `${fmt(t)} berada ${Math.abs(t - h)} unit dari paksi simetri, maka nilai x yang lagi satu = ${fmt(h)} ${t2 > h ? '+' : '−'} ${Math.abs(t - h)} = ${fmt(t2)}`, `Semak: f(${fmt(t2)}) = ${kqSub(a, b, c, t2)} = ${fmt(kqVal(a, b, c, t2))}`, 'Dua nilai x mempunyai imej yang sama: hubungan banyak kepada satu.'];
   return GEN_LQ('banyakSatu', { e, t, t2, v, ans: `x = ${fmt(t2)}`, work });
 };
 KQ.grafBaca = r => {
@@ -411,7 +411,7 @@ KQ.kesanB = r => {
   const b1 = -2 * a * h1, b2 = -2 * a * h2, c = r.i(-6, 6), e1 = kqPoly(a, b1, c), e2 = kqPoly(a, b2, c), d = h2 - h1;
   const ans = `Paksi simetri beralih daripada x = ${fmt(h1)} kepada x = ${fmt(h2)} (${Math.abs(d)} unit ke ${d > 0 ? 'kanan' : 'kiri'}); bentuk dan pintasan-y (${fmt(c)}) tidak berubah`;
   const figAns = kqPlot(Object.assign(kqBox(a, Math.abs(b1) > Math.abs(b2) ? b1 : b2, c, [h1, h2]), { fns: [{ f: x => a * x * x + b1 * x + c, c: 'mu', dash: true }, { f: x => a * x * x + b2 * x + c, c: 'tr', w: 4 }], vl: [{ x: h1, c: 'mu' }, { x: h2, c: 'pu', l: `x = ${fmt(h2)}` }], label: 'Graf asal dan graf baharu dengan paksi simetri masing-masing' }));
-  return GEN_LQ('kesanB', { e1, e2, b1, b2, h2: [h2, 1], ans, work: [`f: x = −(${fmt(b1)}) / (2 × ${par(a)}) = ${fmt(h1)}`, `Baharu: x = −(${fmt(b2)}) / (2 × ${par(a)}) = ${fmt(h2)}`, `Perubahan b hanya mengalihkan paksi simetri; a dan c tidak berubah.`] }, { figAns });
+  return GEN_LQ('kesanB', { e1, e2, b1, b2, h2: [h2, 1], ans, work: [`f: x = ${fr(`−(${fmt(b1)})`, `2 × ${par(a)}`)} = ${fmt(h1)}`, `Baharu: x = ${fr(`−(${fmt(b2)})`, `2 × ${par(a)}`)} = ${fmt(h2)}`, `Perubahan b hanya mengalihkan paksi simetri; a dan c tidak berubah.`] }, { figAns });
 };
 KQ.tandaRajah = r => {
   let a, h, k, c; do { a = r.p([1, -1, .5, -.5]); h = r.n(-3, 3); k = r.i(-5, 5); c = k + a * h * h; } while (!Number.isInteger(c) || !c || Math.abs(c) > 8 || (a > 0 && k >= c) || (a < 0 && k <= c) || !k);
@@ -462,7 +462,7 @@ KQ.fungsiSituasi = r => {
   if (t === 0) { const p = r.i(2, 9); sit = `Panjang sebuah segi empat tepat ialah ${p} cm lebih daripada lebarnya, x cm.`; what = 'luas segi empat tepat itu'; fn = 'L(x)'; poly = kqPoly(1, p, 0); work = [`Panjang = (x + ${p}) cm`, `L(x) = x(x + ${p})`, `= ${poly}`]; }
   else if (t === 1) { const p = r.i(1, 7); sit = `Panjang sebuah bilik ialah ${p} m kurang daripada dua kali lebarnya, x m.`; what = 'luas lantai bilik itu'; fn = 'L(x)'; poly = kqPoly(2, -p, 0); work = [`Panjang = (2x − ${p}) m`, `L(x) = x(2x − ${p})`, `= ${poly}`]; }
   else if (t === 2) { const p = r.i(1, 6); sit = `Sisi sebuah petak segi empat sama ialah (x + ${p}) m.`; what = 'luas petak itu'; fn = 'L(x)'; poly = kqPoly(1, 2 * p, p * p); work = [`L(x) = (x + ${p})²`, `= (x + ${p})(x + ${p})`, `= ${poly}`]; }
-  else if (t === 3) { const p = r.i(1, 8); sit = `Tapak sebuah segi tiga ialah 2x cm dan tingginya (x + ${p}) cm.`; what = 'luas segi tiga itu'; fn = 'L(x)'; poly = kqPoly(1, p, 0); work = [`L(x) = ½ × 2x × (x + ${p})`, `= x(x + ${p})`, `= ${poly}`]; }
+  else if (t === 3) { const p = r.i(1, 8); sit = `Tapak sebuah segi tiga ialah 2x cm dan tingginya (x + ${p}) cm.`; what = 'luas segi tiga itu'; fn = 'L(x)'; poly = kqPoly(1, p, 0); work = [`L(x) = ${fr(1, 2)} × 2x × (x + ${p})`, `= x(x + ${p})`, `= ${poly}`]; }
   else { const m = r.p([10, 12, 15, 20]), n = r.p([6, 8, 9, 10]); sit = `Sekeping gambar berukuran ${m} cm × ${n} cm diletakkan dalam bingkai yang lebarnya x cm di setiap sisi.`; what = 'jumlah luas gambar dan bingkai'; fn = 'J(x)'; poly = kqPoly(4, 2 * (m + n), m * n); work = [`Ukuran keseluruhan: (${m} + 2x) cm × (${n} + 2x) cm`, `J(x) = (${m} + 2x)(${n} + 2x)`, `= ${m * n} + ${2 * m}x + ${2 * n}x + 4x²`, `= ${poly}`]; }
   return GEN_LQ('fungsiSituasi', { sit, what, fn, poly, ans: `${fn} = ${poly}`, work });
 };
@@ -511,10 +511,10 @@ KQ.faktorA1 = r => {
 KQ.faktorSepunya = r => {
   const a = r.p([1, 2, 3, 4, 5, -1, -2]); let b; do { b = r.n(-12, 12); } while (Math.abs(b) === Math.abs(a));
   const form = r.f() < .6, eq = form ? `${kqPoly(a, b, 0)} = 0` : `${kqT([[a, 'x²']])} = ${kqT([[-b, 'x']])}`;
-  const rt = kqFr(-b, a), g = kqGcd(a, b) * Math.sign(a), ans = `x = 0 atau x = ${rt}`;
+  const rtv = kqFr(-b, a), g = kqGcd(a, b) * Math.sign(a), ans = `x = 0 atau x = ${rtv}`;
   const inner = kqT([[a / g, 'x'], [b / g, '']]);
   const sorted = kqOr([[0, 1], [-b, a]]);
-  return GEN_LQ('faktorSepunya', { eq, r: rt, ans: sorted, work: (form ? [] : [`Bentuk am: ${kqPoly(a, b, 0)} = 0`]).concat([`Faktor sepunya ${g === 1 ? '' : g === -1 ? '−' : fmt(g)}x: ${g === 1 ? '' : g === -1 ? '−' : fmt(g)}x(${inner}) = 0`, `x = 0 atau ${inner} = 0`, sorted]) });
+  return GEN_LQ('faktorSepunya', { eq, r: rtv, ans: sorted, work: (form ? [] : [`Bentuk am: ${kqPoly(a, b, 0)} = 0`]).concat([`Faktor sepunya ${g === 1 ? '' : g === -1 ? '−' : fmt(g)}x: ${g === 1 ? '' : g === -1 ? '−' : fmt(g)}x(${inner}) = 0`, `x = 0 atau ${inner} = 0`, sorted]) });
 };
 KQ.bezaKD = r => {
   const t = r.i(0, 2); let eq, n, m, work;

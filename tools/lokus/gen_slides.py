@@ -1,7 +1,9 @@
 # Penjana slaid NOTA LOKUS (Tingkatan 3 Bab 8 Lokus dalam Dua Dimensi) -> lokus/slides.js
 # Jalankan:  python3 tools/lokus/gen_slides.py
 # Gunakan HANYA warna palet gelap di bawah supaya mod cerah ditukar automatik oleh themed().
-import json, os, html, math, re
+import json, os, html, math, re, sys
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+from mathfmt import FR, RT, SFR, SRT
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUTFILE = os.path.normpath(os.path.join(HERE, '..', '..', 'lokus', 'slides.js'))
@@ -223,8 +225,8 @@ fig += T(g.X(6.5), g.Y(5) + 16, '3', AM, 17) + T(g.X(8) - 12, g.Y(7), '4', AM, 1
 add('8.1', 'CONTOH BERLANGKAH', 'Titik manakah pada lokus?',
     P('Titik X bergerak dengan keadaan jaraknya dari P sentiasa <b>5 unit</b>. Antara titik A hingga F, yang manakah terletak pada lokus X?', True)
     + STEPS(['Lokus X ialah bulatan berpusat P dengan jejari 5 unit.',
-             f'Kira jarak setiap titik dari P. Contoh: PA = √(3² + 4²) = √25 = {B("5", GR)} ✓',
-             f'PB = √(4² + 3²) = 5 ✓, PC = 5 ✓, PF = 5 ✓; PD = √(4² + 2²) = √20 {B("✗", RD)}, PE = √(3² + 3²) = √18 {B("✗", RD)}'], col)
+             f'Kira jarak setiap titik dari P. Contoh: PA = {RT('3² + 4²')} = {RT(25)} = {B("5", GR)} ✓',
+             f'PB = {RT("4² + 3²")} = 5 ✓, PC = 5 ✓, PF = 5 ✓; PD = {RT("4² + 2²")} = {RT(20)} {B("✗", RD)}, PE = {RT("3² + 3²")} = {RT(18)} {B("✗", RD)}'], col)
     + ANS('A, B, C dan F'),
     svg(fig, 'Bulatan berjejari 5 unit berpusat P dengan titik A hingga F'))
 
@@ -441,7 +443,7 @@ add('8.2', 'PERSILANGAN LOKUS', 'Titik yang memenuhi dua syarat',
     P('ABCD ialah segi empat sama bersisi 6 unit. Di dalam ABCD, X sama jarak dari A dan B, manakala Y berjarak 5 unit dari A. Cari titik persilangan lokus X dan lokus Y.', True)
     + STEPS([f'Lokus {B("X", LC)}: pembahagi dua sama serenjang AB, iaitu garis mencancang melalui titik tengah AB (3 unit dari A).',
              f'Lokus {B("Y", PU)}: lengkok bulatan berpusat A dengan jejari 5 unit.',
-             'Pada garis X: jarak mengufuk dari A = 3, jadi tinggi = √(5² − 3²) = √16 = 4 unit dari AB.'], col)
+             'Pada garis X: jarak mengufuk dari A = 3, jadi tinggi = ' + RT('5² − 3²') + ' = ' + RT(16) + ' = 4 unit dari AB.'], col)
     + ANS('Titik T: 3 unit dari AD dan 4 unit dari AB'),
     svg(fig, 'Persilangan pembahagi dua sama serenjang AB dengan lengkok berpusat A'))
 

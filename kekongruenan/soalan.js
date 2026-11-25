@@ -2,6 +2,93 @@
 /* =================== KEKONGRUENAN · SOALAN BAB 5 (Tingkatan 5) =================== */
 // QV · GEN · WG/WSPLAN · gq · CQT/cq. Semua nama global berawalan "kg" / "KG".
 
+/* =================== pecahan bertingkat & punca (25 Nov) =================== */
+// kgBt: teks soalan → a/b, ½ … menjadi pecahan bertingkat fr(); √x, √(..), ∛x menjadi rt() bergaris atas.
+// Unit (km/j, m/s, RM/kg …) dan perkataan (dan/atau) tidak diubah. Rajah (fig) tidak disentuh.
+const KGBTG = { '½': [1, 2], '⅓': [1, 3], '⅔': [2, 3], '¼': [1, 4], '¾': [3, 4], '⅕': [1, 5], '⅖': [2, 5], '⅗': [3, 5], '⅘': [4, 5], '⅙': [1, 6], '⅚': [5, 6], '⅛': [1, 8], '⅜': [3, 8], '⅝': [5, 8], '⅞': [7, 8] };
+const KGBTAT = String.raw`(?:\d+(?:\.\d+)?|[A-Za-zθαβ]|\((?:[^()]|\([^()]*\))*\)|\u0004[^\u0006]*\u0006|\u0001[^\u0003]*\u0003)[²³]?`;
+const KGBTRE = new RegExp(String.raw`(?<![\w.>\u0003\u0006])((?:${KGBTAT})+)( ?)\/\2((?:${KGBTAT})+)(?![\w]|\.\d)`);
+const KGBTUN = /^(?:km|m|cm|mm|RM|kg|g|l|ml|sen|kWj|unit|orang|liter)$/, KGBTUD = /^(?:j|jam|s|min|saat|minit|hari|kg|g|m|m²|m³|cm|cm²|cm³|km|l|L|unit|liter|kWj|minggu|bulan|tahun|orang|kotak)$/;
+const kgBtP = x => (/^\((?:[^()]|\([^()]*\))*\)$/.test(x) ? x.slice(1, -1) : x);
+function kgBtTok(s) {
+  s = s.replace(/[½⅓⅔¼¾⅕⅖⅗⅘⅙⅚⅛⅜⅝⅞]/g, c => '\u0001' + KGBTG[c][0] + '\u0002' + KGBTG[c][1] + '\u0003');
+  s = s.replace(/([√∛∜])(\((?:[^()]|\([^()]*\))*\)|\d+(?:\.\d+)?|[A-Za-zθ](?![A-Za-z]))/g, (m, r, x) => '\u0004' + ({ '∛': 3, '∜': 4 }[r] || '') + '\u0005' + kgBtP(x) + '\u0006');
+  let k = 0, m, skip = '';
+  while (k++ < 30 && (m = s.match(KGBTRE))) {
+    const a = m[1], b = m[3];
+    if ((/^[A-Za-z]{3,}$/.test(a) && /^[A-Za-z]{3,}$/.test(b)) || (KGBTUN.test(a) && KGBTUD.test(b)) || (/^[A-Za-z]{2,}$/.test(a) || /^RM/.test(a)) && KGBTUD.test(b)) {
+      skip += s.slice(0, m.index + m[0].length).replace(/\//g, '\u0007'); s = s.slice(m.index + m[0].length); continue;
+    }
+    s = s.slice(0, m.index) + '\u0001' + kgBtP(a) + '\u0002' + kgBtP(b) + '\u0003' + s.slice(m.index + m[0].length);
+  }
+  return (skip + s).replace(/\u0007/g, '/');
+}
+function kgBt(s) {
+  if (typeof s !== 'string' || !/[\/½⅓⅔¼¾⅕⅖⅗⅘⅙⅚⅛⅜⅝⅞√∛∜]/.test(s)) return s;
+  s = kgBtTok(s);
+  for (let k = 0; k < 12 && /[\u0001\u0004]/.test(s); k++)
+    s = s.replace(/\u0001([^\u0001-\u0006]*)\u0002([^\u0001-\u0006]*)\u0003/g, (m, a, b) => fr(a, b))
+      .replace(/\u0004([^\u0001-\u0006]*)\u0005([^\u0001-\u0006]*)\u0006/g, (m, n, x) => rt(x, n));
+  return s;
+}
+// kgBtSvg: teks rajah SVG dengan pecahan bertingkat & punca; y = garis tengah, st = gaya isi (cth 'style="fill:var(--tx)"')
+function kgBtTree(s) {
+  let i = 0;
+  const run = stop => {
+    const out = []; let buf = '';
+    const fl = () => { if (buf) out.push({ t: 's', v: buf }); buf = ''; };
+    while (i < s.length) {
+      const c = s[i];
+      if (stop.includes(c)) break;
+      if (c === '\u0001') { fl(); i++; const a = run('\u0002'); i++; const b = run('\u0003'); i++; out.push({ t: 'f', a, b }); }
+      else if (c === '\u0004') { fl(); i++; const n = run('\u0005'); i++; const k = run('\u0006'); i++; out.push({ t: 'r', n, k }); }
+      else { buf += c; i++; }
+    }
+    fl(); return out;
+  };
+  return run('');
+}
+const kgBtCW = ch => (ch === ' ' ? .27 : /[()[\].,:;'|]/.test(ch) ? .34 : ch === '1' ? .5 : /\d/.test(ch) ? .6 : /[mwMW]/.test(ch) ? .86 : /[−+=×÷<>≤≥]/.test(ch) ? .64 : /[ijlrtf]/.test(ch) ? .32 : /[A-Z]/.test(ch) ? .68 : ch === '°' ? .4 : .57);
+function kgBtMeas(L, z) {
+  let w = 0, up = z * .5, dn = z * .5;
+  L.forEach(n => {
+    if (n.t === 's') n.w = [...n.v].reduce((a, ch) => a + z * kgBtCW(ch), 0);
+    else if (n.t === 'f') { const z2 = z * .8, A = kgBtMeas(n.a, z2), B = kgBtMeas(n.b, z2); n.A = A; n.B = B; n.w = Math.max(A.w, B.w) + z * .24; up = Math.max(up, A.up + A.dn + z * .12); dn = Math.max(dn, B.up + B.dn + z * .12); }
+    else { const K = kgBtMeas(n.k, z), N = kgBtMeas(n.n, z * .5); n.K = K; n.ix = n.n.length ? Math.max(0, N.w - z * .25) : 0; n.w = K.w + z * .76 + n.ix; up = Math.max(up, K.up + z * .14); }
+    w += n.w;
+  });
+  return { w, up, dn };
+}
+function kgBtDraw(L, x, y, z, st, fw) {
+  let o = '';
+  const r = v => +v.toFixed(1), col = (st.match(/var\(--[\w-]+\)|#[0-9a-fA-F]{3,8}/) || ['currentColor'])[0];
+  L.forEach(n => {
+    if (n.t === 's') o += `<text x="${r(x)}" y="${r(y)}" ${st} font-size="${r(z)}" font-weight="${fw}" dominant-baseline="central">${n.v.replace(/ /g, ' ')}</text>`;
+    else if (n.t === 'f') {
+      o += kgBtDraw(n.a, x + (n.w - n.A.w) / 2, y - z * .12 - n.A.dn, z * .8, st, fw) + kgBtDraw(n.b, x + (n.w - n.B.w) / 2, y + z * .12 + n.B.up, z * .8, st, fw);
+      o += `<line x1="${r(x + z * .06)}" y1="${r(y)}" x2="${r(x + n.w - z * .06)}" y2="${r(y)}" style="stroke:${col}" stroke-width="${r(Math.max(1.3, z / 14))}"/>`;
+    } else {
+      const x0 = x + n.ix, rw = z * .62, top = y - n.K.up - z * .1;
+      if (n.n.length) o += kgBtDraw(n.n, x, y - z * .38, z * .5, st, fw);
+      o += `<path d="M${r(x0)} ${r(y + z * .05)} L${r(x0 + rw * .3)} ${r(y - z * .05)} L${r(x0 + rw * .6)} ${r(y + z * .5)} L${r(x0 + rw)} ${r(top)} L${r(x + n.w)} ${r(top)}" fill="none" style="stroke:${col}" stroke-width="${r(Math.max(1.3, z / 13))}" stroke-linejoin="round"/>`;
+      o += kgBtDraw(n.k, x0 + rw + z * .06, y, z, st, fw);
+    }
+    x += n.w;
+  });
+  return o;
+}
+const kgBtW = (t, z) => kgBtMeas(kgBtTree(kgBtTok(String(t))), z).w;
+function kgBtSvg(x, y, t, st, z, anchor = 'middle', fw = 700) {
+  const L = kgBtTree(kgBtTok(String(t))), m = kgBtMeas(L, z), x0 = anchor === 'start' ? x : anchor === 'end' ? x - m.w : x - m.w / 2;
+  return `<g>${kgBtDraw(L, x0, y, z, st, fw)}</g>`;
+}
+function kgBtO(o) {
+  if (typeof o === 'string') return kgBt(o);
+  if (Array.isArray(o)) return o.map(kgBtO);
+  if (o && typeof o === 'object') for (const k in o) if (!/fig|svg|img|^type$|^id$|^key$/i.test(k)) o[k] = kgBtO(o[k]);
+  return o;
+}
+
 const kgRG = { i: (a, b) => ri(a, b), p: a => pick(a), f: () => Math.random(), n: (a, b) => nz(a, b) };
 const kgRW = { i: (a, b) => wri(a, b), p: a => wpick(a), f: () => WR(), n: (a, b) => wnz(a, b) };
 const kgGcd = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) [a, b] = [b, a % b]; return a; };
@@ -322,3 +409,8 @@ const CQT = { kongruen: 'Kekongruenan', pembesaran: 'Pembesaran', gabungan: 'Gab
 function kgCqMake(ty, level) { const L = Math.max(0, Math.min(2, level | 0)), fns = CQGEN[ty] || CQGEN.kongruen, k = L === 0 ? 0 : Math.random() < .7 ? L : L - 1; return fns[k](); }
 function gq(level) { return kgCqMake(pick(Object.keys(CQT)), level); }
 function cq(level, types) { const pool = (types && types.length ? types : Object.keys(CQT)).filter(t => CQGEN[t]); return kgCqMake(pick(pool.length ? pool : Object.keys(CQT)), level); }
+
+/* pecahan bertingkat & punca (25 Nov): semua soalan Latihan, Lembaran, game & kuiz melalui kgBtO */
+for (const s in GEN) for (const l in GEN[s]) GEN[s][l] = GEN[s][l].map(f => (...a) => kgBtO(f(...a)));
+if (typeof WG === 'object') for (const k in WG) { const f = WG[k]; WG[k] = (...a) => kgBtO(f(...a)); }
+{ const c0 = cq, g0 = gq; cq = (...a) => kgBtO(c0(...a)); gq = (...a) => kgBtO(g0(...a)); }

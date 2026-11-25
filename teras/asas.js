@@ -20,6 +20,38 @@ const P = (x, y) => `(${fmt(x)}, ${fmt(y)})`;
 const vec = (a, b, c) => `<span class="vec"${c ? ` style="--c:var(--${c})"` : ''}>${fmt(a)}<br>${fmt(b)}</span>`;
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
+/* ---------- pecahan bertingkat & punca kuasa (25 Nov) ----------
+   fr(a, b)  → pengangka di atas, garis, penyebut di bawah
+   rt(x, n)  → √ dengan garis atas sampai habis x; n = indeks (3 untuk ∛)
+   mathPlain(html) → teks biasa (a/b, √(x)) untuk game, senarai kuiz, RPH
+   svgFr / svgRt → versi SVG untuk rajah (x, y = tengah garis pecahan / garis dasar teks) */
+const fr = (a, b) => `<span class="fr"><span>${a}</span><span>${b}</span></span>`;
+const rt = (x, n) => `<span class="rt">${n ? `<sup class="rti">${n}</sup>` : ''}<span class="rts">√</span><span class="rtx">${x}</span></span>`;
+const mathPlain = html => {
+  let s = String(html == null ? '' : html), k = 0;
+  const wrap = t => /^(−?\d+(\.\d+)?|[A-Za-zπθ][²³′]?|−?\d*[√∛](\d+|[A-Za-z]))$/.test(t) ? t : '(' + t + ')';
+  const IN = '((?:[^<]|<(?!\\/?span)[^>]*>|<span(?! class="(?:fr|rt|rts|rtx|rti)")[^>]*>[^<]*<\\/span>)*?)';
+  const FR = new RegExp('<span class="fr"><span>' + IN + '<\\/span><span>' + IN + '<\\/span><\\/span>', 'g');
+  const RT = new RegExp('<span class="rt">(?:<sup class="rti">([^<]*)<\\/sup>)?<span class="rts">√<\\/span><span class="rtx">' + IN + '<\\/span><\\/span>', 'g');
+  const tx = t => t.replace(/<[^>]+>/g, '').trim();
+  while (k++ < 12 && /class="(fr|rt)"/.test(s)) {
+    const s0 = s;
+    s = s.replace(RT, (m, n, x) => ({ 3: '∛', 4: '∜' }[n] || (n ? n : '') + '√') + wrap(tx(x)));
+    s = s.replace(FR, (m, a, b) => wrap(tx(a)) + '/' + wrap(tx(b)));
+    if (s === s0) break;
+  }
+  return s.replace(/<sup>([^<]*\/[^<]*)<\/sup>/g, '^($1)');
+};
+const mathW = (t, size) => 1.12 * [...String(t)].reduce((w, c) => w + size * (c === ' ' ? .28 : /[²³⁰-⁹₀-₉′]/.test(c) ? .34 : /[−+=×÷]/.test(c) ? .62 : /[ijl1.,()]/.test(c) ? .36 : .56), 0);
+const svgFr = (x, y, a, b, col, size = 20, anchor = 'middle') => {
+  const w = Math.max(mathW(a, size), mathW(b, size)) + 10, x0 = anchor === 'start' ? x : anchor === 'end' ? x - w : x - w / 2, cx = x0 + w / 2;
+  return `<text x="${cx}" y="${y - size * .25}" fill="${col}" font-size="${size}" font-weight="700" text-anchor="middle">${a}</text><line x1="${x0}" y1="${y}" x2="${x0 + w}" y2="${y}" stroke="${col}" stroke-width="${Math.max(1.5, size / 11)}"/><text x="${cx}" y="${y + size * .95}" fill="${col}" font-size="${size}" font-weight="700" text-anchor="middle">${b}</text>`;
+};
+const svgRt = (x, y, t, col, size = 20, anchor = 'middle', n) => {
+  const tw = mathW(t, size), rw = size * .62, w = rw + tw + 4, x0 = anchor === 'start' ? x : anchor === 'end' ? x - w : x - w / 2, top = y - size * .9;
+  return `${n ? `<text x="${x0 - 2}" y="${y - size * .55}" fill="${col}" font-size="${size * .5}" font-weight="700" text-anchor="end">${n}</text>` : ''}<path d="M${x0} ${y - size * .35} L${x0 + rw * .3} ${y - size * .45} L${x0 + rw * .6} ${y + size * .12} L${x0 + rw} ${top} L${x0 + w} ${top}" fill="none" stroke="${col}" stroke-width="${Math.max(1.5, size / 12)}" stroke-linejoin="round"/><text x="${x0 + rw + 2}" y="${y}" fill="${col}" font-size="${size}" font-weight="700">${t}</text>`;
+};
+
 /* ---------- warna slaid (gelap → cerah) ---------- */
 const DARK = { bg: '#0B1220', surf: '#131C2E', nav: '#0E1626', bd: '#22304A', tx: '#E6EDF7', mu: '#94A3B8', grid: '#1E2A40', dim: '#334155', mu2: '#64748B', mu3: '#B6C2D3', tr: '#38BDF8', pa: '#FB923C', pu: '#A78BFA', am: '#FBBF24', gr: '#34D399', pk: '#F472B6', rd: '#F87171' };
 const LIGHT = { bg: '#F4F6FB', surf: '#FFFFFF', nav: '#FAFBFE', bd: '#D5DCE8', tx: '#14152B', mu: '#55607A', grid: '#E3E8F1', dim: '#C3CBDA', mu2: '#6B7590', mu3: '#4A5568', tr: '#0284C7', pa: '#EA580C', pu: '#7C3AED', am: '#B45309', gr: '#059669', pk: '#DB2777', rd: '#DC2626' };

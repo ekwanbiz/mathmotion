@@ -1,7 +1,9 @@
 # Penjana slaid NOTA RUMUS (Tingkatan 2 Bab 3 Rumus Algebra) -> rumus/slides.js
 # Jalankan:  python3 tools/rumus/gen_slides.py
 # Gunakan HANYA warna palet gelap di bawah supaya mod cerah ditukar automatik oleh themed().
-import json, os, html, math, re
+import json, os, html, math, re, sys
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+from mathfmt import FR as FR_, RT
 from fractions import Fraction as F
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -47,13 +49,11 @@ def ANS(t):
 def NOTE(t, lab='Ingat:'):
     return f'<div class="sl-note"><b>{lab}</b> {t}</div>'
 def FR(a, b):
-    """Pecahan bertingkat dalam teks slaid."""
-    return ('<span style="display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; '
-            'line-height: 1.1; font-size: 0.85em; margin: 0 2px; white-space: nowrap"><span style="padding: 0 4px; border-bottom: 2px solid currentColor">'
-            f'{a}</span><span>{b}</span></span>')
+    """Pecahan bertingkat dalam teks slaid (gaya dikongsi .fr, teras/teras.css)."""
+    return FR_(a, b)
 def SQ(x):
-    """Punca kuasa dua dengan garis atas."""
-    return f'<span style="white-space: nowrap">√<span style="border-top: 2px solid currentColor; padding: 0 3px">{x}</span></span>'
+    """Punca kuasa dua dengan garis atas (gaya dikongsi .rt, teras/teras.css)."""
+    return RT(x)
 def B(t, col):
     return f'<b style="color: {col}">{t}</b>'
 def V(t):
@@ -271,7 +271,7 @@ tA, tB, tC = (60, 420), (280, 420), (200, 270)
 fig += (POLY([tA, tB, tC], f'{PU}26', PU, 4) + LINE(tC, (200, 420), AM, 3, '7 6')
         + f'<path d="M200 406 h14 v14" fill="none" stroke="{TX}" stroke-width="2.5"/>'
         + T(170, 442, 'a', PU, 22, italic=True) + T(214, 350, 't', AM, 22, 'start', italic=True))
-fig += T(392, 330, 'L = ½ × a × t', TX, 21) + T(392, 372, 'L = ½at', GR, 23)
+fig += EX(392, 318, ('cat', ['L =', ('fr', '1', '2'), '× a × t']), TX, 21)[0] + EX(392, 396, ('cat', ['L =', ('fr', '1', '2'), 'at']), GR, 23)[0]
 add('3.1.1', 'RUMUS DARIPADA RAJAH', 'Rumus perimeter dan luas',
     P('Rumus boleh dibentuk daripada ukuran pada rajah.', True)
     + TABLE(['Bentuk', 'Perimeter', 'Luas'],
@@ -360,7 +360,7 @@ for i, (a, b, na, nb, cl) in enumerate(OPS):
     y0 = 18 + i * 150
     fig += RECT(14, y0, 472, 136, SURF, BD, 18, 2)
     fig += RECT(40, y0 + 26, 140, 64, NAV, cl, 16, 3) + T(110, y0 + 58, a, cl, 30)
-    fig += RECT(320, y0 + 26, 140, 64, NAV, cl, 16, 3) + T(390, y0 + 58, b, cl, 30)
+    fig += RECT(320, y0 + 26, 140, 64, NAV, cl, 16, 3) + (EX(390, y0 + 60, ('sqt', 'x'), cl, 28)[0] if b == '√x' else T(390, y0 + 58, b, cl, 30))
     fig += ARROW((196, y0 + 46), (304, y0 + 46), MU3, 3, 10) + ARROW((304, y0 + 72), (196, y0 + 72), MU3, 3, 10)
     fig += T(110, y0 + 112, na, MU3, 17, halo=False) + T(390, y0 + 112, nb, MU3, 17, halo=False)
 assert all(math.isclose(math.sqrt(v * v), v) for v in (2.0, 3.5, 11.0))

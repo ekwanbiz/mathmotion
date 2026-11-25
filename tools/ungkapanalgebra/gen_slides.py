@@ -2,6 +2,7 @@
 import os, sys
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 from t1lib import *
+from mathfmt import FR, RT, SFR, SRT
 OUT = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'ungkapanalgebra', 'slides.js'))
 SUB = {'4.1': ('Pemboleh Ubah dan Ungkapan Algebra', GR)}
 I = lambda t: f'<i>{t}</i>'
@@ -44,7 +45,7 @@ add('4.1', '4.1 Pemboleh ubah', 'Pemboleh ubah dan pemalar',
     DEF(f'<b>Pemboleh ubah</b> ialah huruf atau simbol (cth. {I("x")}, {I("y")}, {I("n")}) yang mewakili kuantiti yang <b>tidak diketahui</b> atau <b>berubah-ubah</b> nilainya.', c)
     + BUL(['<b>Pemalar</b>: nilai yang tetap, cth. bilangan hari dalam seminggu = 7.', f'Suhu harian berubah-ubah → wakilkan dengan {I("t")}.', f'Umur seseorang berubah setiap tahun → wakilkan dengan {I("x")}.'], c), ages())
 add('4.1', '4.1 Membentuk ungkapan', 'Membentuk ungkapan algebra',
-    TABLE(['Pernyataan', 'Ungkapan algebra'], [[f'5 lebih daripada {I("x")}', f'{I("x")} + 5'], [f'7 kurang daripada {I("y")}', f'{I("y")} − 7'], [f'dua kali {I("p")}', f'2{I("p")}'], [f'{I("k")} dibahagi dengan 4', f'{I("k")}/4'], [f'harga 3 batang pen jika sebatang RM{I("m")}', f'3{I("m")}'], [f'beza antara {I("a")} dan {I("b")}', f'{I("a")} − {I("b")}']], c)
+    TABLE(['Pernyataan', 'Ungkapan algebra'], [[f'5 lebih daripada {I("x")}', f'{I("x")} + 5'], [f'7 kurang daripada {I("y")}', f'{I("y")} − 7'], [f'dua kali {I("p")}', f'2{I("p")}'], [f'{I("k")} dibahagi dengan 4', FR(I("k"), 4)], [f'harga 3 batang pen jika sebatang RM{I("m")}', f'3{I("m")}'], [f'beza antara {I("a")} dan {I("b")}', f'{I("a")} − {I("b")}']], c)
     + NOTE(f'Sebaliknya juga boleh: 2{I("n")} + 1 bermaksud “1 lebih daripada dua kali {I("n")}”.'), ages())
 add('4.1', '4.1 Sebutan', 'Sebutan, pekali dan sebutan serupa',
     BUL([f'Ungkapan 4{I("x")} − 3{I("y")} + 7 mempunyai <b>3 sebutan</b>: 4{I("x")}, −3{I("y")} dan 7.', f'<b>Pekali</b> ialah nombor di hadapan pemboleh ubah: pekali {I("x")} ialah 4, pekali {I("y")} ialah −3.', f'<b>Sebutan serupa</b>: pemboleh ubah dan kuasa yang sama, cth. 3{I("x")} dan −5{I("x")}; 2{I("ab")} dan 7{I("ab")}.', f'<b>Sebutan tak serupa</b>: 3{I("x")} dan 3{I("y")}; {I("x")} dan {I("x")}².'], c)
@@ -62,8 +63,8 @@ add('4.1', '4.1 Darab dan bahagi', 'Darab dan bahagi sebutan algebra',
     TABLE(['Operasi', 'Langkah', 'Jawapan'], [[f'3{I("x")} × 4{I("y")}', '3 × 4 dan x × y', f'12{I("xy")}'], [f'2{I("x")} × 5{I("x")}', f'2 × 5 dan {I("x")} × {I("x")} = {I("x")}²', f'10{I("x")}²'], [f'12{I("ab")} ÷ 4{I("b")}', f'12 ÷ 4 dan {I("ab")} ÷ {I("b")}', f'3{I("a")}'], [f'−18{I("pq")} ÷ 6{I("q")}', '−18 ÷ 6', f'−3{I("p")}']], c)
     + NOTE('Darab atau bahagi nombor dengan nombor, huruf dengan huruf.'), '')
 add('4.1', 'Contoh 2', 'Darab dan bahagi ungkapan dengan pemalar',
-    P(f'(a) Permudahkan 3(3{I("x")} + 9). (b) Permudahkan (3{I("x")} + 9)/3.')
-    + STEPS([f'(a) Darab setiap sebutan dengan 3: 3 × 3{I("x")} + 3 × 9', f'= 9{I("x")} + 27', f'(b) Bahagi setiap sebutan dengan 3: 3{I("x")}/3 + 9/3 = {I("x")} + 3'], c) + ANS(f'(a) 9{I("x")} + 27 (b) {I("x")} + 3'), distfig())
+    P(f'(a) Permudahkan 3(3{I("x")} + 9). (b) Permudahkan {FR(f'3{I("x")} + 9', 3)}.')
+    + STEPS([f'(a) Darab setiap sebutan dengan 3: 3 × 3{I("x")} + 3 × 9', f'= 9{I("x")} + 27', f'(b) Bahagi setiap sebutan dengan 3: {FR(f'3{I("x")}', 3)} + {FR(9, 3)} = {I("x")} + 3'], c) + ANS(f'(a) 9{I("x")} + 27 (b) {I("x")} + 3'), distfig())
 assert 3 * 2 - 5 == 1 and 4 * 3 + 2 * 3 == 18
 add('4.1', 'Contoh 3', 'Masalah harian',
     P(f'Harga sebuah buku ialah RM{I("x")} dan harga sebatang pen ialah RM3 kurang daripada harga buku. Siti membeli 4 buah buku dan 2 batang pen. (a) Ungkapkan jumlah bayaran dalam sebutan {I("x")}. (b) Hitung jumlah bayaran jika {I("x")} = 8.')

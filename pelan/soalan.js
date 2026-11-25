@@ -343,8 +343,8 @@ const QV = {
   ],
   k71: [
     ({ w }) => ({ q: `Rajah di bawah menunjukkan sebuah baji dengan muka condong ${w.L1}${w.L2}${w.L3}${w.L4} berbentuk segi empat tepat. Tinggi baji ialah ${w.a} cm, ${w.L1}${w.L2} = ${w.c} cm dan ${w.L2}${w.L3} = ${w.l} cm. Baji itu diunjurkan pada satah mengufuk. Hitung (a) panjang imej ${w.L1}${w.L2}, (b) luas sebenar muka condong, (c) luas imej muka condong pada satah mengufuk.` }),
-    ({ w }) => ({ q: `Sebuah tanjakan berbentuk baji mempunyai permukaan condong ${w.L1}${w.L2}${w.L3}${w.L4} dengan ${w.L1}${w.L2} = ${w.c} cm dan ${w.L2}${w.L3} = ${w.l} cm. Hujung ${w.L1} berada ${w.a} cm lebih tinggi daripada ${w.L2}. Cari (a) panjang imej ${w.L1}${w.L2} pada pelan, (b) luas sebenar permukaan condong, (c) beza antara luas permukaan condong dengan luas imejnya pada pelan.`, ans: `(a) ${w.b} cm (b) ${w.c * w.l} cm² (c) ${w.c * w.l - w.b * w.l} cm²`, work: [`(a) Imej ${w.L1}${w.L2} = √(${w.c}² − ${w.a}²) = √${w.c * w.c - w.a * w.a} = ${w.b} cm`, `(b) Luas sebenar = ${w.c} × ${w.l} = ${w.c * w.l} cm²`, `Luas imej = ${w.b} × ${w.l} = ${w.b * w.l} cm²`, `(c) Beza = ${w.c * w.l} − ${w.b * w.l} = ${w.c * w.l - w.b * w.l} cm²`] }),
-    ({ w }) => ({ q: `Bumbung condong sebuah pondok berbentuk segi empat tepat ${w.L1}${w.L2}${w.L3}${w.L4}, dengan ${w.L1}${w.L2} = ${w.c} m dan ${w.L2}${w.L3} = ${w.l} m. Bahagian atas bumbung berada ${w.a} m lebih tinggi daripada bahagian bawahnya. Hitung (a) lebar imej bumbung pada pelan, (b) luas sebenar bumbung, (c) luas pelan bumbung.`, ans: `(a) ${w.b} m (b) ${w.c * w.l} m² (c) ${w.b * w.l} m²`, work: [`(a) Lebar imej = √(${w.c}² − ${w.a}²) = √${w.c * w.c - w.a * w.a} = ${w.b} m`, `(b) Luas sebenar = ${w.c} × ${w.l} = ${w.c * w.l} m²`, `(c) Luas pelan = ${w.b} × ${w.l} = ${w.b * w.l} m²`] })
+    ({ w }) => ({ q: `Sebuah tanjakan berbentuk baji mempunyai permukaan condong ${w.L1}${w.L2}${w.L3}${w.L4} dengan ${w.L1}${w.L2} = ${w.c} cm dan ${w.L2}${w.L3} = ${w.l} cm. Hujung ${w.L1} berada ${w.a} cm lebih tinggi daripada ${w.L2}. Cari (a) panjang imej ${w.L1}${w.L2} pada pelan, (b) luas sebenar permukaan condong, (c) beza antara luas permukaan condong dengan luas imejnya pada pelan.`, ans: `(a) ${w.b} cm (b) ${w.c * w.l} cm² (c) ${w.c * w.l - w.b * w.l} cm²`, work: [`(a) Imej ${w.L1}${w.L2} = ${rt(`${w.c}² − ${w.a}²`)} = ${rt(w.c * w.c - w.a * w.a)} = ${w.b} cm`, `(b) Luas sebenar = ${w.c} × ${w.l} = ${w.c * w.l} cm²`, `Luas imej = ${w.b} × ${w.l} = ${w.b * w.l} cm²`, `(c) Beza = ${w.c * w.l} − ${w.b * w.l} = ${w.c * w.l - w.b * w.l} cm²`] }),
+    ({ w }) => ({ q: `Bumbung condong sebuah pondok berbentuk segi empat tepat ${w.L1}${w.L2}${w.L3}${w.L4}, dengan ${w.L1}${w.L2} = ${w.c} m dan ${w.L2}${w.L3} = ${w.l} m. Bahagian atas bumbung berada ${w.a} m lebih tinggi daripada bahagian bawahnya. Hitung (a) lebar imej bumbung pada pelan, (b) luas sebenar bumbung, (c) luas pelan bumbung.`, ans: `(a) ${w.b} m (b) ${w.c * w.l} m² (c) ${w.b * w.l} m²`, work: [`(a) Lebar imej = ${rt(`${w.c}² − ${w.a}²`)} = ${rt(w.c * w.c - w.a * w.a)} = ${w.b} m`, `(b) Luas sebenar = ${w.c} × ${w.l} = ${w.c * w.l} m²`, `(c) Luas pelan = ${w.b} × ${w.l} = ${w.b * w.l} m²`] })
   ],
 
   /* ---------- 7.2 Pelan dan Dongakan ---------- */
@@ -449,7 +449,7 @@ PD.panjangImej = (r, kind) => {
   kind = kind || (r.f() < .75 ? 'h' : 'v');
   if (kind === 'h') {
     const fig = pdWedge(a, b, Math.min(w.l, 8) * .6, { lab: [L1, L2], ta: `${a} cm`, tc: `${c} cm`, plane: true, tp: '?' });
-    return GEN_LQ('panjangImej', { L1, L2, a, c, plane: 'satah mengufuk', ans: `${b} cm`, work: [`${L1}${L2} condong; imejnya pada satah mengufuk ialah jarak mengufuknya.`, `Imej ${L1}${L2} = √(${c}² − ${a}²) = √(${c * c} − ${a * a}) = √${b * b}`, `= ${b} cm`] }, { fig });
+    return GEN_LQ('panjangImej', { L1, L2, a, c, plane: 'satah mengufuk', ans: `${b} cm`, work: [`${L1}${L2} condong; imejnya pada satah mengufuk ialah jarak mengufuknya.`, `Imej ${L1}${L2} = ${rt(`${c}² − ${a}²`)} = ${rt(`${c * c} − ${a * a}`)} = ${rt(b * b)}`, `= ${b} cm`] }, { fig });
   }
   const fig = pdWedge(a, b, Math.min(w.l, 8) * .6, { lab: [L1, L2], ta: `${a} cm`, tc: `${c} cm` });
   return GEN_LQ('panjangImej', { L1, L2, a, c, plane: 'satah mencancang yang selari dengan muka segi tiga baji itu', ans: `${c} cm`, work: [`${L1}${L2} terletak pada muka segi tiga yang selari dengan satah mencancang itu.`, `Tepi yang selari dengan satah unjuran mempunyai imej yang sama panjang.`, `Imej ${L1}${L2} = ${c} cm`] }, { fig });
@@ -457,7 +457,7 @@ PD.panjangImej = (r, kind) => {
 PD.panjangSebenar = r => {
   const w = pdWedgeData(r), { a, b, c, L1, L2 } = w;
   const fig = pdWedge(a, b, Math.min(w.l, 8) * .6, { lab: [L1, L2], ta: `${a} cm`, tb: `${b} cm`, tc: '?' });
-  return GEN_LQ('panjangSebenar', { L1, L2, a, b, ans: `${c} cm`, work: [`Panjang sebenar ${L1}${L2} ialah hipotenus segi tiga bersudut tegak.`, `${L1}${L2} = √(${a}² + ${b}²) = √(${a * a} + ${b * b}) = √${c * c}`, `= ${c} cm`] }, { fig });
+  return GEN_LQ('panjangSebenar', { L1, L2, a, b, ans: `${c} cm`, work: [`Panjang sebenar ${L1}${L2} ialah hipotenus segi tiga bersudut tegak.`, `${L1}${L2} = ${rt(`${a}² + ${b}²`)} = ${rt(`${a * a} + ${b * b}`)} = ${rt(c * c)}`, `= ${c} cm`] }, { fig });
 };
 PD.luasImej = (r, vk) => {
   const Hm = pdSolid(r, { W: [2, 3], D: [2, 3], zero: .25 }), S = pdVox(Hm), v = vk || r.p(PDV), s = r.p([1, 2, 3, 4, 5]);
@@ -470,7 +470,7 @@ PD.k71 = r => {
   const v = vq('k71', { w });
   const L4 = `${w.L1}${w.L2}${w.L3}${w.L4}`;
   const ans = v.ans || `(a) ${w.b} cm (b) ${w.c * w.l} cm² (c) ${w.b * w.l} cm²`;
-  const work = v.work.length ? v.work : [`(a) Imej ${w.L1}${w.L2} = √(${w.c}² − ${w.a}²) = √${w.c * w.c - w.a * w.a} = ${w.b} cm`, `(b) Luas sebenar ${L4} = ${w.c} × ${w.l} = ${w.c * w.l} cm²`, `(c) ${w.L2}${w.L3} selari dengan satah, jadi imejnya kekal ${w.l} cm.`, `Luas imej = ${w.b} × ${w.l} = ${w.b * w.l} cm²`];
+  const work = v.work.length ? v.work : [`(a) Imej ${w.L1}${w.L2} = ${rt(`${w.c}² − ${w.a}²`)} = ${rt(w.c * w.c - w.a * w.a)} = ${w.b} cm`, `(b) Luas sebenar ${L4} = ${w.c} × ${w.l} = ${w.c * w.l} cm²`, `(c) ${w.L2}${w.L3} selari dengan satah, jadi imejnya kekal ${w.l} cm.`, `Luas imej = ${w.b} × ${w.l} = ${w.b * w.l} cm²`];
   const fig = pdWedge(w.a, w.b, 4.2, { lab: [w.L1, w.L2], ta: `${w.a}`, tc: `${w.c}`, tl: `${w.l}` });
   return { q: v.q, ans, work, fig };
 };

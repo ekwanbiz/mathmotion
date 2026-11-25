@@ -123,7 +123,7 @@ const QV = {
   varians: [
     d => ({ q: `Jadual menunjukkan taburan ${d.a} ${d.n} ${d.o}. Hitung varians data itu.` }),
     d => ({ q: `Hitung varians bagi data terkumpul dalam jadual. Beri jawapan betul kepada dua tempat perpuluhan.` }),
-    d => ({ q: `Dengan menggunakan rumus σ² = Σfx²/Σf − x̄², cari varians ${d.a} ${d.o}.` })
+    d => ({ q: `Dengan menggunakan rumus σ² = ${fr('Σfx²', 'Σf')} − x̄², cari varians ${d.a} ${d.o}.` })
   ],
   sisihan: [
     d => ({ q: `Jadual menunjukkan taburan ${d.a} ${d.n} ${d.o}. Hitung sisihan piawai data itu.` }),
@@ -165,7 +165,7 @@ ST.poligon = r => {
 ST.bacaOgif = r => {
   const d = stData(r), i = r.i(1, d.K - 2), x = d.ub[i], kc = d.cum[i], lb = d.n - kc;
   const pc = stN(kc / d.n * 100);
-  return GEN_LQ('bacaOgif', Object.assign(stBase(d), { x: stN(x), ans: `kurang daripada ${stN(x)}: ${kc}; lebih daripada ${stN(x)}: ${lb}`, ansM: String(lb), ansP: `${pc}%`, work: [`Daripada ogif, kekerapan longgokan pada ${stN(x)} ialah ${kc}.`, `Lebih daripada ${stN(x)} = ${d.n} − ${kc} = ${lb}`, `Peratus kurang daripada ${stN(x)} = ${kc}/${d.n} × 100% = ${pc}%`] }), { fig: stOgif(d) });
+  return GEN_LQ('bacaOgif', Object.assign(stBase(d), { x: stN(x), ans: `kurang daripada ${stN(x)}: ${kc}; lebih daripada ${stN(x)}: ${lb}`, ansM: String(lb), ansP: `${pc}%`, work: [`Daripada ogif, kekerapan longgokan pada ${stN(x)} ialah ${kc}.`, `Lebih daripada ${stN(x)} = ${d.n} − ${kc} = ${lb}`, `Peratus kurang daripada ${stN(x)} = ${fr(kc, d.n)} × 100% = ${pc}%`] }), { fig: stOgif(d) });
 };
 ST.julat = r => {
   const d = stData(r), J = d.mid[d.K - 1] - d.mid[0];
@@ -177,14 +177,14 @@ ST.min = r => {
 };
 ST.jak = r => {
   const d = stData(r, 'q'), q1 = d.ub[d.cum.indexOf(d.n / 4)], q3 = d.ub[d.cum.indexOf(3 * d.n / 4)];
-  return GEN_LQ('jak', Object.assign(stBase(d), { ans: `Q₁ = ${stN(q1)}, Q₃ = ${stN(q3)}, julat antara kuartil = ${stN(q3 - q1)}`, ansJ: stN(q3 - q1), work: [`Kedudukan Q₁ = ¼ × ${d.n} = ${d.n / 4} → Q₁ = ${stN(q1)}`, `Kedudukan Q₃ = ¾ × ${d.n} = ${3 * d.n / 4} → Q₃ = ${stN(q3)}`, `Julat antara kuartil = ${stN(q3)} − ${stN(q1)} = ${stN(q3 - q1)}`] }), { fig: stOgif(d, [[d.n / 4], [3 * d.n / 4]]) });
+  return GEN_LQ('jak', Object.assign(stBase(d), { ans: `Q₁ = ${stN(q1)}, Q₃ = ${stN(q3)}, julat antara kuartil = ${stN(q3 - q1)}`, ansJ: stN(q3 - q1), work: [`Kedudukan Q₁ = ${fr(1, 4)} × ${d.n} = ${d.n / 4} → Q₁ = ${stN(q1)}`, `Kedudukan Q₃ = ${fr(3, 4)} × ${d.n} = ${3 * d.n / 4} → Q₃ = ${stN(q3)}`, `Julat antara kuartil = ${stN(q3)} − ${stN(q1)} = ${stN(q3 - q1)}`] }), { fig: stOgif(d, [[d.n / 4], [3 * d.n / 4]]) });
 };
-const stVarWork = d => [`Σf = ${d.n}, Σfx = ${stN(d.sfx)}, Σfx² = ${stN(d.sfx2)}`, `x̄ = ${stN(d.sfx)} ÷ ${d.n} = ${stN(d.mean)}`, `σ² = ${stN(d.sfx2)}/${d.n} − (${stN(d.sfx)}/${d.n})² = ${stN2(d.vr)}`];
+const stVarWork = d => [`Σf = ${d.n}, Σfx = ${stN(d.sfx)}, Σfx² = ${stN(d.sfx2)}`, `x̄ = ${stN(d.sfx)} ÷ ${d.n} = ${stN(d.mean)}`, `σ² = ${fr(stN(d.sfx2), d.n)} − (${fr(stN(d.sfx), d.n)})² = ${stN2(d.vr)}`];
 ST.varians = r => { const d = stData(r); return GEN_LQ('varians', Object.assign(stBase(d), { ans: `σ² = ${stN2(d.vr)}`, work: stVarWork(d) }), { fig: stTable(d) }); };
-ST.sisihan = r => { const d = stData(r); return GEN_LQ('sisihan', Object.assign(stBase(d), { ans: `σ = ${stN2(d.sd)}`, work: stVarWork(d).concat([`σ = √${stN2(d.vr)} = ${stN2(d.sd)}`]) }), { fig: stTable(d) }); };
+ST.sisihan = r => { const d = stData(r); return GEN_LQ('sisihan', Object.assign(stBase(d), { ans: `σ = ${stN2(d.sd)}`, work: stVarWork(d).concat([`σ = ${rt(stN2(d.vr))} = ${stN2(d.sd)}`]) }), { fig: stTable(d) }); };
 ST.persentil = r => {
   const d = stData(r, 'p'), ok = d.cum.slice(0, -1).map((c, i) => [c, i]).filter(([c]) => (100 * c) % d.n === 0), [c, i] = r.p(ok), k = 100 * c / d.n;
-  return GEN_LQ('persentil', Object.assign(stBase(d), { k, ks: stSub(k), ans: `P${stSub(k)} = ${stN(d.ub[i])}; ${k}% ${d.c.o} mempunyai ${d.c.a} kurang daripada ${stN(d.ub[i])} ${d.c.u}`, work: [`Kedudukan = ${k}/100 × ${d.n} = ${c}`, `Daripada ogif, kekerapan longgokan ${c} sepadan dengan ${stN(d.ub[i])}`] }), { fig: stOgif(d, [[c]]) });
+  return GEN_LQ('persentil', Object.assign(stBase(d), { k, ks: stSub(k), ans: `P${stSub(k)} = ${stN(d.ub[i])}; ${k}% ${d.c.o} mempunyai ${d.c.a} kurang daripada ${stN(d.ub[i])} ${d.c.u}`, work: [`Kedudukan = ${fr(k, 100)} × ${d.n} = ${c}`, `Daripada ogif, kekerapan longgokan ${c} sepadan dengan ${stN(d.ub[i])}`] }), { fig: stOgif(d, [[c]]) });
 };
 
 /* =================== GEN: Latihan Kelas =================== */

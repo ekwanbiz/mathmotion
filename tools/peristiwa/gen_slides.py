@@ -1,7 +1,9 @@
 # Penjana slaid NOTA PERISTIWA (Tingkatan 4 Bab 9 Kebarangkalian Peristiwa Bergabung) -> peristiwa/slides.js
 # Jalankan:  python3 tools/peristiwa/gen_slides.py
 # Gunakan HANYA warna palet gelap di bawah supaya mod cerah ditukar automatik oleh themed().
-import json, os, html, math, re
+import json, os, html, math, re, sys
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+from mathfmt import FR, RT, SFR, SRT, mathW
 from fractions import Fraction as F
 from itertools import product
 
@@ -53,11 +55,6 @@ def ANS(t):
     return f'<div class="sl-ans rv"><span>JAWAPAN</span> {t}</div>'
 def NOTE(t, lab='Ingat:'):
     return f'<div class="sl-note"><b>{lab}</b> {t}</div>'
-def FR(a, b):
-    """Pecahan bertingkat dalam teks slaid."""
-    return ('<span style="display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; '
-            'line-height: 1.1; font-size: 0.85em; margin: 0 2px; white-space: nowrap"><span style="padding: 0 4px; border-bottom: 2px solid currentColor">'
-            f'{a}</span><span>{b}</span></span>')
 def FRV(fr):
     fr = F(fr)
     if fr.denominator == 1: return fs(fr)
@@ -81,11 +78,40 @@ W, H = 500, 470
 def svg(inner, label, h=H):
     return f'<svg class="sl-svg" viewBox="0 0 {W} {h}" role="img" aria-label="{html.escape(label)}">{inner}</svg>'
 def r1(v): return round(v, 1)
-def T(x, y, t, col=TX, size=20, anchor='middle', weight=700, italic=False, halo=True):
+def T0(x, y, t, col=TX, size=20, anchor='middle', weight=700, italic=False, halo=True):
     it = ' font-style="italic"' if italic else ''
     ha = f' paint-order="stroke" stroke="{NAV}" stroke-width="6" stroke-linejoin="round"' if halo else ''
     return (f'<text x="{r1(x)}" y="{r1(y)}" fill="{col}" {FONT} font-size="{size}" font-weight="{weight}"{it} '
             f'text-anchor="{anchor}" dominant-baseline="middle"{ha}>{t}</text>')
+def MIX(x, y, parts, col=TX, size=20, anchor='middle', halo=True):
+    """Teks rajah bercampur: str, ('f', a, b) pecahan bertingkat, ('r', t[, n]) punca. y = garis tengah (garis pecahan)."""
+    segs = []
+    for p in parts:
+        if isinstance(p, str):
+            lead = (len(p) - len(p.lstrip(' '))) * size * .28; core = p.strip(' '); trail = (len(p) - len(p.rstrip(' '))) * size * .28 if core else 0
+            segs.append(('s', core, lead, mathW(re.sub('[\u0300-\u036f]', '', core), size) if core else 0, trail))
+        elif p[0] == 'f':
+            segs.append(('f', p, size * .2, max(mathW(p[1], size), mathW(p[2], size)) + 10, size * .16))
+        else:
+            segs.append(('r', p, 0, size * .62 + mathW(p[1], size) + 4, size * .1))
+    tot = sum(a + w + b for _, _, a, w, b in segs)
+    cx = x if anchor == 'start' else (x - tot if anchor == 'end' else x - tot / 2)
+    out = ''
+    for i, (k, v, a, w, b) in enumerate(segs):
+        cx += a
+        if k == 's' and v and i == 0 and len(segs) > 1 and anchor != 'start': out += T0(cx + w, y, v, col, size, 'end', halo=halo)  # rapat dengan pecahan/punca selepasnya
+        elif k == 's' and v: out += T0(cx, y, v, col, size, 'start', halo=halo)
+        elif k == 'f': out += SFR(cx, y, v[1], v[2], col, size, 'start')
+        elif k == 'r': out += SRT(cx, y + size * .35, v[1], col, size, 'start', v[2] if len(v) > 2 else None)
+        cx += w + b
+    return out
+def T(x, y, t, col=TX, size=20, anchor='middle', weight=700, italic=False, halo=True):
+    """Teks rajah; a/b nombor dilukis sebagai pecahan bertingkat."""
+    if '<' in str(t) or not re.search(r'\d+/\d+', str(t)):
+        return T0(x, y, t, col, size, anchor, weight, italic, halo)
+    parts = [p if i % 2 == 0 else ('f',) + tuple(p.split('/')) for i, p in enumerate(re.split(r'(\d+/\d+)', str(t)))]
+    return MIX(x, y, [p for p in parts if p != ''], col, size, anchor, halo)
+def HASF(t): return bool(re.search(r'\d+/\d+', str(t)))
 def LINE(p, q, col=TX, sw=4, dash=None, cap='round'):
     d = f' stroke-dasharray="{dash}"' if dash else ''
     return f'<line x1="{r1(p[0])}" y1="{r1(p[1])}" x2="{r1(q[0])}" y2="{r1(q[1])}" stroke="{col}" stroke-width="{sw}" stroke-linecap="{cap}"{d}/>'
@@ -106,9 +132,6 @@ def CROSS(x, y, col=RD, k=9):
     return LINE((x - k, y - k), (x + k, y + k), col, 4) + LINE((x - k, y + k), (x + k, y - k), col, 4)
 def TICK(x, y, col=GR, k=9):
     return f'<path d="M{x - k} {y} L{x - k / 3} {y + k * 0.7} L{x + k} {y - k * 0.8}" fill="none" stroke="{col}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>'
-def SFR(x, y, a, b, col=TX, size=20):
-    w = max(len(str(a)), len(str(b))) * size * 0.62 + 8
-    return T(x, y - size * 0.62, a, col, size) + T(x, y + size * 0.68, b, col, size) + LINE((x - w / 2, y), (x + w / 2, y), col, 2.5)
 
 PIPS = {1: [(0, 0)], 2: [(-1, -1), (1, 1)], 3: [(-1, -1), (0, 0), (1, 1)], 4: [(-1, -1), (1, -1), (-1, 1), (1, 1)],
         5: [(-1, -1), (1, -1), (0, 0), (-1, 1), (1, 1)], 6: [(-1, -1), (1, -1), (-1, 0), (1, 0), (-1, 1), (1, 1)]}
@@ -154,19 +177,19 @@ def TREE(x0, y0, w, h, s1, s2, outs=None, hi=(), plab=True, size=18, outcol=None
         s += T(x1, n1y[i], lab, col, size + 2)
         if plab and pl:
             my = (ry + n1y[i]) / 2; mx = (xr + x1) / 2
-            s += T(mx - 6, my + (-16 if n1y[i] < ry else 18), pl, MU3, size - 1)
+            s += T(mx - 6, my + ((-16 if n1y[i] < ry else 18) * (1.45 if HASF(pl) else 1)), pl, MU3, size - 1)
         for j, (lab2, pl2, col2) in enumerate(s2[i]):
             yy = ly[k + j]
             s += T(x2, yy, lab2, col2, size + 2)
             if plab and pl2:
                 mx = (x1 + x2) / 2 + 4; my = (n1y[i] + yy) / 2
-                dy = -15 if yy < n1y[i] - 1 else (15 if yy > n1y[i] + 1 else -15)
+                dy = (-15 if yy < n1y[i] - 1 else (15 if yy > n1y[i] + 1 else -15)) * (1.45 if HASF(pl2) else 1)
                 s += T(mx, my + dy, pl2, MU3, size - 2)
             if outs:
                 on = (k + j) in hiset
                 ow = outw or (w - (x2 - x0) - 22)
                 if on:
-                    s += RECT(x2 + 20, yy - 16, ow, 32, f'{outcol or AM}22', outcol or AM, 10, 2)
+                    s += RECT(x2 + 20, yy - (21 if HASF(outs[k + j]) else 16), ow, 42 if HASF(outs[k + j]) else 32, f'{outcol or AM}22', outcol or AM, 10, 2)
                 s += T(x2 + 30, yy + 1, outs[k + j], (outcol or AM) if on else TX, size - 1, 'start')
         k += len(s2[i])
     return s
@@ -347,8 +370,8 @@ def BAG(x, y, red, blue, lab, colb=MU3):
     return s + T(x + 95, y + 128, lab, colb, 16, halo=False)
 fig = (T(250, 30, 'Beg asal: 3 merah, 2 biru', TX, 19)
        + BAG(30, 60, 3, 2, 'dengan pemulangan', GR) + BAG(280, 60, 2, 2, 'tanpa pemulangan', RD)
-       + T(125, 236, 'Cabutan 2: masih 5 guli', GR, 17) + T(375, 236, 'Cabutan 2: tinggal 4 guli', RD, 17)
-       + T(125, 266, 'P(merah) = 3/5', GR, 19) + T(375, 266, 'P(merah) = 2/4', RD, 19)
+       + T(125, 232, 'Cabutan 2: masih 5 guli', GR, 17) + T(375, 232, 'Cabutan 2: tinggal 4 guli', RD, 17)
+       + T(125, 271, 'P(merah) = 3/5', GR, 19) + T(375, 271, 'P(merah) = 2/4', RD, 19)
        + RECT(20, 300, 460, 150, SURF, BD, 16, 2)
        + T(250, 334, 'Kesan cabutan pertama (merah) pada cabutan kedua:', MU3, 16, halo=False)
        + T(125, 380, 'Tak bersandar', GR, 22) + T(375, 380, 'Bersandar', RD, 22)
@@ -510,7 +533,7 @@ assert A6 == {6, 12, 18} and B7 == {7, 14} and not (A6 & B7)
 pU = F(len(A6 | B7), 20); assert pU == F(3, 20) + F(2, 20) == F(1, 4)
 fig = (VENN(250, 200, 92, 210, ['6', '12', '18'], ['7', '14'], [], '15 nombor lain', box=(20, 60, 460, 290), fsz=22)
        + T(250, 30, 'Kad bernombor 1 hingga 20', MU, 18, halo=False)
-       + RECT(40, 372, 420, 80, SURF, GR, 16, 2.5) + T(250, 398, 'P(A ∪ B) = 3/20 + 2/20', TX, 20) + T(250, 430, '= 5/20 = 1/4', GR, 22))
+       + RECT(40, 372, 420, 80, SURF, GR, 16, 2.5) + T(296, 412, 'P(A ∪ B) = 3/20 + 2/20', TX, 20, 'end') + T(304, 412, '= 5/20 = 1/4', GR, 22, 'start'))
 add('9.3', 'CONTOH BERLANGKAH', 'Peristiwa saling eksklusif',
     P('Sekeping kad dipilih secara rawak daripada 20 keping kad bernombor 1 hingga 20. <i>A</i> = gandaan 6, <i>B</i> = gandaan 7. Cari kebarangkalian mendapat gandaan 6 atau gandaan 7.', True)
     + STEPS(['<i>A</i> = {6, 12, 18}, <i>B</i> = {7, 14}, <i>A</i> ∩ <i>B</i> = ∅ (saling eksklusif)',
@@ -528,7 +551,7 @@ assert onlyA == [2, 4, 8, 10, 14, 16, 20] and onlyB == [3, 9, 15] and sorted(S20
 fig = (VENN(250, 196, 104, 128, [str(x) for x in onlyA], [str(x) for x in onlyB], [str(x) for x in sorted(I)], ', '.join(str(x) for x in sorted(S20 - Ae2 - B3)),
             box=(14, 54, 472, 300), fsz=19)
        + T(250, 28, 'Kad bernombor 1 hingga 20', MU, 18, halo=False)
-       + RECT(30, 372, 440, 84, SURF, AM, 16, 2.5) + T(250, 398, 'P(A ∪ B) = 10/20 + 6/20 − 3/20', TX, 19) + T(250, 432, '= 13/20', AM, 22))
+       + RECT(30, 372, 440, 84, SURF, AM, 16, 2.5) + T(346, 414, 'P(A ∪ B) = 10/20 + 6/20 − 3/20', TX, 19, 'end') + T(354, 414, '= 13/20', AM, 22, 'start'))
 add('9.3', 'CONTOH BERLANGKAH', 'Peristiwa tidak saling eksklusif',
     P('Kad yang sama, 1 hingga 20. <i>A</i> = nombor genap, <i>B</i> = gandaan 3. Cari kebarangkalian mendapat nombor genap atau gandaan 3.', True)
     + STEPS(['n(<i>A</i>) = 10, n(<i>B</i>) = 6, <i>A</i> ∩ <i>B</i> = {6, 12, 18}, n(<i>A</i> ∩ <i>B</i>) = 3',

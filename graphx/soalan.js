@@ -17,7 +17,9 @@ const gxRange = (a, b) => { const o = []; for (let i = a; i <= b; i++) o.push(i)
 const GXSUP = ['', '', '²', '³'];
 const gxX = p => (p ? 'x' + GXSUP[p] : '');
 // pecahan (HTML) untuk teks soalan & pilihan jawapan
-const gxFr = (n, d) => `<span style="display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.08;font-size:.82em;margin:0 .08em"><span style="border-bottom:.07em solid currentColor;padding:0 .18em">${n}</span><span style="padding:0 .18em">${d}</span></span>`;
+const gxFr = (n, d) => fr(n, d); // gaya dikongsi .fr (teras/asas.js) – mathPlain() faham untuk game/RPH
+// pecahan bertingkat dalam rajah SVG (warna melalui pemboleh ubah CSS seperti gxT)
+const gxSFr = (x, y, a, b, c = 'tx', sz = 18) => svgFr(x, y, a, b, '#000', sz).replace(/fill="#000"/g, `style="fill:var(--${c})"`).replace(/stroke="#000"/g, `style="stroke:var(--${c})"`);
 
 /* Fungsi F = { T:[[pekali, kuasa] …] } (polinomial) atau { rec:a } (salingan y = a/x) */
 function gxE(F, html = true) {
@@ -57,7 +59,7 @@ const GXJW = {
   lin: 'Kuasa tertinggi x ialah 1, maka fungsi ini ialah <b>fungsi linear</b>.',
   kuad: 'Kuasa tertinggi x ialah 2, maka fungsi ini ialah <b>fungsi kuadratik</b>.',
   kub: 'Kuasa tertinggi x ialah 3, maka fungsi ini ialah <b>fungsi kubik</b>.',
-  sal: 'x berada pada penyebut (y = a/x), maka fungsi ini ialah <b>fungsi salingan</b>.'
+  sal: 'x berada pada penyebut (y = ' + fr('a', 'x') + '), maka fungsi ini ialah <b>fungsi salingan</b>.'
 };
 const gxBentuk = F => {
   const j = gxJenis(F), a = F.rec != null ? F.rec : F.T.filter(t => t[1] === gxMaxP(F))[0][0];
@@ -119,7 +121,9 @@ function gxMachFig(inp, steps, out = '?') {
     s += gxHead([i ? x - gap + 2 : 68, 70], [x - 2, 70], 'mu', 3);
     s += `<rect x="${x}" y="30" width="${bw}" height="80" rx="14" style="fill:var(--pu);fill-opacity:.14;stroke:var(--pu)" stroke-width="3"/>`;
     if (steps.length === 1) s += gxT(x + bw / 2, 50, 'f(x)', 'mu', 14, 600);
-    s += gxT(x + bw / 2, steps.length === 1 ? 80 : 70, st, 'pu', st.length > 9 ? 17 : 21, 800);
+    const fm = /^(−?)(\d+)\/x$/.exec(st); // salingan a/x → pecahan bertingkat
+    if (fm) { const cy = steps.length === 1 ? 84 : 72; s += (fm[1] ? gxT(x + bw / 2 - 22, cy, '−', 'pu', 20, 800) : '') + gxSFr(x + bw / 2 + (fm[1] ? 6 : 0), cy, fm[2], 'x', 'pu', 17); }
+    else s += gxT(x + bw / 2, steps.length === 1 ? 80 : 70, st, 'pu', st.length > 9 ? 17 : 21, 800);
     x += bw + gap;
   });
   const ox = x - gap + 36;

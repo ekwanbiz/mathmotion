@@ -62,7 +62,7 @@ const UAV = ['x', 'y', 'p', 'k', 'm', 'n', 'a', 'b'];
 UA.bentuk = r => {
   const v = r.p(UAV), n = r.i(2, 9), k = r.i(0, 7);
   const L = [
-    [`${n} lebih daripada ${v}`, `${v} + ${n}`], [`${n} kurang daripada ${v}`, `${v} − ${n}`], [`${n} kali ${v}`, `${n}${v}`], [`${v} dibahagi dengan ${n}`, `${v}/${n}`],
+    [`${n} lebih daripada ${v}`, `${v} + ${n}`], [`${n} kurang daripada ${v}`, `${v} − ${n}`], [`${n} kali ${v}`, `${n}${v}`], [`${v} dibahagi dengan ${n}`, fr(v, n)],
     [`hasil tambah dua kali ${v} dan ${n}`, `2${v} + ${n}`], [`${n} ditolak daripada tiga kali ${v}`, `3${v} − ${n}`],
     [`harga ${n} buah buku jika sebuah berharga RM${v}`, `${n}${v}`], [`umur Ali ${n} tahun lagi jika umurnya sekarang ${v} tahun`, `${v} + ${n}`]
   ][k];
@@ -70,7 +70,7 @@ UA.bentuk = r => {
 };
 UA.balik = r => {
   const v = r.p(UAV), n = r.i(2, 9), k = r.i(0, 3);
-  const L = [[`${n}${v} + 1`, `1 lebih daripada ${n} kali ${v}`], [`${v} − ${n}`, `${n} kurang daripada ${v}`], [`${v}/${n}`, `${v} dibahagi dengan ${n}`], [`2${v} − ${n}`, `${n} ditolak daripada dua kali ${v}`]][k];
+  const L = [[`${n}${v} + 1`, `1 lebih daripada ${n} kali ${v}`], [`${v} − ${n}`, `${n} kurang daripada ${v}`], [fr(v, n), `${v} dibahagi dengan ${n}`], [`2${v} − ${n}`, `${n} ditolak daripada dua kali ${v}`]][k];
   return GEN_LQ('balik', { e: L[0], ans: L[1], work: [`${L[0]} bermaksud ${L[1]}`] });
 };
 UA.pekali = r => {
@@ -130,7 +130,7 @@ UA.masalah = (r, idx) => {
   if (k === 2) { const m = r.i(2, 3), t = r.i(5, 15), N = r.i(5, 12);
     return GEN_LQ('masalah', { q: `Dalam satu perlawanan bola keranjang, Kevin menjaringkan n mata. Hafiz menjaringkan ${m} kali mata Kevin, dan Lim menjaringkan ${t} mata kurang daripada Hafiz. (a) Ungkapkan jumlah mata mereka bertiga dalam sebutan n. (b) Hitung jumlah mata jika n = ${N}.`, ans: `(a) ${uaE([[1 + 2 * m, 'n'], [-t, '']])} (b) ${(1 + 2 * m) * N - t}`, work: [`Hafiz = ${m}n, Lim = ${m}n − ${t}`, `Jumlah = n + ${m}n + ${m}n − ${t} = ${uaE([[1 + 2 * m, 'n'], [-t, '']])}`, `n = ${N}: ${(1 + 2 * m) * N - t}`] }); }
   const w = r.p([2, 3, 4]), s = r.i(3, 8), X = r.i(10, 30);
-  return GEN_LQ('masalah', { q: `Sebuah bekas berisi x ml air. ${vnama()} menuang ${s * 10} ml ke dalam sebiji cawan, kemudian membahagikan baki air sama rata ke dalam ${w} botol. (a) Ungkapkan isi padu air dalam sebuah botol dalam sebutan x. (b) Cari isi padu itu jika x = ${X * 10 * w + s * 10}.`, ans: `(a) (x − ${s * 10})/${w} ml (b) ${X * 10} ml`, work: [`Baki = x − ${s * 10}`, `Sebuah botol = (x − ${s * 10}) ÷ ${w}`, `= (${X * 10 * w + s * 10} − ${s * 10}) ÷ ${w} = ${X * 10} ml`] });
+  return GEN_LQ('masalah', { q: `Sebuah bekas berisi x ml air. ${vnama()} menuang ${s * 10} ml ke dalam sebiji cawan, kemudian membahagikan baki air sama rata ke dalam ${w} botol. (a) Ungkapkan isi padu air dalam sebuah botol dalam sebutan x. (b) Cari isi padu itu jika x = ${X * 10 * w + s * 10}.`, ans: `(a) ${fr(`x − ${s * 10}`, w)} ml (b) ${X * 10} ml`, work: [`Baki = x − ${s * 10}`, `Sebuah botol = (x − ${s * 10}) ÷ ${w}`, `= (${X * 10 * w + s * 10} − ${s * 10}) ÷ ${w} = ${X * 10} ml`] });
 };
 
 /* =================== GEN / WG / WSPLAN =================== */

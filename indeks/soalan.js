@@ -20,7 +20,8 @@ function ixDec(num, places) {
   return (num < 0 ? '−' : '') + s;
 }
 const ixE = e => (typeof e === 'number' ? fmt(e) : e);              // indeks sebagai teks
-const ixH = s => String(s).replace(/\^\{1\}/g, '').replace(/\^\{([^}]*)\}/g, '<sup>$1</sup>');
+// a/b → pecahan bertingkat, √x / ^{n}√x → punca dengan garis atas (penanda dalaman \u0001..\u0006)
+const ixH = s => ixFxHtml(ixFx(String(s).replace(/\^\{1\}/g, '')).replace(/\^\{([^}]*)\}/g, '<sup>$1</sup>'));
 const ixOut = o => { o.q = ixH(o.q); o.ans = ixH(o.ans); if (o.work) o.work = o.work.map(ixH); if (o.opts) o.opts = o.opts.map(ixH); return o; };
 // ekasebutan: c × v1^e1 × v2^e2 ...  (indeks 0 diabaikan, indeks 1 tanpa superskrip)
 function ixMono(c, vs) {
@@ -59,20 +60,92 @@ function ixVal(b, n) {
 const IXRT = [[4, 2, 2], [9, 2, 3], [16, 2, 4], [25, 2, 5], [36, 2, 6], [49, 2, 7], [64, 2, 8], [81, 2, 9], [100, 2, 10], [8, 3, 2], [27, 3, 3], [64, 3, 4], [125, 3, 5], [1000, 3, 10], [16, 4, 2], [81, 4, 3], [32, 5, 2], [243, 5, 3]];
 const ixRootS = n => (n === 2 ? '√' : `^{${n}}√`);
 
+/* =================== pecahan bertingkat & punca (25 Nov) =================== */
+// ixFx: teks dalaman → penanda: \u0001A\u0002B\u0003 = pecahan A/B, \u0004n\u0005X\u0006 = punca ke-n bagi X
+const IXAT = String.raw`(?:\d+(?:\.\d+)?|[A-Za-z]|[?□]|\((?:[^()]|\([^()]*\))*\)|\u0004[^\u0006]*\u0006|\u0001[^\u0003]*\u0003)(?:\^\{[^}]*\})?`;
+const IXFRRE = new RegExp(String.raw`(?<!\w|\d\.)((?:${IXAT})+)\/((?:${IXAT})+)(?!\w|\.\d)`);
+const ixUnP = x => (/^\((?:[^()]|\([^()]*\))*\)$/.test(x) ? x.slice(1, -1) : x);
+function ixFxConv(s) {
+  for (let k = 0; k < 12; k++) {
+    const m = s.match(IXFRRE); if (!m) break;
+    if (/^[A-Za-z]{3,}$/.test(m[1]) || /^[A-Za-z]{3,}$/.test(m[2])) break;
+    s = s.slice(0, m.index) + '\u0001' + ixUnP(m[1]) + '\u0002' + ixUnP(m[2]) + '\u0003' + s.slice(m.index + m[0].length);
+  }
+  return s;
+}
+function ixFx(s) {
+  s = String(s).replace(/∛/g, '^{3}√').replace(/∜/g, '^{4}√');
+  s = s.replace(/(?:\^\{(\d+|n)\})?√(\((?:[^()]|\([^()]*\))*\)|\d+(?:\.\d+)?|[A-Za-z](?:\^\{[^}]*\})?)/g, (m, n, x) => '\u0004' + (n || '') + '\u0005' + ixUnP(x) + '\u0006');
+  s = s.replace(/\^\{([^}]*)\}/g, (m, e) => '^{' + ixFxConv(e) + '}');
+  return ixFxConv(s);
+}
+function ixFxHtml(s) {
+  for (let k = 0; k < 12 && /[\u0001\u0004]/.test(s); k++) {
+    s = s.replace(/\u0001([^\u0001-\u0006]*)\u0002([^\u0001-\u0006]*)\u0003/g, (m, a, b) => fr(a, b))
+      .replace(/\u0004([^\u0001-\u0006]*)\u0005([^\u0001-\u0006]*)\u0006/g, (m, n, x) => rt(x, n));
+  }
+  return s;
+}
+// pokok susun atur SVG: [{t:'s',v}|{t:'u',k}|{t:'f',a,b}|{t:'r',n,k}]
+function ixFxTree(s) {
+  let i = 0;
+  const run = stop => {
+    const out = []; let buf = '';
+    const flush = () => { if (buf) out.push({ t: 's', v: buf }); buf = ''; };
+    while (i < s.length) {
+      const c = s[i];
+      if (stop.includes(c)) break;
+      if (c === '^' && s[i + 1] === '{') { flush(); i += 2; const k = run('}'); i++; out.push({ t: 'u', k }); }
+      else if (c === '\u0001') { flush(); i++; const a = run('\u0002'); i++; const b = run('\u0003'); i++; out.push({ t: 'f', a, b }); }
+      else if (c === '\u0004') { flush(); i++; const n = run('\u0005'); i++; const k = run('\u0006'); i++; out.push({ t: 'r', n, k }); }
+      else { buf += c; i++; }
+    }
+    flush(); return out;
+  };
+  return run('');
+}
+// ukur: w = lebar, up/dn = tinggi di atas/bawah garis tengah
+function ixFxMeas(L, sz) {
+  let w = 0, up = sz * .5, dn = sz * .5;
+  L.forEach(n => {
+    if (n.t === 's') n.w = [...n.v].reduce((w, ch) => w + sz * (ch === ' ' ? .26 : /[()[\].,:;'|]/.test(ch) ? .36 : /1/.test(ch) ? .46 : /\d/.test(ch) ? .63 : /[mwMW]/.test(ch) ? .84 : /[−+=×÷<>]/.test(ch) ? .62 : /[ijlrtf]/.test(ch) ? .34 : /[A-Z]/.test(ch) ? .66 : .57), 0);
+    else if (n.t === 'u') { const m = ixFxMeas(n.k, sz * .64); n.w = m.w + sz * .04; up = Math.max(up, sz * .42 + m.up); }
+    else if (n.t === 'f') { const s2 = sz * .8, A = ixFxMeas(n.a, s2), B = ixFxMeas(n.b, s2); n.w = Math.max(A.w, B.w) + sz * .24; n.A = A; n.B = B; up = Math.max(up, A.dn + A.up + sz * .12); dn = Math.max(dn, B.up + B.dn + sz * .12); }
+    else { const K = ixFxMeas(n.k, sz), N = ixFxMeas(n.n, sz * .5); n.K = K; n.N = N; n.w = K.w + sz * .62 + sz * .12 + (n.n.length ? Math.max(0, N.w - sz * .25) : 0); up = Math.max(up, K.up + sz * .14); }
+    w += n.w;
+  });
+  return { w, up, dn };
+}
+function ixFxDraw(L, x, y, sz, c) {
+  let o = '';
+  const T = (x, y, v, s) => `<text x="${+x.toFixed(1)}" y="${+y.toFixed(1)}" style="fill:var(--${c})" font-size="${+s.toFixed(1)}" font-weight="700" font-family="Space Grotesk, sans-serif" dominant-baseline="central">${v.replace(/ /g, '\u00A0')}</text>`;
+  L.forEach(n => {
+    if (n.t === 's') o += T(x, y, n.v, sz);
+    else if (n.t === 'u') o += ixFxDraw(n.k, x + sz * .02, y - sz * .42, sz * .64, c);
+    else if (n.t === 'f') {
+      const s2 = sz * .8, sw = Math.max(1.2, sz / 14);
+      o += ixFxDraw(n.a, x + (n.w - n.A.w) / 2, y - sz * .12 - n.A.dn, s2, c) + ixFxDraw(n.b, x + (n.w - n.B.w) / 2, y + sz * .12 + n.B.up, s2, c);
+      o += `<line x1="${+(x + sz * .06).toFixed(1)}" y1="${+y.toFixed(1)}" x2="${+(x + n.w - sz * .06).toFixed(1)}" y2="${+y.toFixed(1)}" style="stroke:var(--${c})" stroke-width="${+sw.toFixed(1)}"/>`;
+    } else {
+      const ix = n.n.length ? Math.max(0, n.N.w - sz * .25) : 0, x0 = x + ix, rw = sz * .62, top = y - n.K.up - sz * .1, sw = Math.max(1.2, sz / 13);
+      if (n.n.length) o += ixFxDraw(n.n, x, y - sz * .38, sz * .5, c);
+      o += `<path d="M${+x0.toFixed(1)} ${+(y + sz * .05).toFixed(1)} L${+(x0 + rw * .3).toFixed(1)} ${+(y - sz * .05).toFixed(1)} L${+(x0 + rw * .6).toFixed(1)} ${+(y + sz * .5).toFixed(1)} L${+(x0 + rw).toFixed(1)} ${+top.toFixed(1)} L${+(x0 + n.w - ix).toFixed(1)} ${+top.toFixed(1)}" fill="none" style="stroke:var(--${c})" stroke-width="${+sw.toFixed(1)}" stroke-linejoin="round"/>`;
+      o += ixFxDraw(n.k, x0 + rw + sz * .06, y, sz, c);
+    }
+    x += n.w;
+  });
+  return o;
+}
+
 /* =================== rajah =================== */
 // teks SVG dengan superskrip (tspan naik), warna ikut tema var(--…)
+// teks SVG dengan superskrip, pecahan bertingkat dan punca; warna ikut tema var(--…)
 function ixSvgT(x, y, t, c = 'tx', sz = 30, a = 'middle') {
-  const up = +(sz * 0.42).toFixed(1), sm = +(sz * 0.64).toFixed(1);
-  let out = '', raised = false;
-  String(t).split(/(\^\{[^}]*\})/).forEach(p => {
-    if (!p) return;
-    if (p.startsWith('^{')) { out += `<tspan dy="${-up}" font-size="${sm}">${p.slice(2, -1)}</tspan>`; raised = true; }
-    else if (raised) { out += `<tspan dy="${up}" font-size="${sz}">${p}</tspan>`; raised = false; }
-    else out += p;
-  });
-  return `<text x="${+x.toFixed(1)}" y="${+y.toFixed(1)}" style="fill:var(--${c})" font-size="${sz}" font-weight="700" font-family="Space Grotesk, sans-serif" text-anchor="${a}" dominant-baseline="central">${out}</text>`;
+  const L = ixFxTree(ixFx(t)), m = ixFxMeas(L, sz), x0 = a === 'start' ? x : a === 'end' ? x - m.w : x - m.w / 2;
+  return `<g>${ixFxDraw(L, x0, y, sz, c)}</g>`;
 }
-const ixTW = (t, sz) => { let w = 0; String(t).split(/(\^\{[^}]*\})/).forEach(p => { if (p.startsWith('^{')) w += (p.length - 3) * sz * 0.4; else w += p.replace(/<[^>]+>/g, '').length * sz * 0.58; }); return w; };
+const ixTW = (t, sz) => ixFxMeas(ixFxTree(ixFx(t)), sz).w;
+const ixTH = (t, sz) => { const m = ixFxMeas(ixFxTree(ixFx(t)), sz); return m.up + m.dn; };
 const ixSvg = (s, label, w = 320, h = 214) => `<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="${esc(label)}" font-family="Inter, sans-serif">${s}</svg>`;
 // kad ungkapan: lines = satu atau dua baris, cap = tajuk kecil
 function ixCard(lines, cap) {
@@ -81,7 +154,7 @@ function ixCard(lines, cap) {
   if (cap) s += ixSvgT(160, 38, cap, 'pu', 16);
   const top = cap ? 62 : 30, h = 206 - top - 10, n = lines.length;
   lines.forEach((t, i) => {
-    const sz = Math.max(16, Math.min(40, 276 / Math.max(1, ixTW(t, 1)), h / n * 0.62));
+    const sz = Math.max(14, Math.min(40, 276 / Math.max(1, ixTW(t, 1)), h / n * 0.62 / Math.max(1, ixTH(t, 1))));
     s += ixSvgT(160, top + h * (i + 0.5) / n, t, 'tx', +sz.toFixed(1));
   });
   return ixSvg(s, 'Ungkapan indeks');
@@ -132,7 +205,7 @@ const IXBS2 = [
   ['(x^{3})^{2} = x^{5}', false, 'Hukum kuasa: indeks didarab, (x^{3})^{2} = x^{6}.'],
   ['5^{0} = 1', true, 'Sebarang nombor bukan sifar kuasa 0 ialah 1.'],
   ['2^{−3} = −8', false, '2^{−3} = 1/2^{3} = 1/8. Indeks negatif tidak menjadikan nilai negatif.'],
-  ['8^{1/3} = 2', true, '8^{1/3} = ∛8 = 2.']
+  ['8^{1/3} = 2', true, '8^{1/3} = ^{3}√8 = 2.']
 ];
 const IXNAMA3 = [['P', 'Q', 'R'], ['A', 'B', 'C'], ['K', 'L', 'M']];
 

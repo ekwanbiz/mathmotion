@@ -3,6 +3,9 @@
 # Gunakan HANYA warna palet gelap di bawah supaya mod cerah ditukar automatik oleh themed().
 import json, os, html, re, random
 from fractions import Fraction as F
+import sys
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+from mathfmt import FR as FR_, SRT
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUTFILE = os.path.normpath(os.path.join(HERE, '..', '..', 'pemfaktoran', 'slides.js'))
@@ -63,10 +66,8 @@ def ANS(t):
 def NOTE(t, lab='Ingat:'):
     return f'<div class="sl-note"><b>{lab}</b> {t}</div>'
 def FR(a, b):
-    """Pecahan bertingkat dalam teks slaid."""
-    return ('<span style="display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; '
-            'line-height: 1.1; font-size: 0.85em; margin: 0 2px; white-space: nowrap"><span style="padding: 0 4px; border-bottom: 2px solid currentColor">'
-            f'{a}</span><span>{b}</span></span>')
+    """Pecahan bertingkat dalam teks slaid (gaya dikongsi .fr, teras/teras.css)."""
+    return FR_(a, b)
 def FM(a, b):
     return FR(M(a), M(b))
 def B(t, col):
@@ -391,10 +392,11 @@ NE('(4x + 3)(4x − 3)', '4x² − 9'); EQ('(2x + 3)(2x − 3)', '4x² − 9')
 NE('(x + 3)(x − 3)', 'x² + 9')
 EQ('2(x² + 2x)', '2x² + 4x'); EQ('2x(x + 2)', '2x² + 4x')
 NE('3(2x)', '6x + 3'); EQ('3(2x + 1)', '6x + 3')
-fig = WRONGRIGHT([('4x² − 9 = (4x + 3)(4x − 3)', False, '√(4x²) = 2x, bukan 4x'), ('4x² − 9 = (2x + 3)(2x − 3)', True, ''),
+fig = WRONGRIGHT([('4x² − 9 = (4x + 3)(4x − 3)', False, ' '), ('4x² − 9 = (2x + 3)(2x − 3)', True, ''),
                   ('x² + 9 = (x + 3)(x − 3)', False, '(x + 3)(x − 3) = x² − 9'),
                   ('2x² + 4x = 2(x² + 2x)', False, 'belum lengkap: x masih sepunya'), ('2x² + 4x = 2x(x + 2)', True, ''),
                   ('6x + 3 = 3(2x + 1)', True, 'jangan lupa sebutan 1')], 46, 72, 20)
+fig += SRT(74, 66, '4x²', MU, 14, 'start') + T(112, 61, '= 2x, bukan 4x', MU, 14, 'start', 600, False, False)
 add('2.2', 'KESILAPAN BIASA', 'Elakkan kesilapan ini',
     BUL([f'{B("Punca kuasa dua salah", RD)}: {M("4x² = (2x)²")}, bukan {M("(4x)²")}.',
          f'{B("Hasil tambah dua kuasa dua", RD)} seperti {M("x² + 9")} tidak boleh difaktorkan sebagai {M("(x + 3)(x − 3)")}.',
@@ -512,7 +514,7 @@ fig = (RECT(20, 24, 460, 196, SURF, BD, 16) + T(250, 48, 'Darab: atas × atas, b
        + RECT(20, 236, 460, 210, SURF, BD, 16) + T(250, 260, 'Bahagi: darab dengan salingan', MU3, 17, math=False)
        + SFR(72, 330, '5x', '6', TX, 24) + T(110, 330, '÷', PK, 26) + SFR(156, 330, '10x²', '9', TX, 24) + T(204, 330, '=', MU3, 26)
        + SFR(244, 330, '5x', '6', TX, 24) + T(282, 330, '×', PK, 26) + SFR(328, 330, '9', '10x²', PK, 24) + T(378, 330, '=', MU3, 26) + SFR(424, 330, '3', '4x', col, 26)
-       + T(250, 404, 'salingan bagi 10x²/9 ialah 9/(10x²)', PK, 16))
+       + T(112, 404, 'salingan bagi', PK, 16, 'start', math=False) + SFR(259, 404, '10x²', '9', PK, 16) + T(290, 404, 'ialah', PK, 16, 'start', math=False) + SFR(366, 404, '9', '10x²', PK, 16))
 add('2.3', 'CONTOH BERLANGKAH', 'Darab dan bahagi pecahan algebra',
     BUL([f'<b>Darab</b>: darab pengangka dengan pengangka, penyebut dengan penyebut, kemudian permudahkan.',
          f'<b>Bahagi</b>: tukar ÷ kepada × dan terbalikkan pecahan kedua (<b>salingan</b>).'], col)

@@ -55,7 +55,7 @@ const pfLead = p => p[Object.keys(p).sort(pfCmp)[0]];
 const pfPre = p => { const s = pfS(p); return s === '1' ? '' : s === '−1' ? '−' : s; };
 
 /* =================== pecahan (HTML bertingkat) =================== */
-const pfF = (n, d) => `<span class="pff" style="display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.15;margin:0 .15em;font-size:.9em;white-space:nowrap"><span style="padding:0 .22em;border-bottom:.09em solid currentColor">${n}</span><span style="padding:0 .22em">${d}</span></span>`;
+const pfF = (n, d) => fr(n, d); // pecahan bertingkat dikongsi (teras/asas.js) – mathPlain() faham untuk game/RPH
 // pecahan monomial: { n, d, e:{v:kuasa (negatif = penyebut)} }
 const pfMF = (n, d, e) => { const g = pfGcd(n, d) || 1; let nn = n / g, dd = d / g; if (dd < 0) { nn = -nn; dd = -dd; } const o = {}; Object.keys(e || {}).forEach(v => { if (e[v]) o[v] = e[v]; }); return { n: nn, d: dd, e: o }; };
 const pfMFmul = (A, B) => { const e = Object.assign({}, A.e); Object.keys(B.e).forEach(v => { e[v] = (e[v] || 0) + B.e[v]; }); return pfMF(A.n * B.n, A.d * B.d, e); };

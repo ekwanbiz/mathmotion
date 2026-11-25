@@ -61,6 +61,26 @@ PIs = 'π'
 J, Tt, S_, L_, Pp, Ll, Ss = '<i>j</i>', '<i>t</i>', '<i>s</i>', '<i>l</i>', '<i>p</i>', '<i>l</i>', '<i>s</i>'
 SEPERTIGA = FR(1, 3); EMPAT3 = FR(4, 3); PI7 = FR(22, 7)
 
+import sys as _s; _s.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+from mathfmt import mathW, SFR as _MSFR, SRT as _MSRT
+def SMIX(x, y, parts, col, size=20, anchor='middle', halo=None):
+    # baris campuran teks + pecahan bertingkat/punca (SVG). y = garis tengah. parts: 'teks' | ('f', a, b) | ('r', t[, n])
+    fs = size * .85; ws = []
+    for p in parts:
+        if isinstance(p, str): ws.append(mathW(p, size) * .92)
+        elif p[0] == 'f': ws.append(max(mathW(p[1], fs), mathW(p[2], fs)) + 10)
+        else: ws.append(size * .62 + mathW(p[1], size) + 6 + (size * .3 if len(p) > 2 and p[2] else 0))
+    tot = sum(ws); x0 = x if anchor == 'start' else (x - tot if anchor == 'end' else x - tot / 2); o = ''
+    for p, w in zip(parts, ws):
+        if isinstance(p, str): o += f'<text x="{x0:.1f}" y="{y:.1f}" fill="{col}" font-size="{size}" font-weight="700" text-anchor="start" dominant-baseline="middle" xml:space="preserve">{p}</text>'
+        elif p[0] == 'f': o += _MSFR(x0, y, p[1], p[2], col, fs, 'start')
+        else:
+            n = p[2] if len(p) > 2 else None
+            o += _MSRT(x0 + (size * .3 if n else 0), y + size * .35, p[1], col, size, 'start', n)
+        x0 += w
+    if halo: o = o.replace('<text ', f'<text paint-order="stroke" stroke="{halo}" stroke-width="6" stroke-linejoin="round" ')
+    return o
+
 # ---------- pembantu rajah ----------
 FONT = 'font-family="Inter, sans-serif"'
 W, H = 500, 470
@@ -649,9 +669,9 @@ fig = sd.draw(fill=PA, edge=PA, hl=[0, 1], hlcol=AM)
 assert math.dist(V[3], V[4]) == 4 and math.dist(V[3], V[5]) == 3 and math.dist(V[4], V[5]) == 5 and math.dist(V[1], V[4]) == 10
 fig += sd.lab(1, 4, '10 cm', AM, 20) + sd.lab(4, 5, '5 cm', TX, 19)
 fig += sd.lab(3, 4, '4 cm', TX, 19, 26) + sd.lab(3, 5, '3 cm', TX, 19, 30)
-fig += RECT(30, 352, 440, 98, SURF, BD, 14, 2)
-fig += T(250, 376, '2 segi tiga: 2 × ½ × 3 × 4 = 12', AM, 18) + T(250, 402, '3 segi empat: (3 + 4 + 5) × 10 = 120', PA, 18)
-fig += T(250, 430, 'Jumlah = 132 cm²', TX, 20)
+fig += RECT(30, 352, 440, 114, SURF, BD, 14, 2)
+fig += SMIX(250, 376, ['2 segi tiga: 2 × ', ('f', '1', '2'), ' × 3 × 4 = 12'], AM, 18, halo=NAV) + T(250, 413, '3 segi empat: (3 + 4 + 5) × 10 = 120', PA, 18)
+fig += T(250, 446, 'Jumlah = 132 cm²', TX, 20)
 add('6.3', 'CONTOH BERLANGKAH', 'Luas permukaan prisma',
     P('Sebuah prisma segi tiga bersudut tegak mempunyai sisi 3 cm, 4 cm dan 5 cm, dan panjang 10 cm. Cari luas permukaannya.', True)
     + STEPS([f'Luas 2 segi tiga = 2 × {FR(1, 2)} × 3 × 4 = 12 cm²',
@@ -673,9 +693,9 @@ front.sort(key=lambda e: -math.dist(sd.P[e[0]], sd.P[e[1]]))
 fig += sd.lab(e1[0], e1[1], '6 cm', AM, 20) + sd.lab(e2[0], e2[1], '6 cm', AM, 20)
 mid = ((sd.P[e1[0]][0] + sd.P[e1[1]][0]) / 2, (sd.P[e1[0]][1] + sd.P[e1[1]][1]) / 2)
 fig += LINE(sd.P[4], mid, PK, 3.5, '8 6') + T((sd.P[4][0] + mid[0]) / 2 - 14, (sd.P[4][1] + mid[1]) / 2, '5 cm', PK, 19, 'end')
-fig += RECT(30, 352, 440, 98, SURF, BD, 14, 2)
-fig += T(250, 376, 'Tapak: 6 × 6 = 36', AM, 18) + T(250, 402, '4 segi tiga: 4 × ½ × 6 × 5 = 60', PA, 18)
-fig += T(250, 430, 'Jumlah = 96 cm²', TX, 20)
+fig += RECT(30, 352, 440, 114, SURF, BD, 14, 2)
+fig += T(250, 374, 'Tapak: 6 × 6 = 36', AM, 18) + SMIX(250, 406, ['4 segi tiga: 4 × ', ('f', '1', '2'), ' × 6 × 5 = 60'], PA, 18, halo=NAV)
+fig += T(250, 446, 'Jumlah = 96 cm²', TX, 20)
 add('6.3', 'CONTOH BERLANGKAH', 'Luas permukaan piramid',
     P('Piramid tegak bertapak segi empat sama bersisi 6 cm. Tinggi sendeng setiap muka segi tiga ialah 5 cm. Cari luas permukaannya.', True)
     + STEPS(['Luas tapak = 6 × 6 = 36 cm²',
@@ -718,7 +738,7 @@ assert 6 * 4 ** 2 == 96
 fig = cylinder((250, 330), 110, 220, 34, col=PA, edge=PA)
 fig += LINE((250, 110), (360, 110), TX, 3) + DOT((250, 110), TX, 4) + T(305, 94, '7 cm', TX, 19)
 fig += LINE((388, 110), (388, 330), MU3, 2.5, '6 5') + T(400, 220, 't = ?', AM, 22, 'start')
-fig += T(250, 410, 'Luas permukaan = 880 cm²', PA, 20) + T(250, 442, 'π = 22/7', MU, 16, halo=False)
+fig += T(250, 410, 'Luas permukaan = 880 cm²', PA, 20) + SMIX(250, 440, ['π = ', ('f', '22', '7')], MU, 16)
 add('6.3', 'CONTOH BERLANGKAH', 'Cari dimensi yang tidak diketahui',
     P(f'Luas permukaan sebuah silinder tertutup ialah 880 cm² dan jejarinya 7 cm. Cari tinggi silinder itu. (π = {PI7})', True)
     + STEPS([f'2π{J}² + 2π{J}{Tt} = 880',
@@ -736,7 +756,7 @@ CASES = [(44, 'Kon: πj² + πjt (tinggi tegak)', False), (108, 'Kon: πj² + π
          (348, 'Luas permukaan = 108 cm³', False), (412, 'Luas permukaan = 108 cm²', True)]
 for y, t, ok in CASES:
     fig += RECT(20, y - 28, 460, 56, SURF, GR if ok else RD, 14, 2)
-    fig += (TICK(52, y) if ok else CROSS(52, y)) + T(84, y, t, GR if ok else RD, 18, 'start')
+    fig += (TICK(52, y) if ok else CROSS(52, y)) + (T(84, y, t, GR if ok else RD, 18, 'start') if isinstance(t, str) else SMIX(84, y, t, GR if ok else RD, 18, 'start'))
 add('6.3', 'KESILAPAN BIASA', 'Elakkan kesilapan ini',
     BUL([f'{B("Tinggi tegak vs tinggi sendeng", RD)}: piramid dan kon guna tinggi <b>sendeng</b>.',
          f'{B("Kira muka yang tiada", RD)}: baca soalan, contohnya tin tanpa penutup atau kotak terbuka.',
@@ -796,11 +816,11 @@ fig += T(pyb.P[4][0] - 10, (pyb.P[4][1] + pyb.P[5][1]) / 2 - 10, '4', PK, 18, 'e
 front = sorted([(i, (i + 1) % 4) for i in range(4) if py.vis[i + 1]], key=lambda e: -math.dist(py.P[e[0]], py.P[e[1]]))
 fig += py.lab(front[0][0], front[0][1], '6', AM, 18) + py.lab(front[1][0], front[1][1], '6', AM, 18)
 fig += T(129, 48, 'Piramid', TX, 20)
-fig += T(129, 330, '⅓ × 36 × 4', MU3, 18) + T(129, 372, '= 48 cm³', TR, 21)
+fig += SMIX(129, 326, [('f', '1', '3'), ' × 36 × 4'], MU3, 18, halo=NAV) + T(129, 372, '= 48 cm³', TR, 21)
 cs, A = cone((371, 260), 66, 180, 20, col=TR, edge=TR)
 fig += cs + LINE(A, (371, 260), PK, 3, '6 5') + T(379, 170, '24', PK, 18, 'start') + LINE((371, 260), (437, 260), TX, 2.5) + T(404, 276, '7', TX, 17)
 fig += T(371, 48, 'Kon', TX, 20)
-fig += T(371, 330, '⅓ × 154 × 24', MU3, 18) + T(371, 372, '= 1 232 cm³', TR, 21)
+fig += SMIX(371, 326, [('f', '1', '3'), ' × 154 × 24'], MU3, 18, halo=NAV) + T(371, 372, '= 1 232 cm³', TR, 21)
 fig += T(129, 420, 'ukuran dalam cm', MU, 15, halo=False) + T(371, 420, 'ukuran dalam cm', MU, 15, halo=False)
 add('6.4', 'CONTOH BERLANGKAH', 'Isi padu piramid dan kon',
     DEF(f'Isi padu piramid = {SEPERTIGA} × luas tapak × tinggi &nbsp;·&nbsp; Isi padu kon = {SEPERTIGA}π{J}²{Tt}', col)
@@ -880,14 +900,14 @@ add('6.4', 'PENYELESAIAN MASALAH', 'Gabungan pepejal',
 
 # 6.4-7 Kesilapan biasa + ringkasan
 fig = ''
-CASES = [(44, 'Kon: πj²t (lupa ⅓)', False), (108, 'Kon: ⅓πj²t', True),
+CASES = [(44, ['Kon: πj²t (lupa ', ('f', '1', '3'), ')'], False), (108, ['Kon: ', ('f', '1', '3'), 'πj²t'], True),
          (196, 'd = 14 cm, guna 14 dalam πj²t', False), (260, 'd = 14 cm → j = 7 cm', True),
          (348, '2 liter = 200 cm³', False), (412, '2 liter = 2 000 cm³', True)]
 for y, t, ok in CASES:
     fig += RECT(20, y - 28, 460, 56, SURF, GR if ok else RD, 14, 2)
-    fig += (TICK(52, y) if ok else CROSS(52, y)) + T(84, y, t, GR if ok else RD, 18, 'start')
+    fig += (TICK(52, y) if ok else CROSS(52, y)) + (T(84, y, t, GR if ok else RD, 18, 'start') if isinstance(t, str) else SMIX(84, y, t, GR if ok else RD, 18, 'start'))
 add('6.4', 'KESILAPAN BIASA', 'Jangan terkeliru',
-    BUL([f'{B("Lupa ⅓", RD)} bagi piramid dan kon.',
+    BUL([f'{B("Lupa " + SEPERTIGA, RD)} bagi piramid dan kon.',
          f'{B("Guna diameter", RD)} dalam π{J}²{Tt} atau {EMPAT3}π{J}³.',
          f'{B("Guna tinggi sendeng", RD)} untuk isi padu kon ✗ → guna tinggi <b>tegak</b>.',
          f'{B("Unit", RD)}: isi padu dalam cm³ / m³; 1 liter = 1 000 cm³.'], col)

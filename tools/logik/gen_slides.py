@@ -1,7 +1,9 @@
 # Penjana slaid NOTA LOGIK (Tingkatan 4 Bab 3 Penaakulan Logik) -> logik/slides.js
 # Jalankan:  python3 tools/logik/gen_slides.py
 # Gunakan HANYA warna palet gelap di bawah supaya mod cerah ditukar automatik oleh themed().
-import json, os, html, math, re
+import json, os, html, math, re, sys
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+from mathfmt import FR, RT, SFR, SRT, mathW
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUTFILE = os.path.normpath(os.path.join(HERE, '..', '..', 'logik', 'slides.js'))
@@ -66,6 +68,28 @@ def T(x, y, t, col=TX, size=20, anchor='middle', weight=700, italic=False, halo=
     ha = f' paint-order="stroke" stroke="{NAV}" stroke-width="6" stroke-linejoin="round"' if halo else ''
     return (f'<text x="{r1(x)}" y="{r1(y)}" fill="{col}" {FONT} font-size="{size}" font-weight="{weight}"{it} '
             f'text-anchor="{anchor}" dominant-baseline="middle"{ha}>{t}</text>')
+def MIX(x, y, parts, col=TX, size=20, anchor='middle'):
+    """Teks rajah bercampur: str, ('f', a, b) pecahan bertingkat, ('r', t[, n]) punca. y = garis tengah (garis pecahan)."""
+    segs = []
+    for p in parts:
+        if isinstance(p, str):
+            lead = (len(p) - len(p.lstrip(' '))) * size * .28; core = p.strip(' '); trail = (len(p) - len(p.rstrip(' '))) * size * .28 if core else 0
+            segs.append(('s', core, lead, mathW(re.sub('[\u0300-\u036f]', '', core), size) if core else 0, trail))
+        elif p[0] == 'f':
+            segs.append(('f', p, size * .2, max(mathW(p[1], size), mathW(p[2], size)) + 10, size * .16))
+        else:
+            segs.append(('r', p, 0, size * .62 + mathW(p[1], size) + 4, size * .1))
+    tot = sum(a + w + b for _, _, a, w, b in segs)
+    cx = x if anchor == 'start' else (x - tot if anchor == 'end' else x - tot / 2)
+    out = ''
+    for i, (k, v, a, w, b) in enumerate(segs):
+        cx += a
+        if k == 's' and v and i == 0 and len(segs) > 1 and anchor != 'start': out += T(cx + w, y, v, col, size, 'end', halo=False)  # rapat dengan pecahan/punca selepasnya
+        elif k == 's' and v: out += T(cx, y, v, col, size, 'start', halo=False)
+        elif k == 'f': out += SFR(cx, y, v[1], v[2], col, size, 'start')
+        elif k == 'r': out += SRT(cx, y + size * .35, v[1], col, size, 'start', v[2] if len(v) > 2 else None)
+        cx += w + b
+    return out
 def LINE(p, q, col=TX, sw=4, dash=None, cap='round'):
     d = f' stroke-dasharray="{dash}"' if dash else ''
     return f'<line x1="{r1(p[0])}" y1="{r1(p[1])}" x2="{r1(q[0])}" y2="{r1(q[1])}" stroke="{col}" stroke-width="{sw}" stroke-linecap="{cap}"{d}/>'
@@ -93,7 +117,7 @@ def TICK(x, y, col=GR, k=9):
     return f'<path d="M{x - k} {y} L{x - k / 3} {y + k * 0.7} L{x + k} {y - k * 0.8}" fill="none" stroke="{col}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>'
 def PILL(x, y, w, h, t, col, size=18, fill=None, tcol=None):
     """Kotak berlabel (tengah pada x, y)."""
-    return RECT(x - w / 2, y - h / 2, w, h, fill or f'{col}1A', col, h / 2 if h < 50 else 16, 2.5) + T(x, y, t, tcol or col, size, halo=False)
+    return RECT(x - w / 2, y - h / 2, w, h, fill or f'{col}1A', col, h / 2 if h < 50 else 16, 2.5) + (MIX(x, y, t, tcol or col, size) if isinstance(t, list) else T(x, y, t, tcol or col, size, halo=False))
 
 def TT(x0, y0, head, rows, cw, rh=46, hl=None, hl_rows=(), head_cols=None):
     """Jadual kebenaran SVG. rows: senarai baris; nilai True/False dipapar B/P berwarna.
@@ -155,8 +179,8 @@ add('3.1.1', 'DEFINISI', 'Apa itu pernyataan?',
     svg(fig, 'Contoh ayat yang merupakan pernyataan dan yang bukan pernyataan'))
 
 # 2 Nilai kebenaran
-NK = [('√49 = 7', 7 * 7 == 49), ('12 ialah gandaan 5', 12 % 5 == 0), ('−8 &lt; −3', -8 < -3),
-      ('7 × 8 = 54', 7 * 8 == 54), ('0.5 = 1/2', True), ('2³ = 6', 2 ** 3 == 6)]
+NK = [([('r', '49'), ' = 7'], 7 * 7 == 49), ('12 ialah gandaan 5', 12 % 5 == 0), ('−8 &lt; −3', -8 < -3),
+      ('7 × 8 = 54', 7 * 8 == 54), (['0.5 = ', ('f', '1', '2')], True), ('2³ = 6', 2 ** 3 == 6)]
 assert [v for _, v in NK] == [True, False, True, False, True, False]
 fig = RECT(14, 14, 230, 442, f'{GR}10', GR, 18, 2.5) + RECT(256, 14, 230, 442, f'{RD}10', RD, 18, 2.5)
 fig += T(129, 48, 'BENAR', GR, 24) + T(371, 48, 'PALSU', RD, 24)
@@ -169,7 +193,7 @@ for s_, v in NK:
 fig += T(129, 400, 'B', GR, 40) + T(371, 400, 'P', RD, 40)
 add('3.1.1', 'NILAI KEBENARAN', 'Benar atau palsu?',
     DEF('<b>Nilai kebenaran</b> sesuatu pernyataan ialah sama ada ia <b>benar (B)</b> atau <b>palsu (P)</b>.', col)
-    + TABLE(['Pernyataan', 'Nilai kebenaran'], [['√49 = 7', VB], ['12 ialah gandaan 5', VP], ['−8 &lt; −3', VB]], col, rv=True)
+    + TABLE(['Pernyataan', 'Nilai kebenaran'], [[RT(49) + ' = 7', VB], ['12 ialah gandaan 5', VP], ['−8 &lt; −3', VB]], col, rv=True)
     + NOTE('Semak fakta matematik dahulu: 7 × 7 = 49, 12 ÷ 5 tidak tepat, −8 berada di kiri −3 pada garis nombor.'),
     svg(fig, 'Pernyataan diasingkan kepada kumpulan benar dan palsu'))
 
@@ -318,14 +342,14 @@ fig = (RECT(14, 14, 472, 206, SURF, BD, 18, 2) + T(34, 44, '(a)', PA, 20, 'start
        + T(260, 96, 'dan', PA, 18) + T(145, 140, 'P', RD, 22) + T(375, 140, 'B', GR, 22)
        + PILL(250, 186, 220, 44, 'P dan B = P', RD, 20)
        + RECT(14, 236, 472, 220, SURF, BD, 18, 2) + T(34, 266, '(b)', PA, 20, 'start')
-       + PILL(145, 318, 180, 50, '√4 = 2', GR, 19, SURF, TX) + PILL(375, 318, 180, 50, '2³ = 6', RD, 19, SURF, TX)
+       + PILL(145, 318, 180, 50, [('r', '4'), ' = 2'], GR, 19, SURF, TX) + PILL(375, 318, 180, 50, '2³ = 6', RD, 19, SURF, TX)
        + T(260, 318, 'atau', PA, 18) + T(145, 362, 'B', GR, 22) + T(375, 362, 'P', RD, 22)
        + PILL(250, 414, 220, 44, 'B atau P = B', GR, 20))
 add('3.1.3', 'CONTOH BERLANGKAH', 'Menentukan nilai kebenaran',
-    P('Tentukan nilai kebenaran: (a) 9 ialah nombor perdana dan 9 ialah nombor ganjil. (b) √4 = 2 atau 2³ = 6.', True)
+    P('Tentukan nilai kebenaran: (a) 9 ialah nombor perdana dan 9 ialah nombor ganjil. (b) ' + RT(4) + ' = 2 atau 2³ = 6.', True)
     + STEPS(['(a) <i>p</i>: 9 ialah perdana ' + VP + ' (9 = 3 × 3); <i>q</i>: 9 ialah ganjil ' + VB + '.',
              '"dan" memerlukan kedua-duanya benar → ' + VP + '.',
-             '(b) √4 = 2 ' + VB + '; 2³ = 8, bukan 6 ' + VP + '. "atau" memerlukan satu benar → ' + VB + '.'], col)
+             '(b) ' + RT(4) + ' = 2 ' + VB + '; 2³ = 8, bukan 6 ' + VP + '. "atau" memerlukan satu benar → ' + VB + '.'], col)
     + ANS('(a) Palsu &nbsp; (b) Benar'),
     svg(fig, 'Penyelesaian nilai kebenaran pernyataan majmuk'))
 

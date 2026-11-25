@@ -11,8 +11,8 @@ const ubRW = { i: (a, b) => wri(a, b), p: a => wpick(a), f: () => WR() };
 // kuasa: 1, 2, 3, 'h' (punca kuasa dua), 't' (punca kuasa tiga)
 const UBX = { 1: [1, 2, 3, 4, 5, 6, 8, 10, 12], 2: [1, 2, 3, 4, 5, 6, 8, 10], 3: [1, 2, 3, 4, 5], h: [1, 4, 9, 16, 25, 36, 49, 64, 81, 100], t: [1, 8, 27, 64, 125] };
 const ubF = (v, n) => (n === 'h' ? Math.round(Math.sqrt(v)) : n === 't' ? Math.round(Math.cbrt(v)) : v ** n);
-const ubPw = (L, n) => (n === 1 ? L : n === 2 ? L + '²' : n === 3 ? L + '³' : n === 'h' ? '√' + L : '∛' + L);
-const ubSb = (v, n) => (n === 1 ? '' + v : n === 2 ? v + '²' : n === 3 ? v + '³' : n === 'h' ? '√' + v : '∛' + v);
+const ubPw = (L, n) => (n === 1 ? L : n === 2 ? L + '²' : n === 3 ? L + '³' : n === 'h' ? rt(L) : rt(L, 3));
+const ubSb = (v, n) => (n === 1 ? '' + v : n === 2 ? v + '²' : n === 3 ? v + '³' : n === 'h' ? rt(v) : rt(v, 3));
 const ubW = (L, n) => (n === 1 ? L : n === 2 ? 'kuasa dua ' + L : n === 3 ? 'kuasa tiga ' + L : n === 'h' ? 'punca kuasa dua ' + L : 'punca kuasa tiga ' + L);
 const UBH2 = [['y', 'x'], ['p', 'q'], ['m', 'n'], ['w', 'v'], ['P', 'Q'], ['s', 't']];
 const UBH3 = [['y', 'x', 'z'], ['p', 'q', 'r'], ['w', 'u', 'v'], ['m', 'n', 't'], ['P', 'Q', 'R']];
@@ -21,9 +21,8 @@ const UBH3 = [['y', 'x', 'z'], ['p', 'q', 'r'], ['w', 'u', 'v'], ['m', 'n', 't']
 function ubRel(Y, T) {
   const num = T.filter(t => !t.inv), den = T.filter(t => t.inv);
   const ns = num.map(t => ubPw(t.L, t.n)).join(''), ds = den.map(t => ubPw(t.L, t.n)).join('');
-  const dsp = den.length > 1 ? `(${ds})` : ds;
-  const prop = `${Y} ∝ ${den.length ? `${ns || '1'}/${dsp}` : ns}`;
-  const eq = k => { const kk = k == null ? 'k' : (k === 1 && ns ? '' : '' + k); return `${Y} = ${den.length ? `${kk || '1'}${ns}/${dsp}` : kk + ns}`; };
+  const prop = `${Y} ∝ ${den.length ? fr(ns || '1', ds) : ns}`;
+  const eq = k => { const kk = k == null ? 'k' : (k === 1 && ns ? '' : '' + k); return `${Y} = ${den.length ? fr(`${kk || '1'}${ns}`, ds) : kk + ns}`; };
   // ayat
   let ayat;
   if (!den.length) ayat = `${Y} berubah secara langsung dengan ${num.map(t => ubW(t.L, t.n)).join(' dan ')}`;
@@ -38,7 +37,7 @@ const ubSubs = (T, vals, k) => {
   T.forEach((t, i) => (t.inv ? den : num).push(ubSb(vals[i], t.n)));
   const kk = k == null ? 'k' : '' + k;
   const top = [kk].concat(num).join(' × ');
-  return den.length ? `${num.length ? '(' + top + ')' : top} / ${den.length > 1 ? '(' + den.join(' × ') + ')' : den[0]}` : top;
+  return den.length ? fr(top, den.join(' × ')) : top;
 };
 const ubVals = (T, vs) => T.map((t, i) => `${t.L} = ${vs[i]}`).join(' dan ');
 
@@ -158,8 +157,8 @@ UB.cariX = (r, sub) => {
   d.c2 = [`${rel.Y} = ${g.y2}`].concat(others).join(' dan ');
   d.pos = t0.n === 2 ? ` (${t0.L} > 0)` : '';
   d.ans = `${t0.L} = ${x2}`;
-  const shown = rel.T.map((t, i) => (i === 0 ? t.L : g.v2[i]));
-  const eqSub = ubSubs(rel.T.map((t, i) => (i === 0 ? Object.assign({}, t, { n: 1 }) : t)), shown, g.k).replace(t0.L, ubPw(t0.L, t0.n));
+  const shown = rel.T.map((t, i) => (i === 0 ? '\u0001' : g.v2[i]));
+  const eqSub = ubSubs(rel.T.map((t, i) => (i === 0 ? Object.assign({}, t, { n: 1 }) : t)), shown, g.k).replace('\u0001', ubPw(t0.L, t0.n));
   d.work = ubKWork(rel, g).concat([`${rel.eq(g.k)}`, `${g.y2} = ${eqSub}`].concat(t0.n === 1 ? [] : [`${ubPw(t0.L, t0.n)} = ${ubF(x2, t0.n)}`], [`${t0.L} = ${x2}`]));
   return GEN_LQ('cariX', d);
 };
@@ -183,7 +182,7 @@ UB.jadual = (r, sub) => {
   }
   const rel = ubRel(Y, [{ L: X, n, inv }]), pp = rel.prop.split('∝ ')[1];
   const chk = xs.map((v, i) => inv ? `${ys[i]} × ${ubSb(v, n)} = ${k}` : `${ys[i]} ÷ ${ubSb(v, n)} = ${k}`).join(', ');
-  const work = [inv ? `Darab ${Y} dengan ${ubPw(X, n)}: ${chk}` : `Bahagi ${Y} dengan ${ubPw(X, n)}: ${chk}`, `Nilai ${inv ? Y + ubPw(X, n) : Y + '/' + ubPw(X, n)} sentiasa ${k}, maka ${rel.prop}.`, rel.eq(k)];
+  const work = [inv ? `Darab ${Y} dengan ${ubPw(X, n)}: ${chk}` : `Bahagi ${Y} dengan ${ubPw(X, n)}: ${chk}`, `Nilai ${inv ? Y + ubPw(X, n) : fr(Y, ubPw(X, n))} sentiasa ${k}, maka ${rel.prop}.`, rel.eq(k)];
   return GEN_LQ('jadual', { X, Y, wx: ubW(X, n), jenis: inv ? 'songsang' : 'langsung', pp, k, ans: `${rel.prop}; ${rel.eq(k)}`, work }, { fig: ubTable(X, Y, xs, ys) });
 };
 function shuffleR(r, a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(r.f() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }

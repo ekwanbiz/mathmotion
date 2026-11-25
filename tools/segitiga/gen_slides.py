@@ -2,6 +2,7 @@
 import os, sys, math
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 from t1lib import *
+from mathfmt import FR, RT, SFR, SRT
 OUT = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'segitiga', 'slides.js'))
 SUB = {'7.1': ('Segi Tiga', AM), '7.2': ('Teorem Pythagoras', TR), '7.3': ('Sisi Empat', PU)}
 
@@ -47,7 +48,7 @@ def pyth_squares():
 
 def quads():
     s = BOX(); shapes = [([(0, 0), (90, 0), (90, 55), (0, 55)], 'Segi empat tepat', '2 paksi', AM), ([(0, 0), (60, 0), (60, 60), (0, 60)], 'Segi empat sama', '4 paksi', GR), ([(20, 0), (100, 0), (80, 55), (0, 55)], 'Segi empat selari', '0 paksi', TR),
-              ([(40, 0), (80, 35), (40, 70), (0, 35)], 'Rombus', '2 paksi', PU), ([(25, 0), (75, 0), (100, 55), (0, 55)], 'Trapezium', '0 / 1 paksi', PK), ([(40, 0), (75, 25), (40, 80), (5, 25)], 'Lelayang', '1 paksi', RD)]
+              ([(40, 0), (80, 35), (40, 70), (0, 35)], 'Rombus', '2 paksi', PU), ([(25, 0), (75, 0), (100, 55), (0, 55)], 'Trapezium', '0 atau 1 paksi', PK), ([(40, 0), (75, 25), (40, 80), (5, 25)], 'Lelayang', '1 paksi', RD)]
     for i, (pts, nm, d, col) in enumerate(shapes):
         ox, oy = 30 + (i % 3) * 155, 50 + (i // 3) * 190
         s += POLY([(ox + x, oy + y) for x, y in pts], col, NAV, 3) + T(ox + 48, oy + 108, nm, col, 15) + T(ox + 48, oy + 130, d + ' simetri', MU, 13)
@@ -74,13 +75,13 @@ add('7.1', '7.1 Sudut pedalaman', 'Sudut pedalaman dan sudut peluaran',
     + NOTE('Segi tiga sama kaki: dua sudut tapak adalah sama.'), tri_angles(50, 70, 'Segi tiga dengan sudut 50, 70, 60 dan sudut peluaran 110', True))
 assert 0.5 * 12 * 5 == 30 and 12 + 5 + 13 == 30
 add('7.1', '7.1 Perimeter dan luas', 'Perimeter dan luas segi tiga',
-    BUL(['<b>Perimeter</b> = hasil tambah panjang tiga sisi.', '<b>Luas</b> = ½ × tapak × tinggi (tinggi berserenjang dengan tapak).'], c)
-    + P('Segi tiga bersisi 5 cm, 12 cm, 13 cm (bersudut tegak): perimeter = 30 cm, luas = ½ × 12 × 5 = 30 cm².'),
+    BUL(['<b>Perimeter</b> = hasil tambah panjang tiga sisi.', '<b>Luas</b> = ' + FR(1, 2) + ' × tapak × tinggi (tinggi berserenjang dengan tapak).'], c)
+    + P('Segi tiga bersisi 5 cm, 12 cm, 13 cm (bersudut tegak): perimeter = 30 cm, luas = ' + FR(1, 2) + ' × 12 × 5 = 30 cm².'),
     right_tri(12, 5, ['12 cm', '5 cm', '13 cm'], 'Segi tiga bersudut tegak 5, 12, 13'))
 assert 0.5 * 8 * 6 * 4 * 2.5 == 240
 add('7.1', 'Contoh 1', 'Masalah harian: kos bendera segi tiga',
     P('Sebuah kelab menempah 4 helai panji segi tiga, setiap satu bertapak 8 m dan tinggi 6 m. Kos kain ialah RM2.50 semeter persegi. Hitung kos kain.')
-    + STEPS(['Luas sehelai = ½ × 8 × 6 = 24 m²', 'Luas 4 helai = 96 m²', 'Kos = 96 × RM2.50'], c) + ANS('RM240'), '')
+    + STEPS(['Luas sehelai = ' + FR(1, 2) + ' × 8 × 6 = 24 m²', 'Luas 4 helai = 96 m²', 'Kos = 96 × RM2.50'], c) + ANS('RM240'), '')
 
 # ===== 7.2 =====
 c = TR
@@ -97,7 +98,7 @@ add('7.2', 'Contoh 1', 'Mencari sisi yang tidak diketahui',
 assert math.isqrt(10 ** 2 - 6 ** 2) == 8
 add('7.2', 'Contoh 2', 'Masalah harian: tangga',
     P('Sebatang tangga sepanjang 10 m disandarkan pada dinding. Kaki tangga berada 6 m dari dinding. Berapakah tinggi dinding yang dicapai oleh hujung tangga?')
-    + STEPS(['Tangga ialah hipotenus: 10 m', 'tinggi² = 10² − 6² = 100 − 36 = 64', 'tinggi = √64'], c) + ANS('8 m'), right_tri(6, 8, ['6 m', '?', '10 m'], 'Tangga 10 m dengan kaki 6 m dari dinding'))
+    + STEPS(['Tangga ialah hipotenus: 10 m', 'tinggi² = 10² − 6² = 100 − 36 = 64', 'tinggi = ' + RT(64)], c) + ANS('8 m'), right_tri(6, 8, ['6 m', '?', '10 m'], 'Tangga 10 m dengan kaki 6 m dari dinding'))
 assert 3 ** 2 + 4 ** 2 == 25 and 5 ** 2 + 12 ** 2 == 169
 add('7.2', 'Contoh 3', 'Gabungan dua segi tiga',
     P('Dalam rajah, ABD dan BCD ialah segi tiga bersudut tegak. AB = 3 cm, AD = 4 cm dan BC = 12 cm. Cari panjang CD.')
@@ -112,15 +113,15 @@ assert 360 - 95 - 80 - 110 == 75
 add('7.3', '7.3 Sudut', 'Sudut pedalaman dan peluaran sisi empat',
     BUL(['Hasil tambah sudut pedalaman sisi empat = <b>360°</b> (dua segi tiga).', 'Sudut 95°, 80°, 110° → sudut keempat = 360° − 285° = 75°.', '<b>Segi empat selari</b>: sudut bertentangan sama; sudut bersebelahan berjumlah 180°.', 'Sudut peluaran + sudut pedalaman bersebelahan = 180°.'], c), quads())
 add('7.3', '7.3 Perimeter dan luas', 'Rumus luas sisi empat',
-    TABLE(['Sisi empat', 'Luas'], [['Segi empat tepat', 'panjang × lebar'], ['Segi empat selari', 'tapak × tinggi'], ['Trapezium', '½ × (jumlah sisi selari) × tinggi'], ['Rombus / lelayang', '½ × pepenjuru 1 × pepenjuru 2']], c)
+    TABLE(['Sisi empat', 'Luas'], [['Segi empat tepat', 'panjang × lebar'], ['Segi empat selari', 'tapak × tinggi'], ['Trapezium', '' + FR(1, 2) + ' × (jumlah sisi selari) × tinggi'], ['Rombus / lelayang', '' + FR(1, 2) + ' × pepenjuru 1 × pepenjuru 2']], c)
     + NOTE('Segi empat tepat dengan perimeter sama boleh mempunyai luas berbeza: 6 × 4 (24 cm²) dan 9 × 1 (9 cm²) kedua-duanya berperimeter 20 cm.'), '')
 assert math.isqrt(10 ** 2 - 6 ** 2) == 8 and 12 * 6 + 0.5 * 12 * 8 == 120 and 12 + 6 + 6 + 10 + 10 == 44
 add('7.3', 'Contoh 1', 'Gabungan segi tiga dan sisi empat',
     P('Rajah menunjukkan dinding hadapan sebuah rumah: segi empat tepat 12 m × 6 m dan bumbung segi tiga sama kaki dengan sisi 10 m. Cari (a) perimeter dinding, (b) luas dinding.')
-    + STEPS(['Tinggi bumbung t: t² = 10² − 6² = 64, t = 8 m', 'Perimeter = 12 + 6 + 6 + 10 + 10 = 44 m', 'Luas = 12 × 6 + ½ × 12 × 8 = 72 + 48'], c) + ANS('(a) 44 m (b) 120 m²'), house())
+    + STEPS(['Tinggi bumbung t: t² = 10² − 6² = 64, t = 8 m', 'Perimeter = 12 + 6 + 6 + 10 + 10 = 44 m', 'Luas = 12 × 6 + ' + FR(1, 2) + ' × 12 × 8 = 72 + 48'], c) + ANS('(a) 44 m (b) 120 m²'), house())
 assert 0.5 * (8 + 14) * 5 == 55 and 55 * 30 == 1650
 add('7.3', 'Contoh 2', 'Masalah harian: kos jubin trapezium',
     P('Sebuah laman berbentuk trapezium dengan sisi selari 8 m dan 14 m serta tinggi 5 m. Kos memasang jubin ialah RM30 semeter persegi. Hitung kos.')
-    + STEPS(['Luas = ½ × (8 + 14) × 5 = 55 m²', 'Kos = 55 × RM30'], c) + ANS('RM1 650'), '')
+    + STEPS(['Luas = ' + FR(1, 2) + ' × (8 + 14) × 5 = 55 m²', 'Kos = 55 × RM30'], c) + ANS('RM1 650'), '')
 
 finish(SUB, OUT, {'7.1': 5, '7.2': 5, '7.3': 5})

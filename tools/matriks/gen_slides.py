@@ -1,7 +1,9 @@
 # Penjana slaid NOTA MATRIKS (Tingkatan 5 Bab 2 Matriks) -> matriks/slides.js
 # Jalankan:  python3 tools/matriks/gen_slides.py
 # Gunakan HANYA warna palet gelap di bawah supaya mod cerah ditukar automatik oleh themed().
-import json, os, html, re
+import json, os, html, re, sys
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+from mathfmt import FR, RT, SFR, SRT
 from fractions import Fraction as F
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -45,7 +47,7 @@ def M(rows, col=TX):
     """Matriks sebaris dalam HTML (kurungan kiri-kanan)."""
     n = len(rows[0])
     cells = ''.join(f'<span>{fs(v) if not isinstance(v, str) else v}</span>' for r in rows for v in r)
-    return (f'<span style="display: inline-grid; grid-template-columns: repeat({n}, auto); gap: 2px 12px; text-align: center; vertical-align: middle; '
+    return (f'<span style="display: inline-grid; grid-template-columns: repeat({n}, auto); gap: 2px 12px; align-items: center; text-align: center; vertical-align: middle; '
             f'padding: 2px 9px; margin: 2px 3px; border-left: 3px solid {col}; border-right: 3px solid {col}; border-radius: 10px; font-weight: 700; line-height: 1.15">{cells}</span>')
 
 # ---------- pembantu rajah ----------
@@ -318,8 +320,8 @@ ms2, w2 = MS(252, 176, [['d', '−b'], ['−c', 'a']], PK, 54, 50, 24, {(0, 0): 
 fig += T(250, 330, 'tukar a ↔ d', PK, 19) + T(250, 366, 'tukar tanda b dan c', PU, 19) + T(250, 410, 'bahagi dengan penentu', AM, 19)
 add('2.2.5', 'RUMUS', 'Mencari matriks songsang',
     P(f'Cari songsang bagi <i>A</i> = {M(A6)}.', True)
-    + STEPS(['Penentu: (4)(2) − (3)(2) = 8 − 6 = 2 ≠ 0', f'<i>A</i><sup>−1</sup> = ½{M([[2, -3], [-2, 4]])}', f'= {M([[1, "−3/2"], [-1, 2]])}'], col)
-    + ANS(f'<i>A</i><sup>−1</sup> = {M([[1, "−3/2"], [-1, 2]])}'),
+    + STEPS(['Penentu: (4)(2) − (3)(2) = 8 − 6 = 2 ≠ 0', f'<i>A</i><sup>−1</sup> = {FR(1, 2)}{M([[2, -3], [-2, 4]])}', f'= {M([[1, "−" + FR(3, 2)], [-1, 2]])}'], col)
+    + ANS(f'<i>A</i><sup>−1</sup> = {M([[1, "−" + FR(3, 2)], [-1, 2]])}'),
     svg(fig, 'Rumus matriks songsang 2 × 2'))
 
 # 3 Persamaan serentak dalam bentuk matriks
@@ -350,7 +352,7 @@ add('2.2.5', 'PERSAMAAN SERENTAK', 'Tulis dalam bentuk matriks',
     P('2<i>x</i> + <i>y</i> = 7 dan <i>x</i> − <i>y</i> = 2', True)
     + STEPS([f'Bentuk matriks: {M(A7)}{M([["<i>x</i>"], ["<i>y</i>"]])} = {M(b7)}',
              f'Penentu = (2)(−1) − (1)(1) = −3',
-             f'{M([["<i>x</i>"], ["<i>y</i>"]])} = −⅓{M([[-1, -1], [-1, 2]])}{M(b7)} = −⅓{M([[-9], [-3]])}',
+             f'{M([["<i>x</i>"], ["<i>y</i>"]])} = −{FR(1, 3)}{M([[-1, -1], [-1, 2]])}{M(b7)} = −{FR(1, 3)}{M([[-9], [-3]])}',
              f'= {M([[3], [1]])}'], col)
     + ANS('<i>x</i> = 3, <i>y</i> = 1'),
     svg(plane_fig(), 'Dua garis 2x + y = 7 dan x − y = 2 bersilang pada titik (3, 1)'))

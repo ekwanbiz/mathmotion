@@ -165,8 +165,8 @@ function ggLMData(r, opt = {}) {
   return d;
 }
 const ggArea1 = d => d.u === 0
-  ? [`Luas segi tiga = ½ × ${d.t1} × ${d.v}`, `= ${ggN(d.A1)} m`]
-  : [`Luas trapezium = ½ × (${d.u} + ${d.v}) × ${d.t1}`, `= ${ggN(d.A1)} m`];
+  ? [`Luas segi tiga = ${fr(1, 2)} × ${d.t1} × ${d.v}`, `= ${ggN(d.A1)} m`]
+  : [`Luas trapezium = ${fr(1, 2)} × (${d.u} + ${d.v}) × ${d.t1}`, `= ${ggN(d.A1)} m`];
 
 /* =================== QV: bank cara tanya =================== */
 const QV = {
@@ -227,7 +227,7 @@ const QV = {
     ({ o, when }) => ({ q: `${o[0]} berbasikal seperti dalam graf jarak-masa di bawah. Berapakah lajunya ${when} dalam unit km/j?` })
   ],
   k71: [
-    ({ a }) => ({ q: `Graf jarak-masa di bawah menunjukkan perjalanan ${a.o[0]} dari rumah ke sebuah kedai dan kembali ke rumah. (a) Hitung laju ${a.o[1]} ke kedai, dalam km/j. (b) Berapa lamakah ${a.o[1]} pegun di kedai? (c) Hitung laju purata bagi seluruh perjalanan, dalam km/j.`, ans: `(a) ${ggN(a.v1)} km/j (b) ${ggN(a.tr)} minit (c) ${ggN(a.avg)} km/j`, work: [`(a) Laju = ${ggN(a.d1)} km ÷ ${ggN(a.t1)} minit = ${ggN(a.d1)} × 60/${ggN(a.t1)} = ${ggN(a.v1)} km/j`, `(b) Garis mengufuk: ${ggN(a.t2)} − ${ggN(a.t1)} = ${ggN(a.tr)} minit`, `(c) Jumlah jarak = ${ggN(a.d1)} + ${ggN(a.d1)} = ${ggN(2 * a.d1)} km; jumlah masa = ${ggN(a.T)} minit`, `Laju purata = ${ggN(2 * a.d1)} × 60/${ggN(a.T)} = ${ggN(a.avg)} km/j`] }),
+    ({ a }) => ({ q: `Graf jarak-masa di bawah menunjukkan perjalanan ${a.o[0]} dari rumah ke sebuah kedai dan kembali ke rumah. (a) Hitung laju ${a.o[1]} ke kedai, dalam km/j. (b) Berapa lamakah ${a.o[1]} pegun di kedai? (c) Hitung laju purata bagi seluruh perjalanan, dalam km/j.`, ans: `(a) ${ggN(a.v1)} km/j (b) ${ggN(a.tr)} minit (c) ${ggN(a.avg)} km/j`, work: [`(a) Laju = ${ggN(a.d1)} km ÷ ${ggN(a.t1)} minit = ${ggN(a.d1)} × ${fr(60, ggN(a.t1))} = ${ggN(a.v1)} km/j`, `(b) Garis mengufuk: ${ggN(a.t2)} − ${ggN(a.t1)} = ${ggN(a.tr)} minit`, `(c) Jumlah jarak = ${ggN(a.d1)} + ${ggN(a.d1)} = ${ggN(2 * a.d1)} km; jumlah masa = ${ggN(a.T)} minit`, `Laju purata = ${ggN(2 * a.d1)} × ${fr(60, ggN(a.T))} = ${ggN(a.avg)} km/j`] }),
     ({ b }) => ({ q: `Graf di bawah menunjukkan jarak dari bandar P bagi kereta X (bertolak dari P) dan kereta Y (bertolak dari Q menuju ke P) yang bertolak serentak. Jarak PQ ialah ${b.D} km. (a) Hitung laju kereta X dan laju kereta Y. (b) Selepas berapa jam kedua-dua kereta bertemu? (c) Berapakah jarak dari P ketika mereka bertemu?`, ans: `(a) X: ${b.vA} km/j, Y: ${b.vB} km/j (b) ${ggN(b.tm)} jam (c) ${ggN(b.dm)} km`, work: [`(a) X: ${b.D} ÷ ${ggN(b.tA)} = ${b.vA} km/j; Y: ${b.D} ÷ ${ggN(b.tB)} = ${b.vB} km/j`, `(b) Mereka bertemu apabila jumlah jarak = ${b.D} km: (${b.vA} + ${b.vB})t = ${b.D}`, `t = ${b.D} ÷ ${b.vA + b.vB} = ${ggN(b.tm)} jam`, `(c) Jarak dari P = ${b.vA} × ${ggN(b.tm)} = ${ggN(b.dm)} km`] }),
     ({ c }) => ({ q: `Graf jarak-masa di bawah menunjukkan perjalanan ${ggLc(c.o[0])} dari bandar P ke bandar Q dan kembali ke P. Laju purata bagi seluruh perjalanan ialah ${ggN(c.A)} km/j. (a) Cari nilai T. (b) Hitung laju ${c.o[1]} semasa kembali ke P.`, ans: `(a) T = ${ggN(c.T)} (b) ${ggN(c.v3)} km/j`, work: [`(a) Jumlah jarak = ${c.d1} + ${c.d1} = ${2 * c.d1} km`, `Jumlah masa = jumlah jarak ÷ laju purata = ${2 * c.d1} ÷ ${ggN(c.A)} = ${ggN(c.T)} jam, maka T = ${ggN(c.T)}`, `(b) Masa kembali = ${ggN(c.T)} − ${ggN(c.t2)} = ${ggN(c.t3)} jam`, `Laju = ${c.d1} ÷ ${ggN(c.t3)} = ${ggN(c.v3)} km/j`] })
   ],
@@ -279,8 +279,8 @@ const QV = {
   ],
   k72: [
     ({ a }) => ({ q: `Graf laju-masa di bawah menunjukkan gerakan ${ggLc(a.o[0])} selama ${a.T} s. (a) Hitung pecutan dalam ${a.t1} s pertama. (b) Hitung jarak yang dilalui dalam tempoh laju seragam. (c) Hitung laju purata bagi seluruh gerakan.`, ans: `(a) ${ggN(a.a1)} m/s² (b) ${ggN(a.A2)} m (c) ${ggN(a.avg)} m/s`, work: [`(a) (${a.v} − ${a.u}) ÷ ${a.t1} = ${ggN(a.a1)} m/s²`, `(b) ${a.t2 - a.t1} × ${a.v} = ${ggN(a.A2)} m`, `(c) Jumlah jarak = ${ggN(a.A1)} + ${ggN(a.A2)} + ${ggN(a.A3)} = ${ggN(a.D)} m`, `Laju purata = ${ggN(a.D)} ÷ ${a.T} = ${ggN(a.avg)} m/s`] }),
-    ({ b }) => ({ q: `Graf laju-masa di bawah menunjukkan gerakan ${ggLc(b.o[0])}. Jumlah jarak yang dilalui ialah ${ggN(b.D)} m. (a) Cari nilai v. (b) Hitung pecutan dalam ${b.t1} s pertama. (c) Hitung nyahpecutan dalam ${b.T - b.t2} s terakhir.`, ans: `(a) v = ${b.v} (b) ${ggN(b.a1)} m/s² (c) ${ggN(b.dec)} m/s²`, work: [`(a) ½ × (${b.t2 - b.t1} + ${b.T}) × v = ${ggN(b.D)}`, `${ggN((b.t2 - b.t1 + b.T) / 2)}v = ${ggN(b.D)} → v = ${b.v}`, `(b) ${b.v} ÷ ${b.t1} = ${ggN(b.a1)} m/s²`, `(c) (0 − ${b.v}) ÷ ${b.T - b.t2} = −${ggN(b.dec)}, nyahpecutan ${ggN(b.dec)} m/s²`] }),
-    ({ c }) => ({ q: `${c.o[0]} memecut secara seragam dari pegun hingga mencapai laju ${c.v} m/s dalam ${c.t1} s, kemudian mengalami nyahpecutan seragam hingga berhenti pada masa T s, seperti graf di bawah. Jumlah jarak ialah ${ggN(c.D)} m. (a) Cari nilai T. (b) Hitung nyahpecutan ${c.o[1]}.`, ans: `(a) T = ${ggN(c.T)} (b) ${ggN(c.dec)} m/s²`, work: [`(a) Luas segi tiga: ½ × T × ${c.v} = ${ggN(c.D)}`, `T = ${ggN(c.D)} × 2 ÷ ${c.v} = ${ggN(c.T)}`, `(b) Masa nyahpecutan = ${ggN(c.T)} − ${c.t1} = ${ggN(c.T - c.t1)} s`, `Nyahpecutan = ${c.v} ÷ ${ggN(c.T - c.t1)} = ${ggN(c.dec)} m/s²`] })
+    ({ b }) => ({ q: `Graf laju-masa di bawah menunjukkan gerakan ${ggLc(b.o[0])}. Jumlah jarak yang dilalui ialah ${ggN(b.D)} m. (a) Cari nilai v. (b) Hitung pecutan dalam ${b.t1} s pertama. (c) Hitung nyahpecutan dalam ${b.T - b.t2} s terakhir.`, ans: `(a) v = ${b.v} (b) ${ggN(b.a1)} m/s² (c) ${ggN(b.dec)} m/s²`, work: [`(a) ${fr(1, 2)} × (${b.t2 - b.t1} + ${b.T}) × v = ${ggN(b.D)}`, `${ggN((b.t2 - b.t1 + b.T) / 2)}v = ${ggN(b.D)} → v = ${b.v}`, `(b) ${b.v} ÷ ${b.t1} = ${ggN(b.a1)} m/s²`, `(c) (0 − ${b.v}) ÷ ${b.T - b.t2} = −${ggN(b.dec)}, nyahpecutan ${ggN(b.dec)} m/s²`] }),
+    ({ c }) => ({ q: `${c.o[0]} memecut secara seragam dari pegun hingga mencapai laju ${c.v} m/s dalam ${c.t1} s, kemudian mengalami nyahpecutan seragam hingga berhenti pada masa T s, seperti graf di bawah. Jumlah jarak ialah ${ggN(c.D)} m. (a) Cari nilai T. (b) Hitung nyahpecutan ${c.o[1]}.`, ans: `(a) T = ${ggN(c.T)} (b) ${ggN(c.dec)} m/s²`, work: [`(a) Luas segi tiga: ${fr(1, 2)} × T × ${c.v} = ${ggN(c.D)}`, `T = ${ggN(c.D)} × 2 ÷ ${c.v} = ${ggN(c.T)}`, `(b) Masa nyahpecutan = ${ggN(c.T)} − ${c.t1} = ${ggN(c.T - c.t1)} s`, `Nyahpecutan = ${c.v} ÷ ${ggN(c.T - c.t1)} = ${ggN(c.dec)} m/s²`] })
   ]
 };
 
@@ -340,7 +340,7 @@ GG.jmCariD = r => {
 GG.jmUnit = (r, k) => {
   const d = ggJMMin(r), o = r.p(GGOBJ.min), seg = k == null ? (r.f() < .5 ? 1 : 3) : (k % 2 ? 3 : 1);
   const tt = seg === 1 ? d.t1 : d.t3, v = seg === 1 ? d.v1 : d.v3, when = seg === 1 ? `dari rumah dalam ${d.t1} minit pertama` : `semasa pulang dari minit ke-${d.t2} hingga minit ke-${d.T}`;
-  return GEN_LQ('jmUnit', { o, when, ans: `${ggN(v)} km/j`, work: [`Jarak = ${d.d1} km, masa = ${tt} minit = ${tt}/60 jam`, `Laju = ${d.d1} ÷ ${tt}/60 = ${d.d1} × 60/${tt}`, `= ${ggN(v)} km/j`] }, { fig: ggJMFig(d) });
+  return GEN_LQ('jmUnit', { o, when, ans: `${ggN(v)} km/j`, work: [`Jarak = ${d.d1} km, masa = ${tt} minit = ${fr(tt, 60)} jam`, `Laju = ${d.d1} ÷ ${fr(tt, 60)} = ${d.d1} × ${fr(60, tt)}`, `= ${ggN(v)} km/j`] }, { fig: ggJMFig(d) });
 };
 GG.k71 = r => {
   const a = Object.assign(ggJMMin(r, { avg: true }), { o: r.p(GGOBJ.min) });
@@ -378,14 +378,14 @@ GG.lmJarakSeg = (r, k) => {
   const d = ggLMData(r), o = r.p(GGLM), seg = k == null ? r.i(0, 2) : k % 3;
   const ta = [0, d.t1, d.t2][seg], tb = [d.t1, d.t2, d.T][seg], A = [d.A1, d.A2, d.A3][seg];
   const shape = seg === 0 ? (d.u === 0 ? 'segi tiga' : 'trapezium') : seg === 1 ? 'segi empat tepat' : 'segi tiga';
-  const work = seg === 0 ? ggArea1(d) : seg === 1 ? [`Luas segi empat tepat = ${d.t2 - d.t1} × ${d.v}`, `= ${ggN(A)} m`] : [`Luas segi tiga = ½ × ${d.T - d.t2} × ${d.v}`, `= ${ggN(A)} m`];
+  const work = seg === 0 ? ggArea1(d) : seg === 1 ? [`Luas segi empat tepat = ${d.t2 - d.t1} × ${d.v}`, `= ${ggN(A)} m`] : [`Luas segi tiga = ${fr(1, 2)} × ${d.T - d.t2} × ${d.v}`, `= ${ggN(A)} m`];
   return GEN_LQ('lmJarakSeg', { o, ta, tb, shape, ans: `${ggN(A)} m`, work: ['Jarak = luas di bawah graf'].concat(work) }, { fig: ggLMFig(d), figAns: ggLMFig(d, { shade: true }) });
 };
 GG.lukisLM = r => {
   const d = ggLMData(r), o = r.p(GGLM);
   return GEN_LQ('lukisLM', { o, ans: `Graf melalui ${d.pts.map(p => `(${p[0]}, ${p[1]})`).join(', ')} (rujuk rajah jawapan); laju seragam selama ${d.t2 - d.t1} s`, work: ['Plot setiap pasangan (masa, laju) daripada jadual.', 'Sambungkan titik-titik berturutan dengan garis lurus.', `Garis mengufuk dari ${d.t1} s hingga ${d.t2} s menunjukkan laju seragam ${d.v} m/s.`] }, { kind: 'lukis', fig: ggLukisFig(d, false, 'lm'), figAns: ggLukisFig(d, true, 'lm') });
 };
-const ggWSum = d => ['Jarak = luas di bawah graf'].concat([`${ggArea1(d)[0]} = ${ggN(d.A1)} m`,`Luas segi empat tepat = ${d.t2 - d.t1} × ${d.v} = ${ggN(d.A2)} m`, `Luas segi tiga = ½ × ${d.T - d.t2} × ${d.v} = ${ggN(d.A3)} m`, `Jumlah jarak = ${ggN(d.A1)} + ${ggN(d.A2)} + ${ggN(d.A3)} = ${ggN(d.D)} m`]);
+const ggWSum = d => ['Jarak = luas di bawah graf'].concat([`${ggArea1(d)[0]} = ${ggN(d.A1)} m`,`Luas segi empat tepat = ${d.t2 - d.t1} × ${d.v} = ${ggN(d.A2)} m`, `Luas segi tiga = ${fr(1, 2)} × ${d.T - d.t2} × ${d.v} = ${ggN(d.A3)} m`, `Jumlah jarak = ${ggN(d.A1)} + ${ggN(d.A2)} + ${ggN(d.A3)} = ${ggN(d.D)} m`]);
 GG.lmJumlah = r => {
   const d = ggLMData(r), o = r.p(GGLM);
   return GEN_LQ('lmJumlah', { o, T: d.T, wrong: d.v * d.T, ans: `${ggN(d.D)} m`, work: ggWSum(d) }, { fig: ggLMFig(d), figAns: ggLMFig(d, { shade: true }) });
@@ -396,7 +396,7 @@ GG.lmPurata = r => {
 };
 GG.lmCariV = r => {
   const d = ggLMData(r, { u0: true }), o = r.p(GGLM), k = (d.t2 - d.t1 + d.T) / 2;
-  return GEN_LQ('lmCariV', { o, D: d.D, T: d.T, ans: `v = ${d.v}`, work: ['Kawasan di bawah graf ialah trapezium.', `½ × (${d.t2 - d.t1} + ${d.T}) × v = ${ggN(d.D)}`, `${ggN(k)}v = ${ggN(d.D)}`, `v = ${ggN(d.D)} ÷ ${ggN(k)} = ${d.v}`] }, { fig: ggLMFig(d, { hideV: true }), figAns: ggLMFig(d, { shade: true }) });
+  return GEN_LQ('lmCariV', { o, D: d.D, T: d.T, ans: `v = ${d.v}`, work: ['Kawasan di bawah graf ialah trapezium.', `${fr(1, 2)} × (${d.t2 - d.t1} + ${d.T}) × v = ${ggN(d.D)}`, `${ggN(k)}v = ${ggN(d.D)}`, `v = ${ggN(d.D)} ÷ ${ggN(k)} = ${d.v}`] }, { fig: ggLMFig(d, { hideV: true }), figAns: ggLMFig(d, { shade: true }) });
 };
 // (0,v) → (t1,v) → (T,0): laju seragam kemudian berhenti
 function ggLMStop(r) {
@@ -409,7 +409,7 @@ function ggLMStop(r) {
 }
 GG.lmCariT = r => {
   const d = ggLMStop(r), o = r.p(GGLM);
-  return GEN_LQ('lmCariT', { o, D: d.D, v: d.v, ans: `T = ${d.T}`, work: [`Luas segi empat tepat = ${d.v} × ${d.t1} = ${ggN(d.A1)} m`, `Luas segi tiga = ${ggN(d.D)} − ${ggN(d.A1)} = ${ggN(d.A3)} m`, `½ × (T − ${d.t1}) × ${d.v} = ${ggN(d.A3)} → T − ${d.t1} = ${d.T - d.t1}`, `T = ${d.T}`] }, { fig: ggLMFig(d, { hideT: true }), figAns: ggLMFig(d, { shade: true }) });
+  return GEN_LQ('lmCariT', { o, D: d.D, v: d.v, ans: `T = ${d.T}`, work: [`Luas segi empat tepat = ${d.v} × ${d.t1} = ${ggN(d.A1)} m`, `Luas segi tiga = ${ggN(d.D)} − ${ggN(d.A1)} = ${ggN(d.A3)} m`, `${fr(1, 2)} × (T − ${d.t1}) × ${d.v} = ${ggN(d.A3)} → T − ${d.t1} = ${d.T - d.t1}`, `T = ${d.T}`] }, { fig: ggLMFig(d, { hideT: true }), figAns: ggLMFig(d, { shade: true }) });
 };
 GG.k72 = r => {
   const a = Object.assign(ggLMData(r, { avg: true, u1: true }), { o: r.p(GGLM) });
