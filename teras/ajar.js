@@ -177,9 +177,9 @@ function viewSusun() {
   const rows = pl.items.map((it, i) => `<div class="ajrow${i === AJS.sel ? ' on' : ''}" draggable="true" data-row="${i}" style="--c:var(--${AJT[it.t][1]})">
       <span class="dg" aria-hidden="true">${ajIcon.drag}</span><span class="n">${i + 1}</span>${typeChip(it.t)}
       <button type="button" class="nm" data-pick="${i}">${esc(itemName(it))}</button>
-      <button type="button" class="mini" data-mv="${i},-1" aria-label="Naikkan item ${i + 1}"${i ? '' : ' disabled'}>↑</button>
+      <span class="ajbtns"><button type="button" class="mini" data-mv="${i},-1" aria-label="Naikkan item ${i + 1}"${i ? '' : ' disabled'}>↑</button>
       <button type="button" class="mini" data-mv="${i},1" aria-label="Turunkan item ${i + 1}"${i < pl.items.length - 1 ? '' : ' disabled'}>↓</button>
-      <button type="button" class="mini del" data-del="${i}" aria-label="Buang item ${i + 1}">×</button></div>`).join('');
+      <button type="button" class="mini del" data-del="${i}" aria-label="Buang item ${i + 1}">×</button></span></div>`).join('');
   return `<div class="ajwrap">
     <div class="ajtop">
       <label class="ajplan"><span>PELAN</span><select id="ajPlanSel" aria-label="Pilih pelan">${opts}</select></label>
