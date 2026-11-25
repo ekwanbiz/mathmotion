@@ -1,5 +1,5 @@
 'use strict';
-/* =================== GAME · SOALAN ASAS + − × ÷ ===================
+/* =================== GAME · KIRA PANTAS (+ − × ÷) ===================
    Dipakai apabila b=asas (tiada bab). Soalan bercampur empat operasi; makin lama makin susah
    (ikut bilangan soalan yang sudah keluar, TMG.qn). Jawapan sentiasa nombor bulat positif. */
 const ASR = (a, b) => a + Math.floor(Math.random() * (b - a + 1));

@@ -9,7 +9,7 @@ const TMG = {
   $: id => document.getElementById(id),
   touch: !!(window.matchMedia && matchMedia('(pointer: coarse)').matches) || 'ontouchstart' in window
 };
-TMG.ASAS = { id: 'asas', t: 0, n: '', tajuk: 'Asas + − × ÷', asas: true };
+TMG.ASAS = { id: 'asas', t: 0, n: '', tajuk: 'Kira Pantas', asas: true };
 TMG.bab = TMG.P.get('b') === 'asas' ? TMG.ASAS : SENARAI.find(s => s.id === TMG.P.get('b'));
 TMG.gid = TMG.P.get('g');
 
@@ -75,7 +75,7 @@ TMG.semak = () => { if (TMG.nyawa <= 0 || TMG.qn >= TMG.MAX) { TMG.tamat(); retu
 /* ---------- lapisan: mula, jeda, tamat ---------- */
 TMG.kad = html => { const l = TMG.$('lapis'); l.innerHTML = `<div class="kad">${html}</div>`; l.hidden = false; return l; };
 TMG.tutupKad = () => { TMG.$('lapis').hidden = true; };
-TMG.tagHTML = () => `<span class="tg">${GAMEDEF.nama.toUpperCase()} · ${TMG.bab.asas ? 'ASAS + − × ÷' : 'BAB ' + TMG.bab.n}</span>`;
+TMG.tagHTML = () => `<span class="tg">${GAMEDEF.nama.toUpperCase()} · ${TMG.bab.asas ? 'KIRA PANTAS' : 'BAB ' + TMG.bab.n}</span>`;
 TMG.mulaKad = () => {
   const l = TMG.kad(`${TMG.tagHTML()}<h1>${GAMEDEF.nama}</h1><p>${TMG.bab.asas ? 'Tambah, tolak, darab dan bahagi' : `${tgEsc(TMG.bab.tajuk)} · Tingkatan ${TMG.bab.t}`}</p><p>${TMG.touch ? GAMEDEF.caraSentuh : GAMEDEF.cara}</p><p>${TMG.NYAWA} nyawa · ${TMG.MAX} soalan sepanjang permainan</p><button class="pri" id="kMula">Mula</button>`);
   l.querySelector('#kMula').onclick = () => { TMG.tutupKad(); TMG.bunyi('tap'); TMG.mula(); };

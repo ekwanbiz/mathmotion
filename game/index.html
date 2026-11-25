@@ -74,12 +74,12 @@ const GAMES=[
  {name:'Kejar Kancil',dunia:'HUTAN HUJAN',d:'Lompat dahan dan kejar jawapan.',col:'#34D399',sky:'linear-gradient(#14532D 70%,#166534 70%)'},
  {name:'Bola Sepak',dunia:'PADANG SEKOLAH',d:'Tendang bola ke gol jawapan.',col:'#38BDF8',sky:'linear-gradient(#38BDF8 70%,#16A34A 70%)'}];
 const P=new URLSearchParams(location.search);
-const ASAS={id:'asas',t:0,n:'',tajuk:'Asas + − × ÷'};
+const ASAS={id:'asas',t:0,n:'',tajuk:'Kira Pantas'};
 let pilih=P.get('b')==='asas'?ASAS:(SENARAI.find(s=>s.id===P.get('b'))||null), ting=pilih?pilih.t:(P.get('t')!=null&&P.get('t')!==''?+P.get('t'):1);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function draw(){
- document.getElementById('ting').innerHTML=[1,2,3,4,5].map(t=>`<button data-t="${t}" class="${t===ting?'on':''}" aria-pressed="${t===ting}" aria-label="Tingkatan ${t}">T${t}</button>`).join('')+`<button data-t="0" class="asas${ting===0?' on':''}" aria-pressed="${ting===0}" aria-label="Soalan asas tambah, tolak, darab dan bahagi">+ − × ÷</button>`;
- document.getElementById('bab').innerHTML=ting===0?'<p class="hint" style="grid-column:1/-1;margin:4px 0">Soalan asas tambah, tolak, darab dan bahagi. Makin lama makin susah. Terus pilih game.</p>':SENARAI.filter(s=>s.t===ting).map(s=>`<button data-b="${s.id}" class="${pilih&&pilih.id===s.id?'on':''}" aria-pressed="${!!(pilih&&pilih.id===s.id)}"><b>${s.n}</b>${esc(s.tajuk)}</button>`).join('');
+ document.getElementById('ting').innerHTML=[1,2,3,4,5].map(t=>`<button data-t="${t}" class="${t===ting?'on':''}" aria-pressed="${t===ting}" aria-label="Tingkatan ${t}">T${t}</button>`).join('')+`<button data-t="0" class="asas${ting===0?' on':''}" aria-pressed="${ting===0}" aria-label="Kira Pantas: tambah, tolak, darab dan bahagi">+ − × ÷</button>`;
+ document.getElementById('bab').innerHTML=ting===0?'<p class="hint" style="grid-column:1/-1;margin:4px 0"><b>Kira Pantas</b>: soalan tambah, tolak, darab dan bahagi. Makin lama makin susah. Terus pilih game.</p>':SENARAI.filter(s=>s.t===ting).map(s=>`<button data-b="${s.id}" class="${pilih&&pilih.id===s.id?'on':''}" aria-pressed="${!!(pilih&&pilih.id===s.id)}"><b>${s.n}</b>${esc(s.tajuk)}</button>`).join('');
  document.getElementById('gl').innerHTML='3 · GAME'+(pilih?` <span>· ${pilih.id==='asas'?esc(pilih.tajuk):`Bab ${pilih.n} ${esc(pilih.tajuk)}`}</span>`:'');
  document.getElementById('hint').textContent=pilih?'':'Pilih bab dahulu.';
  document.getElementById('games').innerHTML=GAMES.map(g=>{const ok=g.id&&pilih;
