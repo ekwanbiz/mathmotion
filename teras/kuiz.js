@@ -3,7 +3,7 @@
    Aktif hanya jika BAB.kuiz = true. Tiada pelayan: link membawa resipi kuiz (jenis, aras, benih),
    soalan dijana semula secara tetap di telefon murid. Kad Siap membawa kod semakan. */
 (function () {
-  if (typeof BAB === 'undefined' || !BAB.kuiz || typeof cq !== 'function' || typeof CQT === 'undefined') return;
+  if (typeof BAB === 'undefined' || BAB.kuiz === false || typeof cq !== 'function' || typeof CQT === 'undefined') return;
 
   /* ---------- pembantu ---------- */
   const LVN = ['Mudah', 'Sederhana', 'Sukar'];
