@@ -127,18 +127,34 @@ function bindKumpulan() {
 }
 
 /* =================== SIAPA NAK JAWAB? =================== */
-const S = { q: null, shown: false, right: 0, done: 0, end: false };
-function sNewQ() { S.q = cq(S.done < 4 ? 0 : S.done < 9 ? 1 : 2); S.shown = false; }
+const S = { st: GTOPIK ? 'setup' : 'play', total: 10, q: null, shown: false, right: 0, done: 0, end: false };
+try { const t0 = store().siapaTotal; if (t0) S.total = t0; } catch (e) {}
+const sTypes = () => GTOPIK ? gtSel('siapaTypes') : undefined;
+function sNewQ() {
+  const L = GTOPIK ? (S.done < S.total * .35 ? 0 : S.done < S.total * .7 ? 1 : 2) : (S.done < 4 ? 0 : S.done < 9 ? 1 : 2);
+  S.q = cq(L, sTypes()); S.shown = false;
+}
 function viewSiapa() {
+  if (S.st === 'setup') {
+    const t = gtSel('siapaTypes');
+    return `<div class="wrap" style="max-width:1000px">
+      ${gBack() ? `<div>${gBack()}</div>` : ''}<div><p class="eyebrow" style="color:var(--pu)">SELURUH KELAS</p><h1 class="h1">Siapa Nak Jawab?</h1></div>
+      <div class="ksetup">
+        <section class="pbox"><h3>BILANGAN SOALAN</h3><div class="opts" style="grid-template-columns:repeat(4,minmax(0,1fr))">${[5, 10, 15, 20].map(v => `<button type="button" class="opt" data-st="${v}" aria-pressed="${S.total === v}" style="--c:var(--pu)">${v}</button>`).join('')}</div>
+          <p class="ajhint" style="margin:4px 0 0">Soalan disusun dari mudah ke sukar. Tiada had masa.</p></section>
+        <section class="pbox"><h3>JENIS SOALAN</h3>${gtHTML(t, 'data-sty', 'pu')}</section>
+      </div>
+      <button type="button" class="btn pri big" id="sGo" style="--tr:var(--pu);align-self:flex-end"${t.length ? '' : ' disabled'}>Mula ${IC.arrow}</button></div>`;
+  }
   if (S.end) {
     const pc = S.done ? Math.round(S.right / S.done * 100) : 0;
     return `<div class="gend"><p class="eyebrow" style="color:var(--pu)">SIAPA NAK JAWAB? · SELESAI</p><div class="score" style="color:var(--pu)">${S.right}<span style="font-size:.45em;color:var(--mu)"> / ${S.done}</span></div>
       <p class="lead" style="margin:0">soalan dijawab betul oleh kelas (${pc}%)</p>
-      <div class="prow" style="width:100%;flex-direction:column;margin-top:8px"><button type="button" class="btn pri big" id="sAgain" style="--tr:var(--pu)">Main lagi</button>${gBack().replace('gback', 'gback big')}</div></div>`;
+      <div class="prow" style="width:100%;flex-direction:column;margin-top:8px"><button type="button" class="btn pri big" id="sAgain" style="--tr:var(--pu)">Main lagi</button>${GTOPIK ? '<button type="button" class="btn sec big" id="sSet">Tukar tetapan</button>' : ''}${gBack().replace('gback', 'gback big')}</div></div>`;
   }
   if (!S.q) sNewQ();
   return `<div class="kplay">
-    <div class="khead">${gBack()}<b class="kn" style="color:var(--pu)">Siapa Nak Jawab?</b><span class="kn2">Soalan ${S.done + 1}</span>
+    <div class="khead">${gBack()}<b class="kn" style="color:var(--pu)">Siapa Nak Jawab?</b><span class="kn2">Soalan ${S.done + 1}${GTOPIK ? ` / ${S.total}` : ''}</span>
       <span class="chip" style="margin-left:auto;height:40px;font-size:16px;background:color-mix(in srgb,var(--gr) 15%,transparent);color:var(--gr)">Kelas betul: ${S.right} / ${S.done}</span></div>
     <div class="kbody one"><section class="kmain">
       ${S.shown ? '' : `<div class="hand">${sv('<path d="M8 11V5a2 2 0 0 1 4 0v5M12 10V4a2 2 0 0 1 4 0v7M16 9a2 2 0 0 1 4 0v5a7 7 0 0 1-7 7h-1a7 7 0 0 1-6-3.5L3.5 13a2 2 0 0 1 3.2-2.4L8 12"/>', 26)} Angkat tangan jika tahu jawapan!</div>`}
@@ -151,11 +167,18 @@ function viewSiapa() {
     </div></div>`;
 }
 function bindSiapa() {
-  const ag = document.getElementById('sAgain'); if (ag) { ag.onclick = () => { Object.assign(S, { q: null, shown: false, right: 0, done: 0, end: false }); render(true); }; return; }
+  if (S.st === 'setup') {
+    document.querySelectorAll('[data-st]').forEach(b => b.onclick = () => { S.total = +b.dataset.st; save({ siapaTotal: S.total }); render(true); });
+    gtBind('data-sty', 'siapaTypes', () => render(true));
+    document.getElementById('sGo').onclick = () => { Object.assign(S, { st: 'play', q: null, shown: false, right: 0, done: 0, end: false }); snd('tap'); render(true); };
+    return;
+  }
+  const ag = document.getElementById('sAgain'); if (ag) { ag.onclick = () => { Object.assign(S, { q: null, shown: false, right: 0, done: 0, end: false }); render(true); };
+    const ss = document.getElementById('sSet'); if (ss) ss.onclick = () => { S.st = 'setup'; S.end = false; render(true); }; return; }
   document.getElementById('sEnd').onclick = () => { S.end = true; render(true); if (S.done) snd('end'); };
   const sh = document.getElementById('sShow'); if (sh) sh.onclick = () => { S.shown = true; render(true); cqAnim(S.q); };
   document.getElementById('sSkip').onclick = () => { snd('tap'); sNewQ(); render(true); };
-  const mark = ok => { S.done++; if (ok) S.right++; snd(ok ? 'ok' : 'no'); sNewQ(); render(true); };
+  const mark = ok => { S.done++; if (ok) S.right++; snd(ok ? 'ok' : 'no'); if (GTOPIK && S.done >= S.total) { S.end = true; snd('end'); render(true); return; } sNewQ(); render(true); };
   const y = document.getElementById('sYes'); if (y) y.onclick = () => mark(true);
   const n = document.getElementById('sNo'); if (n) n.onclick = () => mark(false);
 }
@@ -169,6 +192,7 @@ function rLoad() {
   if (!d.lists.some(l => l.id === d.cur)) d.cur = d.lists[0].id;
   return d;
 }
+const rQ = () => { const t = GTOPIK ? gtSel('rodaTypes') : []; return cq(1, t.length ? t : undefined); };
 const R = { d: null, picked: {}, drawn: null, angle: 0, spinning: false, pick: null, q: null, qShown: false };
 const rData = () => R.d || (R.d = rLoad());
 const rList = () => { const d = rData(); return d.lists.find(l => l.id === d.cur); };
@@ -219,6 +243,7 @@ function viewRoda() {
         <span class="rcount" id="rCount">${names.length} nama${d.rm ? ` · ${rem.length} lagi dalam roda` : ''}</span>
         <label class="ajchk rchk"><input type="checkbox" id="rRm"${d.rm ? ' checked' : ''}>Buang nama selepas dipilih</label>
         <label class="ajchk rchk"><input type="checkbox" id="rAuto"${d.autoQ ? ' checked' : ''}>Beri soalan selepas roda berhenti</label>
+        ${GTOPIK ? `<details class="rtopik"><summary>Jenis soalan (${gtSel('rodaTypes').length}/${gtAll().length})</summary>${gtHTML(gtSel('rodaTypes'), 'data-rty', 'pk')}</details>` : ''}
         ${d.rm && picked.length ? `<button type="button" class="btn sec" id="rReset" style="min-height:44px">Masukkan semula semua nama</button>` : ''}</section>
       <div class="rmid"><button type="button" class="rspin" id="rSpin" aria-label="Putar roda"${R.drawn.length && !R.spinning ? '' : ' disabled'}>${rWheel(R.drawn)}</button></div>
       <aside class="rright">
@@ -251,7 +276,7 @@ function rSpin() {
     if (d.rm) (R.picked[d.cur] = R.picked[d.cur] || []).push(rem[w]);
     snd('end'); render(true);
     burst(document.getElementById('rPickName'), 'var(--pk)');
-    if (d.autoQ) setTimeout(() => { R.q = cq(1); R.qShown = false; render(true); }, 700);
+    if (d.autoQ) setTimeout(() => { R.q = rQ(); R.qShown = false; render(true); }, 700);
   };
   requestAnimationFrame(frame);
 }
@@ -277,10 +302,11 @@ function bindRoda() {
   const rs = document.getElementById('rReset'); if (rs) rs.onclick = () => { R.picked[d.cur] = []; R.pick = null; R.drawn = null; render(true); };
   document.getElementById('rSpin').onclick = rSpin;
   document.getElementById('rGo').onclick = rSpin;
-  const rq = document.getElementById('rQ'); if (rq) rq.onclick = () => { R.q = cq(1); R.qShown = false; render(true); };
+  const rq = document.getElementById('rQ'); if (rq) rq.onclick = () => { R.q = rQ(); R.qShown = false; render(true); };
   const qx = document.getElementById('rqX'); if (qx) qx.onclick = () => { R.q = null; render(true); };
   const qs = document.getElementById('rqShow'); if (qs) qs.onclick = () => { R.qShown = true; render(true); cqAnim(R.q); };
-  const qn = document.getElementById('rqNext'); if (qn) qn.onclick = () => { R.q = cq(1); R.qShown = false; render(true); };
+  const qn = document.getElementById('rqNext'); if (qn) qn.onclick = () => { R.q = rQ(); R.qShown = false; render(true); };
+  if (GTOPIK) gtBind('data-rty', 'rodaTypes', t => { if (!t.length) toast('Pilih sekurang-kurangnya satu jenis soalan.'); const sm = document.querySelector('.rtopik summary'); if (sm) sm.textContent = `Jenis soalan (${t.length}/${gtAll().length})`; });
   const qd = document.getElementById('rqDone'); if (qd) qd.onclick = () => { R.q = null; render(true); };
 }
 document.addEventListener('keydown', e => {

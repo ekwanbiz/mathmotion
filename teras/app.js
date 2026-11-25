@@ -241,9 +241,21 @@ function bindLatMain() {
   document.getElementById('latNext').onclick = () => { LAT.i++; LAT.show = false; render(true); document.getElementById('main').scrollTop = 0; };
 }
 
+/* ---------- pilihan topik untuk game (Cabaran 60 Saat, Siapa Nak Jawab?, Roda Nama) ---------- */
+const GTOPIK = typeof BAB !== 'undefined' && BAB.gtopik === true && typeof CQT !== 'undefined';
+const gtAll = () => Object.keys(CQT);
+const gtSel = key => store()[key] === undefined ? gtAll() : store()[key].filter(k => k in CQT);   // jenis yang dipilih (lalai: semua)
+const gtSub = types => types.length && types.length < gtAll().length;                                 // pilih sebahagian sahaja
+const gtHTML = (types, attr, c) => `<div class="ktypes"${c ? ` style="--pa:var(--${c})"` : ''}>${gtAll().map(k => `<label class="ajchk"><input type="checkbox" ${attr}="${k}"${types.includes(k) ? ' checked' : ''}>${CQT[k]}</label>`).join('')}</div>`;
+const gtBind = (attr, key, after) => document.querySelectorAll(`[${attr}]`).forEach(c => c.onchange = () => {
+  const t = c.getAttribute(attr), cur = gtSel(key), nx = c.checked ? [...new Set(cur.concat(t))] : cur.filter(x => x !== t);
+  save({ [key]: nx }); after(nx);
+});
+
 /* ---------- keadaan & paparan ---------- */
 const G = { st: 'intro', score: 0, lives: 3, combo: 0, right: 0, q: null, pick: -1, tap: null, ok: null, end: 0, pausedAt: 0, timer: 0, newBest: false, gain: 0 };
 function gLevel() { return G.score < 100 ? 0 : G.score < 250 ? 1 : 2; }
+const g60Q = L => { if (GTOPIK) { const t = gtSel('g60types'); if (gtSub(t)) return cq(L, t); } return gq(L); };
 const answered = () => G.ok !== null;
 function viewGames() {
   const best = store().best || 0, mute = !!store().mute;
@@ -256,8 +268,9 @@ function viewGames() {
       <li><span style="color:var(--pa);display:flex">${IC.fire}</span><span>Betul berturut-turut untuk <b>combo</b>: markah berganda sehingga ×5.</span></li>
       <li><span style="color:var(--am);display:flex">${IC.star}</span><span>${BAB.g60.lepas}</span></li>
     </ul></div>
+    ${GTOPIK ? `<div class="pbox" style="padding:18px 22px"><h3>JENIS SOALAN</h3>${gtHTML(gtSel('g60types'), 'data-gt', 'tr').replace('class="ktypes"', 'class="ktypes two"')}</div>` : ''}
     <div class="prow" style="align-items:center;flex-wrap:wrap;gap:14px"><span class="chip" style="height:44px;font-size:16px;background:color-mix(in srgb,var(--am) 14%,transparent);color:var(--am)">${IC.star} Rekod: ${best}</span>
-    <button type="button" class="btn pri big" id="gStart" style="margin-left:auto">Mula ${IC.arrow}</button></div></div>`;
+    <button type="button" class="btn pri big" id="gStart" style="margin-left:auto"${GTOPIK && !gtSel('g60types').length ? ' disabled' : ''}>Mula ${IC.arrow}</button></div></div>`;
   if (G.st === 'end') return `<div class="gend" id="gEnd"><p class="eyebrow">${G.lives <= 0 ? 'NYAWA HABIS' : 'MASA TAMAT'}</p><div class="score">${G.score}</div><p class="lead" style="margin:0">markah · ${G.right} jawapan betul</p>
     ${G.newBest ? `<span class="chip" style="height:42px;font-size:16px;background:color-mix(in srgb,var(--am) 16%,transparent);color:var(--am)">${IC.star} Rekod baharu!</span>` : `<span class="chip" style="height:42px;font-size:16px;background:var(--surf);border:1px solid var(--bd);color:var(--mu)">Rekod: ${best}</span>`}
     <div class="prow" style="width:100%;flex-direction:column;margin-top:8px"><button type="button" class="btn pri big" id="gStart">Main lagi</button><a class="btn sec big" href="#/nota">Ulang kaji nota</a></div></div>`;
@@ -290,7 +303,7 @@ function viewGames() {
 }
 function gStart() {
   G.st = 'play'; G.score = 0; G.lives = 3; G.combo = 0; G.right = 0; G.pick = -1; G.tap = null; G.ok = null; G.newBest = false; G.pausedAt = 0;
-  G.q = gq(0); G.end = Date.now() + 60000; clearInterval(G.timer); G.timer = setInterval(gTick, 200); render(true);
+  G.q = g60Q(0); G.end = Date.now() + 60000; clearInterval(G.timer); G.timer = setInterval(gTick, 200); render(true);
 }
 function gTick() {
   if (!gActive('60')) { clearInterval(G.timer); G.st = 'intro'; return; }
@@ -321,7 +334,7 @@ function gAnswer(ok) {
     if (G.st !== 'play') return;
     G.end += Date.now() - G.pausedAt; G.pausedAt = 0;
     if (G.lives <= 0 || Date.now() >= G.end) return gOver();
-    G.pick = -1; G.tap = null; G.ok = null; G.q = gq(gLevel()); render(true);
+    G.pick = -1; G.tap = null; G.ok = null; G.q = g60Q(gLevel()); render(true);
   }, ok ? 500 : 1100);
   setTimeout(() => {
     if (q.rot) rotAnim(q.rot, next);
@@ -333,6 +346,7 @@ function gAnswer(ok) {
 }
 function bindGames() {
   const st = document.getElementById('gStart'); if (st) st.onclick = () => { snd('tap'); gStart(); };
+  if (GTOPIK && G.st === 'intro') gtBind('data-gt', 'g60types', () => render(true));
   const mu = document.getElementById('gMute'); if (mu) mu.onclick = () => { save({ mute: !store().mute }); render(true); };
   if (G.st !== 'play') return;
   document.querySelectorAll('[data-o]').forEach(b => b.onclick = () => { if (answered()) return; G.pick = +b.dataset.o; gAnswer(G.pick === G.q.c); });
@@ -348,7 +362,7 @@ function bindGames() {
       document.getElementById('gCheck').disabled = false;
     });
   }
-  const sk = document.getElementById('gSkip'); if (sk) sk.onclick = () => { if (answered()) return; G.combo = 0; G.pick = -1; G.tap = null; G.q = gq(gLevel()); snd('tap'); render(true); };
+  const sk = document.getElementById('gSkip'); if (sk) sk.onclick = () => { if (answered()) return; G.combo = 0; G.pick = -1; G.tap = null; G.q = g60Q(gLevel()); snd('tap'); render(true); };
   const ck = document.getElementById('gCheck');
   if (ck) ck.onclick = () => { if (!G.tap || answered()) return; gAnswer(G.tap[0] === G.q.target[0] && G.tap[1] === G.q.target[1]); };
 }

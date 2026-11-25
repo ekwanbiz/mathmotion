@@ -8,11 +8,12 @@ const BAB = {
   ting: 2, no: 11, tajuk: 'Transformasi Isometri',
   slogan: [['Gerak.', 'tr'], ['Pantul.', 'pa'], ['Putar!', 'pu']],
   logo: 'logo.svg',
+  gtopik: true,                     // pilihan jenis soalan dalam semua game (percubaan)
   key: 'isomove-v2',                // storan tetapan & rekod (jangan tukar)
   ajarKey: 'isomove-ajar',          // storan pelan Mula Mengajar (jangan tukar)
   g60: {                            // teks peraturan Cabaran 60 Saat
-    soalan: 'Ada soalan <b>pilih jawapan</b> dan soalan <b>ketik pada grid</b>.',
-    lepas: 'Selepas menjawab, lihat animasi transformasi yang betul.'
+    soalan: 'Semua soalan <b>pilih jawapan</b> daripada bank soalan bab ini.',
+    lepas: 'Selepas menjawab, jawapan betul ditunjukkan.'
   }
 };
 

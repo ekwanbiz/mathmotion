@@ -704,3 +704,7 @@ html.light{--lat-am:#FEF3C7;--lat-tr:#E0F2FE;--lat-gr:#DCFCE7;--lat-pk:#FCE7F3}
 @media (max-width:900px){.pelbtn{height:40px;padding:0 12px 0 10px;font-size:13px}}
 /* Telefon: tajuk bab panjang dipotong (…) supaya butang Pelan & tema tidak terkeluar */
 @media (max-width:900px){.hdr .wm2{flex:1 1 auto;min-width:0}.hdr .wm2 small{max-width:none}.hdr .end{flex:none}}
+.rtopik{border:1px solid var(--bd);border-radius:12px;padding:8px 12px;background:var(--surf)}
+.rtopik summary{cursor:pointer;font-weight:700;font-size:15px;color:var(--mu);min-height:32px;display:flex;align-items:center}
+.rtopik .ktypes{margin-top:8px}
+.ktypes.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}@media (max-width:640px){.ktypes.two{grid-template-columns:minmax(0,1fr)}}
