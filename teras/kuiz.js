@@ -97,7 +97,7 @@
       </section>
       <section class="pbox" style="display:flex;flex-direction:column;gap:10px">
         <button type="button" class="btn pri big" id="kzGo"${n ? '' : ' disabled'}>Jana link kuiz</button>
-        ${KG.link ? `<div class="kzqrrow"><div class="kzqr" id="kzQr" aria-label="Kod QR link kuiz" role="img"></div><button type="button" class="btn sec" id="kzQrBig">Tunjuk QR besar</button></div><div class="kzlink" id="kzLink">${escH(KG.link)}</div><div class="prow"><button type="button" class="btn pri" id="kzCopy">Salin link</button>${navigator.share ? '<button type="button" class="btn sec" id="kzShare">Kongsi</button>' : ''}<a class="btn sec" href="${escH(KG.link)}" target="_blank" rel="noopener">Cuba sebagai murid</a></div>
+        ${KG.link ? `<div class="kzqrrow"><div class="kzqr" id="kzQr" aria-label="Kod QR link kuiz" role="img"></div><div class="kzqrbtns"><button type="button" class="btn sec" id="kzQrBig">Tunjuk QR besar</button><button type="button" class="btn sec" id="kzQrSave">Simpan QR</button></div></div><div class="kzlink" id="kzLink">${escH(KG.link)}</div><div class="prow"><button type="button" class="btn pri" id="kzCopy">Salin link</button>${navigator.share ? '<button type="button" class="btn sec" id="kzShare">Kongsi</button>' : ''}<a class="btn sec" href="${escH(KG.link)}" target="_blank" rel="noopener">Cuba sebagai murid</a></div>
           <p style="margin:0;color:var(--mu);font-size:14px">Jika guru ubah soalan, jana link baharu dan hantar semula.</p>` : ''}
       </section>
 </div>`;
@@ -124,6 +124,7 @@
     const cp = document.getElementById('kzCopy'); if (cp) cp.onclick = () => { (navigator.clipboard ? navigator.clipboard.writeText(KG.link) : Promise.reject()).then(() => toast('Link disalin'), () => { const r = document.createRange(); r.selectNodeContents(document.getElementById('kzLink')); getSelection().removeAllRanges(); getSelection().addRange(r); toast('Pilih dan salin link'); }); };
     if (KG.link) qrInto(document.getElementById('kzQr'), KG.link);
     const qb = document.getElementById('kzQrBig'); if (qb) qb.onclick = () => qrBig(DR.t, KG.link);
+    const qs = document.getElementById('kzQrSave'); if (qs) qs.onclick = () => qrSave(DR.t, KG.link);
     const sh = document.getElementById('kzShare'); if (sh) sh.onclick = () => navigator.share({ title: DR.t, text: `${DR.t} (lulus ${DR.p}/${DR.q.length})`, url: KG.link }).catch(() => {});
   }
 
@@ -134,13 +135,29 @@
   }
   function qrSvg(text) { const q = qrcode(0, 'L'); q.addData(text); q.make(); return q.createSvgTag({ cellSize: 4, margin: 4, scalable: true }); }
   function qrInto(el, text) { if (el) qrLib(() => { try { el.innerHTML = qrSvg(text); } catch (e) { el.textContent = 'Link terlalu panjang untuk kod QR'; } }); }
+  function qrSave(title, text) {
+    qrLib(() => {
+      const q = qrcode(0, 'L'); q.addData(text); q.make();
+      const n = q.getModuleCount(), cell = Math.max(6, Math.floor(900 / (n + 8))), qs = cell * (n + 8), W = qs, top = 100, H = top + qs + 50;
+      const cv = document.createElement('canvas'); cv.width = W; cv.height = H; const g = cv.getContext('2d');
+      g.fillStyle = '#fff'; g.fillRect(0, 0, W, H); g.fillStyle = '#14152B'; g.textAlign = 'center';
+      g.font = '700 44px "Space Grotesk",Inter,sans-serif';
+      const words = String(title).split(' '), lines = []; let ln = '';
+      words.forEach(w => { const t = ln ? ln + ' ' + w : w; if (g.measureText(t).width > W - 60 && ln) { lines.push(ln); ln = w; } else ln = t; }); lines.push(ln);
+      lines.slice(0, 2).forEach((l, i) => g.fillText(l, W / 2, 62 + i * 50));
+      for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (q.isDark(r, c)) g.fillRect((c + 4) * cell, top + (r + 4) * cell, cell, cell);
+      g.fillStyle = '#55607A'; g.font = '500 26px Inter,sans-serif'; g.fillText('Imbas untuk masuk kuiz · TerokaMath', W / 2, H - 24);
+      const name = (String(title).replace(/[^\w\- ]+/g, '').trim().replace(/\s+/g, '-') || 'Kuiz') + '.png';
+      cv.toBlob(b => { const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = name; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000); toast('Kod QR disimpan'); }, 'image/png');
+    });
+  }
   function qrBig(title, text) {
     qrLib(() => {
       const d = document.createElement('div'); d.className = 'kzqrfull'; d.setAttribute('role', 'dialog'); d.setAttribute('aria-label', 'Kod QR kuiz');
-      d.innerHTML = `<h2>${escH(title)}</h2><div class="kzqrbig">${qrSvg(text)}</div><p>Imbas kod QR dengan kamera telefon untuk masuk kuiz</p><button type="button" class="btn sec">Tutup</button>`;
+      d.innerHTML = `<h2>${escH(title)}</h2><div class="kzqrbig">${qrSvg(text)}</div><p>Imbas kod QR dengan kamera telefon untuk masuk kuiz</p><div class="prow"><button type="button" class="btn sec" data-qsave>Simpan QR</button><button type="button" class="btn sec">Tutup</button></div>`;
       const close = () => { d.remove(); document.removeEventListener('keydown', esc); };
       const esc = e => { if (e.key === 'Escape') close(); };
-      d.onclick = close; document.addEventListener('keydown', esc); document.body.appendChild(d);
+      d.onclick = e => { if (e.target.closest('[data-qsave]')) { e.stopPropagation(); qrSave(title, text); return; } close(); }; document.addEventListener('keydown', esc); document.body.appendChild(d);
     });
   }
 
