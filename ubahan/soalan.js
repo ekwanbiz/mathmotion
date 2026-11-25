@@ -160,7 +160,7 @@ UB.cariX = (r, sub) => {
   d.ans = `${t0.L} = ${x2}`;
   const shown = rel.T.map((t, i) => (i === 0 ? t.L : g.v2[i]));
   const eqSub = ubSubs(rel.T.map((t, i) => (i === 0 ? Object.assign({}, t, { n: 1 }) : t)), shown, g.k).replace(t0.L, ubPw(t0.L, t0.n));
-  d.work = ubKWork(rel, g).concat([`${rel.eq(g.k)}`, `${g.y2} = ${eqSub}`, `${ubPw(t0.L, t0.n)} = ${ubF(x2, t0.n)}`, `${t0.L} = ${x2}`]);
+  d.work = ubKWork(rel, g).concat([`${rel.eq(g.k)}`, `${g.y2} = ${eqSub}`].concat(t0.n === 1 ? [] : [`${ubPw(t0.L, t0.n)} = ${ubF(x2, t0.n)}`], [`${t0.L} = ${x2}`]));
   return GEN_LQ('cariX', d);
 };
 // jadual nilai (SVG)
