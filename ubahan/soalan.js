@@ -42,17 +42,27 @@ const ubSubs = (T, vals, k) => {
 };
 const ubVals = (T, vs) => T.map((t, i) => `${t.L} = ${vs[i]}`).join(' dan ');
 
-// jana dua set nilai + k supaya y1, y2 integer
+// jana dua set nilai + k supaya y1, y2 integer (k boleh pecahan/perpuluhan jika UB_FRAC)
+let UB_FRAC = true;
 function ubGen(r, T, opt) {
   opt = opt || {};
+  // songsang tulen: k = y × xⁿ sentiasa integer, jadi k pecahan hanya untuk langsung/bergabung
+  const wantFrac = opt.frac !== false && UB_FRAC && T.some(t => !t.inv) && r.f() < 0.4;
   for (let tries = 0; tries < 400; tries++) {
     const v1 = T.map(t => r.p(UBX[t.n])), v2 = T.map(t => r.p(UBX[t.n]));
     if (v1.join() === v2.join()) continue;
     if (opt.noOne && (v1.includes(1) || v2.includes(1))) continue;
     const a = ubND(T, v1), b = ubND(T, v2);
-    const L = ubLcm(a.D / ubGcd(a.N, a.D), b.D / ubGcd(b.N, b.D));
-    const k = L * r.i(1, opt.km || 4);
-    const y1 = k * a.N / a.D, y2 = k * b.N / b.D;
+    let k, y1, y2;
+    if (wantFrac && tries < 300) {
+      // k pecahan/perpuluhan (0.5, 1.5, 0.25, 2.4 …); y1, y2 kekal integer
+      const den = r.p([2, 2, 4, 5, 10]), num = r.i(1, 3 * den);
+      if (ubGcd(num, den) !== 1 || (num * a.N) % (den * a.D) || (num * b.N) % (den * b.D)) continue;
+      k = num / den; y1 = num * a.N / (den * a.D); y2 = num * b.N / (den * b.D);
+    } else {
+      const L = ubLcm(a.D / ubGcd(a.N, a.D), b.D / ubGcd(b.N, b.D));
+      k = L * r.i(1, opt.km || 4); y1 = k * a.N / a.D; y2 = k * b.N / b.D;
+    }
     if (!Number.isInteger(y1) || !Number.isInteger(y2) || y1 === y2) continue;
     if (k > (opt.kmax || 400) || y1 > (opt.ymax || 2000) || y2 > (opt.ymax || 2000)) continue;
     return { k, v1, v2, y1, y2 };
@@ -137,7 +147,7 @@ UB.cariK = (r, sub) => {
 UB.cariY = (r, sub) => {
   const rel = ubSpec(r, sub), g = ubGen(r, rel.T), d = ubPack(rel, g);
   d.ans = `${rel.Y} = ${g.y2}`;
-  d.wrong = g.y2 + g.k === g.y1 ? g.y2 + 1 : g.y2 + g.k;
+  const kk = Math.ceil(g.k); d.wrong = g.y2 + kk === g.y1 ? g.y2 + 1 : g.y2 + kk;
   d.work = ubKWork(rel, g).concat([`${rel.eq(g.k)}`, `Apabila ${d.c2}: ${rel.Y} = ${ubSubs(rel.T, g.v2, g.k)} = ${g.y2}`]);
   return GEN_LQ('cariY', d);
 };
@@ -272,7 +282,8 @@ const UBCQSUB = { langsung: '1.1', songsang: '1.2', bergabung: '1.3' };
 function ubCqMake(ty, level) {
   const L = Math.max(0, Math.min(2, level | 0)), sub = UBCQSUB[ty] || '1.1';
   const kinds = ['tulis', 'cariK', 'cariY'], k = L === 0 ? (Math.random() < .6 ? 0 : 1) : Math.random() < .7 ? L : L - 1;
-  return CQGEN[kinds[k]](sub);
+  UB_FRAC = L > 0; // aras mudah (game): k integer sahaja
+  try { return CQGEN[kinds[k]](sub); } finally { UB_FRAC = true; }
 }
 function gq(level) {
   const pool = level === 0 ? ['langsung', 'langsung', 'songsang', 'bergabung'] : Object.keys(CQT);

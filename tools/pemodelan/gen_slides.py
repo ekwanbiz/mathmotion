@@ -74,6 +74,17 @@ add('8.1.1','8.1.1 Proses pemodelan','Enam langkah proses pemodelan',
     STEPS(['<b>Kenal pasti & definisikan masalah</b> – apakah yang perlu dicari?','<b>Buat andaian & kenal pasti pemboleh ubah</b> – permudahkan keadaan.','<b>Aplikasikan matematik</b> – bina model dan selesaikan.','<b>Tentusahkan & tafsirkan</b> – adakah jawapan munasabah?','<b>Murnikan (perhalusi) model</b> – ubah andaian jika perlu.','<b>Laporkan dapatan</b> – nyatakan penyelesaian dengan jelas.'],TR)
     +NOTE('Proses ini ialah <b>kitaran</b>: jika model tidak sepadan dengan keadaan sebenar, kita kembali memperhalusi model.'),
     cycle(4,'Kitaran proses pemodelan – langkah perhalusi kembali ke langkah awal'))
+def iofig():
+    s=f'<rect x="0" y="0" width="{W}" height="{H}" rx="20" fill="{SURF}" stroke="{BD}" stroke-width="2"/>'+T(250,40,'Pemboleh ubah dalam model',TX,20)
+    def box(x,y,w,h,col,a,b):
+        return f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="16" fill="{col}" fill-opacity=".2" stroke="{col}" stroke-width="3"/>'+T(x+w/2,y+h/2-14,a,col,19)+T(x+w/2,y+h/2+16,b,MU,15)
+    s+=box(20,150,140,110,TR,'t jam','tak bersandar')+box(180,150,140,110,OR,'C = 3t + 5','model')+box(340,150,140,110,PK,'RM C','bersandar')
+    s+=LINE((162,205),(176,205),MU,4)+LINE((322,205),(336,205),MU,4)
+    s+=f'<rect x="40" y="310" width="420" height="80" rx="14" fill="{NAV}" stroke="{PU}" stroke-width="3"/>'+T(250,336,'Andaian: kadar sewa tetap,',PU,17)+T(250,364,'tiada caj tambahan',PU,17)
+    return svg(s,'Pemboleh ubah tak bersandar masuk ke model, keluar pemboleh ubah bersandar')
+add('8.1.1','8.1.1 Andaian & pemboleh ubah','Membuat andaian dan memilih pemboleh ubah',
+    BUL(['<b>Andaian</b> memudahkan masalah sebenar, contohnya kadar tetap, cuaca baik, tiada caj lain.','<b>Pemboleh ubah tak bersandar</b>: nilai yang kita pilih atau ubah (contoh: masa <i>t</i>).','<b>Pemboleh ubah bersandar</b>: nilai yang bergantung padanya (contoh: kos <i>C</i>).','Andaian yang berbeza boleh menghasilkan model yang berbeza.'],TR)
+    +NOTE('Tulis andaian dengan jelas supaya model boleh disemak dan dimurnikan.'),iofig())
 # contoh: sewa basikal RM5 + RM3 sejam
 for t,c_ in ((1,8),(2,11),(4,17)): assert 3*t+5==c_
 assert (26-5)/3==7
@@ -89,6 +100,17 @@ add('8.1.1','8.1.1 Tentusahkan & murnikan','Adakah model sepadan dengan data?',
     +TABLE(['t (jam)','Data sebenar (RM)','Model (RM)'],[[str(t),f'{c_:g}',str(3*t+5)] for t,c_ in data],TR)
     +NOTE('Perbezaan kecil → model <b>boleh diterima</b>. Jika perbezaan besar, <b>perhalusi</b> andaian (contoh: tambah caj insurans).','Tafsir:'),
     graph(lambda x:3*x+5,5,20,TR,'t','C',[(3,14.5,'data (3, 14.5)')],'Data sebenar hampir dengan garis model'))
+def refig():
+    s=axes('n (helai)','C (RM)')
+    s+=PATH([(gx(x,60),gy(15*x,1000)) for x in (0,60)],DIM,4).replace('stroke-linecap','stroke-dasharray="10 8" stroke-linecap')
+    s+=PATH([(gx(x,60),gy(15*x+50,1000)) for x in (0,60)],OR)
+    for x,y in ((10,200),(20,350)): s+=DOT((gx(x,60),gy(y,1000)),PK,8)
+    s+=DOT((gx(50,60),gy(800,1000)),AM,8)+T(gx(50,60)-12,gy(800,1000)-22,'(50, 800)',AM,17,'end')
+    s+=T(300,330,'model awal C = 15n',MU,16,'start')+T(150,150,'C = 15n + 50',OR,18,'start')
+    return svg(s,'Model awal dan model yang dimurnikan')
+add('8.1.1','Contoh 2','Murnikan dan laporkan',
+    P('Kelab mencetak baju: RM15 sehelai. Model awal <i>C</i> = 15<i>n</i>. Bil sebenar: 10 helai RM200, 20 helai RM350. Bajet kelab RM800.')
+    +STEPS(['<b>Tentusahkan:</b> model memberi RM150 dan RM300, sentiasa kurang RM50.','<b>Murnikan:</b> ada caj reka bentuk RM50 → <i>C</i> = 15<i>n</i> + 50','800 = 15<i>n</i> + 50 → 15<i>n</i> = 750 → <i>n</i> = 50','<b>Laporkan:</b> kelab boleh mencetak 50 helai baju dengan RM800.'],TR)+ANS('50 helai baju'),refig())
 add('8.1.1','Kesilapan biasa','Awas & ringkasan',
     BUL(['<b>Salah:</b> terus mengira tanpa menyatakan andaian. Andaian mesti ditulis.','<b>Salah:</b> menganggap model sentiasa tepat. Model perlu <b>ditentusahkan</b>.','Jawapan mesti <b>munasabah</b>: bilangan orang tidak boleh 2.5, masa tidak boleh negatif.'],RD)
     +NOTE('Kenal pasti → Andaian → Aplikasi → Tentusahkan → Murnikan → Laporkan','Ringkasan:'),
@@ -118,6 +140,16 @@ add('8.1.2','Contoh 3 · Eksponen','Pertumbuhan bakteria',
     +STEPS(['Andaian: makanan dan ruang mencukupi.','Model eksponen: <i>N</i> = 200(2<sup><i>t</i></sup>)','<i>t</i> = 5: <i>N</i> = 200 × 2⁵ = 200 × 32'],c)+ANS('6 400 bakteria')
     +NOTE('Nisbah berturutan: 400 ÷ 200 = 800 ÷ 400 = 2 (tetap) → model eksponen.'),
     graph(N,5,7000,AM,'t (jam)','N',[(3,1600,'(3, 1600)'),(5,6400,'(5, 6400)')],'Graf eksponen N = 200 kali 2 kuasa t'))
+V=lambda t:80000*0.85**t
+add('8.1.2','Contoh 4 · Eksponen','Susut nilai kereta',
+    P('Harga sebuah kereta baharu ialah RM80 000. Nilainya <b>susut 15%</b> setiap tahun. Cari nilai kereta selepas 3 tahun.')
+    +STEPS(['Andaian: kadar susut tetap 15% setahun.','Nilai tinggal 85% setiap tahun (<i>b</i> = 0.85 &lt; 1) → <i>V</i> = 80 000(0.85<sup><i>t</i></sup>)','<i>t</i> = 3: <i>V</i> = 80 000 × 0.85³ = 80 000 × 0.614125','= RM49 130'],c)+ANS('RM49 130'),
+    graph(V,8,90000,AM,'t (tahun)','V (RM)',[(3,49130,'(3, 49 130)')],'Graf susut nilai V = 80000 kali 0.85 kuasa t'))
+A_=lambda x:x*(20-x)
+add('8.1.2','Contoh 5 · Kuadratik','Luas kebun maksimum',
+    P('Pak Mat ada 40 m pagar untuk memagar kebun segi empat tepat. Cari ukuran kebun supaya luasnya maksimum.')
+    +STEPS(['Andaian: semua 40 m pagar digunakan.','Panjang <i>x</i> m → lebar = (40 − 2<i>x</i>) ÷ 2 = 20 − <i>x</i>','Model: <i>A</i> = <i>x</i>(20 − <i>x</i>) = −<i>x</i>² + 20<i>x</i>','Maksimum pada <i>x</i> = −20 ÷ (2 × −1) = 10 → <i>A</i> = 10 × 10 = 100'],c)+ANS('10 m × 10 m, luas maksimum 100 m²'),
+    graph(A_,20,120,PK,'x (m)','A (m²)',[(10,100,'(10, 100)')],'Parabola A = x(20 − x)'))
 d1=[3,7,11,15]; assert len({b-a for a,b in zip(d1,d1[1:])})==1
 d2=[1,4,9,16,25]; f2=[b-a for a,b in zip(d2,d2[1:])]; assert len({b-a for a,b in zip(f2,f2[1:])})==1
 d3=[5,15,45,135]; assert len({b/a for a,b in zip(d3,d3[1:])})==1
@@ -140,6 +172,6 @@ ALLOWED={x.lower() for x in [BG,SURF,NAV,BD,TX,MU,GRID,DIM]+list(C.values())}
 bad={h for h in re.findall(r'#[0-9a-fA-F]{6}',body) if h.lower() not in ALLOWED}
 assert not bad,bad
 assert 'NaN' not in body and 'None' not in body
-assert counts=={'8.1.1':5,'8.1.2':6},counts
+assert counts=={'8.1.1':7,'8.1.2':8},counts
 open(OUT,'w').write('/* Dijana oleh tools/pemodelan/gen_slides.py. Jangan sunting dengan tangan. */\nwindow.SUBS='+json.dumps(subs,ensure_ascii=False)+';\nwindow.SLIDES='+body+';\n')
 print(len(out),'slaid ->',OUT)
