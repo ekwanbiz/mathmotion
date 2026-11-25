@@ -9,7 +9,7 @@
   const LVN = ['Mudah', 'Sederhana', 'Sukar'];
   const DKEY = 'kz-draf-' + BAB.id;
   const mul = s => () => { s |= 0; s = s + 0x6D2B79F5 | 0; let t = Math.imul(s ^ s >>> 15, 1 | s); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
-  const newSeed = () => Math.floor(Math.random() * 2147483647);
+  const newSeed = () => Math.floor(Math.random() * 1e6); // benih pendek supaya link & kod QR lebih ringkas
   function genQ(t, L, seed) {            // soalan sama setiap kali untuk (jenis, aras, benih)
     const R = Math.random, rnd = mul(seed);
     Math.random = rnd; if (typeof vreset === 'function') vreset(rnd);
@@ -97,7 +97,7 @@
       </section>
       <section class="pbox" style="display:flex;flex-direction:column;gap:10px">
         <button type="button" class="btn pri big" id="kzGo"${n ? '' : ' disabled'}>Jana link kuiz</button>
-        ${KG.link ? `<div class="kzlink" id="kzLink">${escH(KG.link)}</div><div class="prow"><button type="button" class="btn pri" id="kzCopy">Salin link</button>${navigator.share ? '<button type="button" class="btn sec" id="kzShare">Kongsi</button>' : ''}<a class="btn sec" href="${escH(KG.link)}" target="_blank" rel="noopener">Cuba sebagai murid</a></div>
+        ${KG.link ? `<div class="kzqrrow"><div class="kzqr" id="kzQr" aria-label="Kod QR link kuiz" role="img"></div><button type="button" class="btn sec" id="kzQrBig">Tunjuk QR besar</button></div><div class="kzlink" id="kzLink">${escH(KG.link)}</div><div class="prow"><button type="button" class="btn pri" id="kzCopy">Salin link</button>${navigator.share ? '<button type="button" class="btn sec" id="kzShare">Kongsi</button>' : ''}<a class="btn sec" href="${escH(KG.link)}" target="_blank" rel="noopener">Cuba sebagai murid</a></div>
           <p style="margin:0;color:var(--mu);font-size:14px">Jika guru ubah soalan, jana link baharu dan hantar semula.</p>` : ''}
       </section>
 </div>`;
@@ -122,7 +122,26 @@
       KG.link = location.href.split('#')[0] + '#/q/' + quizCode(DR); re();
     };
     const cp = document.getElementById('kzCopy'); if (cp) cp.onclick = () => { (navigator.clipboard ? navigator.clipboard.writeText(KG.link) : Promise.reject()).then(() => toast('Link disalin'), () => { const r = document.createRange(); r.selectNodeContents(document.getElementById('kzLink')); getSelection().removeAllRanges(); getSelection().addRange(r); toast('Pilih dan salin link'); }); };
+    if (KG.link) qrInto(document.getElementById('kzQr'), KG.link);
+    const qb = document.getElementById('kzQrBig'); if (qb) qb.onclick = () => qrBig(DR.t, KG.link);
     const sh = document.getElementById('kzShare'); if (sh) sh.onclick = () => navigator.share({ title: DR.t, text: `${DR.t} (lulus ${DR.p}/${DR.q.length})`, url: KG.link }).catch(() => {});
+  }
+
+  /* ---------- kod QR (teras/qrcode.js, dimuat bila perlu) ---------- */
+  function qrLib(cb) {
+    if (window.qrcode) return cb();
+    const sc = document.createElement('script'); sc.src = '../teras/qrcode.js'; sc.onload = cb; sc.onerror = () => toast('Kod QR tidak dapat dimuat'); document.head.appendChild(sc);
+  }
+  function qrSvg(text) { const q = qrcode(0, 'L'); q.addData(text); q.make(); return q.createSvgTag({ cellSize: 4, margin: 4, scalable: true }); }
+  function qrInto(el, text) { if (el) qrLib(() => { try { el.innerHTML = qrSvg(text); } catch (e) { el.textContent = 'Link terlalu panjang untuk kod QR'; } }); }
+  function qrBig(title, text) {
+    qrLib(() => {
+      const d = document.createElement('div'); d.className = 'kzqrfull'; d.setAttribute('role', 'dialog'); d.setAttribute('aria-label', 'Kod QR kuiz');
+      d.innerHTML = `<h2>${escH(title)}</h2><div class="kzqrbig">${qrSvg(text)}</div><p>Imbas kod QR dengan kamera telefon untuk masuk kuiz</p><button type="button" class="btn sec">Tutup</button>`;
+      const close = () => { d.remove(); document.removeEventListener('keydown', esc); };
+      const esc = e => { if (e.key === 'Escape') close(); };
+      d.onclick = close; document.addEventListener('keydown', esc); document.body.appendChild(d);
+    });
   }
 
   /* ---------- murid ---------- */
