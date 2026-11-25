@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Neraca Persamaan · Bab 5</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--sf:#131C2E;--sf3:#0E1626;--bd:#22304A;--tx:#E6EDF7;--mu:#94A3B8;--grid:#1E2A40;--c1:#38BDF8;--c2:#F472B6;--c3:#38BDF8;--ok:#34D399;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg)}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
+.wrap{flex:1;min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:10px;padding:10px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:center;justify-content:space-between}
+.top h1{margin:0;font-size:19px;color:var(--c1)}
+.main{min-height:0;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(260px,1fr);gap:10px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;display:flex}
+.stage svg{width:100%;height:100%;display:block;touch-action:none;user-select:none}
+.side{min-height:0;display:flex;flex-direction:column;gap:10px}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:12px 14px;font-size:15px;line-height:1.5}
+.card b.t{display:block;font-size:17px;color:var(--c1);margin-bottom:4px}
+.big{font-size:24px;font-weight:800;letter-spacing:.3px}
+label{display:block;font-weight:700;font-size:15px;margin:6px 0 2px}
+input[type=range]{width:100%;height:34px;accent-color:var(--c1)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips button{border:1px solid var(--bd);background:var(--sf3);border-radius:12px;padding:8px 12px;font-weight:800;font-size:15px;min-height:40px}
+.chips button.on{background:var(--c1);color:#0B1220;border-color:var(--c1)}
+@media (max-width:760px){.main{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto}.card{padding:9px 12px;font-size:14px}.big{font-size:19px}.top h1{font-size:16px}label{margin:2px 0 0}input[type=range]{height:28px}}
+.list{font-size:20px;font-weight:800;line-height:1.6}
+.chips button.off{opacity:.45}
+.go{border:0;border-radius:12px;padding:10px 14px;font-weight:900;font-size:15px;background:var(--c1);color:#0B1220;min-height:42px}
+</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(12px + env(safe-area-inset-top)) 12px 0;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#38BDF8;color:#0B1220;border-radius:14px;padding:10px 20px;font:900 16px Inter,system-ui,sans-serif;text-decoration:none">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+<div class="top"><h1>Neraca Persamaan</h1><span id="sndslot" style="display:flex"></span></div>
+<div class="main">
+<div class="stage"><svg id="sv" viewBox="0 0 600 420" aria-label="Neraca persamaan"></svg></div>
+<div class="side">
+<div class="card"><b class="t">Persamaan</b><div class="big" id="eq"></div><div class="chips" style="margin-top:8px"><button id="baru">Persamaan baharu</button></div></div>
+<div class="card"><b class="t">Lakukan pada KEDUA-DUA belah</b><div class="chips" id="ops"></div></div>
+<div class="card" id="msg" style="font-weight:600"></div>
+</div></div>
+</div>
+<script>const $=id=>document.getElementById(id);const snd=n=>{if(window.FX)FX.play&&FX.play(n)};
+const nf=v=>{const r=Math.round(v*100)/100;return (Object.is(r,-0)?0:r).toLocaleString('ms-MY',{maximumFractionDigits:2})};
+const T=(x,y,t,c,s=16,a='middle')=>`<text x="${x}" y="${y}" fill="${c}" font-size="${s}" font-weight="700" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,sans-serif">${t}</text>`;
+const L=(x1,y1,x2,y2,c,w=2,d='')=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${c}" stroke-width="${w}" ${d?`stroke-dasharray="${d}"`:''} stroke-linecap="round"/>`;
+function svgPt(svg,e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+function drag(svg,onMove){let on=false;svg.addEventListener('pointerdown',e=>{on=true;svg.setPointerCapture(e.pointerId);onMove(svgPt(svg,e))});svg.addEventListener('pointermove',e=>{if(on)onMove(svgPt(svg,e))});const off=()=>{if(on){on=false;snd('ketik')}};svg.addEventListener('pointerup',off);svg.addEventListener('pointercancel',off)}
+const sv=$('sv');let a,b,c,X,steps=[];
+const M=v=>String(v).replace('-','−'),E=(p,q)=>{let s='';if(p)s+=(p===1?'':p)+'x';if(q)s+=(s?(q<0?' − ':' + '):(q<0?'−':''))+Math.abs(q);return s||'0'};
+function baru(){a=1+Math.floor(Math.random()*4);X=1+Math.floor(Math.random()*6);b=1+Math.floor(Math.random()*6);c=a*X+b;steps=[];draw()}
+$('baru').onclick=()=>{snd('ketik');baru()};
+$('ops').onclick=e=>{const t=e.target.closest('button');if(!t)return;const k=t.dataset.k;
+ if(k==='t'){if(b===0){snd('salah');return}steps.push('Tolak '+b+' pada kedua-dua belah');c-=b;b=0;snd('ketik')}
+ else if(k==='b'){if(b!==0||a===1){snd('salah');msg(b!==0?'Buang pemalar di sebelah kiri dahulu.':'x sudah bersendirian.');return}steps.push('Bahagi kedua-dua belah dengan '+a);c=c/a;a=1;snd('ketik')}
+ draw()};
+function msg(t){$('msg').innerHTML=t}
+function draw(){let s=`<polygon points="300,330 272,385 328,385" fill="#0E1626" stroke="#94A3B8" stroke-width="3"/><line x1="70" y1="330" x2="530" y2="330" stroke="#94A3B8" stroke-width="6" stroke-linecap="round"/>`;
+ const side=(items,cx)=>{let x=cx-110,y=272;items.forEach(it=>{if(it==='x'){s+=`<rect x="${x}" y="${y-12}" width="34" height="52" rx="6" fill="#0E1626" stroke="#38BDF8" stroke-width="3"/>`+T(x+17,y+14,'x','#38BDF8',18);x+=40}else{s+=`<circle cx="${x+14}" cy="${y+26}" r="13" fill="#0E1626" stroke="#FBBF24" stroke-width="3"/>`+T(x+14,y+26,'1','#FBBF24',12);x+=30}if(x>cx+70){x=cx-110;y-=58}})};
+ side(Array(a).fill('x').concat(Array(b).fill(1)),185);side(Array(Math.min(c,40)).fill(1),415);
+ s+=T(185,60,'Kiri','#94A3B8',16)+T(415,60,'Kanan','#94A3B8',16);
+ sv.innerHTML=s;
+ $('eq').innerHTML=E(a,b)+' = '+M(c);
+ $('ops').innerHTML=`<button data-k="t"${b?'':' disabled'}>tolak ${b||''}</button><button data-k="b"${a>1&&!b?'':' disabled'}>bahagi ${a>1?a:''}</button>`;
+ const done=a===1&&b===0;
+ msg((steps.length?steps.map((t,i)=>(i+1)+'. '+t).join('<br>')+'<br>':'')+(done?`<b style="color:var(--ok)">Selesai! x = ${M(c)}</b><br><span style="color:var(--mu)">Semak: ganti x = ${M(c)} ke dalam persamaan asal.</span>`:'<span style="color:var(--mu)">Neraca mesti kekal seimbang: apa yang dibuat di kiri, buat juga di kanan.</span>'));
+ if(done)snd('betul')}
+baru();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+</body></html>

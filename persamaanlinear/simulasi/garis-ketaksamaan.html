@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Garis Ketaksamaan · Bab 5</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--sf:#131C2E;--sf3:#0E1626;--bd:#22304A;--tx:#E6EDF7;--mu:#94A3B8;--grid:#1E2A40;--c1:#F472B6;--c2:#F472B6;--c3:#F472B6;--ok:#34D399;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg)}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
+.wrap{flex:1;min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:10px;padding:10px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:center;justify-content:space-between}
+.top h1{margin:0;font-size:19px;color:var(--c1)}
+.main{min-height:0;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(260px,1fr);gap:10px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;display:flex}
+.stage svg{width:100%;height:100%;display:block;touch-action:none;user-select:none}
+.side{min-height:0;display:flex;flex-direction:column;gap:10px}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:12px 14px;font-size:15px;line-height:1.5}
+.card b.t{display:block;font-size:17px;color:var(--c1);margin-bottom:4px}
+.big{font-size:24px;font-weight:800;letter-spacing:.3px}
+label{display:block;font-weight:700;font-size:15px;margin:6px 0 2px}
+input[type=range]{width:100%;height:34px;accent-color:var(--c1)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips button{border:1px solid var(--bd);background:var(--sf3);border-radius:12px;padding:8px 12px;font-weight:800;font-size:15px;min-height:40px}
+.chips button.on{background:var(--c1);color:#0B1220;border-color:var(--c1)}
+@media (max-width:760px){.main{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto}.card{padding:9px 12px;font-size:14px}.big{font-size:19px}.top h1{font-size:16px}label{margin:2px 0 0}input[type=range]{height:28px}}
+.list{font-size:20px;font-weight:800;line-height:1.6}
+.chips button.off{opacity:.45}
+.go{border:0;border-radius:12px;padding:10px 14px;font-weight:900;font-size:15px;background:var(--c1);color:#0B1220;min-height:42px}
+</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(12px + env(safe-area-inset-top)) 12px 0;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#F472B6;color:#0B1220;border-radius:14px;padding:10px 20px;font:900 16px Inter,system-ui,sans-serif;text-decoration:none">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+<div class="top"><h1>Garis Ketaksamaan</h1><span id="sndslot" style="display:flex"></span></div>
+<div class="main">
+<div class="stage"><svg id="sv" viewBox="0 0 600 420" aria-label="Garis nombor ketaksamaan"></svg></div>
+<div class="side">
+<div class="card"><b class="t">Ketaksamaan 1</b><div class="chips" id="s1"></div><label for="n1" id="l1"></label><input type="range" id="n1" min="-6" max="6" value="-2"></div>
+<div class="card"><div class="chips"><button id="tb">+ Ketaksamaan 2 (serentak)</button></div><div id="w2" style="display:none;margin-top:8px"><div class="chips" id="s2"></div><label for="n2" id="l2"></label><input type="range" id="n2" min="-6" max="6" value="3"></div></div>
+<div class="card"><div class="big" id="eq"></div><div id="sub" style="margin-top:6px"></div></div>
+</div></div>
+</div>
+<script>const $=id=>document.getElementById(id);const snd=n=>{if(window.FX)FX.play&&FX.play(n)};
+const nf=v=>{const r=Math.round(v*100)/100;return (Object.is(r,-0)?0:r).toLocaleString('ms-MY',{maximumFractionDigits:2})};
+const T=(x,y,t,c,s=16,a='middle')=>`<text x="${x}" y="${y}" fill="${c}" font-size="${s}" font-weight="700" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,sans-serif">${t}</text>`;
+const L=(x1,y1,x2,y2,c,w=2,d='')=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${c}" stroke-width="${w}" ${d?`stroke-dasharray="${d}"`:''} stroke-linecap="round"/>`;
+function svgPt(svg,e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+function drag(svg,onMove){let on=false;svg.addEventListener('pointerdown',e=>{on=true;svg.setPointerCapture(e.pointerId);onMove(svgPt(svg,e))});svg.addEventListener('pointermove',e=>{if(on)onMove(svgPt(svg,e))});const off=()=>{if(on){on=false;snd('ketik')}};svg.addEventListener('pointerup',off);svg.addEventListener('pointercancel',off)}
+const sv=$('sv'),SY=['<','≤','>','≥'];let S1='>',S2='≤',two=false;const M=v=>String(v).replace('-','−');
+const chips=(id,cur)=>$(id).innerHTML=SY.map(s=>`<button data-s="${s}" class="${s===cur?'on':''}">x ${s.replace('<','&lt;').replace('>','&gt;')}</button>`).join('');
+$('s1').onclick=e=>{const b=e.target.closest('button');if(b){S1=b.dataset.s;snd('ketik');draw()}};$('s2').onclick=e=>{const b=e.target.closest('button');if(b){S2=b.dataset.s;snd('ketik');draw()}};
+$('tb').onclick=()=>{two=!two;$('w2').style.display=two?'':'none';$('tb').textContent=two?'− Buang ketaksamaan 2':'+ Ketaksamaan 2 (serentak)';snd('ketik');draw()};
+$('n1').oninput=draw;$('n2').oninput=draw;
+const ok=(s,n,t)=>s==='<'?t<n:s==='≤'?t<=n:s==='>'?t>n:t>=n;
+function draw(){const n1=+$('n1').value,n2=+$('n2').value;chips('s1',S1);chips('s2',S2);$('l1').textContent='Nilai = '+M(n1);$('l2').textContent='Nilai = '+M(n2);
+ const X=t=>50+(t+7)/14*500,y0=300;let s=L(30,y0,570,y0,'#94A3B8',3);
+ for(let t=-7;t<=7;t++)s+=L(X(t),y0-8,X(t),y0+8,'#94A3B8',2)+T(X(t),y0+30,M(t),'#94A3B8',15);
+ const ray=(sy,n,yy,c)=>{const right=sy[0]==='>',end=right?565:35,closed=sy.length>1||sy==='≤'||sy==='≥';s+=L(X(n),yy,end,yy,c,6)+`<polygon points="${end},${yy} ${end-(right?14:-14)},${yy-9} ${end-(right?14:-14)},${yy+9}" fill="${c}"/>`+`<circle cx="${X(n)}" cy="${yy}" r="11" fill="${closed?c:'#0E1626'}" stroke="${c}" stroke-width="4"/>`};
+ ray(S1,n1,220,'#F472B6');if(two)ray(S2,n2,150,'#38BDF8');
+ const ints=[];for(let t=-7;t<=7;t++)if(ok(S1,n1,t)&&(!two||ok(S2,n2,t)))ints.push(t);
+ ints.forEach(t=>s+=`<circle cx="${X(t)}" cy="${y0}" r="7" fill="#34D399"/>`);
+ s+=T(300,50,two?'Titik hijau: integer yang memuaskan KEDUA-DUA ketaksamaan':'Titik hijau: integer yang memuaskan ketaksamaan','#94A3B8',15);
+ sv.innerHTML=s;
+ const f=(sy,n)=>'x '+sy.replace('<','&lt;').replace('>','&gt;')+' '+M(n);
+ $('eq').innerHTML=f(S1,n1)+(two?' dan '+f(S2,n2):'');
+ const cl=S1.length>1||S1==='≤'||S1==='≥';
+ $('sub').innerHTML=`Bulatan ${cl?'<b>penuh</b>: '+M(n1)+' termasuk':'<b>kosong</b>: '+M(n1)+' tidak termasuk'}.<br>`+(two?(ints.length?`Integer sepunya (−7 hingga 7): <b>${ints.map(M).join(', ')}</b>`:'<b>Tiada</b> penyelesaian sepunya.'):`Integer (−7 hingga 7): ${ints.map(M).join(', ')||'tiada'}`)}
+draw();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+</body></html>
