@@ -1,7 +1,7 @@
 # TerokaMath · Templat bab baharu
 
-Panduan untuk membina satu bab (contoh: CIRCMOTION, T2 Bab 5 Bulatan) di atas **enjin bersama** dalam `/mathmotion/teras/`.
-Rujukan lengkap: folder `/mathmotion/isomove/` (Bab 11 Transformasi Isometri).
+Panduan untuk membina satu bab (contoh: CIRCMOTION, T2 Bab 5 Bulatan) di atas **enjin bersama** dalam `teras/`.
+Rujukan lengkap: folder `isomove/` (Bab 11 Transformasi Isometri).
 
 ## 1. Struktur folder bab
 
@@ -51,7 +51,7 @@ Warna = nama pemboleh ubah tema: `tr` biru, `pa` oren, `pu` ungu, `am` kuning, `
 Pembantu tersedia (teras/asas.js): `ri, pick, shuffle, nz, fmt, par, P, vec, esc, plot, shapeSVG, gSvg, gPoly, gPt, gLine, vq, vreset, vlet, vnama, pr, vcap, wri, wpick, wnz, wcap, mulberry32, GEN_LQ, LVLN, IC, sv, themed, subOf, subCol, snd, burst`.
 
 ## 3. Daftar bab dalam hub
-1. `mathmotion/index.html` → tambah objek dalam `APPS` (`id, name, path:'/mathmotion/<id>/', logo, mark, key, col, glyph, topic, kw, where:[[ting, bab]]`).
+1. `mathmotion/index.html` → tambah objek dalam `APPS` (`id, name, path:'/<id>/', logo, mark, key, col, glyph, topic, kw, where:[[ting, bab]]`).
 2. `mathmotion/sw.js` → tambah fail bab dalam `APPS`; naikkan `CACHE='mathmotion-vN'`.
 3. Butang kembali, kepala "TerokaMath" (logo + Bab N : nama bab, tiada nama app) dan butang **Pelan Mengajar** di kanan atas sudah automatik (dalam teras). Tab: NOTA · TEROKA · LATIHAN · GAMES.
 
