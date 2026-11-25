@@ -114,6 +114,9 @@ const TMX = {
   'Perkembangan': 'Development', 'Siapa betul? Klik kumpulan': 'Who got it right? Click a team', 'mudah': 'easy', 'sederhana': 'medium', 'sukar': 'hard', 'dan menyemak jalan kerja': 'and check the working', 'dan': 'and',
   'TerokaMath': 'TerokaMath', 'latihan': 'practice', 'telefon pintar': 'smartphone', 'video YouTube': 'YouTube video', 'laman web': 'website', 'untuk edit': 'to edit', 'Klik': 'Click', 'Tekan Tayang': 'Press Present',
   'Tunggu jawapan': 'Waiting for answer', 'Klik jika betul': 'Click if correct', 'PAPAN MARKAH': 'SCOREBOARD', 'Papan markah': 'Scoreboard', 'bonus': 'bonus',
+  'Asas + − × ÷': 'Basic + − × ÷', 'ASAS + − × ÷': 'BASIC + − × ÷', 'Tambah, tolak, darab dan bahagi': 'Addition, subtraction, multiplication and division',
+  'Soalan asas tambah, tolak, darab dan bahagi. Makin lama makin susah. Terus pilih game': 'Basic addition, subtraction, multiplication and division. It gets harder as you play. Choose a game',
+  'Soalan asas tambah, tolak, darab dan bahagi': 'Basic addition, subtraction, multiplication and division questions',
   // nama bab (halaman utama & kepala bab)
   'Nombor Nyata': 'Real Numbers', 'Faktor & Gandaan': 'Factors & Multiples', 'Nisbah, Kadar & Perkadaran': 'Ratios, Rates & Proportions', 'Ungkapan Algebra': 'Algebraic Expressions', 'Persamaan & Ketaksamaan Linear': 'Linear Equations & Inequalities',
   'Garis & Sudut': 'Lines & Angles', 'Segi Tiga & Sisi Empat': 'Triangles & Quadrilaterals', 'Pengendalian Data': 'Data Handling', 'Pola & Jujukan': 'Patterns & Sequences', 'Pola dan Jujukan': 'Patterns and Sequences', 'Pemfaktoran & Pecahan Algebra': 'Factorisation & Algebraic Fractions',

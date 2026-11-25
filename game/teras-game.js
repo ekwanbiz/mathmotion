@@ -9,7 +9,8 @@ const TMG = {
   $: id => document.getElementById(id),
   touch: !!(window.matchMedia && matchMedia('(pointer: coarse)').matches) || 'ontouchstart' in window
 };
-TMG.bab = SENARAI.find(s => s.id === TMG.P.get('b'));
+TMG.ASAS = { id: 'asas', t: 0, n: '', tajuk: 'Asas + − × ÷', asas: true };
+TMG.bab = TMG.P.get('b') === 'asas' ? TMG.ASAS : SENARAI.find(s => s.id === TMG.P.get('b'));
 TMG.gid = TMG.P.get('g');
 
 /* ---------- teks soalan → teks biasa untuk dilukis dalam game ---------- */
@@ -74,9 +75,9 @@ TMG.semak = () => { if (TMG.nyawa <= 0 || TMG.qn >= TMG.MAX) { TMG.tamat(); retu
 /* ---------- lapisan: mula, jeda, tamat ---------- */
 TMG.kad = html => { const l = TMG.$('lapis'); l.innerHTML = `<div class="kad">${html}</div>`; l.hidden = false; return l; };
 TMG.tutupKad = () => { TMG.$('lapis').hidden = true; };
-TMG.tagHTML = () => `<span class="tg">${GAMEDEF.nama.toUpperCase()} · BAB ${TMG.bab.n}</span>`;
+TMG.tagHTML = () => `<span class="tg">${GAMEDEF.nama.toUpperCase()} · ${TMG.bab.asas ? 'ASAS + − × ÷' : 'BAB ' + TMG.bab.n}</span>`;
 TMG.mulaKad = () => {
-  const l = TMG.kad(`${TMG.tagHTML()}<h1>${GAMEDEF.nama}</h1><p>${tgEsc(TMG.bab.tajuk)} · Tingkatan ${TMG.bab.t}</p><p>${TMG.touch ? GAMEDEF.caraSentuh : GAMEDEF.cara}</p><p>${TMG.NYAWA} nyawa · ${TMG.MAX} soalan sepanjang permainan</p><button class="pri" id="kMula">Mula</button>`);
+  const l = TMG.kad(`${TMG.tagHTML()}<h1>${GAMEDEF.nama}</h1><p>${TMG.bab.asas ? 'Tambah, tolak, darab dan bahagi' : `${tgEsc(TMG.bab.tajuk)} · Tingkatan ${TMG.bab.t}`}</p><p>${TMG.touch ? GAMEDEF.caraSentuh : GAMEDEF.cara}</p><p>${TMG.NYAWA} nyawa · ${TMG.MAX} soalan sepanjang permainan</p><button class="pri" id="kMula">Mula</button>`);
   l.querySelector('#kMula').onclick = () => { TMG.tutupKad(); TMG.bunyi('tap'); TMG.mula(); };
 };
 TMG.jeda = () => {
@@ -91,7 +92,7 @@ TMG.tamat = () => {
   setTimeout(() => {
     if (TMG.scene) TMG.scene.scene.pause();
     try { snd(TMG.nyawa > 0 ? 'combo' : 'no'); } catch (e) {}
-    const l = TMG.kad(`${TMG.tagHTML()}<h1>Tamat!</h1><div class="big">${TMG.$('skor').textContent}</div><p>Betul <b>${TMG.betulN}</b> daripada ${TMG.qn} soalan</p><button class="pri" id="kSem">Main semula</button><div class="row"><a class="sec" href="index.html?b=${TMG.bab.id}">Tukar game</a><a class="sec" href="index.html?t=${TMG.bab.t}">Tukar bab</a></div>`);
+    const l = TMG.kad(`${TMG.tagHTML()}<h1>Tamat!</h1><div class="big">${TMG.$('skor').textContent}</div><p>Betul <b>${TMG.betulN}</b> daripada ${TMG.qn} soalan</p><button class="pri" id="kSem">Main semula</button><div class="row"><a class="sec" href="index.html?b=${TMG.bab.id}">Tukar game</a><a class="sec" href="index.html?${TMG.bab.asas ? 'b=asas' : 't=' + TMG.bab.t}">${TMG.bab.asas ? 'Tukar game' : 'Tukar bab'}</a></div>`);
     l.querySelector('#kSem').onclick = () => { TMG.tutupKad(); TMG.mula(); };
   }, 700);
 };
@@ -113,9 +114,10 @@ TMG.pusing = () => { TMG.$('pusing').hidden = !(TMG.touch && innerHeight > inner
 (async () => {
   addEventListener('resize', TMG.pusing); TMG.pusing();
   if (!TMG.bab || !/^[a-z]+$/.test(TMG.gid || '')) { TMG.ralat('Bab atau game tidak dijumpai.'); return; }
-  document.title = 'Game · Bab ' + TMG.bab.n + ' ' + TMG.bab.tajuk + ' · TerokaMath';
+  document.title = 'Game · ' + (TMG.bab.asas ? TMG.bab.tajuk : 'Bab ' + TMG.bab.n + ' ' + TMG.bab.tajuk) + ' · TerokaMath';
   try {
-    await tgMuat('../' + TMG.bab.id + '/bab.js'); await tgMuat('../teras/asas.js'); await tgMuat('../' + TMG.bab.id + '/soalan.js');
+    if (TMG.bab.asas) await tgMuat('asas-soalan.js');
+    else { await tgMuat('../' + TMG.bab.id + '/bab.js'); await tgMuat('../teras/asas.js'); await tgMuat('../' + TMG.bab.id + '/soalan.js'); }
     await tgMuat('lib/phaser.min.js'); if (window.tmPatchPhaser) tmPatchPhaser(); await tgMuat(TMG.gid + '.js');
     await Promise.all([document.fonts.load('700 30px "Space Grotesk"'), document.fonts.load('800 20px Inter')]).catch(() => {});
   } catch (e) { TMG.ralat('Gagal memuatkan game. Semak sambungan internet dan cuba lagi.'); return; }
