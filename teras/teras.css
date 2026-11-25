@@ -575,6 +575,17 @@ g.rv.hid{visibility:hidden}
 }
 @media (max-height:620px) and (min-width:901px){.sl-svg{max-height:calc(100dvh - 200px)}}
 
+/* ---------- Format slaid cikgu ---------- */
+:root{--lat-am:#3A3218;--lat-tr:#102E40;--lat-gr:#0F3326;--lat-pk:#3A1730}
+html.light{--lat-am:#FEF3C7;--lat-tr:#E0F2FE;--lat-gr:#DCFCE7;--lat-pk:#FCE7F3}
+.fmtrow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:-2px}
+.fmc{width:28px;height:28px;border-radius:50%;border:2px solid var(--bd);background:var(--dot);cursor:pointer;padding:0}
+.fmc[aria-pressed="true"],.fml[aria-pressed="true"]{outline:3px solid var(--pu);outline-offset:2px}
+.fms{min-width:34px;height:32px;padding:0 8px;border-radius:9px;border:1.5px solid var(--bd);background:var(--surf);color:var(--tx);font:inherit;font-size:13px;font-weight:700;cursor:pointer}
+.fms[aria-pressed="true"]{background:var(--pu);border-color:var(--pu);color:#fff}
+.fmb{font-weight:900}
+.fmsep{width:1px;height:22px;background:var(--bd);margin:0 2px}
+.fml{width:40px;height:30px;border-radius:9px;border:1.5px solid var(--bd);background:var(--sw);cursor:pointer;padding:0}
 /* ---------- Jana RPH ---------- */
 .ajrph{max-width:980px}
 .ajrph .ajm-h h2{flex:1}

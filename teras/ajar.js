@@ -101,35 +101,48 @@ function itemName(it) {
 const typeChip = (t, extra = '') => `<span class="ajtype" style="--c:var(--${AJT[t][1]})${extra}">${AJT[t][0]}</span>`;
 
 /* ---------- slaid cikgu ---------- */
+/* ---------- format slaid cikgu (BAB.fmt): warna, saiz, tebal setiap kotak + latar slaid ---------- */
+const FMT_C = [['', 'Asal'], ['tr', 'Biru'], ['rd', 'Merah'], ['gr', 'Hijau'], ['pa', 'Oren'], ['pu', 'Ungu']];
+const FMT_S = [['k', 'Kecil', .75], ['', 'Biasa', 1], ['b', 'Besar', 1.3], ['sb', 'Sangat besar', 1.65]];
+const FMT_L = [['', 'Asal', ''], ['am', 'Kuning', 'am'], ['tr', 'Biru', 'tr'], ['gr', 'Hijau', 'gr'], ['pk', 'Merah jambu', 'pk']];
+const FMT_BASE = { title: 1.6, q: 2.1, text: 1.25, ans: 1.25 };
+function fmtSt(it, key) {
+  const f = (it.fmt && it.fmt[key]) || {}, out = [];
+  if (FMT_C.some(c => c[0] && c[0] === f.c)) out.push(`color:var(--${f.c})`);
+  const sz = FMT_S.find(x => x[0] && x[0] === f.s); if (sz) out.push(`font-size:calc(var(--fs) * ${(FMT_BASE[key] * sz[2]).toFixed(3)})`);
+  if (f.b) out.push('font-weight:800');
+  return out.length ? ` style="${out.join(';')}"` : '';
+}
+function fmtLat(it) { const l = FMT_L.find(x => x[0] && x[0] === it.lat); return l ? `;background:var(--lat-${l[0]});border-radius:22px` : ''; }
 function cikguHTML(it, pv) {
   const kick = esc(it.kick || '');
   const title = esc(it.title || '');
   if (it.tpl === 'isi') {
     const lines = String(it.text || '').split('\n').map(l => l.trim()).filter(Boolean);
-    return `<div class="slide full cs" style="--c:var(--pu)"><div>${kick ? `<p class="sl-kick">${kick}</p>` : ''}<h1 class="sl-title">${title || 'Tajuk'}</h1></div>
-      <ul class="sl-bul cs-bul">${lines.map(l => `<li class="rv">${esc(l)}</li>`).join('')}</ul></div>`;
+    return `<div class="slide full cs" style="--c:var(--pu)${fmtLat(it)}"><div>${kick ? `<p class="sl-kick">${kick}</p>` : ''}<h1 class="sl-title"${fmtSt(it, 'title')}>${title || 'Tajuk'}</h1></div>
+      <ul class="sl-bul cs-bul"${fmtSt(it, 'text')}>${lines.map(l => `<li class="rv">${esc(l)}</li>`).join('')}</ul></div>`;
   }
   if (it.tpl === 'soalan') {
-    return `<div class="slide full cs" style="--c:var(--pu)"><div><p class="sl-kick">${kick || 'SOALAN CEPAT'}</p><h1 class="sl-title cs-q">${esc(it.q || 'Soalan')}</h1></div>
-      ${it.ans ? `<div class="sl-ans cs-ans rv"><span>JAWAPAN</span>${esc(it.ans)}</div>` : ''}</div>`;
+    return `<div class="slide full cs" style="--c:var(--pu)${fmtLat(it)}"><div><p class="sl-kick">${kick || 'SOALAN CEPAT'}</p><h1 class="sl-title cs-q"${fmtSt(it, 'q')}>${esc(it.q || 'Soalan')}</h1></div>
+      ${it.ans ? `<div class="sl-ans cs-ans rv"${fmtSt(it, 'ans')}><span>JAWAPAN</span>${esc(it.ans)}</div>` : ''}</div>`;
   }
   if (it.tpl === 'gambar') {
     const x = it.x != null ? it.x : 50, y = it.y != null ? it.y : 50, w = it.w || 60;
-    return `<div class="slide full cs cs-pic" style="--c:var(--pu)"><h1 class="sl-title">${title || 'Tajuk'}</h1>
+    return `<div class="slide full cs cs-pic" style="--c:var(--pu)${fmtLat(it)}"><h1 class="sl-title"${fmtSt(it, 'title')}>${title || 'Tajuk'}</h1>
       <div class="cs-imgbox">${it.img ? `<img class="cs-img" src="${it.img}" alt="${title || 'Gambar'}" draggable="false" style="left:${x}%;top:${y}%;width:${w}%">` : '<div class="cs-noimg">Tiada gambar</div>'}</div></div>`;
   }
   if (it.tpl === 'pautan') {
     const url = ajUrl(it.link), yt = ajYt(url), btn = esc(it.btn || (yt ? 'Buka di YouTube' : 'Buka pautan'));
     let host = ''; try { host = url ? new URL(url).hostname.replace(/^www\./, '') : ''; } catch (e) { }
-    if (yt) return `<div class="slide full cs cs-link" style="--c:var(--pu)"><h1 class="sl-title">${title || 'Video'}</h1>
+    if (yt) return `<div class="slide full cs cs-link" style="--c:var(--pu)${fmtLat(it)}"><h1 class="sl-title"${fmtSt(it, 'title')}>${title || 'Video'}</h1>
       <div class="cs-vid">${pv ? `<img src="https://i.ytimg.com/vi/${yt.id}/hqdefault.jpg" alt="" class="cs-thumb"><span class="cs-play" aria-hidden="true"></span>` : `<iframe src="https://www.youtube-nocookie.com/embed/${yt.id}?rel=0${yt.st ? '&start=' + yt.st : ''}" title="${title || 'Video YouTube'}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`}</div>
       <a class="cs-linkbtn sm" href="${esc(url)}" target="_blank" rel="noopener noreferrer">${btn} ↗</a></div>`;
-    return `<div class="slide full cs cs-link" style="--c:var(--pu)"><h1 class="sl-title">${title || 'Pautan'}</h1>
+    return `<div class="slide full cs cs-link" style="--c:var(--pu)${fmtLat(it)}"><h1 class="sl-title"${fmtSt(it, 'title')}>${title || 'Pautan'}</h1>
       <div class="cs-linkbox">${url ? `<a class="cs-linkbtn" href="${esc(url)}" target="_blank" rel="noopener noreferrer">${btn} ↗</a><span class="cs-host">${esc(host)}</span>` : '<div class="cs-noimg">Tiada pautan</div>'}</div></div>`;
   }
   // papan
   const bg = it.bg || 'grid';
-  return `<div class="slide full cs" style="--c:var(--pu)">${title ? `<div><h1 class="sl-title">${title}</h1></div>` : ''}
+  return `<div class="slide full cs" style="--c:var(--pu)${fmtLat(it)}">${title ? `<div><h1 class="sl-title"${fmtSt(it, 'title')}>${title}</h1></div>` : ''}
     <div class="cs-board ${bg}">${bg === 'cartes' ? '<span class="cx"></span><span class="cy"></span>' : ''}</div></div>`;
 }
 function itemSlideHTML(it) {
@@ -230,7 +243,10 @@ function viewModal() {
   }
   // slaid cikgu
   const it = M.it, tp = Object.keys(TPL).map(k => `<button type="button" class="ajtpl${it.tpl === k ? ' on' : ''}" data-tpl="${k}" aria-pressed="${it.tpl === k}"><b>${TPL[k][0]}</b><small>${TPL[k][1]}</small></button>`).join('');
-  const f = (id, label, val, rows) => rows ? `<label class="ajf"><span>${label}</span><textarea id="${id}" rows="${rows}">${esc(val || '')}</textarea></label>` : `<label class="ajf"><span>${label}</span><input type="text" id="${id}" value="${esc(val || '')}"></label>`;
+  const FK = { fTitle: 'title', fText: 'text', fQ: 'q', fAns: 'ans' };
+  const fr = id => { const k = FK[id]; if (!BAB.fmt || !k) return ''; const cf = (it.fmt && it.fmt[k]) || {};
+    return `<div class="fmtrow" role="group" aria-label="Format ${k}">${FMT_C.map(([c, n]) => `<button type="button" class="fmc" data-fk="${k}" data-fc="${c}" aria-label="Warna ${n}" aria-pressed="${(cf.c || '') === c}" style="--dot:${c ? `var(--${c})` : 'var(--tx)'}"></button>`).join('')}<span class="fmsep"></span>${FMT_S.map(([z, n]) => `<button type="button" class="fms" data-fk="${k}" data-fs="${z}" aria-pressed="${(cf.s || '') === z}" title="${n}">${n === 'Sangat besar' ? 'XL' : n === 'Besar' ? 'L' : n === 'Kecil' ? 'S' : 'M'}</button>`).join('')}<span class="fmsep"></span><button type="button" class="fms fmb" data-fk="${k}" data-fb="1" aria-pressed="${!!cf.b}" aria-label="Tebal">B</button></div>`; };
+  const f = (id, label, val, rows) => (rows ? `<label class="ajf"><span>${label}</span><textarea id="${id}" rows="${rows}">${esc(val || '')}</textarea></label>` : `<label class="ajf"><span>${label}</span><input type="text" id="${id}" value="${esc(val || '')}"></label>`) + fr(id);
   let fields = '';
   if (it.tpl === 'isi') fields = f('fKick', 'TAJUK KECIL (pilihan)', it.kick) + f('fTitle', 'TAJUK', it.title) + f('fText', 'ISI (satu baris = satu poin, keluar satu demi satu)', it.text, 6);
   if (it.tpl === 'soalan') fields = f('fKick', 'TAJUK KECIL', it.kick || 'SOALAN CEPAT') + f('fQ', 'SOALAN', it.q, 3) + f('fAns', 'JAWAPAN (keluar bila tekan ▶)', it.ans, 3);
@@ -240,6 +256,7 @@ function viewModal() {
   if (it.tpl === 'pautan') fields = f('fTitle', 'TAJUK', it.title) + f('fLink', 'PAUTAN (cth. https://youtu.be/…)', it.link) + f('fBtn', 'TEKS BUTANG (pilihan)', it.btn)
     + `<p class="ajhint" style="margin:0" id="fLinkMsg">${it.link && !ajUrl(it.link) ? 'Pautan mesti bermula dengan https://' : ajYt(it.link) ? 'Video YouTube akan dimainkan dalam slaid (perlu internet).' : 'Laman web dibuka dalam tab baharu.'}</p>`;
   if (it.tpl === 'papan') fields = f('fTitle', 'TAJUK (pilihan)', it.title) + `<div class="ajf"><span>LATAR</span><div class="opts" style="grid-template-columns:repeat(3,minmax(0,1fr))">${[['kosong', 'Kosong'], ['grid', 'Grid'], ['cartes', 'Satah Cartes']].map(([k, t]) => `<button type="button" class="opt" data-bg="${k}" aria-pressed="${(it.bg || 'grid') === k}" style="--c:var(--pu)">${t}</button>`).join('')}</div></div>`;
+  if (BAB.fmt) fields += `<div class="ajf"><span>LATAR SLAID</span><div class="fmtrow">${FMT_L.map(([l, n, v]) => `<button type="button" class="fml" data-fl="${l}" aria-pressed="${(it.lat || '') === l}" aria-label="Latar ${n}" title="${n}" style="--sw:${v ? `var(--lat-${l})` : 'var(--bg)'}"></button>`).join('')}</div></div>`;
   return `<div class="ajm-bg"><section class="ajm" role="dialog" aria-modal="true" aria-label="Slaid baharu">
     <div class="ajm-h">${typeChip('cikgu')}<h2>${M.edit != null ? 'Ubah slaid' : 'Slaid baharu'}</h2><button type="button" class="ib" id="ajmX" aria-label="Tutup">${IC.x}</button></div>
     <div class="ajtpls" role="group" aria-label="Templat">${tp}</div>
@@ -381,6 +398,11 @@ function bindModal(pl) {
   if (it.tpl === 'soalan' && it.kick == null) it.kick = 'SOALAN CEPAT';
   root.querySelectorAll('[data-tpl]').forEach(b => b.onclick = () => { it.tpl = b.dataset.tpl; if (it.tpl === 'soalan' && !it.kick) it.kick = 'SOALAN CEPAT'; render(true); });
   root.querySelectorAll('[data-bg]').forEach(b => b.onclick = () => { it.bg = b.dataset.bg; render(true); });
+  const fset = (k, key, v) => { it.fmt = it.fmt || {}; const o = it.fmt[k] = it.fmt[k] || {}; if (v === '' || v === false) delete o[key]; else o[key] = v; if (!Object.keys(o).length) delete it.fmt[k]; if (!Object.keys(it.fmt).length) delete it.fmt; };
+  root.querySelectorAll('[data-fc]').forEach(b => b.onclick = () => { fset(b.dataset.fk, 'c', b.dataset.fc); render(true); });
+  root.querySelectorAll('[data-fs]').forEach(b => b.onclick = () => { fset(b.dataset.fk, 's', b.dataset.fs); render(true); });
+  root.querySelectorAll('[data-fb]').forEach(b => b.onclick = () => { const k = b.dataset.fk; fset(k, 'b', !((it.fmt && it.fmt[k] && it.fmt[k].b))); render(true); });
+  root.querySelectorAll('[data-fl]').forEach(b => b.onclick = () => { if (b.dataset.fl) it.lat = b.dataset.fl; else delete it.lat; render(true); });
   const fi = document.getElementById('fImg'); if (fi) fi.onchange = e => { const f = e.target.files[0]; if (f) readImage(f, url => { it.img = url; render(true); }); };
   const fx = document.getElementById('fImgX'); if (fx) fx.onclick = () => { delete it.img; delete it.x; delete it.y; delete it.w; render(true); };
   const sz = document.getElementById('fSz'); if (sz) sz.oninput = () => { it.w = +sz.value; const im = document.querySelector('#ajmPv .cs-img'); if (im) im.style.width = it.w + '%'; };
@@ -397,7 +419,7 @@ function bindModal(pl) {
     pvBox.addEventListener('pointermove', mv); pvBox.addEventListener('pointerup', up); pvBox.addEventListener('pointercancel', up);
   });
   document.getElementById('ajmOk').onclick = () => {
-    const keep = { isi: ['kick', 'title', 'text'], soalan: ['kick', 'q', 'ans'], gambar: ['title', 'img', 'x', 'y', 'w'], papan: ['title', 'bg'], pautan: ['title', 'link', 'btn'] }[it.tpl];
+    const keep = { isi: ['kick', 'title', 'text'], soalan: ['kick', 'q', 'ans'], gambar: ['title', 'img', 'x', 'y', 'w'], papan: ['title', 'bg'], pautan: ['title', 'link', 'btn'] }[it.tpl].concat(BAB.fmt || it.fmt || it.lat ? ['fmt', 'lat'] : []);
     if (it.tpl === 'pautan' && !ajUrl(it.link)) { toast('Masukkan pautan yang bermula dengan https://'); return; }
     const item = { t: 'cikgu', tpl: it.tpl }; keep.forEach(k => { if (it[k] != null && it[k] !== '') item[k] = it[k]; });
     AJS.modal = null;
