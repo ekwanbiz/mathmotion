@@ -242,7 +242,7 @@ function bindLatMain() {
 }
 
 /* ---------- pilihan topik untuk game (Cabaran 60 Saat, Siapa Nak Jawab?, Roda Nama) ---------- */
-const GTOPIK = typeof BAB !== 'undefined' && BAB.gtopik === true && typeof CQT !== 'undefined';
+const GTOPIK = typeof BAB !== 'undefined' && BAB.gtopik !== false && typeof CQT !== 'undefined' && typeof cq === 'function';
 const gtAll = () => Object.keys(CQT);
 const gtSel = key => store()[key] === undefined ? gtAll() : store()[key].filter(k => k in CQT);   // jenis yang dipilih (lalai: semua)
 const gtSub = types => types.length && types.length < gtAll().length;                                 // pilih sebahagian sahaja
