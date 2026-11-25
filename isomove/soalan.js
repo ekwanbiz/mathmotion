@@ -677,3 +677,268 @@ function cq(level, types) {
   }
   return cqKoord(level);
 }
+
+
+/* =================== BANK SOALAN GAYA BUKU TEKS (50 soalan / subtopik) ===================
+   Setiap item: { l:'m'|'s'|'k', q, fig?, a (jawapan betul ringkas), x:[3 pengganggu], ans? (jawapan penuh), work[] }
+   Satu bank dipakai oleh Latihan (GEN), Lembaran Kerja (WSPLAN/WG), Kuiz Online & game kelas (cq), Cabaran 60 Saat (gq). */
+const BK = (() => {
+  const nrm = P => { const mx = Math.min(...P.map(p => p[0])), my = Math.min(...P.map(p => p[1])); return P.map(([x, y]) => [x - mx, y - my]); };
+  const at = (P, ox, oy) => nrm(P).map(([x, y]) => [x + ox, y + oy]);
+  const op = {
+    tr: P => P,
+    ref: P => P.map(([x, y]) => [-x, y]),
+    refx: P => P.map(([x, y]) => [x, -y]),
+    r90: P => P.map(([x, y]) => [-y, x]),
+    r180: P => P.map(([x, y]) => [-x, -y]),
+    r270: P => P.map(([x, y]) => [y, -x]),
+    sh: P => P.map(([x, y]) => [x + y, y]),            // ricih: rupa bentuk berubah
+    st: P => P.map(([x, y]) => [x * 2, y]),            // regang: rupa bentuk berubah
+    sc: P => P.map(([x, y]) => [x * 2, y * 2]),        // saiz berubah
+    sc15: P => P.map(([x, y]) => [x * 1.5, y * 1.5])
+  };
+  const SH = {
+    L: [[0, 0], [3, 0], [3, 1], [1, 1], [1, 3], [0, 3]],
+    trap: [[0, 0], [4, 0], [3, 2], [0, 2]],
+    seg3: [[0, 0], [4, 0], [1, 3]],
+    sisi4: [[0, 0], [3, 0], [4, 3], [1, 2]],
+    pent: [[0, 0], [3, 0], [3, 2], [1, 3], [0, 2]],
+    kecil: [[0, 0], [2, 0], [2, 1], [1, 2], [0, 1]]
+  };
+  const W = P => Math.max(...P.map(p => p[0])), H = P => Math.max(...P.map(p => p[1]));
+  // dua bentuk sebelah-menyebelah
+  function pair(sh, f, o) {
+    o = o || {};
+    const A = at(SH[sh], 0, 0), B0 = nrm(op[f](SH[sh])), gap = 2;
+    const hh = Math.max(H(A), H(B0));
+    const A2 = at(A, 0, Math.round((hh - H(A)) / 2)), B = at(B0, W(A) + gap, Math.round((hh - H(B0)) / 2));
+    return { A: A2, B, w: W(B), h: hh };
+  }
+  const itemsOf = (A, B, cA, cB) => [{ t: 'poly', pts: A, c: cA || 'tr' }, { t: 'poly', pts: B, c: cB || 'pa' }];
+  function fig2(sh, f, lab) {
+    const p = pair(sh, f);
+    const it = itemsOf(p.A, p.B);
+    if (lab !== false) {
+      it.push({ t: 'text', x: W(p.A) / 2, y: -0.75, s: 'Objek', c: 'tr' });
+      it.push({ t: 'text', x: (Math.min(...p.B.map(q => q[0])) + p.w) / 2, y: -0.75, s: 'Imej', c: 'pa' });
+    }
+    return plot({ x0: -1, x1: p.w + 1, y0: -1.5, y1: p.h + 1, axes: false, items: it, label: 'Objek dan imej', u: 34 });
+  }
+  // 4 panel (a)–(d)
+  function fig4(list) {
+    const parts = list.map(([sh, f]) => {
+      const p = pair(sh, f);
+      return plot({ x0: -1, x1: Math.max(p.w + 1, 9), y0: -1, y1: Math.max(p.h + 1, 5), axes: false, items: itemsOf(p.A, p.B), label: 'Pasangan bentuk', u: 26 });
+    });
+    const vb = s => s.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/).slice(1).map(Number);
+    const inner = s => s.replace(/^<svg[^>]*>/, '').replace(/<\/svg>$/, '');
+    const cw = Math.max(...parts.map(s => vb(s)[0])), ch = Math.max(...parts.map(s => vb(s)[1]));
+    let out = '';
+    parts.forEach((s, i) => {
+      const [w, h] = vb(s), x = (i % 2) * (cw + 20), y = Math.floor(i / 2) * (ch + 34);
+      out += `<text x="${x + 4}" y="${y + 22}" style="fill:var(--tx)" font-size="20" font-weight="800">(${'abcd'[i]})</text>`;
+      out += `<svg x="${x}" y="${y + 26}" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">${inner(s)}</svg>`;
+    });
+    return `<svg viewBox="0 0 ${2 * cw + 20} ${2 * ch + 60}" role="img" aria-label="Empat pasangan bentuk (a) hingga (d)" font-family="Inter, sans-serif">${out}</svg>`;
+  }
+  // label bucu & sisi di luar poligon
+  const cen = P => [P.reduce((s, p) => s + p[0], 0) / P.length, P.reduce((s, p) => s + p[1], 0) / P.length];
+  function vlab(P, letters, c) {
+    const n = P.length, area = P.reduce((s, [x, y], i) => s + x * P[(i + 1) % n][1] - P[(i + 1) % n][0] * y, 0), sg = Math.sign(area) || 1;
+    return P.map(([x, y], i) => {
+      const [ax, ay] = P[(i + n - 1) % n], [bx, by] = P[(i + 1) % n];
+      const u1 = [x - ax, y - ay], u2 = [x - bx, y - by], l1 = Math.hypot(...u1), l2 = Math.hypot(...u2);
+      let dx = u1[0] / l1 + u2[0] / l2, dy = u1[1] / l1 + u2[1] / l2;
+      const cross = (x - ax) * (by - y) - (y - ay) * (bx - x);
+      if (cross * sg < 0) { dx = -dx; dy = -dy; }          // bucu cekung: label ke luar
+      const d = Math.hypot(dx, dy) || 1;
+      return { t: 'text', x: x + dx / d * .55, y: y + dy / d * .55 - .2, s: letters[i], c, size: 18 };
+    });
+  }
+  function slab(P, vals, c) {
+    const [cx, cy] = cen(P);
+    return P.map(([x, y], i) => {
+      if (vals[i] == null) return null;
+      const [x2, y2] = P[(i + 1) % P.length], mx = (x + x2) / 2, my = (y + y2) / 2, dx = mx - cx, dy = my - cy, d = Math.hypot(dx, dy) || 1;
+      return { t: 'text', x: mx + dx / d * .55, y: my + dy / d * .55 - .2, s: vals[i], c: c || 'mu', size: 14 };
+    }).filter(Boolean);
+  }
+  // objek berlabel + imej berlabel (imej[i] sepadan objek[i])
+  function figMap(O, f, ol, il, o) {
+    o = o || {};
+    const A = at(O, 0, 0), B0 = nrm(op[f](O)), hh = Math.max(H(A), H(B0));
+    const A2 = at(A, 0, (hh - H(A)) / 2), B = at(B0, W(A) + 3, (hh - H(B0)) / 2);
+    const it = itemsOf(A2, B).concat(vlab(A2, ol, 'tr'), vlab(B, il, 'pa'));
+    if (o.sa) it.push(...slab(A2, o.sa)); if (o.sb) it.push(...slab(B, o.sb));
+    return plot({ x0: -1, x1: W(B) + 1, y0: -1, y1: hh + 1, axes: false, items: it, label: 'Objek dan imej berlabel', u: 40 });
+  }
+  return { fig2, fig4, figMap, SH, op };
+})();
+
+const BANK = {};
+BANK['11.1'] = (() => {
+  const Q = [];
+  const add = (l, q, a, x, work, ex) => Q.push(Object.assign({ l, q, a, x, work: work || [] }, ex || {}));
+
+  /* ---- Mudah: konsep (6) ---- */
+  add('m', 'Dalam suatu transformasi, bentuk asal sebelum transformasi dinamakan ____.', 'Objek', ['Imej', 'Paksi', 'Vektor'],
+    ['Sebelum transformasi berlaku, bentuk asal dinamakan <b>objek</b>.', 'Selepas transformasi, bentuk itu dinamakan imej.']);
+  add('m', 'Bentuk yang terhasil selepas suatu transformasi dinamakan ____.', 'Imej', ['Objek', 'Pusat', 'Sudut'],
+    ['Bentuk asal ialah objek.', 'Bentuk yang terhasil selepas transformasi dinamakan <b>imej</b>.']);
+  add('m', 'Dua objek adalah kongruen jika kedua-duanya mempunyai ____.', 'bentuk dan saiz yang sama', ['bentuk sama, saiz berbeza', 'saiz sama, bentuk berbeza', 'orientasi yang sama sahaja'],
+    ['Kongruen ialah perihal <b>sama bentuk dan sama saiz</b>.', 'Orientasi tidak diambil kira.']);
+  add('m', 'Apakah yang dimaksudkan dengan orientasi?', 'Hala sesuatu objek', ['Saiz sesuatu objek', 'Luas sesuatu objek', 'Bilangan bucu objek'],
+    ['Orientasi ialah <b>hala</b> sesuatu.', 'Contohnya arah jam, lawan arah jam, sebelah kiri dan sebelah kanan.'],
+    { ans: 'Hala sesuatu objek, contohnya arah jam, lawan arah jam, kiri atau kanan' });
+  add('m', 'Transformasi melibatkan ____ titik pada suatu satah.', 'pemindahan', ['pembesaran', 'pemotongan', 'penambahan'],
+    ['Transformasi melibatkan <b>pemindahan</b> titik pada suatu satah.', 'Setiap titik objek mengikut corak pergerakan yang sama.']);
+  add('m', 'Setiap titik pada objek dipetakan kepada tepat satu titik pada imej. Apakah nama padanan ini?', 'Padanan satu-dengan-satu', ['Padanan satu-dengan-banyak', 'Padanan banyak-dengan-satu', 'Padanan banyak-dengan-banyak'],
+    ['Satu titik objek sepadan dengan <b>satu</b> titik imej sahaja.', 'Maka padanan itu ialah padanan satu-dengan-satu.']);
+
+  /* ---- Mudah: situasi harian (4) ---- */
+  add('m', 'Duit syiling 10 sen dan duit syiling 20 sen kedua-duanya berbentuk bulat. Adakah kedua-dua syiling itu kongruen?', 'Tidak, saiznya berbeza', ['Ya, bentuknya sama', 'Ya, kedua-duanya bulat', 'Tidak, bentuknya berbeza'],
+    ['Kedua-dua syiling bulat, jadi bentuknya sama.', 'Tetapi saiz syiling 20 sen lebih besar.', 'Bentuk sama tetapi saiz berbeza → <b>tidak kongruen</b> (hanya serupa).']);
+  add('m', 'Dua keping duit syiling 10 sen diletakkan di atas meja. Adakah kedua-dua syiling itu kongruen?', 'Ya, bentuk dan saiznya sama', ['Tidak, kedudukannya berbeza', 'Tidak, orientasinya berbeza', 'Ya, kerana warnanya sama'],
+    ['Semua syiling 10 sen mempunyai bentuk dan saiz yang sama.', 'Kedudukan tidak diambil kira.', 'Maka kedua-duanya <b>kongruen</b>.']);
+  add('m', 'Akmal berjalan dari rumahnya ke perhentian bas. Apakah yang berubah pada Akmal?', 'Kedudukannya', ['Saiznya', 'Rupa bentuknya', 'Saiz dan rupa bentuknya'],
+    ['Akmal berpindah dari satu tempat ke tempat lain.', 'Rupa bentuk dan saiznya tidak berubah.', 'Hanya <b>kedudukannya</b> yang berubah.']);
+  add('m', 'Bilah kipas siling berpusing. Adakah rupa bentuk dan saiz bilah kipas itu berubah?', 'Tidak berubah', ['Rupa bentuk berubah', 'Saiz berubah', 'Rupa bentuk dan saiz berubah'],
+    ['Bilah kipas hanya berpusing pada satu titik.', 'Kedudukan dan orientasinya berubah.', 'Rupa bentuk dan saiznya <b>tidak berubah</b>.'],
+    { ans: 'Tidak berubah; hanya kedudukan dan orientasi berubah' });
+
+  /* ---- Mudah: transformasi atau bukan (7) ---- */
+  const TY = 'Transformasi, rupa bentuk tidak berubah', TN = 'Bukan transformasi, rupa bentuk berubah';
+  const tfX = ok => ok ? [TN, 'Transformasi, rupa bentuk berubah', 'Bukan transformasi, kedudukan berubah'] : [TY, 'Transformasi, rupa bentuk berubah', 'Bukan transformasi, kedudukan berubah'];
+  const tfW = ok => ok ? ['Bandingkan rupa bentuk objek dan imej.', 'Rupa bentuk imej <b>sama</b> dengan objek; hanya kedudukan atau orientasi berubah.', 'Maka ini ialah transformasi.'] : ['Bandingkan rupa bentuk objek dan imej.', 'Rupa bentuk imej <b>berubah</b> (sudut dan sisi tidak sama).', 'Maka ini bukan transformasi.'];
+  [['L', 'tr', 1, 'Adakah rajah di bawah menunjukkan suatu transformasi? Berikan sebab.'],
+   ['trap', 'sh', 0, 'Objek (biru) dipetakan kepada imej (oren). Adakah ini suatu transformasi? Mengapa?'],
+   ['seg3', 'r90', 1, 'Rajah di bawah menunjukkan objek dan imej. Adakah ini suatu transformasi? Berikan sebab.'],
+   ['pent', 'ref', 1, 'Adakah imej (oren) terhasil daripada suatu transformasi ke atas objek (biru)? Terangkan.'],
+   ['sisi4', 'st', 0, 'Adakah rajah di bawah menunjukkan suatu transformasi? Berikan sebab.'],
+   ['L', 'sh', 0, 'Objek (biru) dan imej (oren) ditunjukkan di bawah. Adakah ini suatu transformasi? Mengapa?'],
+   ['trap', 'ref', 1, 'Rajah di bawah menunjukkan objek dan imej. Adakah ini suatu transformasi? Berikan sebab.']
+  ].forEach(([sh, f, ok, q]) => add('m', q, ok ? TY : TN, tfX(ok), tfW(ok), { fig: BK.fig2(sh, f) }));
+
+  /* ---- Mudah: kongruen atau tidak (8) ---- */
+  const KY = 'Kongruen, bentuk dan saiz sama', KS = 'Tidak kongruen, saiz tidak sama', KB = 'Tidak kongruen, bentuk tidak sama', KO = 'Tidak kongruen, orientasi berbeza';
+  const kgW = { Y: ['Bandingkan bentuk dan saiz kedua-dua rajah.', 'Bentuk dan saiznya <b>sama</b>; hanya kedudukan atau orientasi berbeza.', 'Maka kedua-duanya kongruen.'],
+    S: ['Bentuk kedua-dua rajah sama.', 'Tetapi saiznya <b>tidak sama</b>.', 'Maka kedua-duanya tidak kongruen.'],
+    B: ['Bandingkan sudut dan sisi kedua-dua rajah.', 'Bentuknya <b>tidak sama</b>.', 'Maka kedua-duanya tidak kongruen.'] };
+  const kgA = { Y: KY, S: KS, B: KB }, kgX = { Y: [KS, KB, KO], S: [KY, KB, KO], B: [KY, KS, KO] };
+  [['seg3', 'r90', 'Y', 'Adakah kedua-dua rajah di bawah kongruen? Nyatakan sebabnya.'],
+   ['L', 'sc', 'S', 'Kenal pasti sama ada pasangan rajah di bawah kongruen dan nyatakan sebabnya.'],
+   ['trap', 'ref', 'Y', 'Adakah pasangan rajah di bawah kongruen? Nyatakan sebabnya.'],
+   ['sisi4', 'tr', 'Y', 'Kenal pasti sama ada pasangan rajah di bawah kongruen dan nyatakan sebabnya.'],
+   ['kecil', 'sc', 'S', 'Adakah kedua-dua rajah di bawah kongruen? Nyatakan sebabnya.'],
+   ['L', 'r180', 'Y', 'Adakah pasangan rajah di bawah kongruen? Nyatakan sebabnya.'],
+   ['seg3', 'sc', 'S', 'Kenal pasti sama ada pasangan rajah di bawah kongruen dan nyatakan sebabnya.'],
+   ['sisi4', 'sh', 'B', 'Adakah kedua-dua rajah di bawah kongruen? Nyatakan sebabnya.']
+  ].forEach(([sh, f, k, q]) => add('m', q, kgA[k], kgX[k], kgW[k], { fig: BK.fig2(sh, f, false) }));
+
+  /* ---- Sederhana: pilih satu daripada (a)–(d) (4) ---- */
+  const AD = ['(a)', '(b)', '(c)', '(d)'], adX = c => AD.filter(v => v !== c);
+  add('s', 'Antara rajah berikut, yang manakah menunjukkan <b>bukan</b> suatu transformasi?', '(c)', adX('(c)'),
+    ['Semak rupa bentuk objek dan imej bagi setiap rajah.', '(a), (b) dan (d): rupa bentuk tidak berubah.', '(c): rupa bentuk berubah, maka <b>bukan transformasi</b>.'],
+    { fig: BK.fig4([['L', 'tr'], ['seg3', 'r90'], ['trap', 'sh'], ['pent', 'ref']]) });
+  add('s', 'Antara rajah berikut, yang manakah menunjukkan <b>bukan</b> suatu transformasi?', '(a)', adX('(a)'),
+    ['Semak rupa bentuk objek dan imej bagi setiap rajah.', '(a): rupa bentuk berubah, maka <b>bukan transformasi</b>.', '(b), (c) dan (d): rupa bentuk tidak berubah.'],
+    { fig: BK.fig4([['sisi4', 'st'], ['L', 'r180'], ['trap', 'tr'], ['seg3', 'ref']]) });
+  add('s', 'Antara pasangan rajah berikut, yang manakah kongruen?', '(d)', adX('(d)'),
+    ['Kongruen bermaksud sama bentuk dan sama saiz.', '(a) dan (c): saiz tidak sama. (b): bentuk tidak sama.', '(d): bentuk dan saiz sama, maka <b>kongruen</b>.'],
+    { fig: BK.fig4([['seg3', 'sc'], ['L', 'sh'], ['kecil', 'sc'], ['trap', 'r180']]) });
+  add('s', 'Antara pasangan rajah berikut, yang manakah kongruen?', '(b)', adX('(b)'),
+    ['Kongruen bermaksud sama bentuk dan sama saiz.', '(b): bentuk dan saiz sama walaupun orientasi berbeza, maka <b>kongruen</b>.', '(a) dan (d): saiz tidak sama. (c): bentuk tidak sama.'],
+    { fig: BK.fig4([['L', 'sc'], ['pent', 'ref'], ['trap', 'st'], ['kecil', 'sc']]) });
+
+  /* ---- Sederhana: padanan titik, sisi, sudut (10) ---- */
+  const mapQs = (O, f, ol, il, list) => {
+    const fig = BK.figMap(O, f, ol, il), n = ol.length, I = c => il[ol.indexOf(c)];
+    list.forEach(([kind, s, q]) => {
+      let a, x, w;
+      if (kind === 'pt') { a = I(s); x = il.split('').filter(c => c !== a).slice(0, 3); w = [`Cari bucu imej yang berada pada kedudukan yang sama dengan bucu ${s} pada objek.`, `Imej bagi titik ${s} ialah <b>${a}</b>.`]; }
+      if (kind === 'obj') { a = ol[il.indexOf(s)]; x = ol.split('').filter(c => c !== a).slice(0, 3); w = [`Titik ${s} pada imej sepadan dengan satu bucu objek.`, `Objek bagi titik ${s} ialah <b>${a}</b>.`]; }
+      if (kind === 'sisi') {
+        a = I(s[0]) + I(s[1]);
+        const i0 = ol.indexOf(s[0]), cand = [];
+        for (let k = 0; k < n; k++) { const e = il[k] + il[(k + 1) % n]; if (e !== a && e.split('').reverse().join('') !== a) cand.push(e); }
+        x = cand.slice(0, 3); w = [`Imej bagi ${s[0]} ialah ${I(s[0])} dan imej bagi ${s[1]} ialah ${I(s[1])}.`, `Maka imej bagi sisi ${s} ialah <b>${a}</b>.`];
+      }
+      if (kind === 'sud') {
+        a = '∠' + I(s[0]) + I(s[1]) + I(s[2]);
+        const cand = [];
+        for (let k = 0; k < n; k++) { const v = '∠' + il[(k + n - 1) % n] + il[k] + il[(k + 1) % n]; if (il[k] !== I(s[1])) cand.push(v); }
+        x = cand.slice(0, 3); w = [`Padankan setiap bucu: ${s[0]} → ${I(s[0])}, ${s[1]} → ${I(s[1])}, ${s[2]} → ${I(s[2])}.`, `Maka imej bagi ∠${s} ialah <b>${a}</b>.`];
+      }
+      add('s', q, a, x, w, { fig });
+    });
+  };
+  mapQs(BK.SH.pent, 'r90', 'ABCDE', 'RSTPQ', [
+    ['pt', 'C', 'Pentagon ABCDE (biru) dipetakan kepada pentagon (oren) di bawah suatu transformasi. Nyatakan imej bagi titik C.'],
+    ['sisi', 'AB', 'Pentagon ABCDE dipetakan kepada pentagon oren di bawah suatu transformasi. Nyatakan imej bagi sisi AB.'],
+    ['sud', 'BCD', 'Pentagon ABCDE dipetakan kepada pentagon oren di bawah suatu transformasi. Nyatakan imej bagi ∠BCD.'],
+    ['obj', 'Q', 'Pentagon oren ialah imej bagi pentagon ABCDE. Nyatakan objek bagi titik Q.']]);
+  mapQs(BK.SH.L, 'ref', 'ABCDEF', 'NMLKQP', [
+    ['pt', 'D', 'Rajah di bawah menunjukkan ABCDEF ialah objek dan bentuk oren ialah imej. Nyatakan imej bagi titik D.'],
+    ['sisi', 'EF', 'ABCDEF ialah objek dan bentuk oren ialah imej. Nyatakan imej bagi garisan EF.'],
+    ['obj', 'L', 'ABCDEF ialah objek dan bentuk oren ialah imej. Nyatakan objek bagi titik L.']]);
+  mapQs(BK.SH.sisi4, 'r180', 'ABCD', 'YZWX', [
+    ['pt', 'B', 'Sisi empat ABCD dipetakan kepada sisi empat oren di bawah suatu transformasi. Kenal pasti imej bagi bucu B.'],
+    ['sud', 'DAB', 'Sisi empat ABCD dipetakan kepada sisi empat oren. Kenal pasti imej bagi ∠DAB.'],
+    ['sisi', 'CD', 'Sisi empat ABCD dipetakan kepada sisi empat oren. Kenal pasti imej bagi panjang CD.']]);
+
+  /* ---- Sederhana & Sukar: dua segi tiga kongruen (6) ---- */
+  const T1 = [[0, 0], [4, 0], [0, 3]];            // PQR: PQ = 4, QR = 5, RP = 3
+  const f1 = BK.figMap(T1, 'r90', 'PQR', 'BCA', { sa: ['4 cm', '5 cm', '3 cm'], sb: ['4 cm', '5 cm', '3 cm'] });
+  add('s', 'Segi tiga PQR dan segi tiga ABC di bawah adalah kongruen. Sisi manakah pada segi tiga ABC yang sepadan dengan sisi PQ?', 'BC', ['AB', 'CA', 'PQ'],
+    ['PQ = 4 cm.', 'Sisi segi tiga ABC yang panjangnya 4 cm ialah <b>BC</b>.'], { fig: f1 });
+  add('s', 'Segi tiga PQR dan segi tiga ABC di bawah adalah kongruen. Sudut manakah yang sepadan dengan ∠PQR?', '∠BCA', ['∠CAB', '∠ABC', '∠PRQ'],
+    ['P sepadan dengan B, Q sepadan dengan C, R sepadan dengan A.', 'Maka ∠PQR sepadan dengan <b>∠BCA</b>.'], { fig: f1 });
+  add('s', 'Segi tiga PQR dan segi tiga ABC di bawah adalah kongruen. Sisi manakah pada segi tiga PQR yang sepadan dengan sisi AB?', 'RP', ['PQ', 'QR', 'BC'],
+    ['AB = 3 cm.', 'Sisi segi tiga PQR yang panjangnya 3 cm ialah <b>RP</b>.'], { fig: f1 });
+  const T2 = [[0, 0], [5, 0], [1.5, 2.5]];        // KLM: KL = 11, LM = 8, MK = 5 (tidak ikut skala)
+  const f2 = BK.figMap(T2, 'ref', 'KLM', 'XZY', { sa: ['11 cm', '8 cm', '5 cm'], sb: ['11 cm', '8 cm', '5 cm'] });
+  add('k', 'Segi tiga KLM dan segi tiga XYZ adalah kongruen (rajah tidak dilukis mengikut skala). Lengkapkan: sisi yang sepadan dengan LM ialah ____ dan sudut yang sepadan dengan ∠KLM ialah ____.', 'ZY; ∠XZY', ['XY; ∠XYZ', 'ZY; ∠XYZ', 'XZ; ∠ZXY'],
+    ['LM = 8 cm, maka sisi sepadan ialah ZY (8 cm).', 'K → X, L → Z, M → Y.', 'Maka ∠KLM sepadan dengan <b>∠XZY</b>.'], { fig: f2, ans: 'LM ↔ ZY; ∠KLM ↔ ∠XZY' });
+  add('k', 'Segi tiga KLM dan segi tiga XYZ adalah kongruen (rajah tidak dilukis mengikut skala). Diberi ∠LKM = 38°. Sudut manakah pada segi tiga XYZ yang bernilai 38°?', '∠ZXY', ['∠XYZ', '∠XZY', '∠KLM'],
+    ['K sepadan dengan X kerana sisi 11 cm dan 5 cm bertemu di K dan di X.', 'Sudut sepadan adalah sama besar.', 'Maka <b>∠ZXY</b> = 38°.'], { fig: f2 });
+  add('k', 'Segi tiga KLM dan segi tiga XYZ adalah kongruen (rajah tidak dilukis mengikut skala). Hitung perimeter segi tiga XYZ.', '24 cm', ['19 cm', '16 cm', '48 cm'],
+    ['Segi tiga kongruen mempunyai sisi yang sama panjang.', 'Perimeter XYZ = 11 + 8 + 5 = <b>24 cm</b>.'], { fig: f2 });
+
+  /* ---- Sukar: penyelesaian masalah kekongruenan (5) ---- */
+  add('k', 'Segi tiga ABC kongruen dengan segi tiga PQR, dengan A sepadan dengan P, B sepadan dengan Q dan C sepadan dengan R. Diberi ∠A = 48° dan ∠B = 75°. Hitung ∠R.', '57°', ['48°', '75°', '123°'],
+    ['∠C = 180° − 48° − 75° = 57°.', 'C sepadan dengan R, maka ∠R = ∠C = <b>57°</b>.']);
+  add('k', 'Sisi empat ABCD kongruen dengan sisi empat PQRS. Diberi AB = 7 cm, BC = 5 cm, CD = 6 cm dan DA = 4 cm. Hitung perimeter sisi empat PQRS.', '22 cm', ['18 cm', '11 cm', '44 cm'],
+    ['Bentuk kongruen mempunyai sisi sepadan yang sama panjang.', 'Perimeter PQRS = perimeter ABCD = 7 + 5 + 6 + 4 = <b>22 cm</b>.']);
+  add('k', 'Segi tiga KLM kongruen dengan segi tiga XYZ, dengan K ↔ X, L ↔ Y dan M ↔ Z. Diberi KL = 9 cm, LM = 12 cm dan ∠KLM = 90°. Hitung luas segi tiga XYZ.', '54 cm²', ['108 cm²', '21 cm²', '42 cm²'],
+    ['XY = KL = 9 cm, YZ = LM = 12 cm dan ∠XYZ = 90°.', 'Luas = ' + fr(1, 2) + ' × 9 × 12 = <b>54 cm²</b>.']);
+  add('k', 'Dua segi empat tepat adalah kongruen. Satu daripadanya berukuran 8 cm × 5 cm. Hitung luas segi empat tepat yang satu lagi.', '40 cm²', ['13 cm²', '26 cm²', '80 cm²'],
+    ['Bentuk kongruen mempunyai saiz yang sama.', 'Maka ukurannya juga 8 cm × 5 cm.', 'Luas = 8 × 5 = <b>40 cm²</b>.']);
+  add('k', 'Segi tiga DEF kongruen dengan segi tiga RST, dengan D ↔ R, E ↔ S dan F ↔ T. Diberi ∠D = 2x°, ∠S = 70° dan ∠T = 50°. Cari nilai x.', 'x = 30', ['x = 60', 'x = 35', 'x = 25'],
+    ['∠R = 180° − 70° − 50° = 60°.', 'D sepadan dengan R, maka 2x = 60.', '<b>x = 30</b>.']);
+  return Q;
+})();
+
+/* ---------- sambungkan bank kepada Latihan, Lembaran, kuiz & game ---------- */
+const bankQ = it => ({ q: it.q, fig: it.fig || '', ans: it.ans || it.a, work: it.work || [] });
+const bankMcq = it => { const o = shuffle([it.a, ...it.x]); return { type: 'mcq', q: it.q, fig: it.fig || '', opts: o, c: o.indexOf(it.a) }; };
+const bankLv = (sub, L) => { const B = BANK[sub], want = ['m', 's', 'k'][L] || 'm'; const p = B.filter(it => it.l === want); return p.length ? p : B; };
+Object.keys(BANK).forEach(sub => {
+  const B = BANK[sub], by = l => B.filter(it => it.l === l);
+  GEN[sub] = { m: by('m').map(it => () => bankQ(it)), s: by('s').map(it => () => bankQ(it)), k: by('k').map(it => () => bankQ(it)) };
+  WSPLAN[sub] = ['m', 's', 'k'].map(l => { WG['bk' + sub + l] = i => bankQ(by(l)[i]); return [l, 'bk' + sub + l, by(l).length]; }).filter(r => r[2]);
+  CQT[sub] = (typeof SHORT !== 'undefined' && SHORT[sub] ? SHORT[sub] : 'Subtopik') + ' (' + sub + ')';
+});
+const cqLama = cq, gqLama = gq;
+cq = function (level, types) {
+  const pool = (types && types.length ? types : Object.keys(CQT)), ty = pick(pool);
+  if (BANK[ty]) return bankMcq(pick(bankLv(ty, level)));
+  return cqLama(level, types && types.length ? types.filter(t => !BANK[t]) : Object.keys(CQT).filter(t => !BANK[t]));
+};
+gq = function (level) {
+  const subs = Object.keys(BANK);
+  if (subs.length && Math.random() < .3) {
+    const p = bankLv(pick(subs), level).filter(it => [it.a, ...it.x].every(s => mathPlain(s).length <= 24));
+    if (p.length) return bankMcq(pick(p));
+  }
+  return gqLama(level);
+};
