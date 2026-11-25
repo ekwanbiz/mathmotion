@@ -128,8 +128,6 @@ const SBBS3 = [
   ['Sudut di antara tangen dan perentas sama dengan sudut dalam tembereng selang-seli.', true, 'Ini ialah sifat sudut dalam tembereng selang-seli.'],
   ['Garis lurus yang memotong bulatan pada dua titik ialah tangen.', false, 'Garis itu ialah sekan. Tangen menyentuh pada satu titik sahaja.'],
   ['Sudut di antara tangen dan jejari di titik ketangenan ialah 45°.', false, 'Sudutnya ialah 90°.'],
-  ['Dua bulatan yang bersilang pada dua titik mempunyai empat tangen sepunya.', false, 'Dua bulatan bersilang mempunyai 2 tangen sepunya sahaja.'],
-  ['Dua bulatan yang berasingan mempunyai empat tangen sepunya.', true, '2 tangen sepunya luar dan 2 tangen sepunya dalam.']
 ];
 const SBSEP = [['berasingan (tidak bersentuh dan tidak bersilang)', 4], ['bersentuhan di luar', 3], ['bersilang pada dua titik', 2], ['bersentuhan di dalam', 1], ['berada satu di dalam yang lain tanpa bersentuhan', 0]];
 const SBTRI = [[3, 4, 5], [5, 12, 13], [6, 8, 10], [8, 15, 17], [7, 24, 25], [9, 12, 15], [12, 16, 20], [9, 40, 41]];
@@ -521,7 +519,7 @@ const GEN = {
     k: [() => SB.k62(SBG)]
   },
   '6.3': {
-    m: [() => SB.tjSudut(SBG), () => SB.tjPanjang(SBG), () => SB.duaTangen(SBG), () => SB.temberengSS(SBG), () => SB.sepunya(SBG), () => SB.bs(SBG, SBBS3)],
+    m: [() => SB.tjSudut(SBG), () => SB.tjPanjang(SBG), () => SB.duaTangen(SBG), () => SB.temberengSS(SBG), () => SB.bs(SBG, SBBS3)],
     s: [() => SB.tjKite(SBG), () => SB.ssTiga(SBG), () => SB.tjDua(SBG)],
     k: [() => SB.k63(SBG)]
   },
@@ -578,7 +576,7 @@ WG.k64 = () => SB.k64(SBW);
 const WSPLAN = {
   '6.1': [['m', 'lilPusat', 5], ['m', 'pusatLil', 4], ['m', 'samaLengkok', 4], ['m', 'semibul', 3], ['m', 'bs1', 2], ['s', 'samaKaki', 3], ['s', 'refleks', 3], ['s', 'gab61', 3], ['k', 'k61', 3]],
   '6.2': [['m', 'bertentangan', 7], ['m', 'peluaran', 5], ['m', 'kenalKitaran', 4], ['m', 'bs2', 2], ['s', 'algebra62', 3], ['s', 'pusat62', 3], ['s', 'duaSudut', 3], ['k', 'k62', 3]],
-  '6.3': [['m', 'tjSudut', 4], ['m', 'tjPanjang', 4], ['m', 'duaTangen', 4], ['m', 'temberengSS', 3], ['m', 'sepunya', 2], ['m', 'bs3', 1], ['s', 'tjKite', 3], ['s', 'ssTiga', 3], ['s', 'tjDua', 3], ['k', 'k63', 3]],
+  '6.3': [['m', 'tjSudut', 4], ['m', 'tjPanjang', 4], ['m', 'duaTangen', 4], ['m', 'temberengSS', 5], ['m', 'bs3', 1], ['s', 'tjKite', 3], ['s', 'ssTiga', 3], ['s', 'tjDua', 3], ['k', 'k63', 3]],
   '6.4': [['m', 'gTanDia', 5], ['m', 'gTanJej', 5], ['m', 'gTanIsos', 4], ['m', 'gPusatKit', 4], ['s', 'gTanSS', 3], ['s', 'gKitTan', 3], ['s', 'gHarian', 3], ['k', 'k64', 3]]
 };
 
@@ -610,7 +608,7 @@ const CQGEN = {
   tangen: [
     () => { const x = ri(42, 70); return sbMcq(`PA ialah tangen di A. ∠AOP = ${x}°. Cari ∠APO.`, sbTanFig(x, { ang: [['O', 'A', 'P', `${x}°`, 'pa', false, 16, 32], ['P', 'A', 'O', '?', 'gr', false, 30, 46]], label: 'Tangen PA' }), sbOpts(90 - x, [x, 180 - x, 90 + x, 2 * x])); },
     () => { if (Math.random() < .5) { const x = ri(30, 80); return sbMcq(`SAT ialah tangen di A. ∠TAB = ${x}°. Cari ∠ACB.`, sbF.ss(x, `${x}°`, '?'), sbOpts(x, [90 - x, 180 - x, 2 * x, 90 + x])); } const [a, b, c] = pick(SBTRI.slice(0, 7)); return sbMcq(`PA ialah tangen di A. OA = ${a} cm, OP = ${c} cm. Cari PA.`, sbTanFig(Math.acos(a / c) * 180 / Math.PI, { label: 'Tangen PA' }), sbOpts(b, [c - a, c + a, a, b + 1, c], v => `${v} cm`)); },
-    () => { if (Math.random() < .5) { const x = ri(30, 100); return sbMcq(`PA dan PB ialah tangen. ∠APB = ${x}°. Cari ∠AOB.`, sbTanFig(90 - x / 2, { two: true, op: false, ang: [['P', 'A', 'B', `${x}°`, 'am', false, 18, 30], ['O', 'A', 'B', '?', 'pk']], label: 'Sisi empat OAPB' }), sbOpts(180 - x, [x, 2 * x, 360 - x, 90 - x / 2])); } const [pos, n] = pick(SBSEP); return sbMcq(`Berapakah bilangan tangen sepunya bagi dua bulatan yang ${pos}?`, sbSepFig(n), sbOptsT(String(n), ['0', '1', '2', '3', '4'])); }
+    () => { const x = ri(30, 100); return sbMcq(`PA dan PB ialah tangen. ∠APB = ${x}°. Cari ∠AOB.`, sbTanFig(90 - x / 2, { two: true, op: false, ang: [['P', 'A', 'B', `${x}°`, 'am', false, 18, 30], ['O', 'A', 'B', '?', 'pk']], label: 'Sisi empat OAPB' }), sbOpts(180 - x, [x, 2 * x, 360 - x, 90 - x / 2])); }
   ],
   gabung: [
     () => { const x = ri(25, 70); return sbMcq(`PAQ tangen di A, AB diameter. ∠QAC = ${x}°. Cari ∠BAC.`, sbF.tanDia(x, `${x}°`, '?'), sbOpts(90 - x, [x, 180 - x, 90 + x, 2 * x])); },

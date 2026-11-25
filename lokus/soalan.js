@@ -84,7 +84,6 @@ const LKBS1 = [
   ['Lokus hujung jarum jam yang berputar satu pusingan ialah sebuah bulatan.', true, 'Hujung jarum sentiasa berjarak sama dari pusat jam.'],
   ['Lokus hujung pintu yang dibuka 90° ialah sebuah bulatan penuh.', false, 'Pintu hanya berputar 90°, jadi lokusnya ialah sukuan bulatan.'],
   ['Lokus sebuah lif yang bergerak naik ialah garis lurus mencancang.', true, 'Lif bergerak tegak ke atas.'],
-  ['Lokus dalam tiga dimensi bagi titik yang berjarak tetap dari satu titik ialah permukaan sfera.', true, 'Dalam ruang, semua titik yang berjarak tetap dari satu titik membentuk permukaan sfera.'],
   ['Lokus engsel pintu ketika pintu dibuka ialah lengkok bulatan.', false, 'Engsel tidak bergerak; ia ialah pusat putaran pintu.'],
   ['Lokus pusat roda yang bergolek di atas jalan rata ialah garis lurus yang selari dengan jalan.', true, 'Pusat roda sentiasa berada sejauh jejari roda dari jalan.'],
   ['Lokus tempat duduk buaian yang berayun ialah garis lurus.', false, 'Tempat duduk berjarak tetap dari palang, jadi lokusnya ialah lengkok bulatan.'],
@@ -559,7 +558,6 @@ const CQGEN = {
   harian: [
     () => { const [sit, tt, cat] = pick(LKHARI); return lkMcq(`Apakah lokus ${tt} apabila ${sit}?`, '', lkOptsT(LKCAT[cat], Object.values(LKCAT))); },
     () => {
-      if (Math.random() < .5) { const [q, a] = pick(LK3D); return lkMcq(`${q} membentuk lokus berbentuk…`, '', lkOptsT(a, LK3D.map(v => v[1]))); }
       const [sit, tt, cat] = pick(LKHARI); return lkMcq(`Apabila ${sit}, apakah lokus ${tt}?`, '', lkOptsT(LKCAT[cat], Object.values(LKCAT)));
     },
     () => {

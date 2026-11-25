@@ -571,34 +571,7 @@ add('6.3', 'SIFAT 3', 'Sudut dalam tembereng selang-seli',
     svg(fig, f'Tangen SAT di A, sudut TAB {tab} darjah sama dengan sudut ACB'))
 assert close(angle_at(A, (A[0] - 160, A[1]), Cp), angle_at(Bp, A, Cp))
 
-# 6.3-5 Tangen sepunya
-fig = ''
-cases = [('Berasingan', 4, (110, 75), 50, (300, 75), 38), ('Bersentuhan di luar', 3, (130, 228), 46, (130 + 46 + 36, 228), 36),
-         ('Bersilang', 2, (120, 378), 50, (185, 378), 40)]
-for i, (nm, n, c1, ra, c2, rb) in enumerate(cases):
-    y0 = 8 + i * 152
-    fig += RECT(8, y0, 484, 144, SURF, BD, 16, 2)
-    tg = common_tangents(c1, ra, c2, rb)
-    assert len(tg) == n, (nm, len(tg))
-    for t1, t2, nn in tg:
-        if dist(t1, t2) < 1:      # tangen pada titik sentuhan
-            v = (-nn[1], nn[0]); t1 = (t1[0] - v[0] * 55, t1[1] - v[1] * 55); t2 = (t2[0] + v[0] * 55, t2[1] + v[1] * 55)
-        else:
-            t1, t2 = EXT(t2, t1, 26), EXT(t1, t2, 26)
-        fig += LINE(t1, t2, GR, 3)
-    fig += f'<circle cx="{c1[0]}" cy="{c1[1]}" r="{ra}" fill="none" stroke="{MU3}" stroke-width="3"/>'
-    fig += f'<circle cx="{r1(c2[0])}" cy="{c2[1]}" r="{rb}" fill="none" stroke="{MU3}" stroke-width="3"/>'
-    fig += T(474, y0 + 52, nm, TX, 18, 'end') + T(474, y0 + 90, f'{n} tangen sepunya', GR, 18, 'end')
-# klip rajah supaya tangen tidak keluar dari kad
-fig = f'<clipPath id="tsclip"><rect x="8" y="8" width="484" height="452" rx="16"/></clipPath><g clip-path="url(#tsclip)">{fig}</g>'
-add('6.3', 'KONSEP', 'Tangen sepunya',
-    DEF('<b>Tangen sepunya</b> ialah garis lurus yang menjadi tangen kepada <b>dua</b> bulatan.', col)
-    + TABLE(['Kedudukan dua bulatan', 'Bilangan'],
-            [['Berasingan', '4'], ['Bersentuhan di luar', '3'], ['Bersilang pada dua titik', '2'],
-             ['Bersentuhan di dalam', '1'], ['Satu di dalam yang lain (tidak bersentuh)', '0']], col)
-    + NOTE('Contoh harian: tali sawat yang melilit dua takal atau rantai basikal.'),
-    svg(fig, 'Bilangan tangen sepunya bagi dua bulatan berasingan, bersentuhan di luar dan bersilang'))
-
+# (slaid dibuang 25 Nov: tiada dalam DSKP)
 # 6.3-6 Contoh berlangkah: dua tangen + tembereng selang-seli
 apb = 48; pab = (180 - apb) // 2
 assert pab == 66
@@ -792,7 +765,7 @@ js_body = json.dumps(out, ensure_ascii=False)
 bad = {h for h in re.findall(r'#[0-9a-fA-F]{6}', js_body) if h.lower() not in ALLOWED}
 assert not bad, f'warna luar palet: {bad}'
 assert 'NaN' not in js_body and 'None' not in js_body and 'nan' not in re.sub(r'[a-z]nan|nan[a-z]', '', js_body)
-assert counts == {'6.1': 7, '6.2': 7, '6.3': 7, '6.4': 5}, counts
+assert counts == {'6.1': 7, '6.2': 7, '6.3': 6, '6.4': 5}, counts
 
 js = ('/* Dijana oleh tools/sudutbulatan/gen_slides.py. Jangan sunting dengan tangan. */\n'
       'window.SUBS=' + json.dumps(subs, ensure_ascii=False) + ';\nwindow.SLIDES=' + js_body + ';\n')

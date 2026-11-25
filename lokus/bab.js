@@ -19,7 +19,7 @@ const BAB = {
 /* ---------- data subtopik (nama & warna subtopik ada dalam slides.js: SUBS) ---------- */
 // KSSM Bab 8: SK 8.1 Lokus dan SK 8.2 Lokus dalam Dua Dimensi.
 const SUBDESC = {
-  '8.1': 'Maksud lokus, lokus dalam situasi harian (2D & 3D) dan titik yang memenuhi syarat',
+  '8.1': 'Maksud lokus, lokus dalam situasi harian dan titik yang memenuhi syarat',
   '8.2': 'Lima lokus asas, membina lokus dan persilangan dua lokus'
 };
 const SHORT = { '8.1': 'Lokus', '8.2': 'Lokus 2D' };

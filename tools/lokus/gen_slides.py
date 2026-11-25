@@ -204,36 +204,7 @@ add('8.1', 'SITUASI HARIAN', 'Lokus di sekeliling kita',
     + NOTE('Lokus bergantung pada <b>titik yang dipilih</b>: engsel pintu tidak bergerak langsung.'),
     svg(fig, 'Empat situasi harian: jarum jam, bandul, pintu dan lif'))
 
-# 8.1-3 Lokus dalam 3D
-fig = ''
-# sfera
-fig += RECT(14, 14, 472, 210)
-cS = (130, 120); rS = 78
-fig += f'<circle cx="{cS[0]}" cy="{cS[1]}" r="{rS}" fill="{PK}1A" stroke="{LC}" stroke-width="4"/>'
-fig += f'<ellipse cx="{cS[0]}" cy="{cS[1]}" rx="{rS}" ry="24" fill="none" stroke="{LC}" stroke-width="2.5" stroke-dasharray="7 6"/>'
-fig += LINE(cS, (cS[0] + 55, cS[1] - 55), AM, 4) + DOT(cS, TX, 6) + DOT((cS[0] + 55, cS[1] - 55), PK, 7)
-fig += T(300, 80, 'Jarak tetap dari', TX, 18, 'start') + T(300, 106, 'satu titik dalam', TX, 18, 'start') + T(300, 132, 'ruang → sfera', PK, 19, 'start')
-fig += T(300, 172, 'cth: hujung belon', MU, 16, 'start', halo=False) + T(300, 194, 'diikat tali pada pasak', MU, 16, 'start', halo=False)
-# silinder
-fig += RECT(14, 238, 472, 218)
-cx0, top, bot, rx, ry = 130, 280, 410, 62, 18
-fig += f'<path d="M{cx0 - rx} {top} L{cx0 - rx} {bot} A{rx} {ry} 0 0 0 {cx0 + rx} {bot} L{cx0 + rx} {top}" fill="{PK}1A" stroke="{LC}" stroke-width="4"/>'
-fig += f'<ellipse cx="{cx0}" cy="{top}" rx="{rx}" ry="{ry}" fill="{PK}26" stroke="{LC}" stroke-width="4"/>'
-fig += f'<path d="M{cx0 - rx} {bot} A{rx} {ry} 0 0 1 {cx0 + rx} {bot}" fill="none" stroke="{LC}" stroke-width="2.5" stroke-dasharray="7 6"/>'
-fig += LINE((cx0, top - 26), (cx0, bot + 34), AM, 5)
-fig += LINE((cx0, 345), (cx0 + rx, 345), MU3, 3, '5 5') + DOT((cx0 + rx, 345), PK, 7)
-fig += T(300, 290, 'Jarak tetap dari', TX, 18, 'start') + T(300, 316, 'satu garis lurus', TX, 18, 'start') + T(300, 342, '→ permukaan', PK, 19, 'start') + T(300, 366, 'silinder', PK, 19, 'start')
-fig += T(300, 400, 'cth: permukaan paip', MU, 16, 'start', halo=False) + T(300, 422, 'di sekeliling paksinya', MU, 16, 'start', halo=False)
-add('8.1', 'TIGA DIMENSI', 'Lokus dalam tiga dimensi',
-    BUL(['Lokus dalam <b>dua dimensi (2D)</b> terletak pada satu satah, contohnya bulatan dan garis lurus.',
-         'Lokus dalam <b>tiga dimensi (3D)</b> terletak dalam ruang, contohnya permukaan sfera dan silinder.'], col)
-    + TABLE(['Syarat (dalam ruang)', 'Lokus'],
-            [['Jarak tetap dari satu titik', 'Permukaan sfera'],
-             ['Jarak tetap dari satu garis lurus', 'Permukaan silinder'],
-             ['Lif naik dan turun', 'Garis lurus mencancang']], col, rv=True)
-    + NOTE('Bab ini memberi tumpuan kepada lokus dalam <b>dua dimensi</b>.'),
-    svg(fig, 'Lokus tiga dimensi: sfera dan silinder'))
-
+# (slaid dibuang 25 Nov: tiada dalam DSKP)
 # 8.1-4 Contoh berlangkah: titik pada lokus (XP = 5 unit)
 g = Grid(10, 10, (30, 20, 470, 440))
 Pc = (5, 5)
@@ -505,7 +476,7 @@ js_body = json.dumps(out, ensure_ascii=False)
 bad = {h for h in re.findall(r'#[0-9a-fA-F]{6}', js_body) if h.lower() not in ALLOWED}
 assert not bad, f'warna luar palet: {bad}'
 assert 'NaN' not in js_body and 'None' not in js_body and not re.search(r'\bnan\b', js_body)
-assert counts == {'8.1': 6, '8.2': 7}, counts
+assert counts == {'8.1': 5, '8.2': 7}, counts
 
 js = ('/* Dijana oleh tools/lokus/gen_slides.py. Jangan sunting dengan tangan. */\n'
       'window.SUBS=' + json.dumps(subs, ensure_ascii=False) + ';\nwindow.SLIDES=' + js_body + ';\n')
