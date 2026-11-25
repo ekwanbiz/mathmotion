@@ -41,6 +41,9 @@ a{color:var(--link)}
 /* ---------- Utama ---------- */
 .home{height:100vh;height:100dvh;display:flex;flex-direction:column;gap:12px;padding:calc(14px + env(safe-area-inset-top)) 16px calc(14px + env(safe-area-inset-bottom));max-width:1240px;margin:0 auto}
 .top{display:flex;align-items:center;gap:8px;min-height:44px}
+.gm{height:42px;padding:0 14px;flex:none;border-radius:21px;border:1.5px solid #FBBF24;background:#FBBF241f;color:var(--tx);display:flex;align-items:center;gap:7px;font-weight:800;font-size:15px;text-decoration:none}
+@media(max-width:480px){.gm{padding:0 11px;font-size:14px}.gm svg{display:none}}
+@media(max-width:420px){.brand b{font-size:20px!important}.brand small{font-size:10.5px!important}}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--tx);margin-right:auto;min-width:0}
 .brand .bt{display:flex;flex-direction:column;line-height:1.1;min-width:0}.brand small{font-size:12px;font-weight:700;color:var(--mu);margin-top:3px;white-space:nowrap}.brand b{font-size:24px;font-weight:900;letter-spacing:-.4px;white-space:nowrap}.brand b span{color:var(--accTx)}
 .pill{display:flex;align-items:center;gap:6px;height:40px;padding:0 12px;border-radius:20px;background:var(--starBg);border:1px solid var(--starBd);font-weight:900;color:var(--star)}
@@ -228,6 +231,7 @@ function contHTML(){const last=LS.get('mathmotion-last','');const a=APPS.find(x=
 function home(){const light=document.documentElement.classList.contains('light');
  return`<main class="home">
  <header class="top"><a class="brand" href="#/">${LOGO(46,13)}<span class="bt"><b>Teroka<span>Math</span></b><small>Teroka. Faham. Kuasai.</small></span></a>
+  <a class="gm" href="game/"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="11" rx="5"/><path d="M7 10.5v4M5 12.5h4"/><circle cx="16" cy="11.5" r="1" fill="currentColor"/><circle cx="18.5" cy="14" r="1" fill="currentColor"/></svg>Game</a>
   <a class="ib" href="#/pasang" aria-label="Cara pasang di telefon">${I.phone}</a>
   <button class="ib" id="mode" aria-label="${light?'Tukar ke mod gelap':'Tukar ke mod cerah'}">${light?I.moon:I.sun}</button></header>
  <label class="search"><span style="color:var(--mu);display:flex">${I.search}</span><span class="sr">Cari topik</span><input id="q" type="search" placeholder="Cari topik… (cth: pecutan)" value="${esc(query)}" autocomplete="off" enterkeyhint="search">${query?'<button class="clear" id="clr" aria-label="Kosongkan carian">×</button>':''}</label>
