@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Perwakilan Data · Bab 8</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--sf:#131C2E;--sf3:#0E1626;--bd:#22304A;--tx:#E6EDF7;--mu:#94A3B8;--grid:#1E2A40;--c1:#38BDF8;--c2:#F472B6;--c3:#38BDF8;--ok:#34D399;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg)}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
+.wrap{flex:1;min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:10px;padding:10px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:center;justify-content:space-between}
+.top h1{margin:0;font-size:19px;color:var(--c1)}
+.main{min-height:0;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(260px,1fr);gap:10px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;display:flex}
+.stage svg{width:100%;height:100%;display:block;touch-action:none;user-select:none}
+.side{min-height:0;display:flex;flex-direction:column;gap:10px}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:12px 14px;font-size:15px;line-height:1.5}
+.card b.t{display:block;font-size:17px;color:var(--c1);margin-bottom:4px}
+.big{font-size:24px;font-weight:800;letter-spacing:.3px}
+label{display:block;font-weight:700;font-size:15px;margin:6px 0 2px}
+input[type=range]{width:100%;height:34px;accent-color:var(--c1)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips button{border:1px solid var(--bd);background:var(--sf3);border-radius:12px;padding:8px 12px;font-weight:800;font-size:15px;min-height:40px}
+.chips button.on{background:var(--c1);color:#0B1220;border-color:var(--c1)}
+@media (max-width:760px){.main{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto}.card{padding:9px 12px;font-size:14px}.big{font-size:19px}.top h1{font-size:16px}label{margin:2px 0 0}input[type=range]{height:28px}}
+.list{font-size:20px;font-weight:800;line-height:1.6}
+.chips button.off{opacity:.45}
+.go{border:0;border-radius:12px;padding:10px 14px;font-weight:900;font-size:15px;background:var(--c1);color:#0B1220;min-height:42px}
+</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(12px + env(safe-area-inset-top)) 12px 0;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#38BDF8;color:#0B1220;border-radius:14px;padding:10px 20px;font:900 16px Inter,system-ui,sans-serif;text-decoration:none">&#8592; Kembali</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+<div class="top"><h1>Perwakilan Data</h1><span id="sndslot" style="display:flex"></span></div>
+<div class="main">
+<div class="stage"><svg id="sv" viewBox="0 0 600 420" aria-label="Perwakilan data"></svg></div>
+<div class="side">
+<div class="card"><div class="chips"><button id="bP">Carta palang</button><button id="bC">Carta pai</button></div></div>
+<div class="card" id="rows"></div>
+<div class="card"><div id="sub"></div></div>
+</div></div>
+</div>
+<script>const $=id=>document.getElementById(id);const snd=n=>{if(window.FX)FX.play&&FX.play(n)};
+const nf=v=>{const r=Math.round(v*100)/100;return (Object.is(r,-0)?0:r).toLocaleString('ms-MY',{maximumFractionDigits:2})};
+const T=(x,y,t,c,s=16,a='middle')=>`<text x="${x}" y="${y}" fill="${c}" font-size="${s}" font-weight="700" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,sans-serif">${t}</text>`;
+const L=(x1,y1,x2,y2,c,w=2,d='')=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${c}" stroke-width="${w}" ${d?`stroke-dasharray="${d}"`:''} stroke-linecap="round"/>`;
+function svgPt(svg,e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+function drag(svg,onMove){let on=false;svg.addEventListener('pointerdown',e=>{on=true;svg.setPointerCapture(e.pointerId);onMove(svgPt(svg,e))});svg.addEventListener('pointermove',e=>{if(on)onMove(svgPt(svg,e))});const off=()=>{if(on){on=false;snd('ketik')}};svg.addEventListener('pointerup',off);svg.addEventListener('pointercancel',off)}
+const sv=$('sv');const N=['Bola sepak','Badminton','Bola jaring','Renang'],C=['#38BDF8','#FBBF24','#F472B6','#34D399'];let F=[10,15,9,6],mode='P';
+$('bP').onclick=()=>{mode='P';snd('ketik');draw()};$('bC').onclick=()=>{mode='C';snd('ketik');draw()};
+function rows(){$('rows').innerHTML=N.map((n,i)=>`<div class="chips" style="align-items:center;margin:4px 0"><span style="width:12px;height:12px;border-radius:3px;background:${C[i]}"></span><span style="flex:1">${n}</span><button data-i="${i}" data-d="-1">−</button><b style="width:28px;text-align:center">${F[i]}</b><button data-i="${i}" data-d="1">+</button></div>`).join('');
+ $('rows').querySelectorAll('button').forEach(b=>b.onclick=()=>{const i=+b.dataset.i;F[i]=Math.max(0,Math.min(30,F[i]+ +b.dataset.d));snd('ketik');rows();draw()})}
+function draw(){const tot=F.reduce((a,b)=>a+b,0);let s='';
+ $('bP').classList.toggle('on',mode==='P');$('bC').classList.toggle('on',mode==='C');
+ if(mode==='P'){for(let v=0;v<=30;v+=5){const y=360-v*10;s+=L(80,y,560,y,'#1E2A40',1.5)+T(68,y,v,'#94A3B8',14,'end')}
+  s+=L(80,360,565,360,'#94A3B8',3)+L(80,362,80,50,'#94A3B8',3)+T(84,34,'Kekerapan','#94A3B8',14,'start');
+  F.forEach((f,i)=>{const x=110+i*115;s+=`<rect x="${x}" y="${360-f*10}" width="70" height="${f*10}" rx="4" fill="${C[i]}"/>`+T(x+35,350-f*10,f,'#E6EDF7',16)+T(x+35,384,N[i],'#E6EDF7',14)})}
+ else if(tot){let a0=-90;const c=[300,215],r=165;F.forEach((f,i)=>{if(!f)return;const ang=f/tot*360,a1=a0+ang,R=d=>d*Math.PI/180;
+  const p0=[c[0]+r*Math.cos(R(a0)),c[1]+r*Math.sin(R(a0))],p1=[c[0]+r*Math.cos(R(a1)),c[1]+r*Math.sin(R(a1))];
+  s+=ang>=359.9?`<circle cx="${c[0]}" cy="${c[1]}" r="${r}" fill="${C[i]}"/>`:`<path d="M${c[0]} ${c[1]} L${p0[0].toFixed(1)} ${p0[1].toFixed(1)} A${r} ${r} 0 ${ang>180?1:0} 1 ${p1[0].toFixed(1)} ${p1[1].toFixed(1)} Z" fill="${C[i]}" stroke="#0E1626" stroke-width="3"/>`;
+  const m=R((a0+a1)/2);s+=T(c[0]+r*.62*Math.cos(m),c[1]+r*.62*Math.sin(m),nf(ang)+'°','#0E1626',17);a0=a1})}
+ sv.innerHTML=s;
+ $('sub').innerHTML='Jumlah = <b>'+tot+'</b>'+(mode==='C'&&tot?'<br>'+F.map((f,i)=>`<span style="color:${C[i]}">${N[i]}</span>: ${f}/${tot} × 360° = <b>${nf(f/tot*360)}°</b>`).join('<br>'):'')}
+rows();draw();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+</body></html>
