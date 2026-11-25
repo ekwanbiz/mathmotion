@@ -77,9 +77,9 @@ const GAMES=[
  {id:'sampan',name:'Sampan Laju',dunia:'SUNGAI & BAKAU',d:'Kayuh, elak buaya, ambil pelampung jawapan.',col:'#34D399',sky:'linear-gradient(#0E7490 70%,#155E75 70%)'},
  {id:'kancil',name:'Kejar Kancil',dunia:'HUTAN HUJAN',d:'Lari dalam hutan, kemudian lompat ke belakang buaya yang ada jawapan betul.',col:'#34D399',sky:'linear-gradient(#14532D 70%,#166534 70%)'},
  {id:'pasar',name:'Pasar Malam',dunia:'GERAI MALAM',d:'Layan pelanggan dengan menyerahkan barang berlabel jawapan betul.',col:'#E879F9',sky:'linear-gradient(#1E1B4B 70%,#7C2D12 70%)'},
- {name:'Panjat Kelapa',dunia:'KAMPUNG PANTAI',d:'Panjat pokok kelapa. Pilih dahan jawapan betul untuk terus naik.',col:'#FBBF24',sky:'linear-gradient(#67E8F9 70%,#FDE68A 70%)'},
- {name:'Roket Sains',dunia:'PELANCARAN LANGKAWI',d:'Isi bahan api dengan jawapan betul. Makin betul, makin tinggi roket terbang.',col:'#F87171',sky:'linear-gradient(#FDBA74 70%,#475569 70%)'},
- {name:'Penyu Pulang',dunia:'PANTAI TERENGGANU',d:'Bawa anak penyu ke laut melalui laluan jawapan betul.',col:'#2DD4BF',sky:'linear-gradient(#0EA5E9 66%,#FDE68A 66%)'}];
+ {id:'kelapa',name:'Panjat Kelapa',dunia:'KAMPUNG PANTAI',d:'Panjat pokok kelapa. Pilih dahan jawapan betul untuk terus naik.',col:'#FBBF24',sky:'linear-gradient(#67E8F9 70%,#FDE68A 70%)'},
+ {id:'roket',name:'Roket Sains',dunia:'PELANCARAN LANGKAWI',d:'Kutip bahan api, elak meteor dan terbang ke tangki jawapan betul.',col:'#F87171',sky:'linear-gradient(#FDBA74 70%,#475569 70%)'},
+ {id:'penyu',name:'Penyu Pulang',dunia:'PANTAI TERENGGANU',d:'Bawa anak penyu ke laut melalui laluan jawapan betul.',col:'#2DD4BF',sky:'linear-gradient(#0EA5E9 66%,#FDE68A 66%)'}];
 const P=new URLSearchParams(location.search);
 const ASAS={id:'asas',t:0,n:'',tajuk:'Kira Pantas'};
 let pilih=P.get('b')==='asas'?ASAS:(SENARAI.find(s=>s.id===P.get('b'))||null), ting=pilih?pilih.t:(P.get('t')!=null&&P.get('t')!==''?+P.get('t'):1);
