@@ -1,6 +1,7 @@
 # Penjana slaid NOTA PECUT (Tingkatan 2 Bab 9 Laju dan Pecutan) -> pecut/slides.js
 # Jalankan:  python3 tools/pecut/gen_slides.py
 # Gunakan HANYA warna palet gelap di bawah supaya mod cerah ditukar automatik oleh themed().
+raise SystemExit('Dipersarakan: nota Bab 9 kini dijana oleh alat/nota/bina_bab9_t2.py (ikut buku teks).')
 import json, os, html, math, re
 from fractions import Fraction as F
 

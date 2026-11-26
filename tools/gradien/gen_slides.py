@@ -1,6 +1,7 @@
 # Penjana slaid NOTA GRADIEN (Tingkatan 2 Bab 10 Kecerunan Garis Lurus) -> gradien/slides.js
 # Jalankan:  python3 tools/gradien/gen_slides.py
 # Gunakan HANYA warna palet gelap di bawah supaya mod cerah ditukar automatik oleh themed().
+raise SystemExit('Dipersarakan: nota Bab 10 kini dijana oleh alat/nota/bina_bab10_t2.py (ikut buku teks).')
 import json, os, html, math, re, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from fxsvg import fx_svg, has_fx, fx_html   # pecahan bertingkat & punca (25 Nov)
