@@ -1,0 +1,272 @@
+${c} sen	${c} sen
+setiap tahun	once a year
+tahunan	annually
+setiap 6 bulan	every 6 months
+setengah tahunan	half-yearly
+setiap suku tahun	every 3 months
+suku tahunan	quarterly
+setiap bulan	monthly
+bulanan	monthly
+Syarikat Maju Jaya	Maju Jaya Company
+Syarikat Sinar Timur	Sinar Timur Company
+Syarikat Bumi Hijau	Bumi Hijau Company
+Syarikat Teknologi Cerdas	Teknologi Cerdas Company
+Syarikat Kelapa Emas	Kelapa Emas Company
+Simpanan ialah wang lebihan yang disimpan untuk kegunaan masa hadapan.	Savings are excess money that is kept for future use.
+Simpanan ialah wang lebihan yang disimpan di institusi kewangan untuk kegunaan masa hadapan.	Savings are excess money that is deposited in a financial institution for future use.
+Pelaburan saham tidak mempunyai sebarang risiko.	Investment in shares does not have any risk.
+Harga saham boleh turun, jadi pelaburan saham berisiko tinggi.	Share prices can fall, so the level of risk in buying shares is high.
+Akaun simpanan mempunyai kecairan yang tinggi.	A savings account has a high liquidity level.
+Wang dalam akaun simpanan boleh dikeluarkan dengan mudah dan cepat.	Money in a savings account can be withdrawn easily and quickly.
+Hartanah mempunyai kecairan yang tinggi kerana mudah dijual dengan segera.	Real estate has a high liquidity level because it can be sold immediately.
+Hartanah mengambil masa yang lama untuk dijual, maka kecairannya rendah.	Real estate takes time to sell, thus its liquidity level is low.
+Biasanya, pelaburan yang berpotensi memberi pulangan tinggi mempunyai risiko yang tinggi.	Usually, an investment that can potentially give high returns has a high risk.
+Pulangan tinggi biasanya datang bersama risiko tinggi.	High returns usually come with high risk.
+Faedah mudah dikira ke atas prinsipal dan faedah terkumpul.	Simple interest is calculated on the principal and the accumulated interest.
+Faedah mudah dikira ke atas prinsipal sahaja; faedah kompaun dikira ke atas prinsipal dan faedah terkumpul.	Simple interest is calculated on the principal only; compound interest is calculated on the principal and the accumulated interest.
+Bagi faedah yang dikompaun setiap suku tahun, nilai n ialah 4.	For interest compounded every 3 months, the value of n is 4.
+Setahun ada 4 suku tahun, maka n = 4.	A year has 4 quarters, thus n = 4.
+Dividen ialah salah satu bentuk pulangan pelaburan saham.	Dividend is one form of return on investment in shares.
+Pulangan saham boleh berupa dividen dan keuntungan modal.	Returns on shares can be in the form of dividends and capital gains.
+Strategi purata kos seringgit bermaksud membeli unit saham dalam bilangan yang sama setiap bulan.	The ringgit cost averaging strategy means buying the same number of share units every month.
+Strategi ini melabur jumlah wang yang sama secara berkala, jadi bilangan unit berubah mengikut harga.	This strategy invests the same amount of money on a periodic basis, so the number of units changes according to the price.
+Simpanan tetap memberi kadar faedah yang lebih tinggi daripada akaun simpanan biasa.	A fixed deposit gives a higher interest rate than an ordinary savings account.
+Wang simpanan tetap disimpan untuk tempoh tertentu, maka kadar faedahnya biasanya lebih tinggi.	Fixed deposit money is saved for a certain period, thus its interest rate is usually higher.
+Kredit membolehkan pengguna mendapatkan barang sekarang dan membayarnya kemudian.	Credit allows the consumer to get goods now and pay for them later.
+Itulah maksud kredit.	That is the meaning of credit.
+Pemegang kad kredit yang membayar baki penuh sebelum tarikh akhir tidak dikenakan caj kewangan.	A credit cardholder who pays the full balance before the due date is not charged any finance charge.
+Caj kewangan hanya dikenakan ke atas baki yang tidak dibayar.	The finance charge is only imposed on the unpaid balance.
+Membuat bayaran minimum akan menghapuskan semua caj kewangan.	Making the minimum payment will remove all finance charges.
+Bayaran minimum hanya mengelakkan caj lewat bayaran; baki yang tidak dibayar masih dikenakan caj kewangan.	The minimum payment only avoids the late payment charge; the unpaid balance is still charged a finance charge.
+Caj lewat bayaran dikenakan jika bayaran minimum tidak dibuat sebelum tarikh akhir.	The late payment charge is imposed if the minimum payment is not made before the due date.
+Caj lewat bayaran dikenakan apabila bayaran minimum lewat atau tidak dibuat.	The late payment charge is imposed when the minimum payment is late or not made.
+Tempoh pinjaman yang lebih panjang menghasilkan jumlah faedah yang lebih rendah.	A longer loan period gives a lower total interest.
+Faedah = Prt. Semakin besar t, semakin besar jumlah faedah.	Interest = Prt. The larger t is, the larger the total interest.
+Tempoh pinjaman yang lebih panjang menghasilkan ansuran bulanan yang lebih rendah.	A longer loan period gives a lower monthly instalment.
+Jumlah bayaran balik dibahagi dengan lebih banyak bulan, maka ansuran lebih rendah (walaupun faedah lebih tinggi).	The total repayment is divided by more months, thus the instalment is lower (although the interest is higher).
+Pengguna yang bijak berbelanja menggunakan kad kredit sehingga had kredit setiap bulan.	A wise consumer spends using the credit card up to the credit limit every month.
+Pengguna bijak berbelanja mengikut kemampuan dan tidak menggunakan kad sehingga had kredit.	A wise consumer spends according to his ability and does not use the card up to the credit limit.
+Hutang ialah jumlah wang yang wajib dibayar balik kepada pemberi pinjaman.	Debt is the amount of money that must be repaid to the lender.
+Hutang perlu dibayar balik, biasanya bersama faedah.	Debt must be repaid, usually together with interest.
+Wang pendahuluan mengurangkan jumlah pinjaman kereta.	The down payment reduces the amount of the car loan.
+Pinjaman = harga − wang pendahuluan.	Loan = price − down payment.
+Bayaran minimum kad kredit ialah 5% daripada baki tertunggak walaupun nilainya kurang daripada RM50.	The minimum payment of a credit card is 5% of the outstanding balance even if its value is less than RM50.
+Bayaran minimum ialah 5% atau RM50, yang mana lebih tinggi.	The minimum payment is 5% or RM50, whichever is higher.
+Jumlah	Total
+Jadual	Table
+Carta bar	Bar chart
+Ikon 	Icon 
+Hitung faedah mudah bagi prinsipal RM${mpN(P)} pada kadar ${mpPc(r)} setahun selama ${t} tahun.	Calculate the simple interest for a principal of RM${mpN(P)} at a rate of ${mpPc(r)} per annum for ${t} years.
+${vnama()} menyimpan RM${mpN(P)} dalam akaun simpanan tetap di ${B} yang menawarkan faedah mudah ${mpPc(r)} setahun. Berapakah faedah yang diperoleh selepas ${t} tahun?	${vnama()} deposits RM${mpN(P)} in a fixed deposit account at ${B} that offers simple interest of ${mpPc(r)} per annum. How much is the interest earned after ${t} years?
+Sebuah koperasi sekolah menyimpan RM${mpN(P)} dengan kadar faedah mudah ${mpPc(r)} setahun. Cari jumlah faedah selepas ${t} tahun.	A school cooperative deposits RM${mpN(P)} with a simple interest rate of ${mpPc(r)} per annum. Find the total interest after ${t} years.
+${N} mengira faedah mudah bagi RM${mpN(P)} pada kadar ${mpPc(r)} setahun selama ${t} tahun sebagai RM${mpN(P * r * t)}. Adakah ${N} betul?	${N} calculates the simple interest for RM${mpN(P)} at a rate of ${mpPc(r)} per annum for ${t} years as RM${mpN(P * r * t)}. Is ${N} correct?
+${N} tidak menukar ${mpPc(r)} kepada ${mpD(r / 100)}.	${N} did not change ${mpPc(r)} to ${mpD(r / 100)}.
+Lengkapkan: I = Prt = ${mpN(P)} × ${mpD(r / 100)} × ${t} = ___	Complete: I = Prt = ${mpN(P)} × ${mpD(r / 100)} × ${t} = ___
+RM${mpN(P)} disimpan dengan kadar faedah mudah ${mpPc(r)} setahun selama ${t} tahun. Hitung nilai matang simpanan itu.	RM${mpN(P)} is deposited with a simple interest rate of ${mpPc(r)} per annum for ${t} years. Calculate the matured value of the savings.
+${vnama()} melabur RM${mpN(P)} dalam simpanan tetap di ${B} pada kadar faedah mudah ${mpPc(r)} setahun. Berapakah jumlah wangnya selepas ${t} tahun?	${vnama()} puts RM${mpN(P)} in a fixed deposit at ${B} at a simple interest rate of ${mpPc(r)} per annum. What is the total amount of money after ${t} years?
+Cari nilai matang bagi simpanan RM${mpN(P)} yang memperoleh faedah mudah ${mpPc(r)} setahun selama ${t} tahun.	Find the matured value of savings of RM${mpN(P)} that earns simple interest of ${mpPc(r)} per annum for ${t} years.
+Simpanan RM${mpN(P)} memperoleh faedah mudah ${mpPc(r)} setahun selama ${t} tahun. ${N} berkata nilai matangnya ialah ${mpRMf(I)}. Adakah ${N} betul?	Savings of RM${mpN(P)} earn simple interest of ${mpPc(r)} per annum for ${t} years. ${N} says its matured value is ${mpRMf(I)}. Is ${N} correct?
+${mpRMf(I)} ialah faedah sahaja. Nilai matang = prinsipal + faedah.	${mpRMf(I)} is the interest only. Matured value = principal + interest.
+Hitung faedah mudah bagi RM${mpN(P)} pada kadar ${mpPc(r)} setahun selama ${m} bulan.	Calculate the simple interest for RM${mpN(P)} at a rate of ${mpPc(r)} per annum for ${m} months.
+${vnama()} menyimpan RM${mpN(P)} dalam simpanan tetap ${m} bulan dengan kadar faedah mudah ${mpPc(r)} setahun. Berapakah faedah yang diterimanya?	${vnama()} deposits RM${mpN(P)} in a ${m}-month fixed deposit with a simple interest rate of ${mpPc(r)} per annum. How much interest is received?
+Wang RM${mpN(P)} disimpan selama ${m} bulan pada kadar faedah mudah ${mpPc(r)} setahun. Cari faedahnya.	RM${mpN(P)} is deposited for ${m} months at a simple interest rate of ${mpPc(r)} per annum. Find the interest.
+Bagi simpanan RM${mpN(P)} pada ${mpPc(r)} setahun selama ${m} bulan, ${N} menulis I = ${mpN(P)} × ${mpD(r / 100)} × ${m}. Adakah ${N} betul?	For savings of RM${mpN(P)} at ${mpPc(r)} per annum for ${m} months, ${N} writes I = ${mpN(P)} × ${mpD(r / 100)} × ${m}. Is ${N} correct?
+Tempoh mesti dalam tahun: ${m} bulan = ${m}/12 tahun.	The time must be in years: ${m} months = ${m}/12 year.
+Faedah ${mpPc(r)} setahun dikompaun ${kl} selama ${t} tahun. Nyatakan nilai n dan nilai nt dalam rumus MV = P(1 + r/n)<sup>nt</sup>.	Interest of ${mpPc(r)} per annum is compounded ${kl} for ${t} years. State the value of n and the value of nt in the formula MV = P(1 + r/n)<sup>nt</sup>.
+Sebuah bank menawarkan faedah ${mpPc(r)} setahun yang dikompaun ${kl}. Bagi simpanan selama ${t} tahun, berapakah nilai n dan nt?	A bank offers interest of ${mpPc(r)} per annum compounded ${kl}. For savings over ${t} years, what are the values of n and nt?
+Faedah ${mpPc(r)} setahun dikompaun ${kl} selama ${t} tahun. Nyatakan nilai r/n dan nt.	Interest of ${mpPc(r)} per annum is compounded ${kl} for ${t} years. State the values of r/n and nt.
+Lengkapkan bagi faedah ${mpPc(r)} setahun dikompaun ${kl} selama ${t} tahun: MV = P(1 + ___)<sup>___</sup>	Complete for interest of ${mpPc(r)} per annum compounded ${kl} for ${t} years: MV = P(1 + ___)<sup>___</sup>
+Nyatakan sama ada pernyataan berikut betul atau salah: "${s}"	State whether the following statement is true or false: "${s}"
+Betul	True
+Salah	False
+Betul atau salah? ${s}	True or false? ${s}
+${N} berkata, "${s}" Adakah ${N} betul?	${N} says, "${s}" Is ${N} correct?
+Ya, ${N} betul	Yes, ${N} is correct
+Tidak, ${N} tidak betul	No, ${N} is not correct
+RM${mpN(P)} disimpan dengan kadar faedah ${mpPc(r)} setahun dikompaun ${kl}. Hitung nilai matang selepas ${t} tahun.	RM${mpN(P)} is deposited with an interest rate of ${mpPc(r)} per annum compounded ${kl}. Calculate the matured value after ${t} years.
+${vnama()} menyimpan RM${mpN(P)} di ${B} yang menawarkan faedah ${mpPc(r)} setahun dikompaun ${kl}. Berapakah nilai simpanannya selepas ${t} tahun?	${vnama()} saves RM${mpN(P)} at ${B} that offers interest of ${mpPc(r)} per annum compounded ${kl}. What is the value of the savings after ${t} years?
+Cari nilai matang bagi pelaburan RM${mpN(P)} selama ${t} tahun pada kadar ${mpPc(r)} setahun yang dikompaun ${kl}. Beri jawapan betul kepada sen terdekat.	Find the matured value of an investment of RM${mpN(P)} for ${t} years at a rate of ${mpPc(r)} per annum compounded ${kl}. Give the answer correct to the nearest sen.
+Lengkapkan: MV = ${mpN(P)}(1 + ${mpD(r / 100)}/${n})<sup>${n * t}</sup> = ___	Complete: MV = ${mpN(P)}(1 + ${mpD(r / 100)}/${n})<sup>${n * t}</sup> = ___
+Hitung faedah kompaun yang diperoleh daripada simpanan RM${mpN(P)} pada kadar ${mpPc(r)} setahun dikompaun ${kl} selama ${t} tahun.	Calculate the compound interest earned from savings of RM${mpN(P)} at a rate of ${mpPc(r)} per annum compounded ${kl} for ${t} years.
+${vnama()} menyimpan RM${mpN(P)} selama ${t} tahun. Faedah ${mpPc(r)} setahun dikompaun ${kl}. Berapakah jumlah faedah yang diterimanya?	${vnama()} saves RM${mpN(P)} for ${t} years. Interest of ${mpPc(r)} per annum is compounded ${kl}. What is the total interest received?
+Simpanan RM${mpN(P)} memperoleh faedah ${mpPc(r)} setahun dikompaun ${kl} selama ${t} tahun. ${N} berkata faedahnya ialah ${mpRM(MV, true)}. Adakah ${N} betul?	Savings of RM${mpN(P)} earn interest of ${mpPc(r)} per annum compounded ${kl} for ${t} years. ${N} says the interest is ${mpRM(MV, true)}. Is ${N} correct?
+${mpRM(MV, true)} ialah nilai matang. Faedah = MV − P.	${mpRM(MV, true)} is the matured value. Interest = MV − P.
+${vnama()} membeli ${mpN(u)} unit saham ${Sy} pada harga ${mpSen(b)} seunit. Dia menerima dividen ${mpSen(d)} seunit dan kemudian menjual semua saham itu pada harga ${mpSen(j)} seunit. Hitung pulangan pelaburannya dalam peratus.	${vnama()} bought ${mpN(u)} units of ${Sy} shares at ${mpSen(b)} per unit. A dividend of ${mpSen(d)} per unit was received and then all the shares were sold at ${mpSen(j)} per unit. Calculate the return on investment in percentage.
+Sebanyak ${mpN(u)} unit saham dibeli pada ${mpSen(b)} seunit. Selepas setahun, dividen ${mpSen(d)} seunit dibayar dan saham dijual pada ${mpSen(j)} seunit. Berapakah pulangan pelaburan (ROI)?	A total of ${mpN(u)} share units were bought at ${mpSen(b)} per unit. After a year, a dividend of ${mpSen(d)} per unit was paid and the shares were sold at ${mpSen(j)} per unit. What is the return on investment (ROI)?
+Seorang pelabur membeli ${mpN(u)} unit saham pada ${mpSen(b)} seunit, menerima dividen ${mpSen(d)} seunit, lalu menjualnya pada ${mpSen(j)} seunit. Tentukan pulangan pelaburan.	An investor bought ${mpN(u)} share units at ${mpSen(b)} per unit, received a dividend of ${mpSen(d)} per unit, and then sold them at ${mpSen(j)} per unit. Determine the return on investment.
+Jadual di bawah menunjukkan pelaburan dalam saham ${Sy}. Hitung pulangan pelaburan.	The table below shows an investment in ${Sy} shares. Calculate the return on investment.
+${vnama()} melabur RM${mpN(a)} setiap bulan dalam ${Dn} menggunakan strategi purata kos seringgit. Harga seunit bagi tiga bulan ditunjukkan dalam jadual. Hitung purata kos seunit.	${vnama()} invests RM${mpN(a)} every month in ${Dn} using the ringgit cost averaging strategy. The unit price for three months is shown in the table. Calculate the average cost per unit.
+Seorang pelabur membeli unit amanah saham bernilai RM${mpN(a)} setiap bulan selama tiga bulan pada harga seperti dalam jadual. Berapakah purata kos seunit?	An investor buys unit trusts worth RM${mpN(a)} every month for three months at the prices shown in the table. What is the average cost per unit?
+Berdasarkan jadual, RM${mpN(a)} dilaburkan setiap bulan. Cari jumlah unit yang dibeli dan purata kos seunit.	Based on the table, RM${mpN(a)} is invested every month. Find the total number of units bought and the average cost per unit.
+RM${mpN(a)} dilaburkan setiap bulan pada harga seperti dalam jadual. ${N} berkata purata kos seunit ialah ${mpRM(mean / 100, true)}, iaitu purata tiga harga itu. Adakah ${N} betul?	RM${mpN(a)} is invested every month at the prices shown in the table. ${N} says the average cost per unit is ${mpRM(mean / 100, true)}, that is the mean of the three prices. Is ${N} correct?
+Purata kos seunit = jumlah wang dilaburkan ÷ jumlah unit, bukan purata harga.	Average cost per unit = total money invested ÷ total number of units, not the mean of the prices.
+Simpanan RM${mpN(P)} pada kadar faedah mudah ${mpPc(r)} setahun memperoleh faedah ${mpRMf(I)}. Berapa tahunkah tempoh simpanan itu?	Savings of RM${mpN(P)} at a simple interest rate of ${mpPc(r)} per annum earn interest of ${mpRMf(I)}. How many years is the savings period?
+Simpanan RM${mpN(P)} memperoleh faedah mudah ${mpRMf(I)} selepas ${t} tahun. Cari kadar faedah setahun.	Savings of RM${mpN(P)} earn simple interest of ${mpRMf(I)} after ${t} years. Find the interest rate per annum.
+Cari prinsipal yang memperoleh faedah mudah ${mpRMf(I)} pada kadar ${mpPc(r)} setahun selama ${t} tahun.	Find the principal that earns simple interest of ${mpRMf(I)} at a rate of ${mpPc(r)} per annum for ${t} years.
+Berapa lamakah RM${mpN(P)} perlu disimpan pada kadar faedah mudah ${mpPc(r)} setahun untuk memperoleh faedah ${mpRMf(I)}?	How long must RM${mpN(P)} be saved at a simple interest rate of ${mpPc(r)} per annum to earn interest of ${mpRMf(I)}?
+RM${mpN(P)} disimpan selama ${t} tahun dan memperoleh faedah mudah ${mpRMf(I)}. Hitung kadar faedah setahun.	RM${mpN(P)} is saved for ${t} years and earns simple interest of ${mpRMf(I)}. Calculate the interest rate per annum.
+Berapakah wang yang perlu disimpan selama ${t} tahun pada kadar faedah mudah ${mpPc(r)} setahun untuk memperoleh faedah ${mpRMf(I)}?	How much money must be saved for ${t} years at a simple interest rate of ${mpPc(r)} per annum to earn interest of ${mpRMf(I)}?
+${vnama()} menyimpan RM${mpN(P)} dengan faedah mudah ${mpPc(r)} setahun dan menerima faedah ${mpRMf(I)}. Cari tempoh simpanan.	${vnama()} saves RM${mpN(P)} with simple interest of ${mpPc(r)} per annum and receives interest of ${mpRMf(I)}. Find the savings period.
+Faedah mudah bagi RM${mpN(P)} selama ${t} tahun ialah ${mpRMf(I)}. Berapakah kadar faedah setahun?	The simple interest for RM${mpN(P)} for ${t} years is ${mpRMf(I)}. What is the interest rate per annum?
+${vnama()} menerima faedah mudah ${mpRMf(I)} selepas menyimpan selama ${t} tahun pada ${mpPc(r)} setahun. Berapakah wang yang disimpannya?	${vnama()} receives simple interest of ${mpRMf(I)} after saving for ${t} years at ${mpPc(r)} per annum. How much money was saved?
+${bk.N} mempunyai RM${mpN(bk.P)} untuk disimpan selama ${bk.t} tahun. ${bk.A} menawarkan faedah mudah ${mpPc(bk.r1)} setahun, manakala ${bk.Bn} menawarkan faedah ${mpPc(bk.r2)} setahun dikompaun ${bk.kl}. (a) Hitung nilai matang bagi setiap tawaran. (b) Tawaran manakah lebih menguntungkan dan berapakah bezanya?	${bk.N} has RM${mpN(bk.P)} to save for ${bk.t} years. ${bk.A} offers simple interest of ${mpPc(bk.r1)} per annum, while ${bk.Bn} offers interest of ${mpPc(bk.r2)} per annum compounded ${bk.kl}. (a) Calculate the matured value for each offer. (b) Which offer is more profitable and what is the difference?
+(a) ${bk.A}: ${mpRMf(bk.m1)}; ${bk.Bn}: ${mpRM(bk.m2, true)} (b) ${bk.best}, beza ${mpRM(Math.abs(bk.m2 - bk.m1), true)}	(a) ${bk.A}: ${mpRMf(bk.m1)}; ${bk.Bn}: ${mpRM(bk.m2, true)} (b) ${bk.best}, difference ${mpRM(Math.abs(bk.m2 - bk.m1), true)}
+Beza = ${mpRM(Math.abs(bk.m2 - bk.m1), true)}, maka ${bk.best} lebih menguntungkan.	Difference = ${mpRM(Math.abs(bk.m2 - bk.m1), true)}, thus ${bk.best} is more profitable.
+${hr.N} membeli sebuah rumah berharga RM${mpN(hr.H)} dan menyewakannya pada RM${mpN(hr.sw)} sebulan selama ${hr.y} tahun. Sepanjang tempoh itu, kos penyelenggaraan dan cukai berjumlah RM${mpN(hr.kos)}. Rumah itu kemudian dijual pada harga RM${mpN(hr.J)}. Hitung pulangan pelaburannya.	${hr.N} bought a house at RM${mpN(hr.H)} and rented it out at RM${mpN(hr.sw)} per month for ${hr.y} years. Throughout the period, maintenance costs and taxes totalled RM${mpN(hr.kos)}. The house was then sold at a price of RM${mpN(hr.J)}. Calculate the return on investment.
+Sewa = ${mpN(hr.sw)} × ${12 * hr.y} = ${mpRM(hr.sw * 12 * hr.y)}	Rental = ${mpN(hr.sw)} × ${12 * hr.y} = ${mpRM(hr.sw * 12 * hr.y)}
+Keuntungan modal = ${mpN(hr.J)} − ${mpN(hr.H)} = ${mpRM(hr.J - hr.H)}	Capital gain = ${mpN(hr.J)} − ${mpN(hr.H)} = ${mpRM(hr.J - hr.H)}
+Jumlah pulangan = ${mpN(hr.sw * 12 * hr.y)} + ${mpN(hr.J - hr.H)} − ${mpN(hr.kos)} = ${mpRM(hr.ret)}	Total return = ${mpN(hr.sw * 12 * hr.y)} + ${mpN(hr.J - hr.H)} − ${mpN(hr.kos)} = ${mpRM(hr.ret)}
+${pk.N} melabur RM${mpN(pk.a)} setiap bulan dalam ${pk.Dn} selama tiga bulan. Harga seunit ialah ${pk.p.map(c => mpRM(c / 100, true)).join(', ')}. (a) Hitung purata kos seunit. (b) Jika dia melabur kesemua RM${mpN(3 * pk.a)} pada bulan pertama, berapakah unit yang diperolehnya? (c) Strategi manakah memberi lebih banyak unit?	${pk.N} invests RM${mpN(pk.a)} every month in ${pk.Dn} for three months. The unit prices are ${pk.p.map(c => mpRM(c / 100, true)).join(', ')}. (a) Calculate the average cost per unit. (b) If the whole RM${mpN(3 * pk.a)} is invested in the first month, how many units are obtained? (c) Which strategy gives more units?
+(a) ${mpRM(pk.avg / 100, true)} (b) ${mpN(pk.lump)} unit (c) ${pk.lump > pk.su ? 'Melabur sekali gus pada bulan pertama' : 'Purata kos seringgit'}	(a) ${mpRM(pk.avg / 100, true)} (b) ${mpN(pk.lump)} units (c) ${pk.lump > pk.su ? 'Investing a lump sum in the first month' : 'Ringgit cost averaging'}
+Unit = ${pk.u.map(x => mpN(x)).join(' + ')} = ${mpN(pk.su)}	Units = ${pk.u.map(x => mpN(x)).join(' + ')} = ${mpN(pk.su)}
+(a) Purata kos seunit = ${mpN(3 * pk.a)} ÷ ${mpN(pk.su)} = ${mpRM(pk.avg / 100, true)}	(a) Average cost per unit = ${mpN(3 * pk.a)} ÷ ${mpN(pk.su)} = ${mpRM(pk.avg / 100, true)}
+(b) ${mpN(3 * pk.a)} ÷ ${mpRM(pk.p[0] / 100, true)} = ${mpN(pk.lump)} unit	(b) ${mpN(3 * pk.a)} ÷ ${mpRM(pk.p[0] / 100, true)} = ${mpN(pk.lump)} units
+(c) ${mpN(pk.su)} unit berbanding ${mpN(pk.lump)} unit.	(c) ${mpN(pk.su)} units compared to ${mpN(pk.lump)} units.
+${sg.N} menyimpan RM${mpN(sg.P)} pada kadar faedah ${mpPc(sg.r)} setahun dikompaun setiap tahun. Selepas berapa tahun penuh simpanan itu mula melebihi RM${mpN(sg.X)}?	${sg.N} saves RM${mpN(sg.P)} at an interest rate of ${mpPc(sg.r)} per annum compounded once a year. After how many full years will the savings first exceed RM${mpN(sg.X)}?
+${sg.t} tahun	${sg.t} years
+Tahun ${k}: ${mpN(sg.P)}(1 + ${mpD(sg.r / 100)})<sup>${k}</sup> = ${mpRM(v, true)}	Year ${k}: ${mpN(sg.P)}(1 + ${mpD(sg.r / 100)})<sup>${k}</sup> = ${mpRM(v, true)}
+Maka selepas ${sg.t} tahun, simpanan melebihi RM${mpN(sg.X)}.	Thus after ${sg.t} years, the savings exceed RM${mpN(sg.X)}.
+Baki tertunggak kad kredit ${vnama()} ialah RM${mpN(B)}. Bayaran minimum ialah 5% daripada baki tertunggak atau RM50, yang mana lebih tinggi. Hitung bayaran minimum.	The outstanding balance of ${vnama()}'s credit card is RM${mpN(B)}. The minimum payment is 5% of the outstanding balance or RM50, whichever is higher. Calculate the minimum payment.
+Penyata kad kredit menunjukkan baki tertunggak RM${mpN(B)}. Berapakah bayaran minimum? (5% atau RM50, yang lebih tinggi)	A credit card statement shows an outstanding balance of RM${mpN(B)}. What is the minimum payment? (5% or RM50, whichever is higher)
+Berdasarkan penyata kad kredit di bawah, hitung bayaran minimum yang perlu dibuat. (5% atau RM50, yang lebih tinggi)	Based on the credit card statement below, calculate the minimum payment to be paid. (5% or RM50, whichever is higher)
+Baki tertunggak kad kredit ialah RM${mpN(B)}. ${N} berkata bayaran minimumnya ialah ${mpRMf(B * 0.05)}. Adakah ${N} betul? (5% atau RM50, yang lebih tinggi)	The outstanding balance of a credit card is RM${mpN(B)}. ${N} says the minimum payment is ${mpRMf(B * 0.05)}. Is ${N} correct? (5% or RM50, whichever is higher)
+5% × ${mpN(B)} = ${mpRMf(B * 0.05)}, iaitu kurang daripada RM50. Ambil nilai yang lebih tinggi.	5% × ${mpN(B)} = ${mpRMf(B * 0.05)}, which is less than RM50. Take the higher value.
+Baki tertunggak kad kredit ialah RM${mpN(B)}. Bayaran minimum tidak dibuat sebelum tarikh akhir. Hitung caj lewat bayaran jika kadarnya 1% daripada baki tertunggak (minimum RM10, maksimum RM100).	The outstanding balance of a credit card is RM${mpN(B)}. The minimum payment is not made before the due date. Calculate the late payment charge if the rate is 1% of the outstanding balance (minimum RM10, maximum RM100).
+${vnama()} terlupa membuat bayaran kad kredit sebelum tarikh akhir. Baki tertunggak ialah RM${mpN(B)}. Caj lewat bayaran ialah 1% daripada baki tertunggak, minimum RM10 dan maksimum RM100. Berapakah caj lewat yang dikenakan?	${vnama()} forgot to make the credit card payment before the due date. The outstanding balance is RM${mpN(B)}. The late payment charge is 1% of the outstanding balance, minimum RM10 and maximum RM100. How much is the late payment charge imposed?
+Pemegang kad dalam penyata di bawah tidak membuat sebarang bayaran sebelum tarikh akhir. Hitung caj lewat bayaran. (1%, minimum RM10, maksimum RM100)	The cardholder in the statement below did not make any payment before the due date. Calculate the late payment charge. (1%, minimum RM10, maximum RM100)
+Lengkapkan: Caj lewat = 1% × RM${mpN(B)} = ${mpRMf(B * 0.01)} → caj lewat yang dikenakan = ___ (minimum RM10, maksimum RM100)	Complete: Late payment charge = 1% × RM${mpN(B)} = ${mpRMf(B * 0.01)} → late payment charge imposed = ___ (minimum RM10, maximum RM100)
+Hitung jumlah faedah bagi pinjaman RM${mpN(P)} pada kadar faedah ${mpPc(r)} setahun selama ${t} tahun.	Calculate the total interest for a loan of RM${mpN(P)} at an interest rate of ${mpPc(r)} per annum for ${t} years.
+${vnama()} meminjam RM${mpN(P)} daripada ${B} pada kadar ${mpPc(r)} setahun untuk tempoh ${t} tahun. Berapakah faedah yang perlu dibayarnya?	${vnama()} borrows RM${mpN(P)} from ${B} at a rate of ${mpPc(r)} per annum for a period of ${t} years. How much interest must be paid?
+Sebuah pinjaman peribadi RM${mpN(P)} dikenakan faedah kadar rata ${mpPc(r)} setahun. Cari jumlah faedah bagi tempoh ${t} tahun.	A personal loan of RM${mpN(P)} is charged a flat interest rate of ${mpPc(r)} per annum. Find the total interest for a period of ${t} years.
+Lengkapkan: Faedah = Prt = ${mpN(P)} × ${mpD(r / 100)} × ${t} = ___	Complete: Interest = Prt = ${mpN(P)} × ${mpD(r / 100)} × ${t} = ___
+Hitung jumlah bayaran balik bagi pinjaman RM${mpN(P)} pada kadar faedah ${mpPc(r)} setahun selama ${t} tahun.	Calculate the total repayment for a loan of RM${mpN(P)} at an interest rate of ${mpPc(r)} per annum for ${t} years.
+${vnama()} mengambil pinjaman peribadi RM${mpN(P)} daripada ${B}. Kadar faedah ialah ${mpPc(r)} setahun selama ${t} tahun. Berapakah jumlah yang perlu dibayar balik?	${vnama()} obtained a personal loan of RM${mpN(P)} from ${B}. The interest rate is ${mpPc(r)} per annum for ${t} years. What is the total amount to be repaid?
+Cari jumlah bayaran balik, A, bagi pinjaman RM${mpN(P)} dengan kadar ${mpPc(r)} setahun untuk ${t} tahun.	Find the total repayment, A, for a loan of RM${mpN(P)} at a rate of ${mpPc(r)} per annum for ${t} years.
+Bagi pinjaman RM${mpN(P)} pada ${mpPc(r)} setahun selama ${t} tahun, ${N} berkata jumlah bayaran balik ialah ${mpRMf(I)}. Adakah ${N} betul?	For a loan of RM${mpN(P)} at ${mpPc(r)} per annum for ${t} years, ${N} says the total repayment is ${mpRMf(I)}. Is ${N} correct?
+${mpRMf(I)} ialah faedah sahaja. A = P + Prt.	${mpRMf(I)} is the interest only. A = P + Prt.
+Pinjaman RM${mpN(P)} dikenakan faedah ${mpPc(r)} setahun selama ${t} tahun. Hitung ansuran bulanan.	A loan of RM${mpN(P)} is charged interest of ${mpPc(r)} per annum for ${t} years. Calculate the monthly instalment.
+${vnama()} meminjam RM${mpN(P)} daripada ${B} untuk membeli komputer riba. Kadar faedah ialah ${mpPc(r)} setahun dan tempoh pinjaman ${t} tahun. Berapakah ansuran bulanannya?	${vnama()} borrows RM${mpN(P)} from ${B} to buy a laptop. The interest rate is ${mpPc(r)} per annum and the loan period is ${t} years. What is the monthly instalment?
+Cari bayaran ansuran bulanan bagi pinjaman peribadi RM${mpN(P)} pada kadar faedah ${mpPc(r)} setahun yang dibayar dalam tempoh ${t} tahun.	Find the monthly instalment for a personal loan of RM${mpN(P)} at an interest rate of ${mpPc(r)} per annum repaid over ${t} years.
+Bagi pinjaman RM${mpN(P)} pada ${mpPc(r)} setahun selama ${t} tahun, ${N} mengira ansuran bulanan sebagai ${mpRMf(P / (12 * t))}. Adakah ${N} betul?	For a loan of RM${mpN(P)} at ${mpPc(r)} per annum for ${t} years, ${N} calculates the monthly instalment as ${mpRMf(P / (12 * t))}. Is ${N} correct?
+${N} terlupa menambah faedah. Ansuran = (P + Prt) ÷ bilangan bulan.	${N} forgot to add the interest. Instalment = (P + Prt) ÷ number of months.
+Baki tertunggak kad kredit ialah RM${mpN(B)}. Pemegang kad membayar RM${mpN(pay)} sebelum tarikh akhir. Caj kewangan ${mpPc(r)} setahun dikenakan ke atas baki yang tidak dibayar. Hitung (a) caj kewangan bagi bulan itu, (b) baki bulan berikutnya.	The outstanding balance of a credit card is RM${mpN(B)}. The cardholder pays RM${mpN(pay)} before the due date. A finance charge of ${mpPc(r)} per annum is imposed on the unpaid balance. Calculate (a) the finance charge for that month, (b) the balance for the following month.
+${vnama()} mempunyai baki kad kredit RM${mpN(B)} dan hanya membayar RM${mpN(pay)}. Jika caj kewangan ialah ${mpPc(r)} setahun, berapakah caj kewangan sebulan dan baki baharunya?	${vnama()} has a credit card balance of RM${mpN(B)} and only pays RM${mpN(pay)}. If the finance charge is ${mpPc(r)} per annum, what is the finance charge for a month and the new balance?
+Berdasarkan penyata di bawah, caj kewangan ${mpPc(r)} setahun dikenakan ke atas baki yang tidak dibayar. Hitung caj kewangan bagi sebulan dan baki bulan berikutnya.	Based on the statement below, a finance charge of ${mpPc(r)} per annum is imposed on the unpaid balance. Calculate the finance charge for a month and the balance for the following month.
+Harga sebuah kereta ialah RM${mpN(H)}. ${vnama()} membayar wang pendahuluan ${d}% dan membuat pinjaman bagi bakinya pada kadar ${mpPc(r)} setahun selama ${t} tahun. Hitung ansuran bulanan.	The price of a car is RM${mpN(H)}. ${vnama()} pays ${d}% down payment and takes a loan for the balance at a rate of ${mpPc(r)} per annum for ${t} years. Calculate the monthly instalment.
+Sebuah kereta terpakai berharga RM${mpN(H)} dibeli dengan wang pendahuluan ${d}%. Baki dibiayai dengan pinjaman ${mpPc(r)} setahun selama ${t} tahun. Berapakah bayaran bulanannya?	A used car priced at RM${mpN(H)} is bought with a ${d}% down payment. The balance is financed by a loan at ${mpPc(r)} per annum for ${t} years. What is the monthly payment?
+Seorang guru membeli kereta RM${mpN(H)}. Wang pendahuluan ialah ${d}% daripada harga kereta. Kadar faedah pinjaman ${mpPc(r)} setahun untuk ${t} tahun. Cari (a) jumlah pinjaman, (b) ansuran bulanan.	A teacher buys a car at RM${mpN(H)}. The down payment is ${d}% of the price of the car. The loan interest rate is ${mpPc(r)} per annum for ${t} years. Find (a) the loan amount, (b) the monthly instalment.
+Pinjaman RM${mpN(P)} dibayar balik dengan ansuran ${mpRMf(m)} sebulan selama ${t} tahun. Hitung kadar faedah setahun.	A loan of RM${mpN(P)} is repaid with an instalment of ${mpRMf(m)} per month for ${t} years. Calculate the interest rate per annum.
+${vnama()} meminjam RM${mpN(P)} dan membayar ${mpRMf(m)} sebulan selama ${t} tahun. Berapakah kadar faedah setahun bagi pinjaman itu?	${vnama()} borrows RM${mpN(P)} and pays ${mpRMf(m)} per month for ${t} years. What is the interest rate per annum for the loan?
+Sebuah syarikat kewangan menawarkan pinjaman RM${mpN(P)} dengan ansuran ${mpRMf(m)} sebulan selama ${12 * t} bulan. Cari kadar faedah setahun.	A finance company offers a loan of RM${mpN(P)} with an instalment of ${mpRMf(m)} per month for ${12 * t} months. Find the interest rate per annum.
+Baki tertunggak kad kredit ${kk.N} pada bulan Mac ialah RM${mpN(kk.B)}. Dia membuat bayaran minimum sebelum tarikh akhir dan tidak berbelanja lagi. Pada bulan April, dia tidak membuat sebarang bayaran sebelum tarikh akhir. Caj kewangan ialah 18% setahun. Hitung (a) bayaran minimum bulan Mac, (b) baki bulan April, (c) baki bulan Mei.	The outstanding balance of ${kk.N}'s credit card in March is RM${mpN(kk.B)}. The minimum payment is made before the due date and the card is not used again. In April, no payment is made before the due date. The finance charge is 18% per annum. Calculate (a) the minimum payment for March, (b) the balance for April, (c) the balance for May.
+(a) 5% × ${mpN(kk.B)} = ${mpRMf(kk.B * 0.05)} → bayaran minimum = ${mpRMf(kk.m)}	(a) 5% × ${mpN(kk.B)} = ${mpRMf(kk.B * 0.05)} → minimum payment = ${mpRMf(kk.m)}
+(b) Caj kewangan = (${mpN(kk.B)} − ${mpN(kk.m)}) × 1.5% = ${mpRM(kk.f1, true)}; baki April = ${mpRM(kk.B2, true)}	(b) Finance charge = (${mpN(kk.B)} − ${mpN(kk.m)}) × 1.5% = ${mpRM(kk.f1, true)}; balance for April = ${mpRM(kk.B2, true)}
+(c) Caj lewat = 1% × ${mpN(kk.B2, true)} → ${mpRM(kk.late, true)}; caj kewangan = ${mpN(kk.B2, true)} × 1.5% = ${mpRM(kk.f2, true)}	(c) Late payment charge = 1% × ${mpN(kk.B2, true)} → ${mpRM(kk.late, true)}; finance charge = ${mpN(kk.B2, true)} × 1.5% = ${mpRM(kk.f2, true)}
+Baki Mei = ${mpN(kk.B2, true)} + ${mpN(kk.late, true)} + ${mpN(kk.f2, true)} = ${mpRM(kk.B3, true)}	Balance for May = ${mpN(kk.B2, true)} + ${mpN(kk.late, true)} + ${mpN(kk.f2, true)} = ${mpRM(kk.B3, true)}
+${dt.N} ingin meminjam RM${mpN(dt.P)}. ${dt.A} menawarkan kadar ${mpPc(dt.r1)} setahun selama ${dt.t1} tahun, manakala ${dt.Bn} menawarkan kadar ${mpPc(dt.r2)} setahun selama ${dt.t2} tahun. (a) Hitung ansuran bulanan bagi setiap tawaran. (b) Tawaran manakah mempunyai jumlah faedah lebih rendah? Berapakah bezanya?	${dt.N} wants to borrow RM${mpN(dt.P)}. ${dt.A} offers a rate of ${mpPc(dt.r1)} per annum for ${dt.t1} years, while ${dt.Bn} offers a rate of ${mpPc(dt.r2)} per annum for ${dt.t2} years. (a) Calculate the monthly instalment for each offer. (b) Which offer has a lower total interest? What is the difference?
+(a) ${dt.A}: ${mpRMf(dt.m1)}; ${dt.Bn}: ${mpRMf(dt.m2)} (b) ${dt.low}, beza ${mpRMf(Math.abs(dt.I1 - dt.I2))}	(a) ${dt.A}: ${mpRMf(dt.m1)}; ${dt.Bn}: ${mpRMf(dt.m2)} (b) ${dt.low}, difference ${mpRMf(Math.abs(dt.I1 - dt.I2))}
+${dt.A}: faedah = ${mpN(dt.P)} × ${mpD(dt.r1 / 100)} × ${dt.t1} = ${mpRMf(dt.I1)}; ansuran = ${mpN(dt.P + dt.I1)} ÷ ${12 * dt.t1} = ${mpRMf(dt.m1)}	${dt.A}: interest = ${mpN(dt.P)} × ${mpD(dt.r1 / 100)} × ${dt.t1} = ${mpRMf(dt.I1)}; instalment = ${mpN(dt.P + dt.I1)} ÷ ${12 * dt.t1} = ${mpRMf(dt.m1)}
+${dt.Bn}: faedah = ${mpN(dt.P)} × ${mpD(dt.r2 / 100)} × ${dt.t2} = ${mpRMf(dt.I2)}; ansuran = ${mpN(dt.P + dt.I2)} ÷ ${12 * dt.t2} = ${mpRMf(dt.m2)}	${dt.Bn}: interest = ${mpN(dt.P)} × ${mpD(dt.r2 / 100)} × ${dt.t2} = ${mpRMf(dt.I2)}; instalment = ${mpN(dt.P + dt.I2)} ÷ ${12 * dt.t2} = ${mpRMf(dt.m2)}
+Beza faedah = ${mpRMf(Math.abs(dt.I1 - dt.I2))}, maka ${dt.low} lebih rendah.	Difference in interest = ${mpRMf(Math.abs(dt.I1 - dt.I2))}, thus ${dt.low} is lower.
+${bj.N} ingin membeli kereta berharga RM${mpN(bj.H)} dengan wang pendahuluan ${bj.d}%. Kadar faedah pinjaman ialah ${mpPc(bj.r)} setahun. Dia hanya mampu membayar ansuran tidak melebihi RM${mpN(bj.max)} sebulan. Cari tempoh pinjaman paling singkat (dalam tahun penuh) yang sesuai.	${bj.N} wants to buy a car priced at RM${mpN(bj.H)} with a ${bj.d}% down payment. The loan interest rate is ${mpPc(bj.r)} per annum. The monthly instalment that can be afforded is not more than RM${mpN(bj.max)}. Find the shortest suitable loan period (in full years).
+${bj.t} tahun (ansuran ${mpRMf(bj.m)})	${bj.t} years (instalment ${mpRMf(bj.m)})
+Pinjaman = ${mpN(bj.H)} − ${bj.d}% × ${mpN(bj.H)} = ${mpRM(bj.P)}	Loan = ${mpN(bj.H)} − ${bj.d}% × ${mpN(bj.H)} = ${mpRM(bj.P)}
+${t} tahun: (${mpN(bj.P)} + ${mpN(bj.P)} × ${mpD(bj.r / 100)} × ${t}) ÷ ${12 * t} = ${mpRMf(m)}	${t} years: (${mpN(bj.P)} + ${mpN(bj.P)} × ${mpD(bj.r / 100)} × ${t}) ÷ ${12 * t} = ${mpRMf(m)}
+Tempoh ${bj.t} tahun ialah yang paling singkat dengan ansuran ≤ RM${mpN(bj.max)}.	A period of ${bj.t} years is the shortest with an instalment ≤ RM${mpN(bj.max)}.
+${ch.N} membayar ansuran ${mpRMf(ch.m)} sebulan selama ${ch.t} tahun bagi pinjaman kereta pada kadar faedah ${mpPc(ch.r)} setahun. Dia telah membayar wang pendahuluan ${ch.d}%. Cari (a) jumlah pinjaman, (b) harga kereta itu.	${ch.N} pays an instalment of ${mpRMf(ch.m)} per month for ${ch.t} years for a car loan at an interest rate of ${mpPc(ch.r)} per annum. A ${ch.d}% down payment has been paid. Find (a) the loan amount, (b) the price of the car.
+Pinjaman = ${100 - ch.d}% daripada harga → harga = ${mpN(ch.P)} ÷ ${mpD((100 - ch.d) / 100)} = ${mpRM(ch.H)}	Loan = ${100 - ch.d}% of the price → price = ${mpN(ch.P)} ÷ ${mpD((100 - ch.d) / 100)} = ${mpRM(ch.H)}
+Prinsipal	Principal
+Faedah	Interest
+Nilai matang	Matured value
+${mpPc(rr)} setahun, ${t} tahun	${mpPc(rr)} per annum, ${t} years
+t = ${m} bulan = ${m}/12 tahun	t = ${m} months = ${m}/12 year
+Dikompaun ${kl} → ${n} kali setahun, maka n = ${n}.	Compounded ${kl} → ${n} times a year, thus n = ${n}.
+Faedah kompaun = MV − P = ${mpN(d.MV, true)} − ${mpN(d.P)}	Compound interest = MV − P = ${mpN(d.MV, true)} − ${mpN(d.P)}
+Perkara	Item
+Nilai seunit	Value per unit
+Harga beli	Purchase price
+Dividen	Dividend
+Harga jual	Selling price
+kerugian modal = ${mpN(D_.u)} × (${mpN(D_.j / 100, true)} − ${mpN(D_.b / 100, true)}) = ${mpRMf(D_.um)}	capital loss = ${mpN(D_.u)} × (${mpN(D_.j / 100, true)} − ${mpN(D_.b / 100, true)}) = ${mpRMf(D_.um)}
+keuntungan modal = ${mpN(D_.u)} × (${mpN(D_.j / 100, true)} − ${mpN(D_.b / 100, true)}) = ${mpRMf(D_.um)}	capital gain = ${mpN(D_.u)} × (${mpN(D_.j / 100, true)} − ${mpN(D_.b / 100, true)}) = ${mpRMf(D_.um)}
+Modal = ${mpN(D_.u)} × RM${mpN(D_.b / 100, true)} = ${mpRMf(D_.modal)}	Capital = ${mpN(D_.u)} × RM${mpN(D_.b / 100, true)} = ${mpRMf(D_.modal)}
+Dividen = ${mpN(D_.u)} × RM${mpN(D_.d / 100, true)} = ${mpRMf(D_.dv)}; ${rsign}	Dividend = ${mpN(D_.u)} × RM${mpN(D_.d / 100, true)} = ${mpRMf(D_.dv)}; ${rsign}
+Jumlah pulangan = ${mpRMf(D_.tot)}	Total return = ${mpRMf(D_.tot)}
+Bulan	Month
+Pelaburan	Investment
+Harga seunit	Unit price
+Januari	January
+Februari	February
+Mac	March
+Unit	Units
+${ans} (jumlah unit ${mpN(d.su)})	${ans} (total units ${mpN(d.su)})
+Unit = ${d.u.map((x, i) => `${mpN(d.a)} ÷ ${mpN(d.p[i] / 100, true)}`).join(', ')} = ${d.u.map(x => mpN(x)).join(', ')}	Units = ${d.u.map((x, i) => `${mpN(d.a)} ÷ ${mpN(d.p[i] / 100, true)}`).join(', ')} = ${d.u.map(x => mpN(x)).join(', ')}
+Jumlah unit = ${mpN(d.su)}; jumlah pelaburan = ${mpRM(3 * d.a)}	Total units = ${mpN(d.su)}; total investment = ${mpRM(3 * d.a)}
+Purata kos seunit = ${mpN(3 * d.a)} ÷ ${mpN(d.su)} = ${ans}	Average cost per unit = ${mpN(3 * d.a)} ÷ ${mpN(d.su)} = ${ans}
+${t} tahun	${t} years
+${mpD(rr)}% setahun	${mpD(rr)}% per annum
+= ${t} tahun	= ${t} years
+= ${mpD(rr)}% setahun	= ${mpD(rr)}% per annum
+PENYATA KAD KREDIT	CREDIT CARD STATEMENT
+Baki tertunggak	Outstanding balance
+Tarikh akhir bayaran	Payment due date
+Mei	May
+Julai	July
+Oktober	October
+Bayaran minimum	Minimum payment
+Bandingkan dengan RM50: ${mpRMf(B * 0.05)} ${B * 0.05 >= 50 ? '≥' : '<'} RM50	Compare with RM50: ${mpRMf(B * 0.05)} ${B * 0.05 >= 50 ? '≥' : '<'} RM50
+Bayaran minimum = ${ans}	Minimum payment = ${ans}
+Bayaran diterima	Payment received
+Caj lewat bayaran	Late payment charge
+Kurang daripada minimum RM10, maka caj lewat = RM10.	Less than the minimum RM10, thus the late payment charge = RM10.
+Melebihi maksimum RM100, maka caj lewat = RM100.	More than the maximum RM100, thus the late payment charge = RM100.
+Nilai ini antara RM10 dan RM100.	This value is between RM10 and RM100.
+Caj lewat bayaran = ${ans}	Late payment charge = ${ans}
+Faedah = Prt	Interest = Prt
+Faedah = ${mpN(d.P)} × ${mpD(d.r / 100)} × ${d.t} = ${mpRMf(d.I)}	Interest = ${mpN(d.P)} × ${mpD(d.r / 100)} × ${d.t} = ${mpRMf(d.I)}
+Ansuran = ${mpN(d.A)} ÷ ${12 * d.t} = ${ans}	Instalment = ${mpN(d.A)} ÷ ${12 * d.t} = ${ans}
+Bayaran (sebelum tarikh akhir)	Payment (before due date)
+Caj kewangan setahun	Finance charge per annum
+Baki tidak dibayar = ${mpN(B)} − ${mpN(pay)} = ${mpRM(sisa)}	Unpaid balance = ${mpN(B)} − ${mpN(pay)} = ${mpRM(sisa)}
+(a) Caj kewangan = ${mpN(sisa)} × ${mpPc(rr)} ÷ 12 = ${mpRM(f, true)}	(a) Finance charge = ${mpN(sisa)} × ${mpPc(rr)} ÷ 12 = ${mpRM(f, true)}
+(b) Baki baharu = ${mpN(sisa)} + ${mpN(f, true)} = ${mpRM(nb, true)}	(b) New balance = ${mpN(sisa)} + ${mpN(f, true)} = ${mpRM(nb, true)}
+Pinjaman ${mpRM(P)}, ansuran ${ans}	Loan ${mpRM(P)}, instalment ${ans}
+Pendahuluan = ${d}% × ${mpN(H)} = ${mpRM(H * d / 100)}	Down payment = ${d}% × ${mpN(H)} = ${mpRM(H * d / 100)}
+Pinjaman = ${mpN(H)} − ${mpN(H * d / 100)} = ${mpRM(P)}	Loan = ${mpN(H)} − ${mpN(H * d / 100)} = ${mpRM(P)}
+Faedah = ${mpN(P)} × ${mpD(rr / 100)} × ${t} = ${mpRMf(I)}	Interest = ${mpN(P)} × ${mpD(rr / 100)} × ${t} = ${mpRMf(I)}
+Ansuran = (${mpN(P)} + ${mpN(I)}) ÷ ${12 * t} = ${ans}	Instalment = (${mpN(P)} + ${mpN(I)}) ÷ ${12 * t} = ${ans}
+${mpD(d.r)}% setahun	${mpD(d.r)}% per annum
+Faedah = ${mpN(A)} − ${mpN(d.P)} = ${mpRMf(A - d.P)}	Interest = ${mpN(A)} − ${mpN(d.P)} = ${mpRMf(A - d.P)}
+r = ${mpN(A - d.P)} ÷ (${mpN(d.P)} × ${d.t}) = ${mpD(d.r / 100)} = ${mpD(d.r)}% setahun	r = ${mpN(A - d.P)} ÷ (${mpN(d.P)} × ${d.t}) = ${mpD(d.r / 100)} = ${mpD(d.r)}% per annum
+Faedah mudah bagi RM${mpN(P)} pada ${r}% setahun selama ${t} tahun ialah	The simple interest for RM${mpN(P)} at ${r}% per annum for ${t} years is
+Nilai matang bagi RM${mpN(P)} dengan faedah mudah ${r}% setahun selama ${t} tahun ialah	The matured value of RM${mpN(P)} with simple interest of ${r}% per annum for ${t} years is
+Faedah dikompaun ${kl} selama ${t} tahun. Nilai nt ialah	Interest is compounded ${kl} for ${t} years. The value of nt is
+RM${mpN(d.P)} disimpan pada ${d.r}% setahun dikompaun ${d.kl} selama ${d.t} tahun. Nilai matangnya ialah	RM${mpN(d.P)} is deposited at ${d.r}% per annum compounded ${d.kl} for ${d.t} years. The matured value is
+Akaun simpanan	Savings account
+Tinggi	High
+Hartanah	Real estate
+Rendah	Low
+Kecairan bagi <b>${d[0].toLowerCase()}</b> ialah	The liquidity level of <b>${d[0].toLowerCase()}</b> is
+Sederhana	Moderate
+Tiada	None
+Saham	Shares
+Amanah saham	Unit trust
+Simpanan tetap	Fixed deposit
+Simpanan	Savings
+Akaun semasa	Current account
+<b>${it[0]}</b> ialah sejenis	<b>${it[0]}</b> is a type of
+Kredit	Credit
+Hutang	Debt
+${mpN(d.u)} unit saham dibeli pada ${mpSen(d.b)}, dividen ${mpSen(d.d)} seunit, dijual pada ${mpSen(d.j)}. Pulangan pelaburan ialah	${mpN(d.u)} share units were bought at ${mpSen(d.b)}, dividend ${mpSen(d.d)} per unit, sold at ${mpSen(d.j)}. The return on investment is
+RM${mpN(d.a)} dilaburkan setiap bulan pada harga ${d.p.map(c => mpRM(c / 100, true)).join(', ')}. Purata kos seunit ialah	RM${mpN(d.a)} is invested every month at prices of ${d.p.map(c => mpRM(c / 100, true)).join(', ')}. The average cost per unit is
+Baki tertunggak kad kredit ${mpRM(B)}. Bayaran minimum (5% atau RM50, yang lebih tinggi) ialah	Credit card outstanding balance ${mpRM(B)}. The minimum payment (5% or RM50, whichever is higher) is
+Baki tertunggak ${mpRM(B)} dan bayaran lewat. Caj lewat (1%, min RM10, maks RM100) ialah	Outstanding balance ${mpRM(B)} and payment is late. The late payment charge (1%, min RM10, max RM100) is
+Baki tidak dibayar ${mpRM(s)}, caj kewangan ${rr}% setahun. Caj kewangan sebulan ialah	Unpaid balance ${mpRM(s)}, finance charge ${rr}% per annum. The finance charge for a month is
+Faedah bagi pinjaman ${mpRM(d.P)} pada ${mpPc(d.r)} setahun selama ${d.t} tahun ialah	The interest for a loan of ${mpRM(d.P)} at ${mpPc(d.r)} per annum for ${d.t} years is
+Kereta ${mpRM(H)} dengan wang pendahuluan ${dd}%. Jumlah pinjaman ialah	A car of ${mpRM(H)} with a ${dd}% down payment. The loan amount is
+Jumlah bayaran balik bagi pinjaman ${mpRM(d.P)} pada ${mpPc(d.r)} setahun selama ${d.t} tahun ialah	The total repayment for a loan of ${mpRM(d.P)} at ${mpPc(d.r)} per annum for ${d.t} years is
+Ansuran bulanan bagi pinjaman ${mpRM(d.P)} pada ${mpPc(d.r)} setahun selama ${d.t} tahun ialah	The monthly instalment for a loan of ${mpRM(d.P)} at ${mpPc(d.r)} per annum for ${d.t} years is
+Faedah mudah & kompaun	Simple & compound interest
+Pelaburan & purata kos	Investment & average cost
+Kad kredit	Credit card
+Pinjaman & ansuran	Loans & instalments

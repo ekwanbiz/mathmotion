@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Scale of Nature · Chapter 2</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0C0818;--sf:#171127;--sf2:#1F1734;--sf3:#110C1F;--bd:#2E2347;--bd2:#3F3160;--tx:#F3EEFF;--mu:#BBAEDB;--mu2:#8A7CAE;--c1:#B49CFF;--c2:#FFD166;--c3:#4FD1FF;--ok:#3DDC84;--bad:#FF6B7A;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#1b0f3a}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:11px 14px;line-height:1.5;font-size:15px;min-height:74px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:2px}
+.info .big2{font-size:22px;font-weight:900;color:var(--c2)}
+.info .plain{font-weight:800;word-break:break-all;color:var(--tx)}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.info .eq{margin-top:6px;padding:7px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:700}
+.ctrl{display:flex;flex-direction:column;gap:8px}
+.btns{display:flex;gap:8px}
+.big{flex:1;background:var(--c2);border:0;color:#2a1f00;border-radius:13px;padding:13px 6px;font-weight:900;font-size:16px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.big:disabled{opacity:.45;cursor:not-allowed}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.chip{background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:12px 4px;font-weight:800;font-size:16px}
+.chip.ok{border-color:var(--ok);background:#3ddc8422}.chip.no{border-color:var(--bad);background:#ff6b7a22}
+.nextb{margin-top:6px;background:var(--c1);border:0;color:#1b0f3a;border-radius:11px;padding:8px 16px;font-weight:900}
+sup{font-size:.68em;line-height:0}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.45fr) minmax(340px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:23px}.info .big2{font-size:28px}
+}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.info{padding:8px 11px;min-height:60px;font-size:14px}.info b.t{font-size:17px}.big{padding:10px 4px}.chip{padding:9px 3px}}
+@media(max-width:420px){.big{font-size:14.5px}.modes button{font-size:13.5px;padding:10px 3px}.chip{font-size:15px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#B49CFF;color:#1b0f3a;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #b49cff44">&#8592; Back</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mode">
+   <button data-m="zum" class="on" role="tab">🔭 Zoom Nature</button>
+   <button data-m="titik" role="tab">↔️ Move the Point</button>
+   <button data-m="cabaran" role="tab">❓ Challenge</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" viewBox="0 0 420 320" aria-label="Scale of nature diagram"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const C1='#B49CFF',C2='#FFD166',C3='#4FD1FF',PK='#FF7AB6',GR='#3DDC84',RD='#FF6B7A',MU='#BBAEDB',MU2='#8A7CAE',SF='#171127',SF3='#110C1F',BD='#3F3160',TXC='#F3EEFF';
+const snd=n=>{if(window.FX)FX.play(n)};
+const ri=(a,b)=>a+Math.floor(Math.random()*(b-a+1)),pick=a=>a[Math.floor(Math.random()*a.length)],shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+/* ---------- objek (saiz anggaran dalam meter: A × 10^n) ---------- */
+const OBJ=[
+ ['Hydrogen atom (diameter)','1',-10,'atom'],
+ ['Virus (diameter)','1',-7,'virus'],
+ ['Bacterium (length)','2',-6,'bakteria'],
+ ['Red blood cell (diameter)','8',-6,'sel'],
+ ['Hair (diameter)','7',-5,'rambut'],
+ ['Ant (length)','5',-3,'semut'],
+ ['Student (height)','1.6',0,'manusia'],
+ ['Petronas Twin Towers (height)','4.52',2,'menara'],
+ ['Mount Kinabalu (height)','4.095',3,'gunung'],
+ ['Earth (diameter)','1.27',7,'bumi'],
+ ['Distance from the Earth to the Moon','3.84',8,'bulan'],
+ ['Sun (diameter)','1.39',9,'matahari'],
+ ['Distance from the Earth to the Sun','1.5',11,'orbit'],
+ ['One light year','9.46',15,'cahaya'],
+ ['Milky Way Galaxy (diameter)','1',21,'galaksi']];
+const NMIN=-10,NMAX=21;
+/* ---------- nombor tepat sebagai rentetan ---------- */
+function grp(s){let[a,b]=s.split('.');if(a.length>=4){const r=[];while(a.length>3){r.unshift(a.slice(-3));a=a.slice(0,-3)}r.unshift(a);a=r.join(' ')}if(b!==undefined&&b.length>=5)b=b.match(/.{1,3}/g).join(' ');return b===undefined?a:a+'.'+b}
+// A (rentetan) × 10^n → nombor tunggal (rentetan)
+function plain(A,n){const d=A.replace('.',''),p=1+n;let s;if(p>=d.length)s=d+'0'.repeat(p-d.length);else if(p<=0)s='0.'+'0'.repeat(-p)+d;else s=d.slice(0,p)+'.'+d.slice(p);return grp(s)}
+const sf=(A,n)=>`${A} × 10<sup>${n<0?'−'+(-n):n}</sup>`;
+const sfSvg=(A,n,sz)=>`${A} × 10<tspan dy="${-(sz*.42).toFixed(1)}" font-size="${(sz*.68).toFixed(1)}">${n<0?'−'+(-n):n}</tspan><tspan dy="${(sz*.42).toFixed(1)}">&#8203;</tspan>`;
+function lbl(x,y,t,c=TXC,s=16,a='middle'){return `<text x="${x}" y="${y}" fill="${c}" font-size="${s}" font-weight="800" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="${SF3}" stroke-width="5" stroke-linejoin="round">${t}</text>`}
+/* ---------- ikon objek (pusat 210,120) ---------- */
+function icon(k){const cx=210,cy=118;let g='';
+ if(k==='atom'){g+=`<circle cx="${cx}" cy="${cy}" r="14" fill="${PK}"/>`;[0,60,120].forEach(a=>g+=`<ellipse cx="${cx}" cy="${cy}" rx="78" ry="26" fill="none" stroke="${C3}" stroke-width="3" transform="rotate(${a} ${cx} ${cy})"/>`);g+=`<circle cx="${cx+78}" cy="${cy}" r="7" fill="${C2}"/>`}
+ if(k==='virus'){g+=`<circle cx="${cx}" cy="${cy}" r="50" fill="${GR}33" stroke="${GR}" stroke-width="4"/>`;for(let i=0;i<12;i++){const a=i*Math.PI/6;g+=`<line x1="${cx+50*Math.cos(a)}" y1="${cy+50*Math.sin(a)}" x2="${cx+72*Math.cos(a)}" y2="${cy+72*Math.sin(a)}" stroke="${GR}" stroke-width="4"/><circle cx="${cx+76*Math.cos(a)}" cy="${cy+76*Math.sin(a)}" r="6" fill="${GR}"/>`}}
+ if(k==='bakteria')g+=`<rect x="${cx-90}" y="${cy-34}" width="180" height="68" rx="34" fill="${C3}33" stroke="${C3}" stroke-width="4"/><path d="M${cx+90} ${cy} q30 -20 50 6 t40 0" fill="none" stroke="${C3}" stroke-width="3"/><circle cx="${cx-30}" cy="${cy}" r="12" fill="${C3}88"/>`;
+ if(k==='sel')g+=`<ellipse cx="${cx}" cy="${cy}" rx="88" ry="78" fill="${RD}55" stroke="${RD}" stroke-width="5"/><ellipse cx="${cx}" cy="${cy}" rx="44" ry="38" fill="${RD}33"/>`;
+ if(k==='rambut')g+=`<path d="M${cx-140} ${cy+70} C ${cx-40} ${cy-90}, ${cx+40} ${cy+90}, ${cx+140} ${cy-70}" fill="none" stroke="${C2}" stroke-width="26" stroke-linecap="round"/><path d="M${cx-140} ${cy+70} C ${cx-40} ${cy-90}, ${cx+40} ${cy+90}, ${cx+140} ${cy-70}" fill="none" stroke="#fff3" stroke-width="6" stroke-linecap="round"/>`;
+ if(k==='semut'){g+=`<ellipse cx="${cx-60}" cy="${cy}" rx="26" ry="22" fill="${MU}"/><ellipse cx="${cx}" cy="${cy}" rx="22" ry="16" fill="${MU}"/><ellipse cx="${cx+66}" cy="${cy}" rx="42" ry="30" fill="${MU}"/>`;[-1,1].forEach(s=>{[-24,0,24].forEach(dx=>g+=`<path d="M${cx+dx} ${cy} l${dx/2} ${s*48} l${dx/3+10} ${s*10}" fill="none" stroke="${MU}" stroke-width="4"/>`)});g+=`<path d="M${cx-80} ${cy-12} q-20 -40 -40 -36 M${cx-74} ${cy-18} q-6 -44 -24 -50" fill="none" stroke="${MU}" stroke-width="4"/>`}
+ if(k==='manusia')g+=`<circle cx="${cx}" cy="${cy-62}" r="20" fill="${C2}"/><path d="M${cx} ${cy-40} v64 M${cx} ${cy-20} l-38 26 M${cx} ${cy-20} l38 26 M${cx} ${cy+24} l-26 56 M${cx} ${cy+24} l26 56" stroke="${C2}" stroke-width="9" stroke-linecap="round" fill="none"/>`;
+ if(k==='menara'){[-44,44].forEach(dx=>{g+=`<path d="M${cx+dx-24} ${cy+86} L${cx+dx-20} ${cy-30} L${cx+dx-10} ${cy-58} L${cx+dx} ${cy-96} L${cx+dx+10} ${cy-58} L${cx+dx+20} ${cy-30} L${cx+dx+24} ${cy+86} Z" fill="${C3}33" stroke="${C3}" stroke-width="3.5"/>`});g+=`<rect x="${cx-22}" y="${cy-4}" width="44" height="10" fill="${C3}"/>`}
+ if(k==='gunung')g+=`<path d="M${cx-170} ${cy+86} L${cx-40} ${cy-80} L${cx+10} ${cy-20} L${cx+50} ${cy-60} L${cx+170} ${cy+86} Z" fill="${GR}44" stroke="${GR}" stroke-width="4" stroke-linejoin="round"/><path d="M${cx-62} ${cy-52} L${cx-40} ${cy-80} L${cx-18} ${cy-52} Z" fill="#fff"/>`;
+ if(k==='bumi')g+=`<circle cx="${cx}" cy="${cy}" r="88" fill="${C3}55" stroke="${C3}" stroke-width="4"/><path d="M${cx-60} ${cy-40} q30 -30 60 -10 t40 30 q-20 20 -50 10 t-50 -30 Z M${cx-20} ${cy+30} q30 0 50 20 q-20 26 -50 10 Z" fill="${GR}aa"/>`;
+ if(k==='bulan')g+=`<circle cx="${cx-130}" cy="${cy}" r="30" fill="${C3}88" stroke="${C3}" stroke-width="3"/><circle cx="${cx+140}" cy="${cy}" r="10" fill="${MU}"/><line x1="${cx-96}" y1="${cy}" x2="${cx+124}" y2="${cy}" stroke="${C2}" stroke-width="3" stroke-dasharray="8 7"/>`;
+ if(k==='matahari'){g+=`<circle cx="${cx}" cy="${cy}" r="76" fill="${C2}" />`;for(let i=0;i<16;i++){const a=i*Math.PI/8;g+=`<line x1="${cx+86*Math.cos(a)}" y1="${cy+86*Math.sin(a)}" x2="${cx+104*Math.cos(a)}" y2="${cy+104*Math.sin(a)}" stroke="${C2}" stroke-width="5" stroke-linecap="round"/>`}}
+ if(k==='orbit')g+=`<circle cx="${cx-120}" cy="${cy}" r="44" fill="${C2}"/><ellipse cx="${cx-120}" cy="${cy}" rx="252" ry="70" fill="none" stroke="${MU2}" stroke-width="2" stroke-dasharray="6 6"/><circle cx="${cx+132}" cy="${cy}" r="12" fill="${C3}"/><line x1="${cx-70}" y1="${cy}" x2="${cx+116}" y2="${cy}" stroke="${PK}" stroke-width="3"/>`;
+ if(k==='cahaya'){g+=`<line x1="${cx-170}" y1="${cy}" x2="${cx+160}" y2="${cy}" stroke="${C2}" stroke-width="5"/><path d="M${cx+148} ${cy-12} L${cx+170} ${cy} L${cx+148} ${cy+12}" fill="none" stroke="${C2}" stroke-width="5"/>`;for(let i=0;i<6;i++)g+=`<circle cx="${cx-150+i*56}" cy="${cy}" r="7" fill="${C2}"/>`;g+=lbl(cx,cy-36,'cahaya bergerak selama 1 tahun',MU,15)}
+ if(k==='galaksi'){for(let a=0;a<2;a++){let d='';for(let t=0;t<=60;t++){const th=t/60*3*Math.PI+a*Math.PI,r=8+t*1.6;d+=(t?'L':'M')+(cx+r*Math.cos(th)).toFixed(1)+' '+(cy+r*.55*Math.sin(th)).toFixed(1)}g+=`<path d="${d}" fill="none" stroke="${C1}" stroke-width="7" stroke-linecap="round" opacity=".85"/>`}g+=`<ellipse cx="${cx}" cy="${cy}" rx="22" ry="14" fill="#fff"/>`}
+ return g}
+/* ================= Mod 1: zum alam ================= */
+const S={m:'zum',i:6,t:null,q:null,score:0,tot:0,streak:0};
+const SC={x0:28,x1:392,y:262};
+const nx=n=>SC.x0+(SC.x1-SC.x0)*(n-NMIN)/(NMAX-NMIN);
+function zumSVG(){const [nm,A,n,k]=OBJ[S.i];let g=icon(k);
+ g+=lbl(210,18,nm,TXC,17);
+ g+=`<line x1="${SC.x0}" y1="${SC.y}" x2="${SC.x1}" y2="${SC.y}" stroke="${MU2}" stroke-width="4" stroke-linecap="round"/>`;
+ for(let e=NMIN;e<=NMAX;e++){const x=nx(e),big=e%5===0;g+=`<line x1="${x}" y1="${SC.y-(big?9:5)}" x2="${x}" y2="${SC.y+(big?9:5)}" stroke="${MU2}" stroke-width="2"/>`;if(big)g+=`<text x="${x}" y="${SC.y+26}" fill="${MU}" font-size="13" font-weight="700" text-anchor="middle" font-family="Inter,Arial,sans-serif">10<tspan dy="-6" font-size="10">${e<0?'−'+(-e):e}</tspan></text>`}
+ OBJ.forEach((o,j)=>{const x=nx(o[2]+Math.log10(+o[1]));g+=`<circle cx="${x}" cy="${SC.y}" r="${j===S.i?0:5}" fill="${C1}"/>`});
+ const xk=nx(n+Math.log10(+A));
+ g+=`<g class="knob" style="cursor:grab"><circle cx="${xk}" cy="${SC.y}" r="26" fill="transparent"/><circle cx="${xk}" cy="${SC.y}" r="12" fill="${C2}" stroke="#fff" stroke-width="3"/></g>`;
+ g+=lbl(210,SC.y-28,sfSvg(A,n,20)+' m',C2,20);
+ g+=lbl(SC.x0,SC.y+48,'kecil',MU2,13,'start')+lbl(SC.x1,SC.y+48,'besar',MU2,13,'end');
+ return g}
+function zumInfo(){const [nm,A,n]=OBJ[S.i],p=plain(A,n);
+ info.innerHTML=`<b class="t">${nm}</b><div class="big2">${sf(A,n)} m</div><div class="plain">= ${p} m</div>
+ <div class="eq">${n>0?`n = ${n} is positive: the decimal point is moved ${n} place${n>1?'s':''} to the right.`:n<0?`n = −${-n} is negative: the decimal point is moved ${-n} place${-n>1?'s':''} to the left.`:'n = 0: the number itself is A.'}</div>
+ <div class="tip">Drag ● on the scale or press the buttons to zoom. The values are estimations.</div>`}
+/* ================= Mod 2: gerak titik ================= */
+// D: digit tanpa titik, o: kedudukan asal titik (selepas o digit), g: kedudukan semasa
+const TNUM=[['384400000',9],['0000305',1],['52000',5],['00000072',1],['1390000000',10],['0004095',1],['94600000',8],['00000804',1],['4520',4],['000016',1]];
+function newTitik(){const [D,o]=pick(TNUM.filter(t=>!S.t||t[0]!==S.t.D));S.t={D,o,g:o,done:false};render()}
+function curA(){const {D,g}=S.t;let a=D.slice(0,g).replace(/^0+(?=\d)/,''),b=D.slice(g).replace(/0+$/,'');if(a==='')a='0';return b?a+'.'+b:a}
+const target=()=>S.t.D.search(/[1-9]/)+1;
+function titikSVG(){const {D,o,g}=S.t,n=D.length,tw=Math.min(40,Math.floor(380/n)-4),gap=4,W=n*(tw+gap)-gap,x0=(420-W)/2,y=96;let s='';
+ const gx=k=>x0+k*(tw+gap)-gap/2;
+ s+=lbl(210,30,'Drag the decimal point ● to the left or to the right',MU,15);
+ for(let k=0;k<n;k++){const lead=k<D.search(/[1-9]/),fill=lead?SF:C1+'22',st=lead?BD:C1;s+=`<rect x="${x0+k*(tw+gap)}" y="${y}" width="${tw}" height="58" rx="9" fill="${fill}" stroke="${st}" stroke-width="2.5"/><text x="${x0+k*(tw+gap)+tw/2}" y="${y+30}" fill="${lead?MU2:TXC}" font-size="${Math.round(tw*.7)}" font-weight="800" text-anchor="middle" dominant-baseline="middle" font-family="Inter,Arial,sans-serif">${D[k]}</text>`}
+ s+=`<circle cx="${gx(o)}" cy="${y+50}" r="7" fill="none" stroke="${MU}" stroke-width="2.5" stroke-dasharray="3 3"/>`;
+ const moves=o-g;
+ if(moves){const a=gx(o),b=gx(g),h=Math.min(60,16+Math.abs(moves)*6);s+=`<path d="M${a} ${y-6} Q${(a+b)/2} ${y-6-h} ${b} ${y-6}" fill="none" stroke="${C2}" stroke-width="3" stroke-dasharray="7 5"/>`+lbl((a+b)/2,y-14-h/2,`${Math.abs(moves)} place${Math.abs(moves)>1?'s':''} to the ${moves>0?'left':'right'}`,C2,14)}
+ const ok=g===target();
+ s+=`<g class="knob" style="cursor:grab"><rect x="${gx(g)-16}" y="${y+20}" width="32" height="56" fill="transparent"/><circle cx="${gx(g)}" cy="${y+50}" r="9" fill="${ok?GR:C2}" stroke="#fff" stroke-width="2.5"/></g>`;
+ const A=curA();
+ s+=`<rect x="40" y="200" width="340" height="66" rx="16" fill="${SF}" stroke="${ok?GR:BD}" stroke-width="3"/>`;
+ s+=lbl(210,234,sfSvg(A,moves,30),ok?GR:TXC,30);
+ s+=lbl(210,292,ok?'✓ 1 ≤ A < 10: standard form!':(+A>=10?'A ≥ 10: move the point to the left':'A < 1: move the point to the right'),ok?GR:PK,16);
+ return s}
+function titikInfo(){const {D,o,g}=S.t,A=curA(),n=o-g,orig=grp(D.slice(0,o).replace(/^0+(?=\d)/,'')+(D.slice(o).replace(/0+$/,'')?'.'+D.slice(o).replace(/0+$/,''):''));
+ const ok=g===target();
+ info.innerHTML=`<b class="t">${orig}</b><div class="big2">= ${sf(A,n)}</div>
+ <div class="eq">${n===0?'The point has not moved → n = 0.':`The point moves ${Math.abs(n)} place${Math.abs(n)>1?'s':''} to the ${n>0?'left → n = '+n:'right → n = −'+(-n)}.`}${ok?' <span class="ok">This is standard form.</span>':''}</div>
+ <div class="tip">Every move of the point changes A, but the value of A × 10<sup>n</sup> stays equal to the original number.</div>`;
+ if(ok&&!S.t.done){S.t.done=true;snd('menang');if(window.FX)FX.stars(document.getElementById('stage'),14)}}
+/* ================= Mod 3: cabaran ================= */
+function newQ(){const j=ri(0,OBJ.length-1),[nm,A,n,k]=OBJ[j],toSF=Math.random()<.6;
+ const d=A.replace('.',''),A10=d.length>1?d.slice(0,2)+(d.length>2?'.'+d.slice(2):''):d+'0';
+ let ans,cands;
+ if(toSF){ans=sf(A,n);cands=[sf(A,-n),sf(A,n+1),sf(A,n-1),sf(A10,n-1)]}
+ else{ans=plain(A,n)+' m';cands=[plain(A,n+1)+' m',plain(A,n-1)+' m',plain(A,-n)+' m',plain(A,n+2)+' m']}
+ const opts=[ans];shuf(cands).forEach(c=>{if(!opts.includes(c)&&opts.length<4)opts.push(c)});
+ S.q={j,toSF,ans,opts:shuf(opts),done:false};S.i=j;setCtrl();render()}
+function cabSVG(){const [nm,A,n,k]=OBJ[S.q.j];let g=icon(k);g+=lbl(210,18,nm,TXC,17);
+ g+=`<rect x="30" y="232" width="360" height="64" rx="16" fill="${SF}" stroke="${BD}" stroke-width="2"/>`;
+ const t=S.q.toSF?plain(A,n)+' m':sfSvg(A,n,26)+' m',sz=S.q.toSF?Math.min(26,Math.floor(560/plain(A,n).length)):26;
+ g+=lbl(210,264,t,C2,sz);return g}
+function cabInfo(){const Q=S.q;
+ info.innerHTML=`<b class="t">${Q.toSF?'Choose the standard form for this size':'Choose the single number for this size'}</b><div class="tip">Score: ${S.score}/${S.tot}${S.streak>=3?' · 🔥 '+S.streak+' in a row':''}</div>`}
+function answer(i,btn){const Q=S.q;if(Q.done)return;Q.done=true;S.tot++;const ok=Q.opts[i]===Q.ans;
+ if(ok){S.score++;S.streak++;snd('betul');if(window.FX)FX.stars(btn,10)}else{S.streak=0;snd('salah')}
+ ctrl.querySelectorAll('.chip').forEach((b,k)=>{if(Q.opts[k]===Q.ans)b.classList.add('ok');else if(b===btn)b.classList.add('no');b.disabled=true});
+ const [nm,A,n]=OBJ[Q.j];
+ info.innerHTML=`<b class="t">${ok?'<span class="ok">✓ Correct!</span>':'<span class="no">✗ Answer: '+Q.ans+'</span>'}</b><div class="eq">${plain(A,n)} m = ${sf(A,n)} m</div><div class="tip">Score: ${S.score}/${S.tot}${S.streak>=3?' · 🔥 '+S.streak+' in a row':''}</div><button class="nextb" id="nx">Next ▶</button>`;
+ document.getElementById('nx').onclick=()=>{snd('ketik');newQ()}}
+/* ================= kawalan ================= */
+function setCtrl(){
+ if(S.m==='zum'){ctrl.innerHTML=`<div class="btns"><button class="big alt" id="zo">− Zoom out</button><button class="big" id="zi">Zoom in +</button></div>`;
+  // "zum masuk" = objek lebih kecil
+  document.getElementById('zi').onclick=()=>{if(S.i>0){S.i--;snd('langkah');render()}};
+  document.getElementById('zo').onclick=()=>{if(S.i<OBJ.length-1){S.i++;snd('langkah');render()}}}
+ if(S.m==='titik'){ctrl.innerHTML=`<div class="btns"><button class="big alt" id="tl">◀ Left</button><button class="big alt" id="tr">Right ▶</button><button class="big" id="tn">New number</button></div>`;
+  document.getElementById('tl').onclick=()=>moveT(-1);document.getElementById('tr').onclick=()=>moveT(1);document.getElementById('tn').onclick=()=>{snd('ketik');newTitik()}}
+ if(S.m==='cabaran'&&S.q){ctrl.innerHTML=`<div class="opts">${S.q.opts.map((o,i)=>`<button class="chip" data-o="${i}">${o}</button>`).join('')}</div>`;
+  ctrl.querySelectorAll('.chip').forEach(b=>b.onclick=()=>answer(+b.dataset.o,b))}}
+function moveT(d){const g=S.t.g+d;if(g<0||g>S.t.D.length)return;S.t.g=g;snd('ketik');render()}
+function render(){
+ if(S.m==='zum'){svg.innerHTML=zumSVG();zumInfo()}
+ if(S.m==='titik'){svg.innerHTML=titikSVG();titikInfo()}
+ if(S.m==='cabaran'){svg.innerHTML=cabSVG();if(!S.q.done)cabInfo()}}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));S.m=b.dataset.m;snd('ketik');
+ if(S.m==='cabaran'){newQ();return}if(S.m==='titik'&&!S.t)newTitik();setCtrl();render()});
+/* ---------- seret (tetikus + sentuh) ---------- */
+let drag=false;
+function svgPt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+function dragTo(e){const p=svgPt(e);
+ if(S.m==='zum'){let best=0,bd=1e9;OBJ.forEach((o,j)=>{const d=Math.abs(nx(o[2]+Math.log10(+o[1]))-p.x);if(d<bd){bd=d;best=j}});if(best!==S.i){S.i=best;snd('langkah');render()}}
+ if(S.m==='titik'){const n=S.t.D.length,tw=Math.min(40,Math.floor(380/n)-4),W=n*(tw+4)-4,x0=(420-W)/2;let g=Math.round((p.x-x0+2)/(tw+4));g=Math.max(0,Math.min(n,g));if(g!==S.t.g){S.t.g=g;snd('ketik');render()}}}
+svg.addEventListener('pointerdown',e=>{if(S.m==='cabaran')return;const p=svgPt(e);
+ const near=S.m==='zum'?Math.abs(p.y-SC.y)<34:(p.y>70&&p.y<190);if(!near&&!e.target.closest('.knob'))return;
+ e.preventDefault();drag=true;svg.setPointerCapture(e.pointerId);dragTo(e)});
+svg.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();dragTo(e)});
+const end=()=>{drag=false};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+svg.addEventListener('dragstart',e=>e.preventDefault());
+setCtrl();render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>
