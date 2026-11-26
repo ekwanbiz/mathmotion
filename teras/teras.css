@@ -764,3 +764,7 @@ html.light{--lat-am:#FEF3C7;--lat-tr:#E0F2FE;--lat-gr:#DCFCE7;--lat-pk:#FCE7F3}
 @keyframes bbsp{to{transform:rotate(360deg)}}
 @media (max-width:760px){.bbtb .btn span{display:none}.bbft #ajmOk{width:100%}}
 .ib.lgo,html.light .ib.lgo{border:0;background:none;box-shadow:none;padding:0}
+
+/* ---------- Mod murid: sorok fungsi guru (paparan sahaja) ---------- */
+html.murid .pelbtn,html.murid .latseg,html.murid .gpcard:not([href$="/60"]){display:none!important}
+html.murid .gpick{align-items:start}

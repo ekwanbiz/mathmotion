@@ -10,6 +10,20 @@ const tmLang = (() => { try { return localStorage.getItem(TM_LANG_KEY) === 'en' 
 const tmEN = tmLang === 'en';
 function tmSetLang(l) { try { localStorage.setItem(TM_LANG_KEY, l); } catch (e) {} location.reload(); }
 const tmLangBtn = (cls = 'ib langbtn') => `<button type="button" class="${cls}" id="langBtn" aria-label="${tmEN ? 'Switch to Bahasa Melayu' : 'Tukar ke bahasa Inggeris'}" title="BM | EN"><b>${tmEN ? 'EN' : 'BM'}</b></button>`;
+/* ---------- Peranan: Guru | Murid ----------
+   Hanya memudahkan paparan untuk murid (bukan kunci keselamatan). Dipilih di halaman utama. */
+const TM_ROLE_KEY = 'terokamath-peranan';
+const tmRole = () => { try { return localStorage.getItem(TM_ROLE_KEY) || ''; } catch (e) { return ''; } };
+const tmSetRole = r => { try { localStorage.setItem(TM_ROLE_KEY, r); } catch (e) {} document.documentElement.classList.toggle('murid', r === 'murid'); };
+if (tmRole() === 'murid') document.documentElement.classList.add('murid');
+// laluan khas guru: murid dibawa ke halaman asas tab tersebut
+const tmMuridRoute = p => {
+  if (tmRole() !== 'murid') return '';
+  if (p[0] === 'ajar') return '#/nota';
+  if (p[0] === 'latihan' && (p[1] === 'lembaran' || p[1] === 'kuiz')) return '#/latihan';
+  if (p[0] === 'games' && p[1] && p[1] !== '60') return '#/games';
+  return '';
+};
 const tmBindLang = () => { const b = document.getElementById('langBtn'); if (b) b.onclick = () => tmSetLang(tmEN ? 'ms' : 'en'); };
 
 /* ---------- kamus BM → EN (frasa) ---------- */
@@ -23,6 +37,11 @@ const TMX = {
   'Kembali ke senarai subtopik': 'Back to subtopic list', 'Cetak nota subtopik ini': 'Print notes for this subtopic', 'Slaid sebelum': 'Previous slide', 'Slaid seterusnya': 'Next slide', 'Langkah seterusnya': 'Next step', 'Tamat nota Bab': 'End of notes, Chapter',
   'Seterusnya': 'Next', 'Sebelumnya': 'Previous', 'Tamat': 'End', 'Mula': 'Start', 'Pilih': 'Choose', 'Semak': 'Check', 'Tutup': 'Close', 'Keluar': 'Exit', 'Buang': 'Remove', 'Tambah': 'Add', 'Naik': 'Up', 'Turun': 'Down', 'Kurang': 'Less', 'Kembali': 'Back',
   'daripada': 'of', 'Pilih simulasi': 'Choose a simulation', 'Simulasi': 'Simulation', 'SIMULASI': 'SIMULATION', 'Mudah': 'Easy', 'Sederhana': 'Medium', 'Sukar': 'Hard',
+  // peranan guru | murid (halaman utama)
+  'Selamat datang ke': 'Welcome to', 'Siapakah anda?': 'Who are you?', 'Saya Guru': "I'm a Teacher", 'Saya Murid': "I'm a Student",
+  'Nota, simulasi, Pelan Mengajar, RPH, Bank Soalan dan game kelas': 'Notes, simulations, Teaching Plan, lesson plans, Question Bank and class games',
+  'Nota, simulasi, latihan dan game': 'Notes, simulations, practice and games', 'Boleh ditukar bila-bila masa di halaman utama': 'You can change this any time on the home page',
+  'Mod Guru': 'Teacher mode', 'Mod Murid': 'Student mode', 'Tukar ke Murid': 'Switch to Student', 'Tukar ke Guru': 'Switch to Teacher',
   // latihan
   'Latihan Kelas': 'Class Practice', 'Tandakan subtopik yang': 'Tick the subtopics that have', 'sudah diajar': 'been taught', 'Soalan hanya diambil daripada subtopik ini': 'Questions are taken only from these subtopics',
   'BILANGAN SOALAN': 'NUMBER OF QUESTIONS', 'ARAS SOALAN': 'QUESTION LEVEL', 'Soalan dijana rawak, disusun dari mudah ke sukar. Setiap set berbeza': 'Questions are randomly generated, from easy to hard. Every set is different',

@@ -249,6 +249,7 @@
   const _render = render;
   render = function (keepScroll) {
     const p = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean);
+    const rr = typeof tmMuridRoute === 'function' ? tmMuridRoute(p) : ''; if (rr) { location.replace(rr); return; }
     if (p[0] === 'q' && p[1]) { app.innerHTML = viewMurid(p[1]); document.title = (KM.Q ? KM.Q.t : 'Kuiz') + ' · TerokaMath'; bindMurid(); return; }
     if (p[0] === 'latihan' && p[1] === 'kuiz') {
       const sc = keepScroll && document.getElementById('main') ? document.getElementById('main').scrollTop : 0;

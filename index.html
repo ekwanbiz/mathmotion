@@ -98,6 +98,21 @@ html.light{--bg:#FFFFFF;--card:#FFFFFF;--line:#E5E5E5;--h:#3C3C3C;--p:#6B6B6B;--
 .how h2{margin:0 0 8px;font-size:18px}
 .how ol{margin:0;padding-left:20px;line-height:1.7}
 .note{color:var(--mu);font-size:14px;line-height:1.5;margin:0}
+/* ---------- Peranan Guru | Murid ---------- */
+html.murid .ck.bk{display:none}
+.role{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;margin:8px 0 0;font-size:13px;font-weight:800;color:var(--p)}
+.role .rb{border:0;background:none;padding:4px 2px;font-weight:900;color:var(--bab);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.pp{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:calc(24px + env(safe-area-inset-top)) 18px calc(24px + env(safe-area-inset-bottom))}
+.ppin{width:100%;max-width:640px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
+.ppin h1{margin:6px 0 0;font-size:26px;font-weight:900;color:var(--h)}.ppin h1 span span{color:var(--brandM)}
+.ppin>p{margin:0;font-size:16px;font-weight:800;color:var(--p)}
+.ppc{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%;margin-top:10px}
+.ppb{display:flex;flex-direction:column;align-items:center;gap:8px;padding:22px 14px;border-radius:20px;border:2px solid rgba(0,0,0,.18);border-bottom-width:6px;color:#fff;cursor:pointer}
+.ppb:active{transform:translateY(4px);border-bottom-width:2px}
+.ppb.gr{background:#1CB0F6}.ppb.mr{background:#58CC02}
+.ppb svg{width:44px;height:44px}.ppb b{font-size:20px;font-weight:900}.ppb small{font-size:13px;font-weight:700;line-height:1.35;opacity:.95}
+.ppn{font-size:13px!important;color:var(--ghost)!important;margin-top:6px!important}
+@media(max-width:420px){.ppc{grid-template-columns:1fr}}
 </style>
 <style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
 <script src="teras/bahasa.js"></script>
@@ -194,13 +209,19 @@ function cardHTML(c){
  return`<a class="card" href="${a.path}" data-app="${a.id}" aria-label="Tingkatan ${c.t} Bab ${c.bab}, ${esc(c.nm)}">${pic}<span class="bb">BAB ${c.bab}</span><span class="nm">${esc(c.nm)}</span>${s?`<span class="st">★ ${s}</span>`:''}</a>`}
 /* =================== Paparan =================== */
 const app=document.getElementById('app');
-function home(){const light=document.documentElement.classList.contains('light');
+function pilihPeranan(){return`<main class="pp"><div class="ppin">${LOGO(72)}<h1><span>Selamat datang ke</span> <span class="tm">Teroka<span>Math</span></span></h1><p>Siapakah anda?</p>
+ <div class="ppc"><button type="button" class="ppb gr" data-role="guru"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M7 20h10M12 16v4M7 9h6M7 12h4"/></svg><b>Saya Guru</b><small>Nota, simulasi, Pelan Mengajar, RPH, Bank Soalan dan game kelas</small></button>
+ <button type="button" class="ppb mr" data-role="murid"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2.5 9 2.5 12 0v-5M22 9v6"/></svg><b>Saya Murid</b><small>Nota, simulasi, latihan dan game</small></button></div>
+ <p class="ppn">Boleh ditukar bila-bila masa di halaman utama.</p></div></main>`}
+const isMurid=()=>document.documentElement.classList.contains('murid');
+function home(){const light=document.documentElement.classList.contains('light'),murid=isMurid();
  return`<main class="home">
  <header class="top"><a class="brand" href="#/">${LOGO(40)}<b>Teroka<span>Math</span></b></a>
   <a class="ck gm" href="game/" aria-label="Game"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="11" rx="5"/><path d="M7 10.5v4M5 12.5h4"/><circle cx="16" cy="11.5" r="1" fill="currentColor"/><circle cx="18.5" cy="14" r="1" fill="currentColor"/></svg><span class="tx">GAME</span></a>
   <a class="ck bk" href="bank/" aria-label="Bank Soalan"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5M8 7h6M8 11h6"/></svg><span class="tx">BANK SOALAN</span></a>
   ${typeof tmLangBtn==='function'?tmLangBtn('ck sq langbtn'):''}<button class="ck sq" id="mode" aria-label="${light?'Tukar ke mod gelap':'Tukar ke mod cerah'}">${light?I.moon:I.sun}</button></header>
- <section class="hero"><h1>Teroka. Faham. Kuasai.</h1><p>Pilih tingkatan, kemudian pilih bab.</p></section>
+ <section class="hero"><h1>Teroka. Faham. Kuasai.</h1><p>Pilih tingkatan, kemudian pilih bab.</p>
+ <p class="role"><span>${murid?'Mod Murid':'Mod Guru'}</span><span aria-hidden="true">·</span><button type="button" class="rb" id="roleBtn">${murid?'Tukar ke Guru':'Tukar ke Murid'}</button></p></section>
  <div class="tabs" role="tablist" aria-label="Tingkatan">${[1,2,3,4,5].map(t=>`<button role="tab" data-t="${t}" aria-selected="${tab===t}" aria-label="Tingkatan ${t}"${tab===t?` style="background:${TCOL[t-1]}"`:''}><b>${t}</b><small>TINGKATAN</small></button>`).join('')}</div>
  <div class="grid" id="grid">${chapters(tab).map(cardHTML).join('')}</div></main>`}
 function pasang(){return`<main class="pg"><a class="back" href="#/">${I.left} Kembali</a><h1>Cara Pasang TerokaMath</h1>
@@ -213,11 +234,13 @@ function bindHome(){
  if(typeof tmBindLang==='function')tmBindLang();document.getElementById('mode').onclick=()=>{const h=document.documentElement,l=!h.classList.contains('light');h.classList.toggle('light',l);LS.set('mathmotion-mode',l?'cerah':'gelap');setTheme();render()};
  document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{tab=+b.dataset.t;LS.set('mathmotion-tab',String(tab));render()});
  document.querySelectorAll('[data-app]').forEach(a=>a.addEventListener('click',()=>LS.set('mathmotion-last',a.dataset.app)));
- document.querySelectorAll('[data-soon]').forEach(d=>d.onclick=()=>toast('Bab '+d.dataset.soon+' akan datang. Nantikan!'))}
+ document.querySelectorAll('[data-soon]').forEach(d=>d.onclick=()=>toast('Bab '+d.dataset.soon+' akan datang. Nantikan!'));
+ document.getElementById('roleBtn').onclick=()=>{const m=!isMurid();tmSetRole(m?'murid':'guru');render();toast(m?'Mod Murid':'Mod Guru')}}
 let tt;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),1800)}
 function setTheme(){const m=document.querySelector('meta[name="theme-color"]');if(m)m.content=document.documentElement.classList.contains('light')?'#FFFFFF':'#0B0C18'}
 function render(){const h=location.hash.replace(/^#/,'')||'/';
  if(h.startsWith('/pasang')){app.innerHTML=pasang();document.title='Cara Pasang · TerokaMath'}
+ else if(typeof tmRole==='function'&&!tmRole()){app.innerHTML=pilihPeranan();document.title='TerokaMath – Simulasi Matematik';app.querySelectorAll('[data-role]').forEach(b=>b.onclick=()=>{tmSetRole(b.dataset.role);render();scrollTo(0,0)})}
  else{app.innerHTML=home();bindHome();document.title='TerokaMath – Simulasi Matematik'}}
 window.addEventListener('hashchange',()=>{render();scrollTo(0,0)});
 window.addEventListener('pageshow',()=>{if(!location.hash.startsWith('#/pasang'))render()});

@@ -373,6 +373,7 @@ function bindGames() {
 function render(keepScroll) {
   const h = location.hash.replace(/^#\/?/, ''), p = h.split('/').filter(Boolean);
   const sc = keepScroll && document.getElementById('main') ? document.getElementById('main').scrollTop : 0;
+  const rr = typeof tmMuridRoute === 'function' ? tmMuridRoute(p) : ''; if (rr) { location.replace(rr); return; }
   if (!p.length) { app.innerHTML = viewSplash(); document.title = `${APPNAME} – ${BAB.tajuk}`; return; }
   const tab = p[0];
   let inner = '', bind = () => {};
