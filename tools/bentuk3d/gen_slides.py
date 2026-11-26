@@ -2,6 +2,7 @@
 # Jalankan:  python3 tools/bentuk3d/gen_slides.py
 # Rajah guna HANYA warna palet gelap di bawah supaya mod cerah ditukar automatik oleh themed().
 import json, os, html, math, re
+raise SystemExit('Dipersarakan: nota Bab 6 kini dijana oleh alat/nota/bina_bab6_t2.py (ikut buku teks).')
 from fractions import Fraction as F
 
 HERE = os.path.dirname(os.path.abspath(__file__))
