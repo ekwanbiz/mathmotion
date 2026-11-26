@@ -125,7 +125,7 @@
         if (!pt.big) {
           B.push(Pg([R(dw ? 'Jawapan / ' : 'Jawapan:', { bold: true, size: 19 }), ...(dw ? [R('Answer:', { bold: true, italics: true, size: 19 })] : [])], { indent: { left: IND[lvl] }, spacing: { after: 40 } }));
           const hmm = pt.ruang || 12 + 9 * (+pt.m || 1);
-          B.push(new D.Table({ indent: { size: IND[lvl], type: D.WidthType.DXA }, borders: BX, columnWidths: [CW - IND[lvl]],
+          B.push(new D.Table({ indent: { size: IND[lvl], type: D.WidthType.DXA }, borders: NB, columnWidths: [CW - IND[lvl]],
             rows: [new D.TableRow({ height: { value: Math.round(hmm * 56.7), rule: D.HeightRule.ATLEAST }, children: [cell([Pg([])], { width: { size: CW - IND[lvl], type: D.WidthType.DXA } })] })] }), Pg([]));
         }
       }

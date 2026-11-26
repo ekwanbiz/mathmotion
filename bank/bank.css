@@ -129,7 +129,7 @@ a{color:var(--brandM)}
 #print .op{grid-template-columns:repeat(2,minmax(0,1fr));gap:2px 20px;margin-top:4px}
 #print .mk{text-align:right;font-size:10pt}
 #print .pp{display:grid;grid-template-columns:44px minmax(0,1fr);gap:2px 6px;margin-top:6px;break-inside:avoid}
-#print .sp{border:1px solid #999;border-radius:4px;margin:4px 0 6px;min-height:14mm}
+#print .sp{margin:4px 0 6px;min-height:14mm}
 #print .tb td,#print .tb th,#print .pad .r{border-color:#000}
 #print .fr>span+span{border-top-color:#000}
 #print .skA{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:2px 10px;margin:6px 0}
