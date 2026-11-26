@@ -260,4 +260,4 @@ const arahY = b => `${Math.abs(b)} unit ke ${b > 0 ? 'atas' : 'bawah'}`;
 const PK = onX => (onX ? 'paksi-x' : 'paksi-y');
 const ARAH = cw => (cw ? 'ikut arah jam' : 'lawan arah jam');
 const KATAKERJA = { translasi: 'ditranslasikan', pantulan: 'dipantulkan pada satu garis', putaran: 'diputar pada satu titik' };
-const salah = (N, betul, sebab) => ({ ans: `Tidak betul. Jawapan yang betul: ${betul}`, pre: [sebab] });
+const salah = (N, betul, sebab) => ({ ans: (typeof tmEN !== 'undefined' && tmEN) ? `Not correct. The correct answer: ${betul}` : `Tidak betul. Jawapan yang betul: ${betul}`, pre: [sebab] });

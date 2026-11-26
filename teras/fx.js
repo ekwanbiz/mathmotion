@@ -134,7 +134,8 @@
   /* ---------- Butang bunyi ---------- */
   const ICON_ON = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>';
   const ICON_OFF = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M17 9l5 6"/><path d="M22 9l-5 6"/></svg>';
-  const label = () => on ? 'Bunyi hidup – tekan untuk senyapkan' : 'Bunyi senyap – tekan untuk hidupkan';
+  const EN = (() => { try { return localStorage.getItem('terokamath-lang') === 'en'; } catch (e) { return false; } })();
+  const label = () => EN ? (on ? 'Sound on – tap to mute' : 'Sound off – tap to unmute') : (on ? 'Bunyi hidup – tekan untuk senyapkan' : 'Bunyi senyap – tekan untuk hidupkan');
   function button(extra) {
     return `<button type="button" class="snd-btn${on ? '' : ' off'}${extra ? ' ' + extra : ''}" data-sound aria-pressed="${on}" aria-label="${label()}" title="${label()}">${on ? ICON_ON : ICON_OFF}</button>`;
   }

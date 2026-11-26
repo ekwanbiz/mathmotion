@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Power Builder · Chapter 1</title>
+<link rel="icon" href="../logo.svg" type="image/svg+xml">
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#14100A;--sf:#1E1810;--sf2:#282012;--sf3:#17120B;--bd:#3A2E18;--bd2:#4C3C1F;--tx:#FFF6E0;--mu:#D2BC8A;--mu2:#A08B5E;--c1:#FFC93C;--c2:#4FD1FF;--c3:#FF6FA8;--gold:#FFD166;--ok:#3DDC84;--bad:#FF6B7A;
+ --surface:#1E1810;--border:#4C3C1F;--text:#FFF6E0;--muted:#D2BC8A;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#2a1d03}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.stage svg{width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:12px 14px;min-height:74px;line-height:1.5;font-size:15px}
+.info b.t{display:block;font-size:19px;color:var(--c1);margin-bottom:2px}
+.info .tip{color:var(--mu);font-size:13px;margin-top:4px}
+.info .eq{margin-top:6px;padding:8px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:700;font-size:17px}
+.info .ok{color:var(--ok);font-weight:800}
+.b1{color:var(--c2)}.b2{color:var(--c3)}.bg{color:var(--gold)}
+sup{font-size:.68em;line-height:0}
+.ctrl{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.ctrl .lab{grid-column:1/-1;font-size:12px;font-weight:800;letter-spacing:.08em;color:var(--mu2);margin:2px 0 -4px}
+.chip{background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:11px 4px;font-weight:800;font-size:15px}
+.chip.on{background:var(--c1);border-color:var(--c1);color:#2a1d03}
+.big{background:var(--c2);border:0;color:#04263a;border-radius:13px;padding:12px 6px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.big:disabled{opacity:.45;cursor:not-allowed}
+.step{display:flex;align-items:center;justify-content:space-between;gap:4px;background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:3px;grid-column:span 2}
+.step button{width:44px;height:40px;border:0;border-radius:10px;background:var(--sf2);font-weight:900;font-size:20px}
+.step span{font-weight:800;font-size:15px;white-space:nowrap}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.35fr) minmax(320px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:24px}
+ .info .eq{font-size:20px}
+}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.chip{padding:8px 3px;font-size:14px}.info{padding:8px 11px;min-height:62px;font-size:14px}.info b.t{font-size:17px}.big{padding:9px 4px}.step button{height:34px}}
+@media(max-width:420px){.chip,.big{font-size:13.5px}.modes button{font-size:13px;padding:10px 3px}.info{font-size:14px}.info .eq{font-size:15px}.step span{font-size:13.5px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#FFC93C;color:#2a1d03;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #ffc93c44">&#8592; Back</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Law">
+   <button data-m="darab" class="on" role="tab">✖ Multiply</button>
+   <button data-m="bahagi" role="tab">➗ Divide</button>
+   <button data-m="kuasa" role="tab">⬆ Power</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" viewBox="0 0 400 400" aria-label="Factor blocks for the laws of indices"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const C1='#FFC93C',C2='#4FD1FF',C3='#FF6FA8',GOLD='#FFD166',OK='#3DDC84',BAD='#FF6B7A',MU='#D2BC8A',TX='#FFF6E0',BG3='#17120B';
+const LIM={darab:{m:[1,8],n:[1,8]},bahagi:{m:[1,9],n:[1,9]},kuasa:{m:[1,6],n:[1,4]}};
+let S={mode:'darab',a:'2',m:3,n:4,cut:0,merged:true};
+const snd=n=>{if(window.FX)FX.play(n)};
+const pw=(a,n)=>{let v=1;for(let i=0;i<n;i++)v*=a;return v};
+const num=()=>/^\d+$/.test(S.a)?+S.a:null;
+const sup=(b,e)=>`${b}<sup>${e}</sup>`;
+const fmtN=v=>String(v).replace(/\B(?=(\d{3})+(?!\d))/g,' ');
+function T(x,y,t,c=TX,s=20,a='middle'){ // teks dengan ^{..}
+ const up=(s*.42).toFixed(1),sm=(s*.64).toFixed(1);let o='',r=false;
+ t.split(/(\^\{[^}]*\})/).forEach(p=>{if(!p)return;if(p.startsWith('^{')){o+=`<tspan dy="-${up}" font-size="${sm}">${p.slice(2,-1)}</tspan>`;r=true}else if(r){o+=`<tspan dy="${up}" font-size="${s}">${p}</tspan>`;r=false}else o+=p});
+ return `<text x="${x}" y="${y}" fill="${c}" font-size="${s}" font-weight="800" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="${BG3}" stroke-width="5" stroke-linejoin="round">${o}</text>`}
+function tile(x,y,col,s=38,cut=false,op=1){return `<g opacity="${op}"><rect x="${x}" y="${y}" width="${s}" height="${s}" rx="8" fill="${col}33" stroke="${col}" stroke-width="2.5"/>${T(x+s/2,y+s/2+1,S.a,TX,s*.48)}${cut?`<line x1="${x-3}" y1="${y+s+3}" x2="${x+s+3}" y2="${y-3}" stroke="${BAD}" stroke-width="4" stroke-linecap="round"/>`:''}</g>`}
+function handle(id,x,y,col,lab){return `<g class="h" data-h="${id}" style="cursor:grab"><circle cx="${x}" cy="${y}" r="26" fill="transparent"/><circle cx="${x}" cy="${y}" r="14" fill="${col}" stroke="#fff" stroke-width="3"/><path d="M${x-5} ${y-5}l-4 5l4 5M${x+5} ${y-5}l4 5l-4 5" fill="none" stroke="#2a1d03" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g>${lab?T(x,y-26,lab,col,15):''}`}
+function vhandle(id,x,y,col,lab){return `<g class="h" data-h="${id}" style="cursor:grab"><circle cx="${x}" cy="${y}" r="26" fill="transparent"/><circle cx="${x}" cy="${y}" r="14" fill="${col}" stroke="#fff" stroke-width="3"/><path d="M${x-5} ${y-5}l5 -4l5 4M${x-5} ${y+5}l5 4l5 -4" fill="none" stroke="#2a1d03" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g>${lab?T(x+26,y,lab,col,15,'start'):''}`}
+const TS=38,GAP=6,X0=20;
+const tx=k=>X0+k*(TS+GAP);
+/* ---------- DARAB ---------- */
+function darabSVG(){
+ const {m,n}=S;let g='';
+ const cx=cnt=>200-(cnt*(TS+GAP)-GAP)/2-14;
+ g+=T(200,20,'Group 1: a^{m}',C2,15);
+ for(let k=0;k<m;k++)g+=tile(cx(m)+k*(TS+GAP),34,C2);
+ g+=handle('m',cx(m)+m*(TS+GAP)+10,53,C2);
+ g+=T(200,102,'Group 2: a^{n}',C3,15);
+ for(let k=0;k<n;k++)g+=tile(cx(n)+k*(TS+GAP),116,C3);
+ g+=handle('n',cx(n)+n*(TS+GAP)+10,135,C3);
+ g+=`<path d="M200 172v26m-9 -9l9 10l9 -10" fill="none" stroke="${MU}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>`;
+ const tot=m+n,per=8,s2=Math.min(TS,Math.floor((360-(per-1)*GAP)/per));
+ for(let k=0;k<tot;k++){const r=Math.floor(k/per),c=k%per,w=Math.min(per,tot-r*per),x0=200-(w*(s2+GAP)-GAP)/2;g+=tile(x0+c*(s2+GAP),212+r*(s2+GAP),k<m?C2:C3,s2)}
+ const rows=Math.ceil(tot/per);
+ g+=T(200,212+rows*(s2+GAP)+30,`${S.a}^{${m}} × ${S.a}^{${n}} = ${S.a}^{${tot}}`,GOLD,26);
+ g+=T(200,212+rows*(s2+GAP)+62,`${m} + ${n} = ${tot} factors`,MU,16);
+ return g}
+function darabInfo(){
+ const {m,n,a}=S,b=num();
+ let h=`<b class="t">Law of multiplication</b>Same base → <b>add</b> the indices.<div class="eq"><span class="b1">${sup(a,m)}</span> × <span class="b2">${sup(a,n)}</span> = ${sup(a,`${m} + ${n}`)} = <span class="bg">${sup(a,m+n)}</span></div>`;
+ if(b)h+=`<div class="tip">Check the value: ${fmtN(pw(b,m))} × ${fmtN(pw(b,n))} = <b>${fmtN(pw(b,m+n))}</b> <span class="ok">✓</span></div>`;
+ h+=`<div class="tip">Drag the ● circle at the end of a row to add or remove factors.</div>`;
+ info.innerHTML=h}
+/* ---------- BAHAGI ---------- */
+function bahagiSVG(){
+ const {m,n,cut}=S;let g='';const k=Math.min(m,n);
+ const per=9,s=Math.min(TS,Math.floor((340-(per-1)*GAP)/per));
+ const row=(cnt,y,col,cutN)=>{const x0=186-(cnt*(s+GAP)-GAP)/2;let o='';for(let i=0;i<cnt;i++)o+=tile(x0+i*(s+GAP),y,col,s,i<cutN,i<cutN?.45:1);return {o,end:x0+cnt*(s+GAP)}};
+ const top=row(m,48,C2,cut),bot=row(n,128,C3,cut);
+ g+=T(20,24,'Numerator: a^{m}',C2,15,'start')+top.o+handle('m',Math.min(386,top.end+10),48+s/2,C2);
+ g+=`<line x1="20" y1="${108}" x2="380" y2="${108}" stroke="${TX}" stroke-width="3"/>`;
+ g+=bot.o+handle('n',Math.min(386,bot.end+10),128+s/2,C3)+T(20,128+s+20,'Denominator: a^{n}',C3,15,'start');
+ g+=`<path d="M200 206v24m-9 -9l9 10l9 -10" fill="none" stroke="${MU}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>`;
+ const d=m-n;
+ if(cut<k){g+=T(200,276,`Cancel ${k} ${k>1?'pairs':'pair'} of common factors`,MU,17);g+=T(200,310,'Press “Cancel a pair”',MU,15)}
+ else if(d>0){const r=row(d,250,C2,0);g+=r.o;g+=T(200,320,`= ${S.a}^{${m} − ${n}} = ${S.a}^{${d}}`,GOLD,26)}
+ else if(d===0){g+=T(200,266,'1',OK,40);g+=T(200,320,`${S.a}^{${m} − ${n}} = ${S.a}^{0} = 1`,GOLD,26)}
+ else{g+=T(200,250,'1',TX,26);g+=`<line x1="${200-((-d)*(s+GAP))/2}" y1="270" x2="${200+((-d)*(s+GAP))/2}" y2="270" stroke="${TX}" stroke-width="3"/>`;const r=row(-d,280,C3,0);g+=r.o;g+=T(200,352,`${S.a}^{${d}} = 1/${S.a}^{${-d}}`.replace(/\^\{(-\d+)\}/,(x,e)=>'^{−'+e.slice(1)+'}'),GOLD,24)}
+ return g}
+function bahagiInfo(){
+ const {m,n,a,cut}=S,b=num(),d=m-n,k=Math.min(m,n);
+ let h=`<b class="t">Law of division</b>Same base → <b>subtract</b> the indices.`;
+ const ex=d<0?'−'+(-d):d;
+ h+=`<div class="eq"><span class="b1">${sup(a,m)}</span> ÷ <span class="b2">${sup(a,n)}</span> = ${sup(a,`${m} − ${n}`)} = <span class="bg">${sup(a,ex)}</span>${d===0?' = 1':d<0?` = 1/${sup(a,-d)}`:''}</div>`;
+ if(cut<k)h+=`<div class="tip">Each factor ${a} on top can be cancelled with one factor ${a} below (${a} ÷ ${a} = 1).</div>`;
+ else if(d===0)h+=`<div class="tip"><span class="ok">Zero index!</span> All factors cancel, so ${sup(a,0)} = 1.</div>`;
+ else if(d<0)h+=`<div class="tip"><span class="ok">Negative index!</span> The remaining factors are in the denominator: ${sup(a,'−'+(-d))} = 1/${sup(a,-d)}.</div>`;
+ else if(b)h+=`<div class="tip">Check the value: ${fmtN(pw(b,m))} ÷ ${fmtN(pw(b,n))} = <b>${fmtN(pw(b,d))}</b> <span class="ok">✓</span></div>`;
+ info.innerHTML=h}
+/* ---------- KUASA ---------- */
+function kuasaSVG(){
+ const {m,n}=S;let g='';const s=34,gp=6;
+ const W=m*(s+gp)-gp,x0=Math.max(56,200-W/2-10);
+ for(let r=0;r<n;r++){const y=44+r*(s+20);
+  g+=`<rect x="${x0-8}" y="${y-6}" width="${W+16}" height="${s+12}" rx="12" fill="${C1}14" stroke="${C1}" stroke-width="2"/>`;
+  for(let k=0;k<m;k++)g+=tile(x0+k*(s+gp),y,C2,s);
+  g+=T(x0-16,y+s/2,`${S.a}^{${m}}`,C1,16,'end')}
+ g+=handle('m',x0+W+22,44+s/2,C2,'m');
+ g+=vhandle('n',x0+W/2,44+n*(s+20)+8,C1,'n');
+ const yb=44+4*(s+20)+52;
+ g+=T(200,yb,`(${S.a}^{${m}})^{${n}} = ${S.a}^{${m} × ${n}} = ${S.a}^{${m*n}}`,GOLD,25);
+ g+=T(200,yb+34,`${n} groups × ${m} factors = ${m*n} factors`,MU,16);
+ return g}
+function kuasaInfo(){
+ const {m,n,a}=S,b=num();
+ let h=`<b class="t">Law of powers</b>Power of a power → <b>multiply</b> the indices.<div class="eq">(${sup(a,m)})<sup>${n}</sup> = ${Array(n).fill(sup(a,m)).join(' × ')} = <span class="bg">${sup(a,m*n)}</span></div>`;
+ if(b&&pw(b,m*n)<1e13)h+=`<div class="tip">Check the value: (${fmtN(pw(b,m))})<sup>${n}</sup> = <b>${fmtN(pw(b,m*n))}</b> <span class="ok">✓</span></div>`;
+ h+=`<div class="tip">Drag the blue ● to change <i>m</i> (factors in each group) and the yellow ● to change <i>n</i> (number of groups).</div>`;
+ info.innerHTML=h}
+/* ---------- lukis & kawalan ---------- */
+function render(){
+ if(S.mode==='darab'){svg.innerHTML=darabSVG();darabInfo()}
+ if(S.mode==='bahagi'){svg.innerHTML=bahagiSVG();bahagiInfo()}
+ if(S.mode==='kuasa'){svg.innerHTML=kuasaSVG();kuasaInfo()}
+}
+function setVal(k,v){const L=LIM[S.mode][k];v=Math.max(L[0],Math.min(L[1],v));if(v!==S[k]){S[k]=v;if(S.mode==='bahagi')S.cut=0;snd('ketik');render();setCtrl()}}
+function setCtrl(){
+ const L=LIM[S.mode],lm=S.mode==='kuasa'?'factors':'m',ln=S.mode==='kuasa'?'groups':'n';
+ let h=`<div class="lab">BASE</div>`+['2','3','10','a'].map(a=>`<button class="chip ${S.a===a?'on':''}" data-a="${a}">${a}</button>`).join('');
+ h+=`<div class="step"><button data-d="m-1" aria-label="Decrease m">−</button><span>m = ${S.m}</span><button data-d="m+1" aria-label="Increase m">+</button></div>`;
+ h+=`<div class="step"><button data-d="n-1" aria-label="Decrease n">−</button><span>n = ${S.n}</span><button data-d="n+1" aria-label="Increase n">+</button></div>`;
+ if(S.mode==='bahagi'){const k=Math.min(S.m,S.n);h+=`<button class="big" id="cut" style="grid-column:span 2" ${S.cut>=k?'disabled':''}>✂ Cancel a pair</button><button class="big alt" id="all" style="grid-column:span 2">Cancel all</button>`}
+ else h+=`<button class="big alt" id="rw" style="grid-column:1/-1">🎲 Random values</button>`;
+ ctrl.innerHTML=h;
+ ctrl.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{S.a=b.dataset.a;setCtrl();render()});
+ ctrl.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{const [k,d]=[b.dataset.d[0],+b.dataset.d.slice(1)];setVal(k,S[k]+d)});
+ const c=document.getElementById('cut');if(c)c.onclick=()=>{const k=Math.min(S.m,S.n);if(S.cut<k){S.cut++;snd(S.cut===k?'betul':'langkah');if(S.cut===k&&window.FX)FX.stars(document.getElementById('stage'),10);render();setCtrl()}};
+ const al=document.getElementById('all');if(al)al.onclick=()=>{const k=Math.min(S.m,S.n);S.cut=k;snd('betul');if(window.FX)FX.stars(document.getElementById('stage'),12);render();setCtrl()};
+ const rw=document.getElementById('rw');if(rw)rw.onclick=()=>{const r=(a,b)=>a+Math.floor(Math.random()*(b-a+1));S.m=r(L.m[0]+1,L.m[1]);S.n=r(L.n[0]+1,L.n[1]);render();setCtrl()};
+}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));S.mode=b.dataset.m;
+ if(S.mode==='darab'){S.m=3;S.n=4}if(S.mode==='bahagi'){S.m=6;S.n=2;S.cut=0}if(S.mode==='kuasa'){S.m=2;S.n=3}
+ setCtrl();render()});
+/* ---------- Seret (tetikus + sentuh) ---------- */
+let drag=null;
+function svgPt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+svg.addEventListener('pointerdown',e=>{const h=e.target.closest('.h');if(!h)return;e.preventDefault();const p=svgPt(e);drag={k:h.dataset.h,x:p.x,y:p.y,v:S[h.dataset.h]};svg.setPointerCapture(e.pointerId)});
+svg.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();const p=svgPt(e);
+ const vert=S.mode==='kuasa'&&drag.k==='n',step=vert?54:(S.mode==='kuasa'?40:41);
+ const d=Math.round((vert?p.y-drag.y:(S.mode==='kuasa'?p.x-drag.x:(p.x-drag.x)*2))/step);setVal(drag.k,drag.v+d)});
+const end=()=>{drag=null};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+svg.addEventListener('dragstart',e=>e.preventDefault());
+setCtrl();render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

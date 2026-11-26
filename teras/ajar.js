@@ -95,9 +95,9 @@ function readyItems(sub) {
 const slideOf = it => SLIDES.find(s => s.sub === it.sub && s.n === it.n);
 const bankById = () => { const o = {}; wsBank().forEach(q => { o[q.id] = q; }); return o; };
 function itemName(it) {
-  if (it.t === 'slaid') { const s = slideOf(it); return s ? (s.cover ? `Tajuk Bab ${BAB.no}` : `${s.sub} · ${strip(s.title)}`) : 'Slaid'; }
-  if (it.t === 'sim') return 'Simulasi ' + (SIMNAME[it.k] || '');
-  if (it.t === 'lat') { const subs = [...new Set(it.ids.map(id => id.split('-')[0]))].join(', '); return `Latihan ${subs} · ${it.ids.length} soalan`; }
+  if (it.t === 'slaid') { const s = slideOf(it); return s ? (s.cover ? (tmEN ? `Chapter ${BAB.no} Title` : `Tajuk Bab ${BAB.no}`) : `${s.sub} · ${strip(s.title)}`) : 'Slaid'; }
+  if (it.t === 'sim') return (tmEN ? 'Simulation ' : 'Simulasi ') + (SIMNAME[it.k] || '');
+  if (it.t === 'lat') { const subs = [...new Set(it.ids.map(id => id.split('-')[0]))].join(', '); return tmEN ? `Practice ${subs} · ${it.ids.length} question${it.ids.length > 1 ? 's' : ''}` : `Latihan ${subs} · ${it.ids.length} soalan`; }
   if (it.t === 'game') return GMODES[it.g || '60'][0];
   if (it.t === 'cikgu') return it.tpl === 'bebas' ? (ajBB() ? bbName(it) : 'Slaid bebas') : `${TPL[it.tpl][0]}: ${strip(it.title || it.q || it.link) || 'Tanpa tajuk'}`;
   return '';
@@ -522,7 +522,7 @@ function viewTayang() {
   if (!it) { location.replace(ajShared() ? `#/k/${AJK.code}` : '#/ajar'); return ''; }
   let content = '';
   if (it.t === 'slaid' || it.t === 'cikgu') content = `<div class="stage" id="stage" style="--c:${subColVar(it)}">${itemSlideHTML(it)}</div>`;
-  else if (it.t === 'sim') content = `<div class="tero"><iframe class="simframe" src="simulasi/${it.k}.html" title="Simulasi ${SIMNAME[it.k]}"></iframe></div>`;
+  else if (it.t === 'sim') content = `<div class="tero"><iframe class="simframe" src="simulasi/${it.k}${BAB.en?'_en':''}.html" title="Simulasi ${SIMNAME[it.k]}"></iframe></div>`;
   else if (it.t === 'lat') content = viewLatItem(it);
   else if (it.t === 'game') { let g = viewGameMode(it.g || '60'); g = g.replace(/<a [^>]*href="#\/games[^"]*"[^>]*>[\s\S]*?<\/a>/g, ''); if (ajShared()) g = g.replace(/<a [^>]*href="#\/[^"]*"[^>]*>[^<]*<\/a>/g, ''); content = `<div class="main" id="main">${g}</div>`; }
   const dots = pl.items.map((x, k) => `<button type="button" class="ajdot${k === AJ.i ? ' on' : ''}" data-jump="${k}" style="--c:var(--${AJT[x.t][1]});opacity:${k <= AJ.i ? 1 : .4}" aria-label="Item ${k + 1}: ${esc(itemName(x))}"></button>`).join('');
@@ -767,7 +767,7 @@ function rphHTML(pl) {
   const ol = arr => `<ol>${arr.map(x => `<li>${x}</li>`).join('')}</ol>`;
   const penS = rphSteps(pen, false).concat(['Guru merumus isi penting pelajaran.']);
   const akt = `<b>Set induksi</b>${ol(rphSteps(ind, true))}${dev.length ? `<b>Perkembangan</b>${ol(rphSteps(dev, false))}` : ''}<b>Penutup</b>${ol(penS)}`;
-  const sims = [...new Set(items.filter(i => i.t === 'sim').map(i => 'Simulasi ' + SIMNAME[i.k]))];
+  const sims = [...new Set(items.filter(i => i.t === 'sim').map(i => (tmEN ? 'Simulation ' : 'Simulasi ') + SIMNAME[i.k]))];
   const parts = [items.some(i => i.t === 'slaid') ? 'slaid nota' : ''].concat(sims, items.some(i => i.t === 'lat') ? ['latihan'] : [], [...new Set(items.filter(i => i.t === 'game').map(i => GMODES[i.g || '60'][0]))]).filter(Boolean);
   const lk = items.flatMap(i => i.t !== 'cikgu' ? [] : i.tpl === 'pautan' ? [i.link] : i.tpl === 'bebas' ? (i.els || []).filter(e => e.k === 'l').map(e => e.url) : []).filter(u => ajUrl(u));
   const vid = lk.some(u => ajYt(u)), web = lk.some(u => !ajYt(u));

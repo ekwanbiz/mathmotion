@@ -162,7 +162,7 @@ function viewTeroka(type) {
   const name = SIMLIST.find(x => x[0] === type)[1];
   return `<div class="tero">
     <nav class="seg terseg" aria-label="Pilih simulasi">${SIMLIST.map(([k, t, c]) => `<a href="#/teroka/${k}"${k === type ? ' aria-current="page"' : ''} style="--c:var(--${c})">${t}</a>`).join('')}</nav>
-    <iframe class="simframe" src="simulasi/${type}.html" title="Simulasi ${name}"></iframe>
+    <iframe class="simframe" src="simulasi/${type}${BAB.en?'_en':''}.html" title="Simulasi ${name}"></iframe>
   </div>`;
 }
 function bindTeroka() {}

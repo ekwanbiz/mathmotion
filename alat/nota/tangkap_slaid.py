@@ -1,3 +1,4 @@
+import os
 import sys, json
 from playwright.sync_api import sync_playwright
 folder, tag = sys.argv[1], sys.argv[2]
@@ -6,7 +7,7 @@ with sync_playwright() as p:
     b=p.chromium.launch(executable_path='/usr/bin/google-chrome')
     c=b.new_context(viewport={'width':1366,'height':768});pg=c.new_page()
     errs=[];pg.on('pageerror',lambda e:errs.append(str(e)))
-    pg.goto(f'http://localhost:8765/{folder}/');pg.evaluate("localStorage.setItem('mathmotion-mode','gelap');localStorage.setItem('terokamath-peranan','guru')")
+    pg.goto(f'http://localhost:8765/{folder}/');pg.evaluate("localStorage.setItem('mathmotion-mode','gelap');localStorage.setItem('terokamath-peranan','guru');localStorage.setItem('terokamath-lang','"+os.environ.get('TMLANG','ms')+"')")
     for sub,N in subs:
         for n in range(1,N+1):
             pg.goto(f'http://localhost:8765/{folder}/#/nota/{sub}/{n}');pg.reload();pg.wait_for_timeout(500)

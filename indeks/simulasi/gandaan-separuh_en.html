@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Doubling &amp; Halving · Chapter 1</title>
+<link rel="icon" href="../logo.svg" type="image/svg+xml">
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#07130F;--sf:#0E1F19;--sf2:#142A22;--sf3:#0A1813;--bd:#1D3A2F;--bd2:#28503F;--tx:#E9FFF6;--mu:#9CCFB9;--mu2:#6FA08A;--c1:#34D399;--c2:#4FD1FF;--c3:#FF7AB6;--gold:#FFD166;--ok:#3DDC84;--bad:#FF6B7A;
+ --surface:#0E1F19;--border:#28503F;--text:#E9FFF6;--muted:#9CCFB9;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#03261a}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.stage svg{width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:12px 14px;min-height:74px;line-height:1.5;font-size:15px}
+.info b.t{display:block;font-size:19px;color:var(--c1);margin-bottom:2px}
+.info .tip{color:var(--mu);font-size:13px;margin-top:4px}
+.info .eq{margin-top:6px;padding:8px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:700;font-size:17px}
+.gd{color:var(--gold)}.pk{color:var(--c3)}
+sup{font-size:.68em;line-height:0}
+.ctrl{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.big{background:var(--c1);border:0;color:#03261a;border-radius:13px;padding:13px 6px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.big:disabled{opacity:.45;cursor:not-allowed}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.35fr) minmax(320px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end;grid-template-columns:1fr 1fr}
+ .info b.t{font-size:24px}
+ .info .eq{font-size:20px}
+}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.info{padding:8px 11px;min-height:62px;font-size:14px}.info b.t{font-size:17px}.big{padding:10px 4px}}
+@media(max-width:420px){.big{font-size:13.5px}.modes button{font-size:13px;padding:10px 3px}.info{font-size:14px}.info .eq{font-size:15px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#34D399;color:#03261a;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #34d39944">&#8592; Back</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Base">
+   <button data-b="2" class="on" role="tab">🦠 Base 2</button>
+   <button data-b="3" role="tab">🌿 Base 3</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" viewBox="0 0 400 400" aria-label="Doubling and halving: value of base to the power t"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl">
+  <button class="big alt" id="dn">◀ t − 1</button>
+  <button class="big alt" id="up">t + 1 ▶</button>
+  <button class="big" id="play" style="grid-column:span 2">▶ Play from start</button>
+ </div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),info=document.getElementById('info');
+const C1='#34D399',C2='#4FD1FF',C3='#FF7AB6',GOLD='#FFD166',MU='#9CCFB9',MU2='#6FA08A',TX='#E9FFF6',BG3='#0A1813',BD='#28503F';
+const RANGE={2:[-4,6],3:[-3,4]};
+let S={b:2,t:3,timer:0};
+const snd=n=>{if(window.FX)FX.play(n)};
+const pw=(a,n)=>{let v=1;for(let i=0;i<n;i++)v*=a;return v};
+const neg=v=>v<0?'−'+(-v):String(v);
+const valS=(b,t)=>t>=0?String(pw(b,t)):'1/'+pw(b,-t);
+function T(x,y,t,c=TX,s=20,a='middle'){
+ const up=(s*.42).toFixed(1),sm=(s*.64).toFixed(1);let o='',r=false;
+ t.split(/(\^\{[^}]*\})/).forEach(p=>{if(!p)return;if(p.startsWith('^{')){o+=`<tspan dy="-${up}" font-size="${sm}">${p.slice(2,-1)}</tspan>`;r=true}else if(r){o+=`<tspan dy="${up}" font-size="${s}">${p}</tspan>`;r=false}else o+=p});
+ return `<text x="${x}" y="${y}" fill="${c}" font-size="${s}" font-weight="800" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="${BG3}" stroke-width="5" stroke-linejoin="round">${o}</text>`}
+const LX0=34,LX1=366,LY=318;
+const tX=t=>{const [a,b]=RANGE[S.b];return LX0+(t-a)*(LX1-LX0)/(b-a)};
+function cells(){ // t ≥ 0: b^t sel dalam grid
+ const N=pw(S.b,S.t),cols=Math.ceil(Math.sqrt(N)),rows=Math.ceil(N/cols),cw=Math.min(46,360/cols,200/rows);
+ const x0=200-cols*cw/2,y0=128-rows*cw/2;let g='';
+ for(let k=0;k<N;k++){const c=k%cols,r=Math.floor(k/cols);g+=`<circle cx="${(x0+(c+.5)*cw).toFixed(1)}" cy="${(y0+(r+.5)*cw).toFixed(1)}" r="${(cw*.4).toFixed(1)}" fill="${C1}55" stroke="${C1}" stroke-width="${cw>20?2.5:1.6}"/>`}
+ return g}
+function pieces(){ // t < 0: 1 keping dibahagi b berulang kali, satu bahagian diambil
+ const X=110,Y=38,W=180;let g=`<rect x="${X}" y="${Y}" width="${W}" height="${W}" rx="6" fill="${C2}14" stroke="${C2}" stroke-width="3"/>`;
+ let x=X,y=Y,w=W,h=W;
+ for(let i=0;i<-S.t;i++){
+  const vert=i%2===0;
+  for(let j=1;j<S.b;j++){if(vert)g+=`<line x1="${x+w*j/S.b}" y1="${y}" x2="${x+w*j/S.b}" y2="${y+h}" stroke="${C2}" stroke-width="2" stroke-dasharray="5 4"/>`;else g+=`<line x1="${x}" y1="${y+h*j/S.b}" x2="${x+w}" y2="${y+h*j/S.b}" stroke="${C2}" stroke-width="2" stroke-dasharray="5 4"/>`}
+  if(vert)w/=S.b;else h/=S.b}
+ g+=`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${C3}99" stroke="${C3}" stroke-width="2.5"/>`;
+ return g}
+function render(){
+ const [a,b]=RANGE[S.b],t=S.t;let g='';
+ g+=t>=0?cells():pieces();
+ g+=T(200,256,`${S.b}^{${neg(t)}} = ${valS(S.b,t)}`,GOLD,30);
+ // garis masa
+ g+=`<line x1="${LX0}" y1="${LY}" x2="${LX1}" y2="${LY}" stroke="${BD}" stroke-width="6" stroke-linecap="round"/>`;
+ g+=`<line x1="${tX(0)}" y1="${LY}" x2="${tX(t)}" y2="${LY}" stroke="${t>=0?C1:C3}" stroke-width="6" stroke-linecap="round"/>`;
+ const fs=b-a>9?11:13;
+ for(let k=a;k<=b;k++){const x=tX(k),on=k===t,col=k>0?C1:k<0?C3:GOLD;
+  g+=`<circle cx="${x}" cy="${LY}" r="${on?0:5}" fill="${col}"/>`;
+  g+=T(x,LY-24,neg(k),on?TX:MU2,on?16:fs);
+  g+=T(x,LY+26,valS(S.b,k),on?col:MU,on?fs+3:fs)}
+ g+=T(LX0-6,LY-46,'index t',MU2,12,'start')+T(LX0-6,LY+50,`value of ${S.b}^{t}`,MU2,12,'start');
+ g+=`<g class="h" style="cursor:grab"><circle cx="${tX(t)}" cy="${LY}" r="28" fill="transparent"/><circle cx="${tX(t)}" cy="${LY}" r="13" fill="${t>0?C1:t<0?C3:GOLD}" stroke="#fff" stroke-width="3"/></g>`;
+ g+=T(200,388,'◀ half · double ▶'.replace('half',S.b===2?'÷ 2':'÷ 3').replace('double',S.b===2?'× 2':'× 3'),MU2,13);
+ svg.innerHTML=g;
+ const B=S.b,rep=n=>Array(n).fill(B).join(' × ');
+ let h;
+ if(t>0)h=`<b class="t">${B===2?'Bacteria splitting in two':'Tree branching in three'}</b>${B===2?'One bacterium divides into 2 every hour.':'Each branch splits into 3 every week.'} After <b>${t}</b> ${B===2?(t>1?'hours':'hour'):(t>1?'weeks':'week')}:<div class="eq">${rep(t)} = ${B}<sup>${t}</sup> = <span class="gd">${pw(B,t)}</span></div><div class="tip">Each step to the right: multiply by ${B}. Index = number of times multiplied.</div>`;
+ else if(t===0)h=`<b class="t">Zero index</b>No multiplication yet: only the <b>1</b> original ${B===2?'bacterium':'branch'}.<div class="eq">${B}<sup>0</sup> = <span class="gd">1</span></div><div class="tip">From ${B}<sup>1</sup> = ${B}, divide by ${B} to get ${B}<sup>0</sup> = 1.</div>`;
+ else{const n=-t;h=`<b class="t">Negative index = repeated ${B===2?'halving':'thirding'}</b>A cake is divided into ${B} equal parts, one part is taken, and this is repeated <b>${n}</b> ${n>1?'times':'time'}:<div class="eq">1${' ÷ '+B}${(' ÷ '+B).repeat(n-1)} = 1/${B}<sup>${n}</sup> = <span class="pk">${B}<sup>−${n}</sup></span> = <span class="gd">1/${pw(B,n)}</span></div><div class="tip">Each step to the left: divide by ${B}. A negative index is not a negative number, but a fraction.</div>`}
+ info.innerHTML=h;
+ document.getElementById('dn').disabled=t<=a;document.getElementById('up').disabled=t>=b;
+}
+function setT(t){const [a,b]=RANGE[S.b];t=Math.max(a,Math.min(b,t));if(t!==S.t){S.t=t;snd(t===0?'betul':'langkah');render()}}
+document.getElementById('dn').onclick=()=>{stop();setT(S.t-1)};
+document.getElementById('up').onclick=()=>{stop();setT(S.t+1)};
+function stop(){if(S.timer){clearInterval(S.timer);S.timer=0;document.getElementById('play').textContent='▶ Play from start'}}
+document.getElementById('play').onclick=()=>{
+ if(S.timer){stop();return}
+ const [a,b]=RANGE[S.b];S.t=a;render();document.getElementById('play').textContent='⏸ Stop';
+ S.timer=setInterval(()=>{if(S.t>=b){stop();snd('menang');if(window.FX)FX.stars(document.getElementById('stage'),14);return}setT(S.t+1)},900)};
+document.querySelectorAll('.modes button').forEach(btn=>btn.onclick=()=>{stop();
+ document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===btn));S.b=+btn.dataset.b;const [a,b]=RANGE[S.b];S.t=Math.max(a,Math.min(b,S.t));render()});
+/* ---------- Seret pada garis masa (tetikus + sentuh) ---------- */
+let drag=false;
+function svgPt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+function toT(p){const [a,b]=RANGE[S.b];return Math.round(a+(p.x-LX0)*(b-a)/(LX1-LX0))}
+svg.addEventListener('pointerdown',e=>{const p=svgPt(e);if(!e.target.closest('.h')&&Math.abs(p.y-LY)>40)return;e.preventDefault();stop();drag=true;svg.setPointerCapture(e.pointerId);setT(toT(p))});
+svg.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();setT(toT(svgPt(e)))});
+const end=()=>{drag=false};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+svg.addEventListener('dragstart',e=>e.preventDefault());
+render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>
