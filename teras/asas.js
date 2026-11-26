@@ -330,7 +330,12 @@ function temaPanel(onPick) {
     <div class="tmh">${EN ? 'LIGHT' : 'CERAH'}</div><div class="tmgrid">${TEMA.filter(t => t.b === 'l').map(sw).join('')}</div>`;
   document.body.appendChild(pop);
   const btn = document.getElementById('temaBtn');
-  if (btn) { const r = btn.getBoundingClientRect(); pop.style.top = Math.round(r.bottom + 8) + 'px'; pop.style.right = Math.max(8, Math.round(innerWidth - r.right)) + 'px'; }
+  if (btn) { // letak di bawah butang, tetapi sentiasa dalam skrin (telefon)
+    const r = btn.getBoundingClientRect(), w = pop.offsetWidth, top = Math.round(r.bottom + 8);
+    pop.style.top = top + 'px';
+    pop.style.left = Math.round(Math.min(Math.max(8, r.right - w), innerWidth - w - 8)) + 'px';
+    pop.style.maxHeight = Math.max(160, innerHeight - top - 8) + 'px';
+  }
   const close = () => { pop.remove(); document.removeEventListener('pointerdown', out, true); document.removeEventListener('keydown', esc_, true); };
   const out = e => { if (!pop.contains(e.target) && !(btn && btn.contains(e.target))) close(); };
   const esc_ = e => { if (e.key === 'Escape') { e.stopPropagation(); close(); } };
