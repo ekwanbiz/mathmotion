@@ -109,9 +109,13 @@ Ujian tanpa menyentuh folder sebenar: `NOTA_OUT=../../<folder>bt/slides.js pytho
 | 1 Indeks | `indeks` | 22 | 21 |
 | 2 Bentuk Piawai | `piawai` | 16 | 16 |
 | 3 Matematik Pengguna | `pengguna` | 28 | 20 |
-| 4–9 | – | – | belum |
+| 4 Lukisan Berskala | `berskala` | 20 | 14 |
+| 5 Nisbah Trigonometri | `trigonometri` | 28 | 16 |
+| 6–9 | – | – | belum |
 
-Buku teks T3: Bab 1 = PDF hlm 13–39, Bab 2 = 40–59, Bab 3 = 60–95, Bab 4 bermula hlm 96.
+Buku teks T3: Bab 1 = PDF hlm 13–39, Bab 2 = 40–59, Bab 3 = 60–95, Bab 4 = 96–115, Bab 5 = 116–137, Bab 6 bermula hlm 138.
+
+Bab 4 dan Bab 5 T3 mengekalkan SUBS lama (4.1.1–4.1.4, 5.1.1/5.1.2/5.1.4/5.1.7) yang digabung kepada 4.1 dan 5.1 melalui `BAB.gabung`: semak dengan `semak_muat.py '[["4.1",20]]' berskala`.
 
 ## Susunan langkah (penting)
 
