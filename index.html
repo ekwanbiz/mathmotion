@@ -224,8 +224,8 @@ function pilihPeranan(){const light=document.documentElement.classList.contains(
  return`<main class="pp"><header class="top"><span class="sp"></span>${typeof tmLangBtn==='function'?tmLangBtn('ck sq langbtn'):''}<button class="ck sq" id="mode" aria-label="${light?'Tukar ke mod gelap':'Tukar ke mod cerah'}">${light?I.moon:I.sun}</button></header>
  <div class="ppin"><span class="pplg">${LOGO(88)}</span><h1>Selamat datang ke <span class="tm">Teroka<span>Math</span></span></h1><p class="ppsl">Teroka. Faham. Kuasai.</p>
  <p class="ppq">SIAPAKAH ANDA?</p>
- <div class="ppc"><button type="button" class="ppb gr" data-role="guru"><span class="ic">${IG}</span><b>Saya Guru</b><small>Nota, simulasi, Pelan Mengajar, RPH, Bank Soalan dan game kelas</small><span class="go">PILIH</span></button>
- <button type="button" class="ppb mr" data-role="murid"><span class="ic">${IM}</span><b>Saya Murid</b><small>Nota, simulasi, latihan dan game</small><span class="go">PILIH</span></button></div>
+ <div class="ppc"><button type="button" class="ppb gr" data-role="guru"><span class="ic">${IG}</span><b>Saya Guru</b><small>Untuk mengajar di dalam kelas</small><span class="go">PILIH</span></button>
+ <button type="button" class="ppb mr" data-role="murid"><span class="ic">${IM}</span><b>Saya Murid</b><small>Untuk belajar dan meneroka sendiri</small><span class="go">PILIH</span></button></div>
  <p class="ppn">Boleh ditukar bila-bila masa di halaman utama.</p></div></main>`}
 const isMurid=()=>document.documentElement.classList.contains('murid');
 function home(){const light=document.documentElement.classList.contains('light'),murid=isMurid();

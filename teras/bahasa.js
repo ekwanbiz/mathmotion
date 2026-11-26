@@ -39,8 +39,7 @@ const TMX = {
   'daripada': 'of', 'Pilih simulasi': 'Choose a simulation', 'Simulasi': 'Simulation', 'SIMULASI': 'SIMULATION', 'Mudah': 'Easy', 'Sederhana': 'Medium', 'Sukar': 'Hard',
   // peranan guru | murid (halaman utama)
   'Selamat datang ke': 'Welcome to', 'Siapakah anda?': 'Who are you?', 'SIAPAKAH ANDA?': 'WHO ARE YOU?', 'PILIH': 'CHOOSE', 'Saya Guru': "I'm a Teacher", 'Saya Murid': "I'm a Student",
-  'Nota, simulasi, Pelan Mengajar, RPH, Bank Soalan dan game kelas': 'Notes, simulations, Teaching Plan, lesson plans, Question Bank and class games',
-  'Nota, simulasi, latihan dan game': 'Notes, simulations, practice and games', 'Boleh ditukar bila-bila masa di halaman utama': 'You can change this any time on the home page',
+  'Untuk mengajar di dalam kelas': 'For teaching in class', 'Untuk belajar dan meneroka sendiri': 'For learning and exploring on your own', 'Boleh ditukar bila-bila masa di halaman utama': 'You can change this any time on the home page',
   'Mod Guru': 'Teacher mode', 'Mod Murid': 'Student mode', 'Tukar ke Murid': 'Switch to Student', 'Tukar ke Guru': 'Switch to Teacher',
   // latihan
   'Latihan Kelas': 'Class Practice', 'Tandakan subtopik yang': 'Tick the subtopics that have', 'sudah diajar': 'been taught', 'Soalan hanya diambil daripada subtopik ini': 'Questions are taken only from these subtopics',
