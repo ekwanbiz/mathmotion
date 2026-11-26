@@ -49,8 +49,8 @@ function viewSplash() {
 /* =================== NOTA =================== */
 function viewNotaList() {
   const cards = SUBS.map(s => {
-    const n = SLIDES.filter(x => x.sub === s.no).length;
-    return `<a class="subcard" href="#/nota/${s.no}/1" style="--c:${subCol(s.no)}">
+    const n = SLIDES.filter(x => x.sub === s.no && !x.cover).length;
+    return `<a class="subcard" href="#/nota/${s.no}/${firstN(s.no)}" style="--c:${subCol(s.no)}">
       <span class="top"><span class="no">${s.no}</span><span class="cnt">${n} slaid</span></span>
       <h2>${s.name}</h2><p>${SUBDESC[s.no]}</p></a>`;
   }).join('');
@@ -61,7 +61,9 @@ function viewNotaList() {
 }
 function bindNotaList() { document.getElementById('printAll').onclick = () => printSlides(SLIDES); }
 
+const firstN = sub => { const f = SLIDES.find(x => x.sub === sub); return f ? f.n : 1; };
 function slideHTML(s, light) {
+  if (s.cover && typeof coverHTML === 'function') return coverHTML(s, light);
   const col = themed(subOf(s.sub).col, light);
   const head = `<p class="sl-kick">${s.kicker}</p><h1 class="sl-title">${s.title}</h1>`;
   if (s.full) return `<div class="slide full" style="--c:${col}"><div>${head}</div>${themed(s.full, light)}</div>`;
@@ -79,7 +81,7 @@ function viewSlide(sub, n) {
   return `<div class="slbar">
       <a class="btn sec bk" href="#/nota/senarai" style="min-height:44px;padding:0 14px" aria-label="Kembali ke senarai subtopik">${IC.left}<span>Subtopik</span></a>
       <span class="chip" style="background:${col};color:var(--on)">${sub}</span><span class="nm">${so.name}</span>
-      <span class="pg">Slaid ${n} / ${s.N}</span>
+      <span class="pg">${s.cover ? 'Tajuk' : `Slaid ${n} / ${s.N}`}</span>
       <button type="button" class="ib" id="printSub" aria-label="Cetak nota subtopik ini">${IC.print}</button>
     </div>
     <div class="stage" id="stage" style="--c:${col}">${slideHTML(s, isLight())}</div>
@@ -130,7 +132,7 @@ document.addEventListener('keydown', e => {
 });
 
 let printing = false;
-const slidesDoc = list => list.map(s => `<section class="ps"><div class="pshead"><span>${APPNAME} · ${s.sub} ${subOf(s.sub).name}</span><span>Slaid ${s.n} / ${s.N}</span></div>${slideHTML(s, true)}</section>`).join('');
+const slidesDoc = list => list.filter(s => !s.cover).map(s => `<section class="ps"><div class="pshead"><span>${APPNAME} · ${s.sub} ${subOf(s.sub).name}</span><span>Slaid ${s.n} / ${s.N}</span></div>${slideHTML(s, true)}</section>`).join('');
 window.addEventListener('beforeprint', () => {
   if (printing) return;
   const pr = document.getElementById('print');
@@ -383,8 +385,8 @@ function render(keepScroll) {
   if (tab === 'ajar' && p[1] === 'tayang') { const v = viewTayang(); if (!v) return; app.innerHTML = v; document.title = 'Mengajar · ' + APPNAME; bindTayang(); return; }
   if (tab === 'ajar') { inner = viewSusun(); bind = bindSusun; document.title = 'Mula Mengajar · ' + APPNAME; }
   else if (tab === 'nota' && p[1] === 'senarai') { inner = viewNotaList(); bind = bindNotaList; document.title = 'Nota · ' + APPNAME; }
-  else if (tab === 'nota' && p[1]) { inner = viewSlide(p[1], +p[2] || 1); bind = bindSlide; document.title = `${p[1]} Nota · ${APPNAME}`; }
-  else if (tab === 'nota') { inner = typeof viewNotaCover === 'function' ? viewNotaCover() : viewNotaList(); bind = typeof viewNotaCover === 'function' ? bindNotaCover : bindNotaList; document.title = `Bab ${BAB.no} ${BAB.tajuk} · Nota`; }
+  else if (tab === 'nota' && p[1]) { inner = viewSlide(p[1], p[2] === undefined ? firstN(p[1]) : +p[2]); bind = bindSlide; document.title = `${p[1]} Nota · ${APPNAME}`; }
+  else if (tab === 'nota') { inner = viewNotaList(); bind = bindNotaList; document.title = 'Nota · ' + APPNAME; }
   else if (tab === 'teroka') { inner = viewTeroka(p[1]); bind = bindTeroka; document.title = 'Teroka · ' + APPNAME; }
   else if (tab === 'latihan' && p[1] === 'lembaran') { inner = viewLembaran(); bind = bindLembaran; document.title = 'Lembaran Kerja · ' + APPNAME; }
   else if (tab === 'latihan' && p[1] === 'main') { inner = viewLatMain(); bind = bindLatMain; document.title = 'Latihan · ' + APPNAME; }

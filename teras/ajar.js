@@ -163,13 +163,13 @@ function viewSusun() {
   const d = ajData(), pl = ajPlan();
   if (AJS.sel >= pl.items.length) AJS.sel = pl.items.length - 1;
   const opts = d.plans.map(p => `<option value="${p.id}"${p.id === d.cur ? ' selected' : ''}>${esc(p.name)}</option>`).join('');
-  const cats = [['slaid', 'Slaid nota', `${SLIDES.length} slaid · ${SUBS.length} subtopik`], ['sim', 'Simulasi', SIMLIST.map(s => s[1]).join(' · ')], ['lat', 'Latihan', 'Pilih soalan dari bank'], ['game', 'Game', '4 pilihan game'], ['cikgu', 'Slaid baharu', ajBB() ? '2 pilihan' : '5 templat']];
+  const cats = [['slaid', 'Slaid nota', `${SLIDES.filter(s => !s.cover).length} slaid · ${SUBS.length} subtopik`], ['sim', 'Simulasi', SIMLIST.map(s => s[1]).join(' · ')], ['lat', 'Latihan', 'Pilih soalan dari bank'], ['game', 'Game', '4 pilihan game'], ['cikgu', 'Slaid baharu', ajBB() ? '2 pilihan' : '5 templat']];
   const catBtns = cats.map(([k, t, s]) => `<button type="button" class="ajcat${AJS.cat === k ? ' on' : ''}" data-cat="${k}" style="--c:var(--${AJT[k][1]})"><span class="ab">${k === 'cikgu' ? '+' : AJT[k][0].slice(0, 2)}</span><span><b>${t}</b><small>${s}</small></span></button>`).join('');
   let lib = '';
   if (AJS.cat === 'slaid') {
     lib = `<div class="ajsubs">${SUBS.map(s => `<button type="button" class="opt" data-asub="${s.no}" aria-pressed="${AJS.sub === s.no}" style="--c:${subCol(s.no)}">${s.no}</button>`).join('')}</div>
       <button type="button" class="ajadd all" data-addall="${AJS.sub}">${ajIcon.plus} Semua slaid ${AJS.sub}</button>
-      ${SLIDES.filter(s => s.sub === AJS.sub).map(s => `<button type="button" class="ajadd" data-addslide="${s.n}"><span>${s.n}. ${strip(s.title)}</span>${ajIcon.plus}</button>`).join('')}`;
+      ${SLIDES.filter(s => s.sub === AJS.sub).map(s => `<button type="button" class="ajadd" data-addslide="${s.n}"><span>${s.cover ? 'Tajuk subtopik' : `${s.n}. ${strip(s.title)}`}</span>${ajIcon.plus}</button>`).join('')}`;
   } else if (AJS.cat === 'sim') {
     lib = Object.keys(SIMNAME).map(k => `<button type="button" class="ajadd" data-addsim="${k}"><span>Simulasi ${SIMNAME[k]}</span>${ajIcon.plus}</button>`).join('');
   } else if (AJS.cat === 'lat') {
