@@ -55,6 +55,8 @@ Diluluskan guru pada 26 Nov 2026. Semua bab Tingkatan 2 (Bab 1–13) siap.
 | `graf.py` | Satah Cartes berskala bebas (`Gr`: titik, garis, lengkung fungsi, bacaan graf) dan rajah anak panah. `import graf as GF` |
 | `statrajah.py` | Plot titik, carta palang, carta pai, gambar rajah Venn, gambar rajah pokok, gundalan. `import statrajah as SR` |
 | `umum.py` | Pembantu HTML dikongsi (fr, sq, pw, pen, work, formula, table, stack). Penjana T3 ke atas: `exec(open(os.path.join(HERE, 'umum.py')).read())` selepas `COL` ditakrif |
+| `rajah2d.py` | Rajah geometri 2D: bulatan, lengkok, sudut, tangen, label bucu (Bab 6 T3). `import rajah2d as RJ` |
+| `unjuran.py` | Prisma keratan rentas seragam: lakaran 3D, pelan, dongakan depan dan sisi dengan garis sempang automatik (Bab 7 T3) |
 | `pepejal.py` | Pelukis bentuk 3D (kuboid, prisma, piramid, silinder, kon, sfera, bentangan kubus). `import pepejal as G` |
 
 Contoh untuk bab tertentu: algebra → `bina_bab2_t2.py`; geometri/bulatan → `bina_bab5_t2.py`; satah Cartes → `bina_bab11_t2.py`; jujukan → `bina_bab1_t2.py`; rumus/perkara rumus → `bina_bab3_t2.py`; bentuk 3D → `bina_bab6_t2.py`; koordinat/jarak/titik tengah → `bina_bab7_t2.py`; fungsi dan graf fungsi → `bina_bab8_t2.py`; laju/pecutan → `bina_bab9_t2.py`; kecerunan → `bina_bab10_t2.py`; statistik → `bina_bab12_t2.py`; kebarangkalian → `bina_bab13_t2.py`.
@@ -111,9 +113,12 @@ Ujian tanpa menyentuh folder sebenar: `NOTA_OUT=../../<folder>bt/slides.js pytho
 | 3 Matematik Pengguna | `pengguna` | 28 | 20 |
 | 4 Lukisan Berskala | `berskala` | 20 | 14 |
 | 5 Nisbah Trigonometri | `trigonometri` | 28 | 16 |
-| 6–9 | – | – | belum |
+| 6 Sudut dan Tangen bagi Bulatan | `sudutbulatan` | 39 | 21 |
+| 7 Pelan dan Dongakan | `pelan` | 26 | 11 |
+| 8 Lokus dalam Dua Dimensi | `lokus` | 20 | 13 |
+| 9 Garis Lurus | `garislurus` | 26 | 18 |
 
-Buku teks T3: Bab 1 = PDF hlm 13–39, Bab 2 = 40–59, Bab 3 = 60–95, Bab 4 = 96–115, Bab 5 = 116–137, Bab 6 bermula hlm 138.
+Buku teks T3: Bab 1 = PDF hlm 13–39, Bab 2 = 40–59, Bab 3 = 60–95, Bab 4 = 96–115, Bab 5 = 116–137, Bab 6 = 138–177, Bab 7 = 178–207, Bab 8 = 208–233, Bab 9 = 234–261. Semua bab T3 siap.
 
 Bab 4 dan Bab 5 T3 mengekalkan SUBS lama (4.1.1–4.1.4, 5.1.1/5.1.2/5.1.4/5.1.7) yang digabung kepada 4.1 dan 5.1 melalui `BAB.gabung`: semak dengan `semak_muat.py '[["4.1",20]]' berskala`.
 
