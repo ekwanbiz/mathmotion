@@ -90,7 +90,8 @@ function viewSlide(sub, n) {
       <button type="button" class="btn pri" id="nextBtn" style="min-height:52px"><span id="nextLbl">Seterusnya</span>${IC.right}</button>
     </div>`;
 }
-function revealEls() { const st = document.getElementById('stage'); return st ? [...st.querySelectorAll('.rv')] : []; }
+function rvOrder(a) { return a.map((e, k) => [e, e.dataset.o !== undefined ? +e.dataset.o : k]).sort((x, y) => x[1] - y[1]).map(x => x[0]); }
+function revealEls() { const st = document.getElementById('stage'); return st ? rvOrder([...st.querySelectorAll('.rv')]) : []; }
 function applyReveal() {
   const els = revealEls();
   if (NOTA.r > els.length) NOTA.r = els.length;

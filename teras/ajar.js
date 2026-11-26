@@ -467,7 +467,7 @@ function ajGo(i, back) {
   if (it.t === 'game' && it.g === 'siapa') Object.assign(S, { q: null, shown: false, right: 0, done: 0, end: false });
   render(false);
 }
-function ajSteps() { const st = document.getElementById('stage'); return st ? [...st.querySelectorAll('.rv')] : []; }
+function ajSteps() { const st = document.getElementById('stage'); return st ? (typeof rvOrder === 'function' ? rvOrder : x => x)([...st.querySelectorAll('.rv')]) : []; }
 function ajApplyReveal() {
   const els = ajSteps(); if (AJ.r > els.length) AJ.r = els.length;
   els.forEach((e, k) => e.classList.toggle('hid', k >= AJ.r));

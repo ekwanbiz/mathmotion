@@ -47,6 +47,7 @@ Diluluskan guru pada 26 Nov 2026. Semua bab Tingkatan 2 (Bab 1–13) siap.
 |---|---|
 | `svg.py` | Pembantu SVG (warna tema gelap, `Plane`, `box`, `T`, `P`, `arrowhead`) |
 | `helpers.py` | Pembantu HTML slaid (`S`, `de`, `bul`, `p`, `note`, `steps`, `ans`, `vec`, `card`, `cards`, `reg`, `arc`) |
+| `urutan.json` | Susunan langkah bagi slaid yang ada langkah di kedua-dua lajur (contoh: rajah kanan dahulu, kemudian jawapan kiri). Dibaca oleh `tail.py` |
 | `tail.py` | Nombor slaid ikut subtopik dan tulis `slides.js` |
 | `bina_babN_tT.py` | Penjana satu bab. Salin yang paling hampir sebagai permulaan |
 | `semak_muat.py` | Semak limpahan setiap slaid (perlu pelayan tempatan port 8765) |
@@ -111,3 +112,12 @@ Ujian tanpa menyentuh folder sebenar: `NOTA_OUT=../../<folder>bt/slides.js pytho
 | 4–9 | – | – | belum |
 
 Buku teks T3: Bab 1 = PDF hlm 13–39, Bab 2 = 40–59, Bab 3 = 60–95, Bab 4 bermula hlm 96.
+
+## Susunan langkah (penting)
+
+Enjin memaparkan langkah `.rv` mengikut atribut `data-o` jika ada, jika tiada ikut susunan HTML (lajur kiri dahulu). Jika slaid ada langkah di kedua-dua lajur, tentukan susunan dalam `urutan.json`:
+- jawapan di kiri bergantung pada rajah/jalan kira di kanan → `f,b`
+- empat langkah penyelesaian masalah di kiri + jalan kira di kanan → `b:3,f,b` (kesimpulan paling akhir)
+- langkah pembinaan + rajah setiap langkah → `mix`; rajah dahulu bagi setiap bahagian → `mixf`
+- dua contoh berasingan (kiri dan kanan) → tiada entri.
+Semak setiap slaid sebegini sebelum dimasukkan.
