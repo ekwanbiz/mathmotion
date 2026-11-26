@@ -582,6 +582,14 @@ document.addEventListener('keydown', e => {
     if ((e.key === 'Enter' || e.key === ' ') && e.target.closest && e.target.closest('a,button,label')) return;
     e.preventDefault(); ajNext();
   } else if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key)) { e.preventDefault(); ajPrev(); }
+  else if (e.key === 'Escape') { e.preventDefault(); ajExit(); }
+});
+// ESC semasa skrin penuh: pelayar keluar skrin penuh dulu (keydown tidak sampai) – terus keluar tayangan juga
+let ajWasFs = false;
+document.addEventListener('fullscreenchange', () => {
+  if (document.fullscreenElement) { ajWasFs = ajIsPlay(); return; }
+  if (ajWasFs && ajIsPlay()) { ajWasFs = false; ajExit(); }
+  ajWasFs = false;
 });
 
 /* ---------- pen conteng ---------- */
