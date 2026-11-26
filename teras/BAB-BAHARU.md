@@ -69,3 +69,7 @@ Pembantu tersedia (teras/asas.js): `ri, pick, shuffle, nz, fmt, par, P, vec, esc
 - [ ] Mod gelap & cerah; telefon (390 px) & projektor (1366 px).
 - [ ] Bahasa Melayu sahaja; fakta matematik disemak.
 - [ ] `sw.js` dikemas kini; hub menunjukkan bab baharu.
+
+## SEO (v133) – selepas tambah bab baharu
+Jalankan: `node tools/seo-meta.js > /tmp/meta.json && python3 tools/seo.py /tmp/meta.json`
+(kemas kini tag Google/Open Graph, teks statik dalam `<div id="app">`, `sitemap.xml` dan `robots.txt`). Pastikan `index.html` bab juga ada `bebas.js` dan `ga.js` selepas `ajar.js`.
