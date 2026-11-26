@@ -17,8 +17,11 @@ const TPL = {
   soalan: ['Soalan cepat', 'Soalan, kemudian tunjuk jawapan'],
   gambar: ['Gambar', 'Tajuk + gambar sendiri'],
   papan: ['Papan kosong / grid', 'Ruang tulis & lukis dengan pen'],
-  pautan: ['Pautan / video', 'Link YouTube atau laman web']
+  pautan: ['Pautan / video', 'Link YouTube atau laman web'],
+  bebas: ['Slaid bebas', 'Teks, gambar & video di mana-mana']
 };
+// Slaid bebas & import PPTX/PDF ada dalam bebas.js (dimuat selepas fail ini jika bab menggunakannya)
+const ajBB = () => typeof bbHTML === 'function';
 // pautan: hanya https; YouTube dimainkan dalam slaid
 const ajUrl = u => { try { const x = new URL(String(u || '').trim()); return x.protocol === 'https:' ? x.href : ''; } catch (e) { return ''; } };
 function ajYt(u) {
@@ -95,7 +98,7 @@ function itemName(it) {
   if (it.t === 'sim') return 'Simulasi ' + (SIMNAME[it.k] || '');
   if (it.t === 'lat') { const subs = [...new Set(it.ids.map(id => id.split('-')[0]))].join(', '); return `Latihan ${subs} · ${it.ids.length} soalan`; }
   if (it.t === 'game') return GMODES[it.g || '60'][0];
-  if (it.t === 'cikgu') return `${TPL[it.tpl][0]}: ${strip(it.title || it.q || it.link) || 'Tanpa tajuk'}`;
+  if (it.t === 'cikgu') return it.tpl === 'bebas' ? (ajBB() ? bbName(it) : 'Slaid bebas') : `${TPL[it.tpl][0]}: ${strip(it.title || it.q || it.link) || 'Tanpa tajuk'}`;
   return '';
 }
 const typeChip = (t, extra = '') => `<span class="ajtype" style="--c:var(--${AJT[t][1]})${extra}">${AJT[t][0]}</span>`;
@@ -115,6 +118,7 @@ function fmtSt(it, key) {
 }
 function fmtLat(it) { const l = FMT_L.find(x => x[0] && x[0] === it.lat); return l ? `;background:var(--lat-${l[0]});border-radius:22px` : ''; }
 function cikguHTML(it, pv) {
+  if (it.tpl === 'bebas') return ajBB() ? bbHTML(it, pv ? 'pv' : 'play') : '';
   const kick = esc(it.kick || '');
   const title = esc(it.title || '');
   if (it.tpl === 'isi') {
@@ -145,9 +149,9 @@ function cikguHTML(it, pv) {
   return `<div class="slide full cs" style="--c:var(--pu)${fmtLat(it)}">${title ? `<div><h1 class="sl-title"${fmtSt(it, 'title')}>${title}</h1></div>` : ''}
     <div class="cs-board ${bg}">${bg === 'cartes' ? '<span class="cx"></span><span class="cy"></span>' : ''}</div></div>`;
 }
-function itemSlideHTML(it) {
+function itemSlideHTML(it, pv) {
   if (it.t === 'slaid') { const s = slideOf(it); return s ? slideHTML(s, isLight()) : ''; }
-  if (it.t === 'cikgu') return cikguHTML(it);
+  if (it.t === 'cikgu') return cikguHTML(it, pv);
   return '';
 }
 const subColVar = it => it.t === 'slaid' ? subCol(it.sub) : 'var(--pu)';
@@ -155,10 +159,11 @@ const subColVar = it => it.t === 'slaid' ? subCol(it.sub) : 'var(--pu)';
 /* =================== MOD SUSUN =================== */
 const AJS = { cat: 'slaid', sub: SUBS[0].no, sel: 0, modal: null, drag: -1 };
 function viewSusun() {
+  if (ajBB()) bbEnsureImgs();
   const d = ajData(), pl = ajPlan();
   if (AJS.sel >= pl.items.length) AJS.sel = pl.items.length - 1;
   const opts = d.plans.map(p => `<option value="${p.id}"${p.id === d.cur ? ' selected' : ''}>${esc(p.name)}</option>`).join('');
-  const cats = [['slaid', 'Slaid nota', `${SLIDES.length} slaid · ${SUBS.length} subtopik`], ['sim', 'Simulasi', SIMLIST.map(s => s[1]).join(' · ')], ['lat', 'Latihan', 'Pilih soalan dari bank'], ['game', 'Game', '4 pilihan game'], ['cikgu', 'Slaid baharu', '5 templat']];
+  const cats = [['slaid', 'Slaid nota', `${SLIDES.length} slaid · ${SUBS.length} subtopik`], ['sim', 'Simulasi', SIMLIST.map(s => s[1]).join(' · ')], ['lat', 'Latihan', 'Pilih soalan dari bank'], ['game', 'Game', '4 pilihan game'], ['cikgu', 'Slaid baharu', ajBB() ? '2 pilihan' : '5 templat']];
   const catBtns = cats.map(([k, t, s]) => `<button type="button" class="ajcat${AJS.cat === k ? ' on' : ''}" data-cat="${k}" style="--c:var(--${AJT[k][1]})"><span class="ab">${k === 'cikgu' ? '+' : AJT[k][0].slice(0, 2)}</span><span><b>${t}</b><small>${s}</small></span></button>`).join('');
   let lib = '';
   if (AJS.cat === 'slaid') {
@@ -171,8 +176,9 @@ function viewSusun() {
     lib = `<p class="ajhint">Pilih soalan tetap daripada bank 180 soalan. Soalan keluar ikut susunan anda.</p><button type="button" class="btn sec" data-newlat="1" style="min-height:48px">${ajIcon.plus} Pilih soalan</button>`;
   } else if (AJS.cat === 'game') {
     lib = Object.keys(GMODES).map(g => `<button type="button" class="ajadd tpl" data-addgame="${g}"><span><b>${GMODES[g][0]}</b><small>${GMODES[g][1][0] + GMODES[g][1].slice(1).toLowerCase()}</small></span>${ajIcon.plus}</button>`).join('');
-  } else {
-    lib = Object.keys(TPL).map(k => `<button type="button" class="ajadd tpl" data-newcikgu="${k}"><span><b>${TPL[k][0]}</b><small>${TPL[k][1]}</small></span>${ajIcon.plus}</button>`).join('');
+  } else if (ajBB()) lib = bbLibHTML();
+  else {
+    lib = Object.keys(TPL).filter(k => k !== 'bebas').map(k => `<button type="button" class="ajadd tpl" data-newcikgu="${k}"><span><b>${TPL[k][0]}</b><small>${TPL[k][1]}</small></span>${ajIcon.plus}</button>`).join('');
   }
   const rows = pl.items.map((it, i) => `<div class="ajrow${i === AJS.sel ? ' on' : ''}" draggable="true" data-row="${i}" style="--c:var(--${AJT[it.t][1]})">
       <span class="dg" aria-hidden="true">${ajIcon.drag}</span><span class="n">${i + 1}</span>${typeChip(it.t)}
@@ -203,7 +209,7 @@ function viewPratonton(pl) {
   const it = pl.items[AJS.sel];
   if (!it) return '<h2 class="ajh">PRATONTON</h2><p class="ajhint">Pilih satu item dalam pelan untuk lihat pratonton.</p>';
   let body = '';
-  if (it.t === 'slaid' || it.t === 'cikgu') body = `<div class="ajpv" style="--c:${subColVar(it)}"><div class="ajpv-in"><div class="stage">${itemSlideHTML(it)}</div></div></div>`;
+  if (it.t === 'slaid' || it.t === 'cikgu') body = `<div class="ajpv" style="--c:${subColVar(it)}"><div class="ajpv-in"><div class="stage">${itemSlideHTML(it, true)}</div></div></div>`;
   else if (it.t === 'sim') body = `<div class="ajinfo"><b>Simulasi ${SIMNAME[it.k]}</b><span>Simulasi ${APPNAME} dipaparkan skrin penuh. Guna tetikus untuk gerakkan objek, kemudian tekan ▶ untuk item seterusnya.</span></div>`;
   else if (it.t === 'game') body = `<div class="ajinfo"><b>${GMODES[it.g || '60'][0]}</b><span>${GMODES[it.g || '60'][2]}</span></div>`;
   else if (it.t === 'lat') {
@@ -223,6 +229,7 @@ function viewModal() {
   const M = AJS.modal;
   if (M.type === 'share') return viewShareModal(M);
   if (M.type === 'rph') return viewRphModal(M);
+  if (M.type === 'bebas') return bbModalHTML(M);
   if (M.type === 'lat') {
     const bank = wsBank(), B = bankById();
     const list = bank.filter(q => q.sub === M.sub && (M.lvl === 'all' || q.lvl === M.lvl));
@@ -327,6 +334,7 @@ function bindSusun() {
   if (ed) ed.onclick = () => {
     const it = pl.items[AJS.sel];
     if (it.t === 'lat') AJS.modal = { type: 'lat', ids: it.ids.slice(), work: it.work !== false, sub: (it.ids[0] || SUBS[0].no).split('-')[0], lvl: 'all', edit: AJS.sel };
+    else if (ajBB()) bbOpen(it, AJS.sel);
     else AJS.modal = { type: 'cikgu', it: JSON.parse(JSON.stringify(it)), edit: AJS.sel };
     render(true);
   };
@@ -340,6 +348,7 @@ function bindSusun() {
   main.querySelectorAll('[data-addsim]').forEach(b => b.onclick = () => ajAdd({ t: 'sim', k: b.dataset.addsim }));
   main.querySelectorAll('[data-addgame]').forEach(b => b.onclick = () => ajAdd(b.dataset.addgame === '60' ? { t: 'game' } : { t: 'game', g: b.dataset.addgame }));
   main.querySelectorAll('[data-newlat]').forEach(b => b.onclick = () => { AJS.modal = { type: 'lat', ids: [], work: true, sub: AJS.sub, lvl: 'all', edit: null }; render(true); });
+  if (ajBB()) bbBindLib(pl);
   main.querySelectorAll('[data-newcikgu]').forEach(b => b.onclick = () => { AJS.modal = { type: 'cikgu', it: { t: 'cikgu', tpl: b.dataset.newcikgu, bg: 'grid' }, edit: null }; render(true); });
   main.querySelectorAll('[data-pick]').forEach(b => b.onclick = () => { AJS.sel = +b.dataset.pick; render(true); });
   main.querySelectorAll('[data-mv]').forEach(b => b.onclick = () => {
@@ -362,7 +371,8 @@ function bindSusun() {
     });
   });
   if (AJS.modal && AJS.modal.type === 'share') bindShareModal();
-  if (AJS.modal && AJS.modal.type === 'rph') bindRphModal();
+  else if (AJS.modal && AJS.modal.type === 'rph') bindRphModal();
+  else if (AJS.modal && AJS.modal.type === 'bebas') bbBind(pl);
   else if (AJS.modal) bindModal(pl);
 }
 function bindModal(pl) {
@@ -499,6 +509,7 @@ function viewLatItem(it) {
     </div></div>`;
 }
 function viewTayang() {
+  if (ajBB()) bbEnsureImgs();
   const pl = ajPlan(), it = ajCur();
   if (!it) { location.replace(ajShared() ? `#/k/${AJK.code}` : '#/ajar'); return ''; }
   let content = '';
@@ -635,7 +646,7 @@ const AJK = { code: '', plan: null, err: false, busy: false };
 const b64u = bytes => { let s = ''; for (let i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000)); return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); };
 const unb64u = str => { str = str.replace(/-/g, '+').replace(/_/g, '/'); while (str.length % 4) str += '='; const bin = atob(str), u = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); return u; };
 async function packPlan(pl) {
-  const str = JSON.stringify({ v: 1, n: pl.name, i: pl.items.map(it => { const c = Object.assign({}, it); delete c.img; return c; }) });
+  const str = JSON.stringify({ v: 1, n: pl.name, i: pl.items.map(it => { let c = Object.assign({}, it); delete c.img; if (ajBB()) c = bbShare(c); return c; }).filter(Boolean) });
   if (!window.CompressionStream) return '0' + b64u(new TextEncoder().encode(str));
   const st = new Blob([str]).stream().pipeThrough(new CompressionStream('deflate-raw'));
   return '1' + b64u(new Uint8Array(await new Response(st).arrayBuffer()));
@@ -654,7 +665,7 @@ async function ajShareOpen(pl) {
   try {
     const code = await packPlan(pl);
     const link = location.origin + location.pathname + '#/k/' + code;
-    AJS.modal = { type: 'share', link, name: pl.name, img: pl.items.some(it => it.img) };
+    AJS.modal = { type: 'share', link, name: pl.name, img: pl.items.some(it => ajBB() ? bbHasImg(it) : it.img) };
   } catch (e) { toast('Link tidak dapat dicipta'); return; }
   render(true);
 }
@@ -663,7 +674,7 @@ function viewShareModal(M) {
     <div class="ajm-h"><h2>Kongsi link</h2><button type="button" class="ib" id="ajmX" aria-label="Tutup">${IC.x}</button></div>
     <p class="ajhint" style="font-size:16px">Guru yang buka link ini akan nampak pelan <b style="color:var(--tx)">${esc(M.name)}</b> sahaja. Mereka hanya boleh tayang pelan ini. Mereka tidak dapat membuka bahagian lain ${APPNAME} atau mengubah pelan.</p>
     <label class="ajf"><span>LINK</span><textarea id="ajLink" rows="3" readonly>${esc(M.link)}</textarea></label>
-    ${M.img ? '<p class="ajwarn">Gambar yang dimuat naik tidak disertakan dalam link. Slaid Gambar akan dipaparkan tanpa gambar.</p>' : ''}
+    ${M.img ? `<p class="ajwarn">${ajBB() ? 'Pelan ini ada gambar atau slaid import. Gambar dan slaid import tidak disertakan dalam link. Penerima hanya nampak slaid yang lain.' : 'Gambar yang dimuat naik tidak disertakan dalam link. Slaid Gambar akan dipaparkan tanpa gambar.'}</p>` : ''}
     <p class="ajhint">Link ini menyimpan pelan seperti sekarang. Jika pelan diubah, cipta link baharu.</p>
     <div class="prow ajsharebtns"><button type="button" class="btn pri" id="ajCopy">${ajIcon.copy} Salin link</button>${navigator.share ? `<button type="button" class="btn sec" id="ajNative">${ajIcon.share} Kongsi…</button>` : ''}</div>
   </section></div>`;
@@ -695,6 +706,7 @@ function rphAct(it, induksi) {
   }
   if (it.t === 'game') return `Murid bermain game ${t(GMODES[it.g || '60'][0])}.`;
   if (it.t === 'cikgu') {
+    if (it.tpl === 'bebas') return ajBB() ? bbRph(it) : '';
     if (it.tpl === 'isi') return `Guru menerangkan ${t(it.title || 'isi pelajaran')}.`;
     if (it.tpl === 'soalan') return `Murid menjawab soalan cepat: ${t(it.q || '')}`;
     if (it.tpl === 'gambar') return `Murid memerhati gambar ${t(it.title || '')} dan berbincang.`;
@@ -735,7 +747,8 @@ function rphHTML(pl) {
   const akt = `<b>Set induksi</b>${ol(rphSteps(ind, true))}${dev.length ? `<b>Perkembangan</b>${ol(rphSteps(dev, false))}` : ''}<b>Penutup</b>${ol(penS)}`;
   const sims = [...new Set(items.filter(i => i.t === 'sim').map(i => 'Simulasi ' + SIMNAME[i.k]))];
   const parts = [items.some(i => i.t === 'slaid') ? 'slaid nota' : ''].concat(sims, items.some(i => i.t === 'lat') ? ['latihan'] : [], [...new Set(items.filter(i => i.t === 'game').map(i => GMODES[i.g || '60'][0]))]).filter(Boolean);
-  const vid = items.some(i => i.t === 'cikgu' && i.tpl === 'pautan' && ajYt(i.link)), web = items.some(i => i.t === 'cikgu' && i.tpl === 'pautan' && !ajYt(i.link));
+  const lk = items.flatMap(i => i.t !== 'cikgu' ? [] : i.tpl === 'pautan' ? [i.link] : i.tpl === 'bebas' ? (i.els || []).filter(e => e.k === 'l').map(e => e.url) : []).filter(u => ajUrl(u));
+  const vid = lk.some(u => ajYt(u)), web = lk.some(u => !ajYt(u));
   const bbm = `TerokaMath${parts.length ? ' (' + esc(parts.join(', ')) + ')' : ''}${vid ? ', video YouTube' : ''}${web ? ', laman web' : ''}, LCD / telefon pintar`;
   const rows = [['Mata pelajaran', 'Matematik'], ['Tingkatan / Kelas', `Tingkatan ${BAB.ting} · ${rphLine}`], ['Tarikh / Masa', `${rphLine} · ${rphLine}`], ['Bilangan murid', rphLine],
     ['Bab / Tajuk', `Bab ${BAB.no} · ${esc(BAB.tajuk)}`], ['Standard Kandungan', sk], ['Objektif', obj], ['Aktiviti', akt], ['BBM', bbm],

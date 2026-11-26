@@ -153,6 +153,13 @@ const TMX = {
   'atau tetikus gerak penyu': 'or mouse to move the turtle',
   'Salah laluan!': 'Wrong path!',
   'Sentuh dan seret untuk gerak anak penyu. Kutip tapak sulaiman dan elak ketam. Bila soalan muncul, laluan terbuka di antara batu: rangkak melalui laluan jawapan betul ke laut': 'Touch and drag to move the hatchling. Collect starfish and avoid crabs. When a question appears, paths open between the rocks: crawl through the path with the correct answer to the sea',
+  // slaid bebas & import (bebas.js)
+  'Slaid bebas': 'Free slide', 'Teks, gambar & video di mana-mana': 'Text, images & video anywhere', 'Import PPTX / PDF': 'Import PPTX / PDF', 'Setiap muka surat jadi satu slaid': 'Each page becomes one slide',
+  'PDF paling tepat. Dari PowerPoint atau Canva, simpan sebagai PDF dahulu. PPTX boleh, tetapi rupa mungkin lari sedikit.': 'PDF is the most accurate. From PowerPoint or Canva, save as PDF first. PPTX works, but the look may shift slightly.',
+  '2 pilihan': '2 options', 'Teks': 'Text', 'Link / video': 'Link / video', 'Tajuk': 'Heading', 'Serif': 'Serif', 'Tulisan tangan': 'Handwriting', 'Mesin taip': 'Typewriter', 'Tambah ke pelan': 'Add to plan', 'Simpan perubahan': 'Save changes',
+  'Klik untuk pilih. Seret untuk alih. Tarik bucu untuk ubah saiz. Klik dua kali pada teks untuk menulis.': 'Click to select. Drag to move. Drag the corner to resize. Double-click text to type.',
+  'Buka laman ↗': 'Open page ↗', 'Dipaparkan dalam slaid semasa tayang': 'Shown inside the slide when presenting', 'Jangan tutup halaman ini.': 'Do not close this page.', 'Membuka fail…': 'Opening file…', 'Menyimpan…': 'Saving…',
+  'Pelan ini ada gambar atau slaid import. Gambar dan slaid import tidak disertakan dalam link. Penerima hanya nampak slaid yang lain.': 'This plan has images or imported slides. Images and imported slides are not included in the link. Recipients only see the other slides.',
   // nama bab (halaman utama & kepala bab)
   'Nombor Nyata': 'Real Numbers', 'Faktor & Gandaan': 'Factors & Multiples', 'Nisbah, Kadar & Perkadaran': 'Ratios, Rates & Proportions', 'Ungkapan Algebra': 'Algebraic Expressions', 'Persamaan & Ketaksamaan Linear': 'Linear Equations & Inequalities',
   'Garis & Sudut': 'Lines & Angles', 'Segi Tiga & Sisi Empat': 'Triangles & Quadrilaterals', 'Pengendalian Data': 'Data Handling', 'Pola & Jujukan': 'Patterns & Sequences', 'Pola dan Jujukan': 'Patterns and Sequences', 'Pemfaktoran & Pecahan Algebra': 'Factorisation & Algebraic Fractions',
