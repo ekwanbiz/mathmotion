@@ -1,6 +1,7 @@
 # Penjana slaid NOTA Bab 12 Sukatan Kecenderungan Memusat (Tingkatan 2) -> kecenderungan/slides.js
 # Jalankan:  python3 tools/kecenderungan/gen_slides.py
 # Gunakan HANYA warna palet gelap di bawah supaya mod cerah ditukar automatik oleh themed().
+raise SystemExit('Dipersarakan: nota Bab 12 kini dijana oleh alat/nota/bina_bab12_t2.py (ikut buku teks).')
 import json, os, html, math, re
 import statistics as st
 from fractions import Fraction as F

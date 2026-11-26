@@ -1,7 +1,7 @@
 # Panduan bina nota slaid TerokaMath ikut buku teks
 
 Panduan ini untuk sesiapa (Claude atau ejen) yang membina semula nota slaid satu bab TerokaMath.
-Diluluskan guru pada 26 Nov 2026. Contoh siap: Bab 1–11 Tingkatan 2.
+Diluluskan guru pada 26 Nov 2026. Semua bab Tingkatan 2 (Bab 1–13) siap.
 
 ## 1. Prinsip kandungan
 
@@ -52,9 +52,12 @@ Diluluskan guru pada 26 Nov 2026. Contoh siap: Bab 1–11 Tingkatan 2.
 | `semak_muat.py` | Semak limpahan setiap slaid (perlu pelayan tempatan port 8765) |
 | `tangkap_slaid.py` | Tangkap skrin setiap slaid (semua langkah dipaparkan) untuk semakan |
 | `graf.py` | Satah Cartes berskala bebas (`Gr`: titik, garis, lengkung fungsi, bacaan graf) dan rajah anak panah. `import graf as GF` |
+| `statrajah.py` | Plot titik, carta palang, carta pai, gambar rajah Venn, gambar rajah pokok, gundalan. `import statrajah as SR` |
 | `pepejal.py` | Pelukis bentuk 3D (kuboid, prisma, piramid, silinder, kon, sfera, bentangan kubus). `import pepejal as G` |
 
-Contoh untuk bab tertentu: algebra → `bina_bab2_t2.py`; geometri/bulatan → `bina_bab5_t2.py`; satah Cartes → `bina_bab11_t2.py`; jujukan → `bina_bab1_t2.py`; rumus/perkara rumus → `bina_bab3_t2.py`; bentuk 3D → `bina_bab6_t2.py`; koordinat/jarak/titik tengah → `bina_bab7_t2.py`; fungsi dan graf fungsi → `bina_bab8_t2.py`; laju/pecutan → `bina_bab9_t2.py`; kecerunan → `bina_bab10_t2.py`.
+Contoh untuk bab tertentu: algebra → `bina_bab2_t2.py`; geometri/bulatan → `bina_bab5_t2.py`; satah Cartes → `bina_bab11_t2.py`; jujukan → `bina_bab1_t2.py`; rumus/perkara rumus → `bina_bab3_t2.py`; bentuk 3D → `bina_bab6_t2.py`; koordinat/jarak/titik tengah → `bina_bab7_t2.py`; fungsi dan graf fungsi → `bina_bab8_t2.py`; laju/pecutan → `bina_bab9_t2.py`; kecerunan → `bina_bab10_t2.py`; statistik → `bina_bab12_t2.py`; kebarangkalian → `bina_bab13_t2.py`.
+
+Bab yang menggabungkan subtopik (`BAB.gabung` dalam `bab.js`, contoh Bab 12 → 12.1) dipaparkan sebagai satu subtopik: semak dengan `semak_muat.py '[["12.1",N]]'` dan pastikan `SUBDESC` ada kunci gabungan.
 
 SUBS sedia ada folder bab dikekalkan walaupun susunan buku berbeza, kerana `bab.js` dan `soalan.js` bergantung pada nombor subtopik itu (contoh: Bab 10 kekal 10.1.1–10.1.3).
 
@@ -93,5 +96,6 @@ Ujian tanpa menyentuh folder sebenar: `NOTA_OUT=../../<folder>bt/slides.js pytho
 | 8 Graf Fungsi | `graphx` | 24 | 15 |
 | 9 Laju dan Pecutan | `pecut` | 19 | 20 |
 | 10 Kecerunan Garis Lurus | `gradien` | 18 | 13 |
+| 12 Sukatan Kecenderungan Memusat | `kecenderungan` | 30 | 27 |
+| 13 Kebarangkalian Mudah | `probalyt` | 18 | 12 |
 | 11 Transformasi Isometri | `isomove` | 42 | 26 |
-| 12, 13 | – | – | belum |

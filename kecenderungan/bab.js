@@ -23,7 +23,8 @@ const SUBDESC = {
   '12.1.1': 'Mod, median dan min bagi data tak terkumpul, jadual kekerapan dan plot titik',
   '12.1.2': 'Kesan tambah, tolak, darab, bahagi, tambah atau buang data dan nilai ekstrem',
   '12.1.3': 'Selang kelas, titik tengah, kelas mod dan min data terkumpul',
-  '12.1.4': 'Memilih sukatan yang paling sesuai, plot batang-dan-daun dan penyelesaian masalah'
+  '12.1.4': 'Memilih sukatan yang paling sesuai, plot batang-dan-daun dan penyelesaian masalah',
+  '12.1': 'Mod, median dan min, kesan perubahan data, data terkumpul dan pemilihan sukatan yang sesuai'
 };
 const SHORT = { '12.1.1': 'Mod, Median & Min', '12.1.2': 'Kesan Perubahan', '12.1.3': 'Data Terkumpul', '12.1.4': 'Memilih Sukatan' };
 const SUBSIM = { '12.1.1': 'plot-titik', '12.1.2': 'neraca-min', '12.1.3': 'data-terkumpul', '12.1.4': 'plot-titik' };

@@ -1,6 +1,7 @@
 # Penjana slaid NOTA PROBALYT (Tingkatan 2 Bab 13 Kebarangkalian Mudah) -> probalyt/slides.js
 # Jalankan:  python3 tools/probalyt/gen_slides.py
 # Gunakan HANYA warna palet gelap di bawah supaya mod cerah ditukar automatik oleh themed().
+raise SystemExit('Dipersarakan: nota Bab 13 kini dijana oleh alat/nota/bina_bab13_t2.py (ikut buku teks).')
 import json, os, html, math, re
 from fractions import Fraction as F
 
