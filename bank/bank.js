@@ -177,7 +177,7 @@ function viewKP() {
     <div class="bar">${['R', 'S', 'T'].map(k => `<i style="width:${pc(k)}%;background:${ARAS[k][1]}"></i>`).join('')}</div>
     <div class="lg"><span style="color:var(--R)">R ${pc('R')}%</span><span style="color:var(--S)">S ${pc('S')}%</span><span style="color:var(--T)">T ${pc('T')}%</span></div>
     <a class="ck pri btn" href="#/kertas">Susun, edit &amp; cetak</a>
-    <p class="hint">Disimpan dalam pelayar komputer ini.</p></aside>`;
+    <p class="hint">Disimpan dalam pelayar komputer ini. <a href="#" id="kAm">Amaran &amp; simpanan</a></p></aside>`;
 }
 function viewBank() {
   const list = filtered(), babs = BAB[ST.t];
@@ -370,6 +370,7 @@ function bind(ed) {
     else { p.items.push({ ref: id }); if (stOf(p) === 'A' && BYID[id].bhg !== 'A') toast('Ditambah, tetapi kertas ini Bahagian A sahaja: soalan ini tidak dicetak'); }
     save(); render(true);
   });
+  document.getElementById('kAm').onclick = e => { e.preventDefault(); amaran(true); };
   document.getElementById('kSel').onchange = e => { D.cur = e.target.value; save(); render(true); };
   document.getElementById('kNew').onclick = () => { const np = newPaper(D.papers.length + 1); D.papers.push(np); D.cur = np.id; save(); render(true); };
   document.getElementById('kRen').onclick = () => { const n = prompt('Nama kertas:', P().nama); if (n && n.trim()) { P().nama = n.trim().slice(0, 60); save(); render(true); } };
@@ -444,6 +445,28 @@ async function wordDownload(withSk) {
   } catch (e) { console.error(e); toast('Gagal menjana fail Word. Semak sambungan internet dan cuba lagi.'); }
   wBusy = false;
 }
+/* ---------- amaran kali pertama ---------- */
+const AKEY = 'terokamath-bank-setuju';
+function amaran(lihat) {
+  let ok = false; try { ok = localStorage.getItem(AKEY) === '1'; } catch (e) {}
+  if (ok && !lihat) return;
+  const m = document.createElement('div');
+  m.className = 'mdl'; m.setAttribute('role', 'dialog'); m.setAttribute('aria-modal', 'true'); m.setAttribute('aria-labelledby', 'amT');
+  m.innerHTML = `<div class="mbx"><h2 id="amT">Sebelum mula</h2>
+    <h3>⚠ Kertas disimpan dalam pelayar ini sahaja</h3>
+    <p>Kertas dan soalan yang cikgu susun atau tulis disimpan dalam pelayar komputer ini, bukan dalam akaun. Kerja cikgu boleh <b>hilang</b> jika:</p>
+    <ul><li>sejarah atau data pelayar dipadam</li><li>cikgu guna komputer atau pelayar lain</li><li>cikgu guna mod inkognito</li></ul>
+    <p>Muat turun fail <b>Word</b> sebagai simpanan selepas siap menyusun.</p>
+    <h3>⚠ Soalan bank dikongsi dengan guru lain</h3>
+    <p>Soalan dalam bank ini terbuka kepada semua pengguna TerokaMath. Guru lain mungkin guna soalan yang sama, dan murid mungkin pernah melihatnya. Untuk peperiksaan, <b>ubah suai</b> soalan atau gunakan soalan sendiri.</p>
+    ${ok ? '<div class="mft"><button class="ck pri" id="amGo">Tutup</button></div>'
+      : '<label class="mck"><input type="checkbox" id="amCk"> Saya faham dan bersetuju.</label><div class="mft"><button class="ck pri" id="amGo" disabled>Teruskan</button></div>'}</div>`;
+  document.body.appendChild(m);
+  const go = m.querySelector('#amGo'), ck = m.querySelector('#amCk');
+  if (ck) { ck.onchange = () => { go.disabled = !ck.checked; }; ck.focus(); } else go.focus();
+  go.onclick = () => { if (ck) { if (!ck.checked) return; try { localStorage.setItem(AKEY, '1'); } catch (e) {} } m.remove(); };
+  if (ok) m.onkeydown = e => { if (e.key === 'Escape') m.remove(); };
+}
 window.addEventListener('hashchange', () => render());
 window.addEventListener('afterprint', () => document.body.classList.remove('printing'));
-load(); render();
+load(); render(); amaran();
