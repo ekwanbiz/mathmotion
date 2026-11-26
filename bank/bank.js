@@ -85,11 +85,21 @@ function norm(q) {
 }
 /* item kertas → soalan lengkap (bank + suntingan) */
 function resolve(e) {
-  if (e.custom) return norm(Object.assign({ own: true }, e.custom));
-  const b = BYID[e.ref]; if (!b) return null;
-  const q = JSON.parse(JSON.stringify(b)), ed = e.ed || {};
-  Object.keys(ed).forEach(k => { if (/^[\w.]+$/.test(k) && (ed[k] == null || typeof ed[k] !== 'object')) setPath(q, k, ed[k]); });
-  return norm(q);
+  let q;
+  if (e.custom) q = norm(Object.assign({ own: true }, e.custom));
+  else {
+    const b = BYID[e.ref]; if (!b) return null;
+    const ed = e.ed || {}; q = JSON.parse(JSON.stringify(b));
+    Object.keys(ed).forEach(k => { if (/^[\w.]+$/.test(k) && (ed[k] == null || typeof ed[k] !== 'object')) setPath(q, k, ed[k]); });
+    norm(q);
+  }
+  // bahagian yang dibuang guru (e.off = indeks asal); _k = indeks asal untuk suntingan
+  if (q.parts) {
+    const off = e.off || [];
+    q.parts = q.parts.map((p, k) => Object.assign({}, p, { _k: k })).filter(p => !off.includes(p._k));
+    if (off.length) q.parts.forEach((p, i, a) => { p.l = a.length > 1 ? '(' + 'abcdefghij'[i] + ')' : ''; });
+  }
+  return q;
 }
 const marksOf = q => q.parts ? q.parts.reduce((a, p) => a + (+p.m || 0), 0) : (+q.m || 0);
 function arasMarks(q) {
@@ -244,11 +254,11 @@ function eiHTML(row, n, dw) {
     h += `<div class="opE qt">${q.pil.map((o, i) => `<div><b>${'ABCD'[i]}</b><span>${ce('pil.' + i, o, 'qt')}${cen(dw, 'pe.' + i, (q.pe || [])[i])}</span></div>`).join('')}</div>
       <div class="sk">Jawapan: <select data-p="jaw" aria-label="Jawapan">${'ABCD'.split('').map(x => `<option${q.jaw === x ? ' selected' : ''}>${x}</option>`).join('')}</select>${own ? ' &nbsp; Aras: ' + selA('aras', q.aras) : ''}</div>`;
   }
-  (q.parts || []).forEach((pt, k) => {
-    const P0 = 'parts.' + k + '.';
+  (q.parts || []).forEach(pt => {
+    const k = pt._k, P0 = 'parts.' + k + '.';
     h += `<div class="pe"><div class="peh">${ce(P0 + 'l', pt.l, 'pl', '(a)')}
       ${q.bhg === 'B' ? (own ? `<select data-p="${P0}jenis" aria-label="Bentuk">${Object.keys(JENIS).filter(j => j !== 'jadual').map(j => `<option value="${j}"${pt.jenis === j ? ' selected' : ''}>${JENIS[j]}</option>`).join('')}</select>` : `<span class="jn">${JENIS[pt.jenis] || ''}</span>`) : ''}
-      <span class="sp">${own ? selA(P0 + 'aras', pt.aras) : `<b class="a${pt.aras}">${ARAS[pt.aras] ? ARAS[pt.aras][0] : ''}</b>`}<input type="number" min="0" max="20" value="${+pt.m || 0}" data-p="${P0}m" aria-label="Markah"> m</span></div>
+      <span class="sp">${q.parts.length > 1 ? `<button class="ck sm rp" data-rmp="${idx},${k}" aria-label="Buang bahagian ${esc(pt.l)}" title="Buang bahagian ini daripada kertas">×</button>` : ''}${own ? selA(P0 + 'aras', pt.aras) : `<b class="a${pt.aras}">${ARAS[pt.aras] ? ARAS[pt.aras][0] : ''}</b>`}<input type="number" min="0" max="20" value="${+pt.m || 0}" data-p="${P0}m" aria-label="Markah"> m</span></div>
       ${ce(P0 + 'q', pt.q, 'qt', 'Soalan / arahan')}${cen(dw, P0 + 'qe', pt.qe)}${figH(pt.fig, pt.big)}${tbl(pt.jadual, dw)}`;
     if (q.bhg === 'B') {
       h += `<div class="itE qt${pt.jenis === 'pad' ? ' pd' : ''}">${(pt.items || []).map((x, j) => `<span class="n">${j + 1}</span><div>${ce(P0 + 'items.' + j + '.t', x.t, 'qt')}${cen(dw, P0 + 'items.' + j + '.te', x.te)}</div>
@@ -258,6 +268,7 @@ function eiHTML(row, n, dw) {
     } else h += `<div class="sk">Skema:</div>${ce(P0 + 'sk', pt.sk, 'qt ans', 'Skema jawapan')}`;
     h += '</div>';
   });
+  if ((e.off || []).length) h += `<button class="ck sm" data-rsp="${idx}" style="margin:6px 6px 0 0">↺ Pulihkan bahagian (${e.off.length})</button>`;
   if (own && q.bhg !== 'A') h += `<button class="ck sm" data-addpart="${idx}" style="margin-top:6px">+ Bahagian soalan</button>`;
   return h + '</div>';
 }
@@ -419,6 +430,11 @@ function bindEdit() {
   });
   app.querySelectorAll('[data-rm]').forEach(b => b.onclick = () => { p.items.splice(+b.dataset.rm, 1); save(); render(true); });
   app.querySelectorAll('[data-own]').forEach(b => b.onclick = () => { p.items.push({ custom: blank(b.dataset.own) }); save(); render(true); });
+  app.querySelectorAll('[data-rmp]').forEach(b => b.onclick = () => {
+    const [i, k] = b.dataset.rmp.split(',').map(Number), e = p.items[i];
+    e.off = (e.off || []).concat(k); save(); render(true);
+  });
+  app.querySelectorAll('[data-rsp]').forEach(b => b.onclick = () => { delete p.items[+b.dataset.rsp].off; save(); render(true); });
   app.querySelectorAll('[data-addpart]').forEach(b => b.onclick = () => {
     const c = norm(p.items[+b.dataset.addpart].custom), L = '(' + 'abcdefghij'[c.parts.length] + ')';
     c.parts.push(c.bhg === 'B' ? { l: L, jenis: 'isi', q: 'Arahan', m: 1, aras: 'R', items: [{ t: 'Soalan', a: 'Jawapan' }] } : { l: L, q: 'Tulis soalan.', m: 2, aras: 'S', sk: 'Skema jawapan' });
