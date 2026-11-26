@@ -57,6 +57,8 @@
 .kzin{padding:11px 13px;border-radius:12px;border:1.5px solid var(--bd);background:var(--surf2);color:var(--tx);font:inherit;font-size:16px;width:100%;box-sizing:border-box}
 .kzlbl{font-size:12.5px;font-weight:800;letter-spacing:.08em;color:var(--mu);margin:0 0 6px}
 .kzsw{display:flex;align-items:center;justify-content:space-between;gap:12px;font-weight:700}
+@keyframes kzflash{0%,60%{box-shadow:0 0 0 3px var(--gr);background:color-mix(in srgb,var(--gr) 14%,transparent)}100%{box-shadow:0 0 0 0 transparent;background:transparent}}
+.kzflash{animation:kzflash 1.8s ease-out 1}
 .kzlink{word-break:break-all;font-size:13px;padding:10px 12px;border-radius:12px;background:var(--surf2);border:1px dashed var(--bd)}
 .kzwrap{max-width:720px;margin:0 auto;padding:16px;display:flex;flex-direction:column;gap:14px;box-sizing:border-box;min-height:100dvh}
 .kzhd{display:flex;align-items:center;gap:10px}.kzhd img{width:36px;height:36px;border-radius:10px}.kzhd b{font-family:var(--head);font-size:18px}.kzhd small{display:block;color:var(--mu);font-weight:600;font-size:12px}
@@ -96,9 +98,9 @@
           <button type="button" class="btn sec" id="kzAdd"${n >= 30 ? ' disabled' : ''}>+ Tambah soalan</button></div>
       </section>
       <section class="pbox" style="display:flex;flex-direction:column;gap:10px">
-        <button type="button" class="btn pri big" id="kzGo"${n ? '' : ' disabled'}>Jana link kuiz</button>
-        ${KG.link ? `<div class="kzqrrow"><div class="kzqr" id="kzQr" aria-label="Kod QR link kuiz" role="img"></div><div class="kzqrbtns"><button type="button" class="btn sec" id="kzQrBig">Tunjuk QR besar</button><button type="button" class="btn sec" id="kzQrSave">Simpan QR</button></div></div><div class="kzlink" id="kzLink">${escH(KG.link)}</div><div class="prow"><button type="button" class="btn pri" id="kzCopy">Salin link</button>${navigator.share ? '<button type="button" class="btn sec" id="kzShare">Kongsi</button>' : ''}<a class="btn sec" href="${escH(KG.link)}" target="_blank" rel="noopener">Cuba sebagai murid</a></div>
-          <p style="margin:0;color:var(--mu);font-size:14px">Jika guru ubah soalan, jana link baharu dan hantar semula.</p>` : ''}
+        <button type="button" class="btn ${KG.link ? 'sec' : 'pri'} big" id="kzGo"${n ? '' : ' disabled'}>${KG.link ? '✓ Link sudah dijana · Jana semula' : 'Jana link kuiz'}</button>
+        ${KG.link ? `<div id="kzHasil" style="display:flex;flex-direction:column;gap:10px;border-radius:16px"><div class="kzqrrow"><div class="kzqr" id="kzQr" aria-label="Kod QR link kuiz" role="img"></div><div class="kzqrbtns"><button type="button" class="btn sec" id="kzQrBig">Tunjuk QR besar</button><button type="button" class="btn sec" id="kzQrSave">Simpan QR</button></div></div><div class="kzlink" id="kzLink">${escH(KG.link)}</div><div class="prow"><button type="button" class="btn pri" id="kzCopy">Salin link</button>${navigator.share ? '<button type="button" class="btn sec" id="kzShare">Kongsi</button>' : ''}<a class="btn sec" href="${escH(KG.link)}" target="_blank" rel="noopener">Cuba sebagai murid</a></div>
+          <p style="margin:0;color:var(--mu);font-size:14px">Jika guru ubah soalan, jana link baharu dan hantar semula.</p></div>` : ''}
       </section>
 </div>`;
   }
@@ -120,6 +122,9 @@
     document.getElementById('kzGo').onclick = () => {
       DR.t = (DR.t || '').trim() || 'Kuiz ' + BAB.tajuk; DR.p = Math.min(DR.p, DR.q.length); saveDR();
       KG.link = location.href.split('#')[0] + '#/q/' + quizCode(DR); re();
+      toast('Link kuiz siap ✓');
+      const h = document.getElementById('kzHasil');
+      if (h) { h.scrollIntoView({ behavior: 'smooth', block: 'center' }); h.classList.remove('kzflash'); void h.offsetWidth; h.classList.add('kzflash'); }
     };
     const cp = document.getElementById('kzCopy'); if (cp) cp.onclick = () => { (navigator.clipboard ? navigator.clipboard.writeText(KG.link) : Promise.reject()).then(() => toast('Link disalin'), () => { const r = document.createRange(); r.selectNodeContents(document.getElementById('kzLink')); getSelection().removeAllRanges(); getSelection().addRange(r); toast('Pilih dan salin link'); }); };
     if (KG.link) qrInto(document.getElementById('kzQr'), KG.link);
