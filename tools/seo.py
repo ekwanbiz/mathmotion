@@ -71,11 +71,11 @@ def main(meta_path):
     hld = {'@context': 'https://schema.org', '@type': 'WebSite', 'name': 'TerokaMath', 'url': SITE, 'inLanguage': 'ms', 'description': hdesc,
            'image': OGIMG, 'audience': {'@type': 'EducationalAudience', 'educationalRole': ['teacher', 'student']}}
     hbody = ('<h1>TerokaMath – Simulasi Matematik KSSM Tingkatan 1 hingga 5</h1><p>Teroka. Faham. Kuasai. ' + E(hdesc) + '</p>'
-             + groups + '<p><a href="/game/">Game Matematik TerokaMath</a></p>')
+             + groups + '<p><a href="/bank/">Bank Soalan Matematik Tingkatan 1–3 (UASA)</a> · <a href="/game/">Game Matematik TerokaMath</a></p>')
     patch(os.path.join(ROOT, 'index.html'), 'TerokaMath – Simulasi Matematik KSSM Tingkatan 1 hingga 5', hdesc, SITE, hld, hbody)
 
     today = datetime.date.today().isoformat()
-    urls = [SITE] + [f'{SITE}{cid}/' for cid, _ in chs] + [f'{SITE}game/']
+    urls = [SITE] + [f'{SITE}{cid}/' for cid, _ in chs] + [f'{SITE}bank/', f'{SITE}game/']
     open(os.path.join(ROOT, 'sitemap.xml'), 'w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
         + ''.join(f'  <url><loc>{u}</loc><lastmod>{today}</lastmod></url>\n' for u in urls) + '</urlset>\n')
     open(os.path.join(ROOT, 'robots.txt'), 'w').write(f'User-agent: *\nAllow: /\n\nSitemap: {SITE}sitemap.xml\n')
