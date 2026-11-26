@@ -14,7 +14,7 @@ def fr(a, b):
 
 
 def sq(x):
-    return f'√<span style="border-top:2px solid currentColor;padding:0 3px">{x}</span>'
+    return f'√<span style="display:inline-block;border-top:2px solid currentColor;padding:2px 3px 0;line-height:1.15">{x}</span>'
 
 
 PI = fr('22', '7')
