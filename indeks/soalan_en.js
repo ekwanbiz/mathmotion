@@ -1,6 +1,6 @@
 'use strict';
-/* =================== INDEKS · SOALAN BAB 1 INDEKS (Tingkatan 3) · ENGLISH (DLP) ===================
-   Dijana daripada soalan.js oleh alat/nota/terjemah_soalan.py; jangan sunting dengan tangan. */
+/* =================== INDEKS · SOALAN BAB 1 INDEKS (Tingkatan 3) · ENGLISH (DLP) =================== */
+/* Dijana oleh alat/en/soalan_indeks_en.py; jangan sunting dengan tangan. */
 // QV: cara tanya · GEN: Latihan Kelas · WG/WSPLAN: bank Lembaran Kerja · gq: Cabaran 60 Saat · CQT/cq: game kelas
 // Dimuat selepas teras/asas.js. Semua nama global di sini berawalan "ix" / "IX" supaya tidak bertembung dengan teras.
 // Tatatanda dalaman: '^{..}' = superskrip. ixOut() menukarnya kepada <sup> sebelum soalan dipaparkan.
@@ -740,10 +740,10 @@ const CQGEN = {
       return ixMcq('Write in index form.', ixCard(ixRep(b, n), 'INDEX FORM'), ixOpts(ans, [b.k === 'var' ? `${n}${b.a}` : `${n}^{${b.v}}`, ixPS(b, n + 1), ixPS(b, n - 1), `${b.s} × ${n}`], k => ixPS(b, n + k + 1)));
     },
     () => {
-      if (Math.random() < .35) { const a = ri(2, 5), n = pick([2, 4]), X = `−${a}^{${n}}`, v = ixPw(a, n); return ixMcq(`What is the value of ${X}?`, ixCard(X, 'NILAI'), ixOpts(fmt(-v), [fmt(v), fmt(-a * n), fmt(a * n)], k => ixNear(-v, k))); }
+      if (Math.random() < .35) { const a = ri(2, 5), n = pick([2, 4]), X = `−${a}^{${n}}`, v = ixPw(a, n); return ixMcq(`What is the value of ${X}?`, ixCard(X, 'VALUE'), ixOpts(fmt(-v), [fmt(v), fmt(-a * n), fmt(a * n)], k => ixNear(-v, k))); }
       let a, n; do { a = ri(2, 9); n = ri(2, 5); } while (ixPw(a, n) > 3000 || (a === 2 && n === 2));
       const neg = Math.random() < .3 ? -1 : 1, A = neg * a, X = neg < 0 ? `(${fmt(A)})^{${n}}` : `${a}^{${n}}`, v = ixPw(A, n);
-      return ixMcq(`What is the value of ${X}?`, ixCard(X, 'NILAI'), ixOpts(fmt(v), [fmt(A * n), fmt(-v), fmt(ixPw(A, n - 1)), fmt(ixPw(n, a))], k => ixNear(v, k)));
+      return ixMcq(`What is the value of ${X}?`, ixCard(X, 'VALUE'), ixOpts(fmt(v), [fmt(A * n), fmt(-v), fmt(ixPw(A, n - 1)), fmt(ixPw(n, a))], k => ixNear(v, k)));
     },
     () => {
       if (Math.random() < .5) {
@@ -759,27 +759,27 @@ const CQGEN = {
   darabBahagi: [
     () => {
       const b = pick(IXNB); let m, n; do { m = ri(2, 8); n = ri(2, 8); } while (m * n === m + n);
-      if (Math.random() < .5) { const E = `${b}^{${m}} × ${b}^{${n}}`; return ixMcq(`Simplify ${E}.`, ixCard(E, 'DARAB'), ixOpts(`${b}^{${m + n}}`, [`${b}^{${m * n}}`, isNaN(+b) ? `${b}^{${m + n + 1}}` : `${+b * +b}^{${m + n}}`, `${b}^{${Math.abs(m - n) || 1}}`], k => `${b}^{${m + n + k}}`)); }
+      if (Math.random() < .5) { const E = `${b}^{${m}} × ${b}^{${n}}`; return ixMcq(`Simplify ${E}.`, ixCard(E, 'MULTIPLY'), ixOpts(`${b}^{${m + n}}`, [`${b}^{${m * n}}`, isNaN(+b) ? `${b}^{${m + n + 1}}` : `${+b * +b}^{${m + n}}`, `${b}^{${Math.abs(m - n) || 1}}`], k => `${b}^{${m + n + k}}`)); }
       const M = Math.max(m, n) + 2, N = Math.min(m, n), E = `${b}^{${M}} ÷ ${b}^{${N}}`;
-      return ixMcq(`Simplify ${E}.`, ixCard(E, 'BAHAGI'), ixOpts(`${b}^{${M - N}}`.replace('^{1}', ''), [`${b}^{${M + N}}`, M % N === 0 ? `${b}^{${M / N}}` : `${b}^{${M * N}}`, `${b}^{${fmt(N - M)}}`], k => `${b}^{${M - N + k}}`));
+      return ixMcq(`Simplify ${E}.`, ixCard(E, 'DIVIDE'), ixOpts(`${b}^{${M - N}}`.replace('^{1}', ''), [`${b}^{${M + N}}`, M % N === 0 ? `${b}^{${M / N}}` : `${b}^{${M * N}}`, `${b}^{${fmt(N - M)}}`], k => `${b}^{${M - N + k}}`));
     },
     () => {
       const v = pick(IXL), c1 = ri(2, 6), c2 = ri(2, 6); let m, n; do { m = ri(1, 6); n = ri(2, 6); } while (m * n === m + n);
-      if (Math.random() < .5) { const E = `${ixMono(c1, [[v, m]])} × ${ixMono(c2, [[v, n]])}`; return ixMcq(`Simplify ${E}.`, ixCard(E, 'DARAB'), ixOpts(ixMono(c1 * c2, [[v, m + n]]), [ixMono(c1 + c2, [[v, m + n]]), ixMono(c1 * c2, [[v, m * n]]), ixMono(c1 + c2, [[v, m * n]])], k => ixMono(c1 * c2, [[v, m + n + k]]))); }
+      if (Math.random() < .5) { const E = `${ixMono(c1, [[v, m]])} × ${ixMono(c2, [[v, n]])}`; return ixMcq(`Simplify ${E}.`, ixCard(E, 'MULTIPLY'), ixOpts(ixMono(c1 * c2, [[v, m + n]]), [ixMono(c1 + c2, [[v, m + n]]), ixMono(c1 * c2, [[v, m * n]]), ixMono(c1 + c2, [[v, m * n]])], k => ixMono(c1 * c2, [[v, m + n + k]]))); }
       const k0 = ri(2, 5), C1 = c2 * k0, M = m + n, E = `${ixMono(C1, [[v, M]])} ÷ ${ixMono(c2, [[v, n]])}`;
-      return ixMcq(`Simplify ${E}.`, ixCard(E, 'BAHAGI'), ixOpts(ixMono(k0, [[v, m]]), [ixMono(C1 - c2, [[v, m]]), ixMono(k0, [[v, M + n]]), M % n === 0 ? ixMono(k0, [[v, M / n]]) : ixMono(C1 - c2, [[v, M + n]])], k => ixMono(k0, [[v, m + k]])));
+      return ixMcq(`Simplify ${E}.`, ixCard(E, 'DIVIDE'), ixOpts(ixMono(k0, [[v, m]]), [ixMono(C1 - c2, [[v, m]]), ixMono(k0, [[v, M + n]]), M % n === 0 ? ixMono(k0, [[v, M / n]]) : ixMono(C1 - c2, [[v, M + n]])], k => ixMono(k0, [[v, m + k]])));
     },
     () => {
       const b = pick([2, 3, 5, 10]); let m, n, p, e; do { m = ri(2, 9); n = ri(1, 7); p = ri(2, 12); e = m + n - p; } while (e < 0 || ixPw(b, e) > 1000);
       const E = `${b}^{${m}} × ${b}^{${n}} ÷ ${b}^{${p}}`, v = ixPw(b, e);
-      return ixMcq(`Calculate the value of ${E}.`, ixCard(E, 'NILAI'), ixOpts(fmt(v), [fmt(ixPw(b, e + 1)), fmt(b * e), e > 0 ? fmt(ixPw(b, e - 1)) : '0', fmt(ixPw(b, m + n + p) > 1e6 ? b * (m + n) : ixPw(b, m + n))], k => ixNear(v, k)));
+      return ixMcq(`Calculate the value of ${E}.`, ixCard(E, 'VALUE'), ixOpts(fmt(v), [fmt(ixPw(b, e + 1)), fmt(b * e), e > 0 ? fmt(ixPw(b, e - 1)) : '0', fmt(ixPw(b, m + n + p) > 1e6 ? b * (m + n) : ixPw(b, m + n))], k => ixNear(v, k)));
     }
   ],
   kuasaSifar: [
     () => {
       const b = pick(IXNB); let m, n; do { m = ri(2, 6); n = ri(2, 5); } while (m * n === m + n);
       const E = `(${b}^{${m}})^{${n}}`;
-      return ixMcq(`Simplify ${E}.`, ixCard(E, 'KUASA'), ixOpts(`${b}^{${m * n}}`, [`${b}^{${m + n}}`, `${b}^{${ixPw(m, n) <= 999 ? ixPw(m, n) : m * n + 1}}`, `${b}^{${Math.abs(m - n) || m + 1}}`], k => `${b}^{${m * n + k}}`));
+      return ixMcq(`Simplify ${E}.`, ixCard(E, 'POWER'), ixOpts(`${b}^{${m * n}}`, [`${b}^{${m + n}}`, `${b}^{${ixPw(m, n) <= 999 ? ixPw(m, n) : m * n + 1}}`, `${b}^{${Math.abs(m - n) || m + 1}}`], k => `${b}^{${m * n + k}}`));
     },
     () => {
       if (Math.random() < .35) { const a = ri(2, 99), v = pick(IXL), c = ri(2, 9), f = Math.random() < .5; const E = f ? `${a}^{0}` : `${c}${v}^{0}`; return ixMcq(`What is the value of ${E}?`, ixCard(E, 'ZERO INDEX'), ixOpts(f ? '1' : String(c), f ? ['0', String(a), fmt(-1)] : ['1', '0', `${c}${v}`], k => String(k + 2))); }
@@ -789,7 +789,7 @@ const CQGEN = {
     },
     () => {
       const v = pick(IXL); let c, m, n; do { c = ri(2, 5); m = ri(2, 5); n = ri(2, 3); } while (ixPw(c, n) > 125);
-      if (Math.random() < .5) { const E = `(${ixMono(c, [[v, m]])})^{${n}}`; return ixMcq(`Simplify ${E}.`, ixCard(E, 'KUASA'), ixOpts(ixMono(ixPw(c, n), [[v, m * n]]), [ixMono(c, [[v, m * n]]), ixMono(c * n, [[v, m * n]]), ixMono(ixPw(c, n), [[v, m + n]])], k => ixMono(ixPw(c, n), [[v, m * n + k]]))); }
+      if (Math.random() < .5) { const E = `(${ixMono(c, [[v, m]])})^{${n}}`; return ixMcq(`Simplify ${E}.`, ixCard(E, 'POWER'), ixOpts(ixMono(ixPw(c, n), [[v, m * n]]), [ixMono(c, [[v, m * n]]), ixMono(c * n, [[v, m * n]]), ixMono(ixPw(c, n), [[v, m + n]])], k => ixMono(ixPw(c, n), [[v, m * n + k]]))); }
       let p, q, k0; do { [p, q] = pick(IXFRB); k0 = ri(1, 3); } while (ixPw(Math.max(p, q), k0) > 500);
       const E = `(${p}/${q})^{${fmt(-k0)}}`, A = ixFr(ixPw(q, k0), ixPw(p, k0));
       return ixMcq(`What is the value of ${E}?`, ixCard(E, 'NEGATIVE INDEX'), ixOpts(A, [ixFr(ixPw(p, k0), ixPw(q, k0)), '−' + ixFr(ixPw(p, k0), ixPw(q, k0)), '−' + A, ixFr(q * k0, p)], k => ixFr(ixPw(q, k0) + k, ixPw(p, k0))));
@@ -808,7 +808,7 @@ const CQGEN = {
     () => {
       const d = ixPersData(ixRG), x = d.x, num = x.includes('/') ? null : parseInt(x.replace('−', '-'), 10);
       const c = x.includes('/') ? [`x = ${x.split('/').reverse().join('/')}`, `x = ${x.split('/')[0]}`, `x = ${d.wrong}`, `x = −${x}`] : [`x = ${fmt(-num)}`, `x = ${d.wrong}`, `x = ${fmt(num + 1)}`, `x = ${fmt(num - 1)}`];
-      return ixMcq(`Solve ${d.E}.`, ixCard(d.E, 'SELESAIKAN'), ixOpts(`x = ${x}`, c, k => `x = ${fmt((num || 0) + k + 2)}`));
+      return ixMcq(`Solve ${d.E}.`, ixCard(d.E, 'SOLVE'), ixOpts(`x = ${x}`, c, k => `x = ${fmt((num || 0) + k + 2)}`));
     }
   ]
 };

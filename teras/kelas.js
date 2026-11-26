@@ -32,7 +32,9 @@ function cqAnim(q) { setTimeout(() => { if (q.rot) rotAnim(q.rot); else if (q.an
 
 /* =================== PERTANDINGAN KUMPULAN =================== */
 const KNAMES = [['Merah', 'rd'], ['Biru', 'tr'], ['Hijau', 'gr'], ['Kuning', 'am'], ['Ungu', 'pu'], ['Oren', 'pa']];
-const K = { st: 'setup', n: 4, total: 10, time: 30, types: Object.keys(CQT), names: KNAMES.map(k => 'Kumpulan ' + k[0]), teams: [], qi: 0, q: null, shown: false, got: [], bonus: false, end: 0, timer: 0, lastBonus: -9 };
+const KNAMES_EN = ['Red', 'Blue', 'Green', 'Yellow', 'Purple', 'Orange'];
+const kDefName = i => (typeof tmEN !== 'undefined' && tmEN) ? 'Team ' + KNAMES_EN[i] : 'Kumpulan ' + KNAMES[i][0];
+const K = { st: 'setup', n: 4, total: 10, time: 30, types: Object.keys(CQT), names: KNAMES.map((k, i) => kDefName(i)), teams: [], qi: 0, q: null, shown: false, got: [], bonus: false, end: 0, timer: 0, lastBonus: -9 };
 try { const s0 = store().kumpulan; if (s0) Object.assign(K, { n: s0.n || 4, total: s0.total || 10, time: s0.time == null ? 30 : s0.time, types: s0.types && s0.types.length ? s0.types : K.types, names: s0.names || K.names }); } catch (e) {}
 const kSave = () => save({ kumpulan: { n: K.n, total: K.total, time: K.time, types: K.types, names: K.names } });
 function kNewQ() {
@@ -59,7 +61,7 @@ function viewKumpulan() {
       ${gBack() ? `<div>${gBack()}</div>` : ''}<div><p class="eyebrow" style="color:var(--pa)">KUMPULAN</p><h1 class="h1">Pertandingan Kumpulan</h1></div>
       <div class="ksetup">
         <section class="pbox"><h3>BILANGAN KUMPULAN</h3><div class="opts" style="grid-template-columns:repeat(5,minmax(0,1fr))">${[2, 3, 4, 5, 6].map(v => opt('n', v, v)).join('')}</div>
-          <h3 style="margin-top:6px">NAMA KUMPULAN</h3><div class="knames">${Array.from({ length: K.n }, (_, i) => `<label class="kname" style="--c:var(--${KNAMES[i][1]})"><i></i><input type="text" data-kn="${i}" value="${esc(K.names[i] || 'Kumpulan ' + KNAMES[i][0])}" aria-label="Nama kumpulan ${i + 1}" maxlength="24"></label>`).join('')}</div></section>
+          <h3 style="margin-top:6px">NAMA KUMPULAN</h3><div class="knames">${Array.from({ length: K.n }, (_, i) => `<label class="kname" style="--c:var(--${KNAMES[i][1]})"><i></i><input type="text" data-kn="${i}" value="${esc(K.names[i] || kDefName(i))}" aria-label="Nama kumpulan ${i + 1}" maxlength="24"></label>`).join('')}</div></section>
         <section class="pbox"><h3>BILANGAN SOALAN</h3><div class="opts" style="grid-template-columns:repeat(4,minmax(0,1fr))">${[5, 10, 15, 20].map(v => opt('total', v, v)).join('')}</div>
           <h3 style="margin-top:6px">MASA SETIAP SOALAN</h3><div class="opts" style="grid-template-columns:repeat(4,minmax(0,1fr))">${[[15, '15 s'], [30, '30 s'], [60, '60 s'], [0, 'Tanpa']].map(([v, t]) => opt('time', v, t)).join('')}</div>
           <h3 style="margin-top:6px">JENIS SOALAN</h3><div class="ktypes">${Object.keys(CQT).map(k => `<label class="ajchk"><input type="checkbox" data-kt="${k}"${K.types.includes(k) ? ' checked' : ''}>${CQT[k]}</label>`).join('')}</div></section>
@@ -97,7 +99,7 @@ function bindKumpulan() {
     m.querySelectorAll('[data-kn]').forEach(inp => inp.oninput = () => { K.names[+inp.dataset.kn] = inp.value; kSave(); });
     m.querySelectorAll('[data-kt]').forEach(c => c.onchange = () => { const t = c.dataset.kt; K.types = c.checked ? [...new Set(K.types.concat(t))] : K.types.filter(x => x !== t); kSave(); render(true); });
     document.getElementById('kGo').onclick = () => {
-      K.teams = Array.from({ length: K.n }, (_, i) => ({ name: (K.names[i] || '').trim() || 'Kumpulan ' + KNAMES[i][0], score: 0 }));
+      K.teams = Array.from({ length: K.n }, (_, i) => ({ name: (K.names[i] || '').trim() || kDefName(i), score: 0 }));
       K.qi = 0; K.lastBonus = -9; K.st = 'play'; snd('tap'); kNewQ(); render(true);
     };
     return;
