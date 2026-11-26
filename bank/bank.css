@@ -61,7 +61,7 @@ a{color:var(--brandM)}
 .tb{border-collapse:collapse;margin-top:8px;font-size:14px}
 .tb td,.tb th{border:1.5px solid var(--line);padding:5px 10px;text-align:center}
 .tb td:first-child{text-align:left}
-.pad{display:grid;grid-template-columns:minmax(0,1fr) 40px 80px;gap:6px 10px;align-items:center;margin-top:8px;max-width:520px}
+.pad{display:grid;grid-template-columns:minmax(0,1fr) 60px minmax(110px,auto);gap:6px 10px;align-items:center;margin-top:8px;max-width:560px}
 .pad .r{border:1.5px solid var(--line);border-radius:8px;padding:4px 8px;text-align:center}
 .pt{margin-top:8px;display:grid;grid-template-columns:56px minmax(0,1fr) 70px;gap:4px 8px}
 .pt .l{font-weight:700}.pt .m{text-align:right;color:var(--p);font-size:13px;white-space:nowrap}
@@ -138,3 +138,76 @@ a{color:var(--brandM)}
 .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#14152B;color:#fff;padding:10px 18px;border-radius:12px;font-weight:800;transition:.2s;z-index:50}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 #print h3{break-after:avoid}
+/* ===== v135: dwibahasa, B/C pelbagai, struktur, kulit ===== */
+.en{font-style:italic;color:var(--p);font-size:.93em;line-height:1.45}
+.ch>span{display:inline-block;padding:0 .45em}
+.ch>span+span::before{content:'/';margin:0 .55em 0 -.45em;opacity:.55;font-style:normal}
+.bq,.cq{display:grid;grid-template-columns:40px minmax(0,1fr);gap:0 6px;margin-top:10px}
+.bq .l,.cq .l{font-weight:700;font-family:Inter,sans-serif;font-size:15px}
+.bq .mk,.cq .m{text-align:right;color:var(--p);font-size:13px;white-space:nowrap;font-family:Inter,sans-serif}
+.li{margin:6px 0 0;padding-left:30px;list-style:lower-roman}.li li{margin-bottom:4px}.li.one{list-style:none;padding-left:0}
+.tb.bt td:first-child{min-width:260px}.tb .bx{width:96px}
+.box{display:inline-block;width:18px;height:18px;border:1.5px solid currentColor;border-radius:3px;vertical-align:middle}
+.tb .bl{min-width:48px}.tb th{font-weight:700}
+.pad .dt{text-align:center;color:var(--p)}
+.fig.big svg{max-width:420px}
+.kd{display:flex;gap:6px;flex-wrap:wrap}.kd span{width:32px;height:42px;border:1.5px solid currentColor;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-family:Inter,sans-serif}
+.an .skp{margin-bottom:4px}.an .mm,#print .mm{color:var(--p);font-size:.85em}
+.kp .sec b.sm{font-size:12px;text-align:right}
+.hint.em{color:var(--p);font-weight:700}
+/* editor */
+.set{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;background:var(--card);border:2px solid var(--line);border-radius:16px;padding:12px 14px;margin-bottom:12px}
+.set>div{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.lb{font-size:11.5px;font-weight:900;letter-spacing:.06em;color:var(--p)}
+.seg{display:inline-flex;border:2px solid var(--line);border-radius:12px;overflow:hidden}
+.seg button{border:0;background:var(--card);color:var(--p);font-weight:800;font-size:13px;padding:8px 12px;cursor:pointer}
+.seg button+button{border-left:2px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--blue);color:#fff}
+.ed details.hdr{display:block;padding:0}
+.ed details.hdr summary{cursor:pointer;padding:12px 14px;font-weight:900;font-size:15px}
+.ed details.hdr summary small{font-weight:700;color:var(--p);font-size:12px;margin-left:6px}
+.ed .hg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:0 14px 14px}
+@media(max-width:700px){.ed .hg{grid-template-columns:1fr 1fr}}
+.arx{font-weight:700;letter-spacing:0;font-size:12px}
+.chk{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center}
+.chk label{flex-direction:row!important;align-items:center;gap:6px!important;font-size:13px!important;letter-spacing:0!important;color:var(--h)!important;font-weight:700!important}
+.pe{border-top:1.5px dashed var(--line);margin-top:8px;padding-top:8px}
+.peh{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.peh .pl{font-weight:800;min-width:40px;font-family:Inter,sans-serif}
+.peh .jn{font-size:12px;font-weight:800;color:var(--B)}
+.peh .sp{margin-left:auto;display:flex;align-items:center;gap:6px;font-size:13px;font-weight:800;color:var(--p)}
+.peh select,.ei .sk select{height:30px;border-radius:8px;border:2px solid var(--line);background:var(--card2);font-weight:800;font-size:13px}
+.peh input{width:52px;height:30px;border-radius:8px;border:2px solid var(--line);background:var(--card2);text-align:center}
+.itE{display:grid;grid-template-columns:24px minmax(0,1fr) minmax(90px,.45fr);gap:4px 8px;margin:6px 0;align-items:start}
+.itE.pd{grid-template-columns:24px minmax(0,1fr) minmax(0,.7fr) minmax(90px,.45fr)}
+.itE .n{color:var(--p);font-weight:800;padding-top:3px}
+.ans{color:var(--ok)}
+[data-ph]:empty::before{content:attr(data-ph);color:var(--ghost);font-style:italic}
+/* cetak: kulit */
+#print .cv{margin-bottom:10px}
+#print .cv.pg{break-after:page}
+#print .cvT{text-align:center;font-weight:700;font-size:13pt;text-transform:uppercase}
+#print .cvS{text-align:center;font-weight:700;font-size:12pt;margin-top:2px}
+#print .cvA{text-align:center;font-size:10.5pt}
+#print .cvK{border-collapse:collapse;margin:12px auto 8px}
+#print .cvK td{border:1.5px solid #000;padding:8px 18px;text-align:center;font-size:11pt}
+#print .cvK td b{font-size:14pt}#print .kd2{font-size:14pt;font-weight:700;margin-left:6px}
+#print .cvJ{text-align:center;font-weight:700;font-size:10.5pt;margin:10px 0}
+#print .cvG{margin-top:10px}
+#print .cvG .pem{margin:12px 0 0 auto}
+#print .cvG .ar{margin:0}
+#print .cvN{margin-top:14px;font-size:9.5pt;text-align:center}
+#print .pem{border-collapse:collapse;font-size:9.5pt}
+#print .pem th,#print .pem td{border:1px solid #000;padding:3px 8px;text-align:center;min-width:34px}
+#print .pem td:last-child{min-width:70px}
+#print h3.nb{break-before:page}
+#print .pq.lg{break-inside:auto}
+#print .bq,#print .cq{break-inside:avoid}
+#print .ja{font-size:9.5pt;font-weight:700;margin-top:4px}
+#print .en{color:#333}
+#print .li li{margin-bottom:8px}
+#print .tb.bt td{padding:7px 10px}
+#print .end{text-align:center;font-weight:700;margin-top:18px;font-size:10.5pt}
+#print .skp{margin-bottom:4px}
+#print .fig svg{max-width:62mm}#print .fig.big svg{width:120mm;max-width:none;height:auto}
+.en[data-ph]:empty::before{opacity:.55}
