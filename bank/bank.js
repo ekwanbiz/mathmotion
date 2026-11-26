@@ -20,11 +20,11 @@ const BHG = { A: ['A', 'Objektif', 'var(--A)'], B: ['B', 'Pelbagai bentuk', 'var
 const ARAS = { R: ['Rendah', 'var(--R)'], S: ['Sederhana', 'var(--S)'], T: ['Tinggi', 'var(--T)'] };
 const JENIS = { bp: 'Benar/Palsu', tanda: 'Tandakan', bulat: 'Bulatkan', garis: 'Gariskan', isi: 'Isi tempat kosong', pad: 'Padanan', label: 'Label', jadual: 'Lengkapkan jadual' };
 const STR = { ABC: 'Bahagian A, B, C', A: 'Bahagian A sahaja', kuiz: 'Tanpa bahagian (Kuiz)' };
-const ON = { kotak: 'Kotak mata pelajaran', jangan: '“Jangan buka…”', nama: 'Nama & kelas', arahan: 'Arahan', pem: 'Jadual pemeriksa', nota: 'Nota halaman', kulit: 'Kulit satu halaman', tamat: '“Kertas soalan tamat”' };
+const ON = { logo: 'Logo', kotak: 'Mata pelajaran & masa', nama: 'Nama & kelas', kp: 'No. Kad Pengenalan', jangan: '“Jangan buka…”', arahan: 'Arahan', pem: 'Jadual pemeriksa', nota: 'Nota halaman', kulit: 'Kulit satu halaman', tamat: '“Kertas soalan tamat”' };
 const DEFON = {
-  ABC: { kotak: 1, jangan: 1, nama: 1, arahan: 1, pem: 1, nota: 1, kulit: 1, tamat: 1 },
-  A: { kotak: 1, jangan: 0, nama: 1, arahan: 1, pem: 1, nota: 0, kulit: 0, tamat: 1 },
-  kuiz: { kotak: 1, jangan: 0, nama: 1, arahan: 1, pem: 0, nota: 0, kulit: 0, tamat: 0 }
+  ABC: { logo: 1, kotak: 1, kp: 1, jangan: 1, nama: 1, arahan: 1, pem: 1, nota: 1, kulit: 1, tamat: 1 },
+  A: { logo: 1, kotak: 1, kp: 0, jangan: 0, nama: 1, arahan: 1, pem: 1, nota: 0, kulit: 0, tamat: 1 },
+  kuiz: { logo: 1, kotak: 1, kp: 0, jangan: 0, nama: 1, arahan: 1, pem: 0, nota: 0, kulit: 0, tamat: 0 }
 };
 const ROM = ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii', 'ix', 'x'];
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -228,8 +228,8 @@ function kepala(p) {
   const k = p.kepala || {}, st = stOf(p), t = tingOf(p), dw = !!p.dw, d = (x, v) => k[x] != null ? k[x] : v;
   return {
     tajuk: d('tajuk', ''), sekolah: d('sekolah', ''), alamat: d('alamat', ''), mp: d('mp', 'MATEMATIK'), kod: d('kod', ''),
-    ting: d('ting', dw ? `Tingkatan ${t} / Form ${t}` : `Tingkatan ${t}`), masa: d('masa', st === 'ABC' ? (dw ? '2 jam / 2 hours' : '2 jam') : ''),
-    tarikh: d('tarikh', ''), nota: d('nota', 'Kertas soalan ini mengandungi ___ halaman bercetak.'),
+    ting: d('ting', dw ? `TINGKATAN ${t} / FORM ${t}` : `TINGKATAN ${t}`), masa: d('masa', st === 'ABC' ? (dw ? '2 jam / 2 hours' : '2 jam') : ''),
+    tarikh: d('tarikh', ''), logo: k.logo || '', nota: d('nota', 'Kertas soalan ini mengandungi ___ halaman bercetak.'),
     arahan: k.arahan != null ? String(k.arahan).split('\n').filter(x => x.trim()).map(x => [x, '']) : defAr(st)
   };
 }
@@ -291,6 +291,8 @@ function viewEdit() {
       <div><span class="lb">BAHASA</span><button class="chip" id="eDw" aria-pressed="${dw}" style="--c:var(--blue)">${dw ? '✓ ' : ''}Dwibahasa (BM + BI)</button></div></div>
     <details class="hdr"${k.buka === false ? '' : ' open'} id="eKul"><summary>Kulit kertas <small>semua boleh diubah ikut format sekolah</small></summary><div class="hg">
       ${fld('tajuk', 'TAJUK UJIAN', 'UJIAN AKHIR SESI AKADEMIK 2026', 'full')}${fld('sekolah', 'NAMA SEKOLAH', 'SMK …', 'full')}${fld('alamat', 'ALAMAT / DAERAH', '', 'full')}
+      <div class="full lg"><span class="lb">LOGO SEKOLAH</span>${K.logo ? `<img src="${K.logo}" alt="Logo sekolah">` : '<span class="hint em">Tiada logo</span>'}
+        <label class="ck sm up">${K.logo ? 'Tukar logo' : 'Muat naik logo'}<input type="file" id="eLogo" accept="image/png,image/jpeg,image/webp" hidden></label>${K.logo ? '<button class="ck sm" id="eLogoX">Buang</button>' : ''}</div>
       ${fld('mp', 'MATA PELAJARAN')}${fld('kod', 'KOD', '50')}${fld('ting', 'TINGKATAN')}${fld('masa', 'MASA', '1 jam')}${fld('tarikh', 'TARIKH')}${fld('nota', 'NOTA BAWAH', '', 'full')}
       <label class="full">ARAHAN (satu baris satu arahan)<textarea data-h="arahan" rows="5">${esc(K.arahan.map(a => a[0]).join('\n'))}</textarea>
         <span class="arx">${k.arahan != null ? '<button class="ck sm" id="eArR">↺ Arahan asal</button>' : dw ? 'Arahan asal dicetak dengan terjemahan BI.' : ''}</span></label>
@@ -315,18 +317,17 @@ function pemHTML(secs, dw) {
 function coverHTML(p, secs, withSk) {
   const K = kepala(p), dw = !!p.dw, on = k => onOf(p, k);
   let h = `<div class="cv${on('kulit') && !withSk ? ' pg' : ''}">`;
+  if (on('logo') && K.logo) h += `<div class="cvL"><img src="${K.logo}" alt="Logo sekolah"></div>`;
   if (K.tajuk) h += `<div class="cvT">${esc(K.tajuk)}</div>`;
   if (K.sekolah) h += `<div class="cvS">${esc(K.sekolah)}</div>`;
   if (K.alamat) h += `<div class="cvA">${esc(K.alamat)}</div>`;
-  if (on('kotak')) {
-    const c = [`<b>${esc(K.mp)}</b>${K.kod ? ` <span class="kd2">${esc(K.kod)}</span>` : ''}`, esc(K.ting), esc(K.masa)].filter(x => x);
-    h += `<table class="cvK"><tr>${c.map(x => `<td>${x}</td>`).join('')}</tr></table>`;
-  }
+  if (K.ting) h += `<div class="cvS">${esc(K.ting)}</div>`;
+  if (on('kotak')) h += `<div class="cvM"><b>${esc(K.mp)}${K.kod ? ' (' + esc(K.kod) + ')' : ''}</b>${K.masa ? `<div>${esc(K.masa)}</div>` : ''}</div>`;
   if (K.tarikh) h += `<div class="cvA">${bi(dw, 'Tarikh', 'Date')}: ${esc(K.tarikh)}</div>`;
   if (withSk) return h + `<div class="cvJ">${bi(dw, 'SKEMA JAWAPAN', 'MARKING SCHEME')}</div></div>`;
+  if (on('nama')) h += `<table class="cvN2">${[['Nama', 'Name'], ...(on('kp') ? [['No. Kad Pengenalan', 'Identity Card No.']] : []), ['Kelas', 'Class']].map(r => `<tr><th>${bi(dw, r[0], r[1])}</th><td></td></tr>`).join('')}</table>`;
   if (on('jangan')) h += `<div class="cvJ">JANGAN BUKA KERTAS SOALAN INI SEHINGGA DIBERITAHU${dw ? '<br><i>DO NOT OPEN THIS QUESTION PAPER UNTIL YOU ARE TOLD TO DO SO</i>' : ''}</div>`;
-  if (on('nama')) h += `<div class="nm"><span>${bi(dw, 'Nama', 'Name')}:</span><span style="flex:.45">${bi(dw, 'Kelas', 'Class')}:</span></div>`;
-  const ar = on('arahan') && K.arahan.length ? `<div class="ar"><b>${bi(dw, 'Arahan', 'Instructions')}:</b><ol>${K.arahan.map(a => `<li>${esc(a[0])}${dw && a[1] ? `<div class="en">${esc(a[1])}</div>` : ''}</li>`).join('')}</ol></div>` : '';
+  const ar = on('arahan') && K.arahan.length ? `<div class="ar"><b>${bi(dw, 'ARAHAN', 'INSTRUCTIONS')}:</b><ol>${K.arahan.map(a => `<li>${esc(a[0])}${dw && a[1] ? `<div class="en">${esc(a[1])}</div>` : ''}</li>`).join('')}</ol></div>` : '';
   const pm = on('pem') ? pemHTML(secs, dw) : '';
   if (ar || pm) h += `<div class="cvG${ar && pm ? '' : ' one'}">${ar}${pm}</div>`;
   if (on('nota') && K.nota) h += `<div class="cvN">${esc(K.nota)}</div>`;
@@ -408,6 +409,20 @@ function bindEdit() {
   document.getElementById('eDw').onclick = () => { p.dw = !p.dw; save(); render(true); };
   document.getElementById('eKul').ontoggle = e => { p.kepala.buka = e.target.open; save(); };
   app.querySelectorAll('[data-h]').forEach(inp => inp.oninput = () => { p.kepala[inp.dataset.h] = inp.value; save(); });
+  const lg = document.getElementById('eLogo');
+  if (lg) lg.onchange = () => {
+    const f = lg.files[0]; if (!f) return;
+    const img = new Image(), url = URL.createObjectURL(f);
+    img.onload = () => {
+      const k = Math.min(1, 360 / Math.max(img.width, img.height)), c = document.createElement('canvas');
+      c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(url);
+      p.kepala.logo = c.toDataURL('image/png'); save(); render(true);
+    };
+    img.onerror = () => toast('Fail gambar tidak dapat dibaca');
+    img.src = url;
+  };
+  const lgX = document.getElementById('eLogoX'); if (lgX) lgX.onclick = () => { delete p.kepala.logo; save(); render(true); };
   const arR = document.getElementById('eArR'); if (arR) arR.onclick = ev => { ev.preventDefault(); delete p.kepala.arahan; save(); render(true); };
   app.querySelectorAll('[data-on]').forEach(c => c.onchange = () => { p.kepala.on = p.kepala.on || {}; p.kepala.on[c.dataset.on] = c.checked; save(); });
   app.querySelectorAll('.ei').forEach(box => {

@@ -193,8 +193,7 @@ a{color:var(--brandM)}
 #print .cvK td{border:1.5px solid #000;padding:8px 18px;text-align:center;font-size:11pt}
 #print .cvK td b{font-size:14pt}#print .kd2{font-size:14pt;font-weight:700;margin-left:6px}
 #print .cvJ{text-align:center;font-weight:700;font-size:10.5pt;margin:10px 0}
-#print .cvG{margin-top:10px}
-#print .cvG .pem{margin:12px 0 0 auto}
+
 #print .cvG .ar{margin:0}
 #print .cvN{margin-top:14px;font-size:9.5pt;text-align:center}
 #print .pem{border-collapse:collapse;font-size:9.5pt}
@@ -222,3 +221,19 @@ a{color:var(--brandM)}
 .mft{display:flex;justify-content:flex-end;margin-top:14px}
 .mft .ck:disabled{opacity:.45;cursor:not-allowed}
 .peh .rp{height:28px;min-width:28px;padding:0 8px;font-size:14px}
+
+/* kulit gaya sekolah (v140) */
+.ed .lg{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.ed .lg img{height:56px;width:auto;border-radius:6px;background:#fff;padding:3px}
+.ed .lg .up{cursor:pointer;flex-direction:row!important;letter-spacing:0!important;color:var(--p)!important}
+#print .cvL{text-align:center;margin-bottom:6px}#print .cvL img{height:24mm;width:auto}
+#print .cvT{font-size:14pt;margin-top:4px}#print .cvS{text-transform:uppercase;margin-top:6px}
+#print .cvM{text-align:center;border-top:1.5px solid #000;border-bottom:1.5px solid #000;padding:6px 0;margin:10px 0 12px;font-size:11pt}
+#print .cvM b{font-size:13pt}
+#print .cvN2{width:100%;border-collapse:collapse;margin:6px 0 10px}
+#print .cvN2 th{width:32%;text-align:left;font-weight:400;border:1px solid #000;padding:5px 8px;font-size:10pt}
+#print .cvN2 td{border:1px solid #000}
+#print .cvG{display:grid;grid-template-columns:minmax(0,1fr) 74mm;gap:6mm;align-items:start}
+#print .cvG.one{grid-template-columns:1fr}
+#print .cvG .ar{border:0;padding:0;font-size:9.5pt}
+#print .cvG .ar ol{margin-left:18px}#print .cvG .ar li{margin-bottom:5px}
+#print .cvG .pem{margin:0;width:100%;font-size:9pt}#print .cvG .pem th{font-weight:400;font-style:italic}

@@ -159,37 +159,54 @@
   }
 
   /* ---------- kulit ---------- */
-  function cover(p, secs, withSk) {
+  async function logoImg(url) {
+    if (!url) return null;
+    return new Promise(res => { const im = new Image(); im.onload = () => {
+      const bin = atob(url.split(',')[1]), u = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
+      res({ data: u, w: im.width, h: im.height }); }; im.onerror = () => res(null); im.src = url; });
+  }
+  function cover(p, secs, withSk, logo) {
     const K = kepala(p), dw = !!p.dw, on = k => onOf(p, k), B = [], C = D.AlignmentType.CENTER;
-    if (K.tajuk) B.push(Pg([R(K.tajuk.toUpperCase(), { bold: true, size: 26 })], { alignment: C }));
-    if (K.sekolah) B.push(Pg([R(K.sekolah, { bold: true, size: 24 })], { alignment: C }));
+    if (on('logo') && logo) { const h = 90, w = Math.round(logo.w * h / logo.h); B.push(Pg([new D.ImageRun({ type: 'png', data: logo.data, transformation: { width: w, height: h } })], { alignment: C, spacing: { after: 120 } })); }
+    if (K.tajuk) B.push(Pg([R(K.tajuk.toUpperCase(), { bold: true, size: 28 })], { alignment: C }));
+    if (K.sekolah) B.push(Pg([R(K.sekolah.toUpperCase(), { bold: true, size: 24 })], { alignment: C }));
     if (K.alamat) B.push(Pg([R(K.alamat, { size: 21 })], { alignment: C }));
-    if (on('kotak')) {
-      const cs = [[R(K.mp, { bold: true, size: 28 }), ...(K.kod ? [R('   ' + K.kod, { bold: true, size: 28 })] : [])], K.ting ? [R(K.ting)] : null, K.masa ? [R(K.masa)] : null].filter(Boolean);
-      B.push(Pg([], { spacing: { after: 120 } }), new D.Table({ alignment: C, borders: BX, rows: [new D.TableRow({ height: { value: 620, rule: D.HeightRule.ATLEAST },
-        children: cs.map((r, i) => cell([ctr(r)], { width: { size: i ? 2600 : 3400, type: D.WidthType.DXA }, verticalAlign: D.VerticalAlign.CENTER, margins: { left: 240, right: 240, top: 80, bottom: 80 } })) })] }), Pg([], { spacing: { after: 120 } }));
-    }
+    if (K.ting) B.push(Pg([R(K.ting.toUpperCase(), { bold: true, size: 24 })], { alignment: C, spacing: { before: 120, after: 120 } }));
+    if (on('kotak')) B.push(Pg([R(K.mp + (K.kod ? ' (' + K.kod + ')' : ''), { bold: true, size: 26 }), ...(K.masa ? [new D.TextRun({ break: 1 }), R(K.masa)] : [])],
+      { alignment: C, border: { top: { style: D.BorderStyle.SINGLE, size: 12, color: '000000', space: 6 }, bottom: { style: D.BorderStyle.SINGLE, size: 12, color: '000000', space: 6 } }, spacing: { before: 160, after: 240 } }));
     if (K.tarikh) B.push(Pg([...bi(dw, 'Tarikh', 'Date'), R(': ' + K.tarikh)], { alignment: C }));
     if (withSk) { B.push(Pg(dw ? [R('SKEMA JAWAPAN / ', { bold: true }), R('MARKING SCHEME', { bold: true, italics: true })] : [R('SKEMA JAWAPAN', { bold: true })], { alignment: C, spacing: { before: 160, after: 200 } })); return B; }
-    if (on('jangan')) B.push(Pg([R('JANGAN BUKA KERTAS SOALAN INI SEHINGGA DIBERITAHU', { bold: true, size: 21 }), ...(dw ? [new D.TextRun({ break: 1 }), R('DO NOT OPEN THIS QUESTION PAPER UNTIL YOU ARE TOLD TO DO SO', { bold: true, italics: true, size: 19 })] : [])], { alignment: C, spacing: { before: 120, after: 200 } }));
-    if (on('nama')) B.push(Pg([...bi(dw, 'Nama', 'Name'), R(': ______________________________________   '), ...bi(dw, 'Kelas', 'Class'), R(': ____________')], { spacing: { before: 120, after: 240 } }));
-    if (on('arahan') && K.arahan.length) {
-      const ps = [Pg([R(dw ? 'Arahan / ' : 'Arahan:', { bold: true }), ...(dw ? [R('Instructions:', { bold: true, italics: true })] : [])], { spacing: { after: 80 } })];
-      K.arahan.forEach((a, i) => {
-        ps.push(Pg([R(i + 1 + '.'), TAB(), R(a[0], { size: 20 })], { indent: { left: 567, hanging: 567 }, spacing: { after: dw && a[1] ? 0 : 60 } }));
-        if (dw && a[1]) ps.push(Pg([R(a[1], { italics: true, color: '404040', size: 19 })], { indent: { left: 567 } }));
-      });
-      B.push(new D.Table({ borders: BX, columnWidths: [CW], rows: [new D.TableRow({ children: [cell(ps, { width: { size: CW, type: D.WidthType.DXA }, margins: { top: 100, bottom: 100, left: 160, right: 160 } })] })] }), Pg([], { spacing: { after: 200 } }));
+    if (on('nama')) {
+      const rows = [['Nama', 'Name'], ...(on('kp') ? [['No. Kad Pengenalan', 'Identity Card No.']] : []), ['Kelas', 'Class']];
+      B.push(new D.Table({ borders: BX, columnWidths: [3200, CW - 3200], rows: rows.map(r => new D.TableRow({ height: { value: 420, rule: D.HeightRule.ATLEAST }, children: [
+        cell([Pg(bi(dw, r[0], r[1]).map(x => x), { spacing: { after: 0 } })], { width: { size: 3200, type: D.WidthType.DXA }, verticalAlign: D.VerticalAlign.CENTER }),
+        cell([Pg([])], { width: { size: CW - 3200, type: D.WidthType.DXA } })] })) }), Pg([], { spacing: { after: 120 } }));
     }
-    if (on('pem')) B.push(pem(secs, dw), Pg([]));
+    if (on('jangan')) B.push(Pg([R('JANGAN BUKA KERTAS SOALAN INI SEHINGGA DIBERITAHU', { bold: true, size: 21 }), ...(dw ? [new D.TextRun({ break: 1 }), R('DO NOT OPEN THIS QUESTION PAPER UNTIL YOU ARE TOLD TO DO SO', { bold: true, italics: true, size: 19 })] : [])], { alignment: C, spacing: { before: 120, after: 200 } }));
+    const ar = [];
+    if (on('arahan') && K.arahan.length) {
+      ar.push(Pg([R(dw ? 'ARAHAN / ' : 'ARAHAN:', { bold: true }), ...(dw ? [R('INSTRUCTIONS:', { bold: true, italics: true })] : [])], { spacing: { after: 80 } }));
+      K.arahan.forEach((a, i) => {
+        ar.push(Pg([R(i + 1 + '.', { size: 19 }), TAB(), R(a[0], { size: 19 })], { indent: { left: 420, hanging: 420 }, tabStops: [{ type: D.TabStopType.LEFT, position: 420 }], spacing: { after: dw && a[1] ? 0 : 80 } }));
+        if (dw && a[1]) ar.push(Pg([R(a[1], { italics: true, color: '404040', size: 18 })], { indent: { left: 420 }, spacing: { after: 80 } }));
+      });
+    }
+    const pm = on('pem') ? pem(secs, dw) : null;
+    if (ar.length && pm) {
+      const lw = CW - 4300;
+      B.push(new D.Table({ borders: NB, columnWidths: [lw, 4300], rows: [new D.TableRow({ children: [
+        cell(ar, { width: { size: lw, type: D.WidthType.DXA }, margins: { left: 0, right: 240, top: 0, bottom: 0 } }),
+        cell([pm, Pg([])], { width: { size: 4300, type: D.WidthType.DXA }, margins: { left: 0, right: 0, top: 0, bottom: 0 } })] })] }), Pg([]));
+    } else if (ar.length) B.push(...ar, Pg([]));
+    else if (pm) B.push(pm, Pg([]));
     if (on('nota') && K.nota) B.push(Pg([R(K.nota, { size: 19 })], { alignment: C, spacing: { before: 240 } }));
     if (on('kulit')) B.push(Pg([new D.PageBreak()]));
     return B;
   }
   function pem(secs, dw) {
-    const W = [1500, 1500, 1700, 2200], c = (r, o) => cell([ctr(r, { spacing: { after: 0 } })], Object.assign({ verticalAlign: D.VerticalAlign.CENTER }, o || {}));
+    const W = [1100, 950, 1000, 1250], c = (r, o) => cell([ctr(r, { spacing: { after: 0 } })], Object.assign({ verticalAlign: D.VerticalAlign.CENTER }, o || {}));
     const b = t => [R(t, { bold: true, size: 19 })];
-    const hd = (bm, en) => dw ? [R(bm + ' / ', { bold: true, size: 18 }), R(en, { bold: true, italics: true, size: 18 })] : b(bm);
+    const hd = (bm, en) => dw ? [R(bm + ' / ', { italics: true, size: 16 }), R(en, { italics: true, size: 16, color: '404040' })] : [R(bm, { italics: true, size: 18 })];
     const rows = [new D.TableRow({ children: [c(hd('Untuk Kegunaan Pemeriksa', 'For Examiner’s Use'), { columnSpan: 4 })] }),
       new D.TableRow({ children: [c(hd('Bahagian', 'Section')), c(hd('Soalan', 'Question')), c(hd('Markah Penuh', 'Full Marks')), c(hd('Markah Diperoleh', 'Marks Obtained'))] })];
     let tot = 0;
@@ -199,7 +216,7 @@
       else ms.forEach((m, i) => rows.push(new D.TableRow({ children: [...(i === 0 ? [c([R(s)], { rowSpan: ms.length })] : []), c([R(String(i + 1))]), c([R(String(m))]), c([])] })));
     });
     rows.push(new D.TableRow({ children: [c(hd('Jumlah', 'Total'), { columnSpan: 2 }), c(b(String(tot))), c([])] }));
-    return new D.Table({ alignment: D.AlignmentType.RIGHT, borders: BX, columnWidths: W, rows });
+    return new D.Table({ alignment: D.AlignmentType.RIGHT, borders: BX, columnWidths: W, width: { size: 4300, type: D.WidthType.DXA }, rows });
   }
 
   /* ---------- skema ---------- */
@@ -227,7 +244,7 @@
     const p = P(), st = stOf(p), dw = !!p.dw, secs = sections(p).filter(s => s.rows.length);
     if (!secs.length) { toast('Kertas masih kosong'); return; }
     const imgs = withSk ? {} : await prepImgs(secs);
-    const ch = cover(p, secs, withSk);
+    const ch = cover(p, secs, withSk, await logoImg(kepala(p).logo));
     let first = true;
     secs.forEach(({ b, rows }) => {
       if (b) ch.push(Pg([...(dw ? [R('Bahagian ' + b + ' / ', { bold: true, size: 24 }), R('Section ' + b, { bold: true, italics: true, size: 24 })] : [R('Bahagian ' + b, { bold: true, size: 24 })]),
