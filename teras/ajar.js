@@ -54,6 +54,7 @@ const ajIcon = {
   trash: sv('<path d="M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13"/>', 18),
   list: sv('<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>', 20),
   pen: sv('<path d="M4 20l4-1 11-11-3-3L5 16z"/>', 20),
+  cur: sv('<path d="M5 3l14 8-6 1.5L10 19z"/>', 20),
   hl: sv('<path d="M9 15l-4 5h6l2-2M9 15l7-11 4 3-7 11z"/>', 20),
   eraser: sv('<path d="M8 20h12M4 14l8-8 6 6-6 6H8z"/>', 20),
   img: sv('<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-9 9"/>', 20)
@@ -527,6 +528,8 @@ function viewTayang() {
   const dots = pl.items.map((x, k) => `<button type="button" class="ajdot${k === AJ.i ? ' on' : ''}" data-jump="${k}" style="--c:var(--${AJT[x.t][1]});opacity:${k <= AJ.i ? 1 : .4}" aria-label="Item ${k + 1}: ${esc(itemName(x))}"></button>`).join('');
   const cols = [['rd', 'Merah'], ['am', 'Kuning'], ['tx', isLight() ? 'Hitam' : 'Putih']];
   const tools = `<div class="ajpen" role="toolbar" aria-label="Pen conteng">
+      <button type="button" class="ajpb cur" data-cur="1" aria-pressed="${!AJ.tool}" aria-label="Klik biasa (tutup pen)" title="Klik biasa (Esc)">${ajIcon.cur}</button>
+      <span class="ajpsep" aria-hidden="true"></span>
       <button type="button" class="ajpb" data-tool="pen" aria-pressed="${AJ.tool === 'pen'}" aria-label="Pen">${ajIcon.pen}</button>
       <button type="button" class="ajpb" data-tool="hl" aria-pressed="${AJ.tool === 'hl'}" aria-label="Penyerlah">${ajIcon.hl}</button>
       ${cols.map(([c, n]) => `<button type="button" class="ajcol-b" data-col="${c}" aria-pressed="${AJ.col === c}" aria-label="Warna ${n}" style="background:var(--${c})"></button>`).join('')}
@@ -566,6 +569,7 @@ function bindTayang() {
   lb.onclick = () => { lst.hidden = !lst.hidden; lb.setAttribute('aria-expanded', String(!lst.hidden)); };
   document.querySelectorAll('[data-jump]').forEach(b => b.onclick = () => ajGo(+b.dataset.jump));
   document.querySelectorAll('[data-tool]').forEach(b => b.onclick = () => { AJ.tool = AJ.tool === b.dataset.tool ? null : b.dataset.tool; inkTools(); });
+  document.querySelectorAll('[data-cur]').forEach(b => b.onclick = () => { AJ.tool = null; inkTools(); });
   document.querySelectorAll('[data-col]').forEach(b => b.onclick = () => { AJ.col = b.dataset.col; if (!AJ.tool || AJ.tool === 'er') AJ.tool = 'pen'; inkTools(); });
   document.getElementById('ajClr').onclick = () => { AJ.ink[AJ.i] = []; inkDraw(); };
   if (it.t === 'game') bindGameMode(it.g || '60');
@@ -584,12 +588,14 @@ document.addEventListener('keydown', e => {
     if ((e.key === 'Enter' || e.key === ' ') && e.target.closest && e.target.closest('a,button,label')) return;
     e.preventDefault(); ajNext();
   } else if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key)) { e.preventDefault(); ajPrev(); }
-  else if (e.key === 'Escape') { e.preventDefault(); ajExit(); }
+  else if (e.key === 'Escape') { e.preventDefault(); if (AJ.tool) { AJ.tool = null; inkTools(); } else ajExit(); }
 });
 // ESC semasa skrin penuh: pelayar keluar skrin penuh dulu (keydown tidak sampai) – terus keluar tayangan juga
 let ajWasFs = false;
 document.addEventListener('fullscreenchange', () => {
   if (document.fullscreenElement) { ajWasFs = ajIsPlay(); return; }
+  // pen aktif: Esc hanya tutup pen (tayangan diteruskan tanpa skrin penuh)
+  if (ajWasFs && ajIsPlay() && AJ.tool) { ajWasFs = false; AJ.tool = null; inkTools(); return; }
   if (ajWasFs && ajIsPlay()) { ajWasFs = false; ajExit(); }
   ajWasFs = false;
 });
@@ -600,6 +606,7 @@ function inkTools() {
   const c = document.getElementById('ink'); if (c) c.classList.toggle('on', !!AJ.tool);
   document.querySelectorAll('[data-tool]').forEach(b => b.setAttribute('aria-pressed', String(AJ.tool === b.dataset.tool)));
   document.querySelectorAll('[data-col]').forEach(b => b.setAttribute('aria-pressed', String(AJ.col === b.dataset.col)));
+  document.querySelectorAll('[data-cur]').forEach(b => b.setAttribute('aria-pressed', String(!AJ.tool)));
 }
 function inkResize() {
   const c = document.getElementById('ink'); if (!c) return;

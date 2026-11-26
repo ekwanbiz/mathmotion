@@ -380,6 +380,8 @@ g.rv.hid{visibility:hidden}
 .ajpen{position:absolute;left:12px;top:50%;transform:translateY(-50%);z-index:6;padding:8px;border-radius:18px;background:color-mix(in srgb,var(--surf) 92%,transparent);border:1px solid var(--bd);display:flex;flex-direction:column;gap:7px}
 .ajpb{width:44px;height:44px;border-radius:12px;border:1px solid var(--bd);background:var(--surf2);color:var(--tx);display:flex;align-items:center;justify-content:center}
 .ajpb[aria-pressed="true"]{border:2px solid var(--rd);background:color-mix(in srgb,var(--rd) 16%,transparent);color:var(--rd)}
+.ajpb.cur[aria-pressed="true"]{border:2px solid var(--tr);background:color-mix(in srgb,var(--tr) 16%,transparent);color:var(--tr)}
+.ajpsep{height:1px;margin:1px 4px;background:var(--bd)}
 .ajcol-b{width:44px;height:26px;border-radius:9px;border:1px solid var(--bd)}
 .ajcol-b[aria-pressed="true"]{outline:3px solid var(--tx);outline-offset:2px}
 .ajbar{flex:none;min-height:74px;display:flex;align-items:center;gap:12px;padding:8px 18px calc(8px + var(--sab));background:var(--nav);border-top:1px solid var(--bd)}
@@ -535,7 +537,7 @@ g.rv.hid{visibility:hidden}
  .ajp-main>.stage,.ajp-main>.tero,.ajp-main>.qbody,.ajp-main>.main{padding-left:0}
  .ajp-main>.stage{padding-bottom:64px}
  .ajpen{left:50%;top:auto;bottom:8px;transform:translateX(-50%);flex-direction:row;padding:6px;gap:5px}
- .ajpb{width:40px;height:40px}.ajcol-b{width:28px;height:28px}
+ .ajpb{width:40px;height:40px}.ajcol-b{width:28px;height:28px}.ajpsep{width:1px;height:auto;margin:4px 1px}
  .ajbar{gap:8px;padding:8px 10px calc(8px + var(--sab))}
  .ajbar .ajx span,.ajbar .ajlb span,.ajdots{display:none}
  .ajbar .btn{padding:0 12px}
