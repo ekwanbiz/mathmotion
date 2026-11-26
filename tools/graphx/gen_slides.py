@@ -2,6 +2,7 @@
 # Jalankan:  python3 tools/graphx/gen_slides.py
 # Gunakan HANYA warna palet gelap di bawah supaya mod cerah ditukar automatik oleh themed().
 import json, os, html, math, re, sys
+raise SystemExit('Dipersarakan: nota Bab 8 kini dijana oleh alat/nota/bina_bab8_t2.py (ikut buku teks).')
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 from mathfmt import FR, RT, SFR, SRT
 

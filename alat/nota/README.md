@@ -1,7 +1,7 @@
 # Panduan bina nota slaid TerokaMath ikut buku teks
 
 Panduan ini untuk sesiapa (Claude atau ejen) yang membina semula nota slaid satu bab TerokaMath.
-Diluluskan guru pada 26 Nov 2026. Contoh siap: Bab 1–6 dan 11 Tingkatan 2.
+Diluluskan guru pada 26 Nov 2026. Contoh siap: Bab 1–8 dan 11 Tingkatan 2.
 
 ## 1. Prinsip kandungan
 
@@ -51,9 +51,10 @@ Diluluskan guru pada 26 Nov 2026. Contoh siap: Bab 1–6 dan 11 Tingkatan 2.
 | `bina_babN_tT.py` | Penjana satu bab. Salin yang paling hampir sebagai permulaan |
 | `semak_muat.py` | Semak limpahan setiap slaid (perlu pelayan tempatan port 8765) |
 | `tangkap_slaid.py` | Tangkap skrin setiap slaid (semua langkah dipaparkan) untuk semakan |
+| `graf.py` | Satah Cartes berskala bebas (`Gr`: titik, garis, lengkung fungsi, bacaan graf) dan rajah anak panah. `import graf as GF` |
 | `pepejal.py` | Pelukis bentuk 3D (kuboid, prisma, piramid, silinder, kon, sfera, bentangan kubus). `import pepejal as G` |
 
-Contoh untuk bab tertentu: algebra → `bina_bab2_t2.py`; geometri/bulatan → `bina_bab5_t2.py`; satah Cartes → `bina_bab11_t2.py`; jujukan → `bina_bab1_t2.py`; rumus/perkara rumus → `bina_bab3_t2.py`; bentuk 3D → `bina_bab6_t2.py`.
+Contoh untuk bab tertentu: algebra → `bina_bab2_t2.py`; geometri/bulatan → `bina_bab5_t2.py`; satah Cartes → `bina_bab11_t2.py`; jujukan → `bina_bab1_t2.py`; rumus/perkara rumus → `bina_bab3_t2.py`; bentuk 3D → `bina_bab6_t2.py`; koordinat/jarak/titik tengah → `bina_bab7_t2.py`; fungsi dan graf fungsi → `bina_bab8_t2.py`.
 
 Rajah SVG: teks dalam `<text>` tidak boleh guna `<i>`. Guna `<tspan font-style="italic">` (penjana Bab 6 menukar secara automatik).
 
@@ -84,5 +85,7 @@ Ujian tanpa menyentuh folder sebenar: `NOTA_OUT=../../<folder>bt/slides.js pytho
 | 4 Poligon | `poligon` | 18 | 9 |
 | 5 Bulatan | `circmotion` | 29 | 17 |
 | 6 Bentuk Geometri Tiga Dimensi | `bentuk3d` | 28 | 12 |
+| 7 Koordinat | `koordinat` | 19 | 14 |
+| 8 Graf Fungsi | `graphx` | 24 | 15 |
 | 11 Transformasi Isometri | `isomove` | 42 | 26 |
-| 7–10, 12, 13 | – | – | belum |
+| 9, 10, 12, 13 | – | – | belum |
