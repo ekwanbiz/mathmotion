@@ -535,6 +535,7 @@ function viewTayang() {
       ${cols.map(([c, n]) => `<button type="button" class="ajcol-b" data-col="${c}" aria-pressed="${AJ.col === c}" aria-label="Warna ${n}" style="background:var(--${c})"></button>`).join('')}
       <button type="button" class="ajpb" data-tool="er" aria-pressed="${AJ.tool === 'er'}" aria-label="Pemadam">${ajIcon.eraser}</button>
       <button type="button" class="ajpb" id="ajClr" aria-label="Padam semua conteng">${ajIcon.trash}</button>
+      ${it.t === 'slaid' || it.t === 'cikgu' ? `<span class="ajpsep" aria-hidden="true"></span><button type="button" class="ajpb" id="ajTema" aria-haspopup="true" aria-label="Tema slaid" title="Tema slaid">${IC.tema}</button>` : ''}
     </div>`;
   const list = `<div class="ajlist" id="ajList" hidden><h3>PELAN · ${esc(pl.name)}</h3>${pl.items.map((x, k) => `<button type="button" class="ajli${k === AJ.i ? ' on' : ''}" data-jump="${k}"><span class="n">${k + 1}</span>${typeChip(x.t)}<span>${esc(itemName(x))}</span></button>`).join('')}</div>`;
   return `<div class="app ajp">
@@ -572,6 +573,7 @@ function bindTayang() {
   document.querySelectorAll('[data-cur]').forEach(b => b.onclick = () => { AJ.tool = null; inkTools(); });
   document.querySelectorAll('[data-col]').forEach(b => b.onclick = () => { AJ.col = b.dataset.col; if (!AJ.tool || AJ.tool === 'er') AJ.tool = 'pen'; inkTools(); });
   document.getElementById('ajClr').onclick = () => { AJ.ink[AJ.i] = []; inkDraw(); };
+  const tmb = document.getElementById('ajTema'); if (tmb) tmb.onclick = () => temaPanel(() => render(true), 'ajTema');
   if (it.t === 'game') bindGameMode(it.g || '60');
   const st = document.getElementById('stage');
   if (st) {

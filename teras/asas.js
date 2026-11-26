@@ -317,7 +317,7 @@ const slPal = () => { const t = temaNow(); return t ? t.map : isLight(); };
 IC.tema = sv('<path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.8-.8 1.8-1.8 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-1 .8-1.8 1.8-1.8H17a4 4 0 0 0 4-4c0-4.4-4-8-9-8z"/><circle cx="7.5" cy="11" r="1.2"/><circle cx="10.5" cy="7" r="1.2"/><circle cx="15" cy="7.5" r="1.2"/>');
 // butang + panel pilihan tema (dipanggil dari bar slaid)
 const temaBtn = () => `<button type="button" class="ib" id="temaBtn" aria-label="${typeof tmEN !== 'undefined' && tmEN ? 'Slide theme' : 'Tema slaid'}" title="${typeof tmEN !== 'undefined' && tmEN ? 'Slide theme' : 'Tema slaid'}" aria-haspopup="true">${IC.tema}</button>`;
-function temaPanel(onPick) {
+function temaPanel(onPick, btnId) {
   const EN = typeof tmEN !== 'undefined' && tmEN, cur = (temaNow() || {}).id || '';
   const old = document.getElementById('temaPop'); if (old) { old.remove(); return; }
   const sw = t => { const p = t ? t.p : null;
@@ -329,12 +329,20 @@ function temaPanel(onPick) {
     <div class="tmh">${EN ? 'DARK' : 'GELAP'}</div><div class="tmgrid">${sw(null)}${TEMA.filter(t => t.b === 'd').map(sw).join('')}</div>
     <div class="tmh">${EN ? 'LIGHT' : 'CERAH'}</div><div class="tmgrid">${TEMA.filter(t => t.b === 'l').map(sw).join('')}</div>`;
   document.body.appendChild(pop);
-  const btn = document.getElementById('temaBtn');
-  if (btn) { // letak di bawah butang, tetapi sentiasa dalam skrin (telefon)
-    const r = btn.getBoundingClientRect(), w = pop.offsetWidth, top = Math.round(r.bottom + 8);
-    pop.style.top = top + 'px';
-    pop.style.left = Math.round(Math.min(Math.max(8, r.right - w), innerWidth - w - 8)) + 'px';
-    pop.style.maxHeight = Math.max(160, innerHeight - top - 8) + 'px';
+  const btn = document.getElementById(btnId || 'temaBtn');
+  if (btn) { // letak dekat butang, sentiasa dalam skrin (telefon & bar pen tayangan)
+    const r = btn.getBoundingClientRect(), w = pop.offsetWidth, h = pop.scrollHeight, H = innerHeight, W = innerWidth;
+    const clampL = x => Math.round(Math.min(Math.max(8, x), W - w - 8));
+    let top, maxH, left;
+    if (r.right < W * 0.3 && W - r.right - 20 >= w) { // butang di tepi kiri (bar pen menegak): buka ke kanan
+      maxH = H - 16; top = Math.round(Math.min(Math.max(8, r.top + r.height / 2 - Math.min(h, maxH) / 2), H - Math.min(h, maxH) - 8)); left = Math.round(r.right + 12);
+    } else {
+      const below = H - r.bottom - 16, above = r.top - 16;
+      if (below >= Math.min(h, 320) || below >= above) { top = Math.round(r.bottom + 8); maxH = below; }
+      else { maxH = above; top = Math.round(r.top - 8 - Math.min(h, maxH)); }
+      left = clampL(r.right - w);
+    }
+    pop.style.top = top + 'px'; pop.style.left = left + 'px'; pop.style.maxHeight = Math.max(160, maxH) + 'px';
   }
   const close = () => { pop.remove(); document.removeEventListener('pointerdown', out, true); document.removeEventListener('keydown', esc_, true); };
   const out = e => { if (!pop.contains(e.target) && !(btn && btn.contains(e.target))) close(); };
