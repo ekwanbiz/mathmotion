@@ -1,15 +1,85 @@
 {
-  "_nota": "Susunan langkah apabila kedua-dua lajur ada langkah (.rv). Kunci 'sub/n'. b = lajur kiri, f = lajur kanan. 'mix' = selang-seli (kiri dahulu), 'mixf' = selang-seli (kanan dahulu), 'f,b' = kanan semua dahulu, 'b:3,f,b' = 3 langkah kiri, semua kanan, baki kiri. Tanpa entri = kiri dahulu.",
-  "pola": {"1.1/2": "f,b", "1.1/3": "f,b", "1.1/4": "f,b", "1.1/5": "f,b", "1.1/7": "f,b", "1.1/9": "f,b",
-           "1.2/2": "f,b", "1.2/3": "f,b", "1.2/4": "f,b", "1.3/1": "f,b", "1.3/3": "b:1,f,b", "1.3/4": "b:1,f,b"},
-  "pemfaktoran": {"2.1/8": "b:3,f,b", "2.2/6": "b:2,f,b", "2.2/7": "b:1,f,b", "2.2/8": "b:3,f,b", "2.2/9": "f,b", "2.2/11": "b:3,f,b"},
-  "poligon": {"4.1/2": "mixf", "4.1/4": "mix", "4.1/5": "mix", "4.1/6": "mix"},
-  "circmotion": {"5.1/4": "mix", "5.1/5": "mix", "5.1/6": "mix", "5.2/5": "mix", "5.3/17": "b:3,f,b"},
-  "bentuk3d": {"6.2/4": "mixf", "6.3/3": "mix", "6.4/6": "f,b", "6.4/11": "b:3,f,b"},
-  "koordinat": {"7.2/2": "mixf", "7.2/3": "mix", "7.2/5": "b:5,f:1,b:5,f"},
-  "graphx": {"8.1/6": "b:2,f,b", "8.2/10": "b:1,f:1,b:1,f:1,b", "8.2/11": "b:1,f:1,b:1,f:1,b", "8.2/12": "mixf", "8.2/14": "b:4,f,b", "8.2/16": "b:2,f,b", "8.2/18": "b:5,f,b"},
-  "isomove": {"11.1/5": "mixf", "11.2/2": "mixf", "11.2/4": "mixf", "11.2/5": "mixf", "11.2/6": "b:1,f,b", "11.2/7": "mixf", "11.2/8": "f,b",
-              "11.3/3": "mixf", "11.3/5": "mix", "11.3/7": "mix", "11.3/8": "b:3,f,b", "11.4/4": "mix", "11.4/5": "mix", "11.4/6": "mix",
-              "11.4/8": "mix", "11.4/9": "mix", "11.6/2": "mixf", "11.6/4": "mix"},
-  "kecenderungan": {"12.1.3/2": "f,b", "12.1.3/3": "f,b", "12.1.3/5": "b:2,f,b"}
+ "_nota": "Susunan langkah apabila kedua-dua lajur ada langkah (.rv). Kunci 'sub/n'. b = lajur kiri, f = lajur kanan. 'mix' = selang-seli (kiri dahulu), 'mixf' = selang-seli (kanan dahulu), 'f,b' = kanan semua dahulu, 'b:3,f,b' = 3 langkah kiri, semua kanan, baki kiri. Tanpa entri = kiri dahulu.",
+ "pola": {
+  "1.1/2": "f:7,b:1,f,b",
+  "1.1/3": "f,b",
+  "1.1/4": "f,b",
+  "1.1/5": "f,b",
+  "1.1/7": "f:5,b:1,f:6,b:1,f,b",
+  "1.1/9": "b:1,f,b",
+  "1.2/2": "b:1,f,b",
+  "1.2/3": "f,b",
+  "1.2/4": "b:3,f,b",
+  "1.3/1": "b:2,f,b",
+  "1.3/3": "b:1,f,b",
+  "1.3/4": "b:1,f,b"
+ },
+ "pemfaktoran": {
+  "2.1/8": "b:3,f,b",
+  "2.2/6": "b:2,f,b",
+  "2.2/7": "b:1,f,b",
+  "2.2/8": "b:3,f,b",
+  "2.2/9": "f,b",
+  "2.2/11": "b:3,f,b"
+ },
+ "poligon": {
+  "4.1/2": "mixf",
+  "4.1/4": "mix",
+  "4.1/5": "mix",
+  "4.1/6": "mix"
+ },
+ "circmotion": {
+  "5.1/4": "mix",
+  "5.1/5": "mix",
+  "5.1/6": "mix",
+  "5.2/5": "mix",
+  "5.3/17": "b:3,f,b"
+ },
+ "bentuk3d": {
+  "6.2/4": "mixf",
+  "6.3/3": "mix",
+  "6.4/6": "b:2,f,b",
+  "6.4/11": "b:3,f,b"
+ },
+ "koordinat": {
+  "7.2/2": "mixf",
+  "7.2/3": "mix",
+  "7.2/5": "b:5,f:1,b:5,f"
+ },
+ "graphx": {
+  "8.1/6": "b:3,f,b",
+  "8.2/10": "b:1,f:1,b:1,f:1,b",
+  "8.2/11": "b:1,f:1,b:1,f:1,b",
+  "8.2/12": "mixf",
+  "8.2/14": "b:4,f,b",
+  "8.2/16": "b:2,f:2,b:1,f:1,b:1,f:2,b:1,f:2,b",
+  "8.2/18": "b:5,f:1,b:1,f:1,b:1,f:1,b"
+ },
+ "isomove": {
+  "11.2/4": "mixf",
+  "11.2/5": "mixf",
+  "11.2/6": "b:1,f,b",
+  "11.2/7": "f,b",
+  "11.2/8": "f,b",
+  "11.3/3": "mixf",
+  "11.3/5": "mix",
+  "11.3/7": "mix",
+  "11.3/8": "b:3,f,b",
+  "11.4/4": "mix",
+  "11.4/5": "mix",
+  "11.4/6": "mix",
+  "11.4/8": "mix",
+  "11.4/9": "mix",
+  "11.6/2": "mixf",
+  "11.6/4": "mix"
+ },
+ "kecenderungan": {
+  "12.1.3/2": "f,b",
+  "12.1.3/3": "f,b",
+  "12.1.3/5": "b:2,f,b"
+ },
+ "pecut": {
+  "9.1/8": "b:1,f,b",
+  "9.2/5": "b:1,f,b"
+ }
 }
