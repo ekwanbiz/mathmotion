@@ -73,3 +73,8 @@ Pembantu tersedia (teras/asas.js): `ri, pick, shuffle, nz, fmt, par, P, vec, esc
 ## SEO (v133) – selepas tambah bab baharu
 Jalankan: `node tools/seo-meta.js > /tmp/meta.json && python3 tools/seo.py /tmp/meta.json`
 (kemas kini tag Google/Open Graph, teks statik dalam `<div id="app">`, `sitemap.xml` dan `robots.txt`). Pastikan `index.html` bab juga ada `bebas.js` dan `ga.js` selepas `ajar.js`.
+
+## Muka depan NOTA (teras/muka.js)
+Tab NOTA kini dibuka dengan muka depan "BAB n" + tajuk bab dan rajah hiasan; senarai subtopik di `#/nota/senarai`.
+Bab baharu: tambah satu fungsi dalam `MUKA` (kunci = `BAB.id`, viewBox 600×600, warna gelap) dan pastikan
+`<script src="../teras/muka.js"></script>` ada selepas app.js dalam index.html bab. Tiada fungsi → muka depan tanpa rajah.

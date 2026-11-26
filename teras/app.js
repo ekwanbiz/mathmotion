@@ -71,13 +71,13 @@ const NOTA = { i: 0, r: 0 };
 let pendingReveal = 0;
 function viewSlide(sub, n) {
   const i = SLIDES.findIndex(x => x.sub === sub && x.n === n);
-  if (i < 0) { location.replace('#/nota'); return ''; }
+  if (i < 0) { location.replace('#/nota/senarai'); return ''; }
   NOTA.i = i; NOTA.r = pendingReveal; pendingReveal = 0;
   const s = SLIDES[i], so = subOf(sub), col = subCol(sub);
   const dots = Array.from({ length: s.N }, (_, k) => `<i${k + 1 === n ? ' class="on"' : ''}></i>`).join('');
   const sim = SUBSIM[sub];
   return `<div class="slbar">
-      <a class="btn sec bk" href="#/nota" style="min-height:44px;padding:0 14px" aria-label="Kembali ke senarai subtopik">${IC.left}<span>Subtopik</span></a>
+      <a class="btn sec bk" href="#/nota/senarai" style="min-height:44px;padding:0 14px" aria-label="Kembali ke senarai subtopik">${IC.left}<span>Subtopik</span></a>
       <span class="chip" style="background:${col};color:var(--on)">${sub}</span><span class="nm">${so.name}</span>
       <span class="pg">Slaid ${n} / ${s.N}</span>
       <button type="button" class="ib" id="printSub" aria-label="Cetak nota subtopik ini">${IC.print}</button>
@@ -103,7 +103,7 @@ function goSlide(i, reveal) { const s = SLIDES[i]; pendingReveal = reveal; locat
 function nextStep() {
   const els = revealEls();
   if (NOTA.r < els.length) { NOTA.r++; applyReveal(); return; }
-  if (NOTA.i < SLIDES.length - 1) goSlide(NOTA.i + 1, 0); else { toast('Tamat nota Bab ' + BAB.no); location.hash = '#/nota'; }
+  if (NOTA.i < SLIDES.length - 1) goSlide(NOTA.i + 1, 0); else { toast('Tamat nota Bab ' + BAB.no); location.hash = '#/nota/senarai'; }
 }
 function prevStep() { if (NOTA.i > 0) goSlide(NOTA.i - 1, 999); }
 function bindSlide() {
@@ -382,8 +382,9 @@ function render(keepScroll) {
   if (tab === 'k' && p[1]) { app.innerHTML = viewKongsi(p[1]); document.title = 'Pelan dikongsi · ' + APPNAME; bindKongsi(); return; }
   if (tab === 'ajar' && p[1] === 'tayang') { const v = viewTayang(); if (!v) return; app.innerHTML = v; document.title = 'Mengajar · ' + APPNAME; bindTayang(); return; }
   if (tab === 'ajar') { inner = viewSusun(); bind = bindSusun; document.title = 'Mula Mengajar · ' + APPNAME; }
+  else if (tab === 'nota' && p[1] === 'senarai') { inner = viewNotaList(); bind = bindNotaList; document.title = 'Nota · ' + APPNAME; }
   else if (tab === 'nota' && p[1]) { inner = viewSlide(p[1], +p[2] || 1); bind = bindSlide; document.title = `${p[1]} Nota · ${APPNAME}`; }
-  else if (tab === 'nota') { inner = viewNotaList(); bind = bindNotaList; document.title = 'Nota · ' + APPNAME; }
+  else if (tab === 'nota') { inner = typeof viewNotaCover === 'function' ? viewNotaCover() : viewNotaList(); bind = typeof viewNotaCover === 'function' ? bindNotaCover : bindNotaList; document.title = `Bab ${BAB.no} ${BAB.tajuk} · Nota`; }
   else if (tab === 'teroka') { inner = viewTeroka(p[1]); bind = bindTeroka; document.title = 'Teroka · ' + APPNAME; }
   else if (tab === 'latihan' && p[1] === 'lembaran') { inner = viewLembaran(); bind = bindLembaran; document.title = 'Lembaran Kerja · ' + APPNAME; }
   else if (tab === 'latihan' && p[1] === 'main') { inner = viewLatMain(); bind = bindLatMain; document.title = 'Latihan · ' + APPNAME; }
