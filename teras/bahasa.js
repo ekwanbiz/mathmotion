@@ -38,7 +38,7 @@ const TMX = {
   'Seterusnya': 'Next', 'Sebelumnya': 'Previous', 'Tamat': 'End', 'Mula': 'Start', 'Pilih': 'Choose', 'Semak': 'Check', 'Tutup': 'Close', 'Keluar': 'Exit', 'Buang': 'Remove', 'Tambah': 'Add', 'Naik': 'Up', 'Turun': 'Down', 'Kurang': 'Less', 'Kembali': 'Back',
   'daripada': 'of', 'Pilih simulasi': 'Choose a simulation', 'Simulasi': 'Simulation', 'SIMULASI': 'SIMULATION', 'Mudah': 'Easy', 'Sederhana': 'Medium', 'Sukar': 'Hard',
   // peranan guru | murid (halaman utama)
-  'Selamat datang ke': 'Welcome to', 'Siapakah anda?': 'Who are you?', 'Saya Guru': "I'm a Teacher", 'Saya Murid': "I'm a Student",
+  'Selamat datang ke': 'Welcome to', 'Siapakah anda?': 'Who are you?', 'SIAPAKAH ANDA?': 'WHO ARE YOU?', 'PILIH': 'CHOOSE', 'Saya Guru': "I'm a Teacher", 'Saya Murid': "I'm a Student",
   'Nota, simulasi, Pelan Mengajar, RPH, Bank Soalan dan game kelas': 'Notes, simulations, Teaching Plan, lesson plans, Question Bank and class games',
   'Nota, simulasi, latihan dan game': 'Notes, simulations, practice and games', 'Boleh ditukar bila-bila masa di halaman utama': 'You can change this any time on the home page',
   'Mod Guru': 'Teacher mode', 'Mod Murid': 'Student mode', 'Tukar ke Murid': 'Switch to Student', 'Tukar ke Guru': 'Switch to Teacher',
