@@ -83,7 +83,7 @@ const IC = {
   heart: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-8-5.3-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.7-8 11-8 11z"/></svg>',
   fire: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2c1 4 5 5.5 5 11a5 5 0 0 1-10 0c0-2.5 1.2-4 2.5-5.2C9.7 10 11 11 11 11s-1-4 1-9z"/></svg>',
   star: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.5 7 .9-5.2 4.8 1.4 7L12 17.8 5.8 21.2l1.4-7L2 9.4l7-.9z"/></svg>',
-  mm: '<svg width="26" height="26" viewBox="0 0 96 96" aria-hidden="true"><circle cx="48" cy="48" r="34" fill="none" style="stroke:var(--mu)" stroke-opacity=".5" stroke-width="3"/><polygon points="48,10 54.5,41.5 48,48 41.5,41.5" fill="#2EE6A6"/><polygon points="86,48 54.5,54.5 48,48 54.5,41.5" fill="#FF8A3D"/><polygon points="48,86 41.5,54.5 48,48 54.5,54.5" fill="#B57BFF"/><polygon points="10,48 41.5,41.5 48,48 41.5,54.5" fill="#FFC93C"/><circle cx="48" cy="48" r="4.5" style="fill:var(--tx)"/></svg>'
+  mm: '<svg width="40" height="40" viewBox="0 0 512 512" aria-hidden="true"><rect width="512" height="512" rx="112" fill="#15162A"/><circle cx="256" cy="256" r="178" fill="none" stroke="#2B2C4A" stroke-width="14"/><polygon points="256,62 290,222 256,256 222,222" fill="#2EE6A6"/><polygon points="450,256 290,290 256,256 290,222" fill="#FF8A3D"/><polygon points="256,450 222,290 256,256 290,290" fill="#B57BFF"/><polygon points="62,256 222,222 256,256 222,290" fill="#FFC93C"/><circle cx="256" cy="256" r="24" fill="#FFFFFF"/></svg>'
 };
 
 /* ---------- data subtopik ---------- */

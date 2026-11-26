@@ -8,7 +8,7 @@ function shell(tab, inner) {
   const fsOk = document.fullscreenEnabled;
   return `<div class="app tabbed">
   <header class="hdr">
-    <a class="ib" href="../#/utama" aria-label="Kembali ke TerokaMath (semua bab)">${IC.mm}</a>
+    <a class="ib lgo" href="../#/utama" aria-label="Kembali ke TerokaMath (semua bab)">${IC.mm}</a>
     <a class="wm2" href="../#/utama" aria-label="Kembali ke TerokaMath (semua bab)"><b class="tm">Teroka<span>Math</span></b><small><b class="mv">Bab ${BAB.no}</b> : ${BAB.tajuk}</small></a>
     <nav class="tabs" aria-label="Tab utama">${TABS.filter(t => t[0] !== 'ajar').map(([k, t, sh]) => `<a href="#/${k}"${k === 'ajar' ? ' class="hl"' : ''}${k === tab ? ' aria-current="page"' : ''}>${IC[k]}${sh ? `<span class="tl">${t}</span><span class="ts">${sh}</span>` : `<span>${t}</span>`}</a>`).join('')}</nav>
     <div class="end">

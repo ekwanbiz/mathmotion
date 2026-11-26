@@ -763,3 +763,4 @@ html.light{--lat-am:#FEF3C7;--lat-tr:#E0F2FE;--lat-gr:#DCFCE7;--lat-pk:#FCE7F3}
 .bbspin{width:34px;height:34px;border-radius:50%;border:4px solid color-mix(in srgb,var(--pu) 25%,transparent);border-top-color:var(--pu);animation:bbsp 1s linear infinite}
 @keyframes bbsp{to{transform:rotate(360deg)}}
 @media (max-width:760px){.bbtb .btn span{display:none}.bbft #ajmOk{width:100%}}
+.ib.lgo,html.light .ib.lgo{border:0;background:none;box-shadow:none;padding:0}
