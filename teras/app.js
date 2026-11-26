@@ -377,7 +377,7 @@ function render(keepScroll) {
   const h = location.hash.replace(/^#\/?/, ''), p = h.split('/').filter(Boolean);
   const sc = keepScroll && document.getElementById('main') ? document.getElementById('main').scrollTop : 0;
   const rr = typeof tmMuridRoute === 'function' ? tmMuridRoute(p) : ''; if (rr) { location.replace(rr); return; }
-  if (!p.length && BAB.tema2) { location.replace('#/nota'); return; }
+  if (!p.length) { location.replace('#/nota'); return; }  // skrin Jom Mula dibuang (26 Nov)
   if (!p.length) { app.innerHTML = viewSplash(); document.title = `${APPNAME} – ${BAB.tajuk}`; return; }
   const tab = p[0];
   let inner = '', bind = () => {};
@@ -401,6 +401,6 @@ function render(keepScroll) {
   if (keepScroll) { const m = document.getElementById('main'); if (m) m.scrollTop = sc; }
 }
 window.addEventListener('hashchange', () => { render(false); });
-document.documentElement.classList.toggle('t2', !!BAB.tema2);
+document.documentElement.classList.add('t2');  // tema 2 untuk semua bab (26 Nov)
 window.addEventListener('DOMContentLoaded', () => { setMeta(); render(false); });
 if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('../sw.js', { scope: '../' }).catch(() => {}));
