@@ -164,7 +164,6 @@ function viewSusun() {
   if (AJS.sel >= pl.items.length) AJS.sel = pl.items.length - 1;
   const opts = d.plans.map(p => `<option value="${p.id}"${p.id === d.cur ? ' selected' : ''}>${esc(p.name)}</option>`).join('');
   const cats = [['slaid', 'Slaid nota', `${SLIDES.filter(s => !s.cover).length} slaid · ${SUBS.length} subtopik`], ['sim', 'Simulasi', SIMLIST.map(s => s[1]).join(' · ')], ['lat', 'Latihan', 'Pilih soalan dari bank'], ['game', 'Game', '4 pilihan game'], ['cikgu', 'Slaid baharu', ajBB() ? '2 pilihan' : '5 templat']];
-  const catBtns = cats.map(([k, t, s]) => `<button type="button" class="ajcat${AJS.cat === k ? ' on' : ''}" data-cat="${k}" style="--c:var(--${AJT[k][1]})"><span class="ab">${k === 'cikgu' ? '+' : AJT[k][0].slice(0, 2)}</span><span><b>${t}</b><small>${s}</small></span></button>`).join('');
   let lib = '';
   if (AJS.cat === 'slaid') {
     lib = `<div class="ajsubs">${SUBS.map(s => `<button type="button" class="opt" data-asub="${s.no}" aria-pressed="${AJS.sub === s.no}" style="--c:${subCol(s.no)}">${s.no}</button>`).join('')}</div>
@@ -180,6 +179,9 @@ function viewSusun() {
   else {
     lib = Object.keys(TPL).filter(k => k !== 'bebas').map(k => `<button type="button" class="ajadd tpl" data-newcikgu="${k}"><span><b>${TPL[k][0]}</b><small>${TPL[k][1]}</small></span>${ajIcon.plus}</button>`).join('');
   }
+  // laci: isi tab terbuka terus di bawah tab yang diklik (klik lagi untuk tutup)
+  const catBtns = cats.map(([k, t, s]) => `<button type="button" class="ajcat${AJS.cat === k ? ' on' : ''}" data-cat="${k}" aria-expanded="${AJS.cat === k}" style="--c:var(--${AJT[k][1]})"><span class="ab">${k === 'cikgu' ? '+' : AJT[k][0].slice(0, 2)}</span><span><b>${t}</b><small>${s}</small></span><span class="ajchev" aria-hidden="true">${AJS.cat === k ? '▴' : '▾'}</span></button>`
+    + (AJS.cat === k ? `<div class="ajlib" style="--c:var(--${AJT[k][1]})">${lib}</div>` : '')).join('');
   const rows = pl.items.map((it, i) => `<div class="ajrow${i === AJS.sel ? ' on' : ''}" draggable="true" data-row="${i}" style="--c:var(--${AJT[it.t][1]})">
       <span class="dg" aria-hidden="true">${ajIcon.drag}</span><span class="n">${i + 1}</span>${typeChip(it.t)}
       <button type="button" class="nm" data-pick="${i}">${esc(itemName(it))}</button>
@@ -199,7 +201,7 @@ function viewSusun() {
       <button type="button" class="btn pri big ajgo" id="ajGo"${pl.items.length ? '' : ' disabled'}>${IC.play} Mula Mengajar</button>
     </div>
     <div class="ajgrid">
-      <section class="ajcol" aria-label="Bahan"><h2 class="ajh">BAHAN</h2><div class="ajcats">${catBtns}</div><div class="ajlib">${lib}</div></section>
+      <section class="ajcol" aria-label="Bahan"><h2 class="ajh">BAHAN</h2><div class="ajcats">${catBtns}</div></section>
       <section class="ajcol" aria-label="Pelan pengajaran"><div class="ajh2"><h2 class="ajh">PELAN PENGAJARAN · ${pl.items.length} ITEM</h2><span>Seret ${ajIcon.drag} untuk susun</span></div>
         <div class="ajrows" id="ajRows">${rows || '<p class="ajhint" style="margin:20px 0">Pelan kosong. Tambah bahan dari senarai di sebelah kiri.</p>'}</div></section>
       <aside class="ajcol" aria-label="Pratonton">${viewPratonton(pl)}</aside>
@@ -338,7 +340,7 @@ function bindSusun() {
     else AJS.modal = { type: 'cikgu', it: JSON.parse(JSON.stringify(it)), edit: AJS.sel };
     render(true);
   };
-  main.querySelectorAll('[data-cat]').forEach(b => b.onclick = () => { AJS.cat = b.dataset.cat; render(true); });
+  main.querySelectorAll('[data-cat]').forEach(b => b.onclick = () => { AJS.cat = AJS.cat === b.dataset.cat ? null : b.dataset.cat; render(true); const lb = main.querySelector('.ajlib'); if (lb) lb.scrollIntoView({ block: 'nearest' }); });
   main.querySelectorAll('[data-asub]').forEach(b => b.onclick = () => { AJS.sub = b.dataset.asub; render(true); });
   main.querySelectorAll('[data-addslide]').forEach(b => b.onclick = () => ajAdd({ t: 'slaid', sub: AJS.sub, n: +b.dataset.addslide }));
   main.querySelectorAll('[data-addall]').forEach(b => b.onclick = () => {
