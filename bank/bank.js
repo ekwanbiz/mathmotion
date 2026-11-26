@@ -274,7 +274,7 @@ function viewEdit() {
   });
   const hid = st === 'A' ? p.items.map(resolve).filter(q => q && q.bhg !== 'A').length : 0;
   const fld = (key, lab, ph, cls) => `<label${cls ? ` class="${cls}"` : ''}>${lab}<input data-h="${key}" value="${esc(K[key])}" placeholder="${ph || ''}"></label>`;
-  return `<div class="ed"><div class="edtop"><a class="ck sm" href="#/">← Bank soalan</a><span class="sp"><button class="ck pri" id="pSoal">🖨 Cetak kertas soalan</button><button class="ck" id="pSkema">🖨 Cetak skema</button></span></div>
+  return `<div class="ed"><div class="edtop"><a class="ck sm" href="#/">← Bank soalan</a><span class="sp"><button class="ck pri" id="pSoal">🖨 Cetak kertas soalan</button><button class="ck" id="pSkema">🖨 Cetak skema</button><button class="ck" id="wSoal" title="Muat turun kertas soalan sebagai Word (.docx)">⬇ Word soalan</button><button class="ck" id="wSkema" title="Muat turun skema sebagai Word (.docx)">⬇ Word skema</button></span></div>
     <h1 contenteditable="true" id="eNama">${esc(p.nama)}</h1>
     <div class="set"><div><span class="lb">STRUKTUR</span><span class="seg">${Object.keys(STR).map(s => `<button data-st="${s}" aria-pressed="${st === s}">${STR[s]}</button>`).join('')}</span></div>
       <div><span class="lb">BAHASA</span><button class="chip" id="eDw" aria-pressed="${dw}" style="--c:var(--blue)">${dw ? '✓ ' : ''}Dwibahasa (BM + BI)</button></div></div>
@@ -430,6 +430,19 @@ function bindEdit() {
   });
   document.getElementById('pSoal').onclick = () => printPaper(false);
   document.getElementById('pSkema').onclick = () => printPaper(true);
+  document.getElementById('wSoal').onclick = () => wordDownload(false);
+  document.getElementById('wSkema').onclick = () => wordDownload(true);
+}
+/* ---------- muat turun Word: pustaka dimuat hanya bila perlu ---------- */
+const loadJS = src => new Promise((ok, no) => { const s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = no; document.head.appendChild(s); });
+let wBusy = false;
+async function wordDownload(withSk) {
+  if (wBusy) return; wBusy = true;
+  try {
+    if (typeof window.wordBuild !== 'function') { toast('Menyediakan fail Word…'); await loadJS('../lib/docx.js'); await loadJS('word.js'); }
+    await window.wordBuild(withSk);
+  } catch (e) { console.error(e); toast('Gagal menjana fail Word. Semak sambungan internet dan cuba lagi.'); }
+  wBusy = false;
 }
 window.addEventListener('hashchange', () => render());
 window.addEventListener('afterprint', () => document.body.classList.remove('printing'));
