@@ -373,6 +373,8 @@ g.rv.hid{visibility:hidden}
 .ajp-main>.tero{padding-left:84px}
 .ajp-main>.qbody{padding-left:60px}
 .ajp-main>.main{padding-left:60px}
+/* bar pen di tab NOTA (laptop): kecil, duduk dalam ruang tepi kiri slaid supaya slaid tidak menyempit */
+@media (min-width:901px){.nink>.stage{padding-left:max(0px,calc(50px - 3.4vw))}.nink .ajpen{left:4px;padding:4px;gap:4px;border-radius:14px}.nink .ajpb{width:32px;height:32px;border-radius:9px}.nink .ajpb svg{width:17px;height:17px}.nink .ajcol-b{width:32px;height:20px;border-radius:7px}.nink .ajpsep{margin:0 3px}}
 .ajqh{max-width:1320px;margin:0 auto;padding:18px clamp(18px,3.4vw,44px) 0;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .ajqn{font-family:var(--head);font-weight:700;font-size:21px}.ajqn span{color:var(--mu)}
 .ink{position:absolute;inset:0;width:100%;height:100%;z-index:5;pointer-events:none;touch-action:none}
@@ -538,6 +540,8 @@ g.rv.hid{visibility:hidden}
  .ajp-main>.stage{padding-bottom:64px}
  .ajpen{left:50%;top:auto;bottom:8px;transform:translateX(-50%);flex-direction:row;padding:6px;gap:5px}
  .ajpb{width:40px;height:40px}.ajcol-b{width:28px;height:28px}.ajpsep{width:1px;height:auto;margin:4px 1px}
+ .ajpen{max-width:calc(100vw - 12px);gap:4px;padding:5px}
+ .ajpb{width:34px;height:34px}.ajcol-b{width:24px;height:24px}.ajpb svg{width:18px;height:18px}
  .ajbar{gap:8px;padding:8px 10px calc(8px + var(--sab))}
  .ajbar .ajx span,.ajbar .ajlb span,.ajdots{display:none}
  .ajbar .btn{padding:0 12px}

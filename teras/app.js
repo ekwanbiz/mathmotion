@@ -82,10 +82,9 @@ function viewSlide(sub, n) {
       <a class="btn sec bk" href="#/nota/senarai" style="min-height:44px;padding:0 14px" aria-label="Kembali ke senarai subtopik">${IC.left}<span>Subtopik</span></a>
       <span class="chip" style="background:${col};color:var(--on)">${sub}</span><span class="nm">${so.name}</span>
       <span class="pg">${s.cover ? 'Tajuk' : `Slaid ${n} / ${s.N}`}</span>
-      ${temaBtn()}
       <button type="button" class="ib" id="printSub" aria-label="Cetak nota subtopik ini">${IC.print}</button>
     </div>
-    <div class="stage" id="stage" style="--c:${col}">${slideHTML(s, slPal())}</div>
+    <div class="ajp-main nink" id="ajpMain"><div class="stage" id="stage" style="--c:${col}">${slideHTML(s, slPal())}</div><canvas id="ink" class="ink${AJ.tool ? ' on' : ''}" aria-hidden="true"></canvas>${penTools(true)}</div>
     <div class="slfoot" style="--c:${col}">
       ${sim ? `<a class="btn sec tk" href="#/teroka/${sim}" style="min-height:48px" aria-label="Cuba di TEROKA">${IC.teroka}<span>Cuba di TEROKA</span></a>` : '<span class="hint">Anak panah papan kekunci untuk tukar slaid</span>'}
       <div class="dots" role="img" aria-label="Slaid ${n} daripada ${s.N}">${dots}</div>
@@ -114,15 +113,15 @@ function bindSlide() {
   document.getElementById('nextBtn').onclick = nextStep;
   document.getElementById('prevBtn').onclick = prevStep;
   const s = SLIDES[NOTA.i];
-  document.getElementById('temaBtn').onclick = () => temaPanel(() => render(true));
   document.getElementById('printSub').onclick = () => printSlides(SLIDES.filter(x => x.sub === s.sub));
   const st = document.getElementById('stage');
   let x0 = null, y0 = 0;
   st.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
   st.addEventListener('touchend', e => {
-    if (x0 == null) return; const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; x0 = null;
+    if (x0 == null || AJ.tool) return; const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; x0 = null;
     if (Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 1.5) { if (dx < 0) nextStep(); else prevStep(); }
   }, { passive: true });
+  bindPen();
 }
 document.addEventListener('keydown', e => {
   if (!/^#\/nota\/\d/.test(location.hash)) return;
@@ -131,6 +130,7 @@ document.addEventListener('keydown', e => {
     if (e.key === 'Enter' && e.target.closest && e.target.closest('a,button')) return;
     e.preventDefault(); nextStep();
   } else if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key)) { e.preventDefault(); prevStep(); }
+  else if (e.key === 'Escape' && AJ.tool) { e.preventDefault(); AJ.tool = null; inkTools(); }
 });
 
 let printing = false;

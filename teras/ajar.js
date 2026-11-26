@@ -440,7 +440,7 @@ function bindModal(pl) {
     else ajAdd(item);
   };
 }
-window.addEventListener('resize', () => { if (/^#\/(ajar|k\/)/.test(location.hash)) { fitPreviews(); inkResize(); } });
+window.addEventListener('resize', () => { if (/^#\/(ajar|k\/)/.test(location.hash)) { fitPreviews(); inkResize(); } else if (/^#\/nota\/\d/.test(location.hash)) inkResize(); });
 
 /* =================== MOD TAYANG =================== */
 const AJ = { i: 0, r: 0, qi: 0, show: false, ink: {}, tool: null, col: 'rd', back: false };
@@ -526,17 +526,7 @@ function viewTayang() {
   else if (it.t === 'lat') content = viewLatItem(it);
   else if (it.t === 'game') { let g = viewGameMode(it.g || '60'); g = g.replace(/<a [^>]*href="#\/games[^"]*"[^>]*>[\s\S]*?<\/a>/g, ''); if (ajShared()) g = g.replace(/<a [^>]*href="#\/[^"]*"[^>]*>[^<]*<\/a>/g, ''); content = `<div class="main" id="main">${g}</div>`; }
   const dots = pl.items.map((x, k) => `<button type="button" class="ajdot${k === AJ.i ? ' on' : ''}" data-jump="${k}" style="--c:var(--${AJT[x.t][1]});opacity:${k <= AJ.i ? 1 : .4}" aria-label="Item ${k + 1}: ${esc(itemName(x))}"></button>`).join('');
-  const cols = [['rd', 'Merah'], ['am', 'Kuning'], ['tx', (() => { const t = typeof temaNow === 'function' && temaNow(); return (t ? t.b === 'l' : isLight()) ? 'Hitam' : 'Putih'; })()]];
-  const tools = `<div class="ajpen" role="toolbar" aria-label="Pen conteng">
-      <button type="button" class="ajpb cur" data-cur="1" aria-pressed="${!AJ.tool}" aria-label="Klik biasa (tutup pen)" title="Klik biasa (Esc)">${ajIcon.cur}</button>
-      <span class="ajpsep" aria-hidden="true"></span>
-      <button type="button" class="ajpb" data-tool="pen" aria-pressed="${AJ.tool === 'pen'}" aria-label="Pen">${ajIcon.pen}</button>
-      <button type="button" class="ajpb" data-tool="hl" aria-pressed="${AJ.tool === 'hl'}" aria-label="Penyerlah">${ajIcon.hl}</button>
-      ${cols.map(([c, n]) => `<button type="button" class="ajcol-b" data-col="${c}" aria-pressed="${AJ.col === c}" aria-label="Warna ${n}" style="background:var(--${c})"></button>`).join('')}
-      <button type="button" class="ajpb" data-tool="er" aria-pressed="${AJ.tool === 'er'}" aria-label="Pemadam">${ajIcon.eraser}</button>
-      <button type="button" class="ajpb" id="ajClr" aria-label="Padam semua conteng">${ajIcon.trash}</button>
-      ${it.t === 'slaid' || it.t === 'cikgu' ? `<span class="ajpsep" aria-hidden="true"></span><button type="button" class="ajpb" id="ajTema" aria-haspopup="true" aria-label="Tema slaid" title="Tema slaid">${IC.tema}</button>` : ''}
-    </div>`;
+  const tools = penTools(it.t === 'slaid' || it.t === 'cikgu');
   const list = `<div class="ajlist" id="ajList" hidden><h3>PELAN · ${esc(pl.name)}</h3>${pl.items.map((x, k) => `<button type="button" class="ajli${k === AJ.i ? ' on' : ''}" data-jump="${k}"><span class="n">${k + 1}</span>${typeChip(x.t)}<span>${esc(itemName(x))}</span></button>`).join('')}</div>`;
   return `<div class="app ajp">
     <div class="ajp-main" id="ajpMain">${content}<canvas id="ink" class="ink${AJ.tool ? ' on' : ''}" aria-hidden="true"></canvas>${tools}</div>
@@ -569,11 +559,6 @@ function bindTayang() {
   const lst = document.getElementById('ajList'), lb = document.getElementById('ajListB');
   lb.onclick = () => { lst.hidden = !lst.hidden; lb.setAttribute('aria-expanded', String(!lst.hidden)); };
   document.querySelectorAll('[data-jump]').forEach(b => b.onclick = () => ajGo(+b.dataset.jump));
-  document.querySelectorAll('[data-tool]').forEach(b => b.onclick = () => { AJ.tool = AJ.tool === b.dataset.tool ? null : b.dataset.tool; inkTools(); });
-  document.querySelectorAll('[data-cur]').forEach(b => b.onclick = () => { AJ.tool = null; inkTools(); });
-  document.querySelectorAll('[data-col]').forEach(b => b.onclick = () => { AJ.col = b.dataset.col; if (!AJ.tool || AJ.tool === 'er') AJ.tool = 'pen'; inkTools(); });
-  document.getElementById('ajClr').onclick = () => { AJ.ink[AJ.i] = []; inkDraw(); };
-  const tmb = document.getElementById('ajTema'); if (tmb) tmb.onclick = () => temaPanel(() => render(true), 'ajTema');
   if (it.t === 'game') bindGameMode(it.g || '60');
   const st = document.getElementById('stage');
   if (st) {
@@ -581,7 +566,7 @@ function bindTayang() {
     st.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
     st.addEventListener('touchend', e => { if (x0 == null || AJ.tool) return; const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; x0 = null; if (Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 1.5) { if (dx < 0) ajNext(); else ajPrev(); } }, { passive: true });
   }
-  inkBind();
+  bindPen();
 }
 document.addEventListener('keydown', e => {
   if (!ajIsPlay()) return;
@@ -602,6 +587,32 @@ document.addEventListener('fullscreenchange', () => {
   ajWasFs = false;
 });
 
+/* ---------- bar pen conteng (dikongsi: tayang Pelan Mengajar & tab NOTA) ---------- */
+function penTools(tema) {
+  const lt = (() => { const t = typeof temaNow === 'function' && temaNow(); return t ? t.b === 'l' : isLight(); })();
+  const cols = [['rd', 'Merah', 'var(--rd)'], ['am', 'Kuning', 'var(--am)'], ['tx', lt ? 'Hitam' : 'Putih', lt ? '#111827' : '#F8FAFC']];
+  return `<div class="ajpen" role="toolbar" aria-label="Pen conteng">
+      <button type="button" class="ajpb cur" data-cur="1" aria-pressed="${!AJ.tool}" aria-label="Klik biasa (tutup pen)" title="Klik biasa (Esc)">${ajIcon.cur}</button>
+      <span class="ajpsep" aria-hidden="true"></span>
+      <button type="button" class="ajpb" data-tool="pen" aria-pressed="${AJ.tool === 'pen'}" aria-label="Pen">${ajIcon.pen}</button>
+      <button type="button" class="ajpb" data-tool="hl" aria-pressed="${AJ.tool === 'hl'}" aria-label="Penyerlah">${ajIcon.hl}</button>
+      ${cols.map(([c, n, bg]) => `<button type="button" class="ajcol-b" data-col="${c}" aria-pressed="${AJ.col === c}" aria-label="Warna ${n}" style="background:${bg}"></button>`).join('')}
+      <button type="button" class="ajpb" data-tool="er" aria-pressed="${AJ.tool === 'er'}" aria-label="Pemadam">${ajIcon.eraser}</button>
+      <button type="button" class="ajpb" id="ajClr" aria-label="Padam semua conteng">${ajIcon.trash}</button>
+      ${tema ? `<span class="ajpsep" aria-hidden="true"></span><button type="button" class="ajpb" id="ajTema" aria-haspopup="true" aria-label="Tema slaid" title="Tema slaid">${IC.tema}</button>` : ''}
+    </div>`;
+}
+function bindPen() {
+  document.querySelectorAll('[data-tool]').forEach(b => b.onclick = () => { AJ.tool = AJ.tool === b.dataset.tool ? null : b.dataset.tool; inkTools(); });
+  document.querySelectorAll('[data-cur]').forEach(b => b.onclick = () => { AJ.tool = null; inkTools(); });
+  document.querySelectorAll('[data-col]').forEach(b => b.onclick = () => { AJ.col = b.dataset.col; if (!AJ.tool || AJ.tool === 'er') AJ.tool = 'pen'; inkTools(); });
+  const clr = document.getElementById('ajClr'); if (clr) clr.onclick = () => { AJ.ink[inkKey()] = []; inkDraw(); };
+  const tmb = document.getElementById('ajTema'); if (tmb) tmb.onclick = () => temaPanel(() => render(true), 'ajTema');
+  inkBind();
+}
+// conteng disimpan ikut item tayangan, atau ikut slaid NOTA
+const inkKey = () => (ajIsPlay() ? AJ.i : 'nota' + (typeof NOTA !== 'undefined' ? NOTA.i : 0));
+
 /* ---------- pen conteng ---------- */
 const INK = { draw: null };
 function inkTools() {
@@ -620,7 +631,7 @@ function inkDraw() {
   const c = document.getElementById('ink'); if (!c) return;
   const g = c.getContext('2d'), W = c.width, H = c.height, cs = getComputedStyle(document.getElementById('stage') || document.documentElement);
   g.clearRect(0, 0, W, H);
-  (AJ.ink[AJ.i] || []).forEach(s => {
+  (AJ.ink[inkKey()] || []).forEach(s => {
     if (s.pts.length < 1) return;
     g.save(); g.lineCap = 'round'; g.lineJoin = 'round';
     g.strokeStyle = cs.getPropertyValue('--' + s.col).trim() || '#F87171';
@@ -641,9 +652,9 @@ function inkBind() {
   const pos = e => { const r = c.getBoundingClientRect(); return [(e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height]; };
   const erase = p => {
     const r = c.getBoundingClientRect(), rad = 18;
-    const list = AJ.ink[AJ.i] || [];
-    AJ.ink[AJ.i] = list.filter(s => !s.pts.some(([x, y]) => Math.hypot((x - p[0]) * r.width, (y - p[1]) * r.height) < rad));
-    if (AJ.ink[AJ.i].length !== list.length) inkDraw();
+    const k = inkKey(), list = AJ.ink[k] || [];
+    AJ.ink[k] = list.filter(s => !s.pts.some(([x, y]) => Math.hypot((x - p[0]) * r.width, (y - p[1]) * r.height) < rad));
+    if (AJ.ink[k].length !== list.length) inkDraw();
   };
   c.addEventListener('pointerdown', e => {
     if (!AJ.tool) return;
@@ -651,7 +662,7 @@ function inkBind() {
     const p = pos(e);
     if (AJ.tool === 'er') { INK.draw = 'er'; erase(p); return; }
     const s = { tool: AJ.tool, col: AJ.col, pts: [p] };
-    (AJ.ink[AJ.i] = AJ.ink[AJ.i] || []).push(s); INK.draw = s; inkDraw();
+    const k = inkKey(); (AJ.ink[k] = AJ.ink[k] || []).push(s); INK.draw = s; inkDraw();
   });
   c.addEventListener('pointermove', e => {
     if (!INK.draw) return;
