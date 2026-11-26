@@ -1,6 +1,7 @@
 # Penjana slaid NOTA PIAWAI (Tingkatan 3 Bab 2 Bentuk Piawai) -> piawai/slides.js
 # Jalankan:  python3 tools/piawai/gen_slides.py
 # Gunakan HANYA warna palet gelap di bawah supaya mod cerah ditukar automatik oleh themed().
+raise SystemExit('Dipersarakan: nota Bab 2 T3 kini dijana oleh alat/nota/bina_bab2_t3.py (ikut buku teks).')
 import json, os, html, re, math
 from decimal import Decimal as D, ROUND_HALF_UP
 

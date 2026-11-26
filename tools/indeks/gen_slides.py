@@ -2,6 +2,7 @@
 # Jalankan:  python3 tools/indeks/gen_slides.py
 # Gunakan HANYA warna palet gelap di bawah supaya mod cerah ditukar automatik oleh themed().
 # Tatatanda dalam teks: '^{...}' = superskrip (ditukar kepada <sup> dalam HTML dan <tspan> dalam SVG).
+raise SystemExit('Dipersarakan: nota Bab 1 T3 kini dijana oleh alat/nota/bina_bab1_t3.py (ikut buku teks).')
 import json, os, html, math, re, sys
 from fractions import Fraction as F
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
