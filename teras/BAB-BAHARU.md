@@ -74,8 +74,8 @@ Pembantu tersedia (teras/asas.js): `ri, pick, shuffle, nz, fmt, par, P, vec, esc
 Jalankan: `node tools/seo-meta.js > /tmp/meta.json && python3 tools/seo.py /tmp/meta.json`
 (kemas kini tag Google/Open Graph, teks statik dalam `<div id="app">`, `sitemap.xml` dan `robots.txt`). Pastikan `index.html` bab juga ada `bebas.js` dan `ga.js` selepas `ajar.js`.
 
-## Slaid tajuk subtopik (teras/muka.js)
-Setiap subtopik dimulakan dengan slaid tajuk (n = 0, `cover: true`) yang disisip automatik: "BAB n : tajuk bab",
-nombor dan nama subtopik, serta rajah hiasan bab. Slaid ini juga masuk dalam Pelan Mengajar; tidak dicetak.
+## Slaid tajuk bab (teras/muka.js)
+Satu slaid tajuk (n = 0, `cover: true`) disisip automatik di depan subtopik pertama: "BAB n" + tajuk bab dan rajah hiasan.
+Mula Mengajar sentiasa bermula dengan slaid ini (ajTP() dalam ajar.js) walaupun pelan tidak mengandunginya. Tidak dicetak.
 Bab baharu: tambah satu fungsi dalam `MUKA` (kunci = `BAB.id`, viewBox 600×600, warna gelap) dan pastikan
 `<script src="../teras/muka.js"></script>` ada selepas app.js dalam index.html bab. Tiada fungsi → slaid tajuk tanpa rajah.

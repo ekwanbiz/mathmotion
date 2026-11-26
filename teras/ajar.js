@@ -94,7 +94,7 @@ function readyItems(sub) {
 const slideOf = it => SLIDES.find(s => s.sub === it.sub && s.n === it.n);
 const bankById = () => { const o = {}; wsBank().forEach(q => { o[q.id] = q; }); return o; };
 function itemName(it) {
-  if (it.t === 'slaid') { const s = slideOf(it); return s ? `${s.sub} · ${strip(s.title)}` : 'Slaid'; }
+  if (it.t === 'slaid') { const s = slideOf(it); return s ? (s.cover ? `Tajuk Bab ${BAB.no}` : `${s.sub} · ${strip(s.title)}`) : 'Slaid'; }
   if (it.t === 'sim') return 'Simulasi ' + (SIMNAME[it.k] || '');
   if (it.t === 'lat') { const subs = [...new Set(it.ids.map(id => id.split('-')[0]))].join(', '); return `Latihan ${subs} · ${it.ids.length} soalan`; }
   if (it.t === 'game') return GMODES[it.g || '60'][0];
@@ -169,7 +169,7 @@ function viewSusun() {
   if (AJS.cat === 'slaid') {
     lib = `<div class="ajsubs">${SUBS.map(s => `<button type="button" class="opt" data-asub="${s.no}" aria-pressed="${AJS.sub === s.no}" style="--c:${subCol(s.no)}">${s.no}</button>`).join('')}</div>
       <button type="button" class="ajadd all" data-addall="${AJS.sub}">${ajIcon.plus} Semua slaid ${AJS.sub}</button>
-      ${SLIDES.filter(s => s.sub === AJS.sub).map(s => `<button type="button" class="ajadd" data-addslide="${s.n}"><span>${s.cover ? 'Tajuk subtopik' : `${s.n}. ${strip(s.title)}`}</span>${ajIcon.plus}</button>`).join('')}`;
+      ${SLIDES.filter(s => s.sub === AJS.sub).map(s => `<button type="button" class="ajadd" data-addslide="${s.n}"><span>${s.cover ? 'Tajuk bab' : `${s.n}. ${strip(s.title)}`}</span>${ajIcon.plus}</button>`).join('')}`;
   } else if (AJS.cat === 'sim') {
     lib = Object.keys(SIMNAME).map(k => `<button type="button" class="ajadd" data-addsim="${k}"><span>Simulasi ${SIMNAME[k]}</span>${ajIcon.plus}</button>`).join('');
   } else if (AJS.cat === 'lat') {
@@ -441,9 +441,14 @@ window.addEventListener('resize', () => { if (/^#\/(ajar|k\/)/.test(location.has
 
 /* =================== MOD TAYANG =================== */
 const AJ = { i: 0, r: 0, qi: 0, show: false, ink: {}, tool: null, col: 'rd', back: false };
-const ajCur = () => { const pl = ajPlan(); return pl && pl.items[AJ.i]; };
+// pelan semasa tayang: slaid tajuk bab sentiasa di atas sekali (jika pelan belum ada)
+const ajTP = () => { const pl = ajPlan(); const cv = typeof SLIDES !== 'undefined' && SLIDES.find(s => s.cover);
+  if (!pl || !cv || pl.items.some(x => x.t === 'slaid' && x.sub === cv.sub && x.n === cv.n)) return pl;
+  return Object.assign({}, pl, { items: [{ t: 'slaid', sub: cv.sub, n: cv.n }].concat(pl.items) }); };
+const ajOff = () => { const a = ajPlan(), b = ajTP(); return a && b ? b.items.length - a.items.length : 0; };
+const ajCur = () => { const pl = ajTP(); return pl && pl.items[AJ.i]; };
 function ajStart(i) {
-  AJ.i = i; AJ.r = 0; AJ.qi = 0; AJ.show = false; AJ.ink = {}; AJ.tool = null; AJ.back = false;
+  AJ.i = i ? i + ajOff() : 0; AJ.r = 0; AJ.qi = 0; AJ.show = false; AJ.ink = {}; AJ.tool = null; AJ.back = false;
   if (document.fullscreenEnabled && !document.fullscreenElement) document.documentElement.requestFullscreen().catch(() => {});
   location.hash = ajShared() ? `#/k/${AJK.code}/tayang` : '#/ajar/tayang';
 }
@@ -451,10 +456,10 @@ function ajExit() {
   if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
   if (typeof G !== 'undefined') { clearInterval(G.timer); G.st = 'intro'; }
   if (ajShared()) { location.hash = `#/k/${AJK.code}`; return; }
-  AJS.sel = AJ.i; location.hash = '#/ajar';
+  AJS.sel = Math.max(0, AJ.i - ajOff()); location.hash = '#/ajar';
 }
 function ajGo(i, back) {
-  const pl = ajPlan();
+  const pl = ajTP();
   if (i < 0) return;
   if (i >= pl.items.length) { toast('Tamat pelan pengajaran'); return; }
   AJ.i = i; AJ.back = !!back;
@@ -510,7 +515,7 @@ function viewLatItem(it) {
 }
 function viewTayang() {
   if (ajBB()) bbEnsureImgs();
-  const pl = ajPlan(), it = ajCur();
+  const pl = ajTP(), it = ajCur();
   if (!it) { location.replace(ajShared() ? `#/k/${AJK.code}` : '#/ajar'); return ''; }
   let content = '';
   if (it.t === 'slaid' || it.t === 'cikgu') content = `<div class="stage" id="stage" style="--c:${subColVar(it)}">${itemSlideHTML(it)}</div>`;
@@ -540,7 +545,7 @@ function viewTayang() {
     </nav></div>`;
 }
 function ajLabel() {
-  const pl = ajPlan(), it = ajCur(); if (!it) return;
+  const pl = ajTP(), it = ajCur(); if (!it) return;
   const l1 = document.getElementById('ajL1'), l2 = document.getElementById('ajL2'); if (!l1) return;
   l1.textContent = `${AJ.i + 1} / ${pl.items.length} · ${it.t === 'slaid' ? 'Slaid ' : ''}${itemName(it)}`;
   const nx = pl.items[AJ.i + 1];

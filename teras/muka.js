@@ -146,25 +146,22 @@ const MUKA = {
     return pts.map((p, k) => g(k, C(...p, 62, cs[k], .2, 5) + T(...p, lb[k], cs[k], 50) + arw(k))).join(''); },
 };
 
-/* ---------- slaid tajuk: satu di depan setiap subtopik (n = 0) ---------- */
+/* ---------- slaid tajuk bab: satu sahaja, di depan subtopik pertama (n = 0) ---------- */
 (function tambahTajuk() {
-  if (typeof SLIDES === 'undefined' || SLIDES.some(x => x.cover)) return;
-  SUBS.forEach(su => {
-    const k = SLIDES.findIndex(x => x.sub === su.no); if (k < 0) return;
-    SLIDES.splice(k, 0, { sub: su.no, n: 0, N: SLIDES[k].N, cover: true, kicker: 'TAJUK', title: 'Tajuk subtopik', body: '', fig: '' });
-  });
+  if (typeof SLIDES === 'undefined' || !SUBS.length || SLIDES.some(x => x.cover)) return;
+  const su = SUBS[0], k = SLIDES.findIndex(x => x.sub === su.no); if (k < 0) return;
+  SLIDES.splice(k, 0, { sub: su.no, n: 0, N: SLIDES[k].N, cover: true, kicker: 'TAJUK', title: 'Tajuk bab', body: '', fig: '' });
 })();
 function coverHTML(s, light) {
-  const su = subOf(s.sub), base = [...new Set([...SUBS.map(x => x.col.toUpperCase()), '#38BDF8', '#FBBF24', '#34D399', '#A78BFA', '#F472B6'])];
-  const k = Math.max(0, base.indexOf(su.col.toUpperCase())), pal = [base[k], ...base.filter((_, j) => j !== k)].slice(0, 3);
-  const f = MUKA[BAB.id], art = f ? themed(f(pal), light) : '', col = themed(su.col, light);
-  const len = su.name.length, cls = len > 44 ? ' xl' : len > 24 ? ' l' : '';
+  const pal = [...new Set([...SUBS.map(x => x.col.toUpperCase()), '#38BDF8', '#FBBF24', '#34D399', '#A78BFA', '#F472B6'])].slice(0, 3);
+  const f = MUKA[BAB.id], art = f ? themed(f(pal), light) : '', col = themed(pal[0], light);
+  const len = BAB.tajuk.length, cls = len > 44 ? ' xl' : len > 26 ? ' l' : '';
   return `<div class="cover cvslide" style="--c:${col}">
     <div class="cv-txt">
-      <p class="cv-bab">BAB ${BAB.no} : ${BAB.tajuk}</p>
-      <h1 class="cv-t${cls}"><span class="cv-no">${s.sub}</span>${su.name}</h1>
-      <div class="cv-bar" aria-hidden="true"><i style="background:${col}"></i></div>
+      <p class="cv-bab">BAB ${BAB.no}</p>
+      <h1 class="cv-t${cls}">${BAB.tajuk}</h1>
+      <div class="cv-bar" aria-hidden="true">${SUBS.map(x => `<i style="background:${themed(x.col, light)}"></i>`).join('')}</div>
     </div>
-    ${art ? `<svg class="cv-art" viewBox="0 0 600 600" role="img" aria-label="Rajah hiasan ${su.name}">${art}</svg>` : ''}
+    ${art ? `<svg class="cv-art" viewBox="0 0 600 600" role="img" aria-label="Rajah hiasan ${BAB.tajuk}">${art}</svg>` : ''}
   </div>`;
 }
