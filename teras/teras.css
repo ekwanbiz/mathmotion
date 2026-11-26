@@ -788,3 +788,43 @@ html.murid .gpick{align-items:start}
 @media (prefers-reduced-motion:reduce){.cv-art .mk{animation:none;opacity:1}}
 @media (max-width:900px){.cover{grid-template-columns:1fr;align-content:center;text-align:left}.cv-art{max-height:38dvh;order:-1}.cv-go{width:100%}}
 @media print{.cover{display:none}}
+
+/* =================== TEMA 2 (gaya halaman utama: Nunito + butang tebal) ===================
+   Dihidupkan bagi bab yang ada BAB.tema2 = true (kelas html.t2). Isi slaid (.stage) kekal Inter/Space Grotesk. */
+@font-face{font-family:'Nunito';font-weight:700;font-display:swap;src:url('fonts/nunito-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:'Nunito';font-weight:800;font-display:swap;src:url('fonts/nunito-latin-800-normal.woff2') format('woff2')}
+@font-face{font-family:'Nunito';font-weight:900;font-display:swap;src:url('fonts/nunito-latin-900-normal.woff2') format('woff2')}
+html.t2{--line:#2B2C4A;--brandM:#8B8BFF;--dk:rgba(0,0,0,.28)}
+html.t2.light{--line:#E5E5E5;--brandM:#4F46E5;--dk:rgba(0,0,0,.18)}
+html.t2 body{font-family:Nunito,Inter,"Segoe UI",system-ui,sans-serif}
+html.t2 .app{--head:Nunito,Inter,system-ui,sans-serif}
+html.t2 .stage,html.t2 .ajpv,html.t2 #print,html.t2 .simframe{--head:'Space Grotesk',system-ui,sans-serif;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+html.t2 .h1,html.t2 .subcard h2,html.t2 .slbar .nm{font-weight:900}
+/* bar atas */
+html.t2 .hdr{border-bottom:2px solid var(--line)}
+html.t2 .wm2 .tm{font-family:Nunito,Inter,sans-serif;font-weight:900;letter-spacing:-.3px}
+html.t2 .wm2 .tm span{color:var(--brandM)}
+html.t2 .wm2 small b{font-family:Nunito,Inter,sans-serif;font-weight:900}
+html.t2 .tabs a{font-weight:900;letter-spacing:.06em;border:2px solid transparent;border-bottom-width:4px}
+html.t2 .tabs a[aria-current="page"]{border-color:var(--dk);font-weight:900}
+html.t2 .tabs a:active{transform:translateY(2px);border-bottom-width:2px}
+/* butang tebal */
+html.t2 .btn{font-weight:900;letter-spacing:.02em;border:2px solid var(--dk);border-bottom-width:5px}
+html.t2 .btn.sec{border-color:var(--line);font-weight:800}
+html.t2 .btn:active:not(:disabled){transform:translateY(3px);border-bottom-width:2px}
+html.t2 .ib{border:2px solid var(--line);border-bottom-width:4px}
+html.t2 .ib:active{transform:translateY(2px);border-bottom-width:2px}
+html.t2 .ib.lgo{border:0}
+html.t2 .opt{border:2px solid var(--line);border-bottom-width:4px;font-weight:800}
+html.t2 .opt[aria-pressed="true"]{border-color:var(--c);border-bottom-width:4px}
+html.t2 .seg{border:2px solid var(--line)}
+html.t2 .seg button{font-weight:800}
+/* kad */
+html.t2 .subcard{border:2px solid var(--line);border-bottom-width:6px}
+html.t2 .subcard:hover{transform:none;border-color:var(--c)}
+html.t2 .subcard:active{transform:translateY(4px);border-bottom-width:2px}
+html.t2 .card,html.t2 .pbox{border:2px solid var(--line);border-bottom-width:5px}
+html.t2 .ajcat{border:2px solid var(--line);border-bottom-width:4px}
+html.t2 .ajcat.on{border-color:var(--c);border-bottom-width:4px}
+html.t2 .ajrow{border-bottom-width:4px}
+html.t2 .slbar{border-bottom:2px solid var(--line)}

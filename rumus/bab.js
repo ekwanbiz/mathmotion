@@ -8,6 +8,7 @@ const BAB = {
   ting: 2, no: 3, tajuk: 'Rumus Algebra',
   slogan: [['Tulis.', 'tr'], ['Tukar.', 'pu'], ['Ganti!', 'gr']],
   logo: 'logo.svg',
+  tema2: true,                      // gaya halaman utama (cubaan 26 Nov)
   key: 'rumus-v2',                  // storan tetapan & rekod (jangan tukar)
   ajarKey: 'rumus-ajar',            // storan pelan Mula Mengajar (jangan tukar)
   g60: {                            // teks peraturan Cabaran 60 Saat
