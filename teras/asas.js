@@ -57,7 +57,7 @@ const DARK = { bg: '#0B1220', surf: '#131C2E', nav: '#0E1626', bd: '#22304A', tx
 const LIGHT = { bg: '#F4F6FB', surf: '#FFFFFF', nav: '#FAFBFE', bd: '#D5DCE8', tx: '#14152B', mu: '#55607A', grid: '#E3E8F1', dim: '#C3CBDA', mu2: '#6B7590', mu3: '#4A5568', tr: '#0284C7', pa: '#EA580C', pu: '#7C3AED', am: '#B45309', gr: '#059669', pk: '#DB2777', rd: '#DC2626' };
 const D2L = {}; Object.keys(DARK).forEach(k => { D2L[DARK[k].toLowerCase()] = LIGHT[k]; });
 Object.assign(D2L, { '#2dd4bf': '#0D9488', '#818cf8': '#4F46E5' }); // warna subtopik tambahan (teal, indigo)
-const themed = (s, light) => (light ? s.replace(/#[0-9a-fA-F]{6}/g, h => D2L[h.toLowerCase()] || h) : s);
+const themed = (s, light) => { const m = light && typeof light === 'object' ? light : light ? D2L : null; return m ? s.replace(/#[0-9a-fA-F]{6}/g, h => m[h.toLowerCase()] || h) : s; };
 
 /* ---------- ikon ---------- */
 const sv = (d, w = 22, extra = '') => `<svg width="${w}" height="${w}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"${extra}>${d}</svg>`;
@@ -89,7 +89,7 @@ const IC = {
 /* ---------- data subtopik ---------- */
 
 const subOf = no => SUBS.find(s => s.no === no);
-const subCol = no => themed(subOf(no).col, isLight());
+const subCol = no => themed(subOf(no).col, typeof slPal === 'function' ? slPal() : isLight());
 
 /* =================== Plot (rajah latihan & games) =================== */
 function plot(o) {
@@ -261,3 +261,83 @@ const PK = onX => (onX ? 'paksi-x' : 'paksi-y');
 const ARAH = cw => (cw ? 'ikut arah jam' : 'lawan arah jam');
 const KATAKERJA = { translasi: 'ditranslasikan', pantulan: 'dipantulkan pada satu garis', putaran: 'diputar pada satu titik' };
 const salah = (N, betul, sebab) => ({ ans: (typeof tmEN !== 'undefined' && tmEN) ? `Not correct. The correct answer: ${betul}` : `Tidak betul. Jawapan yang betul: ${betul}`, pre: [sebab] });
+
+/* ---------- TEMA SLAID: latar nota yang cikgu pilih (satu tema untuk semua slaid) ----------
+   Setiap tema = palet penuh (kunci sama dengan DARK). Warna hex dalam slaid ditukar melalui
+   themed(s, peta) dan pemboleh ubah CSS ditetapkan pada .stage / .ajpv. '' = ikut mod gelap/cerah. */
+const TEMA_KEY = 'terokamath-tema';
+const TEMA = [
+  { id: 'malam', ms: 'Malam', en: 'Night', b: 'd', bg: 'radial-gradient(1200px 700px at 15% 0%,#18264A 0%,#0B1220 62%)', p: {} },
+  { id: 'papanhijau', ms: 'Papan Hijau', en: 'Chalkboard', b: 'd', bg: 'radial-gradient(ellipse 90% 80% at 50% 35%,#2E5646 0%,#1F3D31 60%,#183227 100%)',
+    p: { bg: '#1F3D31', surf: '#264A3C', nav: '#1C382D', bd: '#3F6A58', tx: '#F2F7EC', mu: '#B9CDB6', grid: '#2D5444', dim: '#4C7A66', mu2: '#8FAE9F', mu3: '#D3E2CF', tr: '#93DDFD', pa: '#FDC08A', pu: '#D3C4FE', am: '#FDE58A', gr: '#B4F5D2', pk: '#FBB8DA', rd: '#FDA4A4', te: '#99F0E0', in: '#C2C8FE' } },
+  { id: 'papanhitam', ms: 'Papan Hitam', en: 'Blackboard', b: 'd', bg: 'radial-gradient(ellipse 90% 80% at 50% 30%,#35373D 0%,#232428 65%,#1B1C1F 100%)',
+    p: { bg: '#232428', surf: '#2C2E33', nav: '#202124', bd: '#44474F', tx: '#F4F4F2', mu: '#B4B6BC', grid: '#33353B', dim: '#50535B', mu2: '#8A8D95', mu3: '#D6D7DA' } },
+  { id: 'angkasa', ms: 'Angkasa', en: 'Space', b: 'd',
+    bg: 'radial-gradient(1.5px 1.5px at 12% 18%,#ffffffaa 50%,transparent 51%) 0 0/260px 260px,radial-gradient(1px 1px at 63% 42%,#ffffff88 50%,transparent 51%) 0 0/180px 180px,radial-gradient(1.2px 1.2px at 38% 77%,#c4b5fd99 50%,transparent 51%) 0 0/220px 220px,radial-gradient(900px 500px at 85% 10%,#3B2470 0%,transparent 70%),linear-gradient(160deg,#1A1242 0%,#0D0F2E 60%,#130A2B 100%)',
+    p: { bg: '#130F33', surf: '#1D1846', nav: '#16123A', bd: '#352D6B', tx: '#EEEBFF', mu: '#A9A3D6', grid: '#241E52', dim: '#3E3678', mu2: '#7D76B0', mu3: '#CDC8F0' } },
+  { id: 'lautan', ms: 'Lautan', en: 'Ocean', b: 'd', bg: 'radial-gradient(1000px 600px at 80% 0%,#0F5068 0%,transparent 65%),linear-gradient(170deg,#0B3A4F 0%,#082838 60%,#061F2C 100%)',
+    p: { bg: '#082838', surf: '#0E3446', nav: '#0A2C3C', bd: '#1C5068', tx: '#E8F7FC', mu: '#9CC3D2', grid: '#12405A', dim: '#24607A', mu2: '#6E9AAD', mu3: '#C6E3EE' } },
+  { id: 'senja', ms: 'Senja', en: 'Dusk', b: 'd', bg: 'radial-gradient(900px 520px at 90% 0%,#6B2A4A 0%,transparent 65%),linear-gradient(160deg,#3A1D3F 0%,#2A1530 55%,#1D1230 100%)',
+    p: { bg: '#2A1530', surf: '#361E3D', nav: '#2E1834', bd: '#56335C', tx: '#FCEFF6', mu: '#CDA9C6', grid: '#43284A', dim: '#6A4470', mu2: '#A07D9C', mu3: '#E8D1E3' } },
+  { id: 'kopi', ms: 'Kopi', en: 'Coffee', b: 'd', bg: 'radial-gradient(ellipse 90% 80% at 50% 25%,#3D3027 0%,#2A211B 65%,#221A15 100%)',
+    p: { bg: '#2A211B', surf: '#352A22', nav: '#2E241D', bd: '#54443A', tx: '#FAF1E8', mu: '#C9B6A4', grid: '#3E3229', dim: '#65544A', mu2: '#9C8775', mu3: '#E7D8CA' } },
+  { id: 'cerah', ms: 'Cerah', en: 'Light', b: 'l', bg: '#F4F6FB', p: {} },
+  { id: 'kertas', ms: 'Kertas', en: 'Paper', b: 'l',
+    bg: 'linear-gradient(90deg,transparent 54px,#F2B8B0 54px,#F2B8B0 56px,transparent 56px),repeating-linear-gradient(180deg,transparent 0,transparent 33px,#E8DCC0 33px,#E8DCC0 34px),#FBF6E9',
+    p: { bg: '#FBF6E9', surf: '#FFFCF3', nav: '#FFFDF7', bd: '#E3D6B8', tx: '#2C2A25', mu: '#6E6656', grid: '#EFE6D0', dim: '#D8CBAA', mu2: '#857C69', mu3: '#4E4739' } },
+  { id: 'grid', ms: 'Kertas Graf', en: 'Graph Paper', b: 'l',
+    bg: 'linear-gradient(#DCE8F7 1px,transparent 1px) 0 0/28px 28px,linear-gradient(90deg,#DCE8F7 1px,transparent 1px) 0 0/28px 28px,#FAFCFF',
+    p: { bg: '#FAFCFF', surf: '#FFFFFF', nav: '#FFFFFF', bd: '#CFDCEC', tx: '#14213D', mu: '#526079', grid: '#E3ECF7' } },
+  { id: 'langit', ms: 'Langit', en: 'Sky', b: 'l', bg: 'radial-gradient(900px 500px at 85% 0%,#FDF2F8 0%,transparent 60%),linear-gradient(160deg,#DFF1FD 0%,#EEF0FE 55%,#F4ECFE 100%)',
+    p: { bg: '#E9F0FD', surf: '#FFFFFF', nav: '#F8FAFF', bd: '#C9D8F0', tx: '#152040', mu: '#55628A', grid: '#DDE6F6' } },
+  { id: 'pic', ms: 'Pic', en: 'Peach', b: 'l', bg: 'radial-gradient(800px 480px at 10% 0%,#FFF7D6 0%,transparent 60%),linear-gradient(160deg,#FFF1E6 0%,#FFE8EC 100%)',
+    p: { bg: '#FFEDE9', surf: '#FFFBF8', nav: '#FFFCFA', bd: '#F2D3C8', tx: '#3A2422', mu: '#7D5C57', grid: '#F8E2DA', dim: '#E9C4B8' } },
+  { id: 'pudina', ms: 'Pudina', en: 'Mint', b: 'l', bg: 'radial-gradient(800px 480px at 90% 0%,#E0F2FE 0%,transparent 60%),linear-gradient(160deg,#E6FBF2 0%,#E3F6F8 100%)',
+    p: { bg: '#E5F9F4', surf: '#FBFFFD', nav: '#FCFFFE', bd: '#C3E6DA', tx: '#123229', mu: '#4D6E64', grid: '#D8F0E8', dim: '#B2D9CC' } },
+  { id: 'lavender', ms: 'Lavender', en: 'Lavender', b: 'l', bg: 'radial-gradient(800px 480px at 10% 0%,#FCE7F3 0%,transparent 60%),linear-gradient(160deg,#F3E8FF 0%,#E7EBFF 100%)',
+    p: { bg: '#EFEAFF', surf: '#FFFFFF', nav: '#FDFCFF', bd: '#D9CFF3', tx: '#24183F', mu: '#625684', grid: '#E8E1FA', dim: '#CEC2EE' } }
+];
+TEMA.forEach(t => {
+  const base = t.b === 'l' ? Object.assign({}, LIGHT, { te: '#0D9488', in: '#4F46E5' }) : Object.assign({}, DARK, { te: '#2DD4BF', in: '#818CF8' });
+  t.p = Object.assign(base, t.p);
+  const m = {}; Object.keys(DARK).forEach(k => { m[DARK[k].toLowerCase()] = t.p[k]; });
+  Object.assign(m, { '#2dd4bf': t.p.te, '#818cf8': t.p.in, '#26344f': t.p.bd, '#1b2a44': t.p.surf, '#0b1220': t.p.bg });
+  t.map = m;
+});
+const temaNow = () => { let id = ''; try { id = localStorage.getItem(TEMA_KEY) || ''; } catch (e) {} return TEMA.find(t => t.id === id) || null; };
+// palet untuk slaid di skrin: peta tema jika dipilih, jika tidak ikut mod gelap/cerah
+const slPal = () => { const t = temaNow(); return t ? t.map : isLight(); };
+(function temaCss() {
+  const LATL = '--lat-am:#FEF3C7;--lat-tr:#E0F2FE;--lat-gr:#DCFCE7;--lat-pk:#FCE7F3', LATD = '--lat-am:#3A3218;--lat-tr:#102E40;--lat-gr:#0F3326;--lat-pk:#3A1730';
+  const css = TEMA.map(t => { const p = t.p, s = `html[data-tema="${t.id}"]`;
+    return `${s} .stage,${s} .ajpv{--bg:${p.bg};--surf:${p.surf};--surf2:${p.bg};--diag:${p.nav};--nav:${p.nav};--bd:${p.bd};--tx:${p.tx};--mu:${p.mu};--grid:${p.grid};--dim:${p.dim};--tr:${p.tr};--pa:${p.pa};--pu:${p.pu};--am:${p.am};--gr:${p.gr};--pk:${p.pk};--rd:${p.rd};--on:${t.b === 'l' ? '#FFFFFF' : p.bg};${t.b === 'l' ? LATL : LATD};color:var(--tx);background:${t.bg}}`; }).join('\n');
+  const st = document.createElement('style'); st.id = 'temaCss'; st.textContent = css; document.head.appendChild(st);
+  const t = temaNow(); if (t) document.documentElement.dataset.tema = t.id;
+})();
+IC.tema = sv('<path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.8-.8 1.8-1.8 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-1 .8-1.8 1.8-1.8H17a4 4 0 0 0 4-4c0-4.4-4-8-9-8z"/><circle cx="7.5" cy="11" r="1.2"/><circle cx="10.5" cy="7" r="1.2"/><circle cx="15" cy="7.5" r="1.2"/>');
+// butang + panel pilihan tema (dipanggil dari bar slaid)
+const temaBtn = () => `<button type="button" class="ib" id="temaBtn" aria-label="${typeof tmEN !== 'undefined' && tmEN ? 'Slide theme' : 'Tema slaid'}" title="${typeof tmEN !== 'undefined' && tmEN ? 'Slide theme' : 'Tema slaid'}" aria-haspopup="true">${IC.tema}</button>`;
+function temaPanel(onPick) {
+  const EN = typeof tmEN !== 'undefined' && tmEN, cur = (temaNow() || {}).id || '';
+  const old = document.getElementById('temaPop'); if (old) { old.remove(); return; }
+  const sw = t => { const p = t ? t.p : null;
+    return `<button type="button" class="tmsw${(t ? t.id : '') === cur ? ' on' : ''}" data-tema="${t ? t.id : ''}" aria-pressed="${(t ? t.id : '') === cur}">
+      <span class="tmpv" style="${t ? `background:${t.bg};color:${p.tx}` : ''}">${t ? `<b>a<sup>n</sup></b><i style="background:${p.tr}"></i><i style="background:${p.am}"></i><i style="background:${p.gr}"></i><i style="background:${p.pk}"></i>` : `<b>${EN ? 'Auto' : 'Auto'}</b>`}</span>
+      <span class="tmnm">${t ? (EN ? t.en : t.ms) : (EN ? 'Follow mode' : 'Ikut mod')}</span></button>`; };
+  const pop = document.createElement('div'); pop.id = 'temaPop'; pop.className = 'tmpop'; pop.setAttribute('role', 'dialog'); pop.setAttribute('aria-label', EN ? 'Slide theme' : 'Tema slaid');
+  pop.innerHTML = `<div class="tmhd"><b>${EN ? 'Slide theme' : 'Tema slaid'}</b><span>${EN ? 'Applies to all note slides' : 'Untuk semua slaid nota'}</span></div>
+    <div class="tmh">${EN ? 'DARK' : 'GELAP'}</div><div class="tmgrid">${sw(null)}${TEMA.filter(t => t.b === 'd').map(sw).join('')}</div>
+    <div class="tmh">${EN ? 'LIGHT' : 'CERAH'}</div><div class="tmgrid">${TEMA.filter(t => t.b === 'l').map(sw).join('')}</div>`;
+  document.body.appendChild(pop);
+  const btn = document.getElementById('temaBtn');
+  if (btn) { const r = btn.getBoundingClientRect(); pop.style.top = Math.round(r.bottom + 8) + 'px'; pop.style.right = Math.max(8, Math.round(innerWidth - r.right)) + 'px'; }
+  const close = () => { pop.remove(); document.removeEventListener('pointerdown', out, true); document.removeEventListener('keydown', esc_, true); };
+  const out = e => { if (!pop.contains(e.target) && !(btn && btn.contains(e.target))) close(); };
+  const esc_ = e => { if (e.key === 'Escape') { e.stopPropagation(); close(); } };
+  setTimeout(() => { document.addEventListener('pointerdown', out, true); document.addEventListener('keydown', esc_, true); });
+  pop.querySelectorAll('[data-tema]').forEach(b => b.onclick = () => {
+    const id = b.dataset.tema; try { id ? localStorage.setItem(TEMA_KEY, id) : localStorage.removeItem(TEMA_KEY); } catch (e) {}
+    if (id) document.documentElement.dataset.tema = id; else delete document.documentElement.dataset.tema;
+    close(); if (onPick) onPick();
+  });
+}

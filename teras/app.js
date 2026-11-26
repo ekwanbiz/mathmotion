@@ -82,9 +82,10 @@ function viewSlide(sub, n) {
       <a class="btn sec bk" href="#/nota/senarai" style="min-height:44px;padding:0 14px" aria-label="Kembali ke senarai subtopik">${IC.left}<span>Subtopik</span></a>
       <span class="chip" style="background:${col};color:var(--on)">${sub}</span><span class="nm">${so.name}</span>
       <span class="pg">${s.cover ? 'Tajuk' : `Slaid ${n} / ${s.N}`}</span>
+      ${temaBtn()}
       <button type="button" class="ib" id="printSub" aria-label="Cetak nota subtopik ini">${IC.print}</button>
     </div>
-    <div class="stage" id="stage" style="--c:${col}">${slideHTML(s, isLight())}</div>
+    <div class="stage" id="stage" style="--c:${col}">${slideHTML(s, slPal())}</div>
     <div class="slfoot" style="--c:${col}">
       ${sim ? `<a class="btn sec tk" href="#/teroka/${sim}" style="min-height:48px" aria-label="Cuba di TEROKA">${IC.teroka}<span>Cuba di TEROKA</span></a>` : '<span class="hint">Anak panah papan kekunci untuk tukar slaid</span>'}
       <div class="dots" role="img" aria-label="Slaid ${n} daripada ${s.N}">${dots}</div>
@@ -113,6 +114,7 @@ function bindSlide() {
   document.getElementById('nextBtn').onclick = nextStep;
   document.getElementById('prevBtn').onclick = prevStep;
   const s = SLIDES[NOTA.i];
+  document.getElementById('temaBtn').onclick = () => temaPanel(() => render(true));
   document.getElementById('printSub').onclick = () => printSlides(SLIDES.filter(x => x.sub === s.sub));
   const st = document.getElementById('stage');
   let x0 = null, y0 = 0;

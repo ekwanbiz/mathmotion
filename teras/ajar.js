@@ -151,7 +151,7 @@ function cikguHTML(it, pv) {
     <div class="cs-board ${bg}">${bg === 'cartes' ? '<span class="cx"></span><span class="cy"></span>' : ''}</div></div>`;
 }
 function itemSlideHTML(it, pv) {
-  if (it.t === 'slaid') { const s = slideOf(it); return s ? slideHTML(s, isLight()) : ''; }
+  if (it.t === 'slaid') { const s = slideOf(it); return s ? slideHTML(s, slPal()) : ''; }
   if (it.t === 'cikgu') return cikguHTML(it, pv);
   return '';
 }
@@ -526,7 +526,7 @@ function viewTayang() {
   else if (it.t === 'lat') content = viewLatItem(it);
   else if (it.t === 'game') { let g = viewGameMode(it.g || '60'); g = g.replace(/<a [^>]*href="#\/games[^"]*"[^>]*>[\s\S]*?<\/a>/g, ''); if (ajShared()) g = g.replace(/<a [^>]*href="#\/[^"]*"[^>]*>[^<]*<\/a>/g, ''); content = `<div class="main" id="main">${g}</div>`; }
   const dots = pl.items.map((x, k) => `<button type="button" class="ajdot${k === AJ.i ? ' on' : ''}" data-jump="${k}" style="--c:var(--${AJT[x.t][1]});opacity:${k <= AJ.i ? 1 : .4}" aria-label="Item ${k + 1}: ${esc(itemName(x))}"></button>`).join('');
-  const cols = [['rd', 'Merah'], ['am', 'Kuning'], ['tx', isLight() ? 'Hitam' : 'Putih']];
+  const cols = [['rd', 'Merah'], ['am', 'Kuning'], ['tx', (() => { const t = typeof temaNow === 'function' && temaNow(); return (t ? t.b === 'l' : isLight()) ? 'Hitam' : 'Putih'; })()]];
   const tools = `<div class="ajpen" role="toolbar" aria-label="Pen conteng">
       <button type="button" class="ajpb cur" data-cur="1" aria-pressed="${!AJ.tool}" aria-label="Klik biasa (tutup pen)" title="Klik biasa (Esc)">${ajIcon.cur}</button>
       <span class="ajpsep" aria-hidden="true"></span>
@@ -616,7 +616,7 @@ function inkResize() {
 }
 function inkDraw() {
   const c = document.getElementById('ink'); if (!c) return;
-  const g = c.getContext('2d'), W = c.width, H = c.height, cs = getComputedStyle(document.documentElement);
+  const g = c.getContext('2d'), W = c.width, H = c.height, cs = getComputedStyle(document.getElementById('stage') || document.documentElement);
   g.clearRect(0, 0, W, H);
   (AJ.ink[AJ.i] || []).forEach(s => {
     if (s.pts.length < 1) return;
