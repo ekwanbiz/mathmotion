@@ -1,0 +1,105 @@
+'use strict';
+/* =================== BANK SOALAN · TINGKATAN 2 · SET 17 (ulangkaji ikut bab, Bab 1–13: 18 A · 5 B · 5 C) ===================
+   Set 17 (27 Nov 2026). Diolah semula oleh Mat berdasarkan bentuk Ulangkaji UASA Matematik T2 (ikut bab).
+   Soalan melukis graf / transformasi diganti soalan bertulis. Dimuat selepas t2.js. */
+
+BS_T2.push(
+  { id: 'T2S17-A01', bhg: 'A', bab: 5, kon: 'Mengaplikasi', aras: 'S', why: 'Jejari daripada luas', m: 1,
+    q: 'Luas sebuah bulatan ialah 154 cm². Hitung jejari bulatan itu. (Guna π = FR(22|7))', qe: 'The area of a circle is 154 cm². Calculate the radius of the circle. (Use π = FR(22|7))', pil: ['5 cm', '6 cm', '7 cm', '14 cm'], jaw: 'C' },
+  { id: 'T2S17-A02', bhg: 'A', bab: 5, kon: 'Mengaplikasi', aras: 'R', why: 'Luas daripada diameter', m: 1,
+    q: 'Hitung luas bulatan berdiameter 28 cm. (Guna π = FR(22|7))', qe: 'Calculate the area of a circle with a diameter of 28 cm. (Use π = FR(22|7))', pil: ['88 cm²', '616 cm²', '1 232 cm²', '2 464 cm²'], jaw: 'B' },
+  { id: 'T2S17-A03', bhg: 'A', bab: 5, kon: 'Mengaplikasi', aras: 'R', why: 'Lilitan', m: 1,
+    q: 'Hitung lilitan bulatan berjejari 21 cm. (Guna π = FR(22|7))', qe: 'Calculate the circumference of a circle with a radius of 21 cm. (Use π = FR(22|7))', pil: ['66 cm', '132 cm', '264 cm', '1 386 cm'], jaw: 'B' },
+  { id: 'T2S17-A04', bhg: 'A', bab: 6, kon: 'Memahami', aras: 'R', why: 'Permukaan melengkung', m: 1,
+    q: 'Antara berikut, yang manakah mempunyai permukaan melengkung?', qe: 'Which of the following has a curved surface?', pil: ['Kubus', 'Prisma', 'Silinder', 'Piramid'], pe: ['Cube', 'Prism', 'Cylinder', 'Pyramid'], jaw: 'C' },
+  { id: 'T2S17-A05', bhg: 'A', bab: 6, kon: 'Mengaplikasi', aras: 'S', why: 'Isi padu kon', m: 1,
+    q: 'Sebuah kon mempunyai jejari 6 cm dan tinggi 14 cm. Hitung isi padu kon itu. (Guna π = FR(22|7))', qe: 'A cone has a radius of 6 cm and a height of 14 cm. Calculate the volume of the cone. (Use π = FR(22|7))', pil: ['176 cm³', '528 cm³', '792 cm³', '1 584 cm³'], jaw: 'B' },
+  { id: 'T2S17-A06', bhg: 'A', bab: 7, kon: 'Mengaplikasi', aras: 'R', why: 'Titik tengah', m: 1,
+    q: 'Cari titik tengah bagi garis lurus yang menyambungkan <i>S</i>(−3, 4) dan <i>T</i>(5, −2).', qe: 'Find the midpoint of the straight line joining <i>S</i>(−3, 4) and <i>T</i>(5, −2).', pil: ['(1, 1)', '(2, 2)', '(4, −3)', '(1, 3)'], jaw: 'A' },
+  { id: 'T2S17-A07', bhg: 'A', bab: 8, kon: 'Memahami', aras: 'R', why: 'Jenis hubungan', m: 1,
+    q: 'Suatu hubungan diwakili oleh pasangan bertertib {(1, 5), (2, 5), (3, 7)}. Nyatakan jenis hubungan itu.', qe: 'A relation is represented by the ordered pairs {(1, 5), (2, 5), (3, 7)}. State the type of the relation.',
+    pil: ['Satu kepada satu', 'Satu kepada banyak', 'Banyak kepada satu', 'Banyak kepada banyak'], pe: ['One-to-one', 'One-to-many', 'Many-to-one', 'Many-to-many'], jaw: 'C' },
+  { id: 'T2S17-A08', bhg: 'A', bab: 8, kon: 'Mengaplikasi', aras: 'S', why: 'Nilai fungsi kubik', m: 1,
+    q: 'Bagi fungsi <i>y</i> = <i>x</i>³ − 2<i>x</i>, nilai <i>y</i> ialah <i>m</i> apabila <i>x</i> = −2 dan <i>n</i> apabila <i>x</i> = 3. Cari nilai <i>m</i> dan <i>n</i>.', qe: 'For the function <i>y</i> = <i>x</i>³ − 2<i>x</i>, the value of <i>y</i> is <i>m</i> when <i>x</i> = −2 and <i>n</i> when <i>x</i> = 3. Find the values of <i>m</i> and <i>n</i>.',
+    pil: ['<i>m</i> = −4, <i>n</i> = 21', '<i>m</i> = −12, <i>n</i> = 21', '<i>m</i> = 4, <i>n</i> = 33', '<i>m</i> = −4, <i>n</i> = 3'], jaw: 'A' },
+  { id: 'T2S17-A09', bhg: 'A', bab: 9, kon: 'Mengaplikasi', aras: 'R', why: 'Laju', m: 1,
+    q: 'Ammar menunggang motosikal sejauh 270 km dalam masa 3 jam. Hitung laju motosikal itu.', qe: 'Ammar rides a motorcycle 270 km in 3 hours. Calculate the speed of the motorcycle.', pil: ['80 km/j', '90 km/j', '810 km/j', '93 km/j'], pe: ['80 km/h', '90 km/h', '810 km/h', '93 km/h'], jaw: 'B' },
+  { id: 'T2S17-A10', bhg: 'A', bab: 9, kon: 'Mengaplikasi', aras: 'R', why: 'Jarak daripada laju dan masa', m: 1,
+    q: 'Sebuah teksi bergerak dengan laju purata 95 km/j selama 2 jam 30 minit. Hitung jarak yang dilalui.', qe: 'A taxi travels at an average speed of 95 km/h for 2 hours 30 minutes. Calculate the distance travelled.', pil: ['190 km', '218.5 km', '237.5 km', '285 km'], jaw: 'C' },
+  { id: 'T2S17-A11', bhg: 'A', bab: 9, kon: 'Mengaplikasi', aras: 'R', why: 'Pecutan', m: 1,
+    q: 'Laju sebuah van bertambah daripada 12 m/s kepada 26 m/s dalam masa 7 saat. Hitung pecutan van itu.', qe: 'The speed of a van increases from 12 m/s to 26 m/s in 7 seconds. Calculate the acceleration of the van.', pil: ['2 m/s²', '3.7 m/s²', '5.4 m/s²', '14 m/s²'], jaw: 'A' },
+  { id: 'T2S17-A12', bhg: 'A', bab: 9, kon: 'Mengaplikasi', aras: 'S', why: 'Tukar unit laju', m: 1,
+    q: 'Tukarkan 36 km/j kepada m/min.', qe: 'Convert 36 km/h to m/min.', pil: ['60 m/min', '360 m/min', '600 m/min', '3 600 m/min'], jaw: 'C' },
+  { id: 'T2S17-A13', bhg: 'A', bab: 10, kon: 'Mengaplikasi', aras: 'R', why: 'Kecerunan dua titik', m: 1,
+    q: 'Cari kecerunan garis lurus yang melalui <i>D</i>(1, 3) dan <i>E</i>(4, 15).', qe: 'Find the gradient of the straight line passing through <i>D</i>(1, 3) and <i>E</i>(4, 15).', pil: ['3', '4', '−4', 'FR(1|4)'], jaw: 'B' },
+  { id: 'T2S17-A14', bhg: 'A', bab: 10, kon: 'Mengaplikasi', aras: 'R', why: 'Kecerunan negatif', m: 1,
+    q: 'Cari kecerunan garis lurus yang melalui <i>G</i>(6, 1) dan <i>F</i>(2, 9).', qe: 'Find the gradient of the straight line passing through <i>G</i>(6, 1) and <i>F</i>(2, 9).', pil: ['2', '−2', 'FR(1|2)', '−FR(1|2)'], jaw: 'B' },
+  { id: 'T2S17-A15', bhg: 'A', bab: 11, kon: 'Mengaplikasi', aras: 'R', why: 'Imej translasi', m: 1,
+    q: 'Titik <i>R</i>(2, 5) ditranslasikan oleh VC(6|−4). Nyatakan koordinat imej <i>R</i>.', qe: 'Point <i>R</i>(2, 5) is translated by VC(6|−4). State the coordinates of the image of <i>R</i>.', pil: ['(8, 1)', '(−4, 9)', '(8, 9)', '(−4, 1)'], jaw: 'A' },
+  { id: 'T2S17-A16', bhg: 'A', bab: 12, kon: 'Mengaplikasi', aras: 'R', why: 'Mod', m: 1,
+    q: 'Nyatakan mod bagi data 3, 5, 7, 5, 9, 5, 7, 11.', qe: 'State the mode of the data 3, 5, 7, 5, 9, 5, 7, 11.', pil: ['5', '6', '7', '11'], jaw: 'A' },
+  { id: 'T2S17-A17', bhg: 'A', bab: 12, kon: 'Mengaplikasi', aras: 'S', why: 'Min daripada jadual kekerapan', m: 1,
+    q: 'Markah 10 orang murid ialah: 50 (2 orang), 60 (3 orang), 70 (4 orang) dan 80 (1 orang). Hitung min markah.', qe: 'The marks of 10 pupils are: 50 (2 pupils), 60 (3 pupils), 70 (4 pupils) and 80 (1 pupil). Calculate the mean mark.', pil: ['60', '62', '64', '65'], jaw: 'C' },
+  { id: 'T2S17-A18', bhg: 'A', bab: 13, kon: 'Mengaplikasi', aras: 'R', why: 'Kebarangkalian mudah', m: 1,
+    q: 'Sebuah kotak mengandungi 12 biji bola kuning dan 18 biji bola hijau. Sebiji bola diambil secara rawak. Cari kebarangkalian bola hijau diambil.', qe: 'A box contains 12 yellow balls and 18 green balls. A ball is picked at random. Find the probability that a green ball is picked.', pil: ['FR(2|5)', 'FR(3|5)', 'FR(2|3)', 'FR(3|2)'], jaw: 'B' },
+
+  { id: 'T2S17-B01', bhg: 'B', bab: 2, parts: [
+    { l: '', jenis: 'pad', m: 4, aras: 'S', kon: 'Mengaplikasi', q: 'Padankan setiap ungkapan dengan faktornya.', qe: 'Match each expression with its factors.',
+      items: [{ t: '<i>x</i>² + 9<i>x</i> + 20', a: '(<i>x</i> + 4)(<i>x</i> + 5)' }, { t: '<i>x</i>² + 3<i>x</i> − 10', a: '(<i>x</i> + 5)(<i>x</i> − 2)' }, { t: '<i>x</i>² − <i>x</i> − 12', a: '(<i>x</i> − 4)(<i>x</i> + 3)' }, { t: '<i>x</i>² + 8<i>x</i> + 16', a: '(<i>x</i> + 4)(<i>x</i> + 4)' }],
+      kanan: ['(<i>x</i> − 4)(<i>x</i> + 3)', '(<i>x</i> + 4)(<i>x</i> + 4)', '(<i>x</i> + 4)(<i>x</i> + 5)', '(<i>x</i> + 5)(<i>x</i> − 2)'] }] },
+  { id: 'T2S17-B02', bhg: 'B', bab: 3, parts: [
+    { l: '', jenis: 'bulat', m: 4, aras: 'R', kon: 'Memahami', q: 'Tentukan sama ada pemboleh ubah yang diberi ialah perkara rumus.', qe: 'Determine whether the given variable is the subject of the formula.',
+      items: [{ t: '<i>y</i> = 4<i>x</i> + <i>k</i>; <i>y</i>: CH(Ya|Tidak)', te: '<i>y</i> = 4<i>x</i> + <i>k</i>; <i>y</i>: CH(Yes|No)', a: 'Ya' }, { t: '3<i>p</i> = <i>q</i> + 2<i>r</i>; <i>p</i>: CH(Ya|Tidak)', te: '3<i>p</i> = <i>q</i> + 2<i>r</i>; <i>p</i>: CH(Yes|No)', a: 'Tidak' },
+        { t: '−<i>a</i> = <i>b</i> − 7; <i>a</i>: CH(Ya|Tidak)', te: '−<i>a</i> = <i>b</i> − 7; <i>a</i>: CH(Yes|No)', a: 'Tidak' }, { t: '<i>w</i> = 3<i>u</i> + 5<i>v</i>; <i>w</i>: CH(Ya|Tidak)', te: '<i>w</i> = 3<i>u</i> + 5<i>v</i>; <i>w</i>: CH(Yes|No)', a: 'Ya' }] }] },
+  { id: 'T2S17-B03', bhg: 'B', bab: 1, parts: [
+    { l: '', jenis: 'isi', m: 4, aras: 'S', kon: 'Mengaplikasi', q: 'Satu baris dalam Segi Tiga Pascal ialah 1, 4, 6, 4, 1. Lengkapkan baris seterusnya: 1, ____, ____, ____, 5, 1.', qe: 'A row of Pascal\'s Triangle is 1, 4, 6, 4, 1. Complete the next row: 1, ____, ____, ____, 5, 1.',
+      items: [{ t: 'Nombor kedua: ____', te: 'Second number: ____', a: '5' }, { t: 'Nombor ketiga: ____', te: 'Third number: ____', a: '10' }, { t: 'Nombor keempat: ____', te: 'Fourth number: ____', a: '10' }, { t: 'Hasil tambah nombor dalam baris itu: ____', te: 'Sum of the numbers in the row: ____', a: '32' }] }] },
+  { id: 'T2S17-B04', bhg: 'B', bab: 10, parts: [
+    { l: '', jenis: 'bulat', m: 4, aras: 'R', kon: 'Memahami', q: 'Nyatakan jenis kecerunan bagi setiap garis lurus.', qe: 'State the type of gradient of each straight line.',
+      items: [{ t: 'Garis melalui (0, 0) dan (3, 6): CH(Positif|Negatif|Sifar|Tidak tertakrif)', te: 'Line through (0, 0) and (3, 6): CH(Positive|Negative|Zero|Undefined)', a: 'Positif' }, { t: 'Garis <i>y</i> = 3: CH(Positif|Negatif|Sifar|Tidak tertakrif)', te: 'Line <i>y</i> = 3: CH(Positive|Negative|Zero|Undefined)', a: 'Sifar' },
+        { t: 'Garis <i>x</i> = −2: CH(Positif|Negatif|Sifar|Tidak tertakrif)', te: 'Line <i>x</i> = −2: CH(Positive|Negative|Zero|Undefined)', a: 'Tidak tertakrif' }, { t: 'Garis melalui (0, 4) dan (2, 0): CH(Positif|Negatif|Sifar|Tidak tertakrif)', te: 'Line through (0, 4) and (2, 0): CH(Positive|Negative|Zero|Undefined)', a: 'Negatif' }] }] },
+  { id: 'T2S17-B05', bhg: 'B', bab: 9, parts: [
+    { l: '(a)', jenis: 'bulat', m: 2, aras: 'S', kon: 'Menganalisis', q: 'Tentukan sama ada setiap laju adalah seragam atau tidak seragam.', qe: 'Determine whether each speed is uniform or non-uniform.',
+      items: [{ t: 'Balqis berlari 40 m dalam 5 saat pertama dan 60 m dalam 7.5 saat berikutnya: CH(Seragam|Tidak seragam)', te: 'Balqis runs 40 m in the first 5 seconds and 60 m in the next 7.5 seconds: CH(Uniform|Non-uniform)', a: 'Seragam' },
+        { t: 'Ali berbasikal 30 m dalam 5 saat pertama dan 30 m dalam 4 saat berikutnya: CH(Seragam|Tidak seragam)', te: 'Ali cycles 30 m in the first 5 seconds and 30 m in the next 4 seconds: CH(Uniform|Non-uniform)', a: 'Tidak seragam' }] },
+    { l: '(b)', jenis: 'isi', m: 2, aras: 'S', kon: 'Mengaplikasi', q: 'Lengkapkan penukaran unit laju.', qe: 'Complete the conversion of speed units.',
+      items: [{ t: '54 km/j = ____ m/s', te: '54 km/h = ____ m/s', a: '15' }, { t: '20 m/s = ____ km/j', te: '20 m/s = ____ km/h', a: '72' }] }] },
+
+  { id: 'T2S17-C01', bhg: 'C', bab: 3, babs: [1, 3], parts: [
+    { l: '(a)', m: 4, aras: 'S', kon: 'Mengaplikasi', q: 'Diberi <i>x</i>² = <i>y</i>² + <i>z</i>².<br>(i) Ungkapkan <i>x</i> sebagai perkara rumus.<br>(ii) Ungkapkan <i>y</i> sebagai perkara rumus.<br>(iii) Hitung nilai positif <i>x</i> apabila <i>y</i> = 6 dan <i>z</i> = 8.', qe: 'Given <i>x</i>² = <i>y</i>² + <i>z</i>².<br>(i) Express <i>x</i> as the subject of the formula.<br>(ii) Express <i>y</i> as the subject of the formula.<br>(iii) Calculate the positive value of <i>x</i> when <i>y</i> = 6 and <i>z</i> = 8.',
+      sk: '(i) <i>x</i> = RT(<i>y</i>² + <i>z</i>²) <b>N1</b><br>(ii) <i>y</i> = RT(<i>x</i>² − <i>z</i>²) <b>N1</b><br>(iii) RT(36 + 64) <b>K1</b> = 10 <b>N1</b>' },
+    { l: '(b)', m: 3, aras: 'S', kon: 'Mengaplikasi', q: 'Diberi 2<i>p</i> = 5<i>z</i> − <i>q</i>.<br>(i) Ungkapkan <i>p</i> sebagai perkara rumus.<br>(ii) Hitung nilai <i>p</i> apabila <i>q</i> = 4 dan <i>z</i> = 6.', qe: 'Given 2<i>p</i> = 5<i>z</i> − <i>q</i>.<br>(i) Express <i>p</i> as the subject of the formula.<br>(ii) Calculate the value of <i>p</i> when <i>q</i> = 4 and <i>z</i> = 6.',
+      sk: '(i) <i>p</i> = FR(5<i>z</i> − <i>q</i>|2) <b>N1</b><br>(ii) FR(30 − 4|2) <b>K1</b> = 13 <b>N1</b>' },
+    { l: '(c)', m: 3, aras: 'S', kon: 'Mengaplikasi', q: 'Diberi jujukan <i>x</i>, −9, −1, 7, 15, <i>y</i>, …<br>(i) Cari nilai <i>x</i> dan <i>y</i>.<br>(ii) Cari sebutan ke-11.', qe: 'Given the sequence <i>x</i>, −9, −1, 7, 15, <i>y</i>, …<br>(i) Find the values of <i>x</i> and <i>y</i>.<br>(ii) Find the 11th term.',
+      sk: '(i) <i>x</i> = −17, <i>y</i> = 23 <b>N1</b><br>(ii) −17 + 8(10) <b>K1</b> = 63 <b>N1</b>' }] },
+  { id: 'T2S17-C02', bhg: 'C', bab: 5, babs: [5, 6], parts: [
+    { l: '(a)', m: 3, aras: 'S', kon: 'Mengaplikasi', q: 'Lilitan sebuah bulatan ialah 66 cm. Hitung luas bulatan itu. (Guna π = FR(22|7))', qe: 'The circumference of a circle is 66 cm. Calculate the area of the circle. (Use π = FR(22|7))',
+      sk: '2 × FR(22|7) × <i>j</i> = 66 → <i>j</i> = 10.5 <b>K1</b>; FR(22|7) × 10.5² <b>K1</b> = 346.5 cm² <b>N1</b>' },
+    { l: '(b)', m: 4, aras: 'S', kon: 'Mengaplikasi', q: 'Sebuah bulatan berpusat <i>O</i>. Panjang lengkok minor <i>RZ</i> ialah 22 cm dan ∠<i>ROZ</i> = 90°. (Guna π = FR(22|7))<br>(i) Cari panjang <i>OR</i>, dalam cm.<br>(ii) Hitung luas sektor minor <i>ROZ</i>, dalam cm².', qe: 'A circle has centre <i>O</i>. The length of the minor arc <i>RZ</i> is 22 cm and ∠<i>ROZ</i> = 90°. (Use π = FR(22|7))<br>(i) Find the length of <i>OR</i>, in cm.<br>(ii) Calculate the area of the minor sector <i>ROZ</i>, in cm².',
+      sk: '(i) FR(90|360) × 2 × FR(22|7) × <i>j</i> = 22 <b>K1</b>; <i>j</i> = 14 cm <b>N1</b><br>(ii) FR(90|360) × FR(22|7) × 14² <b>K1</b> = 154 cm² <b>N1</b>' },
+    { l: '(c)', m: 3, aras: 'R', kon: 'Mengaplikasi', q: 'Hitung luas permukaan sebuah sfera berjejari 7 cm. (Guna π = FR(22|7))', qe: 'Calculate the surface area of a sphere with a radius of 7 cm. (Use π = FR(22|7))',
+      sk: '4 × FR(22|7) × 7² <b>K2</b> = 616 cm² <b>N1</b>' }] },
+  { id: 'T2S17-C03', bhg: 'C', bab: 6, babs: [6, 7], parts: [
+    { l: '(a)', m: 3, aras: 'S', kon: 'Mengaplikasi', q: 'Bentangan sebuah pepejal terdiri daripada dua bulatan berjejari 7 cm dan sebuah segi empat tepat berukuran 44 cm × 10 cm.<br>(i) Namakan pepejal itu.<br>(ii) Hitung isi padunya. (Guna π = FR(22|7))', qe: 'The net of a solid consists of two circles of radius 7 cm and a rectangle measuring 44 cm × 10 cm.<br>(i) Name the solid.<br>(ii) Calculate its volume. (Use π = FR(22|7))',
+      sk: '(i) Silinder <b>P1</b><br>(ii) FR(22|7) × 7² × 10 <b>K1</b> = 1 540 cm³ <b>N1</b>' },
+    { l: '(b)', m: 3, aras: 'S', kon: 'Mengaplikasi', q: 'Sebuah piramid tegak mempunyai tapak segi empat sama bersisi 10 cm. Tinggi sendeng setiap muka segi tiga ialah 12 cm. Hitung jumlah luas permukaan piramid itu.', qe: 'A right pyramid has a square base of side 10 cm. The slant height of each triangular face is 12 cm. Calculate the total surface area of the pyramid.',
+      sk: '10 × 10 = 100 <b>K1</b>; 4 × FR(1|2) × 10 × 12 = 240 <b>K1</b>; 340 cm² <b>N1</b>' },
+    { l: '(c)', m: 4, aras: 'S', kon: 'Mengaplikasi', q: 'Hitung jarak di antara setiap pasangan titik.<br>(i) <i>W</i>(6, 3) dan <i>K</i>(−2, 3)<br>(ii) <i>A</i>(2, −3) dan <i>B</i>(−4, 5)', qe: 'Calculate the distance between each pair of points.<br>(i) <i>W</i>(6, 3) and <i>K</i>(−2, 3)<br>(ii) <i>A</i>(2, −3) and <i>B</i>(−4, 5)',
+      sk: '(i) 6 − (−2) = 8 unit <b>K1 N1</b><br>(ii) RT(6² + 8²) <b>K1</b> = 10 unit <b>N1</b>' }] },
+  { id: 'T2S17-C04', bhg: 'C', bab: 9, babs: [8, 9], parts: [
+    { l: '(a)', m: 3, aras: 'R', kon: 'Mengaplikasi', q: 'Lengkapkan jadual nilai bagi fungsi <i>y</i> = <i>x</i>² − 6<i>x</i> + 4.', qe: 'Complete the table of values for the function <i>y</i> = <i>x</i>² − 6<i>x</i> + 4.',
+      jadual: { r: [['<i>x</i>', '−1', '0', '1', '2', '3', '4', '5'], ['<i>y</i>', '?', '4', '−1', '?', '−5', '−4', '?']] },
+      sk: '<i>x</i> = −1: 11 <b>N1</b>; <i>x</i> = 2: −4 <b>N1</b>; <i>x</i> = 5: −1 <b>N1</b>' },
+    { l: '(b)', m: 3, aras: 'S', kon: 'Mengaplikasi', q: 'Sebuah van bergerak sejauh 120 km dalam masa 1 jam 30 minit, kemudian 80 km lagi dalam masa 1 jam. Hitung laju purata van itu bagi seluruh perjalanan.', qe: 'A van travels 120 km in 1 hour 30 minutes, then another 80 km in 1 hour. Calculate the average speed of the van for the whole journey.',
+      sk: 'Jumlah jarak 200 km, jumlah masa 2.5 j <b>K1 K1</b>; 80 km/j <b>N1</b>' },
+    { l: '(c)', m: 4, aras: 'T', kon: 'Menganalisis', q: 'Laju sebuah kereta berkurang daripada 25 m/s kepada 5 m/s dalam masa 4 saat.<br>(i) Hitung pecutan kereta itu.<br>(ii) Terangkan maksud jawapan anda.', qe: 'The speed of a car decreases from 25 m/s to 5 m/s in 4 seconds.<br>(i) Calculate the acceleration of the car.<br>(ii) Explain the meaning of your answer.',
+      sk: '(i) FR(5 − 25|4) <b>K1</b> = −5 m/s² <b>N1</b><br>(ii) Nyahpecutan: laju berkurang 5 m/s setiap saat <b>P2</b>' }] },
+  { id: 'T2S17-C05', bhg: 'C', bab: 12, babs: [12, 13], parts: [
+    { l: '(a)', m: 3, aras: 'R', kon: 'Mengaplikasi', q: 'Jadual menunjukkan bilangan pesakit mengikut kumpulan umur di sebuah klinik pada suatu hari.<br>(i) Hitung jumlah pesakit.<br>(ii) Tentukan kelas mod.', qe: 'The table shows the number of patients by age group at a clinic on a certain day.<br>(i) Calculate the total number of patients.<br>(ii) Determine the modal class.',
+      jadual: { r: [['Umur', '0 – 9', '10 – 19', '20 – 29', '30 – 39'], ['Bilangan pesakit', '6', '11', '8', '5']], re: ['Age', 'Number of patients'] },
+      sk: '(i) 6 + 11 + 8 + 5 <b>K1</b> = 30 <b>N1</b><br>(ii) 10 – 19 <b>P1</b>' },
+    { l: '(b)', m: 4, aras: 'S', kon: 'Mengaplikasi', q: 'Data berikut ialah bilangan buku yang dibaca oleh 16 orang murid dalam sebulan.<br>2, 0, 3, 1, 4, 1, 5, 3, 3, 1, 0, 2, 1, 1, 4, 1<br>Cari (i) mod, (ii) median, (iii) min.', qe: 'The following data is the number of books read by 16 pupils in a month.<br>2, 0, 3, 1, 4, 1, 5, 3, 3, 1, 0, 2, 1, 1, 4, 1<br>Find (i) the mode, (ii) the median, (iii) the mean.',
+      sk: '(i) 1 <b>N1</b><br>(ii) FR(1 + 2|2) = 1.5 <b>K1 N1</b><br>(iii) FR(32|16) = 2 <b>N1</b>' },
+    { l: '(c)', m: 3, aras: 'S', kon: 'Mengaplikasi', q: 'Sebuah kotak mengandungi 20 keping kad bernombor 1 hingga 20. Sekeping kad dipilih secara rawak. Cari kebarangkalian<br>(i) mendapat nombor perdana,<br>(ii) <b>tidak</b> mendapat nombor perdana.', qe: 'A box contains 20 cards numbered 1 to 20. A card is picked at random. Find the probability of<br>(i) getting a prime number,<br>(ii) <b>not</b> getting a prime number.',
+      sk: '(i) 2, 3, 5, 7, 11, 13, 17, 19 → FR(8|20) <b>K1</b> = FR(2|5) <b>N1</b><br>(ii) 1 − FR(2|5) = FR(3|5) <b>N1</b>' }] }
+);
