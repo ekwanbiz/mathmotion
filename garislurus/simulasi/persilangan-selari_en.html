@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Intersection &amp; Parallel · Chapter 9</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--sf:#131C2E;--sf2:#1A2540;--sf3:#0E1626;--bd:#22304A;--bd2:#2E3F5E;--tx:#E6EDF7;--mu:#94A3B8;--mu2:#64748B;--c1:#F472B6;--c2:#FBBF24;--c3:#A78BFA;--c4:#F472B6;--ok:#34D399;--bad:#F87171;
+ --surface:#131C2E;--border:#2E3F5E;--text:#E6EDF7;--muted:#94A3B8;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff06 1px,transparent 1px),linear-gradient(90deg,#ffffff06 1px,transparent 1px);background-size:32px 32px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#3a0620}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:11px 14px;line-height:1.5;font-size:15px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:2px}
+.info .eq{font-weight:800;font-size:22px;letter-spacing:.01em}
+.info .row{display:flex;flex-wrap:wrap;gap:4px 14px;font-weight:700}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.info .box{margin-top:6px;padding:7px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:700}
+.fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.05;font-size:.8em;margin:0 2px}.fr>span:first-child{border-bottom:2px solid currentColor;padding:0 3px}
+.cm{color:var(--c1)}.cc{color:var(--c3)}.cy{color:var(--c2)}.cp{color:var(--c4)}
+.ctrl{display:flex;flex-direction:column;gap:8px}
+.sl{display:grid;grid-template-columns:auto 44px minmax(0,1fr) 44px 62px;gap:6px;align-items:center}
+.sl label{font-weight:900;font-size:17px;min-width:22px}
+.sl input[type=range]{width:100%;height:30px;margin:0}
+.sl .v{font-weight:900;font-size:17px;text-align:center;background:var(--sf);border:1px solid var(--bd2);border-radius:10px;padding:6px 2px}
+.pm{background:var(--sf);border:2px solid var(--bd2);border-radius:12px;height:40px;font-weight:900;font-size:20px;padding:0}
+.btns{display:flex;gap:8px}
+.big{flex:1;background:var(--c2);border:0;color:#2a1f00;border-radius:13px;padding:12px 6px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.4fr) minmax(340px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:22px}.info .eq{font-size:28px}
+}
+@media(max-height:700px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.info{padding:8px 11px;font-size:14px}.info .eq{font-size:19px}.info b.t{font-size:16px}.big{padding:9px 4px}.sl input[type=range]{height:26px}.pm{height:36px}.sl .v{padding:4px 2px}}
+@media(max-width:420px){.modes button{font-size:13px;padding:10px 3px}.info{font-size:14px}}
+.l1{color:#38BDF8}.l2{color:#F472B6}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:6px 10px}
+.sl2{display:grid;grid-template-columns:auto minmax(0,1fr) 50px;gap:6px;align-items:center}
+.sl2 label{font-weight:900;font-size:15px;min-width:26px}.sl2 input{width:100%;height:28px;margin:0}
+.sl2 .v{font-weight:900;font-size:15px;text-align:center;background:var(--sf);border:1px solid var(--bd2);border-radius:9px;padding:4px 2px}
+.sl2.dis{opacity:.4}
+.chips{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.chip{background:var(--sf);border:2px solid var(--bd2);border-radius:12px;padding:11px 4px;font-weight:800;font-size:15px}
+.chip.ok{border-color:var(--ok);background:#34d39922}.chip.no{border-color:var(--bad);background:#f8717122}
+@media(max-width:420px){.grid2{grid-template-columns:1fr 1fr;gap:4px 8px}.sl2{grid-template-columns:auto minmax(0,1fr) 44px}.sl2 label{font-size:14px}}
+@media(max-height:700px){.sl2 input{height:24px}.chip{padding:8px 4px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#F472B6;color:#3a0620;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #f472b644">&#8592; Back</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mode">
+   <button data-m="silang" class="on" role="tab">✖️ Intersection</button>
+   <button data-m="selari" role="tab">∥ Parallel</button>
+   <button data-m="cabaran" role="tab">❓ Challenge</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" aria-label="Cartesian plane with two straight lines"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),stage=document.getElementById('stage'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const MS=[[-4,1],[-3,1],[-5,2],[-2,1],[-3,2],[-1,1],[-2,3],[-1,2],[-1,3],[0,1],[1,3],[1,2],[2,3],[1,1],[3,2],[2,1],[5,2],[3,1],[4,1]];
+const R=7,MI='−',C1='#38BDF8',C2='#F472B6';
+const gcd=(a,b)=>{a=Math.abs(a);b=Math.abs(b);while(b)[a,b]=[b,a%b];return a};
+const N=v=>v<0?MI+(-v):String(v);
+const q=(n,d=1)=>{if(d<0){n=-n;d=-d}const g=gcd(n,d)||1;n/=g;d/=g;return[n===0?0:n,d]};
+const qt=a=>a[1]===1?N(a[0]):(a[0]<0?MI:'')+Math.abs(a[0])+'/'+a[1];
+const qh=a=>a[1]===1?N(a[0]):(a[0]<0?MI:'')+`<span class="fr"><span>${Math.abs(a[0])}</span><span>${a[1]}</span></span>`;
+const qadd=(a,b)=>q(a[0]*b[1]+b[0]*a[1],a[1]*b[1]),qsub=(a,b)=>qadd(a,[-b[0],b[1]]),qmul=(a,b)=>q(a[0]*b[0],a[1]*b[1]),qdiv=(a,b)=>q(a[0]*b[1],a[1]*b[0]);
+const coef=(a,v='x')=>a[0]===a[1]?v:(a[0]===-a[1]?MI+v:qh(a)+v);
+const kst=c=>c[0]===0?'':(c[0]<0?' '+MI+' ':' + ')+qh([Math.abs(c[0]),c[1]]);
+const rhs=(m,c)=>m[0]===0?qh(c):coef(m)+kst(c);
+const eqH=(m,c)=>'y = '+rhs(m,c);
+let mode='silang',i1=15,c1=1,i2=5,c2=4,Qp={x:2,y:-1},drag=null,G=null,Z=null,score=0,tot=0;
+const snd=n=>{if(window.FX)FX.play(n)};
+const TX=(x,y,t,col='#E6EDF7',s=14,a='middle',w=800)=>`<text x="${x}" y="${y}" fill="${col}" font-size="${s}" font-weight="${w}" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="#0E1626" stroke-width="4" stroke-linejoin="round">${t}</text>`;
+function frame(){const w=stage.clientWidth||300,h=stage.clientHeight||300;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+ const u=Math.min((w-20)/(2*R+1),(h-20)/(2*R+1)),cx=w/2,cy=h/2;G={u,cx,cy,X:x=>cx+x*u,Y:y=>cy-y*u};
+ let g=`<clipPath id="cl"><rect x="${cx-(R+.5)*u}" y="${cy-(R+.5)*u}" width="${(2*R+1)*u}" height="${(2*R+1)*u}"/></clipPath><rect id="bg" x="${cx-(R+.5)*u}" y="${cy-(R+.5)*u}" width="${(2*R+1)*u}" height="${(2*R+1)*u}" fill="transparent"/>`;
+ for(let i=-R;i<=R;i++){g+=`<line x1="${G.X(i)}" y1="${G.Y(-R-.5)}" x2="${G.X(i)}" y2="${G.Y(R+.5)}" stroke="#ffffff12"/><line x1="${G.X(-R-.5)}" y1="${G.Y(i)}" x2="${G.X(R+.5)}" y2="${G.Y(i)}" stroke="#ffffff12"/>`}
+ g+=`<line x1="${G.X(-R-.5)}" y1="${cy}" x2="${G.X(R+.5)}" y2="${cy}" stroke="#94A3B8" stroke-width="2"/><line x1="${cx}" y1="${G.Y(-R-.5)}" x2="${cx}" y2="${G.Y(R+.5)}" stroke="#94A3B8" stroke-width="2"/>`;
+ const fs=Math.max(10,Math.min(13,u*.42));
+ for(let i=-R+1;i<R;i++)if(i&&i%2===0)g+=TX(G.X(i),cy+fs*.95,N(i),'#64748B',fs,'middle',700)+TX(cx-fs*.6,G.Y(i),N(i),'#64748B',fs,'end',700);
+ return g+TX(G.X(R+.25),cy-12,'x','#94A3B8',14,'middle',900)+TX(cx+11,G.Y(R+.2),'y','#94A3B8',14,'middle',900)}
+function line(m,c,col,w=4.5,dash=''){const {X,Y}=G,cv=c[0]/c[1],f=x=>cv+m[0]/m[1]*x;return`<line x1="${X(-R-1)}" y1="${Y(f(-R-1))}" x2="${X(R+1)}" y2="${Y(f(R+1))}" stroke="${col}" stroke-width="${w}" stroke-linecap="round" clip-path="url(#cl)"${dash?` stroke-dasharray="${dash}"`:''}/>`}
+// label garis di tepi kiri/kanan dalam grid
+function lab(m,c,t,col,side){const cv=c[0]/c[1],mv=m[0]/m[1];let x=side>0?R-.6:-R+.6,y=cv+mv*x;if(Math.abs(y)>R-.6){y=Math.sign(y)*(R-.6);x=mv?(y-cv)/mv:x}return TX(G.X(x),G.Y(y)-14,t,col,14,side>0?'end':'start')}
+function L1(){return{m:MS[i1],c:[c1,1]}}
+function L2(){if(mode==='selari'){const m=MS[i1];return{m,c:qsub([Qp.y,1],qmul(m,[Qp.x,1]))}}return{m:MS[i2],c:[c2,1]}}
+function cross(a,b){const dm=qsub(a.m,b.m);if(dm[0]===0)return null;const x=qdiv(qsub(b.c,a.c),dm),y=qadd(qmul(a.m,x),a.c);return{x,y}}
+function draw(){let g=frame();const {X,Y}=G;
+ if(mode==='cabaran'){if(Z){g+=line(Z.a.m,Z.a.c,C1)+line(Z.b.m,Z.b.c,C2);if(Z.tap)g+=`<circle cx="${X(Z.tap.x)}" cy="${Y(Z.tap.y)}" r="9" fill="${Z.res==='ok'?'#34D399':'#F87171'}" stroke="#fff" stroke-width="3"/>`;if(Z.done&&Z.ans)g+=`<circle cx="${X(Z.ans.x)}" cy="${Y(Z.ans.y)}" r="13" fill="none" stroke="#34D399" stroke-width="4"/>`}svg.innerHTML=g;return}
+ const a=L1(),b=L2();
+ g+=line(a.m,a.c,C1)+line(b.m,b.c,C2,4.5,mode==='selari'?'':'');
+ g+=lab(a.m,a.c,'L₁',C1,1)+lab(b.m,b.c,'L₂',C2,-1);
+ const P=cross(a,b);
+ if(mode==='silang'&&P){const xv=P.x[0]/P.x[1],yv=P.y[0]/P.y[1];if(Math.abs(xv)<=R+.4&&Math.abs(yv)<=R+.4){g+=`<line x1="${X(xv)}" y1="${Y(0)}" x2="${X(xv)}" y2="${Y(yv)}" stroke="#FBBF24" stroke-width="2" stroke-dasharray="5 5"/><line x1="${X(0)}" y1="${Y(yv)}" x2="${X(xv)}" y2="${Y(yv)}" stroke="#FBBF24" stroke-width="2" stroke-dasharray="5 5"/>`;
+  g+=`<circle cx="${X(xv)}" cy="${Y(yv)}" r="10" fill="#FBBF24" stroke="#fff" stroke-width="3"/>`+TX(X(xv)+(xv>3?-14:14),Y(yv)-18,'('+qt(P.x)+', '+qt(P.y)+')','#FBBF24',14,xv>3?'end':'start')}}
+ if(mode==='selari'){g+=`<g class="h" data-h="Q" style="cursor:grab"><circle cx="${X(Qp.x)}" cy="${Y(Qp.y)}" r="24" fill="transparent"/><circle cx="${X(Qp.x)}" cy="${Y(Qp.y)}" r="10" fill="${C2}" stroke="#fff" stroke-width="3"/></g>`+TX(X(Qp.x)+(Qp.x>3?-12:12),Y(Qp.y)+18,`Q(${N(Qp.x)}, ${N(Qp.y)})`,C2,13,Qp.x>3?'end':'start');
+  // segi tiga kecerunan sama pada kedua-dua garis
+  const m=a.m;const run=m[1]===1?1:m[1],rise=m[0]*run/m[1];[[a,C1,-3],[b,C2,Qp.x]].forEach(([L,col,x0])=>{if(m[0]===0)return;const y0=L.c[0]/L.c[1]+m[0]/m[1]*x0;g+=`<g clip-path="url(#cl)"><line x1="${X(x0)}" y1="${Y(y0)}" x2="${X(x0+run)}" y2="${Y(y0)}" stroke="${col}" stroke-width="3" stroke-dasharray="5 4"/><line x1="${X(x0+run)}" y1="${Y(y0)}" x2="${X(x0+run)}" y2="${Y(y0+rise)}" stroke="${col}" stroke-width="3" stroke-dasharray="5 4"/></g>`})}
+ svg.innerHTML=g;showInfo()}
+function showInfo(){const a=L1(),b=L2(),P=cross(a,b);
+ if(mode==='silang'){let h=`<div class="row"><span class="l1">L₁: ${eqH(a.m,a.c)}</span><span class="l2">L₂: ${eqH(b.m,b.c)}</span></div>`;
+  if(P){h=`<b class="t">Point of intersection</b>`+h+`<div class="box">${rhs(a.m,a.c)} = ${rhs(b.m,b.c)}<br>${coef(qsub(a.m,b.m))} = ${qh(qsub(b.c,a.c))} → x = <b>${qh(P.x)}</b><br>y = <b>${qh(P.y)}</b></div><div class="ok" style="margin-top:4px">Intersect at (${qh(P.x)}, ${qh(P.y)})</div>`}
+  else if(a.c[0]===b.c[0])h=`<b class="t">Overlapping lines</b>`+h+`<div class="tip">Both equations are the same: all the points are common.</div>`;
+  else h=`<b class="t">Parallel lines</b>`+h+`<div class="no" style="margin-top:4px">m₁ = m₂ = ${qh(a.m)}: the lines are parallel, there is no point of intersection.</div>`;
+  info.innerHTML=h}
+ if(mode==='selari'){const W=`${N(Qp.y)} = ${qh(a.m)}(${N(Qp.x)}) + c → c = ${qh(b.c)}`;
+  info.innerHTML=`<b class="t">Parallel lines: m₁ = m₂</b><div class="row"><span class="l1">L₁: ${eqH(a.m,a.c)}</span></div><div class="box">L₂ is parallel to L₁ and passes through Q(${N(Qp.x)}, ${N(Qp.y)}):<br>m = ${qh(a.m)}; ${W}<br><span class="l2">L₂: ${eqH(b.m,b.c)}</span></div><div class="tip">${b.c[0]*a.c[1]===a.c[0]*b.c[1]?'Q lies on L₁, so L₂ overlaps L₁.':'Same gradient, different y-intercepts: the two lines will never intersect.'} Drag point Q.</div>`}}
+function sliders(){if(mode==='cabaran')return'';const dis=mode==='selari';
+ const s=(id,lab,cls,min,max,val,txt,d)=>`<div class="sl2${d?' dis':''}"><label class="${cls}" for="${id}">${lab}</label><input type="range" id="${id}" min="${min}" max="${max}" step="1" value="${val}"${d?' disabled':''} aria-label="${lab}"><span class="v ${cls}" id="v${id}">${txt}</span></div>`;
+ return`<div class="grid2">${s('a1','m₁','l1',0,MS.length-1,i1,qt(MS[i1]))}${s('b1','c₁','l1',-6,6,c1,N(c1))}${dis?'':s('a2','m₂','l2',0,MS.length-1,i2,qt(MS[i2]))+s('b2','c₂','l2',-6,6,c2,N(c2))}</div>`}
+function setCtrl(){
+ if(mode==='cabaran'){ctrl.innerHTML=`<div class="chips"><button class="chip" id="sel">Parallel lines (no intersection)</button><button class="chip" id="nx">New question ▶</button></div>`;
+  document.getElementById('sel').onclick=e=>answer(null,e.currentTarget);document.getElementById('nx').onclick=newQ;return}
+ ctrl.innerHTML=sliders()+(mode==='silang'?`<div class="btns"><button class="big alt" id="mk">Make parallel</button><button class="big" id="rw">Random</button></div>`:`<div class="btns"><button class="big" id="rw">Random</button></div>`);
+ const bind=(id,f)=>{const el=document.getElementById(id);if(el)el.oninput=()=>{f(+el.value);upd()}};
+ bind('a1',v=>i1=v);bind('b1',v=>c1=v);bind('a2',v=>i2=v);bind('b2',v=>c2=v);
+ const mk=document.getElementById('mk');if(mk)mk.onclick=()=>{i2=i1;if(c2===c1)c2=c1>0?c1-3:c1+3;snd('ketik');setCtrl();draw()};
+ document.getElementById('rw').onclick=()=>{i1=r(MS.length);i2=r(MS.length);c1=r(11)-5;c2=r(11)-5;Qp={x:r(11)-5,y:r(11)-5};snd('ketik');setCtrl();draw()}}
+const r=n=>Math.floor(Math.random()*n);
+function upd(){const t=(id,v)=>{const e=document.getElementById('v'+id);if(e)e.textContent=v};t('a1',qt(MS[i1]));t('b1',N(c1));t('a2',qt(MS[i2]));t('b2',N(c2));draw()}
+/* ---------- cabaran ---------- */
+function form(m,c){// bentuk am integer
+ let a=-m[0]*c[1],b=m[1]*c[1],k=c[0]*m[1];if(a<0||(a===0&&b<0)){a=-a;b=-b;k=-k}const g=gcd(gcd(a,b),k)||1;a/=g;b/=g;k/=g;const t=(v,s)=>v===1?s:v===-1?MI+s:N(v)+s;
+ return(a?t(a,'x'):'')+(a?(b<0?' '+MI+' ':' + ')+t(Math.abs(b),'y'):t(b,'y'))+' = '+N(k)}
+function newQ(){const par=Math.random()<.25;let a,b,x0,y0;
+ do{x0=r(9)-4;y0=r(9)-4;const m1=[r(7)-3,1],m2=par?m1:[r(7)-3,1];a={m:m1,c:[y0-m1[0]*x0,1]};b={m:m2,c:par?[a.c[0]+(r(2)?3:-3),1]:[y0-m2[0]*x0,1]}}
+ while((!par&&a.m[0]===b.m[0])||Math.abs(a.c[0])>6||Math.abs(b.c[0])>6||a.m[0]===0&&b.m[0]===0);
+ const useAm=Math.random()<.5;Z={a,b,par,ans:par?null:{x:x0,y:y0},ea:eqH(a.m,a.c),eb:useAm?form(b.m,b.c):eqH(b.m,b.c),done:false,tap:null};
+ setCtrl();draw();
+ info.innerHTML=`<b class="t">Find the point of intersection</b><div class="row"><span class="l1">${Z.ea}</span><span class="l2">${Z.eb}</span></div><div class="tip">Tap the point of intersection on the grid, or press "Parallel lines" if there is no intersection. Skor: ${score}/${tot}</div>`}
+function answer(p,btn){if(!Z||Z.done)return;Z.done=true;tot++;let ok;
+ if(p===null)ok=Z.par;else{Z.tap=p;ok=!Z.par&&p.x===Z.ans.x&&p.y===Z.ans.y;Z.res=ok?'ok':'no'}
+ if(ok){score++;snd('betul');if(window.FX)FX.stars(btn||stage,12)}else snd('salah');
+ if(btn)btn.classList.add(ok?'ok':'no');
+ const w=Z.par?`Both lines have a gradient of ${qh(Z.a.m)} but different y-intercepts, thus the lines are parallel and there is no point of intersection.`:`${rhs(Z.a.m,Z.a.c)} = ${rhs(Z.b.m,Z.b.c)} → x = ${N(Z.ans.x)}, y = ${N(Z.ans.y)}`;
+ draw();info.innerHTML=`<b class="t">${ok?'<span class="ok">✓ Correct!</span>':'<span class="no">✗ Not exact yet</span>'}</b><div class="row"><span class="l1">${Z.ea}</span><span class="l2">${Z.eb}</span></div><div class="box">${Z.eb.indexOf('y =')!==0?`${Z.eb} → ${eqH(Z.b.m,Z.b.c)}<br>`:''}${w}</div><div class="tip">Skor: ${score}/${tot}</div>`}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));mode=b.dataset.m;if(mode==='cabaran'){newQ();return}setCtrl();draw()});
+function gp(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;const t=p.matrixTransform(svg.getScreenCTM().inverse());return{x:Math.max(-R,Math.min(R,Math.round((t.x-G.cx)/G.u))),y:Math.max(-R,Math.min(R,Math.round((G.cy-t.y)/G.u)))}}
+svg.addEventListener('pointerdown',e=>{if(mode==='cabaran'){if(Z&&!Z.done)answer(gp(e));return}const h=e.target.closest('.h');if(!h)return;e.preventDefault();drag=h.dataset.h;svg.setPointerCapture(e.pointerId)});
+svg.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();const p=gp(e);if(p.x!==Qp.x||p.y!==Qp.y){Qp=p;draw()}});
+const end=()=>{drag=null};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+new ResizeObserver(()=>{if(mode!=='cabaran')draw();else draw()}).observe(stage);setCtrl();draw();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

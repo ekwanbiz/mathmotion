@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Match the Views · Chapter 7</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#06140F;--sf:#0C1F18;--sf2:#122B22;--sf3:#081812;--bd:#1B3B2F;--bd2:#25503F;--tx:#E8FFF5;--mu:#9CC9B6;--mu2:#6C9A87;--c1:#34D399;--c2:#38BDF8;--pa:#FB923C;--pk:#F472B6;--gold:#FFD166;--ok:#3DDC84;--bad:#FF6B7A;
+ --surface:#0C1F18;--border:#25503F;--text:#E8FFF5;--muted:#9CC9B6;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto auto;gap:9px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#03261a}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+.stage svg{width:100%;height:100%;display:block;user-select:none;-webkit-user-select:none}
+.lvl{position:absolute;top:8px;left:8px;display:flex;gap:6px}
+.lvl button{background:var(--sf);border:2px solid var(--bd2);border-radius:11px;padding:6px 10px;font-weight:800;font-size:13px;color:var(--mu)}
+.lvl button.on{border-color:var(--gold);color:var(--gold)}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:10px 14px;line-height:1.45;font-size:15px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:2px}
+.info .tip{color:var(--mu);font-size:13px;margin-top:4px}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.nextb{margin-top:8px;background:var(--c1);border:0;color:#03261a;border-radius:11px;padding:9px 16px;font-weight:900}
+.ctrl{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.ctrl.three{grid-template-columns:repeat(3,1fr)}
+.opt{background:var(--sf);border:2px solid var(--bd2);border-radius:14px;padding:6px 4px 4px;font-weight:800;font-size:15px;display:flex;flex-direction:column;align-items:center;gap:2px;min-height:58px;justify-content:center}
+.opt svg{width:100%;height:74px;display:block}
+.opt .k{font-size:13px;color:var(--mu)}
+.opt.ok{border-color:var(--ok);background:#3ddc8422}.opt.no{border-color:var(--bad);background:#ff6b7a22}
+.opt:disabled{cursor:default}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.3fr) minmax(340px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end;grid-template-columns:1fr 1fr}.ctrl.three{grid-template-columns:1fr}
+ .info b.t{font-size:22px}.opt svg{height:110px}.ctrl.three .opt{min-height:62px;font-size:17px}
+}
+@media(max-height:700px){.opt svg{height:60px}}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.opt svg{height:50px}.info{padding:8px 11px;font-size:14px}}
+@media(max-width:420px){.modes button{font-size:13.5px;padding:10px 3px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#34D399;color:#03261a;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #34d39944">&#8592; Back</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mode">
+   <button data-m="pilih" class="on" role="tab">🔍 Choose a Drawing</button>
+   <button data-m="nama" role="tab">🏷️ Name the View</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage">
+  <div class="lvl" role="group" aria-label="Level"><button data-l="0" class="on">Easy</button><button data-l="1">Medium</button><button data-l="2">Hard</button></div>
+  <svg id="svg" viewBox="0 0 400 320" aria-label="Solid of cubes"></svg>
+ </div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const C={c1:'#34D399',c2:'#38BDF8',pa:'#FB923C',pk:'#F472B6',pu:'#A78BFA',tx:'#E8FFF5',mu:'#9CC9B6',mu2:'#6C9A87',sf:'#0C1F18',sf3:'#081812',grid:'#1B3B2F',gold:'#FFD166'};
+const VN={pelan:'Plan',depan:'Front elevation',sisi:'Side elevation'},VC={pelan:C.c1,depan:C.c2,sisi:C.pk};
+let S={m:'pilih',lvl:0,q:null,score:0,tot:0,streak:0};
+const snd=n=>{if(window.FX)FX.play(n)};
+const rnd=n=>Math.floor(Math.random()*n),pick=a=>a[rnd(a.length)],shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=rnd(i+1);[a[i],a[j]]=[a[j],a[i]]}return a};
+/* ---------- enjin voxel ---------- */
+function vox(H){const s=new Set(),n=H.length;H.forEach((row,r)=>row.forEach((h,x)=>{for(let z=0;z<h;z++)s.add(`${x},${n-1-r},${z}`)}));return s}
+const has=(s,x,y,z)=>s.has(`${x},${y},${z}`),cubes=s=>[...s].map(k=>k.split(',').map(Number));
+function vgrid(s,kind){const g=new Map();for(const[x,y,z]of cubes(s)){const[u,v,d]=kind==='pelan'?[x,y,-z]:kind==='depan'?[x,z,y]:[y,z,-x];const k=u+','+v;if(!g.has(k))g.set(k,new Set());g.get(k).add(d)}return g}
+function lines(s,kind){const g=vgrid(s,kind);let w=0,h=0;for(const k of g.keys()){const[u,v]=k.split(',').map(Number);w=Math.max(w,u+1);h=Math.max(h,v+1)}
+ const vis=[],hid=[],get=(u,v)=>g.get(u+','+v)||new Set();
+ const edge=(A,B,seg)=>{if(!A.size&&!B.size)return;const fa=A.size?Math.min(...A):null,fb=B.size?Math.min(...B):null;if(fa!==fb){vis.push(seg);return}for(const d of A)if(!B.has(d)){hid.push(seg);return}for(const d of B)if(!A.has(d)){hid.push(seg);return}};
+ for(let u=0;u<=w;u++)for(let v=0;v<h;v++)edge(get(u-1,v),get(u,v),[[u,v],[u,v+1]]);
+ for(let v=0;v<=h;v++)for(let u=0;u<w;u++)edge(get(u,v-1),get(u,v),[[u,v],[u+1,v]]);
+ return{w,h,vis,hid,cells:[...g.keys()].map(k=>k.split(',').map(Number))}}
+const nseg=([a,b])=>(a[0]<b[0]||(a[0]===b[0]&&a[1]<b[1])?[a,b]:[b,a]).flat().join(',');
+const sig=L=>L.w+'x'+L.h+'|'+L.vis.map(nseg).sort().join(';')+'|'+L.hid.map(nseg).sort().join(';');
+const mirror=L=>({w:L.w,h:L.h,vis:L.vis.map(([a,b])=>[[L.w-b[0],b[1]],[L.w-a[0],a[1]]]),hid:L.hid.map(([a,b])=>[[L.w-b[0],b[1]],[L.w-a[0],a[1]]]),cells:L.cells.map(([u,v])=>[L.w-1-u,v])});
+const nohid=L=>({w:L.w,h:L.h,vis:L.vis,hid:[],cells:L.cells});
+const solidhid=L=>({w:L.w,h:L.h,vis:L.vis.concat(L.hid),hid:[],cells:L.cells});
+function connected(H){const D=H.length,W=H[0].length,cells=[];for(let r=0;r<D;r++)for(let c=0;c<W;c++)if(H[r][c])cells.push([r,c]);if(!cells.length)return false;const seen=new Set([cells[0].join()]),st=[cells[0]];while(st.length){const[r,c]=st.pop();[[1,0],[-1,0],[0,1],[0,-1]].forEach(([a,b])=>{const R=r+a,K=c+b;if(R>=0&&R<D&&K>=0&&K<W&&H[R][K]&&!seen.has(R+','+K)){seen.add(R+','+K);st.push([R,K])}})}return seen.size===cells.length&&H.every(r=>r.some(Boolean))&&H[0].map((_,c)=>H.some(r=>r[c])).every(Boolean)}
+function randH(lvl,cond){for(let t=0;t<600;t++){const W=lvl?3:2+rnd(2),D=lvl===2?2+rnd(2):2,H=Array.from({length:D},()=>Array.from({length:W},()=>Math.random()<(lvl===2?.08:.2)?0:1+rnd(lvl?3:2)));if(connected(H)&&(!cond||cond(H)))return H}return[[2,1],[1,1]]}
+/* ---------- lukisan ---------- */
+const f1=n=>+n.toFixed(1);
+const L_=(p,q,c,w=3,d='')=>`<line x1="${f1(p[0])}" y1="${f1(p[1])}" x2="${f1(q[0])}" y2="${f1(q[1])}" stroke="${c}" stroke-width="${w}" stroke-linecap="${d?'butt':'round'}"${d?` stroke-dasharray="${d}"`:''}/>`;
+const PG=(pts,f,op=1,st='none',sw=0)=>`<polygon points="${pts.map(p=>f1(p[0])+','+f1(p[1])).join(' ')}" fill="${f}" fill-opacity="${op}" stroke="${st}" stroke-width="${sw}" stroke-linejoin="round"/>`;
+const TX=(x,y,t,c=C.tx,s=16,a='middle')=>`<text x="${f1(x)}" y="${f1(y)}" fill="${c}" font-size="${s}" font-weight="800" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="${C.sf3}" stroke-width="4" stroke-linejoin="round">${t}</text>`;
+function arrow(p,q,c){const dx=q[0]-p[0],dy=q[1]-p[1],L=Math.hypot(dx,dy)||1,ux=dx/L,uy=dy/L,h=10;return L_(p,q,c,3.5)+`<path d="M${f1(q[0]-ux*h-uy*h*.6)} ${f1(q[1]-uy*h+ux*h*.6)}L${f1(q[0])} ${f1(q[1])}L${f1(q[0]-ux*h+uy*h*.6)} ${f1(q[1]-uy*h-ux*h*.6)}" fill="none" stroke="${c}" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>`}
+const C30=Math.cos(Math.PI/6);
+function isoSVG(s,hl){
+ const cs=cubes(s),X=Math.max(...cs.map(c=>c[0]))+1,Y=Math.max(...cs.map(c=>c[1]))+1,Z=Math.max(...cs.map(c=>c[2]))+1;
+ const raw=([x,y,z])=>[(x+y)*C30,(x-y)*.5-z];
+ const ext=[[0,0,0],[X,0,0],[0,Y,0],[X,Y,0],[0,0,Z],[X,Y,Z],[X/2,-2,.5],[X+2,Y/2,.5],[0,Y,Z+2]].map(raw);
+ const x0=Math.min(...ext.map(p=>p[0])),x1=Math.max(...ext.map(p=>p[0])),y0=Math.min(...ext.map(p=>p[1])),y1=Math.max(...ext.map(p=>p[1]));
+ const k=Math.min(330/(x1-x0),270/(y1-y0)),ox=200-k*(x0+x1)/2,oy=170-k*(y0+y1)/2;
+ const P=p=>{const[a,b]=raw(p);return[ox+a*k,oy+b*k]};
+ let o='';
+ for(const[x,y,z]of cs.sort((a,b)=>(a[0]-a[1]+a[2])-(b[0]-b[1]+b[2])||a[2]-b[2])){
+  const F=[];
+  if(!has(s,x,y,z+1))F.push([[[x,y,z+1],[x+1,y,z+1],[x+1,y+1,z+1],[x,y+1,z+1]],.6]);
+  if(!has(s,x,y-1,z))F.push([[[x,y,z],[x+1,y,z],[x+1,y,z+1],[x,y,z+1]],.38]);
+  if(!has(s,x+1,y,z))F.push([[[x+1,y,z],[x+1,y+1,z],[x+1,y+1,z+1],[x+1,y,z+1]],.2]);
+  for(const[q,op]of F){const pp=q.map(P);o+=PG(pp,C.sf)+PG(pp,C.pa,op,C.tx,2)}}
+ const zm=Math.min(Z,2)/2;
+ const fa=P([X/2,-.15,zm]),fs=P([X/2,-1.5,zm]);o+=arrow(fs,fa,hl==='depan'?C.gold:C.c2)+TX(fs[0]-4,fs[1]+14,'front',hl==='depan'?C.gold:C.c2,15,'end');
+ const sa=P([X+.15,Y/2,zm]),ss=P([X+1.5,Y/2,zm]);o+=arrow(ss,sa,hl==='sisi'?C.gold:C.pk)+TX(ss[0]+4,ss[1]+14,'side',hl==='sisi'?C.gold:C.pk,15,'start');
+ const top=cs.reduce((b,c)=>c[2]>b[2]?c:b),ta=P([top[0]+.5,top[1]+.5,top[2]+1.1]),ts=P([top[0]+.5,top[1]+.5,Z+1.5]);
+ o+=arrow(ts,ta,hl==='pelan'?C.gold:C.c1)+TX(ts[0]+8,ts[1],'top',hl==='pelan'?C.gold:C.c1,15,'start');
+ return o}
+function viewSVG(L,col){
+ const k=20,p=5,W=Math.max(L.w*k+2*p,60),H=L.h*k+2*p,ox=(W-L.w*k)/2,X=u=>ox+u*k,Y=v=>H-p-v*k;let o='';
+ L.cells.forEach(([u,v])=>o+=PG([[X(u),Y(v)],[X(u+1),Y(v)],[X(u+1),Y(v+1)],[X(u),Y(v+1)]],col,.15));
+ L.hid.forEach(([a,b])=>o+=L_([X(a[0]),Y(a[1])],[X(b[0]),Y(b[1])],col,2.2,'4 3'));
+ L.vis.forEach(([a,b])=>o+=L_([X(a[0]),Y(a[1])],[X(b[0]),Y(b[1])],col,2.8));
+ return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" aria-hidden="true">${o}</svg>`}
+/* ---------- soalan ---------- */
+function choices(H,v){
+ const s=vox(H),Lc=lines(s,v),pool=[];
+ if(Lc.hid.length)pool.push(solidhid(Lc),nohid(Lc));
+ pool.push(mirror(Lc));['pelan','depan','sisi'].filter(k=>k!==v).forEach(k=>pool.push(lines(s,k)));
+ for(let t=0;t<40;t++){const H2=H.map(r=>r.slice()),r=rnd(H2.length),c=rnd(H2[0].length);H2[r][c]=Math.max(0,Math.min(3,H2[r][c]+(Math.random()<.5?1:-1)));if(connected(H2))pool.push(lines(vox(H2),v))}
+ const seen=new Set([sig(Lc)]),w=[];
+ for(const L of pool.slice(0,2).concat(shuffle(pool.slice(2)))){const g=sig(L);if(!seen.has(g)){seen.add(g);w.push(L)}if(w.length===3)break}
+ const opts=shuffle([Lc].concat(w));return{opts,c:opts.indexOf(Lc)}}
+const distinct=H=>{const s=vox(H),a=['pelan','depan','sisi'].map(k=>sig(lines(s,k)));return a[0]!==a[1]&&a[1]!==a[2]&&a[0]!==a[2]};
+function newQ(){
+ const v=pick(['pelan','depan','sisi']);
+ const H=randH(S.lvl,h=>distinct(h)&&(S.lvl<2||lines(vox(h),'depan').hid.length+lines(vox(h),'sisi').hid.length>0));
+ if(S.m==='pilih'){const ch=choices(H,v);S.q={H,v,opts:ch.opts,c:ch.c,done:false}}
+ else{const L=lines(vox(H),v);S.q={H,v,L,c:['pelan','depan','sisi'].indexOf(v),done:false}}
+ render();setCtrl();
+ const msg=S.m==='pilih'?`Which is the <span style="color:${VC[v]}">${VN[v].toLowerCase()}</span> of this solid?`:'Which view is the purple drawing?';
+ info.innerHTML=`<b class="t">${msg}</b><div class="tip">${S.m==='pilih'?'Imagine you are looking from the direction of the arrow. The side elevation is viewed from the right.':'Compare the drawing with the solid from each direction.'} Score: ${S.score}/${S.tot}${S.streak>=3?' · 🔥 '+S.streak+' in a row':''}</div>`}
+function render(){
+ const Q=S.q;if(!Q){svg.innerHTML='';return}
+ const s=vox(Q.H);
+ if(S.m==='pilih'){svg.setAttribute('viewBox','0 0 400 320');svg.innerHTML=isoSVG(s,Q.done?Q.v:null)}
+ else{
+  // pepejal di kiri, lukisan di kanan
+  const iso=isoSVG(s,Q.done?Q.v:null),L=Q.L,k=34,W=L.w*k,Hh=L.h*k,x0=420,y0=160+Hh/2;
+  let o=`<g transform="translate(0 0)">${iso}</g>`;
+  L.cells.forEach(([u,v])=>o+=PG([[x0+u*k,y0-v*k],[x0+(u+1)*k,y0-v*k],[x0+(u+1)*k,y0-(v+1)*k],[x0+u*k,y0-(v+1)*k]],C.pu,.15));
+  L.hid.forEach(([a,b])=>o+=L_([x0+a[0]*k,y0-a[1]*k],[x0+b[0]*k,y0-b[1]*k],C.pu,3,'6 4'));
+  L.vis.forEach(([a,b])=>o+=L_([x0+a[0]*k,y0-a[1]*k],[x0+b[0]*k,y0-b[1]*k],C.pu,4));
+  o+=TX(x0+W/2,y0-Hh-18,'?',C.pu,22);
+  svg.setAttribute('viewBox',`0 0 ${Math.max(560,x0+W+20)} 320`);svg.innerHTML=o}
+}
+function answer(i,btn){
+ const Q=S.q;if(Q.done)return;Q.done=true;S.tot++;const ok=i===Q.c;
+ if(ok){S.score++;S.streak++;snd('betul');if(window.FX)FX.stars(btn,10)}else{S.streak=0;snd('salah');if(window.FX&&FX.shake)FX.shake(btn)}
+ ctrl.querySelectorAll('.opt').forEach((b,j)=>{if(j===Q.c)b.classList.add('ok');else if(b===btn)b.classList.add('no');b.disabled=true});
+ render();
+ const why=S.m==='pilih'?`The yellow arrow shows the viewing direction of the ${VN[Q.v].toLowerCase()}.`:`The drawing matches the view from the direction of the yellow arrow, that is the ${VN[Q.v].toLowerCase()}.`;
+ info.innerHTML=`<b class="t">${ok?'<span class="ok">✓ Correct!</span>':'<span class="no">✗ Answer: '+(S.m==='pilih'?'option '+'ABCD'[Q.c]:VN[Q.v])+'</span>'}</b><div class="tip">${why} Score: ${S.score}/${S.tot}${S.streak>=3?' · 🔥 '+S.streak:''}</div><button class="nextb" id="nx">Next ▶</button>`;
+ document.getElementById('nx').onclick=newQ}
+function setCtrl(){
+ const Q=S.q;
+ if(S.m==='pilih'){ctrl.className='ctrl';ctrl.innerHTML=Q.opts.map((L,i)=>`<button class="opt" data-i="${i}" aria-label="Option ${'ABCD'[i]}"><span class="k">${'ABCD'[i]}</span>${viewSVG(L,VC[Q.v])}</button>`).join('')}
+ else{ctrl.className='ctrl three';ctrl.innerHTML=['pelan','depan','sisi'].map((k,i)=>`<button class="opt" data-i="${i}">${VN[k]}</button>`).join('')}
+ ctrl.querySelectorAll('.opt').forEach(b=>b.onclick=()=>answer(+b.dataset.i,b))}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));S.m=b.dataset.m;newQ()});
+document.querySelectorAll('.lvl button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.lvl button').forEach(x=>x.classList.toggle('on',x===b));S.lvl=+b.dataset.l;newQ()});
+newQ();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

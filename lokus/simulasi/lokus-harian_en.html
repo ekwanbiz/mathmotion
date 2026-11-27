@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Daily Loci · Chapter 8</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#12100A;--sf:#1E1A10;--sf2:#282214;--sf3:#16130B;--bd:#3A321A;--bd2:#4C4222;--tx:#FFF8E6;--mu:#D6C495;--mu2:#A08F60;--c1:#FFC93C;--c2:#5EEAD4;--c3:#FF7AB6;--c4:#8F9BFF;--ok:#3DDC84;--bad:#FF6B7A;
+ --surface:#1E1A10;--border:#4C4222;--text:#FFF8E6;--muted:#D6C495;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:8px;padding:10px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:10px 4px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#2a1f00}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.stage svg{width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:10px 14px;line-height:1.45;font-size:15px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:2px}
+.info .row{display:flex;flex-wrap:wrap;gap:4px 14px;font-weight:700}
+.info .row b{color:var(--c2)}
+.info .eq{margin-top:5px;padding:7px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:700}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--mu2);font-weight:700}
+.ctrl{display:flex;flex-direction:column;gap:7px}
+.line{display:flex;gap:10px;align-items:center}
+.line label{font-weight:800;color:var(--mu);font-size:14px;white-space:nowrap;min-width:96px}
+.line output{font-weight:900;color:var(--c1);min-width:52px;text-align:right}
+.line input[type=range]{flex:1;accent-color:var(--c1);height:26px;min-width:0}
+.btns{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.big{background:var(--c2);border:0;color:#04261f;border-radius:13px;padding:12px 4px;font-weight:900;font-size:14.5px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.big.on{background:var(--c3);border-color:var(--c3);color:#3a0720}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.35fr) minmax(330px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:23px}
+}
+@media(max-height:700px){.wrap{gap:6px;padding-top:6px}.modes button{padding:7px 4px;font-size:14px}.info{padding:8px 11px;font-size:14px}.info b.t{font-size:16px}.big{padding:9px 4px}}
+@media(max-width:420px){.big{font-size:13.5px}.line label{min-width:80px;font-size:13px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(12px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#8F9BFF;color:#10133a;border-radius:14px;padding:11px 20px;font:900 16px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #8f9bff44">&#8592; Back</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Situasi">
+   <button data-m="kambing" class="on" role="tab">Goat</button>
+   <button data-m="lampu" role="tab">Street Lamp</button>
+   <button data-m="buaian" role="tab">Swing</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" viewBox="0 0 400 320" aria-label="Daily situations of loci"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const C1='#FFC93C',C2='#5EEAD4',C3='#FF7AB6',C4='#8F9BFF',TX='#FFF8E6',MU='#D6C495',OK='#3DDC84',GRASS='#1F3A1A';
+const snd=n=>{if(window.FX)FX.play(n)};
+const f1=n=>{const v=Math.round(n*10)/10;return (Object.is(v,-0)?0:v).toFixed(1)};
+const dist=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1]);
+const cl=(v,a,b)=>Math.max(a,Math.min(b,v));
+// dunia: 1 m = 30 px; asalan di bawah kiri (12, 308); x 0..12.6, y 0..9.8
+const K=30,SX=x=>12+x*K,SY=y=>308-y*K;
+let M='kambing',anim=null,drag=null,show=false,trace=[],wonOnce=false;
+const G={T:[6.3,4.8],L:4,goat:[9.3,6.8],corner:false};
+const Lp={H1:[2.5,1.6],H2:[9.5,1.6],lamp:[5,6],d:4};
+const B={L:3.2,amp:45,t:0,run:false};
+function lbl(x,y,t,c=TX,s=17,a='middle'){return `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" fill="${c}" font-size="${s}" font-weight="900" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="#16130B" stroke-width="5" stroke-linejoin="round">${t}</text>`}
+function ln(p,q,c,w=3,dash=''){return `<line x1="${SX(p[0]).toFixed(1)}" y1="${SY(p[1]).toFixed(1)}" x2="${SX(q[0]).toFixed(1)}" y2="${SY(q[1]).toFixed(1)}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"${dash?` stroke-dasharray="${dash}"`:''}/>`}
+function hit(id,p,r=26){return `<circle class="h" data-h="${id}" cx="${SX(p[0])}" cy="${SY(p[1])}" r="${r}" fill="transparent" style="cursor:grab"/>`}
+function stopAnim(){if(anim){cancelAnimationFrame(anim);anim=null}B.run=false}
+/* ================= Kambing ================= */
+function goatSVG(p,tight){const x=SX(p[0]),y=SY(p[1]);
+ return `<g><ellipse cx="${x}" cy="${y}" rx="17" ry="11" fill="#F5F1E6" stroke="#16130B" stroke-width="2"/><circle cx="${x+15}" cy="${y-9}" r="8" fill="#F5F1E6" stroke="#16130B" stroke-width="2"/><path d="M${x+12} ${y-17} l-3 -7 M${x+19} ${y-17} l3 -7" stroke="${MU}" stroke-width="2.5" stroke-linecap="round"/><circle cx="${x+17}" cy="${y-10}" r="1.6" fill="#16130B"/>${tight?`<circle cx="${x}" cy="${y}" r="24" fill="none" stroke="${OK}" stroke-width="3"/>`:''}</g>`}
+function kambingFix(){ // kekalkan kambing dalam jangkauan tali (dan pagar)
+ let [x,y]=G.goat;if(G.corner){x=Math.max(x,G.T[0]);y=Math.max(y,G.T[1])}
+ const dx=x-G.T[0],dy=y-G.T[1],d=Math.hypot(dx,dy);if(d>G.L){x=G.T[0]+dx/d*G.L;y=G.T[1]+dy/d*G.L}
+ G.goat=[cl(x,0,12.6),cl(y,0,9.8)]}
+function kambingRender(){
+ const tight=Math.abs(dist(G.goat,G.T)-G.L)<0.06;
+ if(tight&&trace.every(p=>dist(p,G.goat)>0.18))trace.push(G.goat.slice());
+ let g=`<rect x="-400" y="-400" width="1200" height="1120" fill="${GRASS}"/>`;
+ for(let i=0;i<40;i++){const x=(i*97)%392+4,y=(i*53)%300+10;g+=`<path d="M${x} ${y} l2 -7 M${x+4} ${y} l-1 -6" stroke="#2F5A26" stroke-width="2"/>`}
+ if(G.corner)g+=`<path d="M${SX(G.T[0])} ${SY(12)} L${SX(G.T[0])} ${SY(G.T[1])} L${SX(14)} ${SY(G.T[1])}" fill="none" stroke="#8B6B3E" stroke-width="7"/>`+lbl(SX(G.T[0])+46,SY(G.T[1])+16,'fence',MU,13);
+ if(show){const R=G.L*K,cx=SX(G.T[0]),cy=SY(G.T[1]);
+  g+=G.corner?`<path d="M${cx+R} ${cy} A${R} ${R} 0 0 0 ${cx} ${cy-R}" fill="none" stroke="${C3}" stroke-width="4" stroke-dasharray="10 7"/>`:`<circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${C3}" stroke-width="4" stroke-dasharray="10 7"/>`}
+ g+=trace.map(p=>`<circle cx="${SX(p[0]).toFixed(1)}" cy="${SY(p[1]).toFixed(1)}" r="4" fill="${C3}"/>`).join('');
+ g+=ln(G.T,G.goat,tight?C1:'#C9B98F',tight?3.5:2.5,tight?'':'4 4');
+ g+=`<rect x="${SX(G.T[0])-7}" y="${SY(G.T[1])-7}" width="14" height="14" rx="3" fill="${C1}" stroke="#fff" stroke-width="2.5"/>`+lbl(SX(G.T[0])-14,SY(G.T[1])+18,'T',C1,17,'end');
+ g+=goatSVG(G.goat,tight)+hit('goat',G.goat,30)+hit('T',G.T,20);
+ svg.innerHTML=g;
+ const frac=G.corner?'1/4 × ':'',len=(G.corner?0.25:1)*2*22/7*G.L,d=dist(G.goat,G.T);
+ info.innerHTML=`<b class="t">A goat tied to pole T</b><div class="row"><span>Length of rope = <b>${f1(G.L)} m</b></span><span>Distance of the goat from T = <b>${f1(d)} m</b></span></div>`+
+  (tight?'<div class="ok">✓ The rope is taut: the goat is on the locus.</div>':'<div class="no">The rope is slack. Drag the goat as far as possible from T.</div>')+
+  (show?`<div class="eq">Locus: ${G.corner?'a quarter circle':'a circle'} centred at T, radius ${f1(G.L)} m<br>Length of locus = ${frac}2 × 22/7 × ${f1(G.L)} ≈ ${f1(len)} m</div>`:`<div class="tip">Trace: ${trace.length} points. Drag pole T or change the length of the rope.</div>`)}
+function kambingCtrl(){
+ ctrl.innerHTML=`<div class="line"><label for="tl">Length of rope</label><input type="range" id="tl" min="2" max="6" step="0.5" value="${G.L}"><output id="to">${f1(G.L)} m</output></div>
+ <div class="btns"><button class="big alt ${show?'on':''}" id="sh">${show?'Hide':'Show'} locus</button><button class="big" id="au">Rotate ▶</button><button class="big alt ${G.corner?'on':''}" id="co">Pole at a corner</button></div>`;
+ document.getElementById('tl').oninput=e=>{G.L=+e.target.value;document.getElementById('to').textContent=f1(G.L)+' m';trace=[];kambingFix();kambingRender()};
+ document.getElementById('sh').onclick=()=>{show=!show;kambingCtrl();kambingRender()};
+ document.getElementById('co').onclick=()=>{G.corner=!G.corner;if(G.corner){G.T=[2.5,1.5];G.goat=[G.T[0]+G.L*.7,G.T[1]+G.L*.7]}else{G.T=[6.3,4.8];G.goat=[9.3,6.8]}trace=[];stopAnim();kambingFix();kambingCtrl();kambingRender()};
+ document.getElementById('au').onclick=()=>{if(anim){stopAnim();return}const a0=G.corner?0:0,a1=G.corner?Math.PI/2:2*Math.PI,t0=performance.now(),D=G.corner?1800:4000;
+  const st=now=>{const k=Math.min(1,(now-t0)/D),a=a0+(a1-a0)*k;G.goat=[G.T[0]+G.L*Math.cos(a),G.T[1]+G.L*Math.sin(a)];kambingRender();if(k<1)anim=requestAnimationFrame(st);else{anim=null;snd('menang');if(window.FX)FX.stars(document.getElementById('stage'),10)}};anim=requestAnimationFrame(st)}}
+/* ================= Lampu jalan ================= */
+function houseSVG(p,n){const x=SX(p[0]),y=SY(p[1]);return `<g><rect x="${x-20}" y="${y-16}" width="40" height="30" fill="#C9734A" stroke="#16130B" stroke-width="2"/><path d="M${x-26} ${y-14} L${x} ${y-36} L${x+26} ${y-14} Z" fill="#8B3A2E" stroke="#16130B" stroke-width="2"/><rect x="${x-6}" y="${y-2}" width="12" height="16" fill="#3A2A1A"/></g>`+lbl(x,y+28,n,C2,15)}
+function lampuRender(){
+ const a=dist(Lp.lamp,Lp.H1),b=dist(Lp.lamp,Lp.H2),h=Lp.lamp[1],ok1=Math.abs(a-b)<0.12,ok2=Math.abs(h-Lp.d)<0.12;
+ let g=`<rect x="-400" y="${SY(0)}" width="1200" height="400" fill="#3B3B3B"/><line x1="0" y1="${SY(0)-1}" x2="400" y2="${SY(0)-1}" stroke="${MU}" stroke-width="3"/>`;
+ for(let x=10;x<400;x+=40)g+=`<line x1="${x}" y1="${(SY(0)+320)/2}" x2="${x+20}" y2="${(SY(0)+320)/2}" stroke="#FFF8E6" stroke-width="2.5"/>`;
+ g+=lbl(380,(SY(0)+320)/2-12,'road',MU,12,'end');
+ if(show){const m=[(Lp.H1[0]+Lp.H2[0])/2,(Lp.H1[1]+Lp.H2[1])/2],dx=Lp.H2[0]-Lp.H1[0],dy=Lp.H2[1]-Lp.H1[1],L=Math.hypot(dx,dy)||1,u=[-dy/L,dx/L];
+  g+=`<defs><clipPath id="sky"><rect x="0" y="0" width="400" height="${SY(0)}"/></clipPath></defs><g clip-path="url(#sky)">`+ln([m[0]-u[0]*20,m[1]-u[1]*20],[m[0]+u[0]*20,m[1]+u[1]*20],C3,3.5,'10 7')+ln([-1,Lp.d],[14,Lp.d],C4,3.5,'10 7')+`</g>`;
+  if(Math.abs(u[1])>1e-6){const t=(Lp.d-m[1])/u[1],I=[m[0]+u[0]*t,m[1]+u[1]*t];if(I[0]>=0&&I[0]<=12.6)g+=`<circle cx="${SX(I[0])}" cy="${SY(I[1])}" r="13" fill="none" stroke="${OK}" stroke-width="3.5"/>`}}
+ g+=ln(Lp.lamp,Lp.H1,ok1?OK:'#C9B98F',2,'5 5')+ln(Lp.lamp,Lp.H2,ok1?OK:'#C9B98F',2,'5 5')+ln([Lp.lamp[0],0],Lp.lamp,ok2?OK:'#C9B98F',2,'3 5');
+ g+=houseSVG(Lp.H1,'House 1')+houseSVG(Lp.H2,'House 2')+hit('H1',Lp.H1,28)+hit('H2',Lp.H2,28);
+ const x=SX(Lp.lamp[0]),y=SY(Lp.lamp[1]),glow=ok1&&ok2;
+ g+=`<circle cx="${x}" cy="${y}" r="${glow?26:16}" fill="${C1}${glow?'55':'22'}"/><circle cx="${x}" cy="${y}" r="10" fill="${C1}" stroke="#fff" stroke-width="3"/>`+lbl(x+16,y-14,'L',C1,17,'start')+hit('lamp',Lp.lamp,28);
+ svg.innerHTML=g;
+ if(glow&&!wonOnce){wonOnce=true;snd('menang');if(window.FX)FX.stars(document.getElementById('stage'),12)}if(!glow)wonOnce=false;
+ info.innerHTML=`<b class="t">Where should lamp L be installed?</b><div class="row"><span>L to house 1 = <b>${f1(a)}</b></span><span>L to house 2 = <b>${f1(b)}</b></span><span>L to the road = <b>${f1(h)}</b></span></div>`+
+  `<div>${ok1?'<span class="ok">✓</span>':'<span class="no">✗</span>'} Equidistant from the two houses &nbsp; ${ok2?'<span class="ok">✓</span>':'<span class="no">✗</span>'} ${f1(Lp.d)} units from the road</div>`+
+  (glow?'<div class="ok">Exact! L is at the intersection of the two loci.</div>':`<div class="tip">${show?'Locus 1 (pink): the perpendicular bisector. Locus 2 (purple): a line parallel to the road.':'Drag L. Tip: press "Show locus".'}</div>`)}
+function lampuCtrl(){
+ ctrl.innerHTML=`<div class="line"><label for="dl">Distance from the road</label><input type="range" id="dl" min="2" max="8" step="1" value="${Lp.d}"><output id="do">${Lp.d} units</output></div>
+ <div class="btns"><button class="big alt ${show?'on':''}" id="sh">${show?'Hide':'Show'} locus</button><button class="big" id="sv">Place exactly</button><button class="big alt" id="rh">Random houses</button></div>`;
+ document.getElementById('dl').oninput=e=>{Lp.d=+e.target.value;document.getElementById('do').textContent=Lp.d+' units';lampuRender()};
+ document.getElementById('sh').onclick=()=>{show=!show;lampuCtrl();lampuRender()};
+ document.getElementById('sv').onclick=()=>{const m=[(Lp.H1[0]+Lp.H2[0])/2,(Lp.H1[1]+Lp.H2[1])/2],dx=Lp.H2[0]-Lp.H1[0],dy=Lp.H2[1]-Lp.H1[1];if(Math.abs(dx)<1e-6)return;
+  const x=m[0]-dy*(Lp.d-m[1])/dx;Lp.lamp=[cl(x,0,12.6),Lp.d];show=true;lampuCtrl();lampuRender()};
+ document.getElementById('rh').onclick=()=>{Lp.H1=[1+Math.round(Math.random()*4),1+Math.round(Math.random()*2)];Lp.H2=[7.5+Math.round(Math.random()*4),1+Math.round(Math.random()*3)];lampuRender()}}
+/* ================= Buaian ================= */
+const PIV=[200,34],SC=62;
+function buaianRender(){
+ const th=B.amp*Math.sin(B.t)*Math.PI/180,R=B.L*SC,seat=[PIV[0]+R*Math.sin(th),PIV[1]+R*Math.cos(th)];
+ if(B.run&&trace.every(p=>Math.hypot(p[0]-seat[0],p[1]-seat[1])>5))trace.push(seat);
+ let g=`<rect x="-400" y="300" width="1200" height="400" fill="${GRASS}"/><path d="M60 300 L95 26 L305 26 L340 300" fill="none" stroke="#8B6B3E" stroke-width="9" stroke-linejoin="round"/>`;
+ const a=B.amp*Math.PI/180;
+ if(show){const p0=[PIV[0]-R*Math.sin(a),PIV[1]+R*Math.cos(a)],p1=[PIV[0]+R*Math.sin(a),PIV[1]+R*Math.cos(a)];
+  g+=`<path d="M${p0[0].toFixed(1)} ${p0[1].toFixed(1)} A${R} ${R} 0 0 0 ${p1[0].toFixed(1)} ${p1[1].toFixed(1)}" fill="none" stroke="${C3}" stroke-width="4" stroke-dasharray="10 7"/>`;
+  g+=`<line x1="${PIV[0]}" y1="${PIV[1]}" x2="${p0[0].toFixed(1)}" y2="${p0[1].toFixed(1)}" stroke="${MU}" stroke-width="1.5" stroke-dasharray="4 5"/><line x1="${PIV[0]}" y1="${PIV[1]}" x2="${p1[0].toFixed(1)}" y2="${p1[1].toFixed(1)}" stroke="${MU}" stroke-width="1.5" stroke-dasharray="4 5"/>`;
+  g+=`<line x1="${PIV[0]}" y1="${PIV[1]}" x2="${PIV[0]}" y2="${PIV[1]+R}" stroke="${MU}" stroke-width="1.5" stroke-dasharray="4 5"/>`+lbl(PIV[0]+24,PIV[1]+40,B.amp+'°',MU,13,'start')+lbl(PIV[0]-24,PIV[1]+40,B.amp+'°',MU,13,'end')}
+ g+=trace.map(p=>`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3.5" fill="${C3}"/>`).join('');
+ g+=`<line x1="${PIV[0]}" y1="${PIV[1]}" x2="${seat[0].toFixed(1)}" y2="${seat[1].toFixed(1)}" stroke="${MU}" stroke-width="3.5"/>`;
+ g+=`<g transform="translate(${seat[0].toFixed(1)} ${seat[1].toFixed(1)}) rotate(${(-th*180/Math.PI).toFixed(1)})"><rect x="-22" y="-5" width="44" height="10" rx="4" fill="${C1}" stroke="#16130B" stroke-width="2"/></g>`;
+ g+=`<circle cx="${PIV[0]}" cy="${PIV[1]}" r="6" fill="${TX}"/>`+lbl(PIV[0]+12,PIV[1]-12,'bar',MU,12,'start');
+ svg.innerHTML=g;
+ const len=2*B.amp/360*2*22/7*B.L;
+ info.innerHTML=`<b class="t">A swinging swing</b><div class="row"><span>Length of chain = <b>${f1(B.L)} m</b></span><span>Angle of swing = <b>${2*B.amp}°</b></span></div>`+
+  (show?`<div class="eq">Locus of the seat: an arc of a circle centred at the bar, radius ${f1(B.L)} m<br>Arc length = ${2*B.amp}/360 × 2 × 22/7 × ${f1(B.L)} ≈ ${f1(len)} m</div>`:'<div class="tip">Press "Swing" and observe the trace of the seat. Is it a full circle?</div>')}
+function buaianCtrl(){
+ ctrl.innerHTML=`<div class="line"><label for="bl">Length of chain</label><input type="range" id="bl" min="2" max="4" step="0.2" value="${B.L}"><output id="bo">${f1(B.L)} m</output></div>
+ <div class="line"><label for="ba">Side angle</label><input type="range" id="ba" min="15" max="75" step="5" value="${B.amp}"><output id="bao">${B.amp}°</output></div>
+ <div class="btns"><button class="big alt ${show?'on':''}" id="sh">${show?'Hide':'Show'} locus</button><button class="big" id="go">${B.run?'Stop ■':'Swing ▶'}</button><button class="big alt" id="cl">Clear trace</button></div>`;
+ document.getElementById('bl').oninput=e=>{B.L=+e.target.value;document.getElementById('bo').textContent=f1(B.L)+' m';trace=[];buaianRender()};
+ document.getElementById('ba').oninput=e=>{B.amp=+e.target.value;document.getElementById('bao').textContent=B.amp+'°';trace=[];buaianRender()};
+ document.getElementById('sh').onclick=()=>{show=!show;buaianCtrl();buaianRender()};
+ document.getElementById('cl').onclick=()=>{trace=[];buaianRender()};
+ document.getElementById('go').onclick=()=>{if(B.run){stopAnim();buaianCtrl();return}B.run=true;buaianCtrl();let last=performance.now();
+  const st=now=>{B.t+=(now-last)/1000*2.2;last=now;buaianRender();if(B.run)anim=requestAnimationFrame(st)};anim=requestAnimationFrame(st)}}
+/* ================= umum ================= */
+function render(){if(M==='kambing')kambingRender();if(M==='lampu')lampuRender();if(M==='buaian')buaianRender()}
+function setCtrl(){if(M==='kambing')kambingCtrl();if(M==='lampu')lampuCtrl();if(M==='buaian')buaianCtrl()}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));stopAnim();M=b.dataset.m;trace=[];show=false;wonOnce=false;setCtrl();render()});
+function svgPt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;const q=p.matrixTransform(svg.getScreenCTM().inverse());return[(q.x-12)/K,(308-q.y)/K]}
+svg.addEventListener('pointerdown',e=>{const h=e.target.closest('.h');if(!h)return;e.preventDefault();if(M==='kambing')stopAnim();drag=h.dataset.h;svg.setPointerCapture(e.pointerId)});
+svg.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();let [x,y]=svgPt(e);x=cl(x,0,12.6);y=cl(y,0,9.8);
+ if(M==='kambing'){if(drag==='goat'){G.goat=[x,y];kambingFix()}else{const dx=G.goat[0]-G.T[0],dy=G.goat[1]-G.T[1];G.T=[Math.round(x*2)/2,Math.round(y*2)/2];G.goat=[G.T[0]+dx,G.T[1]+dy];trace=[];kambingFix()}}
+ if(M==='lampu'){if(drag==='lamp')Lp.lamp=[x,Math.max(0.3,y)];else Lp[drag]=[Math.round(x*2)/2,cl(Math.round(y*2)/2,1,8)]}
+ render()});
+const end=()=>{drag=null};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+svg.addEventListener('dragstart',e=>e.preventDefault());
+setCtrl();render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

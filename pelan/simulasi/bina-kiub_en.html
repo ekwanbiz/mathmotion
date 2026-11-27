@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Build with Cubes · Chapter 7</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#08111F;--sf:#0F1B2E;--sf2:#15243B;--sf3:#0B1526;--bd:#1E3350;--bd2:#294468;--tx:#EAF3FF;--mu:#9DB4D3;--mu2:#6F87A8;--c1:#FB923C;--c2:#38BDF8;--gr:#34D399;--pk:#F472B6;--gold:#FFD166;--ok:#3DDC84;--bad:#FF6B7A;
+ --surface:#0F1B2E;--border:#294468;--text:#EAF3FF;--muted:#9DB4D3;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto auto;gap:9px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#2a1203}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.stage svg{width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:10px 12px;line-height:1.45;font-size:15px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:2px}
+.info .tip{color:var(--mu);font-size:13px;margin-top:4px}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.views{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:6px}
+.views figure{margin:0;background:var(--sf3);border:1px solid var(--bd);border-radius:12px;padding:4px 4px 2px;display:flex;flex-direction:column;align-items:center}
+.views figcaption{font-size:12.5px;font-weight:800}
+.views svg{width:100%;height:84px;display:block}
+.row{display:flex;flex-wrap:wrap;gap:4px 14px;font-weight:700}
+.row b{color:var(--gold)}
+.ctrl{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.chip{background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:11px 4px;font-weight:800;font-size:15px}
+.chip.on{background:var(--c1);border-color:var(--c1);color:#2a1203}
+.big{background:var(--c2);border:0;color:#04202e;border-radius:13px;padding:12px 6px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:16px}.ctrl{grid-area:c;align-self:end;grid-template-columns:1fr 1fr}
+ .info b.t{font-size:22px}.views svg{height:120px}
+}
+@media(max-height:700px){.views svg{height:64px}.info{padding:8px 10px}}
+@media(max-height:780px) and (max-width:899px){.info .hb{display:none}}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.chip{padding:8px 3px;font-size:14px}.big{padding:9px 4px}.views svg{height:54px}}
+@media(max-width:420px){.chip,.big{font-size:13.5px}.modes button{font-size:13.5px;padding:10px 3px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#38BDF8;color:#04202e;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #38bdf844">&#8592; Back</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mode">
+   <button data-m="bina" class="on" role="tab">🧱 Free Build</button>
+   <button data-m="cabaran" role="tab">🎯 Challenge</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" viewBox="0 0 640 400" aria-label="Numbered plan grid and solid of cubes"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const GW=4,GD=3,MAXH=4;                     // grid pelan: 4 lajur × 3 baris (baris 0 = belakang)
+const C={c1:'#FB923C',c2:'#38BDF8',gr:'#34D399',pk:'#F472B6',tx:'#EAF3FF',mu:'#9DB4D3',mu2:'#6F87A8',sf:'#0F1B2E',sf3:'#0B1526',bd:'#294468',grid:'#1E3350',gold:'#FFD166'};
+let S={m:'bina',tool:'tambah',H:[[0,0,0,0],[2,1,0,0],[3,2,1,0]],hid:true,target:null,done:false,score:0,tot:0};
+const snd=n=>{if(window.FX)FX.play(n)};
+const rnd=n=>Math.floor(Math.random()*n);
+/* ---------- enjin voxel (sama dengan soalan.js) ---------- */
+function vox(H){const s=new Set(),n=H.length;H.forEach((row,r)=>row.forEach((h,x)=>{for(let z=0;z<h;z++)s.add(`${x},${n-1-r},${z}`)}));return s}
+const has=(s,x,y,z)=>s.has(`${x},${y},${z}`);
+const cubes=s=>[...s].map(k=>k.split(',').map(Number));
+function vgrid(s,kind){const g=new Map();for(const[x,y,z]of cubes(s)){const[u,v,d]=kind==='pelan'?[x,y,-z]:kind==='depan'?[x,z,y]:[y,z,-x];const k=u+','+v;if(!g.has(k))g.set(k,new Set());g.get(k).add(d)}return g}
+function lines(s,kind){
+ const g=vgrid(s,kind);let w=0,h=0;for(const k of g.keys()){const[u,v]=k.split(',').map(Number);w=Math.max(w,u+1);h=Math.max(h,v+1)}
+ const vis=[],hid=[],get=(u,v)=>g.get(u+','+v)||new Set();
+ const edge=(A,B,seg)=>{if(!A.size&&!B.size)return;const fa=A.size?Math.min(...A):null,fb=B.size?Math.min(...B):null;if(fa!==fb){vis.push(seg);return}for(const d of A)if(!B.has(d)){hid.push(seg);return}for(const d of B)if(!A.has(d)){hid.push(seg);return}};
+ for(let u=0;u<=w;u++)for(let v=0;v<h;v++)edge(get(u-1,v),get(u,v),[[u,v],[u,v+1]]);
+ for(let v=0;v<=h;v++)for(let u=0;u<w;u++)edge(get(u,v-1),get(u,v),[[u,v],[u+1,v]]);
+ return{w,h,vis,hid,cells:[...g.keys()].map(k=>k.split(',').map(Number))}}
+const sig=L=>L.w+'x'+L.h+'|'+L.vis.map(s=>s.flat().join(',')).sort().join(';')+'|'+L.hid.map(s=>s.flat().join(',')).sort().join(';');
+/* trim peta tinggi: buang baris/lajur kosong supaya pandangan bermula di 0 */
+function trim(H){const rs=H.map(r=>r.some(Boolean)),r0=rs.indexOf(true),r1=rs.lastIndexOf(true);if(r0<0)return[[0]];const rows=H.slice(r0,r1+1),cols=rows[0].map((_,c)=>rows.some(r=>r[c])),c0=cols.indexOf(true),c1=cols.lastIndexOf(true);return rows.map(r=>r.slice(c0,c1+1))}
+/* ---------- lukisan ---------- */
+const f1=n=>+n.toFixed(1);
+const L_=(p,q,c,w=3,d='')=>`<line x1="${f1(p[0])}" y1="${f1(p[1])}" x2="${f1(q[0])}" y2="${f1(q[1])}" stroke="${c}" stroke-width="${w}" stroke-linecap="${d?'butt':'round'}"${d?` stroke-dasharray="${d}"`:''}/>`;
+const PG=(pts,f,op=1,st='none',sw=0)=>`<polygon points="${pts.map(p=>f1(p[0])+','+f1(p[1])).join(' ')}" fill="${f}" fill-opacity="${op}" stroke="${st}" stroke-width="${sw}" stroke-linejoin="round"/>`;
+const TX=(x,y,t,c=C.tx,s=16,a='middle')=>`<text x="${f1(x)}" y="${f1(y)}" fill="${c}" font-size="${s}" font-weight="800" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="${C.sf3}" stroke-width="4" stroke-linejoin="round">${t}</text>`;
+const C30=Math.cos(Math.PI/6);
+function isoSVG(s,ox,oy,k){
+ const P=([x,y,z])=>[ox+(x+y)*C30*k,oy+((x-y)*.5-z)*k];
+ let o='';
+ // lantai grid
+ for(let x=0;x<=GW;x++)o+=L_(P([x,0,0]),P([x,GD,0]),C.grid,1.5);
+ for(let y=0;y<=GD;y++)o+=L_(P([0,y,0]),P([GW,y,0]),C.grid,1.5);
+ const cs=cubes(s).sort((a,b)=>(a[0]-a[1]+a[2])-(b[0]-b[1]+b[2])||a[2]-b[2]);
+ for(const[x,y,z]of cs){
+  const F=[];
+  if(!has(s,x,y,z+1))F.push([[[x,y,z+1],[x+1,y,z+1],[x+1,y+1,z+1],[x,y+1,z+1]],.6]);
+  if(!has(s,x,y-1,z))F.push([[[x,y,z],[x+1,y,z],[x+1,y,z+1],[x,y,z+1]],.38]);
+  if(!has(s,x+1,y,z))F.push([[[x+1,y,z],[x+1,y+1,z],[x+1,y+1,z+1],[x+1,y,z+1]],.2]);
+  for(const[q,op]of F){const pp=q.map(P);o+=PG(pp,C.sf)+PG(pp,C.c1,op,C.tx,2)}
+ }
+ // anak panah depan & sisi
+ const fa=P([GW/2,-.2,.5]),fs=P([GW/2,-1.6,.5]);o+=arrow(fs,fa,C.c2)+TX(fs[0]-6,fs[1]+14,'front',C.c2,15,'end');
+ const sa=P([GW+.2,GD/2,.5]),ss=P([GW+1.6,GD/2,.5]);o+=arrow(ss,sa,C.pk)+TX(ss[0]+4,ss[1]+16,'side',C.pk,15,'start');
+ return o}
+function arrow(p,q,c){const dx=q[0]-p[0],dy=q[1]-p[1],L=Math.hypot(dx,dy)||1,ux=dx/L,uy=dy/L,h=10;return L_(p,q,c,3.5)+`<path d="M${f1(q[0]-ux*h-uy*h*.6)} ${f1(q[1]-uy*h+ux*h*.6)}L${f1(q[0])} ${f1(q[1])}L${f1(q[0]-ux*h+uy*h*.6)} ${f1(q[1]-uy*h-ux*h*.6)}" fill="none" stroke="${c}" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>`}
+/* grid pelan bernombor (input) */
+let PX=26,PY=58,PK=62;
+function planInput(H){
+ let o=TX(PX+GW*PK/2,28,S.m==='bina'?'Tap the plan squares':'Build to match the views',C.gr,17);
+ H.forEach((row,r)=>row.forEach((h,c)=>{const x=PX+c*PK,y=PY+r*PK;
+  o+=`<g class="cell" data-r="${r}" data-c="${c}" style="cursor:pointer"><rect x="${x+2}" y="${y+2}" width="${PK-4}" height="${PK-4}" rx="9" fill="${h?C.gr:C.sf}" fill-opacity="${h?.12+h*.1:1}" stroke="${h?C.gr:C.bd}" stroke-width="2.5"/>${h?TX(x+PK/2,y+PK/2,h,C.tx,24):''}</g>`}));
+ o+=TX(PX+GW*PK/2,PY+GD*PK+18,'front ↓',C.c2,14);
+ return o}
+function viewSVG(L,col,showHid){
+ if(!L.w)return `<svg viewBox="0 0 100 60"><text x="50" y="30" fill="${C.mu2}" font-size="11" text-anchor="middle" font-family="Inter,sans-serif">no cubes</text></svg>`;
+ const k=20,p=6,W=L.w*k+2*p,H=L.h*k+2*p,X=u=>p+u*k,Y=v=>H-p-v*k;let o='';
+ for(let i=0;i<=L.w;i++)o+=L_([X(i),Y(0)],[X(i),Y(L.h)],C.grid,1);for(let j=0;j<=L.h;j++)o+=L_([X(0),Y(j)],[X(L.w),Y(j)],C.grid,1);
+ L.cells.forEach(([u,v])=>o+=PG([[X(u),Y(v)],[X(u+1),Y(v)],[X(u+1),Y(v+1)],[X(u),Y(v+1)]],col,.15));
+ if(showHid)L.hid.forEach(([a,b])=>o+=L_([X(a[0]),Y(a[1])],[X(b[0]),Y(b[1])],col,2,'4 3'));
+ L.vis.forEach(([a,b])=>o+=L_([X(a[0]),Y(a[1])],[X(b[0]),Y(b[1])],col,2.6));
+ return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">${o}</svg>`}
+/* ---------- render ---------- */
+function render(){
+ const s0=vox(S.H),s=vox(trim(S.H));
+ const st=document.getElementById('stage'),tall=st.clientWidth/Math.max(1,st.clientHeight)<1.0;
+ if(tall){PK=84;PX=(420-GW*PK)/2;PY=44;svg.setAttribute('viewBox','0 0 420 560');svg.innerHTML=planInput(S.H)+isoSVG(s0,105,470,40)}
+ else{PK=80;PX=12;PY=50;svg.setAttribute('viewBox','0 0 640 340');svg.innerHTML=planInput(S.H)+isoSVG(s0,362,236,38)}
+ bindCells();
+ const n=s.size,Ls={pelan:lines(s,'pelan'),depan:lines(s,'depan'),sisi:lines(s,'sisi')};
+ if(S.m==='bina'){
+  const hidN=Ls.depan.hid.length+Ls.sisi.hid.length+Ls.pelan.hid.length;
+  info.innerHTML=`<b class="t">Plan &amp; elevations drawn automatically</b><div class="row"><span>Number of cubes: <b>${n}</b></span><span>Maximum height: <b>${n?Math.max(...S.H.flat()):0}</b></span><span>Hidden lines: <b>${hidN?'yes':'none'}</b></span></div>
+  <div class="views"><figure><figcaption style="color:${C.gr}">Plan</figcaption>${viewSVG(Ls.pelan,C.gr,S.hid)}</figure><figure><figcaption style="color:${C.c2}">Front elevation</figcaption>${viewSVG(Ls.depan,C.c2,S.hid)}</figure><figure><figcaption style="color:${C.pk}">Side elevation</figcaption>${viewSVG(Ls.sisi,C.pk,S.hid)}</figure></div>
+  <div class="tip hb">${S.tool==='tambah'?'Tap a square to <b>add</b> one cube.':'Tap a square to <b>remove</b> one cube.'} The side elevation is viewed from the right: the front is on the left.</div>`;
+ }else{
+  const T=S.target,cur=n?[lines(s,'pelan'),lines(s,'depan'),lines(s,'sisi')]:null;
+  const okv=k=>cur&&sig(cur[['pelan','depan','sisi'].indexOf(k)])===sig(T.L[k]);
+  const fig=(k,nm,col)=>`<figure style="${S.done||okv(k)?'border-color:'+C.gr:''}"><figcaption style="color:${col}">${nm} ${okv(k)?'✓':''}</figcaption>${viewSVG(T.L[k],col,true)}</figure>`;
+  info.innerHTML=`<b class="t">${S.done?'<span class="ok">✓ Exact! All the views match.</span>':'Build a solid that has these views'}</b>
+  <div class="views">${fig('pelan','Plan',C.gr)}${fig('depan','Front elevation',C.c2)}${fig('sisi','Side elevation',C.pk)}</div>
+  <div class="tip">Your cubes: <b>${n}</b> · Score: ${S.score}/${S.tot}. Tap the plan squares to add or remove cubes, then press <b>Check</b>.</div>`;
+ }
+}
+function bindCells(){svg.querySelectorAll('.cell').forEach(g=>g.addEventListener('pointerdown',e=>{e.preventDefault();const r=+g.dataset.r,c=+g.dataset.c;
+ if(S.m==='cabaran'&&S.done)return;
+ const h=S.H[r][c];
+ if(S.tool==='tambah'){if(h<MAXH){S.H[r][c]++;snd('ketik')}else snd('salah')}else{if(h>0){S.H[r][c]--;snd('ketik')}}
+ render()}))}
+/* ---------- cabaran ---------- */
+function connected(H){const D=H.length,W=H[0].length,cells=[];for(let r=0;r<D;r++)for(let c=0;c<W;c++)if(H[r][c])cells.push([r,c]);if(!cells.length)return false;const seen=new Set([cells[0].join()]),st=[cells[0]];while(st.length){const[r,c]=st.pop();[[1,0],[-1,0],[0,1],[0,-1]].forEach(([a,b])=>{const R=r+a,K=c+b;if(R>=0&&R<D&&K>=0&&K<W&&H[R][K]&&!seen.has(R+','+K)){seen.add(R+','+K);st.push([R,K])}})}return seen.size===cells.length}
+function newTarget(){
+ let H,L;
+ for(let t=0;t<500;t++){
+  const W=2+rnd(2),D=2+rnd(2);H=Array.from({length:D},()=>Array.from({length:W},()=>Math.random()<.2?0:1+rnd(3)));
+  if(!connected(H)||!H.every(r=>r.some(Boolean))||!H[0].map((_,c)=>H.some(r=>r[c])).every(Boolean))continue;
+  const s=vox(H);L={pelan:lines(s,'pelan'),depan:lines(s,'depan'),sisi:lines(s,'sisi')};
+  if(sig(L.pelan)!==sig(L.depan)&&sig(L.depan)!==sig(L.sisi))break;
+ }
+ S.target={H,L};S.H=Array.from({length:GD},()=>Array(GW).fill(0));S.done=false;S.tool='tambah';setCtrl();render()}
+function semak(){
+ const s=vox(trim(S.H));if(!s.size){info.querySelector('.tip').innerHTML='<span class="no">No cubes yet.</span>';snd('salah');return}
+ const T=S.target,ok=['pelan','depan','sisi'].every(k=>sig(lines(s,k))===sig(T.L[k]));
+ S.tot++;
+ if(ok){S.score++;S.done=true;snd('menang');if(window.FX)FX.stars(document.getElementById('stage'),16)}else snd('salah');
+ render();
+ if(!ok){const bad=['pelan','depan','sisi'].filter(k=>sig(lines(s,k))!==sig(T.L[k])).map(k=>({pelan:'plan',depan:'front elevation',sisi:'side elevation'})[k]);
+  info.querySelector('.tip').innerHTML=`<span class="no">Not exact yet: check the ${bad.join(', ')}.</span> Score: ${S.score}/${S.tot}`}
+ setCtrl()}
+function setCtrl(){
+ const t=`<button class="chip ${S.tool==='tambah'?'on':''}" id="tA">＋ Add</button><button class="chip ${S.tool==='buang'?'on':''}" id="tB">－ Remove</button>`;
+ if(S.m==='bina')ctrl.innerHTML=t+`<button class="chip ${S.hid?'on':''}" id="hd">Hidden lines</button><button class="big alt" id="cl">Clear</button>`;
+ else ctrl.innerHTML=t+(S.done?`<button class="big" id="nx" style="grid-column:span 2">New challenge ▶</button>`:`<button class="big" id="sk">Check ✓</button><button class="big alt" id="nx">Skip</button>`);
+ document.getElementById('tA').onclick=()=>{S.tool='tambah';setCtrl();render()};
+ document.getElementById('tB').onclick=()=>{S.tool='buang';setCtrl();render()};
+ const g=id=>document.getElementById(id);
+ if(g('hd'))g('hd').onclick=()=>{S.hid=!S.hid;setCtrl();render()};
+ if(g('cl'))g('cl').onclick=()=>{S.H=Array.from({length:GD},()=>Array(GW).fill(0));render()};
+ if(g('sk'))g('sk').onclick=semak;
+ if(g('nx'))g('nx').onclick=newTarget;
+}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));S.m=b.dataset.m;
+ if(S.m==='cabaran'){newTarget();return}
+ S.H=[[0,0,0,0],[2,1,0,0],[3,2,1,0]];S.tool='tambah';setCtrl();render()});
+svg.addEventListener('dragstart',e=>e.preventDefault());
+let rt=null,lastR='';const ro=()=>{const st=document.getElementById('stage'),k=(st.clientWidth/Math.max(1,st.clientHeight)<1.0)+'';if(k!==lastR){lastR=k;render()}};
+if(window.ResizeObserver)new ResizeObserver(()=>{clearTimeout(rt);rt=setTimeout(ro,60)}).observe(document.getElementById('stage'));else window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(render,80)});
+setCtrl();render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

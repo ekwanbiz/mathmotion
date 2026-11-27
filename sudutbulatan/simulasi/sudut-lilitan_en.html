@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Circumference &amp; Central Angles · Chapter 6</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#07101C;--sf:#0E1B2C;--sf2:#132438;--sf3:#0A1524;--bd:#1D3350;--bd2:#28466B;--tx:#EAF4FF;--mu:#9FB6D0;--mu2:#6F89A8;--c1:#4FC3F7;--c2:#FF9A4D;--c3:#B79CFF;--gold:#FFD166;--ok:#3DDC84;--bad:#FF6B7A;
+ --surface:#0E1B2C;--border:#28466B;--text:#EAF4FF;--muted:#9FB6D0;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#03202e}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.stage svg{width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:12px 14px;min-height:74px;line-height:1.5;font-size:15px}
+.info b.t{display:block;font-size:19px;color:var(--c1);margin-bottom:2px}
+.info .tip{color:var(--mu);font-size:13px;margin-top:4px}
+.info .row{display:flex;flex-wrap:wrap;gap:6px 14px;font-weight:700}
+.info .row b.c{color:var(--c1)}.info .row b.o{color:var(--c2)}.info .row b.g{color:var(--gold)}.info .row b.p{color:var(--c3)}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.info .eq{margin-top:6px;padding:8px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:700}
+.ctrl{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.chip{background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:12px 4px;font-weight:800;font-size:15px}
+.chip.on{background:var(--c1);border-color:var(--c1);color:#03202e}
+.chip.ok{border-color:var(--ok);background:#3ddc8422}.chip.no{border-color:var(--bad);background:#ff6b7a22}
+.big{background:var(--c2);border:0;color:#2a1203;border-radius:13px;padding:13px 6px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.nextb{margin-top:8px;background:var(--c1);border:0;color:#03202e;border-radius:11px;padding:9px 16px;font-weight:900}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.35fr) minmax(320px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:24px}
+ .info .eq{font-size:17px}
+}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.chip{padding:9px 3px;font-size:14px}.info{padding:8px 11px;min-height:62px;font-size:14px}.info b.t{font-size:17px}.big{padding:10px 4px}}
+@media(max-width:420px){.chip,.big{font-size:13.5px}.modes button{font-size:13px;padding:10px 3px}.info{font-size:14px;padding:10px 12px}.info b.t{font-size:17px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#4FC3F7;color:#03202e;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #4fc3f744">&#8592; Back</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mode">
+   <button data-m="pusat" class="on" role="tab">📐 Central Angle</button>
+   <button data-m="sama" role="tab">🔁 Same Arc</button>
+   <button data-m="cabaran" role="tab">❓ Challenge</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" viewBox="0 0 400 400" aria-label="Diagram of a circle, a central angle and an angle at the circumference"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const CX=200,CY=200,R=150;
+const C1='#4FC3F7',C2='#FF9A4D',C3='#B79CFF',GOLD='#FFD166',PINK='#FF7AB6',BASE='#9FB6D0',OK='#3DDC84',TXT='#EAF4FF',SF3='#0A1524';
+let S={m:'pusat',a:215,b:325,c:95,pts:[55,95,140],q:null,score:0,tot:0,streak:0};
+const rad=d=>d*Math.PI/180;
+const norm=a=>((a%360)+360)%360;
+const P=a=>({x:CX+R*Math.cos(rad(a)),y:CY-R*Math.sin(rad(a))});
+const off=(a,k)=>({x:CX+(R+k)*Math.cos(rad(a)),y:CY-(R+k)*Math.sin(rad(a))});
+const snd=n=>{if(window.FX)FX.play(n)};
+const O={x:CX,y:CY};
+function lbl(x,y,t,c=TXT,s=20){return `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" fill="${c}" font-size="${s}" font-weight="900" text-anchor="middle" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="${SF3}" stroke-width="5" stroke-linejoin="round">${t}</text>`}
+function ln(p,q,c,w=4,dash=''){return `<line x1="${p.x.toFixed(1)}" y1="${p.y.toFixed(1)}" x2="${q.x.toFixed(1)}" y2="${q.y.toFixed(1)}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"${dash?` stroke-dasharray="${dash}"`:''}/>`}
+function dot(p,c,r=6){return `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${r}" fill="${c}" stroke="${SF3}" stroke-width="2"/>`}
+function handle(id,a,name,col=C1){const p=P(a),o=off(a,28);return `<g class="h" data-h="${id}" style="cursor:grab"><circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="30" fill="transparent"/><circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="12" fill="${col}" stroke="#fff" stroke-width="3"/></g>${lbl(o.x,o.y,name)}`}
+function unit(v){const L=Math.hypot(v.x,v.y)||1;return{x:v.x/L,y:v.y/L}}
+/* tanda sudut di V antara arah ke p dan q; refl = sudut refleks */
+function angMark(V,p,q,r,col,txt,refl=false,ld=0){
+ const u=unit({x:p.x-V.x,y:p.y-V.y}),w=unit({x:q.x-V.x,y:q.y-V.y});
+ const a={x:V.x+u.x*r,y:V.y+u.y*r},b={x:V.x+w.x*r,y:V.y+w.y*r};
+ let sw=u.x*w.y-u.y*w.x>0?1:0,lg=0;if(refl){sw=1-sw;lg=1}
+ const d=`M${a.x.toFixed(1)} ${a.y.toFixed(1)} A${r} ${r} 0 ${lg} ${sw} ${b.x.toFixed(1)} ${b.y.toFixed(1)}`;
+ let g=`<path d="M${V.x.toFixed(1)} ${V.y.toFixed(1)} L${d.slice(1)} Z" fill="${col}" fill-opacity=".22"/><path d="${d}" fill="none" stroke="${col}" stroke-width="3"/>`;
+ if(txt){let bi=unit({x:u.x+w.x,y:u.y+w.y});if(Math.hypot(u.x+w.x,u.y+w.y)<1e-3)bi={x:-u.y,y:u.x};if(refl)bi={x:-bi.x,y:-bi.y};const k=ld||r+18;g+=lbl(V.x+bi.x*k,V.y+bi.y*k,txt,col,17)}
+ return g}
+function rightMark(V,p,q,k=14){const u=unit({x:p.x-V.x,y:p.y-V.y}),w=unit({x:q.x-V.x,y:q.y-V.y});return `<path d="M${V.x+u.x*k} ${V.y+u.y*k}l${w.x*k} ${w.y*k}l${-u.x*k} ${-u.y*k}" fill="none" stroke="${TXT}" stroke-width="2.5"/>`}
+function base(showO=true){return `<circle cx="${CX}" cy="${CY}" r="${R}" fill="#ffffff06" stroke="${BASE}" stroke-width="3"/>`+(showO?`<circle cx="${CX}" cy="${CY}" r="5" fill="${BASE}"/>`:'')}
+function arcPath(d1,d2,col,w=8){const a=P(d1),b=P(d2),sp=norm(d2-d1);return `<path d="M${a.x.toFixed(1)} ${a.y.toFixed(1)} A${R} ${R} 0 ${sp>180?1:0} 0 ${b.x.toFixed(1)} ${b.y.toFixed(1)}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round" opacity=".85"/>`}
+/* lengkok AB yang TIDAK mengandungi C: pulangkan [mula, akhir, darjah] (lawan jam) */
+function arcNot(a,b,c){const sp=norm(b-a);if(norm(c-a)<sp)return[b,a,360-sp];return[a,b,sp]}
+/* ================= Mod 1: sudut pusat ================= */
+function pusatSVG(){
+ const A=P(S.a),B=P(S.b),C=P(S.c),[s1,s2,arc]=arcNot(S.a,S.b,S.c);
+ let g=base(false)+arcPath(s1,s2,GOLD);
+ const refl=arc>180,dia=arc===180;
+ g+=ln(O,A,C2,4)+ln(O,B,C2,4)+ln(C,A,C1,4)+ln(C,B,C1,4);
+ if(dia)g+=rightMark(C,A,B);else g+=angMark(C,A,B,34,C1,arc/2+'°');
+ g+=angMark(O,A,B,refl?24:28,C2,arc+'°',refl,refl?44:0);
+ g+=`<circle cx="${CX}" cy="${CY}" r="5" fill="${BASE}"/>`;
+ const oo=unit({x:(A.x+B.x)/2-CX,y:(A.y+B.y)/2-CY});g+=lbl(CX-oo.x*(refl?-16:20)+(dia?0:0),CY-oo.y*(refl?-16:20)+(dia?18:0),'O',BASE,17);
+  g+=handle('a',S.a,'A')+handle('b',S.b,'B')+handle('c',S.c,'C',C3);
+ return g}
+function pusatInfo(){
+ const [, ,arc]=arcNot(S.a,S.b,S.c),lil=arc/2,refl=arc>180;
+ let h=`<b class="t">Central angle = 2 × angle at the circumference</b><div class="row"><span>∠ACB = <b class="c">${lil}°</b></span><span>${refl?'Reflex ':''}∠AOB = <b class="o">${arc}°</b></span><span>Arc = <b class="g">${arc}°</b></span></div>`;
+ h+=`<div class="eq">${arc}° = 2 × ${lil}° ✓</div>`;
+ if(arc===180)h+=`<div class="ok" style="margin-top:4px">AB is a diameter! ∠ACB = 90° (angle in a semicircle).</div>`;
+ else if(refl)h+=`<div class="tip">C is on the <b>minor</b> arc, so the corresponding central angle is the <b>reflex</b> angle AOB.</div>`;
+ else h+=`<div class="tip">Drag ● A, B and C. The yellow arc subtends both angles. Try moving C along the circumference: ∠ACB does not change!</div>`;
+ info.innerHTML=h}
+/* ================= Mod 2: lengkok sama ================= */
+const PC=[C1,PINK,C3],PN=['C','D','E'];
+function samaSVG(){
+ const A=P(S.a),B=P(S.b);let g=base(false);
+ const [s1,s2]=arcNot(S.a,S.b,S.pts[0]);g+=arcPath(s1,s2,GOLD);
+ S.pts.forEach((d,i)=>{const V=P(d);g+=ln(V,A,PC[i],3.5)+ln(V,B,PC[i],3.5)});
+ S.pts.forEach((d,i)=>{const V=P(d),[, ,arc]=arcNot(S.a,S.b,d);g+=arc===180?rightMark(V,A,B):angMark(V,A,B,30,PC[i],arc/2+'°')});
+ g+=handle('a',S.a,'A',GOLD)+handle('b',S.b,'B',GOLD);
+ S.pts.forEach((d,i)=>{g+=handle('p'+i,d,PN[i],PC[i])});
+ return g}
+function samaInfo(){
+ const v=S.pts.map(d=>arcNot(S.a,S.b,d)[2]/2),same=v.every(x=>x===v[0]);
+ let h=`<b class="t">Same arc → same angle</b><div class="row">${v.map((x,i)=>`<span>∠A${PN[i]}B = <b style="color:${PC[i]}">${x}°</b></span>`).join('')}</div>`;
+ if(same)h+=`<div class="ok" style="margin-top:4px">✓ All the angles are equal because they are subtended by the same arc AB.</div>`;
+ else h+=`<div class="no" style="margin-top:4px">A point is in the other segment! Its angle = 180° − ${Math.min(...v)}° because it is subtended by a different arc.</div>`;
+ h+=`<div class="tip">Drag C, D and E along the circumference. Drag A or B to change the arc length.</div>`;
+ info.innerHTML=h}
+/* ================= Mod 3: cabaran ================= */
+const rnd=n=>Math.floor(Math.random()*n);
+function newQ(){
+ const jenis=['pusat','lilitan','semi','refleks'][rnd(4)];let x,a,b,c,q,ans,wr,why;
+ if(jenis==='pusat'){x=20+rnd(56);a=270-x;b=270+x;c=70+rnd(40);ans=2*x;q=`∠ACB = ${x}°. What is ∠AOB?`;wr=[x,x/2,180-x,90+x];why=`∠AOB = 2 × ${x}° = ${ans}°`}
+ if(jenis==='lilitan'){x=20+rnd(56);a=270-x;b=270+x;c=70+rnd(40);ans=x;q=`∠AOB = ${2*x}°. What is ∠ACB?`;wr=[2*x,4*x,180-2*x,90-x];why=`∠ACB = ½ × ${2*x}° = ${ans}°`}
+ if(jenis==='semi'){x=20+rnd(50);a=180;b=0;c=2*x;ans=90-x;q=`AB is a diameter and ∠CAB = ${x}°. What is ∠ABC?`;wr=[x,90,180-x,90+x];why=`∠ACB = 90°, thus ∠ABC = 180° − 90° − ${x}° = ${ans}°`}
+ if(jenis==='refleks'){x=35+rnd(45);a=270-x;b=270+x;c=270;ans=180-x;q=`∠AOB = ${2*x}° and C is on the minor arc. What is ∠ACB?`;wr=[x,2*x,360-2*x,90+x];why=`Reflex ∠AOB = 360° − ${2*x}° = ${360-2*x}°, thus ∠ACB = ${ans}°`}
+ const opts=[ans];wr.forEach(w=>{if(w>0&&w<360&&w===Math.round(w)&&!opts.includes(w)&&opts.length<4)opts.push(w)});let k=5;while(opts.length<4){if(!opts.includes(ans+k)&&ans+k<360)opts.push(ans+k);k+=5}
+ S.q={jenis,x,a,b,c,ans,q,why,opts:opts.sort(()=>Math.random()-.5),done:false};
+ setCtrl();render();
+ info.innerHTML=`<b class="t">${q}</b><div class="tip">O is the centre of the circle. Score: ${S.score}/${S.tot}${S.streak>=3?' · 🔥 '+S.streak+' in a row':''}</div>`}
+function cabSVG(){
+ const Q=S.q;if(!Q)return base();
+ const A=P(Q.a),B=P(Q.b),C=P(Q.c);let g=base(false);
+ const [, ,arc]=arcNot(Q.a,Q.b,Q.c),show=Q.done;
+ if(Q.jenis==='semi'){g+=ln(A,B,GOLD,4)+ln(C,A,C1,4)+ln(C,B,C1,4)+rightMark(C,A,B)+angMark(A,C,B,48,PINK,Q.x+'°')+angMark(B,A,C,36,OK,show?Q.ans+'°':'?')}
+ else{
+  g+=ln(O,A,C2,4)+ln(O,B,C2,4)+ln(C,A,C1,4)+ln(C,B,C1,4);
+  const refl=arc>180;
+  const oT=Q.jenis==='pusat'?(show?Q.ans+'°':'?'):(Q.jenis==='refleks'?(2*Q.x)+'°':arc+'°');
+  const cT=(Q.jenis==='lilitan'||Q.jenis==='refleks')?(show?Q.ans+'°':'?'):arc/2+'°';
+  g+=angMark(O,A,B,24,C2,oT,false,Q.jenis==='refleks'?40:0)+angMark(C,A,B,30,C1,cT);
+ }
+ g+=`<circle cx="${CX}" cy="${CY}" r="5" fill="${BASE}"/>`+lbl(CX+(Q.jenis==='refleks'?0:16),CY+(Q.jenis==='refleks'?-18:-14),'O',BASE,17);
+ g+=dot(A,TXT,7)+dot(B,TXT,7)+dot(C,C3,7);
+ [[Q.a,'A'],[Q.b,'B'],[Q.c,'C']].forEach(([d,t])=>{const o=off(d,24);g+=lbl(o.x,o.y,t)});
+ return g}
+function answer(o,btn){
+ const Q=S.q;if(Q.done)return;Q.done=true;S.tot++;const ok=o===Q.ans;
+ if(ok){S.score++;S.streak++;snd('betul');if(window.FX)FX.stars(btn,10)}else{S.streak=0;snd('salah');if(window.FX&&FX.shake)FX.shake(btn)}
+ ctrl.querySelectorAll('.chip').forEach(b=>{if(+b.dataset.o===Q.ans)b.classList.add('ok');else if(b===btn)b.classList.add('no');b.disabled=true});
+ render();
+ info.innerHTML=`<b class="t">${ok?'<span class="ok">✓ Correct!</span>':'<span class="no">✗ Answer: '+Q.ans+'°</span>'}</b><div class="eq">${Q.why}</div><div class="tip">Score: ${S.score}/${S.tot}${S.streak>=3?' · 🔥 '+S.streak+' in a row':''}</div><button class="nextb" id="nx">Next ▶</button>`;
+ document.getElementById('nx').onclick=newQ}
+/* ================= Lukis & kawalan ================= */
+function render(){
+ if(S.m==='pusat'){svg.innerHTML=pusatSVG();pusatInfo()}
+ if(S.m==='sama'){svg.innerHTML=samaSVG();samaInfo()}
+ if(S.m==='cabaran')svg.innerHTML=cabSVG();
+}
+function setCtrl(){
+ if(S.m==='pusat'){
+  ctrl.innerHTML=`<button class="big alt" id="dia">Make AB a diameter</button><button class="big alt" id="minor">C to the minor arc</button><button class="big" id="rw" style="grid-column:1/-1">Random position</button>`;
+  document.getElementById('dia').onclick=()=>{S.b=norm(S.a+180);if(Math.abs(norm(S.c-S.a)-180)<4||norm(S.c-S.a)<4)S.c=norm(S.a+90);snd('langkah');render()};
+  document.getElementById('minor').onclick=()=>{const[s1,,arc]=arcNot(S.a,S.b,S.c);const other=norm(s1+arc+ (360-arc)/2);S.c=Math.round(other/2)*2%360;snd('langkah');render()};
+  document.getElementById('rw').onclick=()=>{S.a=2*rnd(180);S.b=norm(S.a+40+2*rnd(60));const gap=360-norm(S.b-S.a);S.c=norm(S.b+20+2*rnd(Math.max(1,(gap-40)/2)));if(Math.random()<.25)S.c=norm(S.a+2+2*rnd(Math.max(1,norm(S.b-S.a)/2-2)));render()};
+ }
+ if(S.m==='sama'){
+  ctrl.innerHTML=`<button class="big alt" id="pendek">Short arc</button><button class="big alt" id="panjang">Long arc</button><button class="big" id="ul" style="grid-column:1/-1">Rearrange C, D, E</button>`;
+  document.getElementById('pendek').onclick=()=>{S.a=240;S.b=300;S.pts=[45,95,145];render()};
+  document.getElementById('panjang').onclick=()=>{S.a=190;S.b=350;S.pts=[50,95,140];render()};
+  document.getElementById('ul').onclick=()=>{const st=norm(S.b),sp=norm(S.a-S.b);S.pts=[1,2,3].map(i=>Math.round(norm(st+sp*i/4)/2)*2%360);render()};
+ }
+ if(S.m==='cabaran'&&S.q){
+  ctrl.innerHTML=S.q.opts.map(o=>`<button class="chip" data-o="${o}">${o}°</button>`).join('');
+  ctrl.querySelectorAll('.chip').forEach(b=>b.onclick=()=>answer(+b.dataset.o,b));
+ }
+}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));S.m=b.dataset.m;
+ if(S.m==='cabaran'){newQ();return}
+ if(S.m==='sama'){S.a=210;S.b=330;S.pts=[50,95,140]}else{S.a=215;S.b=325;S.c=95}
+ setCtrl();render()});
+/* ---------- Seret (tetikus + sentuh) ---------- */
+let drag=null;
+function svgPt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+svg.addEventListener('pointerdown',e=>{const h=e.target.closest('.h');if(!h)return;e.preventDefault();drag=h.dataset.h;svg.setPointerCapture(e.pointerId)});
+svg.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();const p=svgPt(e);
+ const ang=(Math.round(norm(Math.atan2(-(p.y-CY),p.x-CX)*180/Math.PI)/2)*2)%360; // gandaan 2° supaya sudut lilitan nombor bulat
+ const all=S.m==='pusat'?{a:S.a,b:S.b,c:S.c}:{a:S.a,b:S.b,p0:S.pts[0],p1:S.pts[1],p2:S.pts[2]};
+ for(const k in all){if(k!==drag){const d=Math.abs(norm(ang-all[k]));if(Math.min(d,360-d)<8)return}}
+ if(drag.startsWith('p'))S.pts[+drag[1]]=ang;else S[drag]=ang;render()});
+const end=()=>{drag=null};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+svg.addEventListener('dragstart',e=>e.preventDefault());
+setCtrl();render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

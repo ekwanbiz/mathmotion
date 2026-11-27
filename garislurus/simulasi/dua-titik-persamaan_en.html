@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Two Points → Equation · Chapter 9</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--sf:#131C2E;--sf2:#1A2540;--sf3:#0E1626;--bd:#22304A;--bd2:#2E3F5E;--tx:#E6EDF7;--mu:#94A3B8;--mu2:#64748B;--c1:#FB923C;--c2:#FBBF24;--c3:#A78BFA;--c4:#F472B6;--ok:#34D399;--bad:#F87171;
+ --surface:#131C2E;--border:#2E3F5E;--text:#E6EDF7;--muted:#94A3B8;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff06 1px,transparent 1px),linear-gradient(90deg,#ffffff06 1px,transparent 1px);background-size:32px 32px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#2a1203}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:11px 14px;line-height:1.5;font-size:15px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:2px}
+.info .eq{font-weight:800;font-size:22px;letter-spacing:.01em}
+.info .row{display:flex;flex-wrap:wrap;gap:4px 14px;font-weight:700}
+.info .tip{color:var(--mu);font-size:13px;margin-top:3px}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.info .box{margin-top:6px;padding:7px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:700}
+.fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.05;font-size:.8em;margin:0 2px}.fr>span:first-child{border-bottom:2px solid currentColor;padding:0 3px}
+.cm{color:var(--c1)}.cc{color:var(--c3)}.cy{color:var(--c2)}.cp{color:var(--c4)}
+.ctrl{display:flex;flex-direction:column;gap:8px}
+.sl{display:grid;grid-template-columns:auto 44px minmax(0,1fr) 44px 62px;gap:6px;align-items:center}
+.sl label{font-weight:900;font-size:17px;min-width:22px}
+.sl input[type=range]{width:100%;height:30px;margin:0}
+.sl .v{font-weight:900;font-size:17px;text-align:center;background:var(--sf);border:1px solid var(--bd2);border-radius:10px;padding:6px 2px}
+.pm{background:var(--sf);border:2px solid var(--bd2);border-radius:12px;height:40px;font-weight:900;font-size:20px;padding:0}
+.btns{display:flex;gap:8px}
+.big{flex:1;background:var(--c2);border:0;color:#2a1f00;border-radius:13px;padding:12px 6px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.4fr) minmax(340px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:22px}.info .eq{font-size:28px}
+}
+@media(max-height:700px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.info{padding:8px 11px;font-size:14px}.info .eq{font-size:19px}.info b.t{font-size:16px}.big{padding:9px 4px}.sl input[type=range]{height:26px}.pm{height:36px}.sl .v{padding:4px 2px}}
+@media(max-width:420px){.modes button{font-size:13px;padding:10px 3px}.info{font-size:14px}}
+.steps{display:flex;flex-direction:column;gap:5px;margin-top:4px}.st{padding:6px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:700}.st.off{opacity:.35}.st b.n{display:inline-block;min-width:20px;color:var(--c1)}
+.tip2{color:var(--mu);font-size:13.5px;text-align:center;padding:2px}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#FB923C;color:#2a1203;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #fb923c44">&#8592; Back</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mode">
+   <button data-m="titik" class="on" role="tab">📍 Two Points</button>
+   <button data-m="semak" role="tab">✅ Point on a Line</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" aria-label="Cartesian plane with two points and a straight line"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"><div class="btns" id="btns"></div><div class="tip2" id="tip">Drag points A and B on the grid.</div></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),stage=document.getElementById('stage'),info=document.getElementById('info'),btns=document.getElementById('btns'),tip=document.getElementById('tip');
+const R=6,MI='−';
+const gcd=(a,b)=>{a=Math.abs(a);b=Math.abs(b);while(b)[a,b]=[b,a%b];return a};
+const N=v=>v<0?MI+(-v):String(v),PN=v=>v<0?'('+N(v)+')':N(v);
+const q=(n,d=1)=>{if(d<0){n=-n;d=-d}const g=gcd(n,d)||1;n/=g;d/=g;return[n===0?0:n,d]};
+const qt=a=>a[1]===1?N(a[0]):(a[0]<0?MI:'')+Math.abs(a[0])+'/'+a[1];
+const qh=a=>a[1]===1?N(a[0]):(a[0]<0?MI:'')+`<span class="fr"><span>${Math.abs(a[0])}</span><span>${a[1]}</span></span>`;
+const qp=a=>a[0]<0?'('+qh(a)+')':qh(a);
+const qadd=(a,b)=>q(a[0]*b[1]+b[0]*a[1],a[1]*b[1]),qmul=(a,b)=>q(a[0]*b[0],a[1]*b[1]);
+const coef=(a,v='x')=>a[0]===a[1]?v:(a[0]===-a[1]?MI+v:qh(a)+v);
+const kst=c=>c[0]===0?'':(c[0]<0?' '+MI+' ':' + ')+qh([Math.abs(c[0]),c[1]]);
+const eqH=(m,c)=>m[0]===0?`y = ${qh(c)}`:`y = ${coef(m)}${kst(c)}`;
+let mode='titik',A={x:-3,y:-2},B={x:3,y:2},Pp={x:0,y:3},step=1,drag=null,G=null;
+const snd=n=>{if(window.FX)FX.play(n)};
+const TX=(x,y,t,col='#E6EDF7',s=14,a='middle',w=800)=>`<text x="${x}" y="${y}" fill="${col}" font-size="${s}" font-weight="${w}" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="#0E1626" stroke-width="4" stroke-linejoin="round">${t}</text>`;
+function frame(){const w=stage.clientWidth||300,h=stage.clientHeight||300;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+ const u=Math.min((w-20)/(2*R+1),(h-20)/(2*R+1)),cx=w/2,cy=h/2;G={u,cx,cy,X:x=>cx+x*u,Y:y=>cy-y*u};
+ let g=`<clipPath id="cl"><rect x="${cx-(R+.5)*u}" y="${cy-(R+.5)*u}" width="${(2*R+1)*u}" height="${(2*R+1)*u}"/></clipPath>`;
+ for(let i=-R;i<=R;i++){g+=`<line x1="${G.X(i)}" y1="${G.Y(-R-.5)}" x2="${G.X(i)}" y2="${G.Y(R+.5)}" stroke="#ffffff12"/><line x1="${G.X(-R-.5)}" y1="${G.Y(i)}" x2="${G.X(R+.5)}" y2="${G.Y(i)}" stroke="#ffffff12"/>`}
+ g+=`<line x1="${G.X(-R-.5)}" y1="${cy}" x2="${G.X(R+.5)}" y2="${cy}" stroke="#94A3B8" stroke-width="2"/><line x1="${cx}" y1="${G.Y(-R-.5)}" x2="${cx}" y2="${G.Y(R+.5)}" stroke="#94A3B8" stroke-width="2"/>`;
+ const fs=Math.max(10,Math.min(13,u*.4));
+ for(let i=-R+1;i<R;i++)if(i&&i%2===0)g+=TX(G.X(i),cy+fs*.95,N(i),'#64748B',fs,'middle',700)+TX(cx-fs*.6,G.Y(i),N(i),'#64748B',fs,'end',700);
+ return g+TX(G.X(R+.25),cy-12,'x','#94A3B8',14,'middle',900)+TX(cx+11,G.Y(R+.2),'y','#94A3B8',14,'middle',900)}
+function lineAB(col,w=4.5){const {X,Y}=G;if(A.x===B.x)return`<line x1="${X(A.x)}" y1="${Y(-R-1)}" x2="${X(A.x)}" y2="${Y(R+1)}" stroke="${col}" stroke-width="${w}" clip-path="url(#cl)"/>`;
+ const m=(B.y-A.y)/(B.x-A.x),f=x=>A.y+m*(x-A.x);return`<line x1="${X(-R-1)}" y1="${Y(f(-R-1))}" x2="${X(R+1)}" y2="${Y(f(R+1))}" stroke="${col}" stroke-width="${w}" clip-path="url(#cl)"/>`}
+const hd=(id,p,lab,col)=>{const {X,Y}=G,right=p.x>2;return`<g class="h" data-h="${id}" style="cursor:grab"><circle cx="${X(p.x)}" cy="${Y(p.y)}" r="24" fill="transparent"/><circle cx="${X(p.x)}" cy="${Y(p.y)}" r="10" fill="${col}" stroke="#fff" stroke-width="3"/></g>`+TX(X(p.x)+(right?-8:8),Y(p.y)+(p.y>R-1?20:-18),lab,col,13,right?'end':'start')};
+function geo(){if(A.x===B.x)return{ver:true};const m=q(B.y-A.y,B.x-A.x),c=qadd([A.y,1],qmul(q(-1),qmul(m,[A.x,1])));return{ver:false,m,c}}
+function draw(){let g=frame();const {X,Y}=G,o=geo();
+ g+=lineAB('#FBBF24');
+ if(mode==='titik'&&!o.ver&&A.y!==B.y&&step>=1){const L=A.x<B.x?A:B,Rr=A.x<B.x?B:A;
+  g+=`<line x1="${X(L.x)}" y1="${Y(L.y)}" x2="${X(Rr.x)}" y2="${Y(L.y)}" stroke="#F472B6" stroke-width="4" stroke-dasharray="7 5"/><line x1="${X(Rr.x)}" y1="${Y(L.y)}" x2="${X(Rr.x)}" y2="${Y(Rr.y)}" stroke="#38BDF8" stroke-width="4" stroke-dasharray="7 5"/>`;
+  g+=TX((X(L.x)+X(Rr.x))/2,Y(L.y)+(Rr.y>L.y?15:-15),N(Rr.x-L.x),'#F472B6',14)+TX(X(Rr.x)+8,(Y(L.y)+Y(Rr.y))/2,N(Rr.y-L.y),'#38BDF8',14,'start')}
+ if(mode==='titik'&&!o.ver&&step>=2){const cv=o.c[0]/o.c[1];if(Math.abs(cv)<=R)g+=`<circle cx="${X(0)}" cy="${Y(cv)}" r="8" fill="#A78BFA" stroke="#0E1626" stroke-width="2"/>`+TX(X(0)-12,Y(cv)+(cv>=0?-14:14),'(0, '+qt(o.c)+')','#A78BFA',13,'end')}
+ if(mode==='semak'){const on=onLine();g+=hd('P',Pp,`P(${N(Pp.x)}, ${N(Pp.y)})`,on?'#34D399':'#F87171');
+  if(!o.ver){const yv=o.m[0]/o.m[1]*Pp.x+o.c[0]/o.c[1];if(!on&&Math.abs(yv)<=R+.5)g+=`<line x1="${X(Pp.x)}" y1="${Y(Pp.y)}" x2="${X(Pp.x)}" y2="${Y(Math.max(-R-.5,Math.min(R+.5,yv)))}" stroke="#94A3B8" stroke-width="2" stroke-dasharray="4 5"/>`}}
+ g+=hd('A',A,`A(${N(A.x)}, ${N(A.y)})`,'#FB923C')+hd('B',B,`B(${N(B.x)}, ${N(B.y)})`,'#FB923C');
+ svg.innerHTML=g;showInfo()}
+function onLine(){const o=geo();if(o.ver)return Pp.x===A.x;return Pp.y*o.m[1]*o.c[1]===o.m[0]*Pp.x*o.c[1]+o.c[0]*o.m[1]}
+function showInfo(){const o=geo();
+ if(mode==='titik'){
+  if(o.ver){info.innerHTML=`<b class="t">Vertical line</b><div class="eq">x = ${N(A.x)}</div><div class="tip">x₂ − x₁ = 0, thus the gradient is undefined. The equation of a vertical line is x = h.</div>`;return}
+  const dy=B.y-A.y,dx=B.x-A.x,S=[];
+  S.push(`<b class="n">1</b> m = <span class="cm">(${N(B.y)} − ${PN(A.y)})</span> ÷ <span class="cp">(${N(B.x)} − ${PN(A.x)})</span> = ${N(dy)} ÷ ${N(dx)} = <b>${qh(o.m)}</b>`);
+  S.push(`<b class="n">2</b> Substitute A: ${N(A.y)} = ${qh(o.m)}(${N(A.x)}) + c → c = <b class="cc">${qh(o.c)}</b>`);
+  S.push(`<b class="n">3</b> Equation: <b class="cy">${eqH(o.m,o.c)}</b>`);
+  info.innerHTML=`<b class="t">Two points → equation</b><div class="steps">${S.map((t,i)=>`<div class="st${i<step?'':' off'}">${i<step?t:`<b class="n">${i+1}</b> ${['Find the gradient, m','Find the y-intercept, c','Write the equation'][i]}`}</div>`).join('')}</div>`}
+ else{const on=onLine();let w;
+  if(o.ver)w=`Line: <b class="cy">x = ${N(A.x)}</b><div class="box">x = ${N(Pp.x)} ${on?'=':'≠'} ${N(A.x)}</div>`;
+  else{const yv=qadd(qmul(o.m,[Pp.x,1]),o.c);w=`Line: <b class="cy">${eqH(o.m,o.c)}</b><div class="box">Substitute x = ${N(Pp.x)}: y = ${qh(o.m)}(${N(Pp.x)})${kst(o.c)} = <b>${qh(yv)}</b><br>${qh(yv)} ${on?'=':'≠'} ${N(Pp.y)} (y-coordinate of P)</div>`}
+  info.innerHTML=`<b class="t">Is P on the line?</b>${w}<div class="${on?'ok':'no'}" style="margin-top:4px">${on?'✓ P lies on the line: its coordinates satisfy the equation.':'✗ P does not lie on the line.'}</div>`}}
+let lastOn=false;
+function setBtns(){
+ if(mode==='titik'){btns.innerHTML=`<button class="big" id="lg"${step>=3?' disabled style="opacity:.45"':''}>Next step ▶</button><button class="big alt" id="ul">Repeat</button><button class="big alt" id="rw">Random</button>`;
+  document.getElementById('lg').onclick=()=>{if(step<3){step++;snd(step===3?'menang':'langkah');if(step===3&&window.FX)FX.stars(stage,12);setBtns();draw()}};
+  document.getElementById('ul').onclick=()=>{step=1;setBtns();draw()};
+  document.getElementById('rw').onclick=()=>{rawak();step=1;setBtns();draw()};tip.textContent='Drag points A and B on the grid.'}
+ else{btns.innerHTML=`<button class="big" id="sn">Put P on the line</button><button class="big alt" id="rp">Random P</button>`;
+  document.getElementById('sn').onclick=()=>{const o=geo();if(o.ver){Pp={x:A.x,y:Math.max(-R,Math.min(R,Pp.y))}}else{const xs=[];for(let x=-R;x<=R;x++){const y=qadd(qmul(o.m,[x,1]),o.c);if(y[1]===1&&Math.abs(y[0])<=R)xs.push({x,y:y[0]})}if(xs.length)Pp=xs[Math.floor(Math.random()*xs.length)]}snd('ketik');draw()};
+  document.getElementById('rp').onclick=()=>{Pp={x:Math.floor(Math.random()*11)-5,y:Math.floor(Math.random()*11)-5};snd('ketik');draw()};tip.textContent='Drag point P (or A and B) on the grid.'}}
+function rawak(){do{A={x:Math.floor(Math.random()*11)-5,y:Math.floor(Math.random()*11)-5};B={x:Math.floor(Math.random()*11)-5,y:Math.floor(Math.random()*11)-5}}while(A.x===B.x||(A.x===B.x&&A.y===B.y))}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));mode=b.dataset.m;setBtns();draw()});
+function gp(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;const r=p.matrixTransform(svg.getScreenCTM().inverse());return{x:Math.max(-R,Math.min(R,Math.round((r.x-G.cx)/G.u))),y:Math.max(-R,Math.min(R,Math.round((G.cy-r.y)/G.u)))}}
+svg.addEventListener('pointerdown',e=>{const h=e.target.closest('.h');if(!h)return;e.preventDefault();drag=h.dataset.h;svg.setPointerCapture(e.pointerId)});
+svg.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();const p=gp(e);const cur=drag==='A'?A:drag==='B'?B:Pp;if(cur.x===p.x&&cur.y===p.y)return;
+ if(drag!=='P'){const oth=drag==='A'?B:A;if(oth.x===p.x&&oth.y===p.y)return}
+ cur.x=p.x;cur.y=p.y;if(mode==='semak'){const on=onLine();if(on&&!lastOn)snd('betul');lastOn=on}draw()});
+const end=()=>{drag=null};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+new ResizeObserver(()=>draw()).observe(stage);setBtns();draw();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

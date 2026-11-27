@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Cyclic Quadrilaterals · Chapter 6</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#07101C;--sf:#0E1B2C;--sf2:#132438;--sf3:#0A1524;--bd:#1D3350;--bd2:#28466B;--tx:#EAF4FF;--mu:#9FB6D0;--mu2:#6F89A8;--c1:#B79CFF;--c2:#FF9A4D;--c3:#B79CFF;--gold:#FFD166;--ok:#3DDC84;--bad:#FF6B7A;
+ --surface:#0E1B2C;--border:#28466B;--text:#EAF4FF;--muted:#9FB6D0;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#1a0f3a}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.stage svg{width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:12px 14px;min-height:74px;line-height:1.5;font-size:15px}
+.info b.t{display:block;font-size:19px;color:var(--c1);margin-bottom:2px}
+.info .tip{color:var(--mu);font-size:13px;margin-top:4px}
+.info .row{display:flex;flex-wrap:wrap;gap:6px 14px;font-weight:700}
+.info .row b.c{color:var(--c1)}.info .row b.o{color:var(--c2)}.info .row b.g{color:var(--gold)}.info .row b.p{color:var(--c3)}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.info .eq{margin-top:6px;padding:8px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:700}
+.ctrl{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.chip{background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:12px 4px;font-weight:800;font-size:15px}
+.chip.on{background:var(--c1);border-color:var(--c1);color:#1a0f3a}
+.chip.ok{border-color:var(--ok);background:#3ddc8422}.chip.no{border-color:var(--bad);background:#ff6b7a22}
+.big{background:var(--c2);border:0;color:#2a1203;border-radius:13px;padding:13px 6px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.nextb{margin-top:8px;background:var(--c1);border:0;color:#1a0f3a;border-radius:11px;padding:9px 16px;font-weight:900}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.35fr) minmax(320px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:24px}
+ .info .eq{font-size:17px}
+}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.chip{padding:9px 3px;font-size:14px}.info{padding:8px 11px;min-height:62px;font-size:14px}.info b.t{font-size:17px}.big{padding:10px 4px}}
+@media(max-width:420px){.chip,.big{font-size:13.5px}.modes button{font-size:13px;padding:10px 3px}.info{font-size:14px;padding:10px 12px}.info b.t{font-size:17px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#B79CFF;color:#1a0f3a;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #b79cff44">&#8592; Back</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mode">
+   <button data-m="bert" class="on" role="tab">🔷 Opposite</button>
+   <button data-m="pel" role="tab">↗ Exterior</button>
+   <button data-m="cabaran" role="tab">❓ Challenge</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" viewBox="0 0 400 400" aria-label="Diagram of a cyclic quadrilateral"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const CX=200,CY=200,R=150;
+const C1='#4FC3F7',C2='#FF9A4D',C3='#B79CFF',PU='#B79CFF',GOLD='#FFD166',PINK='#FF7AB6',BASE='#9FB6D0',OK='#3DDC84',TXT='#EAF4FF',SF3='#0A1524';
+let S={m:'bert',v:[120,196,290,30],free:false,D:null,ext:false,q:null,score:0,tot:0,streak:0};
+const rad=d=>d*Math.PI/180;
+const norm=a=>((a%360)+360)%360;
+const P=a=>({x:CX+R*Math.cos(rad(a)),y:CY-R*Math.sin(rad(a))});
+const off=(a,k)=>({x:CX+(R+k)*Math.cos(rad(a)),y:CY-(R+k)*Math.sin(rad(a))});
+const snd=n=>{if(window.FX)FX.play(n)};
+const O={x:CX,y:CY};
+function lbl(x,y,t,c=TXT,s=20){return `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" fill="${c}" font-size="${s}" font-weight="900" text-anchor="middle" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="${SF3}" stroke-width="5" stroke-linejoin="round">${t}</text>`}
+function ln(p,q,c,w=4,dash=''){return `<line x1="${p.x.toFixed(1)}" y1="${p.y.toFixed(1)}" x2="${q.x.toFixed(1)}" y2="${q.y.toFixed(1)}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"${dash?` stroke-dasharray="${dash}"`:''}/>`}
+function dot(p,c,r=6){return `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${r}" fill="${c}" stroke="${SF3}" stroke-width="2"/>`}
+function handle(id,a,name,col=C1){const p=P(a),o=off(a,28);return `<g class="h" data-h="${id}" style="cursor:grab"><circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="30" fill="transparent"/><circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="12" fill="${col}" stroke="#fff" stroke-width="3"/></g>${lbl(o.x,o.y,name)}`}
+function unit(v){const L=Math.hypot(v.x,v.y)||1;return{x:v.x/L,y:v.y/L}}
+/* tanda sudut di V antara arah ke p dan q; refl = sudut refleks */
+function angMark(V,p,q,r,col,txt,refl=false,ld=0){
+ const u=unit({x:p.x-V.x,y:p.y-V.y}),w=unit({x:q.x-V.x,y:q.y-V.y});
+ const a={x:V.x+u.x*r,y:V.y+u.y*r},b={x:V.x+w.x*r,y:V.y+w.y*r};
+ let sw=u.x*w.y-u.y*w.x>0?1:0,lg=0;if(refl){sw=1-sw;lg=1}
+ const d=`M${a.x.toFixed(1)} ${a.y.toFixed(1)} A${r} ${r} 0 ${lg} ${sw} ${b.x.toFixed(1)} ${b.y.toFixed(1)}`;
+ let g=`<path d="M${V.x.toFixed(1)} ${V.y.toFixed(1)} L${d.slice(1)} Z" fill="${col}" fill-opacity=".22"/><path d="${d}" fill="none" stroke="${col}" stroke-width="3"/>`;
+ if(txt){let bi=unit({x:u.x+w.x,y:u.y+w.y});if(Math.hypot(u.x+w.x,u.y+w.y)<1e-3)bi={x:-u.y,y:u.x};if(refl)bi={x:-bi.x,y:-bi.y};const k=ld||r+18;g+=lbl(V.x+bi.x*k,V.y+bi.y*k,txt,col,17)}
+ return g}
+function rightMark(V,p,q,k=14){const u=unit({x:p.x-V.x,y:p.y-V.y}),w=unit({x:q.x-V.x,y:q.y-V.y});return `<path d="M${V.x+u.x*k} ${V.y+u.y*k}l${w.x*k} ${w.y*k}l${-u.x*k} ${-u.y*k}" fill="none" stroke="${TXT}" stroke-width="2.5"/>`}
+function base(showO=true){return `<circle cx="${CX}" cy="${CY}" r="${R}" fill="#ffffff06" stroke="${BASE}" stroke-width="3"/>`+(showO?`<circle cx="${CX}" cy="${CY}" r="5" fill="${BASE}"/>`:'')}
+function arcPath(d1,d2,col,w=8){const a=P(d1),b=P(d2),sp=norm(d2-d1);return `<path d="M${a.x.toFixed(1)} ${a.y.toFixed(1)} A${R} ${R} 0 ${sp>180?1:0} 0 ${b.x.toFixed(1)} ${b.y.toFixed(1)}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round" opacity=".85"/>`}
+/* lengkok AB yang TIDAK mengandungi C: pulangkan [mula, akhir, darjah] (lawan jam) */
+function arcNot(a,b,c){const sp=norm(b-a);if(norm(c-a)<sp)return[b,a,360-sp];return[a,b,sp]}
+const NM=['A','B','C','D'],VC=[GOLD,C1,GOLD,C1];
+/* sudut pedalaman: tepat (separuh lengkok) jika semua bucu pada bulatan */
+function cyc(v){return[norm(v[3]-v[1])/2,norm(v[0]-v[2])/2,norm(v[1]-v[3])/2,norm(v[2]-v[0])/2]}
+function pts(){const p=S.v.map(P);if(S.free&&S.D)p[3]=S.D;return p}
+function geoAng(p){ // sudut pedalaman umum (poligon lawan jam di skrin)
+ return p.map((V,i)=>{const a=p[(i+3)%4],b=p[(i+1)%4];const u={x:a.x-V.x,y:-(a.y-V.y)},w={x:b.x-V.x,y:-(b.y-V.y)};
+  let t=(Math.atan2(u.y,u.x)-Math.atan2(w.y,w.x))*180/Math.PI;t=((t%360)+360)%360;return t})}
+function onCircle(){return !S.free||!S.D||Math.abs(Math.hypot(S.D.x-CX,S.D.y-CY)-R)<2.5}
+function angles(){return onCircle()?cyc(S.v):geoAng(pts())}
+const r0=x=>Math.round(x*10)/10;
+const fd=x=>(Math.abs(x-Math.round(x))<1e-6?Math.round(x):r0(x))+'°';
+function extIn(p,q,k){const u=unit({x:q.x-p.x,y:q.y-p.y});while(k>30){const E={x:q.x+u.x*k,y:q.y+u.y*k};if(E.x>14&&E.x<386&&E.y>14&&E.y<386)return E;k-=5}return{x:q.x+u.x*k,y:q.y+u.y*k}}
+function quadSVG(showExt){
+ const p=pts(),an=angles();let g=base(false);
+ g+=`<polygon points="${p.map(q=>q.x.toFixed(1)+','+q.y.toFixed(1)).join(' ')}" fill="${PU}22" stroke="${PU}" stroke-width="4" stroke-linejoin="round"/>`;
+ let E=null;
+ if(showExt){E=extIn(p[1],p[2],80);g+=ln(p[2],E,PU,4,'8 6')}
+ p.forEach((V,i)=>{if(showExt&&i!==0&&!(S.ext&&i===2))return;const refl=an[i]>180;g+=angMark(V,p[(i+3)%4],p[(i+1)%4],refl?22:30,VC[i],fd(an[i]),refl)});
+ if(showExt)g+=angMark(p[2],p[3],E,38,OK,fd(180-an[2]));
+ if(showExt){g+=dot(E,TXT,6);g+=lbl(E.x+14,E.y+12,'E')}
+ p.forEach((V,i)=>{if(i===3&&S.free){g+=`<g class="h" data-h="free" style="cursor:grab"><circle cx="${V.x.toFixed(1)}" cy="${V.y.toFixed(1)}" r="30" fill="transparent"/><circle cx="${V.x.toFixed(1)}" cy="${V.y.toFixed(1)}" r="12" fill="${onCircle()?C3:'#FF6B7A'}" stroke="#fff" stroke-width="3"/></g>`;const u=unit({x:V.x-CX,y:V.y-CY});g+=lbl(V.x+u.x*28,V.y+u.y*28,'D')}
+  else g+=handle('v'+i,S.v[i],NM[i],C3)});
+ return g}
+function bertInfo(){
+ const a=angles(),ok=onCircle();
+ const s1=a[0]+a[2],s2=a[1]+a[3];
+ let h=`<b class="t">${ok?'Opposite angles add up to 180°':'D is not on the circumference!'}</b><div class="row"><span>∠A = <b class="g">${fd(a[0])}</b></span><span>∠B = <b class="c">${fd(a[1])}</b></span><span>∠C = <b class="g">${fd(a[2])}</b></span><span>∠D = <b class="c">${fd(a[3])}</b></span></div>`;
+ h+=`<div class="eq"><span style="color:${GOLD}">∠A + ∠C = ${fd(s1)}</span> · <span style="color:${C1}">∠B + ∠D = ${fd(s2)}</span> ${ok?'<span class="ok">✓</span>':'<span class="no">≠ 180°</span>'}</div>`;
+ h+=ok?`<div class="tip">${S.free?'D is back on the circumference: ABCD is a cyclic quadrilateral again. ':''}Drag any vertex ●. The sum of the opposite angles is always 180°.</div>`:`<div class="tip">ABCD is not a cyclic quadrilateral, so this property does not apply. Drag D back to the circumference.</div>`;
+ info.innerHTML=h}
+function pelInfo(){
+ const a=cyc(S.v);
+ let h=`<b class="t">Exterior angle = interior opposite angle</b><div class="row"><span>∠DCE = <b style="color:${OK}">${fd(180-a[2])}</b></span><span>∠BAD = <b class="g">${fd(a[0])}</b></span>${S.ext?`<span>∠BCD = <b class="g">${fd(a[2])}</b></span>`:''}</div>`;
+ h+=`<div class="eq">∠DCE = 180° − ∠BCD = 180° − ${fd(a[2])} = ${fd(180-a[2])} = ∠BAD ✓</div><div class="tip">BC is extended to E. Drag the vertices ● and observe that ∠DCE is always equal to ∠BAD.</div>`;
+ info.innerHTML=h}
+/* ================= cabaran ================= */
+const rnd=n=>Math.floor(Math.random()*n);
+function quadDeg(al,be,s0){const a3=Math.max(56,2*al+2*be-304),a2=2*al-a3,a4=2*be-a3,a1=360-a2-a3-a4;const A=s0,B=A+a1,C=B+a2,D=C+a3;return[A,B,C,D].map(norm)}
+function newQ(){
+ const jenis=['bert','pel','alg','pusat'][rnd(4)];let al=62+rnd(60),be=62+rnd(60),q,ans,wr,why,lab=['','','',''],ext=false,cen=null;
+ if(jenis==='bert'){q=`ABCD is a cyclic quadrilateral. ∠A = ${al}°. What is ∠C?`;ans=180-al;lab=[al+'°','','?',''];wr=[al,360-al,90-al/2,180-be];why=`∠C = 180° − ${al}° = ${ans}°`}
+ if(jenis==='pel'){q=`BC is extended to E and ∠BAD = ${al}°. What is ∠DCE?`;ans=al;lab=[al+'°','','',''];ext=true;wr=[180-al,be,180-be,90];why=`∠DCE = ∠BAD = ${al}° (exterior angle = interior opposite angle)`}
+ if(jenis==='alg'){const x=10+rnd(26),p=2+rnd(2),c=al-p*x;q=`∠A = (${p}x ${c<0?'−':'+'} ${Math.abs(c)})° and ∠C = ${180-al}°. What is the value of x?`;ans=x;lab=['('+p+'x'+(c<0?'−':'+')+Math.abs(c)+')°','',(180-al)+'°',''];wr=[x+5,x-5,Math.round((180-al)/p),2*x].filter(w=>w>0);why=`${p}x ${c<0?'−':'+'} ${Math.abs(c)} + ${180-al} = 180 → ${p}x = ${p*x} → x = ${x}`;}
+ if(jenis==='pusat'){const y=2*(40+rnd(45));q=`O is the centre and ∠BOD = ${y}°. What is ∠BCD?`;ans=180-y/2;cen=y;wr=[y/2,y,360-y,180-y];why=`∠BAD = ½ × ${y}° = ${y/2}°, thus ∠BCD = 180° − ${y/2}° = ${ans}°`}
+ let v=cen?[100,270-cen/2,270+cen/5,270+cen/2].map(norm):quadDeg(al,be,(ext?130:100)+rnd(30));
+ const opts=[ans];wr.forEach(w=>{if(w>0&&w<360&&w===Math.round(w)&&!opts.includes(w)&&opts.length<4)opts.push(w)});let k=5;while(opts.length<4){if(!opts.includes(ans+k))opts.push(ans+k);k+=5}
+ S.q={jenis,v,lab,ext,cen,ans,why,q,unit:jenis==='alg'?'':'°',opts:opts.sort(()=>Math.random()-.5),done:false};
+ setCtrl();render();
+ info.innerHTML=`<b class="t">${q}</b><div class="tip">Score: ${S.score}/${S.tot}${S.streak>=3?' · 🔥 '+S.streak+' in a row':''}</div>`}
+function cabSVG(){
+ const Q=S.q;if(!Q)return base();const p=Q.v.map(P);let g=base(false);
+ g+=`<polygon points="${p.map(q=>q.x.toFixed(1)+','+q.y.toFixed(1)).join(' ')}" fill="${PU}22" stroke="${PU}" stroke-width="4" stroke-linejoin="round"/>`;
+ if(Q.cen){g+=ln(O,p[1],C2,3.5)+ln(O,p[3],C2,3.5)+angMark(O,p[1],p[3],22,C2,Q.cen+'°',false,38)+`<circle cx="${CX}" cy="${CY}" r="5" fill="${BASE}"/>`+lbl(CX,CY-18,'O',BASE,17);g+=angMark(p[2],p[1],p[3],26,C1,Q.done?Q.ans+'°':'?')}
+ Q.lab.forEach((t,i)=>{if(t)g+=angMark(p[i],p[(i+3)%4],p[(i+1)%4],30,i===0?GOLD:C1,t==='?'&&Q.done?Q.ans+'°':t,false,t.length>5?60:0)});
+ if(Q.ext){const E=extIn(p[1],p[2],80);g+=ln(p[2],E,PU,4,'8 6')+angMark(p[2],p[3],E,34,OK,Q.done?Q.ans+'°':'?')+dot(E,TXT,6)+lbl(E.x+14,E.y+12,'E')}
+ p.forEach((V,i)=>{g+=dot(V,TXT,7);const o=off(Q.v[i],24);g+=lbl(o.x,o.y,NM[i])});
+ return g}
+function answer(o,btn){
+ const Q=S.q;if(Q.done)return;Q.done=true;S.tot++;const ok=o===Q.ans;
+ if(ok){S.score++;S.streak++;snd('betul');if(window.FX)FX.stars(btn,10)}else{S.streak=0;snd('salah');if(window.FX&&FX.shake)FX.shake(btn)}
+ ctrl.querySelectorAll('.chip').forEach(b=>{if(+b.dataset.o===Q.ans)b.classList.add('ok');else if(b===btn)b.classList.add('no');b.disabled=true});
+ render();
+ info.innerHTML=`<b class="t">${ok?'<span class="ok">✓ Correct!</span>':'<span class="no">✗ Answer: '+Q.ans+Q.unit+'</span>'}</b><div class="eq">${Q.why}</div><div class="tip">Score: ${S.score}/${S.tot}${S.streak>=3?' · 🔥 '+S.streak+' in a row':''}</div><button class="nextb" id="nx">Next ▶</button>`;
+ document.getElementById('nx').onclick=newQ}
+/* ================= Lukis & kawalan ================= */
+function render(){
+ if(S.m==='bert'){svg.innerHTML=quadSVG(false);bertInfo()}
+ if(S.m==='pel'){svg.innerHTML=quadSVG(true);pelInfo()}
+ if(S.m==='cabaran')svg.innerHTML=cabSVG();
+}
+function setCtrl(){
+ if(S.m==='bert'){
+  ctrl.innerHTML=`<button class="chip ${S.free?'on':''}" id="free">${S.free?'Attach D to the circumference':'Release D from the circumference'}</button><button class="big alt" id="sq">Rectangle</button><button class="big" id="rw" style="grid-column:1/-1">Random position</button>`;
+  document.getElementById('free').onclick=()=>{S.free=!S.free;S.D=S.free?{x:CX+(R-45)*Math.cos(rad(S.v[3])),y:CY-(R-45)*Math.sin(rad(S.v[3]))}:null;snd('langkah');setCtrl();render()};
+  document.getElementById('sq').onclick=()=>{S.free=false;S.D=null;S.v=[150,210,330,30];setCtrl();render()};
+  document.getElementById('rw').onclick=()=>{S.free=false;S.D=null;let v;do{v=quadDeg(62+rnd(60),62+rnd(60),2*rnd(180)).map(d=>Math.round(d/2)*2%360)}while(false);S.v=v;setCtrl();render()};
+ }
+ if(S.m==='pel'){
+  ctrl.innerHTML=`<button class="chip ${S.ext?'on':''}" id="sb">Show ∠BCD</button><button class="big" id="rw">Random position</button>`;
+  document.getElementById('sb').onclick=()=>{S.ext=!S.ext;setCtrl();render()};
+  document.getElementById('rw').onclick=()=>{S.v=quadDeg(62+rnd(60),62+rnd(60),90+2*rnd(30)).map(d=>Math.round(d/2)*2%360);render()};
+ }
+ if(S.m==='cabaran'&&S.q){
+  ctrl.innerHTML=S.q.opts.map(o=>`<button class="chip" data-o="${o}">${o}${S.q.unit}</button>`).join('');
+  ctrl.querySelectorAll('.chip').forEach(b=>b.onclick=()=>answer(+b.dataset.o,b));
+ }
+}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));S.m=b.dataset.m;
+ if(S.m==='cabaran'){newQ();return}
+ S.free=false;S.D=null;S.v=S.m==='pel'?[110,200,286,20]:[120,196,290,30];
+ setCtrl();render()});
+/* ---------- Seret (tetikus + sentuh) ---------- */
+let drag=null;
+function svgPt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+svg.addEventListener('pointerdown',e=>{const h=e.target.closest('.h');if(!h)return;e.preventDefault();drag=h.dataset.h;svg.setPointerCapture(e.pointerId)});
+svg.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();const p=svgPt(e);
+ if(drag==='free'){let x=Math.max(16,Math.min(384,p.x)),y=Math.max(16,Math.min(384,p.y));const d=Math.hypot(x-CX,y-CY);
+  const ang=norm(Math.atan2(-(y-CY),x-CX)*180/Math.PI),lo=norm(S.v[2]+10),sp=norm(S.v[0]-10-lo);if(norm(ang-lo)>sp)return; // kekal antara C dan A
+  if(Math.abs(d-R)<7){const a2=Math.round(ang/2)*2%360;x=CX+R*Math.cos(rad(a2));y=CY-R*Math.sin(rad(a2));S.v[3]=a2}
+  S.D={x,y};render();return}
+ const i=+drag[1],ang=(Math.round(norm(Math.atan2(-(p.y-CY),p.x-CX)*180/Math.PI)/2)*2)%360;
+ const prev=S.v[(i+3)%4],next=S.v[(i+1)%4];
+ if(norm(ang-prev)<10||norm(next-ang)<10||norm(ang-prev)>norm(next-prev))return; // kekalkan tertib A, B, C, D
+ S.v[i]=ang;if(i===3&&S.free)S.D=P(ang);render()});
+const end=()=>{drag=null};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+svg.addEventListener('dragstart',e=>e.preventDefault());
+setCtrl();render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

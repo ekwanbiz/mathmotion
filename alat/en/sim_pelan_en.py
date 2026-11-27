@@ -1,0 +1,56 @@
+"""Jana versi English (DLP) simulasi Bab 7 Plans and Elevations T3. Jalankan dari akar repo.
+Kunci 'pelan','depan','sisi','atas' dibiarkan; hanya teks paparan ditukar."""
+import sys, os; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from sim_en import jalankan
+T = {
+'bina-kiub': [
+ ('Bina dengan Kiub · Bab 7', 'Build with Cubes · Chapter 7'), ('🧱 Bina Bebas', '🧱 Free Build'), ('🎯 Cabaran', '🎯 Challenge'),
+ ('aria-label="Grid pelan bernombor dan pepejal kiub"', 'aria-label="Numbered plan grid and solid of cubes"'),
+ ("'depan',C.c2,15,'end'", "'front',C.c2,15,'end'"), ("'sisi',C.pk,15,'start'", "'side',C.pk,15,'start'"),
+ ("S.m==='bina'?'Ketik petak pelan':'Bina ikut pandangan'", "S.m==='bina'?'Tap the plan squares':'Build to match the views'"), ("'depan ↓',C.c2,14", "'front ↓',C.c2,14"),
+ ('Pelan &amp; dongakan dilukis automatik</b>', 'Plan &amp; elevations drawn automatically</b>'), ('<span>Bilangan kiub: <b>', '<span>Number of cubes: <b>'),
+ ('<span>Tinggi maksimum: <b>', '<span>Maximum height: <b>'), ("<span>Garis tersembunyi: <b>${hidN?'ada':'tiada'}</b>", "<span>Hidden lines: <b>${hidN?'yes':'none'}</b>"),
+ ('">Pelan</figcaption>', '">Plan</figcaption>'), ('">Dongakan depan</figcaption>', '">Front elevation</figcaption>'), ('">Dongakan sisi</figcaption>', '">Side elevation</figcaption>'),
+ ("'Ketik petak untuk <b>menambah</b> satu kiub.':'Ketik petak untuk <b>membuang</b> satu kiub.'} Dongakan sisi dilihat dari kanan: bahagian depan di sebelah kiri.", "'Tap a square to <b>add</b> one cube.':'Tap a square to <b>remove</b> one cube.'} The side elevation is viewed from the right: the front is on the left."),
+ ("'<span class=\"ok\">✓ Tepat! Semua pandangan sepadan.</span>':'Bina pepejal yang mempunyai pandangan ini'", "'<span class=\"ok\">✓ Exact! All the views match.</span>':'Build a solid that has these views'"),
+ ("fig('pelan','Pelan',C.gr)}${fig('depan','Dongakan depan',C.c2)}${fig('sisi','Dongakan sisi',C.pk)}", "fig('pelan','Plan',C.gr)}${fig('depan','Front elevation',C.c2)}${fig('sisi','Side elevation',C.pk)}"),
+ ('Kiub anda: <b>${n}</b> · Score: ${S.score}/${S.tot}. Ketik petak pelan untuk menambah atau membuang kiub, kemudian tekan <b>Semak</b>.', 'Your cubes: <b>${n}</b> · Score: ${S.score}/${S.tot}. Tap the plan squares to add or remove cubes, then press <b>Check</b>.'),
+ ("({pelan:'pelan',depan:'dongakan depan',sisi:'dongakan sisi'})[k]", "({pelan:'plan',depan:'front elevation',sisi:'side elevation'})[k]"),
+ ('<span class="no">Belum tepat: semak ${bad.join(\', \')}.</span>', '<span class="no">Not exact yet: check the ${bad.join(\', \')}.</span>'),
+ ("'<span class=\"no\">Belum ada kiub.</span>'", "'<span class=\"no\">No cubes yet.</span>'"),
+ ('>tiada kiub</text>', '>no cubes</text>'),
+ ('>＋ Tambah</button>', '>＋ Add</button>'), ('>－ Buang</button>', '>－ Remove</button>'), ('id="hd">Garis tersembunyi</button>', 'id="hd">Hidden lines</button>'),
+ ('id="cl">Kosongkan</button>', 'id="cl">Clear</button>'), ('>Cabaran baharu ▶</button>', '>New challenge ▶</button>'), ('id="sk">Semak ✓</button>', 'id="sk">Check ✓</button>'),
+],
+'padan-pandangan': [
+ ('Padankan Pandangan · Bab 7', 'Match the Views · Chapter 7'), ('🔍 Pilih Lukisan', '🔍 Choose a Drawing'), ('🏷️ Namakan Pandangan', '🏷️ Name the View'),
+ ('aria-label="Aras"><button data-l="0" class="on">Mudah</button><button data-l="1">Sederhana</button><button data-l="2">Sukar</button>', 'aria-label="Level"><button data-l="0" class="on">Easy</button><button data-l="1">Medium</button><button data-l="2">Hard</button>'),
+ ('aria-label="Pepejal kiub"', 'aria-label="Solid of cubes"'),
+ ("const VN={pelan:'Pelan',depan:'Dongakan depan',sisi:'Dongakan sisi'}", "const VN={pelan:'Plan',depan:'Front elevation',sisi:'Side elevation'}"),
+ ("TX(fs[0]-4,fs[1]+14,'depan',", "TX(fs[0]-4,fs[1]+14,'front',"), ("TX(ss[0]+4,ss[1]+14,'sisi',", "TX(ss[0]+4,ss[1]+14,'side',"), ("TX(ts[0]+8,ts[1],'atas',", "TX(ts[0]+8,ts[1],'top',"),
+ ('`Yang manakah <span style="color:${VC[v]}">${VN[v].toLowerCase()}</span> pepejal ini?`:\'Lukisan ungu ialah pandangan apa?\'', '`Which is the <span style="color:${VC[v]}">${VN[v].toLowerCase()}</span> of this solid?`:\'Which view is the purple drawing?\''),
+ ("'Bayangkan anda melihat dari arah anak panah. Dongakan sisi dilihat dari kanan.':'Bandingkan lukisan dengan pepejal dari setiap arah.'", "'Imagine you are looking from the direction of the arrow. The side elevation is viewed from the right.':'Compare the drawing with the solid from each direction.'"),
+ ('`Anak panah kuning menunjukkan arah pandangan bagi ${VN[Q.v].toLowerCase()}.`:`Lukisan itu sepadan dengan pandangan dari arah anak panah kuning, iaitu ${VN[Q.v].toLowerCase()}.`', '`The yellow arrow shows the viewing direction of the ${VN[Q.v].toLowerCase()}.`:`The drawing matches the view from the direction of the yellow arrow, that is the ${VN[Q.v].toLowerCase()}.`'),
+ ("'pilihan '+'ABCD'[Q.c]", "'option '+'ABCD'[Q.c]"), ('aria-label="Pilihan ${', 'aria-label="Option ${'),
+],
+'pemutar-pepejal': [
+ ('Pemutar Pepejal · Bab 7', 'Solid Rotator · Chapter 7'), ('aria-label="Pilih pepejal"', 'aria-label="Choose a solid"'),
+ ('aria-label="Pepejal tiga dimensi yang boleh diputar"', 'aria-label="A three-dimensional solid that can be rotated"'), ('id="badge">Bebas 3D</div><div class="hint">Seret untuk memutar</div>', 'id="badge">Free 3D</div><div class="hint">Drag to rotate</div>'),
+ ("nm:'Blok L'", "nm:'L Block'"), ("d:'Blok bertingkat. Lihat garis perubahan aras pada pelan dan dongakan depan.'", "d:'A stepped block. Look at the lines showing the change of level on the plan and the front elevation.'"),
+ ("nm:'Blok Bertakuk'", "nm:'Notched Block'"), ("d:'Bahagian belakang lebih rendah di kiri dan kanan. Dari depan, tepinya tersembunyi: garis putus-putus.'", "d:'The back part is lower on the left and the right. From the front, its edges are hidden: dashed lines.'"),
+ ("nm:'Rumah'", "nm:'House'"), ("d:'Gabungan kuboid dan prisma segi tiga. Dongakan sisi berbentuk pentagon; pelan menunjukkan garis rabung bumbung.'", "d:'A combination of a cuboid and a triangular prism. The side elevation is a pentagon; the plan shows the ridge line of the roof.'"),
+ ("nm:'Baji'", "nm:'Wedge'"), ("d:'Muka condong berukuran 5 × 3 tetapi imejnya pada pelan hanya 4 × 3: tepi condong menjadi lebih pendek.'", "d:'The inclined face measures 5 × 3 but its image on the plan is only 4 × 3: the inclined edges become shorter.'"),
+ ("nm:'Silinder'", "nm:'Cylinder'"), ("d:'Pelan silinder tegak ialah bulatan; dongakan depan dan sisinya ialah segi empat tepat.'", "d:'The plan of a right cylinder is a circle; its front and side elevations are rectangles.'"),
+ ("nm:'Piramid'", "nm:'Pyramid'"), ("d:'Pelan piramid tegak bertapak segi empat sama ialah segi empat sama dengan dua pepenjuru. Dongakannya ialah segi tiga.'", "d:'The plan of a right pyramid with a square base is a square with two diagonals. Its elevations are triangles.'"),
+ ("nm:'Kon'", "nm:'Cone'"), ("d:'Pelan kon tegak ialah bulatan dengan titik di pusat (puncak). Dongakannya ialah segi tiga sama kaki.'", "d:'The plan of a right cone is a circle with a dot at the centre (vertex). Its elevations are isosceles triangles.'"),
+ ("bebas:{nm:'Bebas 3D'},pelan:{nm:'Pelan',", "bebas:{nm:'Free 3D'},pelan:{nm:'Plan',"), ("arah:'atas',satah:'satah mengufuk'},depan:{nm:'Dongakan depan',", "arah:'above',satah:'horizontal plane'},depan:{nm:'Front elevation',"),
+ ("arah:'depan',satah:'satah mencancang'},sisi:{nm:'Dongakan sisi',", "arah:'the front',satah:'vertical plane'},sisi:{nm:'Side elevation',"), ("arah:'sisi kanan',satah:'satah mencancang'}", "arah:'the right side',satah:'vertical plane'}"),
+ ('${sd.nm}: seret untuk memutar</b>', '${sd.nm}: drag to rotate</b>'),
+ ("'Garis unjuran kuning <b>berserenjang</b> dengan satah mengufuk. Imej hijau pada satah ialah <b>pelan</b>.'", "'The yellow projection lines are <b>perpendicular</b> to the horizontal plane. The green image on the plane is the <b>plan</b>.'"),
+ ("Unjuran ortogon pada <b>${V.satah}</b>, dilihat dari <b>${V.arah}</b>. ${S.hidden?'Tepi tersembunyi: garis putus-putus.':''}", "Orthogonal projection on the <b>${V.satah}</b>, viewed from <b>${V.arah}</b>. ${S.hidden?'Hidden edges: dashed lines.':''}"),
+ ('Dongakan sisi dilihat dari kanan. Ketik lukisan kecil untuk melihat dari arah itu.', 'The side elevation is viewed from the right. Tap a small drawing to view from that direction.'),
+ ("k==='bebas'?'↻ Bebas 3D':k==='pelan'?'⬇ Atas':k==='depan'?'Depan':'Sisi'", "k==='bebas'?'↻ Free 3D':k==='pelan'?'⬇ Top':k==='depan'?'Front':'Side'"),
+ ('id="hd" style="grid-column:span 2">Garis tersembunyi</button>', 'id="hd" style="grid-column:span 2">Hidden lines</button>'), ('id="pl" style="grid-column:span 2">Satah &amp; garis unjuran</button>', 'id="pl" style="grid-column:span 2">Plane &amp; projection lines</button>'),
+],
+}
+jalankan('pelan', T)

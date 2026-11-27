@@ -1,0 +1,399 @@
+Satah Cartes	Cartesian plane
+Bahagi setiap sebutan dengan ${glPr(b)}: ${glEq(m, k)}	Divide each term by ${glPr(b)}: ${glEq(m, k)}
+Gantikan ${glPt(x, y)} ke dalam y = ${glCo(m)} + c: ${glS(y)} = ${glS(m)}(${glS(x)}) + c	Substitute ${glPt(x, y)} into y = ${glCo(m)} + c: ${glS(y)} = ${glS(m)}(${glS(x)}) + c
+Nyatakan kecerunan dan pintasan-y bagi garis lurus ${E}.	State the gradient and the y-intercept of the straight line ${E}.
+Garis lurus ${L} mempunyai persamaan ${E}. Apakah kecerunan dan pintasan-y garis lurus itu?	The straight line ${L} has the equation ${E}. What are the gradient and the y-intercept of the straight line?
+Bagi garis lurus ${E}, tulis nilai m dan nilai c.	For the straight line ${E}, write the value of m and the value of c.
+${N} berkata garis lurus ${E} mempunyai kecerunan ${cs} dan pintasan-y ${ms}. Adakah ${N} betul?	${N} says the straight line ${E} has a gradient of ${cs} and a y-intercept of ${ms}. Is ${N} correct?
+${N} tertukar m dengan c. Kecerunan ialah pekali x, manakala pintasan-y ialah pemalar.	${N} swapped m and c. The gradient is the coefficient of x, while the y-intercept is the constant.
+Lengkapkan: Bagi garis lurus ${E}, kecerunan = ___ dan pintasan-y = ___	Complete: For the straight line ${E}, gradient = ___ and y-intercept = ___
+Tulis persamaan garis lurus yang mempunyai kecerunan ${ms} dan pintasan-y ${cs}.	Write the equation of the straight line that has a gradient of ${ms} and a y-intercept of ${cs}.
+Sebuah garis lurus memotong paksi-y pada titik (0, ${cs}) dan kecerunannya ialah ${ms}. Tulis persamaan garis lurus itu.	A straight line cuts the y-axis at point (0, ${cs}) and its gradient is ${ms}. Write the equation of the straight line.
+Garis lurus ${L} mempunyai pintasan-y ${cs} dan kecerunan ${ms}. Nyatakan persamaan ${L} dalam bentuk y = mx + c.	The straight line ${L} has a y-intercept of ${cs} and a gradient of ${ms}. State the equation of ${L} in the form y = mx + c.
+${N} menulis persamaan garis lurus yang berkecerunan ${ms} dan mempunyai pintasan-y ${cs} sebagai ${wrong}. Adakah ${N} betul?	${N} writes the equation of the straight line with a gradient of ${ms} and a y-intercept of ${cs} as ${wrong}. Is ${N} correct?
+Dalam y = mx + c, kecerunan m ialah pekali x dan pintasan-y c ialah pemalar.	In y = mx + c, the gradient m is the coefficient of x and the y-intercept c is the constant.
+Tulis persamaan garis lurus yang melalui titik ${pt} dan selari dengan paksi-${ax}.	Write the equation of the straight line that passes through point ${pt} and is parallel to the ${ax}-axis.
+Garis lurus ${L} adalah ${jenis} dan melalui titik ${pt}. Nyatakan persamaan ${L}.	The straight line ${L} is ${jenis} and passes through point ${pt}. State the equation of ${L}.
+Garis lurus ${L} melalui titik ${pt} dan ${pt2}. Tulis persamaan ${L}.	The straight line ${L} passes through points ${pt} and ${pt2}. Write the equation of ${L}.
+Nyatakan kecerunan garis lurus ${E2}.	State the gradient of the straight line ${E2}.
+Nyatakan kecerunan dan pintasan-y bagi garis lurus ${G}.	State the gradient and the y-intercept of the straight line ${G}.
+Tulis ${G} dalam bentuk y = mx + c. Seterusnya, nyatakan nilai m dan nilai c.	Write ${G} in the form y = mx + c. Hence, state the value of m and the value of c.
+Garis lurus ${L} mempunyai persamaan ${G}. Cari kecerunan dan pintasan-y ${L}.	The straight line ${L} has the equation ${G}. Find the gradient and the y-intercept of ${L}.
+${N} berkata ${claim} bagi garis lurus ${G}. Adakah ${N} betul?	${N} says ${claim} for the straight line ${G}. Is ${N} correct?
+Rajah di bawah menunjukkan garis lurus ${L} pada satah Cartes. Tulis persamaan ${L} dalam bentuk y = mx + c.	The diagram below shows the straight line ${L} on a Cartesian plane. Write the equation of ${L} in the form y = mx + c.
+Berdasarkan rajah di bawah, nyatakan pintasan-y dan hitung kecerunan garis lurus itu. Seterusnya, tulis persamaannya.	Based on the diagram below, state the y-intercept and calculate the gradient of the straight line. Hence, write its equation.
+Garis lurus dalam rajah di bawah melalui dua titik yang ditandakan. Apakah persamaan garis lurus itu?	The straight line in the diagram below passes through the two marked points. What is the equation of the straight line?
+Sebatang laluan basikal yang lurus dilukis pada peta bergrid seperti dalam rajah di bawah. Tentukan persamaan laluan itu.	A straight bicycle path is drawn on a grid map as shown in the diagram below. Determine the equation of the path.
+Garis lurus y = (k + ${a.a})x + ${a.k2 ? '2k' : 'k'} mempunyai kecerunan ${fmt(a.m)}. (a) Cari nilai k. (b) Tulis persamaan garis lurus itu. (c) Cari pintasan-x garis lurus itu.	The straight line y = (k + ${a.a})x + ${a.k2 ? '2k' : 'k'} has a gradient of ${fmt(a.m)}. (a) Find the value of k. (b) Write the equation of the straight line. (c) Find the x-intercept of the straight line.
+(a) Kecerunan ialah pekali x: k + ${a.a} = ${fmt(a.m)}, maka k = ${fmt(a.k)}	(a) The gradient is the coefficient of x: k + ${a.a} = ${fmt(a.m)}, thus k = ${fmt(a.k)}
+(b) Pintasan-y = ${a.k2 ? `2k = 2(${fmt(a.k)}) = ${fmt(a.c)}` : `k = ${fmt(a.c)}`}, maka ${a.E}	(b) y-intercept = ${a.k2 ? `2k = 2(${fmt(a.k)}) = ${fmt(a.c)}` : `k = ${fmt(a.c)}`}, thus ${a.E}
+(c) Pintasan-x: gantikan y = 0 → 0 = ${glRhs(a.m, a.c)} → x = ${glS(a.xi)}	(c) x-intercept: substitute y = 0 → 0 = ${glRhs(a.m, a.c)} → x = ${glS(a.xi)}
+Garis lurus PQ melalui P(0, ${fmt(b.c)}) dan Q${P(b.x2, b.y2)}. (a) Tulis persamaan PQ. (b) Cari pintasan-x PQ. (c) Tentukan sama ada titik R${P(b.rx, b.ry)} terletak pada PQ.	The straight line PQ passes through P(0, ${fmt(b.c)}) and Q${P(b.x2, b.y2)}. (a) Write the equation of PQ. (b) Find the x-intercept of PQ. (c) Determine whether point R${P(b.rx, b.ry)} lies on PQ.
+Tidak	No
+(a) c = ${fmt(b.c)} (titik P pada paksi-y); m = (${fmt(b.y2)} − ${par(b.c)}) / ${par(b.x2)} = ${glS(b.m)}, maka ${b.E}	(a) c = ${fmt(b.c)} (point P is on the y-axis); m = (${fmt(b.y2)} − ${par(b.c)}) / ${par(b.x2)} = ${glS(b.m)}, thus ${b.E}
+(c) Apabila x = ${fmt(b.rx)}, y = ${glS(b.yr)} ${b.on ? '=' : '≠'} ${fmt(b.ry)}, maka R ${b.on ? '' : 'tidak '}terletak pada PQ.	(c) When x = ${fmt(b.rx)}, y = ${glS(b.yr)} ${b.on ? '=' : '≠'} ${fmt(b.ry)}, thus R ${b.on ? 'lies' : 'does not lie'} on PQ.
+Sebuah garis lurus mempunyai pintasan-x ${fmt(c.xi)} dan pintasan-y ${fmt(c.yi)}. (a) Cari kecerunan garis lurus itu. (b) Tulis persamaannya dalam bentuk y = mx + c. (c) Cari nilai y apabila x = ${fmt(c.x3)}.	A straight line has an x-intercept of ${fmt(c.xi)} and a y-intercept of ${fmt(c.yi)}. (a) Find the gradient of the straight line. (b) Write its equation in the form y = mx + c. (c) Find the value of y when x = ${fmt(c.x3)}.
+(a) m = −(pintasan-y) / (pintasan-x) = −(${fmt(c.yi)}) / ${par(c.xi)} = ${glS(c.m)}	(a) m = −(y-intercept) / (x-intercept) = −(${fmt(c.yi)}) / ${par(c.xi)} = ${glS(c.m)}
+(b) c = pintasan-y = ${fmt(c.yi)}, maka ${c.E}	(b) c = y-intercept = ${fmt(c.yi)}, thus ${c.E}
+Tukar persamaan garis lurus ${G} kepada bentuk y = mx + c. Seterusnya, nyatakan kecerunan dan pintasan-y.	Convert the equation of the straight line ${G} to the form y = mx + c. Hence, state the gradient and the y-intercept.
+Cari kecerunan dan pintasan-y bagi garis lurus ${G}.	Find the gradient and the y-intercept of the straight line ${G}.
+${N} berkata kecerunan garis lurus ${G} ialah ${wm}. Adakah ${N} betul?	${N} says the gradient of the straight line ${G} is ${wm}. Is ${N} correct?
+${N} terlupa tanda negatif. Bagi ax + by = c, kecerunan m = −a/b.	${N} forgot the negative sign. For ax + by = c, the gradient m = −a/b.
+Garis lurus ${L} diwakili oleh persamaan ${G}. Tulis persamaan ${L} dalam bentuk kecerunan-pintasan, y = mx + c.	The straight line ${L} is represented by the equation ${G}. Write the equation of ${L} in the gradient-intercept form, y = mx + c.
+Nyatakan pintasan-x dan pintasan-y bagi garis lurus ${G}.	State the x-intercept and the y-intercept of the straight line ${G}.
+Pintasan-x = ${fmt(a)}, pintasan-y = ${fmt(b)}	x-intercept = ${fmt(a)}, y-intercept = ${fmt(b)}
+Garis lurus ${G} memotong paksi-x di titik A dan paksi-y di titik B. Nyatakan koordinat A dan B.	The straight line ${G} cuts the x-axis at point A and the y-axis at point B. State the coordinates of A and B.
+Cari kecerunan garis lurus ${G}.	Find the gradient of the straight line ${G}.
+m = −(pintasan-y) / (pintasan-x) = −(${fmt(b)}) / ${par(a)} = ${glS(m)}	m = −(y-intercept) / (x-intercept) = −(${fmt(b)}) / ${par(a)} = ${glS(m)}
+Tulis persamaan garis lurus ${G} dalam bentuk y = mx + c.	Write the equation of the straight line ${G} in the form y = mx + c.
+Pintasan-x = ${fmt(a)}, pintasan-y = ${fmt(b)}, maka c = ${fmt(b)}	x-intercept = ${fmt(a)}, y-intercept = ${fmt(b)}, thus c = ${fmt(b)}
+Cari pintasan-x dan pintasan-y bagi garis lurus ${G}.	Find the x-intercept and the y-intercept of the straight line ${G}.
+Garis lurus ${G} menyilang paksi-x dan paksi-y. Cari koordinat titik-titik persilangan itu.	The straight line ${G} intersects the x-axis and the y-axis. Find the coordinates of the points of intersection.
+${P(xi, 0)} dan ${P(0, yi)}	${P(xi, 0)} and ${P(0, yi)}
+Lengkapkan: Bagi garis lurus ${G}, apabila y = 0, x = ___; apabila x = 0, y = ___	Complete: For the straight line ${G}, when y = 0, x = ___; when x = 0, y = ___
+Tulis persamaan ${E} dalam bentuk ax + by = c, dengan a, b dan c ialah integer dan a > 0.	Write the equation ${E} in the form ax + by = c, where a, b and c are integers and a > 0.
+Ungkapkan garis lurus ${E} dalam bentuk am, ax + by = c, dengan a > 0 dan a, b, c integer.	Express the straight line ${E} in the general form, ax + by = c, where a > 0 and a, b, c are integers.
+Lengkapkan dengan integer (pekali x positif): ${E} boleh ditulis sebagai ___x + ___y = ___	Complete with integers (positive coefficient of x): ${E} can be written as ___x + ___y = ___
+Tulis persamaan garis lurus ${G} dalam bentuk ${glFv('x', 'a')} + ${glFv('y', 'b')} = 1.	Write the equation of the straight line ${G} in the form ${glFv('x', 'a')} + ${glFv('y', 'b')} = 1.
+Ungkapkan garis lurus ${G} dalam bentuk pintasan. Seterusnya, nyatakan pintasan-x dan pintasan-y.	Express the straight line ${G} in the intercept form. Hence, state the x-intercept and the y-intercept.
+${ans}; pintasan-x = ${fmt(xi)}, pintasan-y = ${fmt(yi)}	${ans}; x-intercept = ${fmt(xi)}, y-intercept = ${fmt(yi)}
+Tulis persamaan garis lurus ${E} dalam bentuk ${glFv('x', 'a')} + ${glFv('y', 'b')} = 1.	Write the equation of the straight line ${E} in the form ${glFv('x', 'a')} + ${glFv('y', 'b')} = 1.
+Garis lurus hx + ${a.b === 1 ? '' : a.b}y = ${fmt(a.c)} mempunyai kecerunan ${fmt(a.m)}. Cari (a) nilai h, (b) pintasan-x garis lurus itu, (c) pintasan-y garis lurus itu.	The straight line hx + ${a.b === 1 ? '' : a.b}y = ${fmt(a.c)} has a gradient of ${fmt(a.m)}. Find (a) the value of h, (b) the x-intercept of the straight line, (c) the y-intercept of the straight line.
+(a) Kecerunan = −h/${a.b} = ${fmt(a.m)}, maka h = ${fmt(a.h)}	(a) Gradient = −h/${a.b} = ${fmt(a.m)}, thus h = ${fmt(a.h)}
+(b) Gantikan y = 0: ${fmt(a.h)}x = ${fmt(a.c)} → x = ${glS(a.xi)}	(b) Substitute y = 0: ${fmt(a.h)}x = ${fmt(a.c)} → x = ${glS(a.xi)}
+(c) Gantikan x = 0: ${a.b}y = ${fmt(a.c)} → y = ${glS(a.yi)}	(c) Substitute x = 0: ${a.b}y = ${fmt(a.c)} → y = ${glS(a.yi)}
+Garis lurus ${glFv('x', 'a')} + ${glFv('y', b.b)} = 1 melalui titik ${P(b.x0, b.y0)}. Cari nilai a dan kecerunan garis lurus itu.	The straight line ${glFv('x', 'a')} + ${glFv('y', b.b)} = 1 passes through point ${P(b.x0, b.y0)}. Find the value of a and the gradient of the straight line.
+Gantikan ${P(b.x0, b.y0)}: ${glFv(fmt(b.x0), 'a')} + ${glFv(fmt(b.y0), b.b)} = 1	Substitute ${P(b.x0, b.y0)}: ${glFv(fmt(b.x0), 'a')} + ${glFv(fmt(b.y0), b.b)} = 1
+Garis lurus ${c.a === 1 ? '' : c.a}x + ky = ${c.c} mempunyai pintasan-y ${fmt(c.yi)}. Cari (a) nilai k, (b) kecerunan garis lurus itu, (c) pintasan-x.	The straight line ${c.a === 1 ? '' : c.a}x + ky = ${c.c} has a y-intercept of ${fmt(c.yi)}. Find (a) the value of k, (b) the gradient of the straight line, (c) the x-intercept.
+(a) Pintasan-y ${fmt(c.yi)}: gantikan (0, ${fmt(c.yi)}) → k(${fmt(c.yi)}) = ${c.c}, maka k = ${fmt(c.k)}	(a) y-intercept ${fmt(c.yi)}: substitute (0, ${fmt(c.yi)}) → k(${fmt(c.yi)}) = ${c.c}, thus k = ${fmt(c.k)}
+(c) Gantikan y = 0: ${c.a === 1 ? '' : c.a}x = ${c.c} → x = ${glS(c.xi)}	(c) Substitute y = 0: ${c.a === 1 ? '' : c.a}x = ${c.c} → x = ${glS(c.xi)}
+Tentukan sama ada titik ${pt} terletak pada garis lurus ${G}.	Determine whether point ${pt} lies on the straight line ${G}.
+Adakah titik ${L}${pt} terletak pada garis lurus ${G}? Tunjukkan pengiraan anda.	Does point ${L}${pt} lie on the straight line ${G}? Show your working.
+Antara titik ${A}${pA} dan ${B}${pB}, titik manakah terletak pada garis lurus ${G}?	Between points ${A}${pA} and ${B}${pB}, which point lies on the straight line ${G}?
+Titik ${onN}	Point ${onN}
+${N} berkata titik ${pt} ${on ? 'tidak terletak' : 'terletak'} pada garis lurus ${G}. Adakah ${N} betul?	${N} says point ${pt} ${on ? 'does not lie' : 'lies'} on the straight line ${G}. Is ${N} correct?
+tidak terletak	does not lie
+terletak	lies
+Gantikan kedua-dua koordinat ke dalam persamaan dan bandingkan kedua-dua belah.	Substitute both coordinates into the equation and compare both sides.
+Titik ${pt} terletak pada garis lurus ${G}. Cari nilai ${v}.	Point ${pt} lies on the straight line ${G}. Find the value of ${v}.
+Garis lurus ${G} melalui titik ${pt}. Cari nilai ${v}.	The straight line ${G} passes through point ${pt}. Find the value of ${v}.
+Lengkapkan: Titik ${pt} terletak pada garis lurus ${G}, maka ${v} = ___	Complete: Point ${pt} lies on the straight line ${G}, thus ${v} = ___
+Seekor semut merayap di sepanjang garis lurus ${G} pada satah Cartes. Semut itu sampai di titik ${pt}. Cari nilai ${v}.	An ant crawls along the straight line ${G} on a Cartesian plane. The ant reaches point ${pt}. Find the value of ${v}.
+Titik ${pt} terletak pada garis lurus ${G}. Hitung nilai ${v}.	Point ${pt} lies on the straight line ${G}. Calculate the value of ${v}.
+Diberi garis lurus ${G} melalui titik ${pt}, cari nilai ${v}.	Given that the straight line ${G} passes through point ${pt}, find the value of ${v}.
+Titik ${L}${pt} berada pada garis lurus ${G}. Apakah nilai ${v}?	Point ${L}${pt} is on the straight line ${G}. What is the value of ${v}?
+Diberi titik ${pt} terletak pada garis lurus ${G}, hitung nilai ${v}.	Given that point ${pt} lies on the straight line ${G}, calculate the value of ${v}.
+Titik ${pt} terletak pada garis lurus ${G}. Cari nilai ${v}, seterusnya tulis persamaan garis lurus itu.	Point ${pt} lies on the straight line ${G}. Find the value of ${v}, hence write the equation of the straight line.
+${N} mendapati ${v} = ${wrong} supaya garis lurus ${G} melalui titik ${pt}. Adakah ${N} betul?	${N} finds that ${v} = ${wrong} so that the straight line ${G} passes through point ${pt}. Is ${N} correct?
+Gantikan koordinat titik itu dengan teliti, termasuk tanda negatif.	Substitute the coordinates of the point carefully, including the negative signs.
+Titik P(h, 2h) terletak pada garis lurus ${a.E}. Cari nilai h dan nyatakan koordinat P.	Point P(h, 2h) lies on the straight line ${a.E}. Find the value of h and state the coordinates of P.
+Gantikan x = h, y = 2h: 2h = ${glCo(a.m, 'h')}${glK(a.c)}	Substitute x = h, y = 2h: 2h = ${glCo(a.m, 'h')}${glK(a.c)}
+h = ${fmt(a.h)}, maka P${P(a.h, 2 * a.h)}	h = ${fmt(a.h)}, thus P${P(a.h, 2 * a.h)}
+Garis lurus y = px + q melalui titik ${P(b.x1, b.y1)} dan ${P(b.x2, b.y2)}. Cari nilai p dan nilai q.	The straight line y = px + q passes through points ${P(b.x1, b.y1)} and ${P(b.x2, b.y2)}. Find the values of p and q.
+(2) − (1): ${fmt(b.y2 - b.y1)} = ${glCo(b.x2 - b.x1, 'p')}, maka p = ${fmt(b.p)}	(2) − (1): ${fmt(b.y2 - b.y1)} = ${glCo(b.x2 - b.x1, 'p')}, thus p = ${fmt(b.p)}
+Garis lurus y = ${glCo(c.m)} + c melalui titik A${P(c.x1, c.y1)}. (a) Cari nilai c. (b) Titik B(${fmt(c.x2)}, k) terletak pada garis lurus itu. Cari nilai k. (c) Tentukan sama ada titik C${P(c.x3, c.y3)} terletak pada garis lurus itu.	The straight line y = ${glCo(c.m)} + c passes through point A${P(c.x1, c.y1)}. (a) Find the value of c. (b) Point B(${fmt(c.x2)}, k) lies on the straight line. Find the value of k. (c) Determine whether point C${P(c.x3, c.y3)} lies on the straight line.
+Tentukan sama ada garis lurus ${G1} dan garis lurus ${G2} adalah selari.	Determine whether the straight lines ${G1} and ${G2} are parallel.
+Adakah garis lurus ${L1}: ${G1} selari dengan garis lurus ${L2}: ${G2}? Beri sebab.	Is the straight line ${L1}: ${G1} parallel to the straight line ${L2}: ${G2}? Give a reason.
+Garis lurus ${G1} dan ${G2} dilukis pada satah Cartes yang sama. Adakah kedua-dua garis itu akan bersilang?	The straight lines ${G1} and ${G2} are drawn on the same Cartesian plane. Will the two lines intersect?
+Tidak, kerana kedua-dua garis selari (m = ${ms[0]})	No, because both lines are parallel (m = ${ms[0]})
+Ya, kerana kecerunannya berbeza (${ms[0]} dan ${ms[1]})	Yes, because their gradients are different (${ms[0]} and ${ms[1]})
+${N} berkata garis lurus ${G1} dan ${G2} ${pr ? 'tidak selari' : 'selari'}. Adakah ${N} betul?	${N} says the straight lines ${G1} and ${G2} are ${pr ? 'not parallel' : 'parallel'}. Is ${N} correct?
+tidak selari	not parallel
+selari	parallel
+Bandingkan kecerunan kedua-dua garis selepas menukarnya kepada bentuk y = mx + c.	Compare the gradients of both lines after converting them to the form y = mx + c.
+Garis lurus PQ selari dengan garis lurus ${G}. Nyatakan kecerunan PQ.	The straight line PQ is parallel to the straight line ${G}. State the gradient of PQ.
+Sebatang jalan lurus dilukis selari dengan garis ${G} pada satah Cartes. Apakah kecerunan jalan itu?	A straight road is drawn parallel to the line ${G} on a Cartesian plane. What is the gradient of the road?
+Garis lurus ${L} selari dengan garis lurus ${G} dan mempunyai pintasan-y ${fmt(c2)}. Tulis persamaan ${L}.	The straight line ${L} is parallel to the straight line ${G} and has a y-intercept of ${fmt(c2)}. Write the equation of ${L}.
+Lengkapkan: Garis lurus yang selari dengan ${G} mempunyai kecerunan ___	Complete: A straight line that is parallel to ${G} has a gradient of ___
+Garis lurus ${G1} selari dengan ${G2}. Cari nilai k.	The straight line ${G1} is parallel to ${G2}. Find the value of k.
+Diberi garis lurus ${G1} dan ${G2} adalah selari, hitung nilai k.	Given that the straight lines ${G1} and ${G2} are parallel, calculate the value of k.
+Garis lurus ${G1} tidak bersilang dengan ${G2} walaupun dipanjangkan. Cari nilai k.	The straight line ${G1} does not intersect ${G2} even when extended. Find the value of k.
+Garis lurus ${G1} selari dengan ${G2}. Cari nilai k, seterusnya nyatakan pintasan-y garis lurus ${G1}.	The straight line ${G1} is parallel to ${G2}. Find the value of k, hence state the y-intercept of the straight line ${G1}.
+${ans}; pintasan-y = ${yi}	${ans}; y-intercept = ${yi}
+Cari persamaan garis lurus yang selari dengan ${G} dan melalui titik ${pt}.	Find the equation of the straight line that is parallel to ${G} and passes through point ${pt}.
+Garis lurus ${L} melalui titik ${pt} dan selari dengan garis lurus ${G}. Tulis persamaan ${L}.	The straight line ${L} passes through point ${pt} and is parallel to the straight line ${G}. Write the equation of ${L}.
+Sebatang paip lurus dipasang selari dengan garis ${G} dan melalui titik ${pt} pada pelan bergrid. Tentukan persamaan paip itu.	A straight pipe is installed parallel to the line ${G} and passes through point ${pt} on a grid plan. Determine the equation of the pipe.
+${N} menulis persamaan garis lurus yang selari dengan ${G} dan melalui ${pt} sebagai ${wrong}. Adakah ${N} betul?	${N} writes the equation of the straight line that is parallel to ${G} and passes through ${pt} as ${wrong}. Is ${N} correct?
+Semak tanda semasa memindahkan sebutan untuk mencari c.	Check the signs when moving terms to find c.
+PQRS ialah sebuah segi empat selari dengan P${P(...a.P)}, Q${P(...a.Q)} dan R${P(...a.R)}. (a) Cari kecerunan PQ. (b) Cari persamaan garis lurus SR. (c) Cari pintasan-y garis lurus SR.	PQRS is a parallelogram with P${P(...a.P)}, Q${P(...a.Q)} and R${P(...a.R)}. (a) Find the gradient of PQ. (b) Find the equation of the straight line SR. (c) Find the y-intercept of the straight line SR.
+(b) SR selari dengan PQ, maka m = ${glS(a.m)}. Gantikan R${P(...a.R)}: ${fmt(a.R[1])} = ${glS(a.m)}(${fmt(a.R[0])}) + c → c = ${glS(a.c)}	(b) SR is parallel to PQ, thus m = ${glS(a.m)}. Substitute R${P(...a.R)}: ${fmt(a.R[1])} = ${glS(a.m)}(${fmt(a.R[0])}) + c → c = ${glS(a.c)}
+(c) Pintasan-y = ${glS(a.c)}	(c) y-intercept = ${glS(a.c)}
+Garis lurus 2y = hx ${b.c < 0 ? '−' : '+'} ${Math.abs(b.c)} selari dengan garis lurus yang melalui A${P(b.x1, b.y1)} dan B${P(b.x2, b.y2)}. (a) Cari nilai h. (b) Cari pintasan-x garis lurus 2y = hx ${b.c < 0 ? '−' : '+'} ${Math.abs(b.c)}.	The straight line 2y = hx ${b.c < 0 ? '−' : '+'} ${Math.abs(b.c)} is parallel to the straight line that passes through A${P(b.x1, b.y1)} and B${P(b.x2, b.y2)}. (a) Find the value of h. (b) Find the x-intercept of the straight line 2y = hx ${b.c < 0 ? '−' : '+'} ${Math.abs(b.c)}.
+2y = hx ${b.c < 0 ? '−' : '+'} ${Math.abs(b.c)} → y = ${glFv('h', 2)}x ${glK(glQ(b.c, 2)).trim()}, maka h/2 = ${fmt(b.m)} → h = ${fmt(b.h)}	2y = hx ${b.c < 0 ? '−' : '+'} ${Math.abs(b.c)} → y = ${glFv('h', 2)}x ${glK(glQ(b.c, 2)).trim()}, thus h/2 = ${fmt(b.m)} → h = ${fmt(b.h)}
+Garis lurus ${c.L} selari dengan garis lurus ${c.G} dan melalui titik ${P(c.x0, c.y0)}. (a) Tulis persamaan ${c.L}. (b) Cari pintasan-x ${c.L}.	The straight line ${c.L} is parallel to the straight line ${c.G} and passes through point ${P(c.x0, c.y0)}. (a) Write the equation of ${c.L}. (b) Find the x-intercept of ${c.L}.
+Kecerunan ${c.G}: m = −(${fmt(c.b)}) / ${par(c.a)} = ${glS(c.m)}	Gradient of ${c.G}: m = −(${fmt(c.b)}) / ${par(c.a)} = ${glS(c.m)}
+Cari persamaan garis lurus yang mempunyai kecerunan ${ms} dan melalui titik ${pt}.	Find the equation of the straight line that has a gradient of ${ms} and passes through point ${pt}.
+Garis lurus ${L} melalui titik ${pt} dan kecerunannya ialah ${ms}. Tulis persamaan ${L}.	The straight line ${L} passes through point ${pt} and its gradient is ${ms}. Write the equation of ${L}.
+Laluan sebuah kapal terbang mainan ialah satu garis lurus berkecerunan ${ms} yang melalui titik ${pt} pada satah Cartes. Tentukan persamaan laluan itu.	The path of a toy aeroplane is a straight line with a gradient of ${ms} that passes through point ${pt} on a Cartesian plane. Determine the equation of the path.
+${N} mendapati persamaan garis lurus yang berkecerunan ${ms} dan melalui ${pt} ialah ${wrong}. Adakah ${N} betul?	${N} finds that the equation of the straight line with a gradient of ${ms} that passes through ${pt} is ${wrong}. Is ${N} correct?
+${N} tersilap tanda semasa mencari c. Semak dengan menggantikan titik itu ke dalam jawapan.	${N} made a sign error when finding c. Check by substituting the point into the answer.
+Cari persamaan garis lurus yang melalui titik ${A}${p1} dan ${B}${p2}.	Find the equation of the straight line that passes through points ${A}${p1} and ${B}${p2}.
+Garis lurus ${A}${B} melalui ${A}${p1} dan ${B}${p2}. Tulis persamaan ${A}${B} dalam bentuk y = mx + c.	The straight line ${A}${B} passes through ${A}${p1} and ${B}${p2}. Write the equation of ${A}${B} in the form y = mx + c.
+Titik ${p1} dan ${p2} terletak pada satu garis lurus. Tentukan persamaan garis lurus itu.	Points ${p1} and ${p2} lie on a straight line. Determine the equation of the straight line.
+Pada sebuah peta bergrid, sekolah terletak di ${p1} dan perpustakaan di ${p2}. Sebatang jalan lurus menghubungkan kedua-dua tempat itu. Cari persamaan jalan itu.	On a grid map, a school is located at ${p1} and a library at ${p2}. A straight road connects both places. Find the equation of the road.
+Cari persamaan garis lurus yang mempunyai pintasan-x ${fmt(xi)} dan pintasan-y ${fmt(yi)}.	Find the equation of the straight line that has an x-intercept of ${fmt(xi)} and a y-intercept of ${fmt(yi)}.
+Garis lurus ${L} memotong paksi-x pada ${P(xi, 0)} dan paksi-y pada ${P(0, yi)}. Tulis persamaan ${L} dalam bentuk y = mx + c.	The straight line ${L} cuts the x-axis at ${P(xi, 0)} and the y-axis at ${P(0, yi)}. Write the equation of ${L} in the form y = mx + c.
+Rajah di bawah menunjukkan sebuah garis lurus yang memotong kedua-dua paksi. Tentukan persamaan garis lurus itu.	The diagram below shows a straight line that cuts both axes. Determine the equation of the straight line.
+Rajah di bawah menunjukkan garis lurus ${L}. Cari persamaan ${L}.	The diagram below shows the straight line ${L}. Find the equation of ${L}.
+Berdasarkan rajah di bawah, tentukan persamaan garis lurus yang melalui kedua-dua titik itu.	Based on the diagram below, determine the equation of the straight line that passes through both points.
+Sebuah dron terbang di sepanjang garis lurus ${L} seperti dalam rajah di bawah. Tulis persamaan laluan dron itu.	A drone flies along the straight line ${L} as shown in the diagram below. Write the equation of the path of the drone.
+Bucu-bucu sebuah segi tiga ialah A${P(...a.A)}, B${P(...a.B)} dan C${P(...a.C)}. (a) Cari kecerunan BC. (b) Cari persamaan garis lurus yang melalui A dan selari dengan BC. (c) Cari pintasan-x garis lurus itu.	The vertices of a triangle are A${P(...a.A)}, B${P(...a.B)} and C${P(...a.C)}. (a) Find the gradient of BC. (b) Find the equation of the straight line that passes through A and is parallel to BC. (c) Find the x-intercept of the straight line.
+Garis lurus yang melalui P${P(b.x1, b.y1)} dan Q(${fmt(b.x2)}, k) mempunyai pintasan-y ${fmt(b.c)}. (a) Cari persamaan garis lurus itu. (b) Cari nilai k.	The straight line that passes through P${P(b.x1, b.y1)} and Q(${fmt(b.x2)}, k) has a y-intercept of ${fmt(b.c)}. (a) Find the equation of the straight line. (b) Find the value of k.
+Garis melalui (0, ${fmt(b.c)}) dan P${P(b.x1, b.y1)}: m = (${fmt(b.y1)} − ${par(b.c)}) / ${par(b.x1)} = ${fmt(b.m)}	The line passes through (0, ${fmt(b.c)}) and P${P(b.x1, b.y1)}: m = (${fmt(b.y1)} − ${par(b.c)}) / ${par(b.x1)} = ${fmt(b.m)}
+Sebuah garis lurus melalui titik ${P(c.x1, c.y1)} dan mempunyai pintasan-x ${fmt(c.a)}. (a) Cari kecerunan garis lurus itu. (b) Tulis persamaannya. (c) Nyatakan pintasan-y.	A straight line passes through point ${P(c.x1, c.y1)} and has an x-intercept of ${fmt(c.a)}. (a) Find the gradient of the straight line. (b) Write its equation. (c) State the y-intercept.
+Pintasan-x ${fmt(c.a)}: garis melalui ${P(c.a, 0)}.	x-intercept ${fmt(c.a)}: the line passes through ${P(c.a, 0)}.
+(c) Pintasan-y = ${glS(c.c)}	(c) y-intercept = ${glS(c.c)}
+Cari titik persilangan garis lurus ${G1} dan garis lurus ${G2}.	Find the point of intersection of the straight line ${G1} and the straight line ${G2}.
+Garis lurus ${G1} bersilang dengan garis lurus ${G2} di titik ${T}. Cari koordinat ${T}.	The straight line ${G1} intersects the straight line ${G2} at point ${T}. Find the coordinates of ${T}.
+Tentukan koordinat titik di mana garis lurus ${G1} menyilang garis lurus ${G2}.	Determine the coordinates of the point where the straight line ${G1} intersects the straight line ${G2}.
+Cari titik persilangan bagi garis lurus ${G1} dan ${G2}.	Find the point of intersection of the straight lines ${G1} and ${G2}.
+Selesaikan persamaan serentak ${G1} dan ${G2}.	Solve the simultaneous equations ${G1} and ${G2}.
+Garis lurus ${L1}: ${G1} dan garis lurus ${L2}: ${G2} bersilang di titik ${T}. Cari koordinat ${T}.	The straight line ${L1}: ${G1} and the straight line ${L2}: ${G2} intersect at point ${T}. Find the coordinates of ${T}.
+${N} mendapati garis lurus ${G1} dan ${G2} bersilang di ${wp}. Adakah ${N} betul?	${N} finds that the straight lines ${G1} and ${G2} intersect at ${wp}. Is ${N} correct?
+Titik ${wp} tidak memuaskan kedua-dua persamaan.	Point ${wp} does not satisfy both equations.
+Rajah di bawah menunjukkan graf garis lurus ${G1} dan ${G2}. Nyatakan koordinat titik persilangan kedua-dua garis itu.	The diagram below shows the graphs of the straight lines ${G1} and ${G2}. State the coordinates of the point of intersection of both lines.
+Berdasarkan graf di bawah, selesaikan persamaan serentak ${G1} dan ${G2}.	Based on the graph below, solve the simultaneous equations ${G1} and ${G2}.
+Dua batang jalan lurus diwakili oleh garis lurus ${G1} dan ${G2} seperti dalam rajah di bawah. Pada titik manakah kedua-dua jalan itu bersilang? Semak jawapan anda secara algebra.	Two straight roads are represented by the straight lines ${G1} and ${G2} as shown in the diagram below. At which point do both roads intersect? Check your answer algebraically.
+Cari titik persilangan garis lurus ${G1} dan ${G2}.	Find the point of intersection of the straight lines ${G1} and ${G2}.
+Dengan menggunakan kaedah penghapusan, cari titik persilangan garis lurus ${G1} dan ${G2}.	Using the elimination method, find the point of intersection of the straight lines ${G1} and ${G2}.
+Selesaikan persamaan serentak berikut: ${G1} dan ${G2}.	Solve the following simultaneous equations: ${G1} and ${G2}.
+Garis lurus ${G1} dan ${G2} bersilang di titik ${T}. Cari koordinat ${T}.	The straight lines ${G1} and ${G2} intersect at point ${T}. Find the coordinates of ${T}.
+Cari koordinat titik persilangan garis lurus ${G} dengan paksi-${ax}.	Find the coordinates of the point of intersection of the straight line ${G} with the ${ax}-axis.
+Garis lurus ${G} menyilang paksi-${ax} di titik ${T}. Nyatakan koordinat ${T}.	The straight line ${G} intersects the ${ax}-axis at point ${T}. State the coordinates of ${T}.
+Tunjukkan bahawa garis lurus ${S1} dan ${S2} tidak bersilang.	Show that the straight lines ${S1} and ${S2} do not intersect.
+Garis lurus ${a.G1} dan ${a.G2} bersilang di titik T. Kedua-dua garis itu memotong paksi-x di titik A dan B. (a) Cari koordinat T. (b) Cari koordinat A dan B. (c) Hitung luas segi tiga ATB.	The straight lines ${a.G1} and ${a.G2} intersect at point T. Both lines cut the x-axis at points A and B. (a) Find the coordinates of T. (b) Find the coordinates of A and B. (c) Calculate the area of triangle ATB.
+(a) T${P(a.x0, a.y0)} (b) A${P(a.a, 0)}, B${P(a.b, 0)} (c) ${glNum(a.luas)} unit²	(a) T${P(a.x0, a.y0)} (b) A${P(a.a, 0)}, B${P(a.b, 0)} (c) ${glNum(a.luas)} units²
+(b) Gantikan y = 0 dalam setiap persamaan: x = ${fmt(a.a)} dan x = ${fmt(a.b)}	(b) Substitute y = 0 into each equation: x = ${fmt(a.a)} and x = ${fmt(a.b)}
+(c) Tapak AB = ${Math.abs(a.b - a.a)}, tinggi = ${Math.abs(a.y0)}	(c) Base AB = ${Math.abs(a.b - a.a)}, height = ${Math.abs(a.y0)}
+Luas = ½ × ${Math.abs(a.b - a.a)} × ${Math.abs(a.y0)} = ${glNum(a.luas)} unit²	Area = ½ × ${Math.abs(a.b - a.a)} × ${Math.abs(a.y0)} = ${glNum(a.luas)} units²
+Garis lurus ${b.G1}, ${b.G2} dan y = kx ${b.c3 < 0 ? '−' : '+'} ${Math.abs(b.c3)} bersilang pada satu titik yang sama. Cari nilai k.	The straight lines ${b.G1}, ${b.G2} and y = kx ${b.c3 < 0 ? '−' : '+'} ${Math.abs(b.c3)} intersect at the same point. Find the value of k.
+Titik persilangan ${b.G1} dan ${b.G2}: ${glRhs(b.m1, b.c1)} = ${glRhs(b.m2, b.c2)} → x = ${fmt(b.x0)}, y = ${fmt(b.y0)}	Point of intersection of ${b.G1} and ${b.G2}: ${glRhs(b.m1, b.c1)} = ${glRhs(b.m2, b.c2)} → x = ${fmt(b.x0)}, y = ${fmt(b.y0)}
+Garis ketiga melalui ${P(b.x0, b.y0)}: ${fmt(b.y0)} = k(${fmt(b.x0)})${glK(b.c3)}	The third line passes through ${P(b.x0, b.y0)}: ${fmt(b.y0)} = k(${fmt(b.x0)})${glK(b.c3)}
+Cari persamaan garis lurus yang melalui titik persilangan garis ${c.G1} dan ${c.G2}, dan selari dengan garis lurus ${c.G3}.	Find the equation of the straight line that passes through the point of intersection of the lines ${c.G1} and ${c.G2}, and is parallel to the straight line ${c.G3}.
+Titik persilangan: ${glRhs(c.m1, c.c1)} = ${glRhs(c.m2, c.c2)} → ${P(c.x0, c.y0)}	Point of intersection: ${glRhs(c.m1, c.c1)} = ${glRhs(c.m2, c.c2)} → ${P(c.x0, c.y0)}
+Kecerunan ${c.G3} ialah ${glS(c.m3)}	The gradient of ${c.G3} is ${glS(c.m3)}
+${desc} Nyatakan maksud kecerunan dan maksud pintasan-${Y} bagi graf ${Y} melawan ${X} dalam situasi ini.	${desc} State the meaning of the gradient and the meaning of the ${Y}-intercept of the graph of ${Y} against ${X} in this situation.
+${desc} Apakah yang diwakili oleh nilai ${ms} dalam persamaan itu?	${desc} What does the value ${ms} in the equation represent?
+Kadar perubahan: ${mm}	Rate of change: ${mm}
+${desc} Apakah yang diwakili oleh nilai ${cs} dalam persamaan itu?	${desc} What does the value ${cs} in the equation represent?
+Nilai awal: ${cm}	Initial value: ${cm}
+${desc} ${N} berkata nilai ${cs} dalam persamaan itu ialah kadar perubahan bagi setiap ${xu}. Adakah ${N} betul?	${desc} ${N} says the value ${cs} in the equation is the rate of change. Is ${N} correct?
+${cs} ialah nilai awal, iaitu ${cm}	${cs} is the initial value, that is ${cm}
+Kadar perubahan ialah kecerunan, iaitu ${ms}.	The rate of change is the gradient, that is ${ms}.
+Diberi ${eqT}, dengan ${defs}. ${ask}	Given ${eqT}, where ${defs}. ${ask}
+${desc} Berdasarkan persamaan ini, ${ask[0].toLowerCase() + ask.slice(1)}	${desc} Based on this equation, ${ask[0].toLowerCase() + ask.slice(1)}
+${desc} Lengkapkan: ${fill}	${desc} Complete: ${fill}
+${data} Hubungan antara ${Y} dan ${X} ialah linear. (a) Tulis persamaan ${Y} dalam sebutan ${X}. (b) ${ask3}	${data} The relationship between ${Y} and ${X} is linear. (a) Write the equation of ${Y} in terms of ${X}. (b) ${ask3}
+${data} Diberi hubungan antara ${Y} dan ${X} ialah linear, bentukkan persamaan yang menghubungkan ${Y} dan ${X}.	${data} Given that the relationship between ${Y} and ${X} is linear, form an equation that relates ${Y} and ${X}.
+${data} Hubungan antara ${Y} dan ${X} ialah linear. ${askC}	${data} The relationship between ${Y} and ${X} is linear. ${askC}
+${desc} Selepas berapa ${xu} jumlah bayaran kedua-dua pilihan adalah sama?	${desc} After how many ${xu} will the total payment of both options be the same?
+${desc} Pilihan manakah lebih murah bagi ${xq} ${xu}? Tunjukkan pengiraan anda.	${desc} Which option is cheaper for ${xq} ${xu}? Show your working.
+${desc} Cari titik persilangan graf kedua-dua pilihan dan nyatakan maksudnya.	${desc} Find the point of intersection of the graphs of both options and state its meaning.
+Bandingkan dengan y = mx + c.	Compare with y = mx + c.
+Kecerunan = pekali x = ${ms}	Gradient = coefficient of x = ${ms}
+Pintasan-y = pemalar = ${cs}	y-intercept = constant = ${cs}
+Gantikan ke dalam y = mx + c: ${E}	Substitute into y = mx + c: ${E}
+mengufuk	horizontal
+mencancang	vertical
+Garis selari dengan paksi-x ialah garis mengufuk: semua titik mempunyai y = ${fmt(kk)}.	A line parallel to the x-axis is a horizontal line: all the points have y = ${fmt(kk)}.
+Garis selari dengan paksi-y ialah garis mencancang: semua titik mempunyai x = ${fmt(h)}.	A line parallel to the y-axis is a vertical line: all the points have x = ${fmt(h)}.
+Persamaan: ${E}	Equation: ${E}
+Tidak tertakrif	Undefined
+${E2} ialah garis mengufuk (selari dengan paksi-x), maka kecerunannya 0.	${E2} is a horizontal line (parallel to the x-axis), thus its gradient is 0.
+${E2} ialah garis mencancang (selari dengan paksi-y), maka kecerunannya tidak tertakrif.	${E2} is a vertical line (parallel to the y-axis), thus its gradient is undefined.
+Susun semula: ${E}	Rearrange: ${E}
+kecerunan ialah ${cs}	the gradient is ${cs}
+Kecerunan ialah pekali x, bukan nombor pertama dalam persamaan.	The gradient is the coefficient of x, not the first number in the equation.
+Bahagi setiap sebutan dengan ${K}: ${E}	Divide each term by ${K}: ${E}
+kecerunan ialah ${glS(glMul(m, K))} dan pintasan-y ialah ${fmt(K * c)}	the gradient is ${glS(glMul(m, K))} and the y-intercept is ${fmt(K * c)}
+Bahagi setiap sebutan dengan ${K} dahulu supaya pekali y ialah 1.	Divide each term by ${K} first so that the coefficient of y is 1.
+Pindahkan sebutan x ke sebelah kanan: ${E}	Move the x term to the right-hand side: ${E}
+kecerunan ialah ${glS(glNeg(m))}	the gradient is ${glS(glNeg(m))}
+Apabila sebutan x dipindahkan ke sebelah kanan, tandanya berubah.	When the x term is moved to the right-hand side, its sign changes.
+Pindahkan pemalar ke sebelah kanan: ${E}	Move the constant to the right-hand side: ${E}
+pintasan-y ialah ${fmt(-c)}	the y-intercept is ${fmt(-c)}
+Apabila pemalar dipindahkan ke sebelah kanan, tandanya berubah.	When the constant is moved to the right-hand side, its sign changes.
+Garis lurus ${L}	Straight line ${L}
+Garis menyilang paksi-y di ${P(0, c)}, maka c = ${cs}.	The line cuts the y-axis at ${P(0, c)}, thus c = ${cs}.
+Bentuk x/a + y/b = 1: a ialah pintasan-x dan b ialah pintasan-y.	The form x/a + y/b = 1: a is the x-intercept and b is the y-intercept.
+Garis lurus dengan pintasan-x dan pintasan-y	A straight line with an x-intercept and a y-intercept
+Pintasan-x = ${fmt(d.xi)}, pintasan-y = ${fmt(d.yi)}	x-intercept = ${fmt(d.xi)}, y-intercept = ${fmt(d.yi)}
+Pintasan-x: gantikan y = 0 → ${glCo(d.a)} = ${fmt(d.c)} → x = ${fmt(d.xi)}	x-intercept: substitute y = 0 → ${glCo(d.a)} = ${fmt(d.c)} → x = ${fmt(d.xi)}
+Pintasan-y: gantikan x = 0 → ${glCo(d.b, 'y')} = ${fmt(d.c)} → y = ${fmt(d.yi)}	y-intercept: substitute x = 0 → ${glCo(d.b, 'y')} = ${fmt(d.c)} → y = ${fmt(d.yi)}
+Pindahkan sebutan x ke kiri: ${glAm(-glR(m)[0], 1, c)}	Move the x term to the left: ${glAm(-glR(m)[0], 1, c)}
+Darab setiap sebutan dengan ${q}: ${q}y = ${glRhs(glMul(m, q), q * c)}	Multiply each term by ${q}: ${q}y = ${glRhs(glMul(m, q), q * c)}
+Pindahkan sebutan x ke kiri: ${glAm(-glR(m)[0], q, q * c)}	Move the x term to the left: ${glAm(-glR(m)[0], q, q * c)}
+Darab dengan −1 supaya a > 0: ${ans}	Multiply by −1 so that a > 0: ${ans}
+Bahagi setiap sebutan dengan ${fmt(d.c)}: ${glFv(glCo(d.a), d.c)} + ${glFv(glCo(d.b, 'y'), d.c)} = 1	Divide each term by ${fmt(d.c)}: ${glFv(glCo(d.a), d.c)} + ${glFv(glCo(d.b, 'y'), d.c)} = 1
+Permudahkan: ${ans}	Simplify: ${ans}
+Gantikan x = ${fmt(x)}, y = ${fmt(y)} ke dalam sebelah kiri: ${Ln.chk(x, y)}	Substitute x = ${fmt(x)}, y = ${fmt(y)} into the left-hand side: ${Ln.chk(x, y)}
+Gantikan x = ${fmt(x)} ke dalam sebelah kanan: y = ${Ln.chk(x)}	Substitute x = ${fmt(x)} into the right-hand side: y = ${Ln.chk(x)}
+Titik ${nOn} terletak pada garis.	Point ${nOn} lies on the line.
+Titik ${nOff} tidak terletak pada garis.	Point ${nOff} does not lie on the line.
+Ya, titik itu terletak pada garis lurus itu	Yes, the point lies on the straight line
+Tidak, titik itu tidak terletak pada garis lurus itu	No, the point does not lie on the straight line
+Kedua-dua belah sama, maka titik itu terletak pada garis.	Both sides are equal, thus the point lies on the line.
+Kedua-dua belah tidak sama, maka titik itu tidak terletak pada garis.	Both sides are not equal, thus the point does not lie on the line.
+Gantikan x = ${fmt(x)}: k = ${glS(m)}(${fmt(x)})${glK(c)}	Substitute x = ${fmt(x)}: k = ${glS(m)}(${fmt(x)})${glK(c)}
+Gantikan y = ${fmt(y)}, x = h: ${fmt(y)} = ${glCo(m, 'h')}${glK(c)}	Substitute y = ${fmt(y)}, x = h: ${fmt(y)} = ${glCo(m, 'h')}${glK(c)}
+Gantikan ${xUnk ? `x = h, y = ${fmt(y)}` : `x = ${fmt(x)}, y = k`}: ${t1}	Substitute ${xUnk ? `x = h, y = ${fmt(y)}` : `x = ${fmt(x)}, y = k`}: ${t1}
+Gantikan ${pt}: ${fmt(y)} = p(${fmt(x)})${glK(c)}	Substitute ${pt}: ${fmt(y)} = p(${fmt(x)})${glK(c)}
+Gantikan ${pt}: ${fmt(y)} = ${fmt(m)}(${fmt(x)}) + k	Substitute ${pt}: ${fmt(y)} = ${fmt(m)}(${fmt(x)}) + k
+Gantikan ${pt}: p(${fmt(x)}) ${b < 0 ? '−' : '+'} ${Math.abs(b)}(${fmt(y)}) = ${fmt(cc)}	Substitute ${pt}: p(${fmt(x)}) ${b < 0 ? '−' : '+'} ${Math.abs(b)}(${fmt(y)}) = ${fmt(cc)}
+Bahagi dengan ${K}: ${E}	Divide by ${K}: ${E}
+Selari, kerana m₁ = m₂ = ${ms[0]}	Parallel, because m₁ = m₂ = ${ms[0]}
+Tidak selari, kerana m₁ = ${ms[0]} dan m₂ = ${ms[1]}	Not parallel, because m₁ = ${ms[0]} and m₂ = ${ms[1]}
+Kecerunan sama, maka kedua-dua garis selari.	The gradients are equal, thus both lines are parallel.
+Kecerunan berbeza, maka garis-garis itu tidak selari.	The gradients are different, thus the lines are not parallel.
+Kecerunan garis itu ialah ${ms}.	The gradient of the line is ${ms}.
+Garis selari mempunyai kecerunan yang sama, iaitu ${ms}.	Parallel lines have the same gradient, that is ${ms}.
+Kecerunan ${G1} ialah k ${a < 0 ? '−' : '+'} ${Math.abs(a)}.	The gradient of ${G1} is k ${a < 0 ? '−' : '+'} ${Math.abs(a)}.
+Garis selari: k ${a < 0 ? '−' : '+'} ${Math.abs(a)} = ${fmt(m)}	Parallel lines: k ${a < 0 ? '−' : '+'} ${Math.abs(a)} = ${fmt(m)}
+Bagi ax + by = c, m = −a/b. Kecerunan ${G1} = −k / ${par(b)}	For ax + by = c, m = −a/b. The gradient of ${G1} = −k / ${par(b)}
+Garis selari: −k / ${par(b)} = ${fmt(m)}	Parallel lines: −k / ${par(b)} = ${fmt(m)}
+Bahagi dengan ${K}: y = ${glFv('k', K)}x${glK(c1)}	Divide by ${K}: y = ${glFv('k', K)}x${glK(c1)}
+Garis selari: k/${K} = ${fmt(m)}	Parallel lines: k/${K} = ${fmt(m)}
+garis lurus yang melalui ${P(x1, y1)} dan ${P(x1 + dx, y1 + m * dx)}	the straight line that passes through ${P(x1, y1)} and ${P(x1 + dx, y1 + m * dx)}
+Kecerunan garis kedua = (${fmt(y1 + m * dx)} − ${par(y1)}) / (${fmt(x1 + dx)} − ${par(x1)}) = ${fmt(m)}	Gradient of the second line = (${fmt(y1 + m * dx)} − ${par(y1)}) / (${fmt(x1 + dx)} − ${par(x1)}) = ${fmt(m)}
+Garis selari: k = ${fmt(m)}	Parallel lines: k = ${fmt(m)}
+Garis selari: m = ${glS(m)}	Parallel lines: m = ${glS(m)}
+Garis lurus memotong paksi-x dan paksi-y	A straight line that cuts the x-axis and the y-axis
+m = −(pintasan-y) / (pintasan-x) = −(${fmt(yi)}) / ${par(xi)} = ${glS(m)}	m = −(y-intercept) / (x-intercept) = −(${fmt(yi)}) / ${par(xi)} = ${glS(m)}
+c = pintasan-y = ${fmt(yi)}	c = y-intercept = ${fmt(yi)}
+Dari rajah: ${P(x1, y1)} dan ${P(x2, y2)}.	From the diagram: ${P(x1, y1)} and ${P(x2, y2)}.
+Titik persilangan ialah ${P(x0, y0)}	The point of intersection is ${P(x0, y0)}
+Gantikan x = ${fmt(x0)} ke dalam ${G1}: y = ${glS(m)}(${fmt(x0)})${glK(c)} = ${fmt(y0)}	Substitute x = ${fmt(x0)} into ${G1}: y = ${glS(m)}(${fmt(x0)})${glK(c)} = ${fmt(y0)}
+Titik persilangan ialah ${ans}	The point of intersection is ${ans}
+Gantikan y = ${fmt(y0)} ke dalam ${G1}: ${fmt(y0)} = ${glRhs(m, c)}	Substitute y = ${fmt(y0)} into ${G1}: ${fmt(y0)} = ${glRhs(m, c)}
+Graf ${G1} dan ${G2}	Graphs of ${G1} and ${G2}
+Titik persilangan	Point of intersection
+Baca koordinat titik persilangan daripada graf: ${P(d.x0, d.y0)}.	Read the coordinates of the point of intersection from the graph: ${P(d.x0, d.y0)}.
+Semak: ${fmt(d.y0)} = ${glS(d.m1)}(${fmt(d.x0)})${glK(d.c1)} ✓ dan ${fmt(d.y0)} = ${glS(d.m2)}(${fmt(d.x0)})${glK(d.c2)} ✓	Check: ${fmt(d.y0)} = ${glS(d.m1)}(${fmt(d.x0)})${glK(d.c1)} ✓ and ${fmt(d.y0)} = ${glS(d.m2)}(${fmt(d.x0)})${glK(d.c2)} ✓
+${add ? 'Tambah' : 'Tolak'} kedua-dua persamaan untuk menghapuskan y: ${glCo(A)} = ${fmt(C)}	${add ? 'Add' : 'Subtract'} both equations to eliminate y: ${glCo(A)} = ${fmt(C)}
+${add ? 'Tambah' : 'Tolak'} kedua-dua persamaan untuk menghapuskan x: ${glCo(B, 'y')} = ${fmt(C)}	${add ? 'Add' : 'Subtract'} both equations to eliminate x: ${glCo(B, 'y')} = ${fmt(C)}
+Tambah	Add
+Tolak	Subtract
+Gantikan x = ${fmt(x0)} ke dalam ${G1}: ${glCo(b1, 'y')} = ${fmt(c1)} − ${par(a1 * x0)} = ${fmt(c1 - a1 * x0)}	Substitute x = ${fmt(x0)} into ${G1}: ${glCo(b1, 'y')} = ${fmt(c1)} − ${par(a1 * x0)} = ${fmt(c1 - a1 * x0)}
+Gantikan y = ${fmt(y0)} ke dalam ${G1}: ${glCo(a1)} = ${fmt(c1)} − ${par(b1 * y0)} = ${fmt(c1 - b1 * y0)}	Substitute y = ${fmt(y0)} into ${G1}: ${glCo(a1)} = ${fmt(c1)} − ${par(b1 * y0)} = ${fmt(c1 - b1 * y0)}
+Pada paksi-x, y = 0.	On the x-axis, y = 0.
+Pada paksi-y, x = 0.	On the y-axis, x = 0.
+Gantikan y = 0 ke dalam ${G}: x = ${fmt(d.xi)}	Substitute y = 0 into ${G}: x = ${fmt(d.xi)}
+Gantikan x = 0 ke dalam ${G}: y = ${fmt(d.yi)}	Substitute x = 0 into ${G}: y = ${fmt(d.yi)}
+Koordinat: ${ptA}	Coordinates: ${ptA}
+Kecerunan kedua-dua garis ialah ${glS(m)}, tetapi pintasan-y berbeza (${fmt(c1)} dan ${fmt(c2)}).	The gradients of both lines are ${glS(m)}, but the y-intercepts are different (${fmt(c1)} and ${fmt(c2)}).
+Maka kedua-dua garis selari dan tidak bersilang.	Thus both lines are parallel and do not intersect.
+Kedua-dua garis selari (m = ${glS(m)}) dengan pintasan-y berbeza, maka tiada titik persilangan	Both lines are parallel (m = ${glS(m)}) with different y-intercepts, thus there is no point of intersection
+jam	hours
+Kos menyewa sebuah basikal, RM${'C'}, bagi t jam diberi oleh C = ${m}t + ${c}.	The cost of renting a bicycle, RM${'C'}, for t hours is given by C = ${m}t + ${c}.
+kos sewa bertambah RM${m} bagi setiap jam	the rental cost increases by RM${m} for every hour
+caj asas sebanyak RM${c}	a basic charge of RM${c}
+C ialah kos sewa basikal (RM) dan t ialah masa (jam)	C is the cost of renting the bicycle (RM) and t is the time (hours)
+Hitung kos menyewa basikal itu selama ${x} jam.	Calculate the cost of renting the bicycle for ${x} hours.
+Berapa jamkah basikal itu disewa jika kosnya RM${y}?	For how many hours is the bicycle rented if the cost is RM${y}?
+Kos menyewa sebuah basikal selama ${x1} jam ialah RM${y1} dan selama ${x2} jam ialah RM${y2}.	The cost of renting a bicycle for ${x1} hours is RM${y1} and for ${x2} hours is RM${y2}.
+Berapakah caj asas sewaan basikal itu?	What is the basic charge for renting the bicycle?
+kilometer	kilometres
+Tambang sebuah teksi, RMT, bagi perjalanan sejauh d km diberi oleh T = ${m}d + ${c}.	The fare of a taxi, RMT, for a journey of d km is given by T = ${m}d + ${c}.
+tambang bertambah RM${m} bagi setiap kilometer	the fare increases by RM${m} for every kilometre
+caj permulaan sebanyak RM${c}	a starting charge of RM${c}
+T ialah tambang (RM) dan d ialah jarak (km)	T is the fare (RM) and d is the distance (km)
+Hitung tambang bagi perjalanan sejauh ${x} km.	Calculate the fare for a journey of ${x} km.
+Berapa jauhkah perjalanan jika tambangnya RM${y}?	How far is the journey if the fare is RM${y}?
+Tambang teksi bagi perjalanan ${x1} km ialah RM${y1} dan bagi perjalanan ${x2} km ialah RM${y2}.	The taxi fare for a journey of ${x1} km is RM${y1} and for a journey of ${x2} km is RM${y2}.
+Berapakah caj permulaan tambang teksi itu?	What is the starting charge of the taxi fare?
+minggu	weeks
+Simpanan Aina, RMS, selepas n minggu diberi oleh S = ${m}n + ${c}.	Aina's savings, RMS, after n weeks are given by S = ${m}n + ${c}.
+simpanan bertambah RM${m} setiap minggu	the savings increase by RM${m} every week
+simpanan awal sebanyak RM${c}	initial savings of RM${c}
+S ialah simpanan (RM) dan n ialah bilangan minggu	S is the savings (RM) and n is the number of weeks
+Berapakah simpanan Aina selepas ${x} minggu?	How much are Aina's savings after ${x} weeks?
+Selepas berapa minggukah simpanan Aina menjadi RM${y}?	After how many weeks will Aina's savings be RM${y}?
+Simpanan Aina selepas ${x1} minggu ialah RM${y1} dan selepas ${x2} minggu ialah RM${y2}.	Aina's savings after ${x1} weeks are RM${y1} and after ${x2} weeks are RM${y2}.
+Berapakah simpanan awal Aina?	What are Aina's initial savings?
+Tinggi sepohon anak pokok, h cm, selepas w minggu diberi oleh h = ${m}w + ${c}.	The height of a young plant, h cm, after w weeks is given by h = ${m}w + ${c}.
+pokok itu bertambah tinggi ${m} cm setiap minggu	the plant grows ${m} cm taller every week
+tinggi asal pokok itu ${c} cm	the original height of the plant is ${c} cm
+h ialah tinggi pokok (cm) dan w ialah bilangan minggu	h is the height of the plant (cm) and w is the number of weeks
+Berapakah tinggi pokok itu selepas ${x} minggu?	What is the height of the plant after ${x} weeks?
+Selepas berapa minggukah tinggi pokok itu ${y} cm?	After how many weeks will the height of the plant be ${y} cm?
+Tinggi sepohon anak pokok selepas ${x1} minggu ialah ${y1} cm dan selepas ${x2} minggu ialah ${y2} cm.	The height of a young plant after ${x1} weeks is ${y1} cm and after ${x2} weeks is ${y2} cm.
+Berapakah tinggi asal anak pokok itu?	What is the original height of the young plant?
+Panjang sebatang lilin yang menyala, H cm, selepas t jam diberi oleh H = ${c} − ${m}t.	The length of a burning candle, H cm, after t hours is given by H = ${c} − ${m}t.
+panjang lilin berkurang ${m} cm setiap jam	the length of the candle decreases by ${m} cm every hour
+panjang asal lilin itu ${c} cm	the original length of the candle is ${c} cm
+H ialah panjang lilin (cm) dan t ialah masa (jam)	H is the length of the candle (cm) and t is the time (hours)
+Berapakah panjang lilin itu selepas ${x} jam?	What is the length of the candle after ${x} hours?
+Selepas berapa jamkah panjang lilin itu tinggal ${y} cm?	After how many hours will the length of the candle be ${y} cm?
+Sebatang lilin dinyalakan. Panjangnya selepas ${x1} jam ialah ${y1} cm dan selepas ${x2} jam ialah ${y2} cm.	A candle is lit. Its length after ${x1} hours is ${y1} cm and after ${x2} hours is ${y2} cm.
+Berapakah panjang asal lilin itu?	What is the original length of the candle?
+${v} liter	${v} litres
+minit	minutes
+Isi padu air dalam sebuah tangki, V liter, selepas t minit air dialirkan keluar diberi oleh V = ${c} − ${m}t.	The volume of water in a tank, V litres, t minutes after the water is drained out is given by V = ${c} − ${m}t.
+isi padu air berkurang ${m} liter setiap minit	the volume of water decreases by ${m} litres every minute
+isi padu awal air ialah ${c} liter	the initial volume of water is ${c} litres
+V ialah isi padu air (liter) dan t ialah masa (minit)	V is the volume of water (litres) and t is the time (minutes)
+Berapakah isi padu air selepas ${x} minit?	What is the volume of water after ${x} minutes?
+Selepas berapa minitkah isi padu air tinggal ${y} liter?	After how many minutes will the volume of water be ${y} litres?
+Air dialirkan keluar daripada sebuah tangki pada kadar tetap. Isi padu air selepas ${x1} minit ialah ${y1} liter dan selepas ${x2} minit ialah ${y2} liter.	Water is drained out of a tank at a constant rate. The volume of water after ${x1} minutes is ${y1} litres and after ${x2} minutes is ${y2} litres.
+Berapakah isi padu awal air dalam tangki itu?	What is the initial volume of water in the tank?
+Kecerunan ${fmt(M)}: ${C.mm(m)}; pintasan-${C.Y} ${c}: ${C.cm(c)}	Gradient ${fmt(M)}: ${C.mm(m)}; ${C.Y}-intercept ${c}: ${C.cm(c)}
+Bandingkan ${E} dengan y = mx + c.	Compare ${E} with y = mx + c.
+m = ${fmt(M)} ialah kadar perubahan ${C.Y} bagi setiap ${C.xu}.	m = ${fmt(M)} is the rate of change of ${C.Y} for each unit of ${C.X}.
+c = ${c} ialah nilai ${C.Y} apabila ${C.X} = 0 (nilai awal).	c = ${c} is the value of ${C.Y} when ${C.X} = 0 (the initial value).
+Gantikan ${C.X} = ${x}: ${C.Y} = ${rhs}	Substitute ${C.X} = ${x}: ${C.Y} = ${rhs}
+Gantikan ${C.Y} = ${y}: ${y} = ${M < 0 ? `${c} − ${m}${C.X}` : `${m}${C.X} + ${c}`}	Substitute ${C.Y} = ${y}: ${y} = ${M < 0 ? `${c} − ${m}${C.X}` : `${m}${C.X} + ${c}`}
+Apabila ${C.X} = ${x}, ${C.Y} = ${rhs} = ___	When ${C.X} = ${x}, ${C.Y} = ${rhs} = ___
+Apabila ${C.Y} = ${y}, ${y} = ${M < 0 ? `${c} − ${m}${C.X}` : `${m}${C.X} + ${c}`}, maka ${C.X} = ___	When ${C.Y} = ${y}, ${y} = ${M < 0 ? `${c} − ${m}${C.X}` : `${m}${C.X} + ${c}`}, thus ${C.X} = ___
+Cari nilai ${C.Y} apabila ${C.X} = ${x3}.	Find the value of ${C.Y} when ${C.X} = ${x3}.
+kunjungan	visits
+Gim A mengenakan yuran keahlian RM${f} dan RM${p} bagi setiap kunjungan.	Gym A charges a membership fee of RM${f} and RM${p} for every visit.
+Gim B mengenakan RM${q} bagi setiap kunjungan tanpa yuran keahlian.	Gym B charges RM${q} for every visit without a membership fee.
+keping	shirts
+Kedai A mengenakan caj reka bentuk RM${f} dan RM${p} bagi setiap keping baju yang dicetak.	Shop A charges a design fee of RM${f} and RM${p} for every shirt printed.
+Kedai B mengenakan RM${q} bagi setiap keping baju tanpa caj reka bentuk.	Shop B charges RM${q} for every shirt without a design fee.
+hari	days
+Syarikat A mengenakan deposit tidak dipulangkan RM${f} dan RM${p} sehari untuk sewa kereta.	Company A charges a non-refundable deposit of RM${f} and RM${p} a day to rent a car.
+Syarikat B mengenakan RM${q} sehari tanpa deposit.	Company B charges RM${q} a day without a deposit.
+Sama kos: ${q}${Pn.X} = ${p}${Pn.X} + ${f} → ${q - p}${Pn.X} = ${f} → ${Pn.X} = ${n0}	Same cost: ${q}${Pn.X} = ${p}${Pn.X} + ${f} → ${q - p}${Pn.X} = ${f} → ${Pn.X} = ${n0}
+Pilihan ${murah} (A: RM${A}, B: RM${B})	Option ${murah} (A: RM${A}, B: RM${B})
+Pilihan ${murah} lebih murah.	Option ${murah} is cheaper.
+(${n0}, ${K0}): kos kedua-dua pilihan sama, iaitu RM${K0} bagi ${n0} ${Pn.xu}	(${n0}, ${K0}): the cost of both options is the same, that is RM${K0} for ${n0} ${Pn.xu}
+${n0} ${Pn.xu} (kos RM${K0})	${n0} ${Pn.xu} (cost RM${K0})
+${C.dat(x1, y1, x2, y2)} Hubungan antara ${C.Y} dan ${C.X} ialah linear. (a) Tulis persamaan ${C.Y} dalam sebutan ${C.X}. (b) Nyatakan maksud kecerunan. (c) Selepas berapa ${C.xu}kah ${C.nm === 'lilin' ? 'lilin itu habis terbakar' : 'tangki itu kosong'}?	${C.dat(x1, y1, x2, y2)} The relationship between ${C.Y} and ${C.X} is linear. (a) Write the equation of ${C.Y} in terms of ${C.X}. (b) State the meaning of the gradient. (c) After how many ${C.xu} will ${C.nm === 'lilin' ? 'the candle burn out completely' : 'the tank be empty'}?
+(b) Kecerunan −${m}: ${C.mm(m)}	(b) Gradient −${m}: ${C.mm(m)}
+${d.desc} (a) Tulis persamaan jumlah bayaran, RMK, bagi setiap pilihan dalam sebutan ${d.Pn.X}, bilangan ${d.Pn.xu}. (b) Cari nilai ${d.Pn.X} apabila jumlah bayaran kedua-dua pilihan adalah sama. (c) Pilihan manakah lebih murah bagi ${lo} ${d.Pn.xu} dan bagi ${hi} ${d.Pn.xu}?	${d.desc} (a) Write the equation of the total payment, RMK, for each option in terms of ${d.Pn.X}, the number of ${d.Pn.xu}. (b) Find the value of ${d.Pn.X} when the total payments of both options are the same. (c) Which option is cheaper for ${lo} ${d.Pn.xu} and for ${hi} ${d.Pn.xu}?
+(c) ${lo}: A = RM${d.p * lo + d.f}, B = RM${d.q * lo} → B lebih murah	(c) ${lo}: A = RM${d.p * lo + d.f}, B = RM${d.q * lo} → B is cheaper
+${hi}: A = RM${d.p * hi + d.f}, B = RM${d.q * hi} → A lebih murah	${hi}: A = RM${d.p * hi + d.f}, B = RM${d.q * hi} → A is cheaper
+Lilin P sepanjang ${L1} cm terbakar ${r1} cm setiap jam. Lilin Q sepanjang ${L2} cm terbakar ${r2} cm setiap jam. Kedua-dua lilin dinyalakan serentak. (a) Tulis persamaan panjang, H cm, bagi setiap lilin selepas t jam. (b) Selepas berapa jamkah kedua-dua lilin sama panjang? (c) Berapakah panjang itu?	Candle P of length ${L1} cm burns ${r1} cm every hour. Candle Q of length ${L2} cm burns ${r2} cm every hour. Both candles are lit at the same time. (a) Write the equation of the length, H cm, of each candle after t hours. (b) After how many hours will both candles be of the same length? (c) What is the length?
+(a) P: H = ${L1} − ${r1}t, Q: H = ${L2} − ${r2}t (b) ${t0} jam (c) ${H0} cm	(a) P: H = ${L1} − ${r1}t, Q: H = ${L2} − ${r2}t (b) ${t0} hours (c) ${H0} cm
+Apakah kecerunan garis lurus <b>${E}</b>?	What is the gradient of the straight line <b>${E}</b>?
+Apakah pintasan-y garis lurus <b>${E}</b>?	What is the y-intercept of the straight line <b>${E}</b>?
+Persamaan garis lurus yang melalui ${P(h, k)} dan selari dengan paksi-${hor ? 'x' : 'y'} ialah	The equation of the straight line that passes through ${P(h, k)} and is parallel to the ${hor ? 'x' : 'y'}-axis is
+Garis lurus dengan kecerunan ${glS(m)} dan pintasan-y ${fmt(c)} ialah	The straight line with a gradient of ${glS(m)} and a y-intercept of ${fmt(c)} is
+Apakah kecerunan garis lurus <b>${K}y = ${glRhs(glMul(m, K), K * c)}</b>?	What is the gradient of the straight line <b>${K}y = ${glRhs(glMul(m, K), K * c)}</b>?
+Apakah kecerunan garis lurus <b>${glAm(a, b, c)}</b>?	What is the gradient of the straight line <b>${glAm(a, b, c)}</b>?
+Apakah pintasan-${asx ? 'x' : 'y'} bagi garis lurus <b>${glPin(a, b)}</b>?	What is the ${asx ? 'x' : 'y'}-intercept of the straight line <b>${glPin(a, b)}</b>?
+Apakah pintasan-${asx ? 'x' : 'y'} bagi garis lurus <b>${d.G}</b>?	What is the ${asx ? 'x' : 'y'}-intercept of the straight line <b>${d.G}</b>?
+Titik manakah terletak pada garis lurus <b>${glEq(m, c)}</b>?	Which point lies on the straight line <b>${glEq(m, c)}</b>?
+Titik (${fmt(x)}, k) terletak pada garis lurus <b>${glEq(m, c)}</b>. Cari nilai k.	Point (${fmt(x)}, k) lies on the straight line <b>${glEq(m, c)}</b>. Find the value of k.
+Garis lurus <b>y = px${glK(c)}</b> melalui titik ${P(x, y)}. Cari nilai p.	The straight line <b>y = px${glK(c)}</b> passes through point ${P(x, y)}. Find the value of p.
+Garis lurus PQ selari dengan <b>${F.G}</b>. Apakah kecerunan PQ?	The straight line PQ is parallel to <b>${F.G}</b>. What is the gradient of PQ?
+Persamaan manakah mewakili garis lurus yang <b>selari</b> dengan <b>${glEq(m, c)}</b>?	Which equation represents a straight line that is <b>parallel</b> to <b>${glEq(m, c)}</b>?
+Garis lurus <b>kx ${b < 0 ? '−' : '+'} ${Math.abs(b)}y = ${fmt(b * c)}</b> selari dengan <b>${glEq(m, c + 1)}</b>. Cari nilai k.	The straight line <b>kx ${b < 0 ? '−' : '+'} ${Math.abs(b)}y = ${fmt(b * c)}</b> is parallel to <b>${glEq(m, c + 1)}</b>. Find the value of k.
+Persamaan garis lurus dengan kecerunan ${glS(m)} yang melalui ${P(x, y)} ialah	The equation of the straight line with a gradient of ${glS(m)} that passes through ${P(x, y)} is
+Persamaan garis lurus yang melalui ${P(x1, y1)} dan ${P(x2, y2)} ialah	The equation of the straight line that passes through ${P(x1, y1)} and ${P(x2, y2)} is
+Berdasarkan rajah, apakah persamaan garis lurus ini?	Based on the diagram, what is the equation of this straight line?
+Titik persilangan garis lurus <b>${glEq(m, c)}</b> dan <b>x = ${fmt(x0)}</b> ialah	The point of intersection of the straight lines <b>${glEq(m, c)}</b> and <b>x = ${fmt(x0)}</b> is
+Dua garis lurus	Two straight lines
+Titik persilangan garis lurus <b>${glEq(d.m1, d.c1)}</b> dan <b>${glEq(d.m2, d.c2)}</b> ialah	The point of intersection of the straight lines <b>${glEq(d.m1, d.c1)}</b> and <b>${glEq(d.m2, d.c2)}</b> is
+Berdasarkan rajah, apakah koordinat titik persilangan dua garis lurus ini?	Based on the diagram, what are the coordinates of the point of intersection of these two straight lines?
+${g.C.d(g.m, g.c)} Apakah maksud nilai <b>${g.c}</b>?	${g.C.d(g.m, g.c)} What is the meaning of the value <b>${g.c}</b>?
+jumlah selepas ${g.c} ${g.C.xu}	the total after ${g.c} ${g.C.xu}
+kadar perubahan ${g.c} bagi setiap ${g.C.xu}	a rate of change of ${g.c} for each unit
+nilai selepas ${k} ${g.C.xu}	the value after ${k} ${g.C.xu}
+${d.desc} Selepas berapa ${d.Pn.xu} jumlah bayaran kedua-dua pilihan sama?	${d.desc} After how many ${d.Pn.xu} will the total payments of both options be the same?
+Bentuk persamaan	Forms of equations
+Titik pada garis	Points on a line
+Garis selari	Parallel lines
+Cari persamaan	Find the equation
+Penyelesaian masalah	Problem solving

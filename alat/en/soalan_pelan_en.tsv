@@ -1,0 +1,229 @@
+ dan 	 and 
+satah mengufuk	horizontal plane
+satah mencancang	vertical plane
+Pepejal yang dibina daripada kiub	A solid built from cubes
+Lukisan pandangan	Drawing of a view
+Pepejal dan beberapa lukisan pandangan	A solid and several drawings of its views
+Pepejal dan lukisan jawapan pada grid	A solid and the answer drawing on a grid
+Pepejal dan grid untuk melukis	A solid and a grid for drawing
+Pelan	Plan
+depan ↓	front ↓
+Baji dengan muka condong	A wedge with an inclined face
+unjuran ortogon objek pada satah mengufuk	the orthogonal projection of an object on a horizontal plane
+Pelan ialah unjuran ortogon pada satah mengufuk (dilihat dari atas).	A plan is the orthogonal projection on a horizontal plane (viewed from above).
+unjuran ortogon objek pada satah mencancang apabila dilihat dari depan	the orthogonal projection of an object on a vertical plane when viewed from the front
+Dongakan depan	Front elevation
+Dongakan depan ialah unjuran pada satah mencancang dilihat dari depan.	A front elevation is the projection on a vertical plane viewed from the front.
+unjuran ortogon objek pada satah mencancang apabila dilihat dari sisi	the orthogonal projection of an object on a vertical plane when viewed from the side
+Dongakan sisi	Side elevation
+Dongakan sisi ialah unjuran pada satah mencancang dilihat dari sisi.	A side elevation is the projection on a vertical plane viewed from the side.
+garis yang menyambungkan titik pada objek dengan imejnya dan berserenjang dengan satah	a line that connects a point on an object to its image and is perpendicular to the plane
+Garis unjuran	Projection line
+Garis unjuran berserenjang dengan satah unjuran.	A projection line is perpendicular to the plane of projection.
+permukaan rata tempat imej sesuatu objek terbentuk	the flat surface on which the image of an object is formed
+Satah unjuran	Plane of projection
+Imej terbentuk pada satah unjuran.	The image is formed on the plane of projection.
+jenis garis yang digunakan untuk melukis tepi yang tersembunyi	the type of line used to draw hidden edges
+Garis putus-putus	Dashed line
+Tepi yang tidak kelihatan dilukis dengan garis putus-putus.	Edges that cannot be seen are drawn with dashed lines.
+Unjuran ortogon: garis unjuran bersudut 90° dengan satah.	Orthogonal projection: the projection lines form 90° with the plane.
+Semua garis unjuran selari antara satu sama lain.	All projection lines are parallel to one another.
+Garis unjuran berserenjang dengan satah yang sama, maka selari.	The projection lines are perpendicular to the same plane, thus they are parallel.
+Pelan ialah unjuran ortogon pada satah mencancang.	A plan is the orthogonal projection on a vertical plane.
+Pelan ialah unjuran pada satah mengufuk. Dongakan dilukis pada satah mencancang.	A plan is the projection on a horizontal plane. Elevations are drawn on a vertical plane.
+Tepi yang tersembunyi dilukis dengan garis putus-putus.	Hidden edges are drawn with dashed lines.
+Garis putus-putus menunjukkan tepi yang terlindung.	Dashed lines show the hidden edges.
+Panjang imej sesuatu tepi condong sama dengan panjang sebenar tepi itu.	The length of the image of an inclined edge is equal to the actual length of the edge.
+Tepi yang condong kepada satah menghasilkan imej yang lebih pendek.	An edge that is inclined to the plane produces a shorter image.
+Muka objek yang selari dengan satah unjuran mempunyai imej yang sama bentuk dan sama saiz.	A face of an object that is parallel to the plane of projection has an image of the same shape and the same size.
+Muka yang selari dengan satah diunjurkan dengan saiz sebenar.	A face parallel to the plane is projected in its actual size.
+Unjuran ortogon sebuah kubus pada satah mengufuk ialah segi tiga.	The orthogonal projection of a cube on a horizontal plane is a triangle.
+Pelan sebuah kubus ialah segi empat sama.	The plan of a cube is a square.
+Dongakan sisi ialah pandangan objek dari atas.	A side elevation is the view of an object from above.
+Pandangan dari atas ialah pelan. Dongakan sisi dilihat dari sisi.	The view from above is the plan. A side elevation is viewed from the side.
+Tepi yang berserenjang dengan satah unjuran kelihatan sebagai satu titik pada imejnya.	An edge that is perpendicular to the plane of projection appears as a point in its image.
+Garis unjuran bagi semua titik pada tepi itu bertemu di satu titik pada satah.	The projection lines of all the points on the edge meet at one point on the plane.
+Sudut di antara garis unjuran dengan satah unjuran ialah 45°.	The angle between the projection lines and the plane of projection is 45°.
+Sudut itu ialah 90° kerana garis unjuran berserenjang dengan satah.	The angle is 90° because the projection lines are perpendicular to the plane.
+Panjang imej sesuatu tepi tidak melebihi panjang sebenar tepi itu.	The length of the image of an edge does not exceed the actual length of the edge.
+Imej sama panjang (tepi selari dengan satah) atau lebih pendek (tepi condong).	The image is of the same length (edge parallel to the plane) or shorter (inclined edge).
+kubus	cube
+Segi empat sama	Square
+kuboid berukuran 8 cm × 5 cm × 3 cm (tinggi 3 cm)	cuboid measuring 8 cm × 5 cm × 3 cm (height 3 cm)
+Segi empat tepat	Rectangle
+silinder tegak yang tingginya lebih besar daripada diameternya	right cylinder whose height is greater than its diameter
+Bulatan	Circle
+kon tegak	right cone
+Bulatan dengan titik di pusat	Circle with a dot at the centre
+Segi tiga sama kaki	Isosceles triangle
+piramid tegak bertapak segi empat sama	right pyramid with a square base
+Segi empat sama dengan dua pepenjuru	Square with two diagonals
+sfera	sphere
+hemisfera dengan muka rata di bawah	hemisphere with its flat face at the bottom
+Semibulatan	Semicircle
+Trapezium	Trapezium
+Apakah nama bagi ${d}?	What is the name of ${d}?
+Lengkapkan: ___ ialah ${d}.	Complete: ___ is ${d}.
+Nyatakan istilah yang betul bagi ${d}.	State the correct term for ${d}.
+${N} sedang menulis nota. Bantu ${N} menamakan ${d}.	${N} is writing notes. Help ${N} name ${d}.
+Nyatakan sama ada pernyataan berikut betul atau salah: "${s}"	State whether the following statement is true or false: "${s}"
+Betul	True
+Salah	False
+Betul atau salah? ${s}	True or false? ${s}
+${N} berkata, "${s}" Adakah ${N} betul?	${N} says, "${s}" Is ${N} correct?
+Ya, ${N} betul	Yes, ${N} is correct
+Tidak, ${N} tidak betul	No, ${N} is not correct
+Rajah di bawah menunjukkan sebuah pepejal dengan tiga arah pandangan. Arah manakah memberikan ${PDVN[v]} pepejal itu?	The diagram below shows a solid with three viewing directions. Which direction gives the ${PDVN[v]} of the solid?
+Unjuran ortogon pepejal di bawah pada ${PDSATAH[v]} dilihat dari ${PDARAH[v]} ialah ${PDVN[v]}. Nyatakan huruf arah pandangan itu.	The orthogonal projection of the solid below on a ${PDSATAH[v]} viewed from ${PDARAH[v]} is the ${PDVN[v]}. State the letter of the viewing direction.
+Berdasarkan rajah di bawah, namakan unjuran ortogon pepejal itu apabila dilihat dari arah ${lab}.	Based on the diagram below, name the orthogonal projection of the solid when viewed from direction ${lab}.
+Pepejal di bawah dilihat dari arah ${lab}. Apakah nama lukisan yang terhasil dan pada satah apakah ia diunjurkan?	The solid below is viewed from direction ${lab}. What is the name of the drawing produced and on which plane is it projected?
+${vcap(PDVN[v])}, pada ${PDSATAH[v]}	${vcap(PDVN[v])}, on a ${PDSATAH[v]}
+Apakah bentuk ${PDVN[v]} bagi sebuah ${nm}?	What is the shape of the ${PDVN[v]} of a ${nm}?
+Sebuah ${nm} diunjurkan secara ortogon pada ${PDSATAH[v]} (dilihat dari ${PDARAH[v]}). Nyatakan bentuk imejnya.	A ${nm} is projected orthogonally on a ${PDSATAH[v]} (viewed from ${PDARAH[v]}). State the shape of its image.
+Lukisan ${PDVN[v]} bagi sebuah ${nm} berbentuk apa?	What is the shape of the ${PDVN[v]} drawing of a ${nm}?
+${N} berkata ${PDVN[v]} bagi sebuah ${nm} ialah ${wrong.toLowerCase()}. Adakah ${N} betul?	${N} says the ${PDVN[v]} of a ${nm} is a ${wrong.toLowerCase()}. Is ${N} correct?
+${vcap(PDVN[v])} ialah unjuran dari ${PDARAH[v]}.	The ${PDVN[v]} is the projection viewed from ${PDARAH[v]}.
+Antara lukisan A, B dan C, yang manakah unjuran ortogon pepejal itu pada ${PDSATAH[v]} apabila dilihat dari arah ${lab}?	Among drawings A, B and C, which is the orthogonal projection of the solid on a ${PDSATAH[v]} when viewed from direction ${lab}?
+Pilih lukisan (A, B atau C) yang menunjukkan ${PDVN[v]} pepejal di sebelah kiri.	Choose the drawing (A, B or C) that shows the ${PDVN[v]} of the solid on the left.
+Pepejal di bawah dilihat dari arah ${lab}. Lukisan manakah, A, B atau C, ialah imejnya?	The solid below is viewed from direction ${lab}. Which drawing, A, B or C, is its image?
+${N} memilih lukisan ${wrong} sebagai unjuran ortogon pepejal itu dilihat dari arah ${lab}. Adakah ${N} betul?	${N} chooses drawing ${wrong} as the orthogonal projection of the solid viewed from direction ${lab}. Is ${N} correct?
+Bayangkan pepejal dilihat tepat dari arah ${lab}, dengan garis unjuran berserenjang dengan satah.	Imagine the solid viewed exactly from direction ${lab}, with the projection lines perpendicular to the plane.
+Rajah di bawah menunjukkan sebuah baji dengan tinggi ${a} cm dan sisi condong ${L1}${L2} = ${c} cm. Hitung panjang imej ${L1}${L2} pada ${plane}.	The diagram below shows a wedge with a height of ${a} cm and an inclined side ${L1}${L2} = ${c} cm. Calculate the length of the image of ${L1}${L2} on the ${plane}.
+Tepi condong ${L1}${L2} sebuah baji berukuran ${c} cm. Hujung ${L1} berada ${a} cm di atas hujung ${L2}. Cari panjang unjuran ortogon ${L1}${L2} pada ${plane}.	The inclined edge ${L1}${L2} of a wedge measures ${c} cm. End ${L1} is ${a} cm above end ${L2}. Find the length of the orthogonal projection of ${L1}${L2} on the ${plane}.
+Sebatang papan ${L1}${L2} sepanjang ${c} cm disandarkan sehingga hujung ${L1} berada ${a} cm lebih tinggi daripada hujung ${L2}. Berapakah panjang imej papan itu pada ${plane}?	A plank ${L1}${L2} of length ${c} cm is leaned so that end ${L1} is ${a} cm higher than end ${L2}. What is the length of the image of the plank on the ${plane}?
+Imej tepi condong ${L1}${L2} pada satah mengufuk ialah ${b} cm. Jika ${L1} berada ${a} cm di atas ${L2}, hitung panjang sebenar ${L1}${L2}.	The image of the inclined edge ${L1}${L2} on a horizontal plane is ${b} cm. If ${L1} is ${a} cm above ${L2}, calculate the actual length of ${L1}${L2}.
+Rajah di bawah menunjukkan sebuah baji. Pada pelannya, ${L1}${L2} kelihatan sepanjang ${b} cm. Tinggi baji ialah ${a} cm. Cari panjang sebenar ${L1}${L2}.	The diagram below shows a wedge. In its plan, ${L1}${L2} appears ${b} cm long. The height of the wedge is ${a} cm. Find the actual length of ${L1}${L2}.
+Pelan sebuah baji menunjukkan ${L1}${L2} = ${b} cm, dan tinggi baji ialah ${a} cm. ${N} berkata panjang sebenar ${L1}${L2} juga ${b} cm. Adakah ${N} betul?	The plan of a wedge shows ${L1}${L2} = ${b} cm, and the height of the wedge is ${a} cm. ${N} says the actual length of ${L1}${L2} is also ${b} cm. Is ${N} correct?
+${L1}${L2} condong kepada satah mengufuk, jadi panjang sebenarnya lebih panjang daripada imejnya.	${L1}${L2} is inclined to the horizontal plane, so its actual length is longer than its image.
+Pepejal di bawah dibina daripada kiub bersisi ${s} cm. Hitung luas unjuran ortogonnya pada ${PDSATAH[v]} dilihat dari ${PDARAH[v]}.	The solid below is built from cubes with sides of ${s} cm. Calculate the area of its orthogonal projection on a ${PDSATAH[v]} viewed from ${PDARAH[v]}.
+Setiap kiub dalam pepejal di bawah bersisi ${s} cm. Cari luas ${PDVN[v]} pepejal itu.	Each cube in the solid below has sides of ${s} cm. Find the area of the ${PDVN[v]} of the solid.
+Pepejal kiub di bawah (sisi kiub ${s} cm) dilihat dari ${PDARAH[v]}. Berapakah luas imej yang terbentuk?	The solid of cubes below (sides of ${s} cm) is viewed from ${PDARAH[v]}. What is the area of the image formed?
+(a) Imej ${w.L1}${w.L2} = ${rt(`${w.c}² − ${w.a}²`)} = ${rt(w.c * w.c - w.a * w.a)} = ${w.b} cm	(a) Image of ${w.L1}${w.L2} = ${rt(`${w.c}² − ${w.a}²`)} = ${rt(w.c * w.c - w.a * w.a)} = ${w.b} cm
+(b) Luas sebenar = ${w.c} × ${w.l} = ${w.c * w.l} cm²	(b) Actual area = ${w.c} × ${w.l} = ${w.c * w.l} cm²
+Luas imej = ${w.b} × ${w.l} = ${w.b * w.l} cm²	Area of image = ${w.b} × ${w.l} = ${w.b * w.l} cm²
+(c) Beza = ${w.c * w.l} − ${w.b * w.l} = ${w.c * w.l - w.b * w.l} cm²	(c) Difference = ${w.c * w.l} − ${w.b * w.l} = ${w.c * w.l - w.b * w.l} cm²
+(a) Lebar imej = ${rt(`${w.c}² − ${w.a}²`)} = ${rt(w.c * w.c - w.a * w.a)} = ${w.b} m	(a) Width of image = ${rt(`${w.c}² − ${w.a}²`)} = ${rt(w.c * w.c - w.a * w.a)} = ${w.b} m
+(b) Luas sebenar = ${w.c} × ${w.l} = ${w.c * w.l} m²	(b) Actual area = ${w.c} × ${w.l} = ${w.c * w.l} m²
+(c) Luas pelan = ${w.b} × ${w.l} = ${w.b * w.l} m²	(c) Area of plan = ${w.b} × ${w.l} = ${w.b * w.l} m²
+Rajah di bawah menunjukkan sebuah pepejal yang dibina daripada kiub. Antara A, B dan C, yang manakah ${PDVN[v]} pepejal itu${v === 'pelan' ? '' : ` dilihat dari arah ${lab}`}?	The diagram below shows a solid built from cubes. Among A, B and C, which is the ${PDVN[v]} of the solid${v === 'pelan' ? '' : ` viewed from direction ${lab}`}?
+Pilih lukisan yang betul bagi ${PDVN[v]} pepejal di bawah.	Choose the correct drawing of the ${PDVN[v]} of the solid below.
+Lukisan manakah, A, B atau C, menunjukkan pepejal di bawah apabila dilihat dari ${v === 'pelan' ? 'atas' : `arah ${lab}`}?	Which drawing, A, B or C, shows the solid below when viewed from ${v === 'pelan' ? 'above' : `direction ${lab}`}?
+${N} berkata lukisan ${wrong} ialah ${PDVN[v]} pepejal di bawah. Adakah ${N} betul?	${N} says drawing ${wrong} is the ${PDVN[v]} of the solid below. Is ${N} correct?
+Bandingkan setiap lajur dan aras pepejal dengan lukisan, termasuk garis putus-putus.	Compare each column and level of the solid with the drawing, including the dashed lines.
+Lukisan di sebelah kanan ialah satu pandangan pepejal di sebelah kiri. Adakah lukisan itu pelan, dongakan depan atau dongakan sisi?	The drawing on the right is a view of the solid on the left. Is the drawing a plan, a front elevation or a side elevation?
+Namakan pandangan pepejal yang ditunjukkan oleh lukisan di sebelah kanan.	Name the view of the solid shown by the drawing on the right.
+Dari arah manakah pepejal di bawah dilihat untuk menghasilkan lukisan di sebelah kanan? Namakan lukisan itu.	From which direction is the solid below viewed to produce the drawing on the right? Name the drawing.
+${N} melukis satu pandangan pepejal seperti di sebelah kanan. Pandangan apakah yang dilukis oleh ${N}?	${N} draws a view of the solid as shown on the right. Which view did ${N} draw?
+Rajah di bawah ialah pelan sebuah pepejal. Nombor dalam setiap petak ialah bilangan kiub yang disusun dalam lajur itu. Berapakah bilangan kiub dalam pepejal itu?	The diagram below is the plan of a solid. The number in each square is the number of cubes stacked in that column. How many cubes are there in the solid?
+Sebuah pepejal dibina daripada kiub yang sama saiz mengikut pelan bernombor di bawah. Hitung jumlah kiub yang digunakan.	A solid is built from cubes of the same size according to the numbered plan below. Calculate the total number of cubes used.
+${N} membina sebuah model dengan kiub mengikut pelan di bawah. Berapakah kiub yang diperlukan oleh ${N}?	${N} builds a model with cubes according to the plan below. How many cubes does ${N} need?
+Pelan bernombor di bawah menunjukkan tinggi setiap lajur kiub. Nyatakan bilangan kiub dalam pepejal itu dan tinggi lajur yang paling tinggi.	The numbered plan below shows the height of each column of cubes. State the number of cubes in the solid and the height of the tallest column.
+Pada grid segi empat sama bersisi 1 cm, lukis ${PDVN[v]} pepejal di bawah ${v === 'pelan' ? '' : `(dilihat dari arah ${lab}) `}dengan skala penuh. Sisi setiap kiub ialah 1 cm.	On a square grid with sides of 1 cm, draw the ${PDVN[v]} of the solid below ${v === 'pelan' ? '' : `(viewed from direction ${lab}) `}to full scale. The side of each cube is 1 cm.
+Pepejal di bawah dibina daripada kiub bersisi 1 cm. Lukis dengan skala penuh ${PDVN[v]}nya${v === 'pelan' ? '' : ` apabila dilihat dari ${lab}`}.	The solid below is built from cubes with sides of 1 cm. Draw to full scale its ${PDVN[v]}${v === 'pelan' ? '' : ` when viewed from ${lab}`}.
+Lukis unjuran ortogon pepejal di bawah pada ${PDSATAH[v]} ${v === 'pelan' ? 'dilihat dari atas' : `dilihat dari arah ${lab}`}. Gunakan grid yang diberi (1 petak = 1 cm).	Draw the orthogonal projection of the solid below on a ${PDSATAH[v]} ${v === 'pelan' ? 'viewed from above' : `viewed from direction ${lab}`}. Use the grid given (1 square = 1 cm).
+Dengan skala penuh, lukis ${PDVN[v]} bagi pepejal kiub (sisi 1 cm) di bawah${v === 'pelan' ? '' : `, dilihat dari arah ${lab}`}. Tunjukkan tepi tersembunyi, jika ada.	Draw to full scale the ${PDVN[v]} of the solid of cubes (sides of 1 cm) below${v === 'pelan' ? '' : `, viewed from direction ${lab}`}. Show the hidden edges, if any.
+Pepejal di bawah dibina daripada kiub bersisi ${s} cm. Hitung luas ${PDVN[v]} pepejal itu.	The solid below is built from cubes with sides of ${s} cm. Calculate the area of the ${PDVN[v]} of the solid.
+Setiap kiub dalam pepejal di bawah bersisi ${s} cm. Cari perimeter ${PDVN[v]} pepejal itu.	Each cube in the solid below has sides of ${s} cm. Find the perimeter of the ${PDVN[v]} of the solid.
+Sisi setiap kiub ialah ${s} cm. Nyatakan ukuran segi empat tepat terkecil yang dapat memuatkan ${PDVN[v]} pepejal di bawah (lebar × tinggi lukisan).	The side of each cube is ${s} cm. State the measurements of the smallest rectangle that can contain the ${PDVN[v]} of the solid below (width × height of the drawing).
+Berdasarkan pelan bernombor di bawah, nyatakan tinggi (dalam kiub) setiap lajur dongakan depan dari kiri ke kanan.	Based on the numbered plan below, state the height (in cubes) of each column of the front elevation from left to right.
+Pelan di bawah menunjukkan bilangan kiub dalam setiap lajur. Apakah tinggi setiap bahagian dongakan depan, dari kiri ke kanan?	The plan below shows the number of cubes in each column. What is the height of each part of the front elevation, from left to right?
+Sebuah pepejal kiub mempunyai pelan bernombor seperti di bawah. Dongakan depannya terdiri daripada beberapa lajur. Nyatakan tinggi lajur-lajur itu dari kiri ke kanan.	A solid of cubes has a numbered plan as shown below. Its front elevation consists of several columns. State the heights of the columns from left to right.
+Berdasarkan pelan bernombor di bawah, nyatakan tinggi (dalam kiub) setiap lajur dongakan sisi yang dilihat dari kanan, dari depan ke belakang.	Based on the numbered plan below, state the height (in cubes) of each column of the side elevation viewed from the right, from front to back.
+Pepejal kiub dengan pelan bernombor di bawah dilihat dari kanan. Nyatakan tinggi setiap lajur dongakan sisinya, bermula dari bahagian depan.	The solid of cubes with the numbered plan below is viewed from the right. State the height of each column of its side elevation, starting from the front.
+Dongakan sisi (dilihat dari kanan) pepejal di bawah terdiri daripada beberapa lajur. Nyatakan tinggi lajur-lajur itu dari depan ke belakang.	The side elevation (viewed from the right) of the solid below consists of several columns. State the heights of the columns from front to back.
+Rajah di bawah ialah pelan bernombor sebuah pepejal yang dibina daripada kiub bersisi ${s} cm. Cari (a) bilangan kiub, (b) luas dongakan depan, (c) bilangan kiub lagi yang diperlukan untuk menjadikan pepejal itu sebuah kuboid.	The diagram below is the numbered plan of a solid built from cubes with sides of ${s} cm. Find (a) the number of cubes, (b) the area of the front elevation, (c) the number of additional cubes needed to make the solid a cuboid.
+Sebuah model dibina daripada kiub bersisi ${s} cm mengikut pelan bernombor di bawah. Hitung (a) jumlah kiub, (b) luas dongakan depan model itu, (c) bilangan kiub tambahan supaya model itu menjadi kuboid yang setinggi lajur tertinggi.	A model is built from cubes with sides of ${s} cm according to the numbered plan below. Calculate (a) the total number of cubes, (b) the area of the front elevation of the model, (c) the number of additional cubes so that the model becomes a cuboid as high as the tallest column.
+${N} menyusun kiub bersisi ${s} cm mengikut pelan bernombor di bawah. (a) Berapakah kiub yang digunakan? (b) Hitung luas dongakan depan susunan itu. (c) Berapakah kiub lagi yang perlu ditambah supaya susunan itu menjadi kuboid?	${N} arranges cubes with sides of ${s} cm according to the numbered plan below. (a) How many cubes are used? (b) Calculate the area of the front elevation of the arrangement. (c) How many more cubes must be added so that the arrangement becomes a cuboid?
+Pepejal dengan tiga anak panah arah pandangan	A solid with three viewing direction arrows
+Arah ${lab}	Direction ${lab}
+${vcap(PDVN[v])} dilihat dari ${PDARAH[v]}, iaitu unjuran ortogon pada ${PDSATAH[v]}.	The ${PDVN[v]} is viewed from ${PDARAH[v]}, that is the orthogonal projection on a ${PDSATAH[v]}.
+Anak panah ${lab} menghala dari ${PDARAH[v]}.	Arrow ${lab} points from ${PDARAH[v]}.
+Bagi ${nm}, bentuk yang dilihat ialah ${ans.toLowerCase()}.	For a ${nm}, the shape seen is a ${ans.toLowerCase()}.
+Lihat pepejal dari arah ${lab} (${PDARAH[v]}).	View the solid from direction ${lab} (${PDARAH[v]}).
+Lukisan ${ans} menunjukkan bentuk dan garis yang betul.	Drawing ${ans} shows the correct shape and lines.
+${L1}${L2} condong; imejnya pada satah mengufuk ialah jarak mengufuknya.	${L1}${L2} is inclined; its image on the horizontal plane is its horizontal distance.
+Imej ${L1}${L2} = ${rt(`${c}² − ${a}²`)} = ${rt(`${c * c} − ${a * a}`)} = ${rt(b * b)}	Image of ${L1}${L2} = ${rt(`${c}² − ${a}²`)} = ${rt(`${c * c} − ${a * a}`)} = ${rt(b * b)}
+satah mencancang yang selari dengan muka segi tiga baji itu	vertical plane that is parallel to the triangular face of the wedge
+${L1}${L2} terletak pada muka segi tiga yang selari dengan satah mencancang itu.	${L1}${L2} lies on the triangular face that is parallel to the vertical plane.
+Tepi yang selari dengan satah unjuran mempunyai imej yang sama panjang.	An edge that is parallel to the plane of projection has an image of the same length.
+Imej ${L1}${L2} = ${c} cm	Image of ${L1}${L2} = ${c} cm
+Panjang sebenar ${L1}${L2} ialah hipotenus segi tiga bersudut tegak.	The actual length of ${L1}${L2} is the hypotenuse of a right-angled triangle.
+${vcap(PDVN[v])} terdiri daripada ${n} petak segi empat sama.	The ${PDVN[v]} consists of ${n} squares.
+Luas setiap petak = ${s} × ${s} = ${s * s} cm²	Area of each square = ${s} × ${s} = ${s * s} cm²
+Luas = ${n} × ${s * s} = ${A} cm²	Area = ${n} × ${s * s} = ${A} cm²
+(b) Luas sebenar ${L4} = ${w.c} × ${w.l} = ${w.c * w.l} cm²	(b) Actual area of ${L4} = ${w.c} × ${w.l} = ${w.c * w.l} cm²
+(c) ${w.L2}${w.L3} selari dengan satah, jadi imejnya kekal ${w.l} cm.	(c) ${w.L2}${w.L3} is parallel to the plane, so its image remains ${w.l} cm.
+${vcap(PDVN[v])}: pepejal dilihat dari ${PDARAH[v]}.	${vcap(PDVN[v])}: the solid is viewed from ${PDARAH[v]}.
+Semak bilangan petak, aras setiap lajur dan garis putus-putus.	Check the number of squares, the level of each column and the dashed lines.
+Jawapan: lukisan ${ans}.	Answer: drawing ${ans}.
+Pepejal dan satu lukisan pandangannya	A solid and a drawing of one of its views
+dari atas	from above
+dari arah ${lab}	from direction ${lab}
+${vcap(PDVN[v])} (dilihat ${arah})	${vcap(PDVN[v])} (viewed ${arah})
+Bandingkan lukisan dengan pepejal: lukisan itu sepadan dengan pandangan ${arah}.	Compare the drawing with the solid: the drawing matches the view ${arah}.
+Maka lukisan itu ialah ${PDVN[v]}.	Thus the drawing is the ${PDVN[v]}.
+${n} kiub	${n} cubes
+paling tinggi	tallest column
+${n} kiub; lajur tertinggi = ${mx} kiub	${n} cubes; tallest column = ${mx} cubes
+Tambah semua nombor dalam pelan: ${Hm.flat().filter(Boolean).join(' + ')} = ${n}	Add all the numbers in the plan: ${Hm.flat().filter(Boolean).join(' + ')} = ${n}
+${vcap(PDVN[v])}: ${L.w} cm lebar dan ${L.h} cm ${v === 'pelan' ? 'dalam' : 'tinggi'}.	${vcap(PDVN[v])}: ${L.w} cm wide and ${L.h} cm ${v === 'pelan' ? 'deep' : 'high'}.
+Lukis garis penuh bagi tepi yang kelihatan dan setiap perubahan aras.	Draw solid lines for the visible edges and every change of level.
+Ada ${L.hid.length} tepi tersembunyi: lukis dengan garis putus-putus.	There are ${L.hid.length} hidden edges: draw them with dashed lines.
+Rujuk rajah jawapan.	Refer to the answer diagram.
+${vcap(PDVN[v])} mengandungi ${n} petak.	The ${PDVN[v]} consists of ${n} squares.
+Luas = ${n} × ${s}² = ${n} × ${s * s} = ${n * s * s} cm²	Area = ${n} × ${s}² = ${n} × ${s * s} = ${n * s * s} cm²
+Sempadan ${PDVN[v]} terdiri daripada ${pr} sisi kiub.	The boundary of the ${PDVN[v]} consists of ${pr} sides of cubes.
+Perimeter = ${pr} × ${s} = ${pr * s} cm	Perimeter = ${pr} × ${s} = ${pr * s} cm
+${vcap(PDVN[v])}: ${L.w} kiub lebar dan ${L.h} kiub ${v === 'pelan' ? 'dalam' : 'tinggi'}.	${vcap(PDVN[v])}: ${L.w} cubes wide and ${L.h} cubes ${v === 'pelan' ? 'deep' : 'high'}.
+Dilihat dari kanan, setiap baris (depan → belakang) menjadi satu lajur.	Viewed from the right, each row (front → back) becomes a column.
+Baris ${i === 0 ? 'depan' : i === Hm.length - 1 ? 'belakang' : 'tengah'}: tertinggi = maks(${row.join(', ')}) = ${rh[i]}	${i === 0 ? 'Front' : i === Hm.length - 1 ? 'Back' : 'Middle'} row: tallest = max(${row.join(', ')}) = ${rh[i]}
+Dongakan depan menunjukkan lajur paling tinggi dalam setiap lajur (kiri → kanan).	The front elevation shows the tallest column in each column (left → right).
+Lajur ${x + 1}: maks(${Hm.map(row => row[x]).join(', ')}) = ${h}	Column ${x + 1}: max(${Hm.map(row => row[x]).join(', ')}) = ${h}
+(a) ${n} kiub (b) ${fc * s * s} cm² (c) ${tot - n} kiub	(a) ${n} cubes (b) ${fc * s * s} cm² (c) ${tot - n} cubes
+(a) ${Hm.flat().join(' + ')} = ${n} kiub	(a) ${Hm.flat().join(' + ')} = ${n} cubes
+(b) Tinggi lajur dongakan depan: ${ch.join(', ')} → ${fc} petak	(b) Heights of the columns of the front elevation: ${ch.join(', ')} → ${fc} squares
+Luas = ${fc} × ${s}² = ${fc * s * s} cm²	Area = ${fc} × ${s}² = ${fc * s * s} cm²
+(c) Kuboid ${W} × ${D} × ${mx} = ${tot} kiub; tambahan = ${tot} − ${n} = ${tot - n} kiub	(c) Cuboid ${W} × ${D} × ${mx} = ${tot} cubes; additional = ${tot} − ${n} = ${tot - n} cubes
+Imej sesuatu tepi <b>condong</b> pada satah unjuran adalah …	The image of an <b>inclined</b> edge on a plane of projection is …
+Lebih pendek daripada panjang sebenar	Shorter than the actual length
+Sama panjang dengan panjang sebenar	The same length as the actual length
+Lebih panjang daripada panjang sebenar	Longer than the actual length
+Dua kali panjang sebenar	Twice the actual length
+Muka objek yang <b>selari</b> dengan satah unjuran menghasilkan imej yang …	A face of an object that is <b>parallel</b> to the plane of projection produces an image that is …
+Sama bentuk dan sama saiz	Of the same shape and the same size
+Lebih kecil	Smaller
+Lebih besar	Larger
+Berbentuk garis lurus	A straight line
+Tepi yang <b>berserenjang</b> dengan satah unjuran kelihatan sebagai …	An edge that is <b>perpendicular</b> to the plane of projection appears as …
+Satu titik	A point
+Garis yang lebih panjang	A longer line
+Satu bulatan	A circle
+Tepi yang <b>tersembunyi</b> dilukis dengan …	A <b>hidden</b> edge is drawn with …
+Garis penuh yang tebal	A thick solid line
+Garis berwarna merah	A red line
+Tidak perlu dilukis	It does not need to be drawn
+Sudut antara garis unjuran dengan satah unjuran ialah …	The angle between a projection line and the plane of projection is …
+Pandangan pepejal dari arah <b>${lab}</b> dinamakan …	The view of the solid from direction <b>${lab}</b> is called …
+Bentangan	Net
+Arah manakah memberikan <b>${PDVN[v]}</b>?	Which direction gives the <b>${PDVN[v]}</b>?
+Arah ${h}	Direction ${h}
+Arah belakang	Back direction
+Lukisan di sebelah kanan ialah …	The drawing on the right is …
+Apakah bentuk <b>${PDVN[v]}</b> bagi sebuah ${nm}?	What is the shape of the <b>${PDVN[v]}</b> of a ${nm}?
+Berapakah bilangan kiub dalam pepejal ini?	How many cubes are there in this solid?
+${v} kiub	${v} cubes
+Tinggi lajur <b>dongakan depan</b> dari kiri ke kanan ialah …	The heights of the columns of the <b>front elevation</b> from left to right are …
+Berapakah kiub lagi diperlukan untuk menjadikan pepejal ini sebuah <b>kuboid</b>?	How many more cubes are needed to make this solid a <b>cuboid</b>?
+${w.L1}${w.L2} = ${w.c} cm dan tinggi baji = ${w.a} cm. Berapakah panjang imej ${w.L1}${w.L2} pada <b>pelan</b>?	${w.L1}${w.L2} = ${w.c} cm and the height of the wedge = ${w.a} cm. What is the length of the image of ${w.L1}${w.L2} on the <b>plan</b>?
+Imej ${w.L1}${w.L2} pada pelan = ${w.b} cm, tinggi = ${w.a} cm. Berapakah panjang <b>sebenar</b> ${w.L1}${w.L2}?	The image of ${w.L1}${w.L2} on the plan = ${w.b} cm, height = ${w.a} cm. What is the <b>actual</b> length of ${w.L1}${w.L2}?
+Sisi kiub = ${s} cm. Berapakah luas <b>${PDVN[v]}</b>?	Side of a cube = ${s} cm. What is the area of the <b>${PDVN[v]}</b>?
+Yang manakah <b>pelan</b> pepejal ini?	Which is the <b>plan</b> of this solid?
+Yang manakah <b>${PDVN[v]}</b> dilihat dari arah ${lab}?	Which is the <b>${PDVN[v]}</b> viewed from direction ${lab}?
+Nama pandangan	Name of view
+Pilih lukisan	Choose a drawing
+Unjuran ortogon	Orthogonal projection
+Pelan bernombor	Numbered plan
+Panjang & luas imej	Length & area of image
+Rajah di bawah menunjukkan sebuah baji dengan muka condong ${w.L1}${w.L2}${w.L3}${w.L4} berbentuk segi empat tepat. Tinggi baji ialah ${w.a} cm, ${w.L1}${w.L2} = ${w.c} cm dan ${w.L2}${w.L3} = ${w.l} cm. Baji itu diunjurkan pada satah mengufuk. Hitung (a) panjang imej ${w.L1}${w.L2}, (b) luas sebenar muka condong, (c) luas imej muka condong pada satah mengufuk.	The diagram below shows a wedge with a rectangular inclined face ${w.L1}${w.L2}${w.L3}${w.L4}. The height of the wedge is ${w.a} cm, ${w.L1}${w.L2} = ${w.c} cm and ${w.L2}${w.L3} = ${w.l} cm. The wedge is projected on a horizontal plane. Calculate (a) the length of the image of ${w.L1}${w.L2}, (b) the actual area of the inclined face, (c) the area of the image of the inclined face on the horizontal plane.
+Sebuah tanjakan berbentuk baji mempunyai permukaan condong ${w.L1}${w.L2}${w.L3}${w.L4} dengan ${w.L1}${w.L2} = ${w.c} cm dan ${w.L2}${w.L3} = ${w.l} cm. Hujung ${w.L1} berada ${w.a} cm lebih tinggi daripada ${w.L2}. Cari (a) panjang imej ${w.L1}${w.L2} pada pelan, (b) luas sebenar permukaan condong, (c) beza antara luas permukaan condong dengan luas imejnya pada pelan.	A wedge-shaped ramp has an inclined surface ${w.L1}${w.L2}${w.L3}${w.L4} with ${w.L1}${w.L2} = ${w.c} cm and ${w.L2}${w.L3} = ${w.l} cm. End ${w.L1} is ${w.a} cm higher than ${w.L2}. Find (a) the length of the image of ${w.L1}${w.L2} on the plan, (b) the actual area of the inclined surface, (c) the difference between the area of the inclined surface and the area of its image on the plan.
+Bumbung condong sebuah pondok berbentuk segi empat tepat ${w.L1}${w.L2}${w.L3}${w.L4}, dengan ${w.L1}${w.L2} = ${w.c} m dan ${w.L2}${w.L3} = ${w.l} m. Bahagian atas bumbung berada ${w.a} m lebih tinggi daripada bahagian bawahnya. Hitung (a) lebar imej bumbung pada pelan, (b) luas sebenar bumbung, (c) luas pelan bumbung.	The inclined roof of a hut is a rectangle ${w.L1}${w.L2}${w.L3}${w.L4}, with ${w.L1}${w.L2} = ${w.c} m and ${w.L2}${w.L3} = ${w.l} m. The top of the roof is ${w.a} m higher than its bottom. Calculate (a) the width of the image of the roof on the plan, (b) the actual area of the roof, (c) the area of the plan of the roof.
