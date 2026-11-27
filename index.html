@@ -98,7 +98,7 @@ html.light{--bg:#FFFFFF;--card:#FFFFFF;--line:#E5E5E5;--h:#3C3C3C;--p:#6B6B6B;--
 .how h2{margin:0 0 8px;font-size:18px}
 .how ol{margin:0;padding-left:20px;line-height:1.7}
 .note{color:var(--mu);font-size:14px;line-height:1.5;margin:0}
-.milik{display:flex;align-items:center;justify-content:center;gap:10px;margin:28px auto 22px;padding:0 16px;color:var(--mu);font-size:13px;line-height:1.45;text-align:left}.milik img{width:36px;height:36px;object-fit:contain;flex:none}.milik b{color:var(--tx,inherit);font-weight:700}
+.milik{display:flex;align-items:center;justify-content:center;gap:10px;margin:28px auto 22px;padding:0 16px;color:var(--mu);font-size:13px;line-height:1.45;text-align:left}.milik img{width:44px;height:44px;object-fit:contain;flex:none}.milik b{color:var(--tx,inherit);font-weight:700}
 /* ---------- Peranan Guru | Murid ---------- */
 html.murid .ck.bk{display:none}
 .role{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;margin:8px 0 0;font-size:13px;font-weight:800;color:var(--p)}
@@ -239,7 +239,7 @@ function home(){const light=document.documentElement.classList.contains('light')
  <p class="role"><span>${murid?'Mod Murid':'Mod Guru'}</span><span aria-hidden="true">·</span><button type="button" class="rb" id="roleBtn">${murid?'Tukar ke Guru':'Tukar ke Murid'}</button></p></section>
  <div class="tabs" role="tablist" aria-label="Tingkatan">${[1,2,3,4,5].map(t=>`<button role="tab" data-t="${t}" aria-selected="${tab===t}" aria-label="Tingkatan ${t}"${tab===t?` style="background:${TCOL[t-1]}"`:''}><b>${t}</b><small>TINGKATAN</small></button>`).join('')}</div>
  <div class="grid" id="grid">${chapters(tab).map(cardHTML).join('')}</div>
- <footer class="milik"><img src="sekolah.png" alt="Logo SMK Rantau Panjang, Klang" width="36" height="36" onerror="this.remove()"><span><span>Dibangunkan oleh</span> <b>Cikgu Khairul Ikhwan bin Idris</b><br>SMK Rantau Panjang, Klang</span></footer></main>`}
+ <footer class="milik"><img src="sekolah.png" alt="Logo SMK Rantau Panjang, Klang" width="44" height="44" onerror="this.remove()"><span><span>Dibangunkan oleh</span> <b>Cikgu Khairul Ikhwan bin Idris</b><br>SMK Rantau Panjang, Klang</span></footer></main>`}
 function pasang(){return`<main class="pg"><a class="back" href="#/">${I.left} Kembali</a><h1>Cara Pasang TerokaMath</h1>
  <p class="note">Pasang sekali sahaja. Semua bab boleh dibuka dari dalam TerokaMath, termasuk tanpa internet.</p>
  <div class="how"><section><h2>Android (Chrome)</h2><ol><li>Buka <b>terokamath.com</b> dalam Chrome.</li><li>Tekan menu <b>⋮</b> di atas kanan.</li><li>Pilih <b>Tambah ke skrin utama</b> / <b>Pasang aplikasi</b>.</li><li>Tekan <b>Pasang</b>.</li></ol></section>
