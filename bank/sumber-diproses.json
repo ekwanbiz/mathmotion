@@ -220,6 +220,47 @@
     "T2S6-C06"
    ],
    "nota": "Buku penerbit; Bab 1-6. A1, A2, A3, A13 sama bentuk dengan set terdahulu. Soalan lukis/bina diganti."
+  },
+  {
+   "nama": "T1_UASA-2026.pdf",
+   "nama_asal": "UASA MATEMATIK F1 2026.pdf",
+   "sha16": "eeb51e63ace261fd",
+   "tarikh_proses": "2026-11-27",
+   "set": "T1 Set 2",
+   "soalan_ids": [
+    "T1S2-A01",
+    "T1S2-A02",
+    "T1S2-A03",
+    "T1S2-A04",
+    "T1S2-A05",
+    "T1S2-A06",
+    "T1S2-A07",
+    "T1S2-A08",
+    "T1S2-A09",
+    "T1S2-A10",
+    "T1S2-A11",
+    "T1S2-A12",
+    "T1S2-A13",
+    "T1S2-A14",
+    "T1S2-A15",
+    "T1S2-A16",
+    "T1S2-A17",
+    "T1S2-A18",
+    "T1S2-A19",
+    "T1S2-A20",
+    "T1S2-B01",
+    "T1S2-B02",
+    "T1S2-B03",
+    "T1S2-B04",
+    "T1S2-B05",
+    "T1S2-C01",
+    "T1S2-C02",
+    "T1S2-C03",
+    "T1S2-C04",
+    "T1S2-C05",
+    "T1S2-C06"
+   ],
+   "nota": "Soalan Set diganti Faktor dan Gandaan."
   }
  ]
 }
