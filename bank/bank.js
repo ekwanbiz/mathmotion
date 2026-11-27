@@ -123,6 +123,7 @@ function partB(pt, o) {
   let h = `<div class="bq"><span class="l">${esc(pt.l || '')}</span><div>`;
   if (pt.q) h += `<div class="qt">${T(pt.q, pt.qe, dw)}</div>`;
   h += figH(pt.fig);
+  if (j !== 'jadual') h += tbl(pt.jadual, dw);
   if (j === 'pad') h += `<div class="pad qt">${it.map((x, i) => `<div class="r">${T(x.t, x.te, dw)}</div><div class="dt">•</div><div></div><div class="dt">•</div><div class="r">${T((pt.kanan || [])[i] || '', (pt.kanane || [])[i], dw)}</div>`).join('')}</div>`;
   else if (j === 'jadual') h += tbl(pt.jadual, dw);
   else if (j === 'bp' || j === 'tanda' || j === 'label') h += `<table class="tb bt qt">${it.map(x => `<tr><td>${T(x.t, x.te, dw)}</td><td class="bx">${j === 'tanda' ? '<span class="box"></span>' : ''}</td></tr>`).join('')}</table>`;
