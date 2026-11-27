@@ -48,6 +48,10 @@ def gm(bx, xr, yr, xs, ys, path, xl, yl, col=TR, lab=(), fill=None, fs=12, dots=
     return g.svg()
 
 
+def ps4(a, b, c_, d, s, fs=15):
+    return work([('Memahami masalah', a), ('Merancang strategi', b), ('Melaksanakan strategi', c_), ('Kesimpulan', d)], s, 2, fs)
+
+
 # =====================================================================
 # 7.1 GRAF JARAK-MASA
 # =====================================================================
@@ -138,6 +142,36 @@ S(s, 'CONTOH 7', 'Laju purata',
   ,
   stack(SVh(g, 'Graf perjalanan Seremban ke Tampin', 320, 0), work([('Penyelesaian', [f'(a) Laju purata = {F("90 km", "1.5 jam")} = 60 {KJ}', f'(b) Jarak Seremban–Rembau = 50 {KJ} × 1 jam = 50 km', 'Jarak Rembau–Tampin = (90 − 50) km = 40 km'])], s, 1, 16)))
 
+d8a = 70 * 1.5
+d8b = 265 - d8a
+assert d8a == 105 and d8b == 160 and d8b / 80 == 2
+g = gm((80, 40, 450, 330), (0, 4.5), (0, 280), 1, 50, [(0, 0), (1.5, 105), (2, 105), (4, 265)], 'Masa (jam)', 'Jarak (km)', lab=[(1.75, 105, 'Tapah', 0, -18), (4, 265, 'Kuala Lumpur', -30, -16)], dash=[((0, 105), (1.5, 105)), ((0, 265), (4, 265))], fs=11)
+S(s, 'CONTOH 8', 'Menyelesaikan masalah graf jarak-masa',
+  p(f'Graf jarak-masa menunjukkan perjalanan Encik Lee dari Ipoh ke Kuala Lumpur. Encik Lee berhenti di Tapah untuk makan tengah hari sebelum meneruskan perjalanan. (a) Jika laju purata dari Ipoh ke Tapah ialah 70 {KJ} selama 1.5 jam, hitung jarak di antara Ipoh dengan Tapah. (b) Diberi jarak Ipoh ke Kuala Lumpur ialah 265 km dan Encik Lee memandu dengan laju purata 80 {KJ} dari Tapah, lengkapkan graf jarak-masa.'),
+  SVh(g, 'Graf jarak-masa Ipoh ke Kuala Lumpur', 370, 0))
+
+S(s, 'CONTOH 8 (sambungan)', 'Penyelesaian Contoh 8',
+  ps4(['(a) Menghitung jarak Ipoh ke Tapah.', '(b) Melengkapkan graf dari Tapah ke Kuala Lumpur.'], [f'(a) Jarak = laju × masa', f'(b) Tentukan jarak Tapah ke Kuala Lumpur; masa = {F("jarak", "laju")}'],
+      [f'(a) Jarak = 70 {KJ} × 1.5 jam = 105 km', '(b) Jarak = 265 km − 105 km = 160 km', f'Masa = {F("160 km", f"80 {KJ}")} = 2 jam (dari jam ke-2 hingga ke-4)'],
+      ['(a) Jarak Ipoh ke Tapah ialah 105 km.', '(b) Jarak Tapah ke Kuala Lumpur ialah 160 km dan masa yang diambil ialah 2 jam.'], s, 15),
+  SVh(g, 'Graf jarak-masa Ipoh ke Kuala Lumpur', 370, 0))
+
+kOA = 60 / 48
+t9 = 73 + (150 - 60) / kOA
+m9 = 150 / 80 * 60
+assert t9 == 145 and m9 == 112.5 and t9 - m9 == 32.5
+g = gm((80, 40, 450, 330), (0, 160), (0, 170), 20, 30, [(0, 0), (48, 60), (73, 60), (145, 150)], 'Masa (minit)', 'Jarak (km)', lab=[(48, 60, 'A', -8, -16), (73, 60, 'B', 8, 16), (145, 150, 'C', 12, -10), (0, 150, 'P', -14, -12), (112.5, 0, 'Q', 0, -14), (145, 0, 't', 0, 18)],
+       dash=[((0, 150), (145, 150)), ((145, 0), (145, 150))], fs=11, extra=[lambda g: GF.L(g.P(0, 150), g.P(112.5, 0), PK, 4)])
+S(s, 'CONTOH 9', 'Perjalanan dua buah kereta',
+  p(f'Graf jarak-masa menunjukkan perjalanan dua buah kereta di antara Kuala Lipis dengan Cameron Highlands yang berjarak 150 km. Graf PQ mewakili perjalanan Encik Azlan dari Cameron Highlands ke Kuala Lipis. Graf OABC mewakili perjalanan keluarga Encik Ravi dari Kuala Lipis ke Cameron Highlands. (a) Diberi kadar perubahan jarak bagi OA dan BC adalah sama, hitung nilai {i("t")}. (b) Laju purata Encik Azlan ialah 80 {KJ}. Hitung beza masa, dalam minit, kedua-dua perjalanan untuk sampai di destinasi masing-masing.'),
+  SVh(g, 'Graf perjalanan dua kereta', 370, 0))
+
+S(s, 'CONTOH 9 (sambungan)', 'Penyelesaian Contoh 9',
+  ps4([f'(a) Hitung {i("t")}, iaitu masa dalam minit.', '(b) Beza masa perjalanan kedua-dua kereta.'], ['(a) Kecerunan OA = kecerunan BC', f'(b) Masa Encik Ravi = {i("t")}; masa Encik Azlan = {F("jarak", "laju")}'],
+      [f'(a) {F("60 − 0", "48 − 0")} = {F("150 − 60", f"{i(chr(116))} − 73")} → {i("t")} − 73 = 72 → {i("t")} = 145', f'(b) Masa Encik Azlan = {F("150 km", f"80 {KJ}")} = 1.875 jam × 60 = 112.5 minit', 'Beza masa = 145 − 112.5 = 32.5 minit'],
+      [f'(a) {i("t")} = 145', '(b) Beza masa ialah 32.5 minit.'], s, 15),
+  SVh(g, 'Graf perjalanan dua kereta', 370, 0))
+
 # =====================================================================
 # 7.2 GRAF LAJU-MASA
 # =====================================================================
@@ -156,27 +190,27 @@ V9 = [10, 14, 18, 22, 26, 30]
 ga = gm((60, 40, 230, 250), (0, 5.5), (0, 32), 1, 8, list(zip(T9, V9)), 'Masa (s)', f'Laju (m s⁻¹)', fs=11)
 gb = gm((310, 40, 480, 250), (0, 0.55), (0, 700), 0.1, 100, [(0, 600), (0.5, 0)], 'Masa, t (jam)', 'Laju (km j⁻¹)', fs=10)
 assert 600 - 1200 * 0.5 == 0
-S(s, 'CONTOH 8', 'Melukis graf laju-masa',
-  p('<b>CONTOH 8</b> Jadual menunjukkan perubahan laju kereta Encik Hakim untuk tempoh 5 saat. Lukis graf laju-masa.')
+S(s, 'CONTOH 10 – 11', 'Melukis graf laju-masa',
+  p('<b>CONTOH 10</b> Jadual menunjukkan perubahan laju kereta Encik Hakim untuk tempoh 5 saat. Lukis graf laju-masa.')
   + table(['Masa (s)'] + [str(t) for t in T9], [[f'Laju ({MS})'] + [str(v) for v in V9]], c, 16)
-  + p(f'<b>CONTOH 9</b> Laju sebuah kapal terbang yang sedang mendarat diberi oleh {i("v")} = 600 − 1 200{i("t")}, dengan {i("v")} dalam {KJ} dan {i("t")} dalam jam. Lukis graf laju-masa untuk 0 ≤ {i("t")} ≤ 0.5.')
+  + p(f'<b>CONTOH 11</b> Laju sebuah kapal terbang yang sedang mendarat diberi oleh {i("v")} = 600 − 1 200{i("t")}, dengan {i("v")} dalam {KJ} dan {i("t")} dalam jam. Lukis graf laju-masa untuk 0 ≤ {i("t")} ≤ 0.5.')
   + work([('Penyelesaian', [f'{i("t")} = 0: {i("v")} = 600', f'{i("t")} = 0.5: {i("v")} = 600 − 1 200(0.5) = 0'])], s, 2, 18),
-  SVh(ga + gb + GF.T(145, 318, 'Contoh 8', TX, 16) + GF.T(395, 318, 'Contoh 9', TX, 16), 'Graf contoh 8 dan contoh 9', 335, 0))
+  SVh(ga + gb + GF.T(145, 318, 'Contoh 10', TX, 16) + GF.T(395, 318, 'Contoh 11', TX, 16), 'Graf contoh 10 dan contoh 11', 335, 0))
 
 assert 20 * 10 == 200 and (10 + 25) / 2 * 6 == 105
 ga = gm((60, 40, 230, 250), (0, 12), (0, 25), 2, 5, [(0, 20), (10, 20)], 'Masa (s)', 'Laju (m s⁻¹)', fill=[([(0, 0), (10, 0), (10, 20), (0, 20)], PA)], fs=10, dash=[((10, 0), (10, 20))])
 gb = gm((310, 40, 480, 250), (0, 7), (0, 30), 1, 5, [(0, 10), (6, 25)], 'Masa (s)', 'Laju (m s⁻¹)', fill=[([(0, 0), (6, 0), (6, 25), (0, 10)], PA)], fs=10, dash=[((6, 0), (6, 25))])
-S(s, 'KONSEP', 'Luas di bawah graf laju-masa',
+S(s, 'CONTOH 12', 'Luas di bawah graf laju-masa',
   p('Daripada kecerunan graf jarak-masa, kita boleh menentukan laju. Jarak suatu gerakan pula boleh ditentukan daripada graf laju-masa.')
   + formula('Luas di bawah graf = Jarak yang dilalui', c)
   + p('Nilai luas di bawah graf laju-masa adalah sama dengan jumlah jarak yang dilalui bagi tempoh masa yang sama.')
-  + work([('CONTOH 10', ['Hitung jarak yang dilalui bagi setiap gerakan.', f'(a) Jarak = luas segi empat tepat = 10 × 20 = 200 m', f'(b) Jarak = luas trapezium = {F(1, 2)} × (10 + 25) × 6 = 105 m'])], s, 1, 18),
+  + work([('CONTOH 12', ['Hitung jarak yang dilalui bagi setiap gerakan.', f'(a) Jarak = luas segi empat tepat = 10 × 20 = 200 m', f'(b) Jarak = luas trapezium = {F(1, 2)} × (10 + 25) × 6 = 105 m'])], s, 1, 18),
   SVh(ga + gb + GF.T(145, 318, '(a)', TX, 17) + GF.T(395, 318, '(b)', TX, 17), 'Luas di bawah graf laju-masa', 335, 0))
 
 d1, d2, d3 = 0.5 * 6 / 60 * 72, 18 / 60 * 72, 0.5 * 12 / 60 * 72
 assert round(d1 + d2 + d3, 6) == 32.4 and round(32.4 / 0.6, 6) == 54
 g = gm((80, 40, 450, 360), (0, 40), (0, 80), 6, 8, [(0, 0), (6, 72), (24, 72), (36, 0)], 'Masa (minit)', 'Laju (km j⁻¹)', fill=[([(0, 0), (6, 72), (24, 72), (36, 0)], PA)], fs=11, dash=[((0, 72), (6, 72))], extra=[lambda g: ''])
-S(s, 'CONTOH 11', 'Jarak dan laju purata daripada graf laju-masa',
+S(s, 'CONTOH 13', 'Jarak dan laju purata daripada graf laju-masa',
   p('Graf laju-masa di sebelah menunjukkan kelajuan kereta Puan Lim dalam tempoh 36 minit. Hitung (a) jumlah jarak, dalam km, (b) laju purata, dalam km j<sup>−1</sup>.')
   + work([('Penyelesaian', [f'(a) Jumlah jarak = {F(1, 2)} × {F(6, 60)} × 72 + {F(18, 60)} × 72 + {F(1, 2)} × {F(12, 60)} × 72', '= 3.6 + 21.6 + 7.2 = 32.4 km',
                             f'(b) Laju purata = {F("32.4 km", F(36, 60) + " jam")} = 54 {KJ}'])], s, 1, 18)
@@ -191,9 +225,17 @@ S(s, 'KONSEP', 'Mentafsir graf laju-masa',
   + note('Kadar perubahan laju yang negatif dipanggil nyahpecutan. Contoh: pecutan −5 m s<sup>−2</sup> = nyahpecutan 5 m s<sup>−2</sup>.', 'Ingat:'),
   SVh(g, 'Tafsiran graf laju-masa', 410, 0))
 
+assert (30 - 10) / 4 == 5 and 0.5 * 4 * 40 + 6 * 30 + 0.5 * 4 * 80 == 420
+g = gm((80, 40, 450, 330), (0, 15), (0, 55), 2, 10, [(0, 10), (4, 30), (10, 30), (14, 50)], 'Masa (s)', 'Laju (m s⁻¹)', dash=[((0, 30), (4, 30)), ((0, 50), (14, 50)), ((4, 0), (4, 30)), ((10, 0), (10, 30))], fs=11)
+S(s, 'CONTOH 14', 'Mentafsir graf laju-masa',
+  p('Graf laju-masa menunjukkan gerakan kereta Puan Salmah dalam tempoh 14 saat. (a) Hitung kadar perubahan laju, dalam m s<sup>−2</sup>, bagi 4 saat yang pertama. (b) Huraikan gerakan kereta dari saat ke-4 hingga saat ke-10. (c) Hitung jumlah jarak, dalam meter, yang dilalui dalam tempoh 14 saat.')
+  + work([('Penyelesaian', [f'(a) Kadar perubahan laju = {F("(30 − 10) m s<sup>−1</sup>", "(4 − 0) s")} = 5 {MS2}', f'(b) Kereta bergerak dengan laju seragam 30 {MS} untuk tempoh 6 saat.',
+                            f'(c) Jumlah jarak = luas di bawah graf = {F(1, 2)} × 4 × (10 + 30) + (10 − 4) × 30 + {F(1, 2)} × 4 × (30 + 50)', '= 80 + 180 + 160 = 420 m'])], s, 1, 17),
+  SVh(g, 'Graf laju-masa kereta Puan Salmah', 370, 0))
+
 assert 20 / 8 == 2.5 and (0 - 20) / 4 == -5 and 0.5 * 4 * 20 == 40
 g = gm((80, 40, 450, 360), (0, 24), (0, 24), 2, 4, [(0, 0), (8, 20), (18, 20), (22, 0)], 'Masa (s)', 'Laju (m s⁻¹)', dash=[((0, 20), (8, 20))], fs=11)
-S(s, 'CONTOH 12', 'Pecutan dan nyahpecutan',
+S(s, 'CONTOH 15', 'Pecutan dan nyahpecutan',
   p('Graf laju-masa di sebelah menunjukkan gerakan kereta Encik Daniel. (a) Hitung kadar perubahan laju untuk 8 saat yang pertama. (b) Huraikan gerakan kereta dari saat ke-8 hingga saat ke-18. (c) Hitung kadar perubahan laju bagi 4 saat terakhir. (d) Hitung jarak yang dilalui semasa nyahpecutan.')
   + work([('Penyelesaian', [f'(a) {F("(20 − 0) m s<sup>−1</sup>", "(8 − 0) s")} = 2.5 {MS2}; kereta mengalami pecutan 2.5 {MS2}.', f'(b) Kereta bergerak dengan laju seragam 20 {MS}.',
                             f'(c) {F("(0 − 20) m s<sup>−1</sup>", "(22 − 18) s")} = −5 {MS2}, iaitu nyahpecutan 5 {MS2}', f'(d) Jarak = {F(1, 2)} × 4 × 20 = 40 m'])], s, 1, 17),
@@ -201,12 +243,39 @@ S(s, 'CONTOH 12', 'Pecutan dan nyahpecutan',
 
 assert 0.5 * (5 + 10) * 4 == 30 and 30 == 0.5 * (10 - 4) * 10 and 10 + 3.5 * 2 == 17
 g = gm((80, 40, 450, 360), (0, 13), (0, 20), 2, 2, [(0, 5), (4, 10), (10, 10), (12, 17)], 'Masa (s)', 'Laju (m s⁻¹)', lab=[(10, 10, 't', 0, 32), (12, 17, 'v', 14, 0)], dash=[((0, 10), (4, 10)), ((10, 0), (10, 10)), ((0, 17), (12, 17))], fs=11)
-S(s, 'CONTOH 13', 'Menyelesaikan masalah graf laju-masa',
-  p(f'Graf laju-masa menunjukkan gerakan sebuah kereta untuk tempoh 12 saat. Hitung (a) laju purata untuk 6 saat pertama, (b) nilai {i("t")}, jika jarak 4 saat pertama ialah separuh daripada jarak semasa laju seragam, (c) nilai {i("v")}, jika pecutan bagi 2 saat terakhir ialah 3.5 {MS2}.')
-  + work([('Penyelesaian', [f'(a) Jarak 6 s pertama = {F(1, 2)}(5 + 10)(4) + (6 − 4)(10) = 50 m; laju purata = {F(50, 6)} = 8{F(1, 3)} {MS}',
-                            f'(b) {F(1, 2)}(5 + 10)(4) = {F(1, 2)} × ({i("t")} − 4) × 10 → 30 = 5({i("t")} − 4) → {i("t")} = 10',
-                            f'(c) {F(f"{i("v")} − 10", "12 − 10")} = 3.5 → {i("v")} = 17'])], s, 1, 17),
+S(s, 'CONTOH 16', 'Menyelesaikan masalah graf laju-masa',
+  p(f'Graf laju-masa menunjukkan gerakan sebuah kereta untuk tempoh 12 saat. Hitung (a) laju purata untuk 6 saat pertama, (b) nilai {i("t")}, jika jarak 4 saat pertama ialah separuh daripada jarak semasa laju seragam, (c) nilai {i("v")}, jika pecutan bagi 2 saat terakhir ialah 3.5 {MS2}.'),
   SVh(g, 'Graf laju-masa kereta 12 saat', 410, 0))
+
+S(s, 'CONTOH 16 (sambungan)', 'Penyelesaian Contoh 16',
+  ps4(['(a) Laju purata untuk 6 saat pertama.', f'(b) Nilai {i("t")}, masa laju seragam berakhir.', f'(c) Nilai {i("v")}, laju akhir.'], [f'(a) Laju purata = {F("jumlah jarak", "jumlah masa")}', f'(b) Jarak 4 s pertama = {F(1, 2)} × jarak laju seragam', f'(c) Pecutan = {F("perubahan laju", "perubahan masa")}'],
+      [f'(a) Jarak 6 s pertama = {F(1, 2)}(5 + 10)(4) + (6 − 4)(10) = 50 m; laju purata = {F(50, 6)} = 8{F(1, 3)} {MS}',
+                            f'(b) {F(1, 2)}(5 + 10)(4) = {F(1, 2)} × ({i("t")} − 4) × 10 → 30 = 5({i("t")} − 4) → {i("t")} = 10',
+                            f'(c) {F(f"{i("v")} − 10", "12 − 10")} = 3.5 → {i("v")} = 17'], [f'(a) {F(25, 3)} {MS}', f'(b) {i("t")} = 10', f'(c) {i("v")} = 17'], s, 14),
+  SVh(g, 'Graf laju-masa kereta 12 saat', 410, 0))
+
+v17 = (130 + 170) / 10
+assert v17 == 30 and 0.5 * 6 * 20 + 14 * 20 - 0.5 * 14 * 30 == 130
+g = gm((80, 40, 450, 330), (0, 22), (0, 35), 2, 5, [(0, 0), (6, 20), (20, 20)], 'Masa (s)', 'Laju (m s⁻¹)', lab=[(6, 20, 'A', 0, -16), (20, 20, 'B', 10, -14), (6, 0, 'C', 0, 18), (20, 30, 'D', 10, -12), (0, 30, 'v', -18, 0), (0, 20, 'v − 10', -34, 0)],
+       dash=[((0, 30), (20, 30)), ((20, 0), (20, 30))], fs=11, extra=[lambda g: GF.L(g.P(6, 0), g.P(20, 30), PK, 4)])
+S(s, 'CONTOH 17', 'Gerakan dua buah kenderaan',
+  p(f'Graf laju-masa menunjukkan gerakan dua buah kenderaan. Graf OAB mewakili gerakan kereta Encik Zaki dan graf CD mewakili gerakan teksi Encik Wong. Diberi beza jarak antara kereta dengan teksi bagi tempoh 20 saat ialah 130 m. Hitung nilai {i("v")}.'),
+  SVh(g, 'Graf laju-masa dua kenderaan', 370, 0))
+
+S(s, 'CONTOH 17 (sambungan)', 'Penyelesaian Contoh 17',
+  ps4([f'Nilai {i("v")}, iaitu laju akhir teksi untuk tempoh 14 saat.'], ['Jarak kereta − jarak teksi = 130 m'],
+      [f'[{F(1, 2)} × 6 × ({i("v")} − 10) + 14({i("v")} − 10)] − {F(1, 2)} × 14 × {i("v")} = 130', f'17{i("v")} − 170 − 7{i("v")} = 130 → 10{i("v")} = 300 → {i("v")} = 30', 'Semak: kereta 340 m, teksi 210 m, beza 130 m'],
+      [f'Nilai {i("v")} = 30'], s, 15),
+  SVh(g, 'Graf laju-masa dua kenderaan', 370, 0))
+
+t18 = 12 + 30 / 5
+assert (30 - 10) / 4 == 5 and t18 == 18 and 0.5 * 4 * 40 + 8 * 30 == 320
+g = gm((80, 40, 450, 330), (0, 20), (0, 35), 2, 5, [(0, 10), (4, 30), (12, 30), (18, 0)], 'Masa (s)', 'Laju (m s⁻¹)', lab=[(18, 0, 't', 0, 18)], dash=[((0, 30), (4, 30)), ((4, 0), (4, 30)), ((12, 0), (12, 30))], fs=11)
+S(s, 'CONTOH 18', 'Pecutan dan jarak sebuah van',
+  p(f'Graf laju-masa menunjukkan gerakan sebuah van dalam tempoh {i("t")} saat. Hitung (a) kadar perubahan laju, dalam m s<sup>−2</sup>, untuk 4 saat yang pertama, (b) jarak yang dilalui, dalam meter, untuk 12 saat yang pertama, (c) nilai {i("t")} jika magnitud kadar perubahan laju selepas saat ke-12 sama dengan magnitud kadar perubahan laju pada 4 saat yang pertama.')
+  + work([('Penyelesaian', [f'(a) {F("(30 − 10) m s<sup>−1</sup>", "(4 − 0) s")} = 5 {MS2}', f'(b) Jarak = {F(1, 2)} × 4 × (10 + 30) + (12 − 4) × 30 = 80 + 240 = 320 m',
+                            f'(c) {F("0 − 30", f"{i(chr(116))} − 12")} = −5 → {i("t")} − 12 = 6 → {i("t")} = 18'])], s, 1, 17),
+  SVh(g, 'Graf laju-masa van', 370, 0))
 
 OUTFILE = os.environ.get('NOTA_OUT') or os.path.join(HERE, '..', '..', 'grafgerakan', 'slides.js')
 HEAD = '/* Nota Bab 7 ikut buku teks Matematik T4 KSSM. Dijana skrip; jangan sunting dengan tangan. */'

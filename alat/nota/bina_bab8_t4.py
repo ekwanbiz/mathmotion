@@ -251,7 +251,7 @@ S(s, 'KONSEP', 'Plot kotak',
 
 o1 = boxplot(15, 32, 50, 63, 82, 10, 90, 10, 70, PU)
 o2 = boxplot(0, 6, 12, 22, 36, 0, 40, 5, 250, GR)
-S(s, 'CONTOH 10', 'Mentafsir plot kotak',
+S(s, 'CONTOH 12', 'Mentafsir plot kotak',
   p('Bagi setiap plot kotak, nyatakan (i) median, (ii) kuartil pertama, (iii) kuartil ketiga, (iv) julat antara kuartil, (v) nilai minimum, (vi) nilai maksimum, (vii) julat.')
   + table(['', '(a)', '(b)'], [['(i) Median', '50', '12'], ['(ii) Q₁', '32', '6'], ['(iii) Q₃', '63', '22'], ['(iv) Julat antara kuartil', '63 − 32 = 31', '22 − 6 = 16'], ['(v) Nilai minimum', '15', '0'], ['(vi) Nilai maksimum', '82', '36'], ['(vii) Julat', '82 − 15 = 67', '36 − 0 = 36']], c, 16),
   SVh(o1 + o2 + GF.T(20, 70, '(a)', TX, 17) + GF.T(20, 250, '(b)', TX, 17), 'Dua plot kotak', 330, 20))
@@ -264,17 +264,17 @@ c = COL[s]
 D10 = [12, 13, 13, 15, 19, 22, 23, 23, 26, 45]
 q = quart(D10)
 assert q[0] == 13 and q[2] == 23 and max(D10) - min(D10) == 33
-S(s, 'KONSEP', 'Kelebihan dan kekurangan sukatan serakan',
+S(s, 'CONTOH 10', 'Kelebihan dan kekurangan sukatan serakan',
   bul(s, ['<b>Julat</b> ialah sukatan serakan yang paling mudah dihitung, tetapi tidak memberikan gambaran yang baik tentang cara data ditaburkan.', '<b>Julat antara kuartil</b> lebih sesuai jika wujud pencilan atau nilai ekstrem.',
             '<b>Sisihan piawai</b> biasanya digunakan untuk membanding dua set data. Sisihan piawai yang kecil menunjukkan data terserak berhampiran dengan min; yang besar menunjukkan data terserak jauh daripada min.'])
-  + p(f'<b>CONTOH 11</b> Hitung julat dan julat antara kuartil bagi set data {", ".join(map(str, D10))}. Tentukan sukatan serakan yang lebih sesuai.'),
+  + p(f'<b>CONTOH 10</b> Hitung julat dan julat antara kuartil bagi set data {", ".join(map(str, D10))}. Tentukan sukatan serakan yang lebih sesuai.'),
   work([('Penyelesaian', ['Julat = 45 − 12 = 33', 'Q₁ = 13, Q₃ = 23', 'Julat antara kuartil = 23 − 13 = 10', 'Julat antara kuartil lebih sesuai kerana wujudnya pencilan, 45.'])], s, 1, 18))
 
 Ak = [75, 68, 80, 62, 70]
 Bk = [72, 70, 74, 69, 70]
 sa, sb = math.sqrt(var(Ak)), math.sqrt(var(Bk))
 assert sum(Ak) == sum(Bk) == 355 and sb < sa
-S(s, 'CONTOH 12', 'Membandingkan dua set data dengan sisihan piawai',
+S(s, 'CONTOH 11', 'Membandingkan dua set data dengan sisihan piawai',
   p('Jadual menunjukkan markah dua orang murid dalam 5 ujian Fizik. Salah seorang murid akan dipilih untuk mewakili sekolah dalam pertandingan kuiz Fizik. Tentukan siapakah yang layak dipilih dan berikan justifikasi anda.')
   + table(['Murid', 'Ujian 1', 'Ujian 2', 'Ujian 3', 'Ujian 4', 'Ujian 5'], [['Hafiz'] + list(map(str, Ak)), ['Kumar'] + list(map(str, Bk))], c, 17),
   stack(work([('Penyelesaian', ['Min kedua-dua murid = 355 ÷ 5 = 71', f'Hafiz: {SIG} = {sa:.3f}', f'Kumar: {SIG} = {sb:.3f}', 'Kumar dipilih kerana sisihan piawai markahnya lebih rendah, iaitu pencapaiannya lebih konsisten.'])], s, 1, 18)
@@ -290,17 +290,44 @@ S(s, 'KONSEP', 'Kesan perubahan data terhadap serakan',
          ['Wujud nilai pencilan', 'Julat dan sisihan piawai bertambah dengan ketara', 'Bertambah'], ['Suatu nilai dikeluarkan atau dimasukkan', 'Boleh berubah, bergantung pada nilai itu', 'Boleh berubah']], c, 16, False),
   work([('Contoh', [f'Set data asal: 5, 8, 3, 4, 1 → julat = 7, {SIG}² = {nm(var(base))}', f'Tambah 5: 10, 13, 8, 9, 6 → julat = 7, {SIG}² = {nm(var(add))}', f'Darab 2: 10, 16, 6, 8, 2 → julat = 14, {SIG}² = {nm(var(mul))} = 2² × {nm(var(base))}'])], s, 1, 18))
 
-nA, sA, s2A = 20, 900, 40800
-nB, sB, s2B = 15, 690, 31950
-n, sx, s2 = nA + nB, sA + sB, s2A + s2B
+D13 = [3, 5, 6, 6, 8, 10, 11, 11]
+def msd(d):
+    m_ = sum(d) / len(d)
+    return m_, math.sqrt(sum(x * x for x in d) / len(d) - m_ * m_)
+r13 = [msd(D13), msd(D13[1:]), msd(sorted(D13 + [7])), msd(D13 + [18])]
+assert [f'{a:.3f}/{b:.3f}' for a, b in r13] == ['7.500/2.784', '8.143/2.356', '7.444/2.629', '8.667/4.216']
+S(s, 'CONTOH 13', 'Kesan mengeluarkan atau menambah data',
+  p(f'Diberi set data 3, 5, 6, 6, 8, 10, 11, 11. Hitung sisihan piawai bagi set data ini. Seterusnya hitung sisihan piawai baharu apabila (a) 3 dikeluarkan, (b) 7 ditambah, (c) 18 ditambah.')
+  + work([('Set data asal', [f'Min = {F("60", "8")} = 7.5; {SIG} = √({F("Σ<i>x</i>²", "8")} − 7.5²) = 2.784'])], s, 1, 17),
+  work([('(a) 3 dikeluarkan', ['Min baharu = 8.143; σ baharu = 2.356', 'Nilai yang jauh daripada min dikeluarkan: sisihan piawai menjadi semakin kecil.']),
+        ('(b) 7 ditambah', ['Min baharu = 7.444; σ baharu = 2.629', 'Nilai yang dekat dengan min ditambah: sisihan piawai menjadi semakin kecil.']),
+        ('(c) 18 ditambah', ['Min baharu = 8.667; σ baharu = 4.216', 'Nilai yang jauh daripada min ditambah: sisihan piawai menjadi semakin besar.'])], s, 1, 16))
+
+def msdf(xs, fs):
+    n_ = sum(fs); m_ = sum(x * f for x, f in zip(xs, fs)) / n_
+    return m_, math.sqrt(sum(x * x * f for x, f in zip(xs, fs)) / n_ - m_ * m_)
+fA14, fB14 = [4, 2, 8, 2, 4], [1, 4, 10, 4, 1]
+a14, b14 = msdf([5, 6, 7, 8, 9], fA14), msdf([5, 6, 7, 8, 9], fB14)
+assert sum(fA14) == sum(fB14) == 20 and f'{a14[0]:.1f}/{a14[1]:.3f}' == '7.0/1.342' and f'{b14[0]:.1f}/{b14[1]:.3f}' == '7.0/0.894'
+S(s, 'CONTOH 14', 'Membanding dua set data dari jadual kekerapan',
+  p('Jadual menunjukkan masa yang diambil oleh 20 orang pekerja daripada dua buah kilang untuk menyiapkan sesuatu kerja. Hitung min dan sisihan piawai. Seterusnya tentukan pekerja kilang manakah yang lebih cekap. Berikan justifikasi anda.')
+  + table(['Masa (jam)', '5', '6', '7', '8', '9'], [['Kilang A'] + [str(v) for v in fA14], ['Kilang B'] + [str(v) for v in fB14]], c, 17),
+  work([('Kilang A', [f'Min = {F("(5 × 4) + (6 × 2) + (7 × 8) + (8 × 2) + (9 × 4)", "20")} = 7.0', f'{SIG} = 1.342']), ('Kilang B', [f'Min = {F("(5 × 1) + (6 × 4) + (7 × 10) + (8 × 4) + (9 × 1)", "20")} = 7.0', f'{SIG} = 0.894']),
+        ('Kesimpulan', ['Pekerja dari Kilang B lebih cekap kerana sisihan piawainya lebih kecil, iaitu masa menyiapkan kerja lebih konsisten.'])], s, 1, 16))
+
+sxA, sxB = 20 * 50, 15 * 54
+sx2A, sx2B = 20 * (3 + 50 ** 2), 15 * (2 + 54 ** 2)
+n, sx, s2 = 35, sxA + sxB, sx2A + sx2B
 vv = s2 / n - (sx / n) ** 2
-assert (n, sx, s2) == (35, 1590, 72750)
-S(s, 'CONTOH 13', 'Menyelesaikan masalah sukatan serakan',
-  p(f'Jadual menunjukkan maklumat jisim dua kumpulan murid. Semua murid kumpulan A dan B digabungkan. Tentukan sisihan piawai bagi jisim gabungan.')
-  + table(['Kumpulan', 'Bilangan murid', f'Σ{X}', f'Σ{X}²'], [['A', '20', '900', '40 800'], ['B', '15', '690', '31 950']], c, 17)
-  + note(f'Kenal pasti Σ{X} dan Σ{X}² bagi kedua-dua kumpulan, kemudian hitung Σ{X} dan Σ{X}² bagi gabungan.', 'Strategi:'),
-  work([('Penyelesaian', ['Jumlah murid = 20 + 15 = 35', f'Jumlah Σ{X} = 900 + 690 = 1 590', f'Jumlah Σ{X}² = 40 800 + 31 950 = 72 750',
-                          f'{SIG} = √({F("72 750", 35)} − ({F("1 590", 35)})²) = √{vv:.3f} = {math.sqrt(vv):.3f}'])], s, 1, 18))
+assert (sxA, sxB, sx2A, sx2B, sx, s2) == (1000, 810, 50060, 43770, 1810, 93830) and f'{sx / n:.3f}' == '51.714' and f'{math.sqrt(vv):.3f}' == '2.548'
+S(s, 'CONTOH 15', 'Menyelesaikan masalah sukatan serakan',
+  p('Jadual menunjukkan maklumat jisim dua kumpulan murid. Semua murid daripada kumpulan A dan B akan digabungkan. Tentukan sisihan piawai bagi jisim kumpulan murid yang digabungkan.')
+  + table(['Kumpulan', 'Bilangan murid', 'Min', 'Varians'], [['A', '20', '50', '3'], ['B', '15', '54', '2']], c, 17),
+  work([('Memahami masalah', ['Menghitung sisihan piawai bagi gabungan jisim dua kumpulan murid.']),
+        ('Merancang strategi', [f'Kenal pasti Σ{X} dan Σ{X}² bagi kedua-dua kumpulan, kemudian hitung Σ{X} dan Σ{X}² bagi gabungan.']),
+        ('Melaksanakan strategi', [f'A: 50 = {F(f"Σ{X}", "20")} → Σ{X} = 1 000; 3 = {F(f"Σ{X}²", "20")} − 50² → Σ{X}² = 50 060', f'B: 54 = {F(f"Σ{X}", "15")} → Σ{X} = 810; 2 = {F(f"Σ{X}²", "15")} − 54² → Σ{X}² = 43 770',
+                                   f'Jumlah Σ{X} = 1 810; jumlah Σ{X}² = 93 830; min = {F("1 810", "35")} = 51.714', f'{SIG} = √({F("93 830", "35")} − 51.714²) = √6.490 = 2.548']),
+        ('Kesimpulan', ['Nilai sisihan piawai baharu ialah 2.548.'])], s, 1, 15))
 
 OUTFILE = os.environ.get('NOTA_OUT') or os.path.join(HERE, '..', '..', 'serakan', 'slides.js')
 HEAD = '/* Nota Bab 8 ikut buku teks Matematik T4 KSSM. Dijana skrip; jangan sunting dengan tangan. */'

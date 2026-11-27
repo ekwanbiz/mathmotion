@@ -175,7 +175,7 @@ E4 = ['12', '13', '24', '34', '45', '25']
 V5 = {'P': (70, 100), 'Q': (210, 100), 'R': (210, 300), 'S': (70, 300)}
 E5 = [dict(a='P', loop=-135), ed('PQ'), ed('QR', k=20), ed('QR', k=-20), ed('RS'), ed('SP'), dict(a='S', loop=135)]
 o = f'<g transform="translate(10,0)">{gdraw(V4, [ed(e) for e in E4])}</g><g transform="translate(240,0)">{GF.rv(gdraw(V5, E5))}</g>' + GF.T(140, 445, 'Contoh 4', TX, 17) + GF.T(380, 445, 'Contoh 5', TX, 17)
-S(s, 'CONTOH 4', 'Melukis graf berdasarkan set V dan set E',
+S(s, 'CONTOH 4 – 5', 'Melukis graf berdasarkan set V dan set E',
   p('<b>CONTOH 4</b> Lukis satu graf mudah mengikut maklumat yang diberikan.')
   + bul(s, [f'{i("V")} = {{1, 2, 3, 4, 5}}', f'{i("E")} = {{(1, 2), (1, 3), (2, 4), (3, 4), (4, 5), (2, 5)}}'])
   + p('<b>CONTOH 5</b> Lukis satu graf berbilang tepi dan mempunyai gelung mengikut maklumat yang diberikan.')
@@ -294,7 +294,7 @@ E12 = ['AB', 'BC', 'CD', 'DE', 'EA', 'BE', 'BD']
 t1 = [ed('AB'), ed('BC'), ed('BD'), ed('BE')]
 t2 = [ed('EA'), ed('AB'), ed('BC'), ed('CD')]
 o, h = panel([('Graf: bucu = 5, tepi = 7', gz(G12, [ed(e) for e in E12])), ('Pokok (i)', gz(G12, t1)), ('Pokok (ii)', gz(G12, t2))], h=200, ih=360)
-S(s, 'CONTOH 11', 'Melukis pokok daripada suatu graf',
+S(s, 'CONTOH 11 – 12', 'Melukis pokok',
   p('<b>CONTOH 11</b> Lukis satu pokok dengan maklumat yang diberi: (a) bucu = 6 (b) tepi = 4.')
   + work([('', ['(a) Bucu = 6, maka tepi = 6 − 1 = 5', '(b) Tepi = 4, maka bucu = 4 + 1 = 5'])], s, 1, 19)
   + p('<b>CONTOH 12</b> Lukis dua pokok berdasarkan graf yang diberikan.')
@@ -319,7 +319,7 @@ S(s, 'CONTOH 13', 'Pokok dengan jumlah pemberat minimum',
 # =====================================================================
 s = '5.1.4'
 c = COL[s]
-S(s, 'KONSEP', 'Mewakilkan maklumat dalam bentuk rangkaian',
+S(s, 'CONTOH 14', 'Mewakilkan maklumat dalam bentuk rangkaian',
   p('Rangkaian merupakan satu bentuk graf yang unik dan boleh digunakan untuk mewakilkan maklumat yang bertindih atau bersilang. Rangkaian yang dilukis dalam bentuk grafik membolehkan perkaitan suatu maklumat mudah difahami.')
   + bul(s, ['<b>Rangkaian pengangkutan</b>: pemberat boleh mewakili jarak, masa perjalanan atau kos perjalanan. Contoh sistem navigasi ialah GPS.',
             '<b>Rangkaian sosial</b>: digunakan untuk peluang pekerjaan, perniagaan, bersosial, pendidikan dan media sosial.'])

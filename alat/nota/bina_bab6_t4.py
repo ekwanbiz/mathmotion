@@ -190,22 +190,22 @@ res = {k: (x + y <= 6, y >= 2) for k, (x, y) in tp.items()}
 assert [k for k, v in res.items() if all(v)] == ['B']
 g = plane((60, 40, 450, 400), (0, 8), (0, 7), [(1, 1, 6, False, 'x + y = 6', (6.6, 0.6)), (0, 1, 2, False, 'y = 2', (7.3, 2.4))], txt=[(6, 5, 'A', TX), (1.6, 3.4, 'B', TX), (1.8, 0.9, 'C', TX), (6.6, 1.2, 'D', TX)])
 tk = lambda b: '✓' if b else '✗'
-S(s, 'KONSEP', 'Titik dalam rantau suatu sistem ketaksamaan',
-  p(f'Hanya satu rantau daripada rantau A, B, C dan D memuaskan kedua-dua ketaksamaan linear {X} + {Y} {LE} 6 dan {Y} {GE} 2. Tentukan rantau tersebut dengan menggantikan sekurang-kurangnya satu titik daripada setiap rantau ke dalam ketaksamaan.')
+S(s, 'CONTOH 9', 'Titik dalam rantau suatu sistem ketaksamaan',
+  p(f'<b>CONTOH 9</b> Hanya satu rantau daripada rantau A, B, C dan D memuaskan kedua-dua ketaksamaan linear {X} + {Y} {LE} 6 dan {Y} {GE} 2. Tentukan rantau tersebut dengan menggantikan sekurang-kurangnya satu titik daripada setiap rantau ke dalam ketaksamaan.')
   + table(['Rantau', 'Titik', f'{X} + {Y} {LE} 6', f'{Y} {GE} 2'], [[k, f'{tp[k]}'.replace(' ', ' '), f'{sum(tp[k])} {LE} 6 {tk(res[k][0])}', f'{tp[k][1]} {GE} 2 {tk(res[k][1])}'] for k in 'ABCD'], c, 16, rvrows=(1,))
   + note(f'Hanya titik daripada rantau B memuaskan kedua-dua ketaksamaan. Maka rantau B memuaskan {X} + {Y} {LE} 6 dan {Y} {GE} 2.', 'Kesimpulan:'),
   SVh(g, 'Empat rantau A B C D', 440))
 
 g = plane((60, 30, 450, 400), (-4, 4), (-2, 7), [(-1, 1, 3, False, 'y = x + 3', (2.4, 6.4)), (1, 0, 2, True, 'x = 2', (2.7, -1.3))], [(-1, 1, 3, '<='), (1, 0, 2, '<')], col=PK)
-S(s, 'CONTOH 9', 'Melorek rantau sepunya',
+S(s, 'CONTOH 10', 'Melorek rantau sepunya',
   p('Rantau yang memuaskan satu sistem ketaksamaan linear dapat ditentukan dengan langkah-langkah berikut.')
   + steps(s, ['Tanda rantau yang terlibat bagi setiap ketaksamaan linear dengan penandaan yang berlainan.', 'Kenal pasti rantau sepunya yang ditanda dengan kesemua penandaan.', 'Lorek rantau sepunya sepenuhnya. Pastikan lorekan tidak terkeluar daripada rantau sepunya.'])
-  + p(f'<b>CONTOH 9</b> Lorek rantau yang memuaskan {Y} {LE} {X} + 3 dan {X} &lt; 2.'),
+  + p(f'<b>CONTOH 10</b> Lorek rantau yang memuaskan {Y} {LE} {X} + 3 dan {X} &lt; 2.'),
   stack(SVh(g, 'Rantau sepunya y ≤ x + 3 dan x < 2', 400, 15), work([('Penyelesaian', [f'{Y} {LE} {X} + 3: rantau bawah garis padu.', f'{X} &lt; 2: rantau kiri garis sempang {X} = 2.'])], s, 1, 17)))
 
 assert abs(4 / 2 - 2) < 1e-9
 g = plane((60, 30, 450, 400), (-1, 7), (-1, 7), [(-1, 2, 0, False, '2y = x', (6.2, 3.6)), (1, 1, 6, True, 'x + y = 6', (5.6, 1.4))], [(-1, 2, 0, '>='), (1, 1, 6, '<'), (-1, 0, 0, '<=')], col=PK)
-S(s, 'CONTOH 10', 'Melukis dan melorek rantau sistem ketaksamaan',
+S(s, 'CONTOH 11', 'Melukis dan melorek rantau sistem ketaksamaan',
   p(f'Lukis dan lorek rantau yang memuaskan sistem ketaksamaan linear 2{Y} {GE} {X}, {X} + {Y} &lt; 6 dan {X} {GE} 0.')
   + work([('(a) Tukar kepada persamaan linear', [f'2{Y} = {X}: titik (0, 0) dan (6, 3), garis padu', f'{X} + {Y} = 6: titik (0, 6) dan (6, 0), garis sempang', f'{X} = 0: paksi-{Y}']),
           ('(b) Lukis graf', ['Lukis ketiga-tiga garis lurus pada satah Cartes yang sama.']),
@@ -214,7 +214,7 @@ S(s, 'CONTOH 10', 'Melukis dan melorek rantau sistem ketaksamaan',
 
 ga = plane((40, 30, 230, 230), (-1, 7), (-1, 7), [(1, 1, 6, True, 'x + y = 6', (4.6, 3.2))], [(1, 1, 6, '<'), (0, -1, 0, '<='), (-1, 0, 0, '<=')], col=PK, xs=2, ys=2, fs=10) + GF.T(135, 268, '(a)', TX, 17)
 gb = plane((290, 30, 480, 230), (-7, 1), (-7, 1), [(1, 1, -5, False, 'x + y = −5', (-5.2, -5)), (0, 1, -1, True, 'y = −1', (-5.4, -1.6))], [(1, 1, -5, '>='), (0, 1, -1, '<'), (1, 0, 0, '<=')], col=PK, xs=2, ys=2, fs=10) + GF.T(385, 268, '(b)', TX, 17)
-S(s, 'CONTOH 11', 'Menulis ketaksamaan bagi rantau berlorek',
+S(s, 'CONTOH 12 – 13', 'Menulis ketaksamaan bagi rantau berlorek',
   p('Nyatakan tiga ketaksamaan linear yang mentakrifkan rantau berlorek dalam setiap rajah berikut.')
   + work([('(a)', [f'Garis yang terlibat: {X} + {Y} = 6, paksi-{X} dan paksi-{Y}.', f'Rantau di bawah garis sempang {X} + {Y} = 6, maka {X} + {Y} &lt; 6.', f'Atas paksi-{X}, maka {Y} {GE} 0. Kanan paksi-{Y}, maka {X} {GE} 0.']),
           ('(b)', [f'Garis yang terlibat: {X} + {Y} = −5, {Y} = −1 dan paksi-{Y}.', f'Atas garis padu {X} + {Y} = −5, maka {X} + {Y} {GE} −5.', f'Bawah garis sempang {Y} = −1, maka {Y} &lt; −1. Kiri paksi-{Y}, maka {X} {LE} 0.'])], s, 1, 17),
@@ -223,7 +223,7 @@ S(s, 'CONTOH 11', 'Menulis ketaksamaan bagi rantau berlorek',
 assert 16 + 8 == 24 and 16 / 2 == 8
 g = plane((70, 30, 460, 380), (0, 26), (0, 14), [(1, 1, 24, False, 'x + y = 24', (23.3, 4.5)), (-0.5, 1, 0, False, 'y = ½x', (23, 12.8)), (0, 1, 6, True, 'y = 6', (3.5, 6.8))],
           [(1, 1, 24, '<='), (-0.5, 1, 0, '<='), (0, -1, 0, '<=')], pts=[(12, 6, '12', {'dy': 20, 'anchor': 'middle', 'dx': 0}), (18, 6, '18', {'dy': 20, 'anchor': 'middle', 'dx': 0}), (16, 8, '(16, 8)')], col=PK, xs=4, ys=2, fs=11)
-S(s, 'CONTOH 12', 'Menyelesaikan masalah sistem ketaksamaan',
+S(s, 'CONTOH 14', 'Menyelesaikan masalah sistem ketaksamaan',
   p('Puan Aishah perlu memilih selebih-lebihnya 24 orang murid untuk pertandingan koir. Bilangan peserta perempuan sekurang-kurangnya dua kali peserta lelaki. (a) Tulis dua ketaksamaan linear selain <i>x</i> ≥ 0 dan <i>y</i> ≥ 0. (b) Lukis dan lorek rantau. (c) (i) Tentukan bilangan minimum dan maksimum peserta perempuan apabila terdapat 6 orang peserta lelaki. (ii) Adakah syarat dipatuhi jika 9 orang murid lelaki ingin menyertai?')
   + work([('Penyelesaian', [f'(a) Katakan {X} = peserta perempuan, {Y} = peserta lelaki. {X} + {Y} {LE} 24, {X} {GE} 2{Y} iaitu {Y} {LE} ½{X}',
                             '(c)(i) Garis y = 6 dalam rantau: minimum 12 orang, maksimum 18 orang', '(ii) Tidak, kerana nilai y = 9 berada di luar rantau berlorek.'])], s, 1, 16),
@@ -232,10 +232,15 @@ S(s, 'CONTOH 12', 'Menyelesaikan masalah sistem ketaksamaan',
 assert 18 + 18 == 36
 g = plane((70, 30, 460, 380), (0, 40), (0, 40), [(1, 1, 36, False, 'x + y = 36', (33, 8)), (-1, 1, 0, False, 'y = x', (33, 37)), (1, 0, 20, True, 'x = 20', (23.5, 34))],
           [(1, 1, 36, '<='), (1, -1, 0, '<='), (-1, 0, 0, '<=')], pts=[(18, 18, '(18, 18)')], col=PK, xs=4, ys=4, fs=11)
-S(s, 'CONTOH 13', 'Penyelesaian masalah harian',
+S(s, 'CONTOH 15', 'Penyelesaian masalah harian',
   p('Jumlah maksimum penumpang kereta api di sebuah taman tema ialah 36 orang. Bilangan penumpang dewasa mesti melebihi atau sama dengan bilangan penumpang kanak-kanak. (a) Tulis dua ketaksamaan linear selain <i>x</i> ≥ 0 dan <i>y</i> ≥ 0. (b) Lukis dan lorek rantau. (c) Tentukan bilangan maksimum kanak-kanak. (d) Jika terdapat 20 orang kanak-kanak, bolehkah mereka menaiki kereta api secara serentak?')
-  + work([('Penyelesaian', [f'(a) Katakan {X} = kanak-kanak, {Y} = dewasa. {X} + {Y} {LE} 36, {Y} {GE} {X}', '(c) Bilangan maksimum kanak-kanak ialah 18 orang.', '(d) Tidak, kerana nilai x = 20 berada di luar rantau berlorek.'])], s, 1, 16)
-  + note('Semua titik dalam rantau sepunya memuaskan sistem ketaksamaan linear yang dibina berdasarkan syarat-syarat situasi.', 'Ingat:'),
+  + work([('Memahami masalah', ['(a) Menentukan dua ketaksamaan linear mengikut syarat. (b) Melukis dan melorek rantau. (c) Menentukan nilai daripada graf.']),
+          ('Merancang strategi', [f'Katakan {X} = penumpang kanak-kanak dan {Y} = penumpang dewasa. Graf dilukis pada sukuan pertama; nilai ditentukan daripada rantau sepunya.'])], s, 1, 15),
+  SVh(g, 'Rantau penumpang kereta api', 420, 10))
+
+S(s, 'CONTOH 15 (sambungan)', 'Melaksanakan strategi dan kesimpulan',
+  work([('Melaksanakan strategi', [f'(a) {X} + {Y} {LE} 36 dan {Y} {GE} {X}', '(b) Lukis garis x + y = 36 dan y = x; lorek rantau sepunya.', '(c) Bilangan maksimum kanak-kanak ialah 18 orang.', '(d) Tidak, kerana nilai x = 20 berada di luar rantau berlorek.']),
+              ('Kesimpulan', ['Semua titik dalam rantau sepunya memuaskan sistem ketaksamaan linear yang dibina berdasarkan syarat-syarat situasi.'])], s, 1, 18),
   SVh(g, 'Rantau penumpang kereta api', 420, 10))
 
 OUTFILE = os.environ.get('NOTA_OUT') or os.path.join(HERE, '..', '..', 'ketaksamaan', 'slides.js')

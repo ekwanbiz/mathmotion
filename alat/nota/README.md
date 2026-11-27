@@ -139,10 +139,10 @@ Semak setiap slaid sebegini sebelum dimasukkan.
 | 2 Asas Nombor | `asasnombor` | 20 | 12 |
 | 3 Penaakulan Logik | `logik` | 32 | 24 |
 | 4 Operasi Set | `operasiset` | 26 | 15 |
-| 5 Rangkaian dalam Teori Graf | `teorigraf` | 23 | 17 |
-| 6 Ketaksamaan Linear dalam Dua Pemboleh Ubah | `ketaksamaan` | 16 | 13 |
-| 7 Graf Gerakan | `grafgerakan` | 16 | 13 |
-| 8 Sukatan Serakan Data Tak Terkumpul | `serakan` | 16 | 13 |
+| 5 Rangkaian dalam Teori Graf | `teorigraf` | 23 | 1–17 |
+| 6 Ketaksamaan Linear dalam Dua Pemboleh Ubah | `ketaksamaan` | 17 | 1–15 (Contoh 15: 4 kotak) |
+| 7 Graf Gerakan | `grafgerakan` | 25 | 1–18 (Contoh 8, 9, 16, 17: 4 kotak) |
+| 8 Sukatan Serakan Data Tak Terkumpul | `serakan` | 18 | 1–15 (Contoh 15: 4 kotak) |
 | 9 Kebarangkalian Peristiwa Bergabung | `peristiwa` | 19 | 13 |
 | 10 Matematik Pengguna: Pengurusan Kewangan | `kewangan` | 19 | 6 + contoh tanpa nombor + kajian kes |
 
@@ -151,7 +151,7 @@ Bab 4: fungsi `venn()` dalam bina_bab4_t4.py melukis gambar rajah Venn 2/3 set d
 Bab 5: fungsi `gdraw()` dalam bina_bab5_t4.py melukis graf (bucu, tepi, berbilang tepi lengkung, gelung, anak panah, pemberat); `gz()` versi besar untuk `panel()` (grid graf kecil).
 Bab 6: fungsi `plane()` dalam bina_bab6_t4.py melukis satah Cartes dengan garis padu/sempang dan rantau sepunya berlorek (poligon dipotong ikut setiap ketaksamaan, `clip()`).
 Bab 7: fungsi `gm()` dalam bina_bab7_t4.py melukis graf jarak-masa / laju-masa (garis, titik, garis putus, luas berlorek).
-Bab 8: `dotplot()`, `boxplot()` dan `quart()` (kaedah kuartil buku) dalam bina_bab8_t4.py. SUBS lama digabung (8.1, 8.2): semak `'[["8.1",4],["8.2",12]]' serakan`.
+Bab 8: `dotplot()`, `boxplot()` dan `quart()` (kaedah kuartil buku) dalam bina_bab8_t4.py. SUBS lama digabung (8.1, 8.2): semak `'[["8.1",4],["8.2",14]]' serakan`.
 Bab 9: `tree()` (gambar rajah pokok 2 peringkat, cabang diserlah), `vennbox()`, `sf()` (pecahan bertindan dalam SVG). Kiraan disemak dengan `fractions.Fraction`.
 Bab 10: `plan()` jadual pelan kewangan (baris jumlah tebal; jadual panjang dipecah kepada 2 slaid). SUBS lama digabung (10.1.3 → 10.1.2): semak `'[["10.1.1",5],["10.1.2",14]]' kewangan`.
 SUBS lama dikekalkan dan digabung melalui `BAB.gabung` (1.1; 3.1 dan 3.2). Semak: `semak_muat.py '[["1.1",23]]' kuadratik`, `'[["3.1",17],["3.2",15]]' logik`.
@@ -178,3 +178,5 @@ Bab 5: transformasi disemak dengan Fraction (`tr/rot/ref/enl/ap`); `shape()` luk
 Bab 6: `unit2()` bulatan unit dengan θ dan α; `tg()` graf trigo dengan label darjah. Semak `'[["6.1",9],["6.2",7]]' trigograf`.
 Bab 7: `Ch` carta (histogram/poligon/ogif) dalam ruang indeks kelas; ogif garis lurus, kuartil/persentil = `interp()` linear; `stats()` guna Fraction(str(x)). Semak `'[["7.1",9],["7.2",6]]' serakanterkumpul`.
 Bab 8: carta alir 6 komponen; Contoh 2–4 linear/kuadratik/eksponen. Semak `'[["8.1.1",5],["8.1.2",4]]' pemodelan`.
+
+Nota: semak_muat.py senyap jika kunci subtopik salah. Pastikan kunci ikut BAB.gabung (contoh serakan: 8.1/8.2; teorigraf tiada gabung: 5.1.1–5.1.4).
