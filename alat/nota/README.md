@@ -167,6 +167,8 @@ Bab 1: ayat buku "semakin kecil nilai a, semakin lebar lengkok" dikekalkan denga
 | 4 Matematik Pengguna: Percukaian | `percukaian` | 17 | 1–13 |
 | 5 Kekongruenan, Pembesaran dan Gabungan Transformasi | `kekongruenan` | 25 | 1–22 |
 | 6 Nisbah dan Graf Fungsi Trigonometri | `trigograf` | 16 | 1–11 |
+| 7 Sukatan Serakan Data Terkumpul | `serakanterkumpul` | 15 | 1–13 |
+| 8 Pemodelan Matematik | `pemodelan` | 9 | contoh proses + 1–4 |
 
 Bab 1 = PDF hlm 10–42, Bab 2 = 43–80, Bab 3 = 81–102. Penjana: bina_babN_t5.py. Penyelesaian masalah guna 4 kotak (`ps4()`).
 Bab 2: `M()` matriks HTML guna inline-grid (jangan guna <table> dalam p(): HTML tidak sah dan susun atur pecah); `mul/add/sc/det/inv` untuk semak jawapan. Semak `'[["2.1",5],["2.2",19]]' matriks`.
@@ -174,3 +176,5 @@ Bab 3: kadar Tarif Motor 2015 dikekalkan (data rasmi); kiraan wang guna Decimal 
 Bab 4: jadual kadar cukai TT2020, cukai jalan dan tarif elektrik dikekalkan (data rasmi); `taxparts()` kira cukai dasar + baki. Semak `'[["4.1",17]]' percukaian`.
 Bab 5: transformasi disemak dengan Fraction (`tr/rot/ref/enl/ap`); `shape()` lukis poligon berlabel, `poly()` pada satah Cartes. Semak `'[["5.1",6],["5.2",8],["5.3",8],["5.4",3]]' kekongruenan`.
 Bab 6: `unit2()` bulatan unit dengan θ dan α; `tg()` graf trigo dengan label darjah. Semak `'[["6.1",9],["6.2",7]]' trigograf`.
+Bab 7: `Ch` carta (histogram/poligon/ogif) dalam ruang indeks kelas; ogif garis lurus, kuartil/persentil = `interp()` linear; `stats()` guna Fraction(str(x)). Semak `'[["7.1",9],["7.2",6]]' serakanterkumpul`.
+Bab 8: carta alir 6 komponen; Contoh 2–4 linear/kuadratik/eksponen. Semak `'[["8.1.1",5],["8.1.2",4]]' pemodelan`.
