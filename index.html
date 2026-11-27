@@ -58,7 +58,8 @@ html.light{--bg:#FFFFFF;--card:#FFFFFF;--line:#E5E5E5;--h:#3C3C3C;--p:#6B6B6B;--
 .ck:active{transform:translateY(3px);border-bottom-width:2px}
 .ck.gm{background:#FFC800;border-color:#D9A600;color:#4A2F00}
 .ck.bk{background:#1CB0F6;border-color:#1899D6;color:#fff}
-@media(max-width:480px){.ck.gm .tx,.ck.bk .tx{display:none}.ck.gm,.ck.bk{padding:0}.top{gap:6px;padding-left:12px;padding-right:12px}.brand{gap:7px}.brand svg{width:30px;height:30px}.brand b{font-size:19px}.ck{height:40px;min-width:40px;border-radius:12px;border-bottom-width:4px;font-size:13px}.ck svg{width:18px;height:18px}}
+.rolesw .ri{display:none}
+@media(max-width:480px){.rolesw .ri{display:inline-flex;width:19px;height:19px}.rolesw .ri svg{width:19px;height:19px}.rolesw .tx{display:none}.rolesw button{padding:0 10px;display:inline-flex;align-items:center}.ck.gm .tx,.ck.bk .tx{display:none}.ck.gm,.ck.bk{padding:0}.top{gap:6px;padding-left:12px;padding-right:12px}.brand{gap:7px}.brand svg{width:30px;height:30px}.brand b{font-size:19px}.ck{height:40px;min-width:40px;border-radius:12px;border-bottom-width:4px;font-size:13px}.ck svg{width:18px;height:18px}}
 @media(max-width:360px){.brand b{font-size:17px}.brand svg{display:none}.ck{height:38px;min-width:38px}}
 .hero{text-align:center;padding:22px 16px 6px}
 .hero h1{margin:0;font-size:28px;font-weight:900;color:var(--h);line-height:1.15}
@@ -220,9 +221,9 @@ function cardHTML(c){
  return`<a class="card" href="${a.path}" data-app="${a.id}" aria-label="Tingkatan ${c.t} Bab ${c.bab}, ${esc(c.nm)}">${pic}<span class="bb">BAB ${c.bab}</span><span class="nm">${esc(c.nm)}</span>${s?`<span class="st">★ ${s}</span>`:''}</a>`}
 /* =================== Paparan =================== */
 const app=document.getElementById('app');
+const IG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M7 20h10M12 16v4M7 9h6M7 12h4"/></svg>';
+const IM='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2.5 9 2.5 12 0v-5M22 9v6"/></svg>';
 function pilihPeranan(){const light=document.documentElement.classList.contains('light');
- const IG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M7 20h10M12 16v4M7 9h6M7 12h4"/></svg>';
- const IM='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2.5 9 2.5 12 0v-5M22 9v6"/></svg>';
  return`<main class="pp"><header class="top"><span class="sp"></span>${typeof tmLangBtn==='function'?tmLangBtn('ck sq langbtn'):''}<button class="ck sq" id="mode" aria-label="${light?'Tukar ke mod gelap':'Tukar ke mod cerah'}">${light?I.moon:I.sun}</button></header>
  <div class="ppin"><span class="pplg">${LOGO(88)}</span><h1>Selamat datang ke <span class="tm">Teroka<span>Math</span></span></h1><p class="ppsl">Teroka. Faham. Kuasai.</p>
  <p class="ppq">SIAPAKAH ANDA?</p>
@@ -235,7 +236,7 @@ function home(){const light=document.documentElement.classList.contains('light')
  <header class="top"><a class="brand" href="#/">${LOGO(40)}<b>Teroka<span>Math</span></b></a>
   <a class="ck gm" href="game/" aria-label="Game"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="11" rx="5"/><path d="M7 10.5v4M5 12.5h4"/><circle cx="16" cy="11.5" r="1" fill="currentColor"/><circle cx="18.5" cy="14" r="1" fill="currentColor"/></svg><span class="tx">GAME</span></a>
   <a class="ck bk" href="bank/" aria-label="Bank Soalan"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5M8 7h6M8 11h6"/></svg><span class="tx">BANK SOALAN</span></a>
-  <div class="rolesw" role="group" aria-label="Mod pengguna"><button type="button" data-r="guru" aria-pressed="${!murid}">Guru</button><button type="button" data-r="murid" aria-pressed="${murid}">Murid</button></div>
+  <div class="rolesw" role="group" aria-label="Mod pengguna"><button type="button" data-r="guru" aria-pressed="${!murid}" aria-label="Guru" title="Guru"><span class="ri">${IG}</span><span class="tx">Guru</span></button><button type="button" data-r="murid" aria-pressed="${murid}" aria-label="Murid" title="Murid"><span class="ri">${IM}</span><span class="tx">Murid</span></button></div>
   ${typeof tmLangBtn==='function'?tmLangBtn('ck sq langbtn'):''}<button class="ck sq" id="mode" aria-label="${light?'Tukar ke mod gelap':'Tukar ke mod cerah'}">${light?I.moon:I.sun}</button></header>
  <section class="hero"><h1>Teroka. Faham. Kuasai.</h1><p>Pilih tingkatan, kemudian pilih bab.</p>
 </section>
