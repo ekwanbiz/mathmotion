@@ -261,6 +261,47 @@
     "T1S2-C06"
    ],
    "nota": "Soalan Set diganti Faktor dan Gandaan."
+  },
+  {
+   "nama": "T2_UASA-2026.pdf",
+   "nama_asal": "UASA TINGKATAN 2 (2).pdf",
+   "sha16": "35cd2a28abcede7a",
+   "tarikh_proses": "2026-11-27",
+   "set": "T2 Set 7",
+   "soalan_ids": [
+    "T2S7-A01",
+    "T2S7-A02",
+    "T2S7-A03",
+    "T2S7-A04",
+    "T2S7-A05",
+    "T2S7-A06",
+    "T2S7-A07",
+    "T2S7-A08",
+    "T2S7-A09",
+    "T2S7-A10",
+    "T2S7-A11",
+    "T2S7-A12",
+    "T2S7-A13",
+    "T2S7-A14",
+    "T2S7-A15",
+    "T2S7-A16",
+    "T2S7-A17",
+    "T2S7-A18",
+    "T2S7-A19",
+    "T2S7-A20",
+    "T2S7-B01",
+    "T2S7-B02",
+    "T2S7-B03",
+    "T2S7-B04",
+    "T2S7-B05",
+    "T2S7-C01",
+    "T2S7-C02",
+    "T2S7-C03",
+    "T2S7-C04",
+    "T2S7-C05",
+    "T2S7-C06"
+   ],
+   "nota": "Lukis graf / lukis imej diganti soalan bertulis."
   }
  ]
 }
