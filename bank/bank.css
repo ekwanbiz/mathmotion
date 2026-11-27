@@ -238,3 +238,4 @@ a{color:var(--brandM)}
 #print .cvG .ar ol{margin-left:18px}#print .cvG .ar li{margin-bottom:5px}
 #print .cvG .pem{margin:0;width:100%;font-size:9pt}#print .cvG .pem th{font-weight:400;font-style:italic}
 @media(max-width:600px){.pad{grid-template-columns:minmax(0,1fr) 12px 28px 12px minmax(0,1fr)}}
+@media(max-width:600px){.tb.qt{display:block;max-width:100%;overflow-x:auto}}
