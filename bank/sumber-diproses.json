@@ -40,6 +40,47 @@
     "T2S2-C05",
     "T2S2-C06"
    ]
+  },
+  {
+   "nama": "T1_UASA-2024_SMKRP.docx",
+   "nama_asal": "1.Soalan UASA Lengkap 2024.docx",
+   "sha16": "f18b7ffd6bdc3e7f",
+   "tarikh_proses": "2026-11-27",
+   "set": "T1 Set 1",
+   "soalan_ids": [
+    "T1S1-A01",
+    "T1S1-A02",
+    "T1S1-A03",
+    "T1S1-A04",
+    "T1S1-A05",
+    "T1S1-A06",
+    "T1S1-A07",
+    "T1S1-A08",
+    "T1S1-A09",
+    "T1S1-A10",
+    "T1S1-A11",
+    "T1S1-A12",
+    "T1S1-A13",
+    "T1S1-A14",
+    "T1S1-A15",
+    "T1S1-A16",
+    "T1S1-A17",
+    "T1S1-A18",
+    "T1S1-A19",
+    "T1S1-A20",
+    "T1S1-B01",
+    "T1S1-B02",
+    "T1S1-B03",
+    "T1S1-B04",
+    "T1S1-B05",
+    "T1S1-C01",
+    "T1S1-C02",
+    "T1S1-C03",
+    "T1S1-C04",
+    "T1S1-C05",
+    "T1S1-C06"
+   ],
+   "nota": "Soalan topik Set diganti dengan Faktor dan Gandaan (tiada Set dalam KP2027 T1)."
   }
  ]
 }
