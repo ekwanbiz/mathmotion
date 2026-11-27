@@ -61,8 +61,8 @@ a{color:var(--brandM)}
 .tb{border-collapse:collapse;margin-top:8px;font-size:14px}
 .tb td,.tb th{border:1.5px solid var(--line);padding:5px 10px;text-align:center}
 .tb td:first-child{text-align:left}
-.pad{display:grid;grid-template-columns:minmax(0,1fr) 60px minmax(110px,auto);gap:6px 10px;align-items:center;margin-top:8px;max-width:560px}
-.pad .r{border:1.5px solid var(--line);border-radius:8px;padding:4px 8px;text-align:center}
+.pad{display:grid;grid-template-columns:minmax(170px,1fr) 14px minmax(90px,150px) 14px minmax(170px,1fr);gap:12px 0;align-items:center;margin-top:10px;max-width:720px}
+.pad .r{border:1.5px solid var(--line);border-radius:8px;padding:8px 12px;text-align:center;min-height:40px;display:flex;align-items:center;justify-content:center}
 .pt{margin-top:8px;display:grid;grid-template-columns:56px minmax(0,1fr) 70px;gap:4px 8px}
 .pt .l{font-weight:700}.pt .m{text-align:right;color:var(--p);font-size:13px;white-space:nowrap}
 .fig{margin:8px 0}.fig svg{max-width:240px;height:auto}
@@ -149,7 +149,7 @@ a{color:var(--brandM)}
 .tb.bt td:first-child{min-width:260px}.tb .bx{width:96px}
 .box{display:inline-block;width:18px;height:18px;border:1.5px solid currentColor;border-radius:3px;vertical-align:middle}
 .tb .bl{min-width:48px}.tb th{font-weight:700}
-.pad .dt{text-align:center;color:var(--p)}
+.pad .dt{text-align:center;color:var(--p);font-size:20px;line-height:1}
 .fig.big svg{max-width:420px}
 .kd{display:flex;gap:6px;flex-wrap:wrap}.kd span{width:32px;height:42px;border:1.5px solid currentColor;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-family:Inter,sans-serif}
 .an .skp{margin-bottom:4px}.an .mm,#print .mm{color:var(--p);font-size:.85em}
@@ -237,3 +237,4 @@ a{color:var(--brandM)}
 #print .cvG .ar{border:0;padding:0;font-size:9.5pt}
 #print .cvG .ar ol{margin-left:18px}#print .cvG .ar li{margin-bottom:5px}
 #print .cvG .pem{margin:0;width:100%;font-size:9pt}#print .cvG .pem th{font-weight:400;font-style:italic}
+@media(max-width:600px){.pad{grid-template-columns:minmax(0,1fr) 12px 28px 12px minmax(0,1fr)}}
