@@ -37,12 +37,13 @@
 <div id="print" aria-hidden="true"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <!-- Isi bab -->
-<script src="bab.js"></script>
-<script src="slides.js"></script>
+<script>/* bahasa EN: muat fail _en.js bab ini jika ada (BAB.en) */var TM_EN=(function(){try{return localStorage.getItem('terokamath-lang')==='en'}catch(e){return false}})();function tmJs(f){document.write('<script src="'+(TM_EN?f.replace(/\.js$/,'_en.js'):f)+'"><\/script>')}</script>
+<script>tmJs('bab.js')</script>
+<script>tmJs('slides.js')</script>
 <!-- Enjin TerokaMath (dikongsi semua bab) + soalan bab -->
 <script src="../teras/asas.js"></script>
 <script src="../teras/bahasa.js"></script>
-<script src="soalan.js"></script>
+<script>tmJs('soalan.js')</script>
 <script src="../teras/lembaran.js"></script>
 <script src="../teras/app.js"></script>
 <script src="../teras/muka.js"></script>

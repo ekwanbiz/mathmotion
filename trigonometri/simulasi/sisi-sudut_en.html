@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Sides &amp; Angles · Chapter 5</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0F0B18;--sf:#1A1426;--sf2:#231B33;--sf3:#140F1F;--bd:#33284A;--bd2:#45375F;--tx:#F3EEFF;--mu:#B9ADD6;--mu2:#8A7DAA;--c1:#FF8A3D;--c2:#A78BFA;--hip:#FFC93C;--opp:#FF7AB6;--adj:#4FD1FF;--ok:#3DDC84;--bad:#FF6B7A;
+ --surface:#1A1426;--border:#45375F;--text:#F3EEFF;--muted:#B9ADD6;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:#2a1203}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;overflow:hidden;position:relative}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:11px 14px;line-height:1.45;font-size:15px}
+.info b.t{display:block;font-size:18px;color:var(--c1);margin-bottom:4px}
+.info .tip{color:var(--mu);font-size:13px;margin-top:4px}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.rat{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.rat div{background:var(--sf2);border:1px solid var(--bd2);border-radius:11px;padding:6px 8px;font-weight:700;font-size:14px;line-height:1.35}
+.rat div b{display:block;font-size:18px;color:var(--tx)}
+.rat .fr{color:var(--mu);font-size:12.5px;font-weight:700}
+.hip{color:var(--hip)}.opp{color:var(--opp)}.adj{color:var(--adj)}
+.ctrl{display:flex;flex-direction:column;gap:8px}
+.line{display:flex;gap:10px;align-items:center}
+.line label{font-weight:800;color:var(--mu);font-size:14px;white-space:nowrap;min-width:70px}
+.line input[type=range]{flex:1;accent-color:var(--c1);height:28px}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.btns.three{grid-template-columns:repeat(3,1fr)}
+.big{background:var(--c2);border:0;color:#1b1035;border-radius:13px;padding:12px 6px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.big.on{background:var(--c1);color:#2a1203;border-color:var(--c1)}
+.nextb{margin-top:6px;background:var(--c1);border:0;color:#2a1203;border-radius:11px;padding:8px 16px;font-weight:900}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:16px}.ctrl{grid-area:c;align-self:end}
+ .info b.t{font-size:22px}.rat div b{font-size:21px}
+}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.big{padding:9px 4px}.info{padding:8px 11px;font-size:14px}}
+@media(max-width:420px){.modes button{font-size:13px;padding:10px 3px}.big{font-size:14px}.rat div{font-size:13px;padding:5px 6px}.rat div b{font-size:16px}}
+</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#A78BFA;color:#1b1035;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #a78bfa44">&#8592; Back</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mode">
+   <button data-m="teroka" class="on" role="tab">📐 Explore</button>
+   <button data-m="khas" role="tab">⭐ Special Angles</button>
+   <button data-m="cabaran" role="tab">❓ Challenge</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" viewBox="0 0 440 360" aria-label="Right-angled triangle"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const HIP='#FFC93C',OPP='#FF7AB6',ADJ='#4FD1FF',TH='#FF8A3D',TX='#F3EEFF',MU='#B9ADD6',BG='#140F1F',OK='#3DDC84',BAD='#FF6B7A';
+const AX=30,AY=330,HP=300,UNIT=30; // hipotenus 300 px = 10 cm
+let S={m:'teroka',th:35,at:'A',khas:null,q:null,score:0,tot:0,streak:0};
+const rad=d=>d*Math.PI/180,deg=r=>r*180/Math.PI;
+const f2=n=>n.toFixed(2),f4=n=>n.toFixed(4);
+const snd=n=>{if(window.FX)FX.play(n)};
+function lbl(x,y,t,c=TX,s=20,a='middle'){return `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" fill="${c}" font-size="${s}" font-weight="900" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="${BG}" stroke-width="5" stroke-linejoin="round">${t}</text>`}
+function ln(p,q,c,w=6,extra=''){return `<line x1="${p.x.toFixed(1)}" y1="${p.y.toFixed(1)}" x2="${q.x.toFixed(1)}" y2="${q.y.toFixed(1)}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"${extra}/>`}
+const unit=(p,q)=>{const dx=q.x-p.x,dy=q.y-p.y,L=Math.hypot(dx,dy)||1;return{x:dx/L,y:dy/L}};
+function rmark(M,P1,P2,k=14){const u=unit(M,P1),v=unit(M,P2);return `<path d="M${M.x+u.x*k} ${M.y+u.y*k}l${v.x*k} ${v.y*k}l${-u.x*k} ${-u.y*k}" fill="none" stroke="${TX}" stroke-width="2.5"/>`}
+function arc(V,P1,P2,r,lab,c=TH){const u=unit(V,P1),v=unit(V,P2),a={x:V.x+u.x*r,y:V.y+u.y*r},b={x:V.x+v.x*r,y:V.y+v.y*r},cr=u.x*v.y-u.y*v.x;
+ let s=`<path d="M${a.x.toFixed(1)} ${a.y.toFixed(1)} A${r} ${r} 0 0 ${cr>0?1:0} ${b.x.toFixed(1)} ${b.y.toFixed(1)}" fill="${c}22" stroke="${c}" stroke-width="4" stroke-linecap="round"/>`;
+ if(lab){const bx=u.x+v.x,by=u.y+v.y,L=Math.hypot(bx,by)||1;s+=lbl(V.x+bx/L*(r+18),V.y+by/L*(r+18),lab,c,19)}return s}
+function sideLab(p,q,cen,t,c,off=20){const m={x:(p.x+q.x)/2,y:(p.y+q.y)/2},dx=q.x-p.x,dy=q.y-p.y,L=Math.hypot(dx,dy)||1;let nx=-dy/L,ny=dx/L;if((m.x-cen.x)*nx+(m.y-cen.y)*ny<0){nx=-nx;ny=-ny}
+ return lbl(m.x+nx*off,m.y+ny*off,t,c,16,Math.abs(nx)<.4?'middle':nx>0?'start':'end')}
+/* ---------- geometri: A (sudut di kiri), B (sudut tegak), C (atas) ---------- */
+function geo(th){const A={x:AX,y:AY},C={x:AX+HP*Math.cos(rad(th)),y:AY-HP*Math.sin(rad(th))},B={x:C.x,y:AY};return{A,B,C,ab:HP*Math.cos(rad(th))/UNIT,bc:HP*Math.sin(rad(th))/UNIT,ac:HP/UNIT}}
+// peranan sisi bagi sudut di A atau C
+function roles(at){return at==='A'?{opp:'BC',adj:'AB',hyp:'AC'}:{opp:'AB',adj:'BC',hyp:'AC'}}
+function triSVG(G,at,th,opts={}){
+ const {A,B,C}=G,cen={x:(A.x+B.x+C.x)/3,y:(A.y+B.y+C.y)/3},R=roles(at);
+ const col={AC:HIP,[R.opp]:OPP,[R.adj]:ADJ};
+ const len={AB:G.ab,BC:G.bc,AC:G.ac};
+ const nm={AC:'hypotenuse',[R.opp]:'opposite',[R.adj]:'adjacent'};
+ let g=`<polygon points="${A.x},${A.y} ${B.x},${B.y} ${C.x},${C.y}" fill="#A78BFA18"/>`;
+ g+=ln(A,C,col.AC,7)+ln(B,C,col.BC,6)+ln(A,B,col.AB,6)+rmark(B,A,C);
+ const ang=at==='A'?th:90-th;
+ g+=at==='A'?arc(A,B,C,46,'θ'):arc(C,A,B,40,'θ');
+ g+=sideLab(A,C,cen,`AC = ${f2(len.AC)}`,col.AC)+sideLab(B,C,cen,`BC = ${f2(len.BC)}`,col.BC,16)+sideLab(A,B,cen,`AB = ${f2(len.AB)}`,col.AB);
+ g+=lbl(A.x-4,A.y+22,'A',TX,19)+lbl(B.x+8,B.y+22,'B',TX,19)+lbl(C.x+16,C.y-8,'C',TX,19);
+ if(opts.handle)g+=`<g class="h" style="cursor:grab"><circle cx="${C.x}" cy="${C.y}" r="30" fill="transparent"/><circle cx="${C.x}" cy="${C.y}" r="13" fill="${TH}" stroke="#fff" stroke-width="3"/></g>`;
+ return g}
+/* ================= Mod 1: teroka ================= */
+function legend(at){const R=roles(at);return lbl(430,20,'hypotenuse AC',HIP,15,'end')+lbl(430,42,'opposite '+R.opp,OPP,15,'end')+lbl(430,64,'adjacent '+R.adj,ADJ,15,'end')}
+function terokaSVG(){const G=geo(S.th);let g=legend(S.at)+`<path d="M${AX+HP} ${AY} A${HP} ${HP} 0 0 0 ${AX} ${AY-HP}" fill="none" stroke="#ffffff1a" stroke-width="2" stroke-dasharray="6 7"/>`;return g+triSVG(G,S.at,S.th,{handle:true})}
+function ratios(G,at){const R=roles(at),len={AB:G.ab,BC:G.bc,AC:G.ac};const o=len[R.opp],a=len[R.adj],h=len.AC;return{R,o,a,h,sin:o/h,kos:a/h,tan:o/a}}
+function terokaInfo(){
+ const G=geo(S.th),r=ratios(G,S.at),ang=S.at==='A'?S.th:90-S.th;
+ let h=`<b class="t">θ = ${ang}° (angle at ${S.at})</b>`;
+ h+=`<div class="rat"><div>sin θ<span class="fr"><br><span class="opp">${r.R.opp}</span> ÷ <span class="hip">AC</span></span><b>${f4(r.sin)}</b></div><div>cos θ<span class="fr"><br><span class="adj">${r.R.adj}</span> ÷ <span class="hip">AC</span></span><b>${f4(r.kos)}</b></div><div>tan θ<span class="fr"><br><span class="opp">${r.R.opp}</span> ÷ <span class="adj">${r.R.adj}</span></span><b>${f4(r.tan)}</b></div></div>`;
+ h+=`<div class="tip">Drag point ● C. When θ increases: sin ↑, cos ↓, tan ↑. Press <b>Change angle</b>: the opposite side and the adjacent side swap, the hypotenuse stays the same.</div>`;
+ info.innerHTML=h}
+/* ================= Mod 2: sudut khas ================= */
+const KHAS={30:['1/2','√3/2','1/√3'],45:['1/√2','1/√2','1'],60:['√3/2','1/2','√3']};
+function khasInfo(){
+ const a=S.khas;
+ if(!a){info.innerHTML=`<b class="t">Special angles 30°, 45°, 60°</b>Choose an angle below to see its exact values.<div class="tip">These values can be written without a calculator.</div>`;return}
+ const [s,k,t]=KHAS[a],sides=a===45?['1','1','√2']:a===30?['1','√3','2']:['√3','1','2'];
+ info.innerHTML=`<b class="t">θ = ${a}°</b><div class="rat"><div>sin ${a}°<b>${s}</b><span class="fr">≈ ${f4(Math.sin(rad(a)))}</span></div><div>cos ${a}°<b>${k}</b><span class="fr">≈ ${f4(Math.cos(rad(a)))}</span></div><div>tan ${a}°<b>${t}</b><span class="fr">≈ ${f4(Math.tan(rad(a)))}</span></div></div><div class="tip">Sides of the triangle: <span class="opp">opposite ${sides[0]}</span>, <span class="adj">adjacent ${sides[1]}</span>, <span class="hip">hypotenuse ${sides[2]}</span>.</div>`}
+function khasSVG(){
+ if(!S.khas)return terokaSVG().replace(/<g class="h"[\s\S]*?<\/g>/,'');
+ const G=geo(S.khas),{A,B,C}=G,cen={x:(A.x+B.x+C.x)/3,y:(A.y+B.y+C.y)/3};
+ const sides=S.khas===45?['1','1','√2']:S.khas===30?['1','√3','2']:['√3','1','2'];
+ let g=`<polygon points="${A.x},${A.y} ${B.x},${B.y} ${C.x},${C.y}" fill="#A78BFA18"/>`+ln(A,C,HIP,7)+ln(B,C,OPP,6)+ln(A,B,ADJ,6)+rmark(B,A,C)+arc(A,B,C,46,S.khas+'°');
+ g+=sideLab(A,C,cen,sides[2],HIP)+sideLab(B,C,cen,sides[0],OPP,16)+sideLab(A,B,cen,sides[1],ADJ);
+ if(S.khas!==45)g+=arc(C,A,B,34,(90-S.khas)+'°','#3DDC84');else g+=arc(C,A,B,34,'45°','#3DDC84');
+ return g}
+/* ================= Mod 3: cabaran (ketik sisi) ================= */
+const NM={hyp:'hypotenuse',opp:'opposite side',adj:'adjacent side'};
+function newQ(){
+ const th=25+Math.floor(Math.random()*41),rot=Math.floor(Math.random()*360),flip=Math.random()<.5,at=Math.random()<.5?'A':'C',ask=['hyp','opp','adj'][Math.floor(Math.random()*3)];
+ S.q={th,rot,flip,at,ask,done:false,pick:null};render();
+ info.innerHTML=`<b class="t">Tap the ${NM[ask]} of θ</b><div class="tip">Tap directly on a side of the triangle. Score: ${S.score}/${S.tot}${S.streak>=3?' · 🔥 '+S.streak+' in a row':''}</div>`}
+function cabSVG(){
+ const Q=S.q;if(!Q)return'';
+ const G=geo(Q.th),cx=(G.A.x+G.C.x)/2,cy=(G.A.y+G.B.y+G.C.y)/3;
+ const tf=p=>{let x=p.x-cx,y=p.y-cy;if(Q.flip)x=-x;const c=Math.cos(rad(Q.rot)),s=Math.sin(rad(Q.rot));return{x:220+(x*c-y*s)*.82,y:180+(x*s+y*c)*.82}};
+ const A=tf(G.A),B=tf(G.B),C=tf(G.C),cen={x:(A.x+B.x+C.x)/3,y:(A.y+B.y+C.y)/3},R=roles(Q.at);
+ const P={A,B,C},sideOf=k=>[P[k[0]],P[k[1]]];
+ const want=Q.ask==='hyp'?'AC':R[Q.ask];
+ let g=`<polygon points="${A.x},${A.y} ${B.x},${B.y} ${C.x},${C.y}" fill="#A78BFA18"/>`;
+ ['AB','BC','AC'].forEach(k=>{const [p,q]=sideOf(k);let c='#D9CFF5';if(Q.done){if(k===want)c=OK;else if(k===Q.pick)c=BAD}
+  g+=ln(p,q,c,7)+`<line class="sd" data-s="${k}" x1="${p.x}" y1="${p.y}" x2="${q.x}" y2="${q.y}" stroke="transparent" stroke-width="40" style="cursor:pointer"/>`;
+  if(Q.done){const role=k==='AC'?'hypotenuse':k===R.opp?'opposite':'adjacent';g+=sideLab(p,q,cen,role,k===want?OK:MU,18)}});
+ g+=rmark(B,A,C)+(Q.at==='A'?arc(A,B,C,40,'θ'):arc(C,A,B,36,'θ'));
+ [['A',A],['B',B],['C',C]].forEach(([n,p])=>{const dx=p.x-cen.x,dy=p.y-cen.y,L=Math.hypot(dx,dy)||1;g+=lbl(p.x+dx/L*22,p.y+dy/L*22,n,TX,18)});
+ return g}
+function answer(k){
+ const Q=S.q;if(!Q||Q.done)return;const R=roles(Q.at),want=Q.ask==='hyp'?'AC':R[Q.ask];
+ Q.done=true;Q.pick=k;S.tot++;const ok=k===want;
+ if(ok){S.score++;S.streak++;snd('betul');if(window.FX)FX.stars(document.getElementById('stage'),10)}else{S.streak=0;snd('salah')}
+ render();
+ const why=Q.ask==='hyp'?'The hypotenuse is opposite the right angle (at B).':Q.ask==='opp'?`The opposite side does not touch the vertex of θ (${Q.at}).`:`The adjacent side touches the vertex of θ (${Q.at}), but it is not the hypotenuse.`;
+ info.innerHTML=`<b class="t">${ok?'<span class="ok">✓ Correct! '+want+'</span>':'<span class="no">✗ Answer: '+want+'</span>'}</b>${why}<div class="tip">Score: ${S.score}/${S.tot}${S.streak>=3?' · 🔥 '+S.streak+' in a row':''}</div><button class="nextb" id="nx">Next ▶</button>`;
+ document.getElementById('nx').onclick=newQ}
+/* ================= Lukis & kawalan ================= */
+function render(){
+ if(S.m==='teroka'){svg.innerHTML=terokaSVG();terokaInfo()}
+ if(S.m==='khas'){svg.innerHTML=khasSVG();khasInfo()}
+ if(S.m==='cabaran')svg.innerHTML=cabSVG();
+ const sl=document.getElementById('sl');if(sl&&+sl.value!==S.th)sl.value=S.th;
+ const sv=document.getElementById('slv');if(sv)sv.textContent=S.th+'°';
+}
+function setCtrl(){
+ if(S.m==='teroka'){
+  ctrl.innerHTML=`<div class="line"><label>∠A = <span id="slv">${S.th}°</span></label><input type="range" id="sl" min="5" max="85" step="1" value="${S.th}" aria-label="Angle at A"></div><div class="btns"><button class="big ${S.at==='C'?'on':'alt'}" id="tk">Change angle (θ at ${S.at==='A'?'C':'A'})</button><button class="big" id="rw">Random angle</button></div>`;
+  document.getElementById('sl').oninput=e=>{S.th=+e.target.value;render()};
+  document.getElementById('tk').onclick=()=>{S.at=S.at==='A'?'C':'A';snd('langkah');setCtrl();render()};
+  document.getElementById('rw').onclick=()=>{S.th=10+Math.floor(Math.random()*71);render()};
+ }
+ if(S.m==='khas'){
+  ctrl.innerHTML=`<div class="btns three">${[30,45,60].map(a=>`<button class="big ${S.khas===a?'on':'alt'}" data-a="${a}">${a}°</button>`).join('')}</div>`;
+  ctrl.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{S.khas=+b.dataset.a;S.at='A';snd('langkah');setCtrl();render()});
+ }
+ if(S.m==='cabaran'){
+  ctrl.innerHTML=`<div class="btns"><button class="big alt" id="lk">Skip</button><button class="big" id="sm">Reset score</button></div>`;
+  document.getElementById('lk').onclick=newQ;
+  document.getElementById('sm').onclick=()=>{S.score=0;S.tot=0;S.streak=0;newQ()};
+ }
+}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));S.m=b.dataset.m;
+ setCtrl();if(S.m==='cabaran'){newQ();return}if(S.m==='khas')S.khas=null;render()});
+/* ---------- Seret (tetikus + sentuh) ---------- */
+let drag=false;
+function svgPt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+svg.addEventListener('pointerdown',e=>{
+ if(S.m==='cabaran'){const s=e.target.closest('.sd');if(s)answer(s.dataset.s);return}
+ if(S.m!=='teroka')return;const h=e.target.closest('.h');if(!h)return;e.preventDefault();drag=true;svg.setPointerCapture(e.pointerId)});
+svg.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();const p=svgPt(e);let a=Math.round(deg(Math.atan2(AY-p.y,p.x-AX)));a=Math.max(5,Math.min(85,a));if(a!==S.th){S.th=a;render()}});
+const end=()=>{drag=false};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+svg.addEventListener('dragstart',e=>e.preventDefault());
+setCtrl();render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

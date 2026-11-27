@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Scale Converter · Chapter 4</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--sf:#131C2E;--sf2:#1A2540;--sf3:#0E1626;--bd:#22304A;--bd2:#2E3F5E;--tx:#E6EDF7;--mu:#94A3B8;--mu2:#64748B;--c1:#38BDF8;--c1t:#062033;--c2:#FBBF24;--c3:#F472B6;--ok:#34D399;--bad:#F87171;
+ --surface:#131C2E;--border:#2E3F5E;--text:#E6EDF7;--muted:#94A3B8;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:var(--c1t)}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+.stage svg{width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:12px 14px;min-height:74px;line-height:1.5;font-size:15px}
+.info b.t{display:block;font-size:19px;color:var(--c1);margin-bottom:2px}
+.info .tip{color:var(--mu);font-size:13px;margin-top:4px}
+.info .row{display:flex;flex-wrap:wrap;gap:4px 14px;font-weight:700}
+.info .row span b{color:var(--c2)}
+.info .row span b.o{color:var(--c1)}
+.info .row span b.p{color:var(--c3)}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.info .eq{margin-top:6px;padding:8px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:700}
+.ctrl{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.ctrl.two{grid-template-columns:1fr 1fr}
+.ctrl.three{grid-template-columns:1fr 1fr 1fr}
+.chip{background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:12px 4px;font-weight:800;font-size:15px}
+.chip.on{background:var(--c1);border-color:var(--c1);color:var(--c1t)}
+.chip.ok{border-color:var(--ok);background:#34d39922}.chip.no{border-color:var(--bad);background:#f8717122}
+.big{background:var(--c1);border:0;color:var(--c1t);border-radius:13px;padding:13px 6px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.big:disabled{opacity:.45;cursor:not-allowed}
+.nextb{margin-top:8px;background:var(--c1);border:0;color:var(--c1t);border-radius:11px;padding:9px 16px;font-weight:900}
+.slider{grid-column:1/-1;display:flex;align-items:center;gap:12px;background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:8px 14px}
+.slider label{font-weight:800;font-size:14px;color:var(--mu);white-space:nowrap}
+.slider output{font-weight:900;font-size:18px;color:var(--c1);min-width:84px;text-align:right;white-space:nowrap}
+.slider input{flex:1;accent-color:var(--c1);height:30px;touch-action:pan-x}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.35fr) minmax(330px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .ctrl,.ctrl.three{grid-template-columns:1fr 1fr}
+ .info b.t{font-size:24px}
+ .info .eq{font-size:17px}
+}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.chip{padding:9px 3px;font-size:14px}.info{padding:8px 11px;min-height:62px;font-size:14px}.info b.t{font-size:17px}.big{padding:10px 4px}}
+@media(max-width:420px){.chip,.big{font-size:13.5px}.modes button{font-size:13px;padding:10px 3px}.info{font-size:14px;padding:10px 12px}.info b.t{font-size:17px}.ctrl{gap:6px}.chip{padding:10px 3px}}
+</style>
+<style id="infofix">@media(max-width:899px),(max-aspect-ratio:4/3){.info{height:178px;overflow:auto}}@media(max-height:620px){.info{height:138px}}</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#8F9BFF;color:#10133a;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #8f9bff44">&#8592; Back</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mode">
+   <button data-m="tukar" class="on" role="tab">📐 Change Scale</button>
+   <button data-m="cabaran" role="tab">❓ Challenge</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" viewBox="0 0 500 360" aria-label="Grid paper with a scale drawing"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const U=20,GX=10,GY=10,COLS=24,ROWS=17;            // 1 petak = 1 cm pada kertas = 20 unit SVG
+const C1='#38BDF8',C2='#FBBF24',C3='#F472B6',OK='#34D399',MU='#94A3B8',TX='#E6EDF7',NAV='#0E1626';
+// objek: [nama, lebar cm, tinggi cm, senarai skala n (n = p/q)]
+const OBJ={
+ rumah:{nm:'House',w:1000,h:800,sk:[[50,1],[100,1],[200,1],[250,1],[400,1],[500,1]],ic:'🏠'},
+ kereta:{nm:'Car',w:400,h:150,sk:[[20,1],[25,1],[40,1],[50,1],[100,1],[200,1]],ic:'🚗'},
+ bas:{nm:'Bus',w:1200,h:300,sk:[[50,1],[100,1],[150,1],[200,1],[300,1],[400,1]],ic:'🚌'},
+ semut:{nm:'Ant',w:0.8,h:0.4,sk:[[1,1],[1,2],[1,5],[1,10],[1,20],[1,25]],ic:'🐜'}
+};
+let S={m:'tukar',o:'rumah',i:1,q:null,score:0,tot:0,streak:0};
+const r4=x=>Math.round(x*10000)/10000;
+const nf=x=>{const v=r4(x);let s=String(Math.abs(v));if(Number.isInteger(v)&&Math.abs(v)>=10000)s=s.replace(/\B(?=(\d{3})+(?!\d))/g,' ');return s};
+const frs=([p,q])=>q===1?nf(p):p+'/'+q;
+const nval=([p,q])=>p/q;
+const real=cm=>cm>=100?`${nf(cm)} cm = ${nf(cm/100)} m`:`${nf(cm)} cm`;
+const rl=cm=>cm>=100?`${nf(cm/100)} m`:`${nf(cm)} cm`;
+const snd=n=>{if(window.FX)FX.play(n)};
+function T(x,y,t,c=TX,s=16,a='middle'){return `<text x="${x}" y="${y}" fill="${c}" font-size="${s}" font-weight="800" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="${NAV}" stroke-width="4" stroke-linejoin="round">${t}</text>`}
+function grid(){let g=`<rect x="${GX}" y="${GY}" width="${COLS*U}" height="${ROWS*U}" fill="#F8FAFC0A" stroke="#64748B" stroke-width="2" rx="4"/>`;
+ for(let i=1;i<COLS;i++)g+=`<line x1="${GX+i*U}" y1="${GY}" x2="${GX+i*U}" y2="${GY+ROWS*U}" stroke="#334155" stroke-width="${i%5?1:1.8}"/>`;
+ for(let j=1;j<ROWS;j++)g+=`<line x1="${GX}" y1="${GY+j*U}" x2="${GX+COLS*U}" y2="${GY+j*U}" stroke="#334155" stroke-width="${j%5?1:1.8}"/>`;return g}
+/* lukis objek dalam kotak (x, y = kiri-bawah), w x h unit SVG */
+function shape(o,x,y,w,h,col){
+ const f=col+'33';
+ if(o==='rumah'){const bh=h*0.6;return `<rect x="${x+w*0.08}" y="${y-bh}" width="${w*0.84}" height="${bh}" fill="${f}" stroke="${col}" stroke-width="3"/><polygon points="${x},${y-bh} ${x+w/2},${y-h} ${x+w},${y-bh}" fill="${C3}33" stroke="${C3}" stroke-width="3" stroke-linejoin="round"/><rect x="${x+w*0.42}" y="${y-bh*0.55}" width="${w*0.16}" height="${bh*0.55}" fill="${C2}55"/><rect x="${x+w*0.16}" y="${y-bh*0.8}" width="${w*0.16}" height="${bh*0.3}" fill="${MU}55"/><rect x="${x+w*0.68}" y="${y-bh*0.8}" width="${w*0.16}" height="${bh*0.3}" fill="${MU}55"/>`}
+ if(o==='kereta'){const r=Math.min(h*0.24,w*0.09);return `<path d="M${x} ${y-r} L${x} ${y-h*0.6} L${x+w*0.18} ${y-h*0.62} L${x+w*0.3} ${y-h} L${x+w*0.7} ${y-h} L${x+w*0.84} ${y-h*0.62} L${x+w} ${y-h*0.55} L${x+w} ${y-r} Z" fill="${f}" stroke="${col}" stroke-width="3" stroke-linejoin="round"/><circle cx="${x+w*0.22}" cy="${y-r}" r="${r}" fill="#334155" stroke="${TX}" stroke-width="2"/><circle cx="${x+w*0.78}" cy="${y-r}" r="${r}" fill="#334155" stroke="${TX}" stroke-width="2"/>`}
+ if(o==='bas'){const r=Math.min(h*0.18,w*0.04);let s=`<rect x="${x}" y="${y-h}" width="${w}" height="${h-r}" rx="${Math.min(6,h*0.1)}" fill="${f}" stroke="${col}" stroke-width="3"/>`;for(let i=0;i<5;i++)s+=`<rect x="${x+w*(0.05+i*0.18)}" y="${y-h*0.86}" width="${w*0.13}" height="${h*0.32}" fill="${MU}55"/>`;return s+`<circle cx="${x+w*0.18}" cy="${y-r}" r="${r}" fill="#334155" stroke="${TX}" stroke-width="2"/><circle cx="${x+w*0.82}" cy="${y-r}" r="${r}" fill="#334155" stroke="${TX}" stroke-width="2"/>`}
+ // semut
+ const cy=y-h/2,e=(cx,rx,ry)=>`<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="#FB923C" stroke="${NAV}" stroke-width="1.5"/>`;let s='';
+ [0.3,0.45,0.6].forEach(k=>{s+=`<line x1="${x+w*k}" y1="${cy}" x2="${x+w*(k-0.12)}" y2="${y}" stroke="#FB923C" stroke-width="${Math.max(1,h*0.06)}"/><line x1="${x+w*k}" y1="${cy}" x2="${x+w*(k-0.12)}" y2="${y-h}" stroke="#FB923C" stroke-width="${Math.max(1,h*0.06)}"/>`});
+ return s+e(x+w*0.2,w*0.2,h*0.32)+e(x+w*0.48,w*0.12,h*0.2)+e(x+w*0.78,w*0.14,h*0.26)}
+function dims(x,y,w,h,lw,lh,col){
+ return `<line x1="${x}" y1="${y+10}" x2="${x+w}" y2="${y+10}" stroke="${col}" stroke-width="2"/><line x1="${x}" y1="${y+5}" x2="${x}" y2="${y+15}" stroke="${col}" stroke-width="2"/><line x1="${x+w}" y1="${y+5}" x2="${x+w}" y2="${y+15}" stroke="${col}" stroke-width="2"/>`+T(x+w/2,y+24,lw,col,15)+
+  `<line x1="${x+w+10}" y1="${y}" x2="${x+w+10}" y2="${y-h}" stroke="${col}" stroke-width="2"/>`+T(x+w+16,y-h/2,lh,col,15,'start')}
+/* ============ Mod Tukar Skala ============ */
+function cur(){const o=OBJ[S.o];return{o,n:o.sk[S.i],dw:o.w/nval(o.sk[S.i]),dh:o.h/nval(o.sk[S.i])}}
+function drawObj(key,dw,dh,col,lw,lh){
+ const w=dw*U,h=dh*U,fits=dw<=COLS-3&&dh<=ROWS-3;
+ const x=GX+U*2,y=GY+ROWS*U-U*2;
+ let g=`<g clip-path="url(#clp)">${shape(key,x,y,w,h,col)}</g>`;
+ g+=fits?dims(x,y,w,h,lw,lh,C2):'';
+ return{g,fits}}
+function tukarSVG(){
+ const {o,dw,dh}=cur();let g=`<defs><clipPath id="clp"><rect x="${GX}" y="${GY}" width="${COLS*U}" height="${ROWS*U}"/></clipPath></defs>`+grid();
+ const d=drawObj(S.o,dw,dh,C1,`${nf(dw)} cm`,`${nf(dh)} cm`);g+=d.g;
+ if(!d.fits)g+=`<rect x="${GX+60}" y="${GY+120}" width="360" height="56" rx="12" fill="#0E1626EE" stroke="#F87171" stroke-width="2"/>`+T(GX+240,GY+148,'Too big for this paper!','#F87171',18);
+ g+=T(GX+COLS*U-6,GY+14,'1 square = 1 cm',MU,13,'end');
+ return g}
+function tukarInfo(){
+ const {o,n,dw,dh}=cur(),v=nval(n),kind=v>1?'<span class="no" style="color:#F472B6">smaller than the object</span>':v===1?'<span class="ok">the same size as the object</span>':'<span class="ok" style="color:#A78BFA">bigger than the object</span>';
+ const op=n[1]===1?`÷ ${nf(n[0])}`:`× ${n[1]}`;
+ info.innerHTML=`<b class="t">${o.ic} ${o.nm} · Scale 1 : ${frs(n)}</b>
+ <div class="row"><span>Actual: <b class="o">${rl(o.w)} × ${rl(o.h)}</b></span><span>Drawing: <b>${nf(dw)} cm × ${nf(dh)} cm</b></span></div>
+ <div class="eq">Width of drawing = ${nf(o.w)} cm ${op} = ${nf(dw)} cm<br>Height of drawing = ${nf(o.h)} cm ${op} = ${nf(dh)} cm</div>
+ <div class="tip">1 cm on the drawing represents ${real(v)}. This drawing is ${kind}. Drag the slider to change the scale.</div>`}
+/* ============ Mod Cabaran ============ */
+const rnd=n=>Math.floor(Math.random()*n),pk=a=>a[rnd(a.length)];
+function newQ(){
+ const key=pk(Object.keys(OBJ)),o=OBJ[key],n=pk(o.sk.filter(s=>{const v=nval(s);return o.w/v<=COLS-3&&o.h/v<=ROWS-3&&!(s[0]===1&&s[1]===1)})),v=nval(n);
+ const dw=o.w/v,type=pk(['lukisan','sebenar','skala']);let q,ans,wr,fmt;
+ if(type==='lukisan'){q=`The actual width of the ${o.nm.toLowerCase()} is ${rl(o.w)}. Scale 1 : ${frs(n)}. What is the width of its drawing?`;ans=`${nf(dw)} cm`;wr=[`${nf(o.w*v)} cm`,`${nf(dw*10)} cm`,`${nf(dw/10)} cm`,`${nf(dw+2)} cm`,`${nf(dw*2)} cm`]}
+ if(type==='sebenar'){q=`The width of this drawing of the ${o.nm.toLowerCase()} is ${nf(dw)} cm with a scale of 1 : ${frs(n)}. What is its actual width?`;ans=rl(o.w);wr=[rl(o.w*10),rl(o.w/10),rl(dw/v),rl(o.w*2),rl(o.w/2)]}
+ if(type==='skala'){q=`The actual width of the ${o.nm.toLowerCase()} is ${rl(o.w)} and the width of its drawing is ${nf(dw)} cm. What is the scale of the drawing?`;ans=`1 : ${frs(n)}`;wr=o.sk.filter(s=>s!==n).map(s=>`1 : ${frs(s)}`).concat([`${frs(n)} : 1`])}
+ const opts=[ans];wr.sort(()=>Math.random()-.5).forEach(w=>{if(!opts.includes(w)&&opts.length<4&&!/NaN|Infinity/.test(w))opts.push(w)});
+ S.q={key,n,dw,dh:o.h/v,type,q,ans,opts:opts.sort(()=>Math.random()-.5),done:false};
+ setCtrl();render();
+ info.innerHTML=`<b class="t">${q}</b><div class="tip">Tip: measurement of drawing = actual measurement ÷ n · actual measurement = measurement of drawing × n. Score: ${S.score}/${S.tot}${S.streak>=3?' · 🔥 '+S.streak+' in a row':''}</div>`}
+function cabSVG(){
+ const Q=S.q;let g=`<defs><clipPath id="clp"><rect x="${GX}" y="${GY}" width="${COLS*U}" height="${ROWS*U}"/></clipPath></defs>`+grid();if(!Q)return g;
+ const show=Q.done||Q.type==='sebenar';
+ g+=drawObj(Q.key,Q.dw,Q.dh,C1,show?`${nf(Q.dw)} cm`:'? cm',`${nf(Q.dh)} cm`).g;
+ g+=T(GX+COLS*U-6,GY+14,'1 square = 1 cm',MU,13,'end');return g}
+function answer(o,btn){
+ const Q=S.q;if(Q.done)return;Q.done=true;S.tot++;const ok=o===Q.ans;
+ if(ok){S.score++;S.streak++;snd('betul');if(window.FX)FX.stars(btn,10)}else{S.streak=0;snd('salah');if(window.FX&&FX.shake)FX.shake(btn)}
+ ctrl.querySelectorAll('.chip').forEach(b=>{if(b.dataset.o===Q.ans)b.classList.add('ok');else if(b===btn)b.classList.add('no');b.disabled=true});
+ render();const o2=OBJ[Q.key],v=nval(Q.n);
+ const w=Q.type==='lukisan'?`${nf(o2.w)} cm ÷ ${frs(Q.n)} = <b>${nf(Q.dw)} cm</b>`:Q.type==='sebenar'?`${nf(Q.dw)} cm × ${frs(Q.n)} = ${nf(o2.w)} cm = <b>${rl(o2.w)}</b>`:`${nf(Q.dw)} : ${nf(o2.w)} = <b>1 : ${frs(Q.n)}</b>`;
+ info.innerHTML=`<b class="t">${ok?'<span class="ok">✓ Correct!</span>':'<span class="no">✗ Answer: '+Q.ans+'</span>'}</b><div class="eq">${w}</div><div class="tip">Score: ${S.score}/${S.tot}${S.streak>=3?' · 🔥 '+S.streak+' in a row':''}</div><button class="nextb" id="nx">Next ▶</button>`;
+ document.getElementById('nx').onclick=newQ}
+/* ============ kawalan ============ */
+function render(){svg.innerHTML=S.m==='tukar'?tukarSVG():cabSVG();if(S.m==='tukar')tukarInfo()}
+function setCtrl(){
+ if(S.m==='tukar'){
+  const o=OBJ[S.o];ctrl.className='ctrl';
+  ctrl.innerHTML=Object.keys(OBJ).map(k=>`<button class="chip ${k===S.o?'on':''}" data-k="${k}">${OBJ[k].ic} ${OBJ[k].nm}</button>`).join('')+
+  `<div class="slider"><label for="sl">Scale</label><input id="sl" type="range" min="0" max="${o.sk.length-1}" step="1" value="${S.i}" aria-label="Choose a scale"><output id="out">1 : ${frs(o.sk[S.i])}</output></div>`;
+  ctrl.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{S.o=b.dataset.k;S.i=Math.min(1,OBJ[S.o].sk.length-1);setCtrl();render()});
+  const sl=document.getElementById('sl');sl.oninput=()=>{S.i=+sl.value;document.getElementById('out').textContent='1 : '+frs(OBJ[S.o].sk[S.i]);snd('ketik');render()};
+ } else if(S.q){
+  ctrl.className='ctrl two';
+  ctrl.innerHTML=S.q.opts.map(o=>`<button class="chip" data-o="${o}">${o}</button>`).join('');
+  ctrl.querySelectorAll('.chip').forEach(b=>b.onclick=()=>answer(b.dataset.o,b));
+ }
+}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));S.m=b.dataset.m;
+ if(S.m==='cabaran'){newQ();return}
+ setCtrl();render()});
+setCtrl();render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>

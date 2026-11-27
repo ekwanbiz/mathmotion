@@ -1,0 +1,404 @@
+segi empat tepat	rectangle
+segi tiga bersudut tegak	right-angled triangle
+rumah	house
+sebuah buku	a book
+sekeping jubin	a tile
+sebuah bingkai gambar	a picture frame
+sebuah kotak	a box
+sekeping papan lukis	a drawing board
+sebuah dulang	a tray
+sekeping kad ucapan	a greeting card
+sebuah beg	a bag
+daun	leaf
+kancing baju	button
+kolam ikan	fish pond
+bilik stor	storeroom
+pentas	stage
+petak semaian	seedling bed
+kotak pasir	sandpit
+padang	field
+tapak rumah	house lot
+dewan	hall
+taman permainan	playground
+tempat letak kereta	car park
+gelanggang	court
+kebun sayur	vegetable garden
+bilik tidur	bedroom
+ruang tamu	living room
+dapur	kitchen
+bilik belajar	study room
+surau	prayer room
+makmal	laboratory
+pejabat	office
+Bandar A	Town A
+Bandar B	Town B
+Pekan P	Town P
+Pekan Q	Town Q
+Jeti	Jetty
+Air Terjun	Waterfall
+semut	ant
+panjang	length
+kumbang	beetle
+lebar	width
+lebah	bee
+nyamuk	mosquito
+Lukisan berskala mempunyai bentuk yang sama dengan objek sebenar.	A scale drawing has the same shape as the actual object.
+Lukisan berskala hanya mengubah saiz, bukan bentuk.	A scale drawing only changes the size, not the shape.
+Lukisan berskala sentiasa lebih kecil daripada objek sebenar.	A scale drawing is always smaller than the actual object.
+Lukisan berskala boleh dikecilkan, dibesarkan atau sama saiz dengan objek.	A scale drawing can be smaller than, bigger than or the same size as the object.
+Jika setiap sisi objek ditambah 2 cm, lukisan yang terhasil ialah lukisan berskala.	If 2 cm is added to every side of an object, the drawing obtained is a scale drawing.
+Menambah nilai yang sama mengubah nisbah sisi. Lukisan berskala diperoleh dengan mendarab setiap sisi dengan nombor yang sama.	Adding the same value changes the ratio of the sides. A scale drawing is obtained by multiplying every side by the same number.
+Dalam lukisan berskala, semua sudut adalah sama dengan sudut objek.	In a scale drawing, all the angles are the same as the angles of the object.
+Bentuk tidak berubah, maka semua sudut tidak berubah.	The shape does not change, thus all the angles remain unchanged.
+Pelan rumah dan peta ialah contoh lukisan berskala yang dikecilkan.	House plans and maps are examples of scale drawings that are smaller than the object.
+Ukuran pada pelan dan peta jauh lebih kecil daripada ukuran sebenar.	The measurements on plans and maps are much smaller than the actual measurements.
+Lukisan berskala boleh dihasilkan dengan mendarab panjang sahaja dengan suatu nombor.	A scale drawing can be produced by multiplying only the length by a number.
+Semua ukuran, bukan panjang sahaja, mesti didarab dengan nombor yang sama.	All measurements, not only the length, must be multiplied by the same number.
+Lukisan sel dalam buku sains biasanya ialah lukisan berskala yang dibesarkan.	The drawing of a cell in a science book is usually a scale drawing that is bigger than the object.
+Sel sangat kecil, jadi lukisannya dibesarkan supaya dapat dilihat.	A cell is very small, so its drawing is enlarged so that it can be seen.
+Nisbah ukuran lukisan kepada ukuran objek adalah sama bagi semua sisi yang sepadan.	The ratio of measurement of drawing to measurement of object is the same for all corresponding sides.
+Itulah syarat lukisan berskala.	That is the condition for a scale drawing.
+Skala 1 : 100 bermaksud 1 cm pada lukisan mewakili 100 cm pada objek sebenar.	A scale of 1 : 100 means 1 cm on the drawing represents 100 cm on the actual object.
+Skala 1 : n bermaksud 1 unit pada lukisan mewakili n unit sebenar.	1 : n means one unit on the scale drawing will represent n units on the object.
+Skala 1 : 1/2 menghasilkan lukisan yang lebih kecil daripada objek.	A scale of 1 : 1/2 produces a drawing that is smaller than the object.
+n = 1/2 < 1, maka lukisan dibesarkan (2 kali objek).	n = 1/2 < 1, thus the drawing is bigger (2 times the object).
+Skala ialah nisbah ukuran sebenar kepada ukuran lukisan.	Scale is the ratio of actual measurement to measurement of drawing.
+Skala = ukuran lukisan : ukuran sebenar.	Scale = measurement of scale drawing : measurement of object.
+Bagi skala 1 : n dengan n > 1, lukisan itu dikecilkan.	For a scale of 1 : n where n > 1, the drawing is smaller than the object.
+Setiap ukuran lukisan = ukuran sebenar ÷ n, dengan n > 1.	Every measurement of the drawing = actual measurement ÷ n, where n > 1.
+Skala 1 : 1 bermaksud lukisan sama saiz dengan objek.	A scale of 1 : 1 means the drawing is the same size as the object.
+Ukuran lukisan = ukuran sebenar.	Measurement of drawing = actual measurement.
+Jika lukisan 5 cm mewakili 2 m, maka skalanya ialah 5 : 2.	If a drawing of 5 cm represents 2 m, then the scale is 5 : 2.
+Unit mesti sama: 5 cm : 200 cm = 1 : 40.	The units must be the same: 5 cm : 200 cm = 1 : 40.
+Skala 1 : 50 000 pada peta bermaksud 1 cm mewakili 0.5 km.	A scale of 1 : 50 000 on a map means 1 cm represents 0.5 km.
+Peta berskala 1 : 200 000 menunjukkan kawasan lebih terperinci daripada peta berskala 1 : 50 000.	A map with a scale of 1 : 200 000 shows an area in more detail than a map with a scale of 1 : 50 000.
+Peta 1 : 50 000 lebih besar (n lebih kecil), maka lebih terperinci.	The 1 : 50 000 map is bigger (smaller n), thus it is more detailed.
+Objek dan lukisan	Object and drawing
+Skala ${sk}	Scale ${sk}
+Peta	Map
+Pelan · skala ${sk}	Plan · scale ${sk}
+Pelan	Plan
+Ukuran pada lukisan	Measurement on the drawing
+Sebuah objek berbentuk segi empat tepat berukuran ${a} cm × ${b} cm. Lukisan berskalanya berukuran ${bsN(a2)} cm × ${bsN(b2)} cm. Nyatakan nisbah ukuran lukisan kepada ukuran objek dalam bentuk termudah.	A rectangular object measures ${a} cm × ${b} cm. Its scale drawing measures ${bsN(a2)} cm × ${bsN(b2)} cm. State the ratio of measurement of drawing to measurement of object in the simplest form.
+Rajah di bawah menunjukkan sebuah objek dan lukisan berskalanya. Cari nisbah panjang lukisan kepada panjang objek dalam bentuk termudah.	The diagram below shows an object and its scale drawing. Find the ratio of the length of the drawing to the length of the object in the simplest form.
+Panjang ${ob} ialah ${a} cm. Dalam sebuah lukisan berskala, panjangnya ialah ${bsN(a2)} cm. Nyatakan nisbah ukuran lukisan kepada ukuran objek.	The length of ${ob} is ${a} cm. In a scale drawing, its length is ${bsN(a2)} cm. State the ratio of measurement of drawing to measurement of object.
+Sebuah objek berukuran ${a} cm × ${b} cm dan lukisan berskalanya berukuran ${bsN(a2)} cm × ${bsN(b2)} cm. ${N} berkata nisbah ukuran lukisan kepada ukuran objek ialah ${rev}. Adakah ${N} betul?	An object measures ${a} cm × ${b} cm and its scale drawing measures ${bsN(a2)} cm × ${bsN(b2)} cm. ${N} says the ratio of measurement of drawing to measurement of object is ${rev}. Is ${N} correct?
+${N} menulis nisbah ukuran objek kepada ukuran lukisan. Sepatutnya lukisan : objek.	${N} wrote the ratio of measurement of object to measurement of drawing. It should be drawing : object.
+Sisi ${nm} sebuah objek ialah ${a} cm, manakala sisi yang sepadan pada lukisan berskalanya ialah ${bsN(a2)} cm. Adakah lukisan itu dikecilkan atau dibesarkan? Setiap ukuran lukisan ialah berapa kali ukuran objek?	The ${nm} side of an object is ${a} cm, while the corresponding side on its scale drawing is ${bsN(a2)} cm. Is the drawing smaller or bigger than the object? Every measurement of the drawing is how many times the measurement of the object?
+Lengkapkan: Objek ${a} cm, lukisan ${bsN(a2)} cm. Setiap ukuran lukisan = ___ × ukuran objek.	Complete: Object ${a} cm, drawing ${bsN(a2)} cm. Every measurement of drawing = ___ × measurement of object.
+Panjang ${ob} ialah ${a} cm dan panjang lukisan berskalanya ialah ${bsN(a2)} cm. Huraikan hubungan antara ukuran lukisan dengan ukuran objek.	The length of ${ob} is ${a} cm and the length of its scale drawing is ${bsN(a2)} cm. Describe the relationship between the measurement of the drawing and the measurement of the object.
+Sebuah lukisan berskala dibina dengan panjang ${bsN(a2)} cm bagi objek yang panjangnya ${a} cm. Lukisan itu dikecilkan, dibesarkan atau sama saiz? Berapa kali?	A scale drawing is constructed with a length of ${bsN(a2)} cm for an object with a length of ${a} cm. Is the drawing smaller, bigger or the same size? How many times?
+Rajah di bawah menunjukkan sebuah objek dan tiga lukisan, A, B dan C, pada grid yang sama. Lukisan manakah ialah lukisan berskala bagi objek itu?	The diagram below shows an object and three drawings, A, B and C, on the same grid. Which drawing is the scale drawing of the object?
+Antara lukisan A, B dan C dalam rajah di bawah, yang manakah mempunyai bentuk yang sama dengan objek, iaitu lukisan berskala bagi objek itu?	Among drawings A, B and C in the diagram below, which one has the same shape as the object, that is the scale drawing of the object?
+Kenal pasti lukisan berskala bagi objek dalam rajah di bawah. Berikan sebab anda.	Identify the scale drawing of the object in the diagram below. Give your reason.
+Lukisan ${X}, kerana setiap sisinya ialah ${kt} sisi objek yang sepadan	Drawing ${X}, because each of its sides is ${kt} the corresponding side of the object
+${N} berkata lukisan ${Y} dalam rajah di bawah ialah lukisan berskala bagi objek itu. Adakah ${N} betul?	${N} says drawing ${Y} in the diagram below is the scale drawing of the object. Is ${N} correct?
+Lukisan ${X}	Drawing ${X}
+Lukisan ${Y} diregangkan secara berbeza pada arah mengufuk dan mencancang, jadi bentuknya berubah.	Drawing ${Y} is stretched differently in the horizontal and vertical directions, so its shape changes.
+${vcap(ob)} berukuran ${a} cm × ${b} cm dilukis sebagai lukisan berskala. Panjang lukisan ialah ${bsN(a2)} cm. Hitung lebar lukisan itu.	${vcap(ob)} measuring ${a} cm × ${b} cm is drawn as a scale drawing. The length of the drawing is ${bsN(a2)} cm. Calculate the width of the drawing.
+Sebuah segi empat tepat berukuran ${a} cm × ${b} cm. Lukisan berskalanya mempunyai panjang ${bsN(a2)} cm. Berapakah lebar lukisan itu?	A rectangle measures ${a} cm × ${b} cm. Its scale drawing has a length of ${bsN(a2)} cm. What is the width of the drawing?
+Rajah di bawah menunjukkan sebuah objek dan lukisan berskalanya. Cari nilai x.	The diagram below shows an object and its scale drawing. Find the value of x.
+Lengkapkan: Objek ${a} cm × ${b} cm → lukisan ${bsN(a2)} cm × ___ cm (lukisan berskala).	Complete: Object ${a} cm × ${b} cm → drawing ${bsN(a2)} cm × ___ cm (scale drawing).
+Nyatakan sama ada pernyataan berikut betul atau salah: "${s}"	State whether the following statement is true or false: "${s}"
+Betul	True
+Salah	False
+Betul atau salah? ${s}	True or false? ${s}
+${N} berkata, "${s}" Adakah ${N} betul?	${N} says, "${s}" Is ${N} correct?
+Ya, ${N} betul	Yes, ${N} is correct
+Tidak, ${N} tidak betul	No, ${N} is not correct
+${vcap(ob)} berukuran ${a} cm × ${b} cm. Sebuah lukisan berukuran ${bsN(a2)} cm × ${bsN(b2)} cm. Tentukan sama ada lukisan itu ialah lukisan berskala bagi objek tersebut. Tunjukkan pengiraan anda.	${vcap(ob)} measures ${a} cm × ${b} cm. A drawing measures ${bsN(a2)} cm × ${bsN(b2)} cm. Determine whether the drawing is a scale drawing of the object. Show your calculation.
+Berdasarkan ukuran dalam rajah di bawah, adakah lukisan itu lukisan berskala bagi objek? Berikan sebab.	Based on the measurements in the diagram below, is the drawing a scale drawing of the object? Give a reason.
+${N} melukis sebuah segi empat tepat berukuran ${bsN(a2)} cm × ${bsN(b2)} cm untuk mewakili objek berukuran ${a} cm × ${b} cm. Adakah lukisan ${N} lukisan berskala?	${N} draws a rectangle measuring ${bsN(a2)} cm × ${bsN(b2)} cm to represent an object measuring ${a} cm × ${b} cm. Is ${N}'s drawing a scale drawing?
+Objek: ${a} cm × ${b} cm. Lukisan: ${bsN(a2)} cm × ${bsN(b2)} cm. Bandingkan nisbah panjang dan nisbah lebar. Adakah lukisan itu berskala?	Object: ${a} cm × ${b} cm. Drawing: ${bsN(a2)} cm × ${bsN(b2)} cm. Compare the ratio of the lengths and the ratio of the widths. Is it a scale drawing?
+Sisi-sisi sebuah segi tiga ialah ${s1} cm, ${s2} cm dan ${s3} cm. Dalam lukisan berskalanya, sisi yang sepadan dengan ${s1} cm ialah ${bsN(d1)} cm. Hitung panjang dua sisi lukisan yang lain.	The sides of a triangle are ${s1} cm, ${s2} cm and ${s3} cm. In its scale drawing, the side corresponding to ${s1} cm is ${bsN(d1)} cm. Calculate the lengths of the other two sides of the drawing.
+Sebuah papan tanda berbentuk segi tiga mempunyai sisi ${s1} cm, ${s2} cm dan ${s3} cm. Papan tanda itu dilukis supaya sisi ${s1} cm menjadi ${bsN(d1)} cm. Cari panjang sisi-sisi lain dalam lukisan.	A triangular signboard has sides of ${s1} cm, ${s2} cm and ${s3} cm. The signboard is drawn so that the ${s1} cm side becomes ${bsN(d1)} cm. Find the lengths of the other sides in the drawing.
+Rajah di bawah menunjukkan segi tiga objek dan lukisan berskalanya. Cari nilai x dan nilai y.	The diagram below shows a triangle object and its scale drawing. Find the value of x and the value of y.
+Segi tiga bersisi ${s1} cm, ${s2} cm dan ${s3} cm dilukis secara berskala dengan sisi ${s1} cm menjadi ${bsN(d1)} cm. Hitung perimeter lukisan itu.	A triangle with sides ${s1} cm, ${s2} cm and ${s3} cm is drawn to scale with the ${s1} cm side becoming ${bsN(d1)} cm. Calculate the perimeter of the drawing.
+Sekeping foto berukuran ${pw} cm × ${ph} cm dibesarkan secara berskala supaya lebarnya menjadi ${W} cm. (a) Hitung tinggi foto yang dibesarkan. (b) Setiap ukuran foto baharu ialah berapa kali ukuran asal? (c) Hitung perimeter foto baharu.	A photo measuring ${pw} cm × ${ph} cm is enlarged to scale so that its width becomes ${W} cm. (a) Calculate the height of the enlarged photo. (b) Every measurement of the new photo is how many times the original measurement? (c) Calculate the perimeter of the new photo.
+(a) ${bsCm(H)} (b) ${bsFr(W, pw)} kali (c) ${bsCm(P2)}	(a) ${bsCm(H)} (b) ${bsFr(W, pw)} times (c) ${bsCm(P2)}
+(a) Faktor = ${W} ÷ ${pw} = ${bsFr(W, pw)}; tinggi = ${ph} × ${bsFr(W, pw)} = ${bsN(H)} cm	(a) Factor = ${W} ÷ ${pw} = ${bsFr(W, pw)}; height = ${ph} × ${bsFr(W, pw)} = ${bsN(H)} cm
+(b) Setiap ukuran didarab dengan ${bsFr(W, pw)}	(b) Every measurement is multiplied by ${bsFr(W, pw)}
+(c) Perimeter = 2 × (${W} + ${bsN(H)}) = ${bsN(P2)} cm	(c) Perimeter = 2 × (${W} + ${bsN(H)}) = ${bsN(P2)} cm
+Sebuah segi empat tepat berukuran ${ra} cm × ${rb} cm dilukis secara berskala dengan setiap sisi menjadi ${bsFr(k[0], k[1])} kali sisi asal. (a) Nyatakan ukuran lukisan. (b) Hitung luas objek dan luas lukisan. (c) Luas lukisan ialah berapa kali luas objek?	A rectangle measuring ${ra} cm × ${rb} cm is drawn to scale with every side becoming ${bsFr(k[0], k[1])} times the original side. (a) State the measurements of the drawing. (b) Calculate the area of the object and the area of the drawing. (c) The area of the drawing is how many times the area of the object?
+(a) ${bsN(da)} cm × ${bsN(db)} cm (b) ${bsCm2(A1)} dan ${bsCm2(A2)} (c) ${bsFr(k[0] * k[0], k[1] * k[1])} kali	(a) ${bsN(da)} cm × ${bsN(db)} cm (b) ${bsCm2(A1)} and ${bsCm2(A2)} (c) ${bsFr(k[0] * k[0], k[1] * k[1])} times
+(b) Luas objek = ${ra} × ${rb} = ${bsN(A1)} cm²; luas lukisan = ${bsN(da)} × ${bsN(db)} = ${bsN(A2)} cm²	(b) Area of object = ${ra} × ${rb} = ${bsN(A1)} cm²; area of drawing = ${bsN(da)} × ${bsN(db)} = ${bsN(A2)} cm²
+(c) ${bsN(A2)} ÷ ${bsN(A1)} = ${bsFr(k[0] * k[0], k[1] * k[1])}, iaitu (${bsFr(k[0], k[1])})²	(c) ${bsN(A2)} ÷ ${bsN(A1)} = ${bsFr(k[0] * k[0], k[1] * k[1])}, that is (${bsFr(k[0], k[1])})²
+Sebuah objek berbentuk segi empat tepat berukuran ${ta} cm × ${tb} cm. Lukisan ${X} berukuran ${bsN(xa)} cm × ${bsN(xb)} cm dan lukisan ${Y} berukuran ${bsN(ya)} cm × ${bsN(yb)} cm. (a) Lukisan manakah ialah lukisan berskala bagi objek itu? (b) Nyatakan nisbah ukuran lukisan itu kepada ukuran objek.	A rectangular object measures ${ta} cm × ${tb} cm. Drawing ${X} measures ${bsN(xa)} cm × ${bsN(xb)} cm and drawing ${Y} measures ${bsN(ya)} cm × ${bsN(yb)} cm. (a) Which drawing is the scale drawing of the object? (b) State the ratio of measurement of the drawing to measurement of the object.
+(a) Lukisan ${good} (b) ${kt}	(a) Drawing ${good} (b) ${kt}
+Hanya lukisan ${good} mempunyai nisbah yang sama bagi panjang dan lebar.	Only drawing ${good} has the same ratio for the length and the width.
+Sebuah segi tiga mempunyai sisi ${s1} cm, ${s2} cm dan ${s3} cm. Sebuah lukisan berskala dibina supaya sisi terpanjangnya ${bsN(dl[2])} cm. (a) Cari panjang dua sisi lain. (b) Hitung perimeter objek dan perimeter lukisan. (c) Apakah hubungan antara kedua-dua perimeter itu?	A triangle has sides of ${s1} cm, ${s2} cm and ${s3} cm. A scale drawing is constructed so that its longest side is ${bsN(dl[2])} cm. (a) Find the lengths of the other two sides. (b) Calculate the perimeter of the object and the perimeter of the drawing. (c) What is the relationship between the two perimeters?
+(a) ${bsCm(dl[0])} dan ${bsCm(dl[1])} (b) ${bsCm(P1)} dan ${bsCm(P2)} (c) Perimeter lukisan = ${f} × perimeter objek	(a) ${bsCm(dl[0])} and ${bsCm(dl[1])} (b) ${bsCm(P1)} and ${bsCm(P2)} (c) Perimeter of drawing = ${f} × perimeter of object
+Faktor = ${bsN(dl[2])} ÷ ${s3} = ${f}	Factor = ${bsN(dl[2])} ÷ ${s3} = ${f}
+(b) Objek: ${P1} cm; lukisan: ${bsN(P2)} cm	(b) Object: ${P1} cm; drawing: ${bsN(P2)} cm
+Terangkan maksud skala ${bsSk(n)}.	Explain the meaning of the scale ${bsSk(n)}.
+1 cm pada lukisan mewakili ${rt} pada objek sebenar	1 cm on the drawing represents ${rt} on the actual object
+Lengkapkan: Skala ${bsSk(n)} bermaksud 1 cm pada lukisan mewakili ___ sebenar.	Complete: The scale ${bsSk(n)} means 1 cm on the drawing represents ___ on the actual object.
+Sebuah ${ctx} dilukis dengan skala ${bsSk(n)}. Berapakah jarak sebenar yang diwakili oleh 1 cm pada ${ctx} itu?	A ${ctx} is drawn to a scale of ${bsSk(n)}. What is the actual distance represented by 1 cm on the ${ctx}?
+Pada sebuah lukisan berskala, 1 cm mewakili ${ru}. Tuliskan skala lukisan itu dalam bentuk 1 : n.	On a scale drawing, 1 cm represents ${ru}. Write the scale of the drawing in the form 1 : n.
+Skala = 1 : ${bsN(n)}	Scale = 1 : ${bsN(n)}
+Sebuah lukisan dilukis dengan skala ${sk}. Adakah lukisan itu dikecilkan, dibesarkan atau sama saiz dengan objek sebenar?	A drawing is drawn to a scale of ${sk}. Is the drawing smaller than, bigger than or the same size as the actual object?
+${vcap(ob)} dilukis dengan skala ${sk}. Nyatakan sama ada lukisan itu lebih kecil, lebih besar atau sama saiz dengan ${bsBare(ob)} itu.	${vcap(ob)} is drawn to a scale of ${sk}. State whether the drawing is smaller than, bigger than or the same size as the ${bsBare(ob)}.
+Skala sebuah lukisan ialah ${sk}. Apakah yang dapat anda katakan tentang saiz lukisan berbanding saiz objek?	The scale of a drawing is ${sk}. What can you say about the size of the drawing compared to the size of the object?
+${N} berkata lukisan berskala ${sk} adalah ${claim} daripada objek. Adakah ${N} betul?	${N} says the scale drawing with a scale of ${sk} is ${claim} than the object. Is ${N} correct?
+Bagi skala 1 : n, n > 1 bermaksud dikecilkan, n = 1 sama saiz dan 0 < n < 1 bermaksud dibesarkan.	For a scale of 1 : n, n > 1 means smaller, n = 1 means the same size and 0 < n < 1 means bigger.
+Pada sebuah pelan berskala ${sk}, panjang ${ctx} ialah ${bsN(d)} cm. Hitung panjang sebenar ${ctx} itu dalam meter.	On a plan with a scale of ${sk}, the length of the ${ctx} is ${bsN(d)} cm. Calculate the actual length of the ${ctx} in metres.
+Sebuah lukisan berskala ${sk}. Satu garis pada lukisan itu berukuran ${bsN(d)} cm. Berapakah panjang sebenar yang diwakilinya, dalam meter?	A drawing has a scale of ${sk}. A line on the drawing measures ${bsN(d)} cm. What is the actual length that it represents, in metres?
+Ukuran pada lukisan dalam rajah di bawah dilukis dengan skala 	The measurement on the drawing in the diagram below is drawn to a scale of 
+. Cari panjang sebenar dalam meter.	. Find the actual length in metres.
+Panjang sebuah koridor pada pelan berskala ${sk} ialah ${bsN(d)} cm. ${N} berkata panjang sebenar koridor ialah ${bsN(d * n)} m. Adakah ${N} betul?	The length of a corridor on a plan with a scale of ${sk} is ${bsN(d)} cm. ${N} says the actual length of the corridor is ${bsN(d * n)} m. Is ${N} correct?
+${N} lupa menukar sentimeter kepada meter: ${bsN(d)} × ${bsN(n)} = ${bsN(d * n)} cm, bukan ${bsN(d * n)} m.	${N} forgot to change centimetres to metres: ${bsN(d)} × ${bsN(n)} = ${bsN(d * n)} cm, not ${bsN(d * n)} m.
+Panjang sebenar ${ctx} ialah ${bsN(R)} m. Hitung panjangnya pada pelan berskala ${sk}, dalam cm.	The actual length of the ${ctx} is ${bsN(R)} m. Calculate its length on a plan with a scale of ${sk}, in cm.
+Sebatang jalan sepanjang ${bsN(R)} m dilukis dengan skala ${sk}. Berapakah panjang jalan itu pada lukisan?	A road ${bsN(R)} m long is drawn to a scale of ${sk}. What is the length of the road on the drawing?
+Lengkapkan: Ukuran sebenar ${bsN(R)} m, skala ${sk}. Ukuran lukisan = ___ cm.	Complete: Actual measurement ${bsN(R)} m, scale ${sk}. Measurement of drawing = ___ cm.
+Seorang arkitek melukis ${ctx} yang panjangnya ${bsN(R)} m dengan skala ${sk}. Berapakah panjang ${ctx} dalam lukisan arkitek itu?	An architect draws a ${ctx} with a length of ${bsN(R)} m to a scale of ${sk}. What is the length of the ${ctx} in the architect's drawing?
+Panjang sebuah objek ialah ${rt} dan panjang lukisannya ialah ${dt}. Tentukan skala lukisan itu dalam bentuk 1 : n.	The length of an object is ${rt} and the length of its drawing is ${dt}. Determine the scale of the drawing in the form 1 : n.
+${vcap(thing)} yang panjangnya ${rt} dilukis dengan panjang ${dt}. Apakah skala lukisan itu?	${vcap(thing)} with a length of ${rt} is drawn with a length of ${dt}. What is the scale of the drawing?
+Lengkapkan: Lukisan ${dt} mewakili ${rt}. Skala = 1 : ___	Complete: A drawing of ${dt} represents ${rt}. Scale = 1 : ___
+Lukisan ${dt} mewakili ukuran sebenar ${rt}. ${N} menulis skalanya sebagai ${wrong}. Adakah ${N} betul?	A drawing of ${dt} represents an actual measurement of ${rt}. ${N} writes the scale as ${wrong}. Is ${N} correct?
+${N} tidak menukar kedua-dua ukuran kepada unit yang sama.	${N} did not change both measurements to the same unit.
+Jarak antara ${A} dan ${B} pada sebuah peta berskala ${sk} ialah ${bsN(d)} cm. Hitung jarak sebenar dalam km.	The distance between ${A} and ${B} on a map with a scale of ${sk} is ${bsN(d)} cm. Calculate the actual distance in km.
+Pada sebuah peta berskala ${sk}, panjang sebatang sungai ialah ${bsN(d)} cm. Berapakah panjang sebenar sungai itu, dalam km?	On a map with a scale of ${sk}, the length of a river is ${bsN(d)} cm. What is the actual length of the river, in km?
+Jarak sebenar antara ${A} dan ${B} ialah ${bsN(km)} km. Berapakah jarak itu pada peta berskala ${sk}?	The actual distance between ${A} and ${B} is ${bsN(km)} km. What is the distance on a map with a scale of ${sk}?
+Jarak sebenar antara	The actual distance between
+Rajah di bawah menunjukkan dua tempat pada sebuah peta. Hitung jarak sebenar antara kedua-dua tempat itu dalam km.	The diagram below shows two places on a map. Calculate the actual distance between the two places in km.
+Lukisan ${bsPj(ob)} ${ob} dalam sebuah buku dibesarkan dengan skala ${sk}. ${vcap(ukur)} ${ob} pada lukisan ialah ${bsN(d)} cm. Hitung ${ukur} sebenar ${ob} itu.	The drawing of ${bsPj(ob)} ${ob} in a book is enlarged to a scale of ${sk}. The ${ukur} of the ${ob} on the drawing is ${bsN(d)} cm. Calculate the actual ${ukur} of the ${ob}.
+${vcap(ukur)} sebenar sejenis ${ob} ialah ${bsN(R)} cm. ${vcap(ob)} itu dilukis dengan skala ${sk}. Berapakah ${ukur}nya pada lukisan?	The actual ${ukur} of a type of ${ob} is ${bsN(R)} cm. The ${ob} is drawn to a scale of ${sk}. What is its ${ukur} on the drawing?
+sebenar sejenis 	of a type of 
+ ialah	 is
+${vcap(ukur)} ${ob} ialah ${bsN(R)} cm, tetapi dalam lukisan ${ukur}nya ialah ${bsN(d)} cm. Tentukan skala lukisan itu.	The ${ukur} of the ${ob} is ${bsN(R)} cm, but its ${ukur} in the drawing is ${bsN(d)} cm. Determine the scale of the drawing.
+Tentukan skala	Determine the scale
+Jarak antara ${A} dan ${B} ialah ${bsN(d1)} cm pada peta berskala ${bsSk(n1)}. Pada peta kedua, jarak yang sama ialah ${bsN(d2)} cm. (a) Hitung jarak sebenar dalam km. (b) Tentukan skala peta kedua.	The distance between ${A} and ${B} is ${bsN(d1)} cm on a map with a scale of ${bsSk(n1)}. On a second map, the same distance is ${bsN(d2)} cm. (a) Calculate the actual distance in km. (b) Find the scale of the second map.
+Panjang sebenar sebuah dewan ialah ${bsN(Lr)} m dan panjangnya pada pelan ialah ${bsN(Ld)} cm. (a) Tentukan skala pelan itu. (b) Lebar dewan pada pelan ialah ${bsN(Wd)} cm. Hitung lebar sebenar dewan. (c) Hitung luas sebenar lantai dewan.	The actual length of a hall is ${bsN(Lr)} m and its length on the plan is ${bsN(Ld)} cm. (a) Find the scale of the plan. (b) The width of the hall on the plan is ${bsN(Wd)} cm. Calculate the actual width of the hall. (c) Calculate the actual area of the floor of the hall.
+(c) Luas = ${bsN(Lr)} × ${bsN(Wr)} = ${bsN(Lr * Wr)} m²	(c) Area = ${bsN(Lr)} × ${bsN(Wr)} = ${bsN(Lr * Wr)} m²
+Skala sebuah peta ditulis sebagai "${a} cm mewakili ${km} km". (a) Tuliskan skala peta itu dalam bentuk 1 : n. (b) Jarak dua bandar pada peta itu ialah ${bsN(dd)} cm. Hitung jarak sebenar.	The scale of a map is written as "${a} cm represents ${km} km". (a) Write the scale of the map in the form 1 : n. (b) The distance between two towns on the map is ${bsN(dd)} cm. Calculate the actual distance.
+Lukisan ${bsPj(ob)} ${ob} dibesarkan dengan skala 1 : 1/${q1}. Panjang ${ob} pada lukisan ialah ${bsN(e1)} cm. (a) Hitung panjang sebenar ${ob} itu. (b) Jika ${ob} yang sama dilukis dengan skala 1 : 1/${q2}, berapakah panjangnya pada lukisan baharu?	The drawing of ${bsPj(ob)} ${ob} is enlarged to a scale of 1 : 1/${q1}. The length of the ${ob} on the drawing is ${bsN(e1)} cm. (a) Calculate the actual length of the ${ob}. (b) If the same ${ob} is drawn to a scale of 1 : 1/${q2}, what is its length on the new drawing?
+(a) Ukuran sebenar = ${bsN(e1)} × 1/${q1} = ${bsN(Re)} cm	(a) Actual measurement = ${bsN(e1)} × 1/${q1} = ${bsN(Re)} cm
+(b) Ukuran lukisan = ${bsN(Re)} ÷ 1/${q2} = ${bsN(Re)} × ${q2} = ${bsN(e2)} cm	(b) Measurement of drawing = ${bsN(Re)} ÷ 1/${q2} = ${bsN(Re)} × ${q2} = ${bsN(e2)} cm
+Rajah di bawah menunjukkan objek ${L} yang dilukis pada grid segi empat sama bersisi 1 cm. Pada grid yang disediakan, lukis lukisan berskala bagi objek ${L} dengan skala ${sk}.	The diagram below shows object ${L} drawn on a grid of equal squares with sides of 1 cm. On the grid provided, draw the scale drawing of object ${L} using a scale of ${sk}.
+Objek ${L} dilukis pada grid berpetak 1 cm. Lukis semula objek ${L} pada grid kosong dengan skala ${sk}.	Object ${L} is drawn on a 1 cm grid. Redraw object ${L} on the blank grid using a scale of ${sk}.
+Rajah di bawah menunjukkan objek ${L} yang berbentuk ${nm} pada grid bersisi 1 cm. Dengan menggunakan skala ${sk}, lukis lukisan berskala ${L} pada grid di sebelahnya.	The diagram below shows object ${L} (shape: ${nm}) on a 1 cm grid. Using a scale of ${sk}, draw the scale drawing of ${L} on the grid beside it.
+Sebuah ${tp} berbentuk segi empat tepat berukuran ${bsN(L)} m × ${bsN(W)} m. Hitung panjang dan lebarnya pada lukisan berskala ${sk}.	A rectangular ${tp} measures ${bsN(L)} m × ${bsN(W)} m. Calculate its length and width on a scale drawing with a scale of ${sk}.
+Pelan ${tp} berukuran ${bsN(L)} m × ${bsN(W)} m hendak dilukis dengan skala ${sk}. Apakah ukuran ${tp} itu pada pelan?	The plan of a ${tp} measuring ${bsN(L)} m × ${bsN(W)} m is to be drawn to a scale of ${sk}. What are the measurements of the ${tp} on the plan?
+Lengkapkan: ${vcap(tp)} ${bsN(L)} m × ${bsN(W)} m, skala ${sk} → lukisan ___ cm × ___ cm.	Complete: ${vcap(tp)} ${bsN(L)} m × ${bsN(W)} m, scale ${sk} → drawing ___ cm × ___ cm.
+${N} melukis ${tp} berukuran ${bsN(L)} m × ${bsN(W)} m dengan skala ${sk}. ${N} mengira panjang lukisan sebagai ${bsN(L)} ÷ ${bsN(n)} = ${bsN(L / n)} cm. Adakah ${N} betul?	${N} draws a ${tp} measuring ${bsN(L)} m × ${bsN(W)} m to a scale of ${sk}. ${N} calculates the length of the drawing as ${bsN(L)} ÷ ${bsN(n)} = ${bsN(L / n)} cm. Is ${N} correct?
+${N} tidak menukar meter kepada sentimeter sebelum membahagi dengan n.	${N} did not change metres to centimetres before dividing by n.
+Rajah di bawah menunjukkan pelan sebidang tanah yang dilukis pada grid segi empat sama bersisi 1 cm dengan skala ${sk}. Hitung panjang sebenar sisi ${P1}${P2} dalam meter.	The diagram below shows the plan of a piece of land drawn on a grid of 1 cm squares to a scale of ${sk}. Calculate the actual length of side ${P1}${P2} in metres.
+Pelan dalam rajah di bawah dilukis pada grid berpetak 1 cm dengan skala ${sk}. Berapakah panjang sebenar pagar ${P1}${P2}?	The plan in the diagram below is drawn on a 1 cm grid to a scale of ${sk}. What is the actual length of fence ${P1}${P2}?
+Berdasarkan lukisan berskala ${sk} pada grid berpetak 1 cm di bawah, cari jarak sebenar dari ${P1} ke ${P2}.	Based on the scale drawing with a scale of ${sk} on the 1 cm grid below, find the actual distance from ${P1} to ${P2}.
+Sebuah objek dilukis pada grid segi empat sama bersisi ${bsN(a)} cm. Lukisan berskalanya dilukis pada grid bersisi ${bsN(b)} cm dengan bilangan petak yang sama. Tentukan skala lukisan itu.	An object is drawn on a grid of equal squares with sides of ${bsN(a)} cm. Its scale drawing is drawn on a grid with sides of ${bsN(b)} cm with the same number of squares. Find the scale of the drawing.
+Rajah di bawah menunjukkan objek dan lukisannya. Kedua-dua bentuk mempunyai bilangan petak yang sama. Tentukan skala lukisan itu.	The diagram below shows an object and its drawing. Both shapes have the same number of squares. Find the scale of the drawing.
+Lengkapkan: Objek pada grid ${bsN(a)} cm, lukisan pada grid ${bsN(b)} cm (bilangan petak sama). Skala = ___	Complete: Object on a ${bsN(a)} cm grid, drawing on a ${bsN(b)} cm grid (same number of squares). Scale = ___
+Objek pada grid bersisi ${bsN(a)} cm disalin ke grid bersisi ${bsN(b)} cm dengan bilangan petak yang sama. ${N} berkata skalanya ialah ${bsSk(b, a)}. Adakah ${N} betul?	An object on a grid with sides of ${bsN(a)} cm is copied onto a grid with sides of ${bsN(b)} cm with the same number of squares. ${N} says the scale is ${bsSk(b, a)}. Is ${N} correct?
+${N} menulis nisbah sebenar : lukisan. Skala = sisi petak lukisan : sisi petak objek.	${N} wrote the ratio actual : drawing. Scale = grid size of scale drawing : grid size of object.
+Sebidang tanah berbentuk L. Empat sisinya ialah ${bsN(a)} m, ${bsN(b)} m, ${bsN(c)} m dan ${bsN(d)} m. Hitung panjang setiap sisi itu pada pelan berskala ${sk}.	A piece of land is L-shaped. Four of its sides are ${bsN(a)} m, ${bsN(b)} m, ${bsN(c)} m and ${bsN(d)} m. Calculate the length of each side on a plan with a scale of ${sk}.
+Rajah di bawah menunjukkan ukuran sebenar sebidang tanah berbentuk L. Hitung ukuran sisi-sisi yang dilabel pada lukisan berskala ${sk}.	The diagram below shows the actual measurements of an L-shaped piece of land. Calculate the measurements of the labelled sides on a scale drawing with a scale of ${sk}.
+Tapak sebuah rumah berbentuk L dengan sisi ${bsN(a)} m, ${bsN(b)} m, ${bsN(c)} m dan ${bsN(d)} m. Seorang pelukis pelan menggunakan skala ${sk}. Senaraikan ukuran keempat-empat sisi itu pada pelan.	An L-shaped house lot has sides of ${bsN(a)} m, ${bsN(b)} m, ${bsN(c)} m and ${bsN(d)} m. A draughtsman uses a scale of ${sk}. List the measurements of the four sides on the plan.
+Rajah di bawah menunjukkan pelan sebidang tanah berbentuk L yang dilukis pada grid berpetak 1 cm dengan skala ${sk}. (a) Hitung perimeter sebenar tanah itu. (b) Hitung luas sebenar tanah itu.	The diagram below shows the plan of an L-shaped piece of land drawn on a 1 cm grid to a scale of ${sk}. (a) Calculate the actual perimeter of the land. (b) Calculate the actual area of the land.
+Sebuah segi empat tepat berukuran ${bsN(L)} cm × ${bsN(W)} cm ialah lukisan sebuah gelanggang dengan skala ${bsSk(n1)}. (a) Hitung ukuran sebenar gelanggang itu. (b) Gelanggang itu dilukis semula dengan skala ${bsSk(n2)}. Nyatakan ukuran lukisan baharu.	A rectangle measuring ${bsN(L)} cm × ${bsN(W)} cm is the drawing of a court with a scale of ${bsSk(n1)}. (a) Calculate the actual measurements of the court. (b) The court is redrawn to a scale of ${bsSk(n2)}. State the measurements of the new drawing.
+Objek berbentuk segi empat tepat ${w} petak × ${h} petak dilukis pada grid bersisi ${bsN(a)} cm. Objek itu disalin ke grid bersisi ${bsN(b)} cm dengan bilangan petak yang sama. (a) Tentukan skala lukisan itu. (b) Hitung luas objek dan luas lukisan. (c) Luas lukisan ialah berapa kali luas objek?	A rectangular object of ${w} squares × ${h} squares is drawn on a grid with sides of ${bsN(a)} cm. The object is copied onto a grid with sides of ${bsN(b)} cm with the same number of squares. (a) Find the scale of the drawing. (b) Calculate the area of the object and the area of the drawing. (c) The area of the drawing is how many times the area of the object?
+(a) ${sk} (b) ${bsCm2(A1)} dan ${bsCm2(A2)} (c) ${k} kali	(a) ${sk} (b) ${bsCm2(A1)} and ${bsCm2(A2)} (c) ${k} times
+(a) Skala = sisi petak lukisan : sisi petak objek = ${bsN(b)} : ${bsN(a)}${`${bsN(b)} : ${bsN(a)}` === sk ? '' : ` = ${sk}`}	(a) Scale = grid size of scale drawing : grid size of object = ${bsN(b)} : ${bsN(a)}${`${bsN(b)} : ${bsN(a)}` === sk ? '' : ` = ${sk}`}
+(b) Objek: ${bsN(w * a)} × ${bsN(h * a)} = ${bsN(A1)} cm²; lukisan: ${bsN(w * b)} × ${bsN(h * b)} = ${bsN(A2)} cm²	(b) Object: ${bsN(w * a)} × ${bsN(h * a)} = ${bsN(A1)} cm²; drawing: ${bsN(w * b)} × ${bsN(h * b)} = ${bsN(A2)} cm²
+Pada pelan berskala ${sk}, ${bl} berbentuk segi empat tepat berukuran ${bsN(l)} cm × ${bsN(w)} cm. Hitung luas sebenar ${bl} itu dalam m².	On a plan with a scale of ${sk}, a rectangular ${bl} measures ${bsN(l)} cm × ${bsN(w)} cm. Calculate the actual area of the ${bl} in m².
+Rajah di bawah menunjukkan pelan ${bl} dengan skala ${sk}. Berapakah luas lantai sebenar ${bl} itu?	The diagram below shows the plan of a ${bl} with a scale of ${sk}. What is the actual floor area of the ${bl}?
+Encik Rahman melihat pelan rumah barunya yang berskala ${sk}. ${vcap(bl)} berukuran ${bsN(l)} cm × ${bsN(w)} cm pada pelan. Berapakah luas sebenar ${bl} itu?	Encik Rahman looks at the plan of his new house with a scale of ${sk}. The ${bl} measures ${bsN(l)} cm × ${bsN(w)} cm on the plan. What is the actual area of the ${bl}?
+${vcap(bl)} berukuran ${bsN(l)} cm × ${bsN(w)} cm pada pelan berskala ${sk}. ${N} berkata luas sebenarnya ialah ${wrong}. Adakah ${N} betul?	A ${bl} measures ${bsN(l)} cm × ${bsN(w)} cm on a plan with a scale of ${sk}. ${N} says its actual area is ${wrong}. Is ${N} correct?
+${N} hanya mendarab luas pada pelan dengan n. Cari panjang dan lebar sebenar dahulu, kemudian darab.	${N} only multiplied the area on the plan by n. Find the actual length and width first, then multiply.
+Pada peta berskala ${sk}, jarak dari ${A} ke ${C} ialah ${bsN(d1)} cm dan dari ${C} ke ${B} ialah ${bsN(d2)} cm. Hitung jumlah jarak sebenar perjalanan dari ${A} ke ${B} melalui ${C}, dalam km.	On a map with a scale of ${sk}, the distance from ${A} to ${C} is ${bsN(d1)} cm and from ${C} to ${B} is ${bsN(d2)} cm. Calculate the total actual distance of the journey from ${A} to ${B} via ${C}, in km.
+Rajah di bawah menunjukkan laluan dari ${A} ke ${B} melalui ${C} pada peta berskala ${sk}. Berapakah jumlah jarak sebenar laluan itu?	The diagram below shows the route from ${A} to ${B} via ${C} on a map with a scale of ${sk}. What is the total actual distance of the route?
+Sebuah bas bergerak dari ${A} ke ${C}, kemudian ke ${B}. Pada peta berskala ${sk}, kedua-dua bahagian laluan itu ialah ${bsN(d1)} cm dan ${bsN(d2)} cm. Berapa jauhkah bas itu bergerak?	A bus travels from ${A} to ${C}, then to ${B}. On a map with a scale of ${sk}, the two parts of the route are ${bsN(d1)} cm and ${bsN(d2)} cm. How far does the bus travel?
+Panjang sebuah model ${thing} ialah ${bsN(ml)} cm, manakala panjang ${thing} sebenar ialah ${bsN(R)} m. Tentukan skala model itu.	The length of a model ${thing} is ${bsN(ml)} cm, while the length of the actual ${thing} is ${bsN(R)} m. Find the scale of the model.
+Sebuah model ${thing} dibina dengan skala ${bsSk(n)}. Jika panjang ${thing} sebenar ialah ${bsN(R)} m, berapakah panjang model itu?	A model ${thing} is built to a scale of ${bsSk(n)}. If the length of the actual ${thing} is ${bsN(R)} m, what is the length of the model?
+Sebuah model ${thing} berskala ${bsSk(n)} panjangnya ${bsN(ml)} cm. Hitung panjang ${thing} sebenar dalam meter.	A model ${thing} with a scale of ${bsSk(n)} is ${bsN(ml)} cm long. Calculate the length of the actual ${thing} in metres.
+Luas sebuah taman pada lukisan berskala ${sk} ialah ${bsN(Ad)} cm². Hitung luas sebenar taman itu dalam m².	The area of a garden on a scale drawing with a scale of ${sk} is ${bsN(Ad)} cm². Calculate the actual area of the garden in m².
+Pada sebuah pelan berskala ${sk}, luas ${tp} ialah ${bsN(Ad)} cm². Berapakah luas sebenar ${tp} itu?	On a plan with a scale of ${sk}, the area of the ${tp} is ${bsN(Ad)} cm². What is the actual area of the ${tp}?
+Luas sebenar ${tp} ialah ${bsN(Ar)} m². Berapakah luasnya pada pelan berskala ${sk}, dalam cm²?	The actual area of the ${tp} is ${bsN(Ar)} m². What is its area on a plan with a scale of ${sk}, in cm²?
+Luas sebuah kawasan pada pelan berskala ${sk} ialah ${bsN(Ad)} cm². ${N} berkata luas sebenarnya ialah ${bsN(Ad * n)} cm². Adakah ${N} betul?	The area of a region on a plan with a scale of ${sk} is ${bsN(Ad)} cm². ${N} says its actual area is ${bsN(Ad * n)} cm². Is ${N} correct?
+${N} mendarab dengan n sahaja. Bagi luas, darab dengan n².	${N} only multiplied by n. For area, multiply by n².
+${vcap(bl)} berukuran ${bsN(l)} cm × ${bsN(w)} cm pada pelan berskala ${sk}. Kos memasang permaidani ialah RM${h} bagi setiap meter persegi. Hitung kos memasang permaidani di seluruh lantai ${bl} itu.	A ${bl} measures ${bsN(l)} cm × ${bsN(w)} cm on a plan with a scale of ${sk}. The cost of laying carpet is RM${h} per square metre. Calculate the cost of laying carpet on the whole floor of the ${bl}.
+Sebuah ${tp} berukuran ${bsN(l)} cm × ${bsN(w)} cm pada pelan berskala ${sk}. Pagar akan dipasang di sekeliling ${tp} itu dengan kos RM${h} semeter. Berapakah kos memagar?	A ${tp} measures ${bsN(l)} cm × ${bsN(w)} cm on a plan with a scale of ${sk}. A fence will be built around the ${tp} at a cost of RM${h} per metre. What is the cost of fencing?
+Pelan berskala ${sk} menunjukkan lantai ${bl} berukuran ${bsN(l)} cm × ${bsN(w)} cm. Jika harga jubin ialah RM${h} semeter persegi, berapakah kos jubin untuk lantai itu?	A plan with a scale of ${sk} shows the floor of a ${bl} measuring ${bsN(l)} cm × ${bsN(w)} cm. If the price of tiles is RM${h} per square metre, what is the cost of tiles for the floor?
+Jarak dari ${A} ke ${B} pada peta berskala ${sk} ialah ${bsN(d)} cm. Sebuah kereta bergerak pada laju purata ${v} km/j. Berapakah masa yang diambil, dalam minit?	The distance from ${A} to ${B} on a map with a scale of ${sk} is ${bsN(d)} cm. A car travels at an average speed of ${v} km/h. What is the time taken, in minutes?
+Pada peta berskala ${sk}, panjang jalan dari ${A} ke ${B} ialah ${bsN(d)} cm. Puan Lim menunggang motosikal pada laju ${v} km/j. Hitung masa perjalanannya dalam minit.	On a map with a scale of ${sk}, the length of the road from ${A} to ${B} is ${bsN(d)} cm. Puan Lim rides a motorcycle at a speed of ${v} km/h. Calculate the time of her journey in minutes.
+Jarak ${A} ke ${B} pada peta berskala ${sk} ialah ${bsN(d)} cm. Sebuah bas mengambil masa ${t} minit untuk perjalanan itu. Hitung laju purata bas dalam km/j.	The distance from ${A} to ${B} on a map with a scale of ${sk} is ${bsN(d)} cm. A bus takes ${t} minutes for the journey. Calculate the average speed of the bus in km/h.
+laju purata bas	average speed of the bus
+Pelan sebuah rumah dilukis dengan skala ${sk}. ${vcap(r1.t)} berukuran ${bsN(r1.l)} cm × ${bsN(r1.w)} cm dan ${r2.t} berukuran ${bsN(r2.l)} cm × ${bsN(r2.w)} cm pada pelan. (a) Hitung luas sebenar setiap bilik. (b) Kos memasang lantai vinil ialah RM${h} semeter persegi. Hitung jumlah kos untuk kedua-dua bilik.	The plan of a house is drawn to a scale of ${sk}. The ${r1.t} measures ${bsN(r1.l)} cm × ${bsN(r1.w)} cm and the ${r2.t} measures ${bsN(r2.l)} cm × ${bsN(r2.w)} cm on the plan. (a) Calculate the actual area of each room. (b) The cost of laying vinyl flooring is RM${h} per square metre. Calculate the total cost for both rooms.
+Pelan sebuah rumah	The plan of a house
+Pada peta berskala ${sk}, laluan pertama dari ${A} ke ${B} ialah jalan terus sepanjang ${bsN(d1)} cm. Laluan kedua melalui ${C}: ${bsN(d2)} cm dan ${bsN(d3)} cm. (a) Hitung jarak sebenar setiap laluan. (b) Jika laju purata ialah ${v} km/j, berapa minit dapat dijimatkan dengan memilih laluan yang lebih pendek?	On a map with a scale of ${sk}, the first route from ${A} to ${B} is a straight road ${bsN(d1)} cm long. The second route goes via ${C}: ${bsN(d2)} cm and ${bsN(d3)} cm. (a) Calculate the actual distance of each route. (b) If the average speed is ${v} km/h, how many minutes can be saved by choosing the shorter route?
+Pada peta	On a map
+Sebuah kebun berbentuk segi empat tepat berukuran ${bsN(l)} cm × ${bsN(w)} cm pada pelan berskala ${sk}. Pagar akan dipasang di sekeliling kebun kecuali pintu pagar selebar ${bsN(g)} m. (a) Hitung perimeter sebenar kebun. (b) Kos pagar ialah RM${h} semeter. Hitung kos memasang pagar itu.	A rectangular garden measures ${bsN(l)} cm × ${bsN(w)} cm on a plan with a scale of ${sk}. A fence will be built around the garden except for a gate ${bsN(g)} m wide. (a) Calculate the actual perimeter of the garden. (b) The cost of the fence is RM${h} per metre. Calculate the cost of building the fence.
+${p} kali	${p} times
+${p}/${q} kali	${p}/${q} times
+Lukisan : objek = ${bsN(a2)} : ${a}	Drawing : object = ${bsN(a2)} : ${a}
+= ${bsRatio(k)} (bahagi dengan faktor sepunya)	= ${bsRatio(k)} (divide by the common factor)
+Semak lebar: ${bsN(b2)} : ${b} = ${bsRatio(k)}	Check the width: ${bsN(b2)} : ${b} = ${bsRatio(k)}
+Objek	Object
+Lukisan	Drawing
+Objek dan lukisan berskala	Object and scale drawing
+terpanjang	longest
+tapak	base
+atas	top
+kiri	left
+${small ? 'Dikecilkan' : 'Dibesarkan'}; setiap ukuran lukisan = ${bsKtxt(k)} ukuran objek	${small ? 'Smaller' : 'Bigger'}; every measurement of drawing = ${bsKtxt(k)} the measurement of object
+Dikecilkan	Smaller
+Dibesarkan	Bigger
+${bsFr(k[0], k[1])} < 1, maka lukisan dikecilkan.	${bsFr(k[0], k[1])} < 1, thus the drawing is smaller.
+${bsFr(k[0], k[1])} > 1, maka lukisan dibesarkan.	${bsFr(k[0], k[1])} > 1, thus the drawing is bigger.
+Objek dan tiga lukisan A, B dan C	Object and three drawings A, B and C
+Lukisan ${d.X}	Drawing ${d.X}
+Lukisan ${d.X}: setiap sisi = ${d.kt} sisi objek yang sepadan, jadi bentuknya sama.	Drawing ${d.X}: every side = ${d.kt} the corresponding side of the object, so the shape is the same.
+Dua lukisan lain diregangkan secara berbeza pada arah mengufuk dan mencancang, jadi bentuknya berubah.	The other two drawings are stretched differently in the horizontal and vertical directions, so their shapes change.
+Faktor = ${bsN(a2)} ÷ ${a} = ${bsFr(k[0], k[1])}	Factor = ${bsN(a2)} ÷ ${a} = ${bsFr(k[0], k[1])}
+Lebar lukisan = ${b} × ${bsFr(k[0], k[1])} = ${bsN(b2)} cm	Width of drawing = ${b} × ${bsFr(k[0], k[1])} = ${bsN(b2)} cm
+Objek dan lukisan dengan sisi x	Object and drawing with side x
+Ya, kerana nisbah panjang dan nisbah lebar sama (${bsRatio(k)})	Yes, because the ratio of the lengths and the ratio of the widths are the same (${bsRatio(k)})
+Bukan, kerana nisbah panjang (${bsFr(Math.round(a2 * 10), a * 10)}) tidak sama dengan nisbah lebar (${bsFr(Math.round(b2 * 10), b * 10)})	No, because the ratio of the lengths (${bsFr(Math.round(a2 * 10), a * 10)}) is not the same as the ratio of the widths (${bsFr(Math.round(b2 * 10), b * 10)})
+Panjang: ${bsN(a2)} ÷ ${a} = ${bsFr(Math.round(a2 * 10), a * 10)}	Length: ${bsN(a2)} ÷ ${a} = ${bsFr(Math.round(a2 * 10), a * 10)}
+Lebar: ${bsN(b2)} ÷ ${b} = ${bsFr(Math.round(b2 * 10), b * 10)}	Width: ${bsN(b2)} ÷ ${b} = ${bsFr(Math.round(b2 * 10), b * 10)}
+Kedua-dua nisbah sama, maka lukisan itu berskala.	Both ratios are the same, thus it is a scale drawing.
+Nisbah berbeza, maka bentuk berubah dan lukisan itu bukan lukisan berskala.	The ratios are different, thus the shape changes and the drawing is not a scale drawing.
+Segi tiga objek dan lukisan	Triangle object and drawing
+${bsCm(d[1])} dan ${bsCm(d[2])}	${bsCm(d[1])} and ${bsCm(d[2])}
+Faktor = ${bsN(d[0])} ÷ ${s1} = ${bsFr(k[0], k[1])}	Factor = ${bsN(d[0])} ÷ ${s1} = ${bsFr(k[0], k[1])}
+(Perimeter lukisan = ${bsN(per)} cm)	(Perimeter of drawing = ${bsN(per)} cm)
+Skala ${bsSk(n)}: 1 cm mewakili ${bsN(n)} cm	Scale ${bsSk(n)}: 1 cm represents ${bsN(n)} cm
+lebih kecil	smaller
+Sama saiz	The same size
+sama saiz	the same size
+lebih besar	bigger
+seekor rama-rama	a butterfly
+sebuah bangunan	a building
+${BSJ_TXT.k[0]}, kerana n = ${nv} > 1	${BSJ_TXT.k[0]}, because n = ${nv} > 1
+${BSJ_TXT.s[0]}, kerana n = 1	${BSJ_TXT.s[0]}, because n = 1
+${BSJ_TXT.b[0]}, kerana 0 < n = ${nv} < 1	${BSJ_TXT.b[0]}, because 0 < n = ${nv} < 1
+n > 1: ukuran lukisan = ukuran sebenar ÷ n, lebih kecil.	n > 1: measurement of drawing = actual measurement ÷ n, smaller.
+n = 1: ukuran lukisan = ukuran sebenar.	n = 1: measurement of drawing = actual measurement.
+0 < n < 1: ukuran lukisan = ukuran sebenar × ${bsFr(b, a)}, lebih besar.	0 < n < 1: measurement of drawing = actual measurement × ${bsFr(b, a)}, bigger.
+koridor	corridor
+kolam renang	swimming pool
+bilik darjah	classroom
+kantin	canteen
+Ukuran sebenar = ukuran lukisan × n	Actual measurement = measurement of drawing × n
+Skala ${bsSk(n)}	Scale ${bsSk(n)}
+pagar	fence
+tembok	wall
+balkoni	balcony
+jambatan kecil	small bridge
+landasan	track
+Ukuran lukisan = ukuran sebenar ÷ n = ${bsN(R * 100)} ÷ ${bsN(n)}	Measurement of drawing = actual measurement ÷ n = ${bsN(R * 100)} ÷ ${bsN(n)}
+sebuah bas	a bus
+sebuah dewan	a hall
+sebuah bot	a boat
+sebatang tiang	a pole
+sebuah kontena	a container
+jarak dua bandar	the distance between two towns
+seekor semut	an ant
+seekor kumbang	a beetle
+sebiji butang	a button
+Kedua-dua ukuran sudah dalam cm.	Both measurements are already in cm.
+Skala = ${bsN(dcm)} : ${bsN(rcm)}	Scale = ${bsN(dcm)} : ${bsN(rcm)}
+1 cm mewakili ${bsN(n)} cm = ${bsN(n / 100000)} km	1 cm represents ${bsN(n)} cm = ${bsN(n / 100000)} km
+Jarak sebenar = ${bsN(d)} × ${bsN(n / 100000)} = ${bsN(km)} km	Actual distance = ${bsN(d)} × ${bsN(n / 100000)} = ${bsN(km)} km
+Jarak pada peta = ${bsN(km * 100000)} ÷ ${bsN(n)} = ${bsN(d)} cm	Distance on the map = ${bsN(km * 100000)} ÷ ${bsN(n)} = ${bsN(d)} cm
+Skala ${sk}: ukuran sebenar = ukuran lukisan × 1/${q}	Scale ${sk}: actual measurement = measurement of drawing × 1/${q}
+Ukuran lukisan = ukuran sebenar ÷ 1/${q} = ukuran sebenar × ${q}	Measurement of drawing = actual measurement ÷ 1/${q} = actual measurement × ${q}
+Skala = ${bsN(d)} : ${bsN(R)}	Scale = ${bsN(d)} : ${bsN(R)}
+Setiap sisi objek didarab dengan 2	Every side of the object is multiplied by 2
+Skala 1 : 1/2: ukuran lukisan = ukuran objek ÷ 1/2 = ukuran objek × 2.	Scale 1 : 1/2: measurement of drawing = measurement of object ÷ 1/2 = measurement of object × 2.
+Setiap sisi objek dibahagi dengan 2	Every side of the object is divided by 2
+Skala 1 : 2: ukuran lukisan = ukuran objek ÷ 2.	Scale 1 : 2: measurement of drawing = measurement of object ÷ 2.
+Setiap sisi objek didarab dengan 3	Every side of the object is multiplied by 3
+Skala 1 : 1/3: ukuran lukisan = ukuran objek × 3.	Scale 1 : 1/3: measurement of drawing = measurement of object × 3.
+Setiap sisi objek didarab dengan 2/3	Every side of the object is multiplied by 2/3
+Skala 1 : 1.5: ukuran lukisan = ukuran objek ÷ 1.5 = ukuran objek × 2/3.	Scale 1 : 1.5: measurement of drawing = measurement of object ÷ 1.5 = measurement of object × 2/3.
+Objek ${L}	Object ${L}
+Objek ${L} pada grid dan grid kosong	Object ${L} on a grid and a blank grid
+Objek ${L} dan lukisan berskalanya	Object ${L} and its scale drawing
+${how}: lebar ${ow} cm → ${dw} cm, tinggi ${oh} cm → ${dh} cm (lihat rajah jawapan)	${how}: width ${ow} cm → ${dw} cm, height ${oh} cm → ${dh} cm (see the answer diagram)
+Mulakan dari satu bucu, kira petak bagi setiap sisi dan kekalkan semua sudut.	Start from one vertex, count the squares for every side and keep all the angles.
+Panjang lukisan = ${bsN(L * 100)} ÷ ${bsN(n)} = ${bsN(dl)} cm	Length of drawing = ${bsN(L * 100)} ÷ ${bsN(n)} = ${bsN(dl)} cm
+Lebar lukisan = ${bsN(W * 100)} ÷ ${bsN(n)} = ${bsN(dw)} cm	Width of drawing = ${bsN(W * 100)} ÷ ${bsN(n)} = ${bsN(dw)} cm
+Pelan tanah berbentuk L pada grid	Plan of L-shaped land on a grid
+${V[k]}${V[(k + 1) % 6]} = ${len} petak = ${len} cm pada pelan	${V[k]}${V[(k + 1) % 6]} = ${len} squares = ${len} cm on the plan
+Panjang sebenar = ${len} × ${bsN(n)} = ${bsN(len * n)} cm	Actual length = ${len} × ${bsN(n)} = ${bsN(len * n)} cm
+Objek (petak ${bsN(a)} cm)	Object (${bsN(a)} cm squares)
+Lukisan (petak ${bsN(b)} cm)	Drawing (${bsN(b)} cm squares)
+Objek dan lukisan pada grid berlainan saiz	Object and drawing on grids of different sizes
+Skala = sisi petak lukisan : sisi petak objek = ${bsN(b)} : ${bsN(a)}	Scale = grid size of scale drawing : grid size of object = ${bsN(b)} : ${bsN(a)}
+Lukisan dibesarkan.	The drawing is bigger.
+Lukisan dikecilkan.	The drawing is smaller.
+Tanah berbentuk L dengan ukuran sebenar	L-shaped land with actual measurements
+Ukuran lukisan = ukuran sebenar (cm) ÷ ${bsN(n)}	Measurement of drawing = actual measurement (cm) ÷ ${bsN(n)}
+Pelan tanah berbentuk L	Plan of L-shaped land
+berbentuk L	L-shaped
+1 cm pada pelan mewakili ${bsN(n)} cm = ${bsN(u)} m	1 cm on the plan represents ${bsN(n)} cm = ${bsN(u)} m
+(a) Perimeter pada pelan = 2 × (${s.W} + ${s.H}) = ${2 * (s.W + s.H)} cm; sebenar = ${2 * (s.W + s.H)} × ${bsN(u)} = ${bsN(P)} m	(a) Perimeter on the plan = 2 × (${s.W} + ${s.H}) = ${2 * (s.W + s.H)} cm; actual = ${2 * (s.W + s.H)} × ${bsN(u)} = ${bsN(P)} m
+(b) Luas pada pelan = ${s.W} × ${s.H} − ${s.cw} × ${s.ch} = ${s.W * s.H - s.cw * s.ch} cm²	(b) Area on the plan = ${s.W} × ${s.H} − ${s.cw} × ${s.ch} = ${s.W * s.H - s.cw * s.ch} cm²
+Luas sebenar = ${s.W * s.H - s.cw * s.ch} × ${bsN(u)}² = ${bsN(A)} m²	Actual area = ${s.W * s.H - s.cw * s.ch} × ${bsN(u)}² = ${bsN(A)} m²
+1 cm mewakili ${bsN(n)} cm = ${bsN(n / 100)} m	1 cm represents ${bsN(n)} cm = ${bsN(n / 100)} m
+Panjang sebenar = ${bsN(l)} × ${bsN(n / 100)} = ${bsN(L)} m; lebar sebenar = ${bsN(w)} × ${bsN(n / 100)} = ${bsN(W)} m	Actual length = ${bsN(l)} × ${bsN(n / 100)} = ${bsN(L)} m; actual width = ${bsN(w)} × ${bsN(n / 100)} = ${bsN(W)} m
+Luas sebenar = ${bsN(L)} × ${bsN(W)} = ${bsN(A)} m²	Actual area = ${bsN(L)} × ${bsN(W)} = ${bsN(A)} m²
+Jambatan	Bridge
+Jumlah jarak pada peta = ${bsN(d1)} + ${bsN(d2)} = ${bsN(d1 + d2)} cm	Total distance on the map = ${bsN(d1)} + ${bsN(d2)} = ${bsN(d1 + d2)} cm
+1 cm mewakili ${bsN(n)} cm = ${bsN(k1)} km	1 cm represents ${bsN(n)} cm = ${bsN(k1)} km
+Jarak sebenar = ${bsN(d1 + d2)} × ${bsN(k1)} = ${bsN((d1 + d2) * k1)} km	Actual distance = ${bsN(d1 + d2)} × ${bsN(k1)} = ${bsN((d1 + d2) * k1)} km
+kereta	car
+bas	bus
+kapal terbang	aeroplane
+lori	lorry
+bot	boat
+kereta api	train
+Panjang sebuah model	The length of a model
+Skala = ${bsN(ml)} : ${bsN(R * 100)} = 1 : ${bsN(n)}	Scale = ${bsN(ml)} : ${bsN(R * 100)} = 1 : ${bsN(n)}
+berapakah panjang model	what is the length of the model
+Panjang model = ${bsN(R * 100)} ÷ ${bsN(n)} = ${bsN(ml)} cm	Length of model = ${bsN(R * 100)} ÷ ${bsN(n)} = ${bsN(ml)} cm
+Panjang sebenar = ${bsN(ml)} × ${bsN(n)} = ${bsN(ml * n)} cm	Actual length = ${bsN(ml)} × ${bsN(n)} = ${bsN(ml * n)} cm
+Luas sebenar = luas lukisan × n² = ${bsN(Ad)} × ${bsN(n)}²	Actual area = area of drawing × n² = ${bsN(Ad)} × ${bsN(n)}²
+Luas sebenar	The actual area
+Luas lukisan = luas sebenar ÷ n² = ${bsN(Ar * 10000)} ÷ ${bsN(n * n)}	Area of drawing = actual area ÷ n² = ${bsN(Ar * 10000)} ÷ ${bsN(n * n)}
+Adakah	correct?
+Panjang sebenar = ${bsN(l)} × ${bsN(n)} = ${bsN(l * n)} cm = ${bsN(L)} m; lebar sebenar = ${bsN(w * n)} cm = ${bsN(W)} m	Actual length = ${bsN(l)} × ${bsN(n)} = ${bsN(l * n)} cm = ${bsN(L)} m; actual width = ${bsN(w * n)} cm = ${bsN(W)} m
+Perimeter = 2 × (${bsN(L)} + ${bsN(W)}) = ${bsN(Pm)} m	Perimeter = 2 × (${bsN(L)} + ${bsN(W)}) = ${bsN(Pm)} m
+Kos = ${bsN(Pm)} × RM${h} = ${bsRM(Pm * h)}	Cost = ${bsN(Pm)} × RM${h} = ${bsRM(Pm * h)}
+Luas = ${bsN(L)} × ${bsN(W)} = ${bsN(A)} m²	Area = ${bsN(L)} × ${bsN(W)} = ${bsN(A)} m²
+Kos = ${bsN(A)} × RM${h} = ${bsRM(A * h)}	Cost = ${bsN(A)} × RM${h} = ${bsRM(A * h)}
+${t} minit = ${bsFr(t, 60)} jam	${t} minutes = ${bsFr(t, 60)} hour
+Laju = ${bsN(km)} ÷ ${bsFr(t, 60)} = ${bsN(km)} × ${bsFr(60, t)} = ${bsN(v)} km/j	Speed = ${bsN(km)} ÷ ${bsFr(t, 60)} = ${bsN(km)} × ${bsFr(60, t)} = ${bsN(v)} km/h
+${bsN(t)} minit	${bsN(t)} minutes
+Masa = ${bsN(km)} ÷ ${v} = ${bsFr(Math.round(km * 100), v * 100)} jam	Time = ${bsN(km)} ÷ ${v} = ${bsFr(Math.round(km * 100), v * 100)} hour
+= ${bsFr(Math.round(km * 100), v * 100)} × 60 = ${bsN(t)} minit	= ${bsFr(Math.round(km * 100), v * 100)} × 60 = ${bsN(t)} minutes
+1 cm mewakili ${bsN(p1.n / 100)} m	1 cm represents ${bsN(p1.n / 100)} m
+(b) Jumlah luas = ${bsN(a1 + a2)} m²; kos = ${bsN(a1 + a2)} × RM${h1} = ${bsRM((a1 + a2) * h1)}	(b) Total area = ${bsN(a1 + a2)} m²; cost = ${bsN(a1 + a2)} × RM${h1} = ${bsRM((a1 + a2) * h1)}
+skala ${bsSk(n2)}	scale of ${bsSk(n2)}
+(a) Laluan pertama ${bsKm(R1)}, laluan kedua ${bsKm(R2)} (b) ${bsN(save)} minit	(a) First route ${bsKm(R1)}, second route ${bsKm(R2)} (b) ${bsN(save)} minutes
+1 cm mewakili ${bsN(k)} km	1 cm represents ${bsN(k)} km
+(a) Laluan pertama = ${bsN(d1)} × ${bsN(k)} = ${bsN(R1)} km; laluan kedua = (${bsN(d2)} + ${bsN(d3)}) × ${bsN(k)} = ${bsN(R2)} km	(a) First route = ${bsN(d1)} × ${bsN(k)} = ${bsN(R1)} km; second route = (${bsN(d2)} + ${bsN(d3)}) × ${bsN(k)} = ${bsN(R2)} km
+(b) Beza jarak = ${bsN(R2 - R1)} km; masa dijimatkan = ${bsN(R2 - R1)} ÷ ${v} × 60 = ${bsN(save)} minit	(b) Difference in distance = ${bsN(R2 - R1)} km; time saved = ${bsN(R2 - R1)} ÷ ${v} × 60 = ${bsN(save)} minutes
+skala ${bsSk(n3)}	scale of ${bsSk(n3)}
+RM${h3} semeter	RM${h3} per metre
+Panjang sebenar = ${bsN(l3)} × ${bsN(n3)} = ${bsN(l3 * n3)} cm = ${bsN(L)} m; lebar = ${bsN(w3 * n3)} cm = ${bsN(W)} m	Actual length = ${bsN(l3)} × ${bsN(n3)} = ${bsN(l3 * n3)} cm = ${bsN(L)} m; width = ${bsN(w3 * n3)} cm = ${bsN(W)} m
+(a) Perimeter = 2 × (${bsN(L)} + ${bsN(W)}) = ${bsN(P)} m	(a) Perimeter = 2 × (${bsN(L)} + ${bsN(W)}) = ${bsN(P)} m
+(b) Panjang pagar = ${bsN(P)} − ${bsN(g)} = ${bsN(P - g)} m; kos = ${bsN(P - g)} × RM${h3} = ${bsRM((P - g) * h3)}	(b) Length of fence = ${bsN(P)} − ${bsN(g)} = ${bsN(P - g)} m; cost = ${bsN(P - g)} × RM${h3} = ${bsRM((P - g) * h3)}
+Lukisan manakah ialah <b>lukisan berskala</b> bagi objek?	Which drawing is the <b>scale drawing</b> of the object?
+Tiada	None
+Nisbah ukuran lukisan kepada ukuran objek ialah	The ratio of measurement of drawing to measurement of object is
+Objek ${a} cm × ${b} cm. Lukisan berskala panjangnya ${bsN(a2)} cm. Berapakah lebarnya?	Object ${a} cm × ${b} cm. The length of the scale drawing is ${bsN(a2)} cm. What is its width?
+Skala <b>${bsSk(n)}</b> bermaksud 1 cm pada lukisan mewakili	The scale <b>${bsSk(n)}</b> means 1 cm on the drawing represents
+Lukisan berskala <b>${bsSk(a, b)}</b> adalah	A scale drawing with a scale of <b>${bsSk(a, b)}</b> is
+Skala ${bsSk(a, b)}	Scale ${bsSk(a, b)}
+Lebih kecil daripada objek	Smaller than the object
+Sama saiz dengan objek	The same size as the object
+Lebih besar daripada objek	Bigger than the object
+Tidak dapat ditentukan	Cannot be determined
+Lukisan <b>${bsCm(d)}</b> mewakili <b>${rt}</b>. Skala lukisan ialah	A drawing of <b>${bsCm(d)}</b> represents <b>${rt}</b>. The scale of the drawing is
+Panjang sebenar = <b>${bsN(R)} m</b>, skala <b>${bsSk(n)}</b>. Berapakah panjang lukisan?	Actual length = <b>${bsN(R)} m</b>, scale <b>${bsSk(n)}</b>. What is the length of the drawing?
+Pada lukisan berskala <b>${bsSk(n)}</b>, panjang = <b>${bsN(d)} cm</b>. Berapakah panjang sebenar?	On a scale drawing with a scale of <b>${bsSk(n)}</b>, length = <b>${bsN(d)} cm</b>. What is the actual length?
+Objek pada grid <b>${bsN(a)} cm</b> disalin ke grid <b>${bsN(b)} cm</b> (bilangan petak sama). Skalanya ialah	An object on a <b>${bsN(a)} cm</b> grid is copied onto a <b>${bsN(b)} cm</b> grid (same number of squares). The scale is
+Jarak pada peta = <b>${bsN(d)} cm</b>, skala <b>${bsSk(n)}</b>. Berapakah jarak sebenar?	Distance on the map = <b>${bsN(d)} cm</b>, scale <b>${bsSk(n)}</b>. What is the actual distance?
+Pelan berskala <b>${bsSk(n)}</b>: bilik ${bsN(l)} cm × ${bsN(w)} cm. Berapakah luas sebenar?	Plan with a scale of <b>${bsSk(n)}</b>: room ${bsN(l)} cm × ${bsN(w)} cm. What is the actual area?
+Bilik	Room
+Luas pada lukisan berskala <b>${bsSk(n)}</b> = <b>${bsN(Ad)} cm²</b>. Berapakah luas sebenar?	Area on a scale drawing with a scale of <b>${bsSk(n)}</b> = <b>${bsN(Ad)} cm²</b>. What is the actual area?
+Maksud lukisan berskala	Meaning of scale drawing
+Mentafsir skala	Interpreting the scale
+Ukuran lukisan & sebenar	Drawing & actual measurements
+Pelan & peta	Plans & maps

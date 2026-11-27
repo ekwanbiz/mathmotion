@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>House Plan · Chapter 4</title>
+<style>
+@font-face{font-family:'Inter';font-weight:400;font-display:swap;src:url('../../teras/fonts/inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-weight:700;font-display:swap;src:url('../../teras/fonts/inter-latin-700-normal.woff2') format('woff2')}
+:root{--bg:#0B1220;--sf:#131C2E;--sf2:#1A2540;--sf3:#0E1626;--bd:#22304A;--bd2:#2E3F5E;--tx:#E6EDF7;--mu:#94A3B8;--mu2:#64748B;--c1:#FBBF24;--c1t:#2a1d03;--c2:#FBBF24;--c3:#F472B6;--ok:#34D399;--bad:#F87171;
+ --surface:#131C2E;--border:#2E3F5E;--text:#E6EDF7;--muted:#94A3B8;
+ font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--tx);background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:32px 32px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;gap:10px;padding:12px 12px calc(12px + env(safe-area-inset-bottom));max-width:1200px;width:100%;margin:0 auto}
+.top{display:flex;gap:8px;align-items:stretch}
+.modes{flex:1;display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px}
+.modes button{flex:1;border:0;background:none;color:var(--mu);font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px}
+.modes button.on{background:var(--c1);color:var(--c1t)}
+.top .snd-btn{height:auto;min-height:44px;border-radius:16px}
+.stage{min-height:0;background:var(--sf3);border:1px solid var(--bd);border-radius:18px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+.stage svg{width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.info{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:12px 14px;min-height:74px;line-height:1.5;font-size:15px}
+.info b.t{display:block;font-size:19px;color:var(--c1);margin-bottom:2px}
+.info .tip{color:var(--mu);font-size:13px;margin-top:4px}
+.info .row{display:flex;flex-wrap:wrap;gap:4px 14px;font-weight:700}
+.info .row span b{color:var(--c2)}
+.info .row span b.o{color:var(--c1)}
+.info .row span b.p{color:var(--c3)}
+.info .ok{color:var(--ok);font-weight:800}.info .no{color:var(--bad);font-weight:800}
+.info .eq{margin-top:6px;padding:8px 10px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);font-weight:700}
+.ctrl{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.ctrl.two{grid-template-columns:1fr 1fr}
+.ctrl.three{grid-template-columns:1fr 1fr 1fr}
+.chip{background:var(--sf);border:2px solid var(--bd2);border-radius:13px;padding:12px 4px;font-weight:800;font-size:15px}
+.chip.on{background:var(--c1);border-color:var(--c1);color:var(--c1t)}
+.chip.ok{border-color:var(--ok);background:#34d39922}.chip.no{border-color:var(--bad);background:#f8717122}
+.big{background:var(--c1);border:0;color:var(--c1t);border-radius:13px;padding:13px 6px;font-weight:900;font-size:15px}
+.big.alt{background:var(--sf);border:2px solid var(--bd2);color:var(--tx)}
+.big:disabled{opacity:.45;cursor:not-allowed}
+.nextb{margin-top:8px;background:var(--c1);border:0;color:var(--c1t);border-radius:11px;padding:9px 16px;font-weight:900}
+.slider{grid-column:1/-1;display:flex;align-items:center;gap:12px;background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:8px 14px}
+.slider label{font-weight:800;font-size:14px;color:var(--mu);white-space:nowrap}
+.slider output{font-weight:900;font-size:18px;color:var(--c1);min-width:84px;text-align:right;white-space:nowrap}
+.slider input{flex:1;accent-color:var(--c1);height:30px;touch-action:pan-x}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ .wrap{grid-template-columns:minmax(0,1.35fr) minmax(330px,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"m m" "s i" "s c"}
+ .top{grid-area:m}.stage{grid-area:s}.info{grid-area:i;align-self:start;font-size:16px;padding:18px}.ctrl{grid-area:c;align-self:end}
+ .ctrl,.ctrl.three{grid-template-columns:1fr 1fr}
+ .info b.t{font-size:24px}
+ .info .eq{font-size:17px}
+}
+@media(max-height:620px){.wrap{gap:7px;padding-top:8px}.modes button{padding:8px 4px;font-size:14px}.chip{padding:9px 3px;font-size:14px}.info{padding:8px 11px;min-height:62px;font-size:14px}.info b.t{font-size:17px}.big{padding:10px 4px}}
+@media(max-width:420px){.chip,.big{font-size:13.5px}.modes button{font-size:13px;padding:10px 3px}.info{font-size:14px;padding:10px 12px}.info b.t{font-size:17px}.ctrl{gap:6px}.chip{padding:10px 3px}}
+</style>
+<style id="infofix">@media(max-width:899px),(max-aspect-ratio:4/3){.info{height:196px;overflow:auto}}@media(max-height:620px){.info{height:156px}}</style>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+</head>
+<body>
+<div id="backAL" style="padding:calc(14px + env(safe-area-inset-top)) 12px 0;position:relative;z-index:50;max-width:1200px;width:100%;margin:0 auto"><a href="../#/teroka" style="display:inline-flex;align-items:center;gap:10px;background:#8F9BFF;color:#10133a;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #8f9bff44">&#8592; Back</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script>
+<div class="wrap">
+ <div class="top">
+  <div class="modes" role="tablist" aria-label="Mode">
+   <button data-m="ukur" class="on" role="tab">📏 Measure the Plan</button>
+   <button data-m="cabaran" role="tab">❓ Challenge</button>
+  </div>
+  <span id="sndslot" style="display:flex"></span>
+ </div>
+ <div class="stage" id="stage"><svg id="svg" viewBox="0 0 520 390" aria-label="House plan on a grid with a virtual ruler"></svg></div>
+ <div class="info" id="info" aria-live="polite"></div>
+ <div class="ctrl" id="ctrl"></div>
+</div>
+<script>
+'use strict';
+const svg=document.getElementById('svg'),info=document.getElementById('info'),ctrl=document.getElementById('ctrl');
+const U=36,OX=44,OY=40,W=12,H=8.5;                 // 1 cm pada pelan = 36 unit SVG
+const C1='#FBBF24',C2='#38BDF8',C3='#F472B6',OK='#34D399',MU='#94A3B8',TX='#E6EDF7',NAV='#0E1626';
+// bilik: [nama, x, y, w, h] dalam cm pada pelan
+const ROOMS=[['Living room',0,0,5.5,4.5,'#38BDF8'],['Bedroom 1',5.5,0,3.5,4.5,'#F472B6'],['Bedroom 2',9,0,3,4.5,'#A78BFA'],
+ ['Kitchen',0,4.5,4,4,'#34D399'],['Bathroom',4,4.5,2,4,'#94A3B8'],['Dining room',6,4.5,6,4,'#FB923C']];
+const SKALA=[100,150,200,250];
+let S={m:'ukur',n:200,a:[0,0],b:[5.5,0],sel:0,q:null,score:0,tot:0,streak:0};
+const r4=x=>Math.round(x*10000)/10000,nf=x=>String(r4(x));
+const X=x=>OX+x*U,Y=y=>OY+y*U;
+const snd=n=>{if(window.FX)FX.play(n)};
+function T(x,y,t,c=TX,s=15,a='middle'){return `<text x="${x}" y="${y}" fill="${c}" font-size="${s}" font-weight="800" text-anchor="${a}" dominant-baseline="middle" font-family="Inter,Arial,sans-serif" paint-order="stroke" stroke="${NAV}" stroke-width="4" stroke-linejoin="round">${t}</text>`}
+function plan(hl){
+ let g='';
+ for(let i=-1;i<=W+1;i++)g+=`<line x1="${X(i)}" y1="${Y(-0.8)}" x2="${X(i)}" y2="${Y(H+0.6)}" stroke="#1E2A40" stroke-width="1.2"/>`;
+ for(let j=-0.5;j<=H+0.5;j+=0.5)g+=`<line x1="${X(-1)}" y1="${Y(j)}" x2="${X(W+1)}" y2="${Y(j)}" stroke="#1E2A40" stroke-width="${Number.isInteger(j)?1.2:0.6}"/>`;
+ for(let i=-1;i<=W+1;i+=1)g+=`<line x1="${X(i+0.5)}" y1="${Y(-0.8)}" x2="${X(i+0.5)}" y2="${Y(H+0.6)}" stroke="#1E2A40" stroke-width="0.6"/>`;
+ ROOMS.forEach(([nm,x,y,w,h,c],i)=>{
+  const on=i===hl;
+  g+=`<rect class="room" data-r="${i}" x="${X(x)}" y="${Y(y)}" width="${w*U}" height="${h*U}" fill="${c}${on?'40':'18'}" stroke="${TX}" stroke-width="4" style="cursor:pointer"/>`;
+  g+=T(X(x+w/2),Y(y+h/2)-(on?9:0),nm,on?TX:c,w<2.5?12:14);
+  if(on)g+=T(X(x+w/2),Y(y+h/2)+11,`${nf(w)} cm × ${nf(h)} cm`,C1,13);
+ });
+ // pintu (celah)
+ g+=`<line x1="${X(2)}" y1="${Y(H)}" x2="${X(3)}" y2="${Y(H)}" stroke="#0E1626" stroke-width="6"/>`;
+ g+=T(X(W),Y(-0.45),`Scale 1 : ${S.n}`,C1,15,'end')+T(X(0),Y(-0.45),'1 square = 1 cm',MU,12,'start');
+ return g}
+function ruler(){
+ const A=[X(S.a[0]),Y(S.a[1])],B=[X(S.b[0]),Y(S.b[1])],L=len();
+ const mx=(A[0]+B[0])/2,my=(A[1]+B[1])/2,dx=B[0]-A[0],dy=B[1]-A[1],d=Math.hypot(dx,dy)||1,nx=-dy/d,ny=dx/d;
+ let g=`<line x1="${A[0]}" y1="${A[1]}" x2="${B[0]}" y2="${B[1]}" stroke="${C1}" stroke-width="9" stroke-linecap="round" opacity=".35"/><line x1="${A[0]}" y1="${A[1]}" x2="${B[0]}" y2="${B[1]}" stroke="${C1}" stroke-width="3" stroke-dasharray="${U/2-2} 2"/>`;
+ const lx=Math.max(50,Math.min(470,mx+nx*22)),ly=Math.max(20,Math.min(372,my+ny*22));
+ g+=T(lx,ly,`${nf(r4(L*100)/100)} cm`,C1,16);
+ [['a',A],['b',B]].forEach(([id,p])=>{g+=`<g class="h" data-h="${id}" style="cursor:grab"><circle cx="${p[0]}" cy="${p[1]}" r="26" fill="transparent"/><circle cx="${p[0]}" cy="${p[1]}" r="11" fill="${C1}" stroke="#fff" stroke-width="3"/></g>`});
+ return g}
+const len=()=>Math.hypot(S.b[0]-S.a[0],S.b[1]-S.a[1]);
+function ukurInfo(){
+ const L=len(),exact=Math.abs(L*2-Math.round(L*2))<1e-9,Lr=L*S.n;
+ const [nm,,,w,h]=ROOMS[S.sel],rw=w*S.n/100,rh=h*S.n/100;
+ info.innerHTML=`<b class="t">📏 Ruler: ${exact?nf(L):'≈ '+L.toFixed(2)} cm on the plan</b>
+ <div class="row"><span>Actual ${exact?'=':'≈'} ${exact?nf(L):L.toFixed(2)} × ${S.n} ${exact?'=':'≈'} <b>${exact?nf(Lr):Math.round(Lr)} cm</b> ${exact?'=':'≈'} <b class="o">${exact?nf(Lr/100):(Lr/100).toFixed(2)} m</b></span></div>
+ <div class="eq">${nm}: ${nf(w)} cm × ${nf(h)} cm → ${nf(rw)} m × ${nf(rh)} m<br>Actual area = ${nf(rw)} × ${nf(rh)} = ${nf(rw*rh)} m²</div>
+ <div class="tip">Drag the yellow ● points to measure. Tap a room to see its measurements and area. 1 cm on the plan represents ${S.n} cm = ${nf(S.n/100)} m.</div>`}
+/* ============ Cabaran ============ */
+const rnd=n=>Math.floor(Math.random()*n),pk=a=>a[rnd(a.length)];
+function newQ(){
+ const i=rnd(ROOMS.length),[nm,,,w,h]=ROOMS[i],n=pk(SKALA),type=pk(['panjang','lebar','luas','skala']);S.n=n;
+ const rw=w*n/100,rh=h*n/100;let q,ans,wr;
+ if(type==='panjang'){q=`Scale 1 : ${n}. What is the actual length of the top wall of the ${nm.toLowerCase()}?`;ans=`${nf(rw)} m`;wr=[`${nf(w*n)} m`,`${nf(rw*10)} m`,`${nf(rw/10)} m`,`${nf(rh)} m`,`${nf(rw+1)} m`]}
+ if(type==='lebar'){q=`Scale 1 : ${n}. What is the actual length of the left wall of the ${nm.toLowerCase()}?`;ans=`${nf(rh)} m`;wr=[`${nf(h*n)} m`,`${nf(rh*10)} m`,`${nf(rh/10)} m`,`${nf(rw)} m`,`${nf(rh+1)} m`]}
+ if(type==='luas'){q=`Scale 1 : ${n}. What is the actual floor area of the ${nm.toLowerCase()}?`;ans=`${nf(rw*rh)} m²`;wr=[`${nf(w*h*n/100)} m²`,`${nf(rw*rh*10)} m²`,`${nf(2*(rw+rh))} m²`,`${nf(w*h)} m²`,`${nf(rw*rh/10)} m²`]}
+ if(type==='skala'){q=`The actual length of the top wall of the ${nm.toLowerCase()} is ${nf(rw)} m. Measure on the plan, then determine the scale of the plan.`;ans=`1 : ${n}`;wr=SKALA.filter(s=>s!==n).map(s=>`1 : ${s}`).concat([`1 : ${n*10}`])}
+ const opts=[ans];wr.sort(()=>Math.random()-.5).forEach(x=>{if(!opts.includes(x)&&opts.length<4)opts.push(x)});
+ S.q={i,type,q,ans,opts:opts.sort(()=>Math.random()-.5),done:false};S.sel=i;
+ S.a=[ROOMS[i][1],ROOMS[i][2]];S.b=[ROOMS[i][1]+1,ROOMS[i][2]];
+ setCtrl();render();
+ info.innerHTML=`<b class="t">${q}</b><div class="tip">Use the virtual ruler (drag the ● points) to measure on the plan. Score: ${S.score}/${S.tot}${S.streak>=3?' · 🔥 '+S.streak+' in a row':''}</div>`}
+function answer(o,btn){
+ const Q=S.q;if(Q.done)return;Q.done=true;S.tot++;const ok=o===Q.ans;
+ if(ok){S.score++;S.streak++;snd('betul');if(window.FX)FX.stars(btn,10)}else{S.streak=0;snd('salah');if(window.FX&&FX.shake)FX.shake(btn)}
+ ctrl.querySelectorAll('.chip').forEach(b=>{if(b.dataset.o===Q.ans)b.classList.add('ok');else if(b===btn)b.classList.add('no');b.disabled=true});
+ const [nm,x,y,w,h]=ROOMS[Q.i],n=S.n,rw=w*n/100,rh=h*n/100;
+ if(Q.type==='lebar'){S.a=[x,y];S.b=[x,y+h]}else{S.a=[x,y];S.b=[x+w,y]}
+ render();
+ const wk=Q.type==='panjang'||Q.type==='skala'?`On the plan: ${nf(w)} cm → ${nf(w)} × ${n} = ${nf(w*n)} cm = <b>${nf(rw)} m</b>`+(Q.type==='skala'?`<br>${nf(w)} : ${nf(w*n)} = <b>1 : ${n}</b>`:''):Q.type==='lebar'?`On the plan: ${nf(h)} cm → ${nf(h)} × ${n} = ${nf(h*n)} cm = <b>${nf(rh)} m</b>`:`${nf(rw)} m × ${nf(rh)} m = <b>${nf(rw*rh)} m²</b>`;
+ info.innerHTML=`<b class="t">${ok?'<span class="ok">✓ Correct!</span>':'<span class="no">✗ Answer: '+Q.ans+'</span>'}</b><div class="eq">${wk}</div><div class="tip">Score: ${S.score}/${S.tot}${S.streak>=3?' · 🔥 '+S.streak+' in a row':''}</div><button class="nextb" id="nx">Next ▶</button>`;
+ document.getElementById('nx').onclick=newQ}
+/* ============ kawalan ============ */
+function render(){
+ const hideSk=S.m==='cabaran'&&S.q&&S.q.type==='skala'&&!S.q.done;
+ svg.innerHTML=plan(S.sel).replace(`Scale 1 : ${S.n}`,hideSk?'Scale 1 : ?':`Scale 1 : ${S.n}`)+ruler();
+ if(S.m==='ukur')ukurInfo()}
+function setCtrl(){
+ if(S.m==='ukur'){
+  ctrl.className='ctrl';
+  ctrl.innerHTML=SKALA.map(n=>`<button class="chip ${n===S.n?'on':''}" data-n="${n}">1 : ${n}</button>`).join('');
+  ctrl.querySelectorAll('[data-n]').forEach(b=>b.onclick=()=>{S.n=+b.dataset.n;setCtrl();render()});
+ } else if(S.q){
+  ctrl.className='ctrl two';
+  ctrl.innerHTML=S.q.opts.map(o=>`<button class="chip" data-o="${o}">${o}</button>`).join('');
+  ctrl.querySelectorAll('.chip').forEach(b=>b.onclick=()=>answer(b.dataset.o,b));
+ }
+}
+document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.modes button').forEach(x=>x.classList.toggle('on',x===b));S.m=b.dataset.m;
+ if(S.m==='cabaran'){newQ();return}
+ S.n=200;setCtrl();render()});
+/* ---------- Seret pembaris & ketik bilik (tetikus + sentuh) ---------- */
+let drag=null,moved=false;
+function svgPt(e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+const snap=v=>Math.round(v*2)/2,cl=(v,a,b)=>Math.max(a,Math.min(b,v));
+svg.addEventListener('pointerdown',e=>{const h=e.target.closest('.h');if(h){e.preventDefault();drag=h.dataset.h;moved=false;svg.setPointerCapture(e.pointerId)}});
+svg.addEventListener('pointermove',e=>{if(!drag)return;e.preventDefault();const p=svgPt(e);
+ const g=[cl(snap((p.x-OX)/U),-1,W+1),cl(snap((p.y-OY)/U),-0.5,H+0.5)],o=S[drag==='a'?'b':'a'];
+ if(g[0]===o[0]&&g[1]===o[1])return;
+ if(g[0]!==S[drag][0]||g[1]!==S[drag][1]){S[drag]=g;moved=true;snd('ketik');render()}});
+const end=()=>{drag=null};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+svg.addEventListener('click',e=>{const r=e.target.closest('.room');if(r&&!(S.m==='cabaran')){S.sel=+r.dataset.r;render()}});
+svg.addEventListener('dragstart',e=>e.preventDefault());
+setCtrl();render();
+</script>
+<script src="../../teras/fx.js"></script>
+<script>if(window.FX){document.getElementById('sndslot').innerHTML=FX.button()}</script>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script>
+</body>
+</html>
