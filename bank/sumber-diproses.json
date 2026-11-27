@@ -863,6 +863,47 @@
    "set": "-",
    "soalan_ids": [],
    "nota": "Pendua: bhgian A/B/C = UASA 2024 (T1 Set 1); Spot & Pecutan A/B/C = Pecutan/UASA T2 2025 (Set 2, Set 4)."
+  },
+  {
+   "nama": "Uasa 2023-24 MATEMATIK.pdf",
+   "nama_asal": "Uasa 2023-24 MATEMATIK.pdf",
+   "sha16": "cc3dbc3c3a3c8060",
+   "tarikh_proses": "2026-11-27",
+   "set": "T2 Set 18",
+   "soalan_ids": [
+    "T2S18-A01",
+    "T2S18-A02",
+    "T2S18-A03",
+    "T2S18-A04",
+    "T2S18-A05",
+    "T2S18-A06",
+    "T2S18-A07",
+    "T2S18-A08",
+    "T2S18-A09",
+    "T2S18-A10",
+    "T2S18-A11",
+    "T2S18-A12",
+    "T2S18-A13",
+    "T2S18-A14",
+    "T2S18-A15",
+    "T2S18-A16",
+    "T2S18-A17",
+    "T2S18-A18",
+    "T2S18-A19",
+    "T2S18-A20",
+    "T2S18-B01",
+    "T2S18-B02",
+    "T2S18-B03",
+    "T2S18-B04",
+    "T2S18-B05",
+    "T2S18-C01",
+    "T2S18-C02",
+    "T2S18-C03",
+    "T2S18-C04",
+    "T2S18-C05",
+    "T2S18-C06"
+   ],
+   "nota": "PDF imbasan (OCR). Soalan rajah/lukis graf diganti."
   }
  ]
 }
