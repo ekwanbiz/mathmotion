@@ -588,10 +588,16 @@ document.addEventListener('fullscreenchange', () => {
 });
 
 /* ---------- bar pen conteng (dikongsi: tayang Pelan Mengajar & tab NOTA) ---------- */
+// bar pen boleh disembunyikan ke tepi; pilihan diingat (lalai: tersembunyi)
+const PEN_KEY = 'terokamath-pen';
+const penHid = () => { try { return localStorage.getItem(PEN_KEY) !== 'buka'; } catch (e) { return true; } };
+const penChev = d => `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d ? 'M9 6l6 6-6 6' : 'M15 6l-6 6 6 6'}"/></svg>`;
 function penTools(tema) {
+  const hid = penHid();
   const lt = (() => { const t = typeof temaNow === 'function' && temaNow(); return t ? t.b === 'l' : isLight(); })();
   const cols = [['rd', 'Merah', 'var(--rd)'], ['am', 'Kuning', 'var(--am)'], ['tx', lt ? 'Hitam' : 'Putih', lt ? '#111827' : '#F8FAFC']];
-  return `<div class="ajpen" role="toolbar" aria-label="Pen conteng">
+  return `<button type="button" class="ajpentab${hid ? '' : ' tutup'}" id="ajPenBuka" aria-label="Tunjuk pen conteng" title="Tunjuk pen conteng">${ajIcon.pen}${penChev(1)}</button>
+    <div class="ajpen${hid ? ' tutup' : ''}" id="ajPen" role="toolbar" aria-label="Pen conteng">
       <button type="button" class="ajpb cur" data-cur="1" aria-pressed="${!AJ.tool}" aria-label="Klik biasa (tutup pen)" title="Klik biasa (Esc)">${ajIcon.cur}</button>
       <span class="ajpsep" aria-hidden="true"></span>
       <button type="button" class="ajpb" data-tool="pen" aria-pressed="${AJ.tool === 'pen'}" aria-label="Pen">${ajIcon.pen}</button>
@@ -600,6 +606,8 @@ function penTools(tema) {
       <button type="button" class="ajpb" data-tool="er" aria-pressed="${AJ.tool === 'er'}" aria-label="Pemadam">${ajIcon.eraser}</button>
       <button type="button" class="ajpb" id="ajClr" aria-label="Padam semua conteng">${ajIcon.trash}</button>
       ${tema ? `<span class="ajpsep" aria-hidden="true"></span><button type="button" class="ajpb" id="ajTema" aria-haspopup="true" aria-label="Tema slaid" title="Tema slaid">${IC.tema}</button>` : ''}
+      <span class="ajpsep" aria-hidden="true"></span>
+      <button type="button" class="ajpb" id="ajPenTutup" aria-label="Sembunyikan pen conteng" title="Sembunyikan pen">${penChev(0)}</button>
     </div>`;
 }
 function bindPen() {
@@ -608,6 +616,14 @@ function bindPen() {
   document.querySelectorAll('[data-col]').forEach(b => b.onclick = () => { AJ.col = b.dataset.col; if (!AJ.tool || AJ.tool === 'er') AJ.tool = 'pen'; inkTools(); });
   const clr = document.getElementById('ajClr'); if (clr) clr.onclick = () => { AJ.ink[inkKey()] = []; inkDraw(); };
   const tmb = document.getElementById('ajTema'); if (tmb) tmb.onclick = () => temaPanel(() => render(true), 'ajTema');
+  const setPen = buka => {
+    try { localStorage.setItem(PEN_KEY, buka ? 'buka' : 'tutup'); } catch (e) {}
+    const bar = document.getElementById('ajPen'), tab = document.getElementById('ajPenBuka');
+    if (bar) bar.classList.toggle('tutup', !buka); if (tab) tab.classList.toggle('tutup', buka);
+    if (!buka && AJ.tool) { AJ.tool = null; inkTools(); }
+  };
+  const pb = document.getElementById('ajPenBuka'); if (pb) pb.onclick = () => setPen(true);
+  const pt = document.getElementById('ajPenTutup'); if (pt) pt.onclick = () => setPen(false);
   inkBind();
 }
 // conteng disimpan ikut item tayangan, atau ikut slaid NOTA

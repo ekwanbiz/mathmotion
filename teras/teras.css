@@ -379,7 +379,12 @@ g.rv.hid{visibility:hidden}
 .ajqn{font-family:var(--head);font-weight:700;font-size:21px}.ajqn span{color:var(--mu)}
 .ink{position:absolute;inset:0;width:100%;height:100%;z-index:5;pointer-events:none;touch-action:none}
 .ink.on{pointer-events:auto;cursor:crosshair}
-.ajpen{position:absolute;left:12px;top:50%;transform:translateY(-50%);z-index:6;padding:8px;border-radius:18px;background:color-mix(in srgb,var(--surf) 92%,transparent);border:1px solid var(--bd);display:flex;flex-direction:column;gap:7px}
+.ajpen{position:absolute;left:12px;top:50%;transform:translateY(-50%);z-index:6;padding:8px;border-radius:18px;background:color-mix(in srgb,var(--surf) 92%,transparent);border:1px solid var(--bd);display:flex;flex-direction:column;gap:7px;transition:transform .3s ease,opacity .25s ease}
+.ajpen.tutup{transform:translate(calc(-100% - 24px),-50%);opacity:0;pointer-events:none}
+.ajpentab{position:absolute;left:0;top:50%;transform:translateY(-50%);z-index:6;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:30px;height:70px;padding:0;border:1px solid var(--bd);border-left:0;border-radius:0 14px 14px 0;background:color-mix(in srgb,var(--surf) 92%,transparent);color:var(--mu);cursor:pointer;transition:transform .3s ease,opacity .25s ease}
+.ajpentab svg{width:16px;height:16px}
+.ajpentab:hover{color:var(--tx)}
+.ajpentab.tutup{transform:translate(-110%,-50%);opacity:0;pointer-events:none}
 .ajpb{width:44px;height:44px;border-radius:12px;border:1px solid var(--bd);background:var(--surf2);color:var(--tx);display:flex;align-items:center;justify-content:center}
 .ajpb[aria-pressed="true"]{border:2px solid var(--rd);background:color-mix(in srgb,var(--rd) 16%,transparent);color:var(--rd)}
 .ajpb.cur[aria-pressed="true"]{border:2px solid var(--tr);background:color-mix(in srgb,var(--tr) 16%,transparent);color:var(--tr)}
@@ -539,6 +544,9 @@ g.rv.hid{visibility:hidden}
  .ajp-main>.stage,.ajp-main>.tero,.ajp-main>.qbody,.ajp-main>.main{padding-left:0}
  .ajp-main>.stage{padding-bottom:64px}
  .ajpen{left:50%;top:auto;bottom:8px;transform:translateX(-50%);flex-direction:row;padding:6px;gap:5px}
+ .ajpen.tutup{transform:translate(-50%,calc(100% + 24px))}
+ .ajpentab{top:auto;bottom:8px;transform:none;flex-direction:row;width:64px;height:40px;border-left:1px solid var(--bd);border-radius:0 14px 14px 0}
+ .ajpentab.tutup{transform:translateX(-110%)}
  .ajpb{width:40px;height:40px}.ajcol-b{width:28px;height:28px}.ajpsep{width:1px;height:auto;margin:4px 1px}
  .ajpen{max-width:calc(100vw - 12px);gap:4px;padding:5px}
  .ajpb{width:34px;height:34px}.ajcol-b{width:24px;height:24px}.ajpb svg{width:18px;height:18px}
