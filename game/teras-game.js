@@ -110,9 +110,15 @@ TMG.mula = () => {
 
 /* ---------- muat skrip bab + enjin + game ---------- */
 function tgMuat(src) { return new Promise((ok, no) => { const e = document.createElement('script'); e.src = src; e.onload = ok; e.onerror = () => no(src); document.body.appendChild(e); }); }
-TMG.pusing = () => { TMG.$('pusing').hidden = !(TMG.touch && innerHeight > innerWidth); };
+TMG.pusing = () => {
+  TMG.$('pusing').hidden = !(TMG.touch && innerHeight > innerWidth);
+  /* ukur ruang skrin yang betul-betul nampak (tanpa bar alamat pelayar) supaya bahagian atas game tidak terpotong */
+  const vv = window.visualViewport, w = vv ? vv.width : innerWidth, h = vv ? vv.height : innerHeight, wr = TMG.$('wrap');
+  wr.style.height = h + 'px'; wr.style.width = w + 'px'; TMG.$('frame').style.width = Math.min(w, h * 16 / 9) + 'px';
+  scrollTo(0, 0);
+};
 (async () => {
-  addEventListener('resize', TMG.pusing); TMG.pusing();
+  addEventListener('resize', TMG.pusing); addEventListener('orientationchange', () => setTimeout(TMG.pusing, 300)); if (window.visualViewport) visualViewport.addEventListener('resize', TMG.pusing); TMG.pusing();
   if (!TMG.bab || !/^[a-z]+$/.test(TMG.gid || '')) { TMG.ralat('Bab atau game tidak dijumpai.'); return; }
   document.title = 'Game · ' + (TMG.bab.asas ? TMG.bab.tajuk : 'Bab ' + TMG.bab.n + ' ' + TMG.bab.tajuk) + ' · TerokaMath';
   try {
