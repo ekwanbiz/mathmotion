@@ -147,6 +147,43 @@
     "T2S4-B06"
    ],
    "nota": "A1-A22 dan semua Bahagian C sama bentuk dengan UASA 2025 / Sumatif 1, tidak diulang. A33 = A11."
+  },
+  {
+   "nama": "T2_UPSA-Set1",
+   "nama_asal": "UPSA Set 1.docx",
+   "tarikh_proses": "2026-11-27",
+   "set": "T2 Set 5",
+   "soalan_ids": [
+    "T2S5-A01",
+    "T2S5-A02",
+    "T2S5-A03",
+    "T2S5-A04",
+    "T2S5-A05",
+    "T2S5-A06",
+    "T2S5-A07",
+    "T2S5-A08",
+    "T2S5-A09",
+    "T2S5-A10",
+    "T2S5-A11",
+    "T2S5-A12",
+    "T2S5-A13",
+    "T2S5-A14",
+    "T2S5-A15",
+    "T2S5-A16",
+    "T2S5-A17",
+    "T2S5-B01",
+    "T2S5-B02",
+    "T2S5-B03",
+    "T2S5-B04",
+    "T2S5-B05",
+    "T2S5-C01",
+    "T2S5-C02",
+    "T2S5-C03",
+    "T2S5-C04",
+    "T2S5-C05",
+    "T2S5-C06"
+   ],
+   "nota": "Buku penerbit; Bab 1-6. A3, A8, A12, B2 sama bentuk dengan set terdahulu, tidak diulang. Soalan lukis/bina diganti soalan bertulis."
   }
  ]
 }
