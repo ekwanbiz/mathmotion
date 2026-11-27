@@ -156,3 +156,11 @@ Bab 9: `tree()` (gambar rajah pokok 2 peringkat, cabang diserlah), `vennbox()`, 
 Bab 10: `plan()` jadual pelan kewangan (baris jumlah tebal; jadual panjang dipecah kepada 2 slaid). SUBS lama digabung (10.1.3 → 10.1.2): semak `'[["10.1.1",5],["10.1.2",14]]' kewangan`.
 SUBS lama dikekalkan dan digabung melalui `BAB.gabung` (1.1; 3.1 dan 3.2). Semak: `semak_muat.py '[["1.1",23]]' kuadratik`, `'[["3.1",17],["3.2",15]]' logik`.
 Bab 1: ayat buku "semakin kecil nilai a, semakin lebar lengkok" dikekalkan dengan Nota (bandingkan nilai a tanpa tanda negatif).
+
+
+## Status T5 (buku teks Matematik T5 KSSM; halaman PDF = halaman buku + 9)
+| Bab | Folder | Slaid | Contoh |
+|---|---|---|---|
+| 1 Ubahan | `ubahan` | 24 | 1–24 |
+
+Bab 1 = PDF hlm 10–42, Bab 2 = 43–80, Bab 3 = 81–102. Penjana: bina_babN_t5.py. Penyelesaian masalah guna 4 kotak (`ps4()`).
