@@ -1,0 +1,45 @@
+{
+ "nota": "Rekod fail rujukan dalam Downloads/Bank Soalan yang sudah diproses. Soalan dalam bank diolah semula; fail ini hanya untuk elak proses dua kali.",
+ "fail": [
+  {
+   "nama": "T2_UASA-2025_SMKRP.docx",
+   "nama_asal": "UASA MATH T2 2025.docx",
+   "sha16": "e52af5810f0baa03",
+   "tarikh_proses": "2026-11-27",
+   "set": "T2 Set 2",
+   "soalan_ids": [
+    "T2S2-A01",
+    "T2S2-A02",
+    "T2S2-A03",
+    "T2S2-A04",
+    "T2S2-A05",
+    "T2S2-A06",
+    "T2S2-A07",
+    "T2S2-A08",
+    "T2S2-A09",
+    "T2S2-A10",
+    "T2S2-A11",
+    "T2S2-A12",
+    "T2S2-A13",
+    "T2S2-A14",
+    "T2S2-A15",
+    "T2S2-A16",
+    "T2S2-A17",
+    "T2S2-A18",
+    "T2S2-A19",
+    "T2S2-A20",
+    "T2S2-B01",
+    "T2S2-B02",
+    "T2S2-B03",
+    "T2S2-B04",
+    "T2S2-B05",
+    "T2S2-C01",
+    "T2S2-C02",
+    "T2S2-C03",
+    "T2S2-C04",
+    "T2S2-C05",
+    "T2S2-C06"
+   ]
+  }
+ ]
+}
