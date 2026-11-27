@@ -268,8 +268,8 @@ S(s, 'CONTOH 12', 'Menyelesaikan masalah yang melibatkan asas nombor',
   + bul(s, ['(a) Tentukan bilangan murid yang hadir ke sekolah dengan menaiki bas dan menaiki kereta dalam asas empat.',
             '(b) Hitung jumlah murid yang hadir ke sekolah dengan menaiki bas dan menaiki kereta dalam asas empat.',
             '(c) Hitung beza antara bilangan murid yang hadir ke sekolah dengan berjalan kaki dan menunggang motosikal dalam asas tujuh.']),
-  stack(table(['Cara ke sekolah', 'Peratus (%)'], [[a, str(v)] for a, v in pct], c, 18), steps(s, ['<b>Memahami masalah:</b> Jumlah murid = 300. Peratus yang diberikan perlu ditukar kepada bilangan murid.',
-              '<b>Merancang strategi:</b> (a) Tukar bilangan murid yang menaiki bas dan kereta kepada nombor dalam asas empat. (b) Tambah jawapan dalam (a). (c) Tolak bilangan murid yang berjalan kaki dengan yang menunggang motosikal. Tukar jawapan kepada nombor asas tujuh.'])))
+  stack(table(['Cara ke sekolah', 'Peratus (%)'], [[a, str(v)] for a, v in pct], c, 18), work([('Memahami masalah', ['Jumlah murid = 300. Peratus yang diberikan perlu ditukar kepada bilangan murid.']),
+              ('Merancang strategi', ['(a) Tukar bilangan murid yang menaiki bas dan kereta kepada nombor dalam asas empat. (b) Tambah jawapan dalam (a). (c) Tolak bilangan murid yang berjalan kaki dengan yang menunggang motosikal. Tukar jawapan kepada nombor asas tujuh.'])], s, 1, 17)))
 
 S(s, 'CONTOH 12', 'Menyelesaikan masalah (sambungan)',
   work([('Melaksanakan strategi', [f'(a) Bas = {F(30, 100)} × 300 = {nb(90, 10)} = {nb(1122, 4)}', f'Kereta = {F(35, 100)} × 300 = {nb(105, 10)} = {nb(1221, 4)}'])], s, 1, 19)

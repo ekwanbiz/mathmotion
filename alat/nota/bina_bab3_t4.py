@@ -334,22 +334,34 @@ for lv in range(4):
                 x2 = 250 + ((2 * k + d) - (2 * nn - 1) / 2) * (440 / (2 * nn)) * (0.9 if lv == 2 else 1)
                 o += GF.L((x, y + 16 - lv * 3), (x2, y + 110 - 16 + lv * 3), MU3, 2)
     o += GF.T(470, 60 + lv * 110 - 30, 'Sel A' if lv == 0 else f'Hari {lv}: {nn}', TX if lv == 0 else AM, 15, 'end')
+def k4(lb, a, b, c_, d, fs=15):
+    return stack(f'<div style="font-weight:700;color:{c}">{lb}</div>', work([('Memahami masalah', a), ('Merancang strategi', b), ('Melaksanakan strategi', c_), ('Kesimpulan', d)], s, 2, fs))
+
+
 S(s, 'CONTOH 23', 'Menyelesaikan masalah: hujah deduktif',
-  p('Rajah di sebelah menunjukkan pertumbuhan sejenis sel bermula dengan sel A. Pada hari pertama, dua sel baharu dihasilkan. Setiap sel akan menghasilkan dua sel yang lain pada hari seterusnya. Diberi bilangan pertumbuhan sel ialah <i>P</i>(<i>t</i>) = 2<sup><i>t</i></sup>, dengan keadaan <i>t</i> ialah bilangan hari. (a) Berapakah bilangan sel baharu akan terhasil pada hari ke-9? (b) Pada hari keberapakah bilangan sel baharu ialah 4 096?')
-  + work([('(a)', ['Memahami masalah: Membina kesimpulan secara deduktif. <i>t</i> = 9.', 'Melaksanakan strategi: <i>P</i>(9) = 2⁹ = 512', 'Kesimpulan: 512 sel baharu akan terhasil pada hari ke-9.']),
-          ('(b)', ['Merancang strategi: Selesaikan 2<sup><i>t</i></sup> = 4 096.', '2<sup><i>t</i></sup> = 2¹², <i>t</i> = 12', 'Kesimpulan: Pada hari ke-12 bilangan sel baharu ialah 4 096.'])], s, 2, 17),
+  p('Rajah di sebelah menunjukkan pertumbuhan sejenis sel bermula dengan sel A. Pada hari pertama, dua sel baharu dihasilkan. Setiap sel akan menghasilkan dua sel yang lain pada hari seterusnya. Diberi bilangan pertumbuhan sel ialah <i>P</i>(<i>t</i>) = 2<sup><i>t</i></sup>, dengan keadaan <i>t</i> ialah bilangan hari.')
+  + p('(a) Berapakah bilangan sel baharu akan terhasil pada hari ke-9? (b) Pada hari keberapakah bilangan sel baharu ialah 4 096?'),
   SV(o, 'Pertumbuhan sel: setiap sel menghasilkan dua sel baharu setiap hari'))
 
+assert 2 ** 9 == 512 and 2 ** 12 == 4096
+S(s, 'CONTOH 23 (sambungan)', 'Penyelesaian Contoh 23',
+  k4('(a)', ['Membina kesimpulan secara deduktif.', 'Hitung <i>P</i>(9), dengan <i>t</i> = 9.'], ['Gantikan <i>t</i> dengan 9 ke dalam <i>P</i>(<i>t</i>) = 2<sup><i>t</i></sup>.'], ['<i>P</i>(9) = 2⁹ = 512'], ['512 sel baharu akan terhasil pada hari ke-9.']),
+  k4('(b)', ['Hitung <i>t</i>, dengan <i>P</i>(<i>t</i>) = 4 096.'], ['Selesaikan 2<sup><i>t</i></sup> = 4 096.'], ['2<sup><i>t</i></sup> = 4 096', '2<sup><i>t</i></sup> = 2¹²'], ['<i>t</i> = 12. Pada hari ke-12 bilangan sel baharu ialah 4 096.']))
+
 rows24 = [('8:00 pagi', 330), ('9:00 pagi', 630), ('10:00 pagi', 930), ('11:00 pagi', 1230)]
-assert all(v == 300 * (k + 1) + 30 for k, (_, v) in enumerate(rows24)) and 300 * 15 + 30 == 4530 and 4530 * 5 == 22650 and 300 * 17 + 30 == 5130 and 5130 * 5 == 25650 and 4830 * 5 < 25000
+assert all(v == 300 * (k + 1) + 30 for k, (_, v) in enumerate(rows24)) and 300 * 15 + 30 == 4530 and 4530 * 5 == 22650 and 300 * 17 + 30 == 5130 and 5130 * 5 == 25650
 S(s, 'CONTOH 24', 'Menyelesaikan masalah: hujah induktif',
   p('Jadual di sebelah menunjukkan jumlah kereta mainan yang telah dihasilkan oleh Kilang MAINAN pada suatu pagi.')
   + bul(s, ['(a) Bina satu rumus yang umum bagi bilangan kereta mainan yang telah dihasilkan berdasarkan jadual.',
-            '(b) Kilang MAINAN beroperasi dari pukul 7 pagi hingga pukul 10 malam, 5 hari dalam seminggu. (i) Berapakah kereta mainan dapat dihasilkan pada satu hari? (ii) Pesanan 25 000 kereta mainan perlu disiapkan dalam masa seminggu. Adakah kilang dapat menyerahkannya pada masa yang ditetapkan? Sekiranya tidak, cadangkan satu cara penyelesaian.'])
-  + work([('(a) Membina kesimpulan secara induktif', ['330 = 300 + 30, 630 = 2(300) + 30, 930 = 3(300) + 30, 1 230 = 4(300) + 30', 'Rumus umum: 300<i>n</i> + 30; <i>n</i> = 1, 2, 3, 4, …'])], s, 1, 17),
-  stack(table(['Masa', 'Jumlah kereta mainan'], [[a, f'{v:,}'.replace(',', ' ')] for a, v in rows24], c, 18),
-        work([('(b)(i)', ['Waktu beroperasi = 15 jam sehari, <i>n</i> = 15', '300(15) + 30 = 4 530 kereta mainan sehari']),
-              ('(b)(ii)', ['4 530 × 5 = 22 650 &lt; 25 000', 'Kilang tidak dapat menyerahkan kereta mainan yang dipesan.', 'Cadangan: Panjangkan waktu operasi kepada 17 jam sehari: 300(17) + 30 = 5 130; 5 130 × 5 = 25 650 ≥ 25 000'])], s, 1, 17)))
+            '(b) Kilang MAINAN beroperasi dari pukul 7 pagi hingga pukul 10 malam, 5 hari dalam seminggu. (i) Berapakah kereta mainan dapat dihasilkan pada satu hari? (ii) Pesanan 25 000 kereta mainan perlu disiapkan dalam masa seminggu. Adakah kilang dapat menyerahkannya pada masa yang ditetapkan? Sekiranya tidak, cadangkan satu cara penyelesaian.']),
+  table(['Masa', 'Jumlah kereta mainan'], [[a, f'{v:,}'.replace(',', ' ')] for a, v in rows24], c, 18))
+
+S(s, 'CONTOH 24 (sambungan)', 'Penyelesaian Contoh 24',
+  k4('(a)', ['Membina kesimpulan secara induktif.', 'Membina rumus umum bagi bilangan kereta mainan.'], ['Memerhatikan pola nombor yang dibentuk oleh kereta mainan yang dihasilkan.'],
+     ['330 = 300 + 30', '630 = 2(300) + 30', '930 = 3(300) + 30', '1 230 = 4(300) + 30'], ['Rumus umum: 300<i>n</i> + 30; <i>n</i> = 1, 2, 3, 4, …'], 15),
+  stack(k4('(b)(i)', ['Waktu beroperasi 15 jam sehari, <i>n</i> = 15.'], ['Gantikan <i>n</i> dengan 15 ke dalam rumus (a).'], ['300(15) + 30 = 4 530'], ['Kilang menghasilkan 4 530 kereta mainan sehari.'], 14),
+  k4('(b)(ii)', ['Perlu sekurang-kurangnya 25 000 kereta mainan dalam 5 hari.', 'Kilang menghasilkan 4 530 sehari.'], ['Darabkan 4 530 dengan 5; bandingkan dengan 25 000.'],
+     ['4 530 × 5 = 22 650 (&lt; 25 000)'], ['Kilang tidak dapat menyerahkan kereta mainan yang dipesan.', 'Cadangan: beroperasi 17 jam sehari: 300(17) + 30 = 5 130.', 'Semak: 5 130 × 5 = 25 650 (≥ 25 000)'], 14)))
 
 OUTFILE = os.environ.get('NOTA_OUT') or os.path.join(HERE, '..', '..', 'logik', 'slides.js')
 HEAD = '/* Nota Bab 3 ikut buku teks Matematik T4 KSSM. Dijana skrip; jangan sunting dengan tangan. */'

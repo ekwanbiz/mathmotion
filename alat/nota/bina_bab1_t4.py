@@ -362,7 +362,7 @@ cub += GF.L(P0[0], (P0[0][0] + dx, P0[0][1] + dy), TR, 2, '6 6') + GF.L((P0[0][0
 cub += GF.T(265, 355, f"{x_} cm", MU3, 18) + GF.T(435, 315, f"{x_} cm", MU3, 18) + GF.T(158, 235, f'({x_} + 10) cm', MU3, 18, 'end')
 S(s, 'CONTOH 10', 'Menyelesaikan masalah yang melibatkan persamaan kuadratik',
   p('Joseph ingin membuat rangka sebuah kotak berbentuk kuboid dengan menggunakan rod kayu. Harga rod kayu ialah RM6 per meter. Tapak kuboid tersebut berbentuk segi empat sama. Tinggi kuboid ialah 10 cm lebih daripada panjang tapak. Jumlah luas permukaan kotak ini ialah 3 200 cm². Bajet Joseph untuk membina rangka sebuah kotak ialah RM15. Tentukan sama ada Joseph mempunyai bajet yang mencukupi atau tidak.')
-  + steps(s, [f'<b>Memahami masalah:</b> Panjang tapak = {x_} cm, tinggi kuboid = ({x_} + 10) cm, jumlah luas permukaan = 3 200 cm², bajet = RM15 sebuah kotak.']),
+  + work([('Memahami masalah', [f'Panjang tapak = {x_} cm, tinggi kuboid = ({x_} + 10) cm, jumlah luas permukaan = 3 200 cm², bajet = RM15 sebuah kotak.'])], s, 1, 18),
   stack(SVc(cub, 'Kuboid bertapak segi empat sama bersisi x cm dan tinggi (x + 10) cm', '0 70 500 300'),
         work([('Merancang strategi', ['• Tentukan ungkapan luas permukaan kuboid.', '• Bentuk persamaan kuadratik.', '• Selesaikan persamaan kuadratik berkenaan.', '• Tentukan ukuran kotak dan bajet.'])], s, 1, 18)))
 

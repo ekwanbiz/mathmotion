@@ -226,9 +226,10 @@ S(s, 'CONTOH 6', 'Menyelesaikan masalah yang melibatkan persilangan set',
   SV(venn([i('S'), i('M')], nums={(1, 0): 25, (1, 1): 45, (0, 1): 15, (0, 0): 65}), 'Gambar rajah Venn bilangan murid kelas Sains dan Matematik'))
 
 S(s, 'CONTOH 6', 'Menyelesaikan masalah (sambungan)',
-  work([('Memahami dan merancang', [f'ξ = {{150 murid}}, {i("S")} = {{kelas Sains}}, {i("M")} = {{kelas Matematik}}, {i("n")}({i("S")} {CI} {i("M")}) = 45. Lukis gambar rajah Venn.']),
+  work([('Memahami masalah', [f'ξ = {{150 murid}}, {i("S")} = {{kelas Sains}}, {i("M")} = {{kelas Matematik}}, {i("n")}({i("S")} {CI} {i("M")}) = 45.']),
+          ('Merancang strategi', ['Lukis gambar rajah Venn dan isikan maklumat yang diberi.']),
           ('Melaksanakan strategi', ['Sains sahaja = 70 − 45 = 25', 'Matematik sahaja = 60 − 45 = 15', '25 + 45 + 15 = 85; 150 − 85 = 65']),
-          ('Kesimpulan', ['(a) 85 orang murid menyertai kelas intensif. (b) 65 orang murid tidak menyertai sebarang kelas.'])], s, 1, 19),
+          ('Kesimpulan', ['(a) 85 orang murid menyertai kelas intensif. (b) 65 orang murid tidak menyertai sebarang kelas.'])], s, 2, 16),
   SV(venn([i('S'), i('M')], nums={(1, 0): 25, (1, 1): 45, (0, 1): 15, (0, 0): 65}), 'Gambar rajah Venn bilangan murid kelas Sains dan Matematik'))
 
 T7 = dict(tot=200, ph=160, lp=95, tb=40, lt=6, pl=48, pt=7, po=85)
@@ -244,8 +245,10 @@ S(s, 'CONTOH 7', 'Masalah persilangan tiga set',
   SV(venn([i('B'), i('K'), i('T')], nums={(1, 0, 0): 85, (1, 1, 0): 48, (1, 0, 1): 7, (0, 1, 1): 6, (1, 1, 1): 'x', (0, 1, 0): 'y', (0, 0, 1): 'p', (0, 0, 0): 'q'}), 'Gambar rajah Venn pemilikan alat teknologi'))
 
 S(s, 'CONTOH 7', 'Masalah persilangan tiga set (sambungan)',
-  work([('Melaksanakan strategi', [f'<i>x</i> = 160 − 85 − 48 − 7 = {x7}', f'<i>y</i> = 95 − 48 − 6 − {x7} = {y7}', f'<i>p</i> = 40 − 7 − {x7} − 6 = {p7}', f'<i>q</i> = 200 − 85 − 48 − 7 − 6 − {x7} − {y7} − {p7} = {q7}']),
-        ('Kesimpulan', [f'(a) {x7} orang pelajar memiliki ketiga-tiga alat teknologi.', f'(b) {q7} orang pelajar tidak memiliki ketiga-tiga alat teknologi tersebut.'])], s, 1, 19),
+  work([('Memahami masalah', ['Hitung bilangan pelajar yang memiliki ketiga-tiga alat teknologi dan yang tidak memiliki sebarang alat.']),
+        ('Merancang strategi', ['Lukis gambar rajah Venn dan isikan maklumat yang diberi, bermula dengan persilangan ketiga-tiga set.']),
+        ('Melaksanakan strategi', [f'<i>x</i> = 160 − 85 − 48 − 7 = {x7}', f'<i>y</i> = 95 − 48 − 6 − {x7} = {y7}', f'<i>p</i> = 40 − 7 − {x7} − 6 = {p7}', f'<i>q</i> = 200 − 85 − 48 − 7 − 6 − {x7} − {y7} − {p7} = {q7}']),
+        ('Kesimpulan', [f'(a) {x7} orang pelajar memiliki ketiga-tiga alat teknologi.', f'(b) {q7} orang pelajar tidak memiliki ketiga-tiga alat teknologi tersebut.'])], s, 2, 16),
   SV(venn([i('B'), i('K'), i('T')], nums=nums7), 'Gambar rajah Venn lengkap'))
 
 # =====================================================================
@@ -310,9 +313,10 @@ S(s, 'CONTOH 11', 'Menyelesaikan masalah yang melibatkan kesatuan set',
   SV(venn([i('A'), i('B')], nums={(1, 0): 12, (1, 1): 8, (0, 1): 6, (0, 0): 4}, shade=lambda a, b: a or b), 'Gambar rajah Venn murid berkayak dan memancing'))
 
 S(s, 'CONTOH 11', 'Menyelesaikan masalah (sambungan)',
-  work([('Memahami dan merancang', [f'ξ = {{30 murid}}, {i("A")} = {{berkayak}}, {i("B")} = {{memancing ikan}}, {i("n")}({i("A")} {CI} {i("B")}) = 8. Lukis gambar rajah Venn.']),
+  work([('Memahami masalah', [f'ξ = {{30 murid}}, {i("A")} = {{berkayak}}, {i("B")} = {{memancing ikan}}, {i("n")}({i("A")} {CI} {i("B")}) = 8.']),
+          ('Merancang strategi', ['Lukis gambar rajah Venn dan isikan maklumat yang diberi.']),
           ('Melaksanakan strategi', ['Berkayak sahaja = 20 − 8 = 12', 'Memancing ikan sahaja = 14 − 8 = 6', 'Tidak terlibat = 30 − 12 − 8 − 6 = 4', f'{i("n")}({i("A")} {CU} {i("B")}) = 30 − 4 = 26 (Semak: 12 + 8 + 6 = 26)']),
-          ('Kesimpulan', ['26 orang murid terlibat dalam aktiviti program tersebut.'])], s, 1, 19),
+          ('Kesimpulan', ['26 orang murid terlibat dalam aktiviti program tersebut.'])], s, 2, 16),
   SV(venn([i('A'), i('B')], nums={(1, 0): 12, (1, 1): 8, (0, 1): 6, (0, 0): 4}, shade=lambda a, b: a or b), 'Gambar rajah Venn murid berkayak dan memancing'))
 
 d12 = dict(tot=120, sk=45, mj=30, bc=20, skm=10, mb=8, skb=6, all=4)
@@ -326,9 +330,11 @@ S(s, 'CONTOH 12', 'Masalah kesatuan tiga set',
   SV(venn([i('P'), i('Q'), i('R')], nums={(1, 1, 1): 4, (1, 1, 0): skm, (0, 1, 1): mb, (1, 0, 1): skb}), 'Gambar rajah Venn bahan bacaan: kawasan persilangan'))
 
 S(s, 'CONTOH 12', 'Masalah kesatuan tiga set (sambungan)',
-  work([('Melaksanakan strategi', ['10 − 4 = 6, 8 − 4 = 4, 6 − 4 = 2', f'Surat khabar sahaja = 45 − 6 − 2 − 4 = {sko}', f'Majalah sahaja = 30 − 6 − 4 − 4 = {mjo}', f'Buku cerita sahaja = 20 − 2 − 4 − 4 = {bco}',
+  work([('Memahami masalah', ['Hitung bilangan orang yang tidak memilih sebarang bahan bacaan.']),
+        ('Merancang strategi', ['Lukis gambar rajah Venn dan isikan maklumat yang diberi, bermula dengan persilangan ketiga-tiga set.']),
+        ('Melaksanakan strategi', ['10 − 4 = 6, 8 − 4 = 4, 6 − 4 = 2', f'Surat khabar sahaja = 45 − 6 − 2 − 4 = {sko}', f'Majalah sahaja = 30 − 6 − 4 − 4 = {mjo}', f'Buku cerita sahaja = 20 − 2 − 4 − 4 = {bco}',
                                          f'{i("n")}({i("P")} {CU} {i("Q")} {CU} {i("R")})′ = 120 − 33 − 16 − 10 − 6 − 4 − 2 − 4 = {none}']),
-        ('Kesimpulan', [f'{none} orang tidak memilih sebarang bahan bacaan tersebut.'])], s, 1, 19),
+        ('Kesimpulan', [f'{none} orang tidak memilih sebarang bahan bacaan tersebut.'])], s, 2, 16),
   SV(venn([i('P'), i('Q'), i('R')], nums={(1, 1, 1): 4, (1, 1, 0): skm, (0, 1, 1): mb, (1, 0, 1): skb, (1, 0, 0): sko, (0, 1, 0): mjo, (0, 0, 1): bco, (0, 0, 0): none}), 'Gambar rajah Venn bahan bacaan lengkap'))
 
 # =====================================================================
@@ -398,8 +404,10 @@ S(s, 'CONTOH 15', 'Menyelesaikan masalah yang melibatkan gabungan operasi set',
   SV(venn([i('A'), i('B'), i('C')], nums={(1, 1, 1): al, (1, 1, 0): ab, (0, 1, 1): bc, (1, 0, 1): 0}, univ=False), 'Gambar rajah Venn peserta sukan: kawasan persilangan'))
 
 S(s, 'CONTOH 15', 'Menyelesaikan masalah gabungan operasi set (sambungan)',
-  work([('Melaksanakan strategi', [f'{bspp} − {al} = {ab}, {ppbm} − {al} = {bc}', f'Bola sepak sahaja = {bs} − {ab} − {al} = {ao}', f'Pingpong sahaja = {pp} − {ab} − {al} − {bc} = {bo_}', f'Badminton sahaja = {bm} − {bc} − {al} = {co}', f'{ao} + {bo_} + {co} = 46']),
-        ('Kesimpulan', ['46 orang peserta menyertai satu pertandingan sahaja.'])], s, 1, 19),
+  work([('Memahami masalah', ['Hitung bilangan peserta yang menyertai satu pertandingan sahaja.']),
+        ('Merancang strategi', ['Lukis gambar rajah Venn dan isikan maklumat yang diberi, bermula dengan persilangan ketiga-tiga set.']),
+        ('Melaksanakan strategi', [f'{bspp} − {al} = {ab}, {ppbm} − {al} = {bc}', f'Bola sepak sahaja = {bs} − {ab} − {al} = {ao}', f'Pingpong sahaja = {pp} − {ab} − {al} − {bc} = {bo_}', f'Badminton sahaja = {bm} − {bc} − {al} = {co}', f'{ao} + {bo_} + {co} = 46']),
+        ('Kesimpulan', ['46 orang peserta menyertai satu pertandingan sahaja.'])], s, 2, 16),
   SV(venn([i('A'), i('B'), i('C')], nums={(1, 1, 1): al, (1, 1, 0): ab, (0, 1, 1): bc, (1, 0, 1): 0, (1, 0, 0): ao, (0, 1, 0): bo_, (0, 0, 1): co}, univ=False), 'Gambar rajah Venn peserta sukan lengkap'))
 
 OUTFILE = os.environ.get('NOTA_OUT') or os.path.join(HERE, '..', '..', 'operasiset', 'slides.js')
