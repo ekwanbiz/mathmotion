@@ -141,10 +141,12 @@ Semak setiap slaid sebegini sebelum dimasukkan.
 | 4 Operasi Set | `operasiset` | 26 | 15 |
 | 5 Rangkaian dalam Teori Graf | `teorigraf` | 23 | 17 |
 | 6 Ketaksamaan Linear dalam Dua Pemboleh Ubah | `ketaksamaan` | 16 | 13 |
+| 7 Graf Gerakan | `grafgerakan` | 16 | 13 |
 
-Buku teks T4 (PDF_Maths Ting4_1_313_Digital.pdf, 313 halaman): Bab 1 = PDF hlm 1–32, Bab 2 = 33–54, Bab 3 = 55–94, Bab 4 = 95–128, Bab 5 = 129–154, Bab 6 = 155–182, Bab 7 bermula hlm 183.
+Buku teks T4 (PDF_Maths Ting4_1_313_Digital.pdf, 313 halaman): Bab 1 = PDF hlm 1–32, Bab 2 = 33–54, Bab 3 = 55–94, Bab 4 = 95–128, Bab 5 = 129–154, Bab 6 = 155–182, Bab 7 = 183–208, Bab 8 = 209–242, Bab 9 = 243–.
 Bab 4: fungsi `venn()` dalam bina_bab4_t4.py melukis gambar rajah Venn 2/3 set dengan kawasan berlorek (clipPath + mask) dan unsur/nombor ikut kawasan.
 Bab 5: fungsi `gdraw()` dalam bina_bab5_t4.py melukis graf (bucu, tepi, berbilang tepi lengkung, gelung, anak panah, pemberat); `gz()` versi besar untuk `panel()` (grid graf kecil).
 Bab 6: fungsi `plane()` dalam bina_bab6_t4.py melukis satah Cartes dengan garis padu/sempang dan rantau sepunya berlorek (poligon dipotong ikut setiap ketaksamaan, `clip()`).
+Bab 7: fungsi `gm()` dalam bina_bab7_t4.py melukis graf jarak-masa / laju-masa (garis, titik, garis putus, luas berlorek).
 SUBS lama dikekalkan dan digabung melalui `BAB.gabung` (1.1; 3.1 dan 3.2). Semak: `semak_muat.py '[["1.1",23]]' kuadratik`, `'[["3.1",17],["3.2",15]]' logik`.
 Bab 1: ayat buku "semakin kecil nilai a, semakin lebar lengkok" dikekalkan dengan Nota (bandingkan nilai a tanpa tanda negatif).
