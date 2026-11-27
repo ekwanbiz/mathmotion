@@ -138,7 +138,9 @@ Semak setiap slaid sebegini sebelum dimasukkan.
 | 1 Fungsi dan Persamaan Kuadratik dalam Satu Pemboleh Ubah | `kuadratik` | 23 | 10 |
 | 2 Asas Nombor | `asasnombor` | 20 | 12 |
 | 3 Penaakulan Logik | `logik` | 32 | 24 |
+| 4 Operasi Set | `operasiset` | 26 | 15 |
 
-Buku teks T4 (PDF_Maths Ting4_1_313_Digital.pdf, 313 halaman): Bab 1 = PDF hlm 1–32, Bab 2 = 33–54, Bab 3 = 55–94, Bab 4 bermula hlm 95.
+Buku teks T4 (PDF_Maths Ting4_1_313_Digital.pdf, 313 halaman): Bab 1 = PDF hlm 1–32, Bab 2 = 33–54, Bab 3 = 55–94, Bab 4 = 95–128, Bab 5 bermula hlm 129.
+Bab 4: fungsi `venn()` dalam bina_bab4_t4.py melukis gambar rajah Venn 2/3 set dengan kawasan berlorek (clipPath + mask) dan unsur/nombor ikut kawasan.
 SUBS lama dikekalkan dan digabung melalui `BAB.gabung` (1.1; 3.1 dan 3.2). Semak: `semak_muat.py '[["1.1",23]]' kuadratik`, `'[["3.1",17],["3.2",15]]' logik`.
 Bab 1: ayat buku "semakin kecil nilai a, semakin lebar lengkok" dikekalkan dengan Nota (bandingkan nilai a tanpa tanda negatif).
