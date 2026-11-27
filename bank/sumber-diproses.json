@@ -81,6 +81,39 @@
     "T1S1-C06"
    ],
    "nota": "Soalan topik Set diganti dengan Faktor dan Gandaan (tiada Set dalam KP2027 T1)."
+  },
+  {
+   "nama": "T2_Sumatif1-2026_SMKRP",
+   "nama_asal": "Ujian Sumatif 1 - Matematik Tingkatan 2 - 2026 (.docx dan .pdf sama)",
+   "tarikh_proses": "2026-11-27",
+   "set": "T2 Set 3",
+   "soalan_ids": [
+    "T2S3-A01",
+    "T2S3-A02",
+    "T2S3-A03",
+    "T2S3-A04",
+    "T2S3-A05",
+    "T2S3-A06",
+    "T2S3-A07",
+    "T2S3-A08",
+    "T2S3-A09",
+    "T2S3-A10",
+    "T2S3-A11",
+    "T2S3-A12",
+    "T2S3-A13",
+    "T2S3-A14",
+    "T2S3-A15",
+    "T2S3-A16",
+    "T2S3-A17",
+    "T2S3-A18",
+    "T2S3-A19",
+    "T2S3-A20",
+    "T2S3-B01",
+    "T2S3-B02",
+    "T2S3-B03",
+    "T2S3-B04",
+    "T2S3-B05"
+   ]
   }
  ]
 }
