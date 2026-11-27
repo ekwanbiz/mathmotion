@@ -163,6 +163,8 @@ Bab 1: ayat buku "semakin kecil nilai a, semakin lebar lengkok" dikekalkan denga
 |---|---|---|---|
 | 1 Ubahan | `ubahan` | 24 | 1–24 |
 | 2 Matriks | `matriks` | 24 | 1–30 |
+| 3 Matematik Pengguna: Insurans | `insurans` | 16 | 1–8 |
 
 Bab 1 = PDF hlm 10–42, Bab 2 = 43–80, Bab 3 = 81–102. Penjana: bina_babN_t5.py. Penyelesaian masalah guna 4 kotak (`ps4()`).
 Bab 2: `M()` matriks HTML guna inline-grid (jangan guna <table> dalam p(): HTML tidak sah dan susun atur pecah); `mul/add/sc/det/inv` untuk semak jawapan. Semak `'[["2.1",5],["2.2",19]]' matriks`.
+Bab 3: kadar Tarif Motor 2015 dikekalkan (data rasmi); kiraan wang guna Decimal ROUND_HALF_UP.
