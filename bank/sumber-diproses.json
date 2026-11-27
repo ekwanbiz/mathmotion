@@ -904,6 +904,70 @@
     "T2S18-C06"
    ],
    "nota": "PDF imbasan (OCR). Soalan rajah/lukis graf diganti."
+  },
+  {
+   "nama": "Set buku latihan UASA.pdf",
+   "nama_asal": "Set buku latihan UASA.pdf",
+   "tarikh_proses": "2026-11-27",
+   "set": "T2 Set 19",
+   "soalan_ids": [
+    "T2S19-A01",
+    "T2S19-A02",
+    "T2S19-A03",
+    "T2S19-A04",
+    "T2S19-A05",
+    "T2S19-A06",
+    "T2S19-A07",
+    "T2S19-A08",
+    "T2S19-A09",
+    "T2S19-A10",
+    "T2S19-A11",
+    "T2S19-A12",
+    "T2S19-A13",
+    "T2S19-A14",
+    "T2S19-A15",
+    "T2S19-A16",
+    "T2S19-B01",
+    "T2S19-B02",
+    "T2S19-B03",
+    "T2S19-C01",
+    "T2S19-C02",
+    "T2S19-C03",
+    "T2S19-C04"
+   ],
+   "nota": "Buku penerbit: rujukan gaya sahaja. Banyak bertindih dengan Ulangkaji UASA; hanya konsep baharu ditulis semula."
+  },
+  {
+   "nama": "modul math form 2 -math catch.pdf",
+   "nama_asal": "modul math form 2 -math catch.pdf",
+   "tarikh_proses": "2026-11-27",
+   "set": "T2 Set 19",
+   "soalan_ids": [
+    "T2S19-A01",
+    "T2S19-A02",
+    "T2S19-A03",
+    "T2S19-A04",
+    "T2S19-A05",
+    "T2S19-A06",
+    "T2S19-A07",
+    "T2S19-A08",
+    "T2S19-A09",
+    "T2S19-A10",
+    "T2S19-A11",
+    "T2S19-A12",
+    "T2S19-A13",
+    "T2S19-A14",
+    "T2S19-A15",
+    "T2S19-A16",
+    "T2S19-B01",
+    "T2S19-B02",
+    "T2S19-B03",
+    "T2S19-C01",
+    "T2S19-C02",
+    "T2S19-C03",
+    "T2S19-C04"
+   ],
+   "nota": "Buku penerbit: rujukan gaya sahaja. Banyak bertindih dengan Ulangkaji UASA; hanya konsep baharu ditulis semula."
   }
  ]
 }
