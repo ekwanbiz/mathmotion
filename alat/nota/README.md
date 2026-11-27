@@ -130,3 +130,15 @@ Enjin memaparkan langkah `.rv` mengikut atribut `data-o` jika ada, jika tiada ik
 - langkah pembinaan + rajah setiap langkah → `mix`; rajah dahulu bagi setiap bahagian → `mixf`
 - dua contoh berasingan (kiri dan kanan) → tiada entri.
 Semak setiap slaid sebegini sebelum dimasukkan.
+
+## Status Tingkatan 4
+
+| Bab | Folder | Slaid | Contoh |
+|---|---|---|---|
+| 1 Fungsi dan Persamaan Kuadratik dalam Satu Pemboleh Ubah | `kuadratik` | 23 | 10 |
+| 2 Asas Nombor | `asasnombor` | 20 | 12 |
+| 3 Penaakulan Logik | `logik` | 32 | 24 |
+
+Buku teks T4 (PDF_Maths Ting4_1_313_Digital.pdf, 313 halaman): Bab 1 = PDF hlm 1–32, Bab 2 = 33–54, Bab 3 = 55–94, Bab 4 bermula hlm 95.
+SUBS lama dikekalkan dan digabung melalui `BAB.gabung` (1.1; 3.1 dan 3.2). Semak: `semak_muat.py '[["1.1",23]]' kuadratik`, `'[["3.1",17],["3.2",15]]' logik`.
+Bab 1: ayat buku "semakin kecil nilai a, semakin lebar lengkok" dikekalkan dengan Nota (bandingkan nilai a tanpa tanda negatif).
