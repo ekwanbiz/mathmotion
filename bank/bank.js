@@ -363,7 +363,7 @@ function head() {
 function render(keep) {
   const y = keep ? window.scrollY : 0, ed = location.hash.startsWith('#/kertas');
   app.innerHTML = head() + `<main class="wrap">${ed ? viewEdit() : viewBank()}</main>`;
-  document.title = (ed ? P().nama + ' · ' : '') + 'Bank Soalan · TerokaMath';
+  document.title = (ed ? P().nama + ' · ' : '') + (ed ? 'Bank Soalan · TerokaMath' : 'Bank Soalan Matematik Tingkatan 1–3 (UASA) | TerokaMath');
   bind(ed);
   window.scrollTo(0, y);
 }

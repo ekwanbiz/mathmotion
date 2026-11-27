@@ -5,18 +5,18 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="color-scheme" content="dark light">
 <meta name="theme-color" content="#0B0C18">
-<meta name="description" content="TerokaMath: simulasi Matematik KSSM Tingkatan 1 hingga 5 untuk guru dan murid. Nota slaid, simulasi interaktif, latihan, kuiz online, permainan kelas, Pelan Mengajar dan RPH bagi setiap bab. Percuma.">
+<meta name="description" content="Nota Matematik KSSM Tingkatan 1 hingga 5 dalam bentuk slaid, simulasi interaktif, latihan, kuiz online, bank soalan UASA dan game matematik. Bahan PdP percuma untuk guru dan murid sekolah menengah.">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="TerokaMath">
-<title>TerokaMath – Simulasi Matematik</title>
+<title>TerokaMath – Nota Matematik KSSM Tingkatan 1–5: Slaid, Simulasi, Latihan &amp; Game</title>
 <!--seo-->
 <link rel="canonical" href="https://terokamath.com/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="TerokaMath">
 <meta property="og:locale" content="ms_MY">
-<meta property="og:title" content="TerokaMath – Simulasi Matematik KSSM Tingkatan 1 hingga 5">
-<meta property="og:description" content="TerokaMath: simulasi Matematik KSSM Tingkatan 1 hingga 5 untuk guru dan murid. Nota slaid, simulasi interaktif, latihan, kuiz online, permainan kelas, Pelan Mengajar dan RPH bagi setiap bab. Percuma.">
+<meta property="og:title" content="TerokaMath – Nota Matematik KSSM Tingkatan 1–5: Slaid, Simulasi, Latihan &amp; Game">
+<meta property="og:description" content="Nota Matematik KSSM Tingkatan 1 hingga 5 dalam bentuk slaid, simulasi interaktif, latihan, kuiz online, bank soalan UASA dan game matematik. Bahan PdP percuma untuk guru dan murid sekolah menengah.">
 <meta property="og:url" content="https://terokamath.com/">
 <meta property="og:image" content="https://terokamath.com/icons/og.png">
 <meta property="og:image:width" content="1200">
@@ -258,8 +258,8 @@ let tt;function toast(m){const t=document.getElementById('toast');t.textContent=
 function setTheme(){const m=document.querySelector('meta[name="theme-color"]');if(m)m.content=document.documentElement.classList.contains('light')?'#FFFFFF':'#0B0C18'}
 function render(){const h=location.hash.replace(/^#/,'')||'/';
  if(h.startsWith('/pasang')){app.innerHTML=pasang();document.title='Cara Pasang · TerokaMath'}
- else if(typeof tmRole==='function'&&!tmRole()){app.innerHTML=pilihPeranan();document.title='TerokaMath – Simulasi Matematik';if(typeof tmBindLang==='function')tmBindLang();document.getElementById('mode').onclick=()=>{const h=document.documentElement,l=!h.classList.contains('light');h.classList.toggle('light',l);LS.set('mathmotion-mode',l?'cerah':'gelap');setTheme();render()};app.querySelectorAll('[data-role]').forEach(b=>b.onclick=()=>{tmSetRole(b.dataset.role);render();scrollTo(0,0)})}
- else{app.innerHTML=home();bindHome();document.title='TerokaMath – Simulasi Matematik'}}
+ else if(typeof tmRole==='function'&&!tmRole()){app.innerHTML=pilihPeranan();document.title='TerokaMath – Nota Matematik KSSM Tingkatan 1–5: Slaid, Simulasi, Latihan & Game';if(typeof tmBindLang==='function')tmBindLang();document.getElementById('mode').onclick=()=>{const h=document.documentElement,l=!h.classList.contains('light');h.classList.toggle('light',l);LS.set('mathmotion-mode',l?'cerah':'gelap');setTheme();render()};app.querySelectorAll('[data-role]').forEach(b=>b.onclick=()=>{tmSetRole(b.dataset.role);render();scrollTo(0,0)})}
+ else{app.innerHTML=home();bindHome();document.title='TerokaMath – Nota Matematik KSSM Tingkatan 1–5: Slaid, Simulasi, Latihan & Game'}}
 window.addEventListener('hashchange',()=>{render();scrollTo(0,0)});
 window.addEventListener('pageshow',()=>{if(!location.hash.startsWith('#/pasang'))render()});
 setTheme();render();

@@ -1,4 +1,5 @@
 'use strict';
+const TITLE0 = document.title; /* tajuk SEO asal halaman bab (dari index.html) */
 /* =================== TerokaMath · TERAS: kerangka, NOTA, TEROKA, LATIHAN, Cabaran 60 Saat, penghala =================== */
 /* =================== Kerangka =================== */
 const app = document.getElementById('app');
@@ -380,7 +381,7 @@ function render(keepScroll) {
   const sc = keepScroll && document.getElementById('main') ? document.getElementById('main').scrollTop : 0;
   const rr = typeof tmMuridRoute === 'function' ? tmMuridRoute(p) : ''; if (rr) { location.replace(rr); return; }
   if (!p.length) { location.replace('#/nota'); return; }  // skrin Jom Mula dibuang (26 Nov)
-  if (!p.length) { app.innerHTML = viewSplash(); document.title = `${APPNAME} – ${BAB.tajuk}`; return; }
+  if (!p.length) { app.innerHTML = viewSplash(); document.title = TITLE0; return; }
   const tab = p[0];
   let inner = '', bind = () => {};
   if (tab === 'k' && p[1] && p[2] === 'tayang') { viewKongsi(p[1]); if (!AJK.plan) { if (AJK.err) location.replace('#/k/' + p[1]); return; } const v = viewTayang(); if (!v) return; app.innerHTML = v; document.title = 'Mengajar · ' + APPNAME; bindTayang(); return; }
@@ -389,7 +390,7 @@ function render(keepScroll) {
   if (tab === 'ajar') { inner = viewSusun(); bind = bindSusun; document.title = 'Mula Mengajar · ' + APPNAME; }
   else if (tab === 'nota' && p[1] === 'senarai') { inner = viewNotaList(); bind = bindNotaList; document.title = 'Nota · ' + APPNAME; }
   else if (tab === 'nota' && p[1]) { inner = viewSlide(p[1], p[2] === undefined ? firstN(p[1]) : +p[2]); bind = bindSlide; document.title = `${p[1]} Nota · ${APPNAME}`; }
-  else if (tab === 'nota') { inner = viewNotaList(); bind = bindNotaList; document.title = 'Nota · ' + APPNAME; }
+  else if (tab === 'nota') { inner = viewNotaList(); bind = bindNotaList; document.title = TITLE0; }
   else if (tab === 'teroka') { inner = viewTeroka(p[1]); bind = bindTeroka; document.title = 'Teroka · ' + APPNAME; }
   else if (tab === 'latihan' && p[1] === 'lembaran') { inner = viewLembaran(); bind = bindLembaran; document.title = 'Lembaran Kerja · ' + APPNAME; }
   else if (tab === 'latihan' && p[1] === 'main') { inner = viewLatMain(); bind = bindLatMain; document.title = 'Latihan · ' + APPNAME; }
