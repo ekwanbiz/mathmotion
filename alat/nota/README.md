@@ -144,6 +144,7 @@ Semak setiap slaid sebegini sebelum dimasukkan.
 | 7 Graf Gerakan | `grafgerakan` | 16 | 13 |
 | 8 Sukatan Serakan Data Tak Terkumpul | `serakan` | 16 | 13 |
 | 9 Kebarangkalian Peristiwa Bergabung | `peristiwa` | 19 | 13 |
+| 10 Matematik Pengguna: Pengurusan Kewangan | `kewangan` | 19 | 6 + contoh tanpa nombor + kajian kes |
 
 Buku teks T4 (PDF_Maths Ting4_1_313_Digital.pdf, 313 halaman): Bab 1 = PDF hlm 1–32, Bab 2 = 33–54, Bab 3 = 55–94, Bab 4 = 95–128, Bab 5 = 129–154, Bab 6 = 155–182, Bab 7 = 183–208, Bab 8 = 209–242, Bab 9 = 243–270, Bab 10 = 271–296.
 Bab 4: fungsi `venn()` dalam bina_bab4_t4.py melukis gambar rajah Venn 2/3 set dengan kawasan berlorek (clipPath + mask) dan unsur/nombor ikut kawasan.
@@ -152,5 +153,6 @@ Bab 6: fungsi `plane()` dalam bina_bab6_t4.py melukis satah Cartes dengan garis 
 Bab 7: fungsi `gm()` dalam bina_bab7_t4.py melukis graf jarak-masa / laju-masa (garis, titik, garis putus, luas berlorek).
 Bab 8: `dotplot()`, `boxplot()` dan `quart()` (kaedah kuartil buku) dalam bina_bab8_t4.py. SUBS lama digabung (8.1, 8.2): semak `'[["8.1",4],["8.2",12]]' serakan`.
 Bab 9: `tree()` (gambar rajah pokok 2 peringkat, cabang diserlah), `vennbox()`, `sf()` (pecahan bertindan dalam SVG). Kiraan disemak dengan `fractions.Fraction`.
+Bab 10: `plan()` jadual pelan kewangan (baris jumlah tebal; jadual panjang dipecah kepada 2 slaid). SUBS lama digabung (10.1.3 → 10.1.2): semak `'[["10.1.1",5],["10.1.2",14]]' kewangan`.
 SUBS lama dikekalkan dan digabung melalui `BAB.gabung` (1.1; 3.1 dan 3.2). Semak: `semak_muat.py '[["1.1",23]]' kuadratik`, `'[["3.1",17],["3.2",15]]' logik`.
 Bab 1: ayat buku "semakin kecil nilai a, semakin lebar lengkok" dikekalkan dengan Nota (bandingkan nilai a tanpa tanda negatif).
