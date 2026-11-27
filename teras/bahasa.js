@@ -209,7 +209,7 @@ const TMX = {
   };
   const tr = s => String(s).split(/( · |: )/).map((p, i) => i % 2 ? p : seg(p)).join('');
   window.tmTr = tr;
-  const SKIP = '#qtx,#qfig,.stage,.slide,.kzfig,.wsqt,.wsfig,.ka,.kw,.qtext,.qfig,.gfig,.gopts,.gfb span,.kq,.work,.ansbox b,.wqt,.wqf,.ajql,.kzrow small,.kzq,.kzopts,.subcard p,.subcard h2,.topicl small,.rpick b,button.nm,.ajli span,.tm,.brand b,.kzhd b,textarea,script,style,[contenteditable="true"],[data-asal]';
+  const SKIP = '.nt,.mn,.brand b,#qtx,#qfig,.stage,.slide,.kzfig,.wsqt,.wsfig,.ka,.kw,.qtext,.qfig,.gfig,.gopts,.gfb span,.kq,.work,.ansbox b,.wqt,.wqf,.ajql,.kzrow small,.kzq,.kzopts,.subcard p,.subcard h2,.topicl small,.rpick b,button.nm,.ajli span,.tm,.brand b,.kzhd b,textarea,script,style,[contenteditable="true"],[data-asal]';
   const okEl = el => el && !(el.closest && (el.closest(SKIP) || (el.closest('svg') && !el.closest('.rwheel'))));
   const ATTR = ['aria-label', 'placeholder', 'title', 'alt'];
   const doNode = n => {
