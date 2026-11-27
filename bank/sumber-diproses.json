@@ -114,6 +114,39 @@
     "T2S3-B04",
     "T2S3-B05"
    ]
+  },
+  {
+   "nama": "T2_Pecutan-UASA-2025",
+   "nama_asal": "SOALAN DAN JAWAPAN PECUTAN MATEMATIK TG 2 UASA 2025.docx",
+   "sha16": "35382db71d8e6074",
+   "tarikh_proses": "2026-11-27",
+   "set": "T2 Set 4",
+   "soalan_ids": [
+    "T2S4-A01",
+    "T2S4-A02",
+    "T2S4-A03",
+    "T2S4-A04",
+    "T2S4-A05",
+    "T2S4-A06",
+    "T2S4-A07",
+    "T2S4-A08",
+    "T2S4-A09",
+    "T2S4-A10",
+    "T2S4-A11",
+    "T2S4-A12",
+    "T2S4-A13",
+    "T2S4-A14",
+    "T2S4-A15",
+    "T2S4-A16",
+    "T2S4-A17",
+    "T2S4-B01",
+    "T2S4-B02",
+    "T2S4-B03",
+    "T2S4-B04",
+    "T2S4-B05",
+    "T2S4-B06"
+   ],
+   "nota": "A1-A22 dan semua Bahagian C sama bentuk dengan UASA 2025 / Sumatif 1, tidak diulang. A33 = A11."
   }
  ]
 }
