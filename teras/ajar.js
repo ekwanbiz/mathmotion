@@ -190,6 +190,7 @@ function viewSusun() {
       <button type="button" class="mini" data-mv="${i},1" aria-label="Turunkan item ${i + 1}"${i < pl.items.length - 1 ? '' : ' disabled'}>↓</button>
       <button type="button" class="mini del" data-del="${i}" aria-label="Buang item ${i + 1}">×</button></span></div>`).join('');
   return `<div class="ajwrap">
+    <p class="ajhint"><span class="ajh-d">Pilih bahan di kiri, susun di tengah, kemudian tekan Mula Mengajar.</span><span class="ajh-m">Pilih bahan, susun pelan, kemudian tekan Mula Mengajar.</span></p>
     <div class="ajtop">
       <label class="ajplan"><span>PELAN</span><select id="ajPlanSel" aria-label="Pilih pelan">${opts}</select></label>
       <div class="ajtools">
@@ -223,7 +224,7 @@ function viewPratonton(pl) {
   const edit = it.t === 'lat' ? `<button type="button" class="btn sec" id="ajEdit" style="min-height:46px;--c:var(--am)">${ajIcon.edit} Ubah soalan</button>`
     : it.t === 'cikgu' ? `<button type="button" class="btn sec" id="ajEdit" style="min-height:46px">${ajIcon.edit} Ubah slaid</button>` : '';
   return `<h2 class="ajh">ITEM ${AJS.sel + 1} · ${AJT[it.t][0]}</h2>${body}${edit}
-    <button type="button" class="btn sec" id="ajFrom" style="min-height:46px">${IC.play} Tayang dari sini</button>
+    <button type="button" class="btn sec" id="ajFrom" style="min-height:46px">${IC.play} Tayang dari item ini</button>
     <p class="ajhint" style="margin-top:auto">Pelan disimpan dalam pelayar komputer ini. Guna <b>Kongsi link</b> untuk beri pelan kepada guru lain.</p>`;
 }
 

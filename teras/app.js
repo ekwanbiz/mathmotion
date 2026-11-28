@@ -56,7 +56,7 @@ function viewNotaList() {
       <h2>${s.name}</h2><p>${SUBDESC[s.no]}</p></a>`;
   }).join('');
   return `<div class="wrap">
-    <div class="headrow"><div><p class="eyebrow">BAB ${BAB.no} · TINGKATAN ${BAB.ting}</p><h1 class="h1">${BAB.tajuk}</h1><p class="lead">${typeof tmRole === 'function' && tmRole() === 'murid' ? 'Pilih subtopik untuk mula belajar.' : 'Pilih subtopik untuk mula mengajar.'}</p></div>
+    <div class="headrow"><div><p class="eyebrow">BAB ${BAB.no} · TINGKATAN ${BAB.ting}</p><h1 class="h1">${BAB.tajuk}</h1><p class="lead">${typeof tmRole === 'function' && tmRole() === 'murid' ? 'Pilih subtopik untuk mula belajar.' : 'Pilih subtopik untuk mula mengajar, atau guna Pelan Mengajar untuk susun slaid, simulasi dan latihan.'}</p></div>
     <button type="button" class="btn sec" id="printAll">${IC.print} Cetak semua nota (PDF)</button></div>
     <div class="subgrid">${cards}</div></div>`;
 }
