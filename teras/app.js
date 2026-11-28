@@ -84,6 +84,7 @@ function viewSlide(sub, n) {
       <span class="chip" style="background:${col};color:var(--on)">${sub}</span><span class="nm">${so.name}</span>
       <span class="pg">${s.cover ? 'Tajuk' : `Slaid ${n} / ${s.N}`}</span>
       <button type="button" class="ib" id="printSub" aria-label="Cetak nota subtopik ini">${IC.print}</button>
+      <a class="ib" id="laporBtn" target="_blank" rel="noopener" aria-label="Lapor kesilapan" title="Lapor kesilapan" href="https://docs.google.com/forms/d/e/1FAIpQLSdgxNeB9wg-rd7DI483IefrdaoQHgAqb5-bFadoP-Ey0L5asQ/viewform?usp=pp_url&entry.1811725042=${encodeURIComponent(`T${BAB.ting} Bab ${BAB.no} ${BAB.tajuk}`)}&entry.1194010615=${encodeURIComponent(`${sub} ${so.name}, ${s.cover ? 'Tajuk' : 'Slaid ' + n}`)}">${sv('<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>', 20)}</a>
     </div>
     <div class="ajp-main nink" id="ajpMain"><div class="stage" id="stage" style="--c:${col}">${slideHTML(s, slPal())}</div><canvas id="ink" class="ink${AJ.tool ? ' on' : ''}" aria-hidden="true"></canvas>${penTools(true)}</div>
     <div class="slfoot" style="--c:${col}">
