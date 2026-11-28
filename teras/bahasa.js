@@ -42,7 +42,7 @@ const TMX = {
   'Untuk mengajar di dalam kelas': 'For teaching in class', 'Untuk belajar dan meneroka sendiri': 'For learning and exploring on your own', 'Boleh ditukar bila-bila masa di halaman utama': 'You can change this any time on the home page',
   'Mod Guru': 'Teacher mode', 'Mod Murid': 'Student mode', 'Tukar ke Murid': 'Switch to Student', 'Tukar ke Guru': 'Switch to Teacher',
   // latihan
-  'Latihan Kelas': 'Class Practice', 'Tandakan subtopik yang': 'Tick the subtopics that have', 'sudah diajar': 'been taught', 'Soalan hanya diambil daripada subtopik ini': 'Questions are taken only from these subtopics',
+  'Latihan Kelas': 'Class Practice', 'Pilih subtopik yang': 'Choose the subtopics', 'kamu sudah belajar': 'you have learned', 'Uji kepantasan kamu menjawab soalan': 'Test how fast you can answer', 'MAIN SENDIRI': 'PLAY SOLO', 'Tandakan subtopik yang': 'Tick the subtopics that have', 'sudah diajar': 'been taught', 'Soalan hanya diambil daripada subtopik ini': 'Questions are taken only from these subtopics',
   'BILANGAN SOALAN': 'NUMBER OF QUESTIONS', 'ARAS SOALAN': 'QUESTION LEVEL', 'Soalan dijana rawak, disusun dari mudah ke sukar. Setiap set berbeza': 'Questions are randomly generated, from easy to hard. Every set is different',
   'Mula Latihan': 'Start Practice', 'LATIHAN SELESAI': 'PRACTICE COMPLETE', 'Syabas, kelas!': 'Well done, class!', 'soalan telah dibincangkan': 'questions discussed',
   'Set baharu (subtopik sama)': 'New set (same subtopics)', 'Pilih subtopik lain': 'Choose other subtopics', 'Soalan sebelumnya': 'Previous question', 'Soalan seterusnya': 'Next question',

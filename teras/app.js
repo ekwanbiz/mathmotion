@@ -179,7 +179,7 @@ const LVL = { m: ['MUDAH', 'gr'], s: ['SEDERHANA', 'am'], k: ['SUKAR', 'rd'] };
 function viewLatihan() {
   const mx = mix(LAT.n);
   const items = SUBS.map(s => `<label class="tcheck${LAT.on[s.no] ? ' on' : ''}" style="--c:${subCol(s.no)}"><input type="checkbox" data-sub="${s.no}"${LAT.on[s.no] ? ' checked' : ''}><span class="no">${s.no}</span><span>${s.name}</span></label>`).join('');
-  return `<div class="wrap">${latSeg('kelas')}<div><h1 class="h1">Latihan Kelas</h1><p class="lead">Tandakan subtopik yang <b style="color:var(--tx)">sudah diajar</b>. Soalan hanya diambil daripada subtopik ini.</p></div>
+  return `<div class="wrap">${latSeg('kelas')}<div>${(typeof tmRole === 'function' && tmRole() === 'murid') ? '<h1 class="h1">Latihan</h1><p class="lead">Pilih subtopik yang <b style="color:var(--tx)">kamu sudah belajar</b>. Soalan hanya diambil daripada subtopik ini.</p>' : '<h1 class="h1">Latihan Kelas</h1><p class="lead">Tandakan subtopik yang <b style="color:var(--tx)">sudah diajar</b>. Soalan hanya diambil daripada subtopik ini.</p>'}</div>
     <div class="lgrid"><div class="topicl">${items}</div>
     <aside style="display:flex;flex-direction:column;gap:16px">
       <div class="pbox" style="padding:20px;gap:14px"><h3>BILANGAN SOALAN</h3>

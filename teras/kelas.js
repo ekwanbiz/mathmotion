@@ -16,9 +16,9 @@ const gBack = () => (typeof ajIsPlay === 'function' && ajIsPlay()) ? '' : `<a cl
 
 function viewGamePilih() {
   return `<div class="wrap">
-    <div><p class="eyebrow">GAMES</p><h1 class="h1">Pilih game</h1><p class="lead">Pilih cara bermain yang sesuai dengan kelas hari ini.</p></div>
+    <div><p class="eyebrow">GAMES</p><h1 class="h1">Pilih game</h1><p class="lead">${(typeof tmRole === 'function' && tmRole() === 'murid') ? 'Uji kepantasan kamu menjawab soalan.' : 'Pilih cara bermain yang sesuai dengan kelas hari ini.'}</p></div>
     <div class="gpick">${Object.keys(GMODES).map(k => { const [n, tag, d, c, ic] = GMODES[k]; return `<a class="gpcard" href="#/games/${k}" style="--c:var(--${c})">
-      <span class="ic">${ic}</span><span class="tag">${tag}</span><b>${n}</b><span class="d">${d}</span><span class="go">Pilih</span></a>`; }).join('')}</div></div>`;
+      <span class="ic">${ic}</span><span class="tag">${(typeof tmRole === 'function' && tmRole() === 'murid') && tag === 'MURID MAIN SENDIRI' ? 'MAIN SENDIRI' : tag}</span><b>${n}</b><span class="d">${d}</span><span class="go">Pilih</span></a>`; }).join('')}</div></div>`;
 }
 
 function cqView(q, shown, bigOpts) {
