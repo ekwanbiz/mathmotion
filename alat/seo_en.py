@@ -27,5 +27,5 @@ if MK not in s:
     en = f' {MK} Form 3 maths notes, slides and games in English.'
     s = re.sub(r'(<meta name="description" content="[^"]*?)(">)', lambda m: m.group(1) + en + m.group(2), s, count=1)
     li = ''.join(f'<li><a href="/{d}/">Form {t} Chapter {n} {x}</a></li>' for t, n, d, x in sorted(home_items))
-    s = s.replace('<p><a href="/bank/">', f'<h2 lang="en">Form 3 Mathematics in English (DLP)</h2><ul lang="en">{li}</ul><p><a href="/bank/">', 1)
+    s = s.replace('<p><a href="/game/">', f'<h2 lang="en">Form 3 Mathematics in English (DLP)</h2><ul lang="en">{li}</ul><p><a href="/game/">', 1)
     open(p, 'w').write(s); print('ok home')

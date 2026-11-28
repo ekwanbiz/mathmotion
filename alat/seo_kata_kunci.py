@@ -28,7 +28,7 @@ p = 'index.html'; s = open(p).read()
 T = 'TerokaMath – Nota Matematik KSSM Tingkatan 1–5: Slaid, Simulasi, Latihan &amp; Game'
 s = re.sub(r'<title>[^<]*</title>', f'<title>{T}</title>', s, count=1)
 s = re.sub(r'<meta property="og:title" content="[^"]*">', f'<meta property="og:title" content="{T}">', s, count=1)
-D = 'Nota Matematik KSSM Tingkatan 1 hingga 5 dalam bentuk slaid, simulasi interaktif, latihan, kuiz online, bank soalan UASA dan game matematik. Bahan PdP percuma untuk guru dan murid sekolah menengah.'
+D = 'Nota Matematik KSSM Tingkatan 1 hingga 5 dalam bentuk slaid, simulasi interaktif, latihan, kuiz online dan game matematik. Bahan PdP percuma untuk guru dan murid sekolah menengah.'
 s = re.sub(r'(<meta name="description" content=")[^"]*(">)', r'\g<1>' + D + r'\g<2>', s, count=1)
 s = re.sub(r'(<meta property="og:description" content=")[^"]*(">)', r'\g<1>' + D + r'\g<2>', s, count=1)
 open(p, 'w').write(s)
@@ -45,12 +45,7 @@ if 'name="description"' not in s:
             '"educationalLevel": "Sekolah Menengah", "isAccessibleForFree": true, "description": "' + GD + '"}</script>')
     s = re.sub(r'<title>[^<]*</title>', head, s, count=1)
     open(p, 'w').write(s)
-# bank soalan
-p = 'bank/index.html'; s = open(p).read()
-s = re.sub(r'<title>[^<]*</title>', '<title>Bank Soalan Matematik Tingkatan 1–3 (UASA) | TerokaMath</title>', s, count=1)
-if 'ld+json' not in s:
-    s = s.replace('<link rel="canonical" href="https://terokamath.com/bank/">', '<link rel="canonical" href="https://terokamath.com/bank/">\n<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Bank Soalan Matematik Tingkatan 1–3", "url": "https://terokamath.com/bank/", "inLanguage": "ms", "keywords": "bank soalan matematik, soalan UASA matematik, latihan matematik tingkatan 1, tingkatan 2, tingkatan 3, KSSM", "learningResourceType": ["Bank Soalan", "Latihan"], "isAccessibleForFree": true}</script>', 1)
-open(p, 'w').write(s)
+# bank soalan: dipindah ke repo ekwanbiz/banksoalan (28 Nov 2026)
 # sitemap lastmod
 p = 'sitemap.xml'; s = open(p).read(); s = re.sub(r'<lastmod>[^<]*</lastmod>', f'<lastmod>{TODAY}</lastmod>', s); open(p, 'w').write(s)
 print('siap')

@@ -3,52 +3,44 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
 <meta name="color-scheme" content="dark light">
-<meta name="theme-color" content="#0B0C18">
-<meta name="description" content="Bank Soalan Matematik Tingkatan 1 hingga 3 (format UASA): pilih soalan, edit, tambah soalan sendiri dan cetak kertas soalan beserta skema. TerokaMath.">
-<title>Bank Soalan Matematik Tingkatan 1–3 (UASA) | TerokaMath</title>
-<link rel="canonical" href="https://terokamath.com/bank/">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Bank Soalan Matematik Tingkatan 1–3", "url": "https://terokamath.com/bank/", "inLanguage": "ms", "keywords": "bank soalan matematik, soalan UASA matematik, latihan matematik tingkatan 1, tingkatan 2, tingkatan 3, KSSM", "learningResourceType": ["Bank Soalan", "Latihan"], "isAccessibleForFree": true}</script>
-<link rel="manifest" href="../manifest.webmanifest">
+<title>Bank Soalan telah ditutup | TerokaMath</title>
 <link rel="icon" href="../icons/logo.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" sizes="180x180" href="../icons/apple-180.png">
-<script>
-(function(){try{var m=localStorage.getItem('mathmotion-mode');if(m==='cerah'||(!m&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches))document.documentElement.classList.add('light')}catch(e){}})();
-</script>
-<link rel="stylesheet" href="bank.css">
+<style>
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:#0B0C18;color:#F1F0FF;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.6}
+@media(prefers-color-scheme:light){body{background:#fff;color:#3C3C3C}.b{border-color:#E5E5E5!important}p{color:#6B6B6B!important}}
+main{max-width:520px;padding:28px 22px;text-align:center}
+h1{font-size:26px;margin:0 0 8px}
+p{color:#A9A8CF;margin:0 0 14px}
+a{color:#8B8BFF;font-weight:700}
+.b{display:none;margin:22px 0 0;padding:16px;border:2px solid #2B2C4A;border-radius:16px}
+button{font:inherit;font-weight:800;padding:10px 16px;border-radius:12px;border:0;background:#1CB0F6;color:#fff;cursor:pointer}
+</style>
 </head>
 <body>
-<div id="app"><main style="max-width:880px;margin:32px auto;padding:0 20px;font-family:system-ui,sans-serif;line-height:1.6"><h1>Bank Soalan Matematik Tingkatan 1–3 (UASA) – TerokaMath</h1><p>Bank soalan Matematik KSSM Tingkatan 1, 2 dan 3 mengikut format Ujian Akhir Sesi Akademik (UASA): soalan objektif (Bahagian A), objektif pelbagai bentuk (Bahagian B) dan soalan berstruktur (Bahagian C). Guru boleh menapis soalan ikut bab dan aras, menyunting soalan, menambah soalan sendiri, dan mencetak kertas soalan beserta skema jawapan untuk kerja rumah, kuiz, ujian dan peperiksaan.</p><p><a href="/">TerokaMath – semua bab</a></p></main></div>
-<div id="print" aria-hidden="true"></div>
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="t2.js"></script>
-<script src="t2s2.js"></script>
-<script src="t2s3.js"></script>
-<script src="t2s4.js"></script>
-<script src="t2s5.js"></script>
-<script src="t2s6.js"></script>
-<script src="t2s7.js"></script>
-<script src="t2s8.js"></script>
-<script src="t2s9.js"></script>
-<script src="t2s10.js"></script>
-<script src="t2s11.js"></script>
-<script src="t2s12.js"></script>
-<script src="t2s13.js"></script>
-<script src="t2s14.js"></script>
-<script src="t2s15.js"></script>
-<script src="t2s16.js"></script>
-<script src="t2s17.js"></script>
-<script src="t2s18.js"></script>
-<script src="t2s19.js"></script>
-<script src="t3.js"></script>
-<script src="t1.js"></script>
-<script src="t1s2.js"></script>
-<script src="t1s3.js"></script>
-<script src="t1s4.js"></script>
-<script src="t1s5.js"></script>
-<script src="t1s6.js"></script>
-<script src="bank.js"></script>
-<script src="../teras/ga.js"></script>
-<script>if('serviceWorker' in navigator)navigator.serviceWorker.register('../sw.js',{scope:'../'}).catch(function(){});</script>
+<main>
+<h1>Bank Soalan telah ditutup</h1>
+<p>Bank Soalan tidak lagi tersedia dalam TerokaMath.</p>
+<p><a href="../">Ke TerokaMath</a></p>
+<div class="b" id="b">
+<p>Komputer ini ada <b id="n"></b> kertas yang cikgu susun sebelum ini. Muat turun fail di bawah untuk simpanan.</p>
+<button type="button" id="dl">Muat turun kertas saya</button>
+</div>
+</main>
+<script>
+(function(){
+  var raw=null,d=null;try{raw=localStorage.getItem('terokamath-bank');d=JSON.parse(raw)}catch(e){}
+  if(!d||!d.papers)return;
+  var k=d.papers.filter(function(p){return p.items&&p.items.length});
+  if(!k.length)return;
+  document.getElementById('n').textContent=k.length;
+  document.getElementById('b').style.display='block';
+  document.getElementById('dl').onclick=function(){
+    var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([raw],{type:'application/json'}));
+    a.download='kertas-bank-soalan.json';document.body.appendChild(a);a.click();a.remove();
+  };
+})();
+</script>
 </body>
 </html>
