@@ -33,7 +33,7 @@ const TMX = {
   'Pelan Mengajar': 'Teaching Plan', 'Pelan': 'Plan', 'Mula Mengajar': 'Start Teaching', 'MULA MENGAJAR': 'START TEACHING', 'MENGAJAR': 'TEACHING', 'Mengajar': 'Teaching',
   'NOTA': 'NOTES', 'Nota': 'Notes', 'TEROKA': 'EXPLORE', 'Teroka': 'Explore', 'LATIHAN': 'PRACTICE', 'Latihan': 'Practice', 'GAMES': 'GAMES', 'Games': 'Games',
   'Kembali ke TerokaMath (semua bab)': 'Back to TerokaMath (all chapters)', 'Tab utama': 'Main tabs', 'Tukar ke mod gelap': 'Switch to dark mode', 'Tukar ke mod cerah': 'Switch to light mode', 'Skrin penuh': 'Full screen',
-  'Jom Mula!': "Let's Start!", 'Logo': 'Logo', 'Pilih subtopik untuk mula mengajar': 'Choose a subtopic to start teaching', 'Cetak semua nota (PDF)': 'Print all notes (PDF)',
+  'Jom Mula!': "Let's Start!", 'Logo': 'Logo', 'Pilih subtopik untuk mula mengajar': 'Choose a subtopic to start teaching', 'Pilih subtopik untuk mula belajar': 'Choose a subtopic to start learning', 'Cetak semua nota (PDF)': 'Print all notes (PDF)',
   'Kembali ke senarai subtopik': 'Back to subtopic list', 'Lapor kesilapan': 'Report an error', 'Lapor Kesilapan': 'Report an Error', 'Cetak nota subtopik ini': 'Print notes for this subtopic', 'Slaid sebelum': 'Previous slide', 'Slaid seterusnya': 'Next slide', 'Langkah seterusnya': 'Next step', 'Tamat nota Bab': 'End of notes, Chapter',
   'Seterusnya': 'Next', 'Sebelumnya': 'Previous', 'Tamat': 'End', 'Mula': 'Start', 'Pilih': 'Choose', 'Semak': 'Check', 'Tutup': 'Close', 'Keluar': 'Exit', 'Buang': 'Remove', 'Tambah': 'Add', 'Naik': 'Up', 'Turun': 'Down', 'Kurang': 'Less', 'Kembali': 'Back',
   'daripada': 'of', 'Pilih simulasi': 'Choose a simulation', 'Simulasi': 'Simulation', 'SIMULASI': 'SIMULATION', 'Mudah': 'Easy', 'Sederhana': 'Medium', 'Sukar': 'Hard',
